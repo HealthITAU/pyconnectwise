@@ -1,6 +1,6 @@
 [![Health IT Logo](https://healthit.com.au/wp-content/uploads/2019/06/HIT-proper-logo.png)](https://healthit.com.au)
 
-# pyconnectwise - a client for simplifying interactions with the ConnectWise Manage API in Python
+# pyconnectwise - a library for simplifying interactions with the ConnectWise Manage API in Python
 
 pyconnectwise is a full featured, type annotated API client written in Python for the ConnectWise API's. 
 
