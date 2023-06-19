@@ -1,0 +1,59 @@
+from __future__ import annotations
+from typing import Any
+from datetime import datetime
+from pyconnectwise.utils.naming import to_camel_case
+from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
+from pyconnectwise.models.manage.MemberDeactivationSalesActivityModel import MemberDeactivationSalesActivityModel
+from pyconnectwise.models.manage.MemberDeactivationServiceTeamModel import MemberDeactivationServiceTeamModel
+from pyconnectwise.models.manage.MemberDeactivationCompanyTeamModel import MemberDeactivationCompanyTeamModel
+from pyconnectwise.models.manage.MemberDeactivationWorkflowModel import MemberDeactivationWorkflowModel
+from pyconnectwise.models.manage.MemberDeactivationStatusWorkflowModel import MemberDeactivationStatusWorkflowModel
+from pyconnectwise.models.manage.MemberDeactivationServiceTemplateModel import MemberDeactivationServiceTemplateModel
+from pyconnectwise.models.manage.MemberDeactivationOpportunityModel import MemberDeactivationOpportunityModel
+from pyconnectwise.models.manage.MemberDeactivationSalesTeamModel import MemberDeactivationSalesTeamModel
+from pyconnectwise.models.manage.MemberDeactivationProjectManagerModel import MemberDeactivationProjectManagerModel
+from pyconnectwise.models.manage.MemberDeactivationProjectManagerModel import MemberDeactivationProjectManagerModel
+from pyconnectwise.models.manage.MemberDeactivationProjectManagerModel import MemberDeactivationProjectManagerModel
+from pyconnectwise.models.manage.MemberDeactivationKnowledgebaseArticleModel import MemberDeactivationKnowledgebaseArticleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyPresidentRoleModel import MemberDeactivationMyCompanyPresidentRoleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyCOORoleModel import MemberDeactivationMyCompanyCOORoleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyControllerRoleModel import MemberDeactivationMyCompanyControllerRoleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyDispatchRoleModel import MemberDeactivationMyCompanyDispatchRoleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyServiceManagerRoleModel import MemberDeactivationMyCompanyServiceManagerRoleModel
+from pyconnectwise.models.manage.MemberDeactivationMyCompanyDutyManagerRoleModel import MemberDeactivationMyCompanyDutyManagerRoleModel
+from pyconnectwise.models.manage.MemberDeactivationDepartmentMananagerModel import MemberDeactivationDepartmentMananagerModel
+from pyconnectwise.models.manage.MemberDeactivationDispatchMemberModel import MemberDeactivationDispatchMemberModel
+from pyconnectwise.models.manage.MemberDeactivationServiceMangerModel import MemberDeactivationServiceMangerModel
+from pyconnectwise.models.manage.MemberDeactivationDutyManagerModel import MemberDeactivationDutyManagerModel
+from pyconnectwise.models.manage.MemberDeactivationSendFromEmailNotifyModel import MemberDeactivationSendFromEmailNotifyModel
+
+class MemberDeactivationModel(ConnectWiseModel):
+    activity: MemberDeactivationSalesActivityModel
+    service_team: MemberDeactivationServiceTeamModel
+    company_team: list[MemberDeactivationCompanyTeamModel]
+    workflow_email: MemberDeactivationWorkflowModel
+    service_status_workflow: list[MemberDeactivationStatusWorkflowModel]
+    ticket_template: MemberDeactivationServiceTemplateModel
+    opportunity: MemberDeactivationOpportunityModel
+    sales_team: MemberDeactivationSalesTeamModel
+    project_manager: MemberDeactivationProjectManagerModel
+    project_time_approver: MemberDeactivationProjectManagerModel
+    project_expense_approver: MemberDeactivationProjectManagerModel
+    knowledge_base_article: MemberDeactivationKnowledgebaseArticleModel
+    my_company_president: MemberDeactivationMyCompanyPresidentRoleModel
+    my_company_c_o_o: MemberDeactivationMyCompanyCOORoleModel
+    my_company_controller: MemberDeactivationMyCompanyControllerRoleModel
+    my_company_dispatch: MemberDeactivationMyCompanyDispatchRoleModel
+    my_company_service_manager: MemberDeactivationMyCompanyServiceManagerRoleModel
+    my_company_duty_manager_role: MemberDeactivationMyCompanyDutyManagerRoleModel
+    department_manager: MemberDeactivationDepartmentMananagerModel
+    dispatch_member: MemberDeactivationDispatchMemberModel
+    service_manager: MemberDeactivationServiceMangerModel
+    duty_manager: MemberDeactivationDutyManagerModel
+    send_from_email_notify: MemberDeactivationSendFromEmailNotifyModel
+    delete_open_time_sheets_flag: bool
+
+    class Config:
+        alias_generator = to_camel_case
+        allow_population_by_field_name = True
+        use_enum_values = True
