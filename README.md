@@ -2,9 +2,9 @@
 
 # pyconnectwise - a library for simplifying interactions with the ConnectWise Manage API in Python
 
-pyconnectwise is a full featured, type annotated API client written in Python for the ConnectWise API's. 
+pyconnectwise is a full featured, type annotated API client written in Python for the ConnectWise APIs. 
 
-This library has been developed with the intention of making the ConnectWise API's simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
+This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
 pyconnectwise currently only supports ConnectWise Manage, but more is planned.
 - - - - 
