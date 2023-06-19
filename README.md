@@ -6,7 +6,7 @@ pyconnectwise is a full featured, type annotated API client written in Python fo
 
 This library has been developed with the intention of making the ConnectWise API's simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
-Currently, it only supports ConnectWise Manage, but more is planned.
+pyconnectwise currently only supports ConnectWise Manage, but more is planned.
 - - - - 
 Features:
 =========
@@ -42,7 +42,6 @@ Planned and in progress:
 
 - - - - 
 How-to:
-======
 - [Install](#install)
 - [Initialize API client](#initialize-api-client)
 - [Working with Endpoints](#working-with-endpoints)
@@ -53,7 +52,6 @@ How-to:
 
 - - - - 
 # Install
-
 Open a terminal and run ```pip install pyconnectwise```
 
 - - - - 
