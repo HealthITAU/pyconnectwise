@@ -71,7 +71,7 @@ api = ConnectWiseManageAPIClient(
 
 - - - - 
 # Working with Endpoints
-Endpoints are 1:1 to what's available with ConnectWise Manage as code is generated from their OpenAPI schema.
+Endpoints are 1:1 to what's available with ConnectWise Manage as code is generated from their OpenAPI spec.
 
 For more information, check out the [ConnectWise Manage REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_PSA/REST)
 
