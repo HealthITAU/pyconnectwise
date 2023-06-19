@@ -10,8 +10,8 @@ Currently, it only supports ConnectWise Manage, but more is planned.
 - - - - 
 Features:
 =========
-- 100% API Coverage. All endpoints and response schemas have had their code generated from the ConnectWise Manage OpenAPI Schema.
-- Beginner and expert friendly.
+- 100% API Coverage. All endpoints and response models have had their code generated from the ConnectWise Manage OpenAPI spec.
+- Non-coder friendly
 - Focus on type annotations and DX (Developer Experience). Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
 
 pyconnectwise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies. 
