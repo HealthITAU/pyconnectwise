@@ -61,7 +61,7 @@ class CompanyManagementIdManagementReportNotificationsEndpoint(ConnectWiseEndpoi
         Returns:
             list[ManagementReportNotificationModel]: The parsed response data.
         """
-        return self._parse_many(ManagementReportNotificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ManagementReportNotificationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportNotificationModel:
         """
@@ -73,5 +73,5 @@ class CompanyManagementIdManagementReportNotificationsEndpoint(ConnectWiseEndpoi
         Returns:
             ManagementReportNotificationModel: The parsed response data.
         """
-        return self._parse_one(ManagementReportNotificationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ManagementReportNotificationModel, super().make_request("POST", data=data, params=params).json())
         

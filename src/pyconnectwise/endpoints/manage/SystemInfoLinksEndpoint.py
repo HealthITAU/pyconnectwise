@@ -61,5 +61,5 @@ class SystemInfoLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LinkInfoModel]: The parsed response data.
         """
-        return self._parse_many(LinkInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(LinkInfoModel, super().make_request("GET", data=data, params=params).json())
         

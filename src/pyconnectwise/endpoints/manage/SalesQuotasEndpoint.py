@@ -61,7 +61,7 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SalesQuotaModel]: The parsed response data.
         """
-        return self._parse_many(SalesQuotaModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SalesQuotaModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesQuotaModel:
         """
@@ -73,5 +73,5 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesQuotaModel: The parsed response data.
         """
-        return self._parse_one(SalesQuotaModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SalesQuotaModel, super().make_request("POST", data=data, params=params).json())
         

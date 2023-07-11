@@ -65,7 +65,7 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementModel]: The parsed response data.
         """
-        return self._parse_many(AgreementModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementModel:
         """
@@ -77,5 +77,5 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementModel: The parsed response data.
         """
-        return self._parse_one(AgreementModel, super().make_request("POST", params=params).json())
+        return self._parse_one(AgreementModel, super().make_request("POST", data=data, params=params).json())
         

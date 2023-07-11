@@ -43,5 +43,5 @@ class FinanceAgreementsTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(AgreementTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(AgreementTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

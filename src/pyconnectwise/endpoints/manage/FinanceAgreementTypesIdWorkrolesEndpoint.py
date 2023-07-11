@@ -65,7 +65,7 @@ class FinanceAgreementTypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeWorkRoleModel]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkRoleModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementTypeWorkRoleModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkRoleModel:
         """
@@ -77,5 +77,5 @@ class FinanceAgreementTypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeWorkRoleModel: The parsed response data.
         """
-        return self._parse_one(AgreementTypeWorkRoleModel, super().make_request("POST", params=params).json())
+        return self._parse_one(AgreementTypeWorkRoleModel, super().make_request("POST", data=data, params=params).json())
         

@@ -65,7 +65,7 @@ class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WarehouseBinModel]: The parsed response data.
         """
-        return self._parse_many(WarehouseBinModel, super().make_request("GET", params=params).json())
+        return self._parse_many(WarehouseBinModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBinModel:
         """
@@ -77,5 +77,5 @@ class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBinModel: The parsed response data.
         """
-        return self._parse_one(WarehouseBinModel, super().make_request("POST", params=params).json())
+        return self._parse_one(WarehouseBinModel, super().make_request("POST", data=data, params=params).json())
         

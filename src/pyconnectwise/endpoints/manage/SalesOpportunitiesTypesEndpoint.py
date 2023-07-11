@@ -65,7 +65,7 @@ class SalesOpportunitiesTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityTypeModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OpportunityTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityTypeModel:
         """
@@ -77,5 +77,5 @@ class SalesOpportunitiesTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityTypeModel: The parsed response data.
         """
-        return self._parse_one(OpportunityTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OpportunityTypeModel, super().make_request("POST", data=data, params=params).json())
         

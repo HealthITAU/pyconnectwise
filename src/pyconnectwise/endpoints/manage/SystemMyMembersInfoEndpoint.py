@@ -43,5 +43,5 @@ class SystemMyMembersInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             MyMemberInfoModel: The parsed response data.
         """
-        return self._parse_one(MyMemberInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(MyMemberInfoModel, super().make_request("GET", data=data, params=params).json())
         

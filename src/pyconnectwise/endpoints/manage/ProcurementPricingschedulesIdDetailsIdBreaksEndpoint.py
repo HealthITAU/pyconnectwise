@@ -61,7 +61,7 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PricingBreakModel]: The parsed response data.
         """
-        return self._parse_many(PricingBreakModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PricingBreakModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingBreakModel:
         """
@@ -73,5 +73,5 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingBreakModel: The parsed response data.
         """
-        return self._parse_one(PricingBreakModel, super().make_request("POST", params=params).json())
+        return self._parse_one(PricingBreakModel, super().make_request("POST", data=data, params=params).json())
         

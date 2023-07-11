@@ -65,7 +65,7 @@ class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceTicketLinkModel]: The parsed response data.
         """
-        return self._parse_many(ServiceTicketLinkModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ServiceTicketLinkModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTicketLinkModel:
         """
@@ -77,5 +77,5 @@ class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTicketLinkModel: The parsed response data.
         """
-        return self._parse_one(ServiceTicketLinkModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ServiceTicketLinkModel, super().make_request("POST", data=data, params=params).json())
         

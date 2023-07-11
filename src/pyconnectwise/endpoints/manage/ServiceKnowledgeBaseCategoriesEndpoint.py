@@ -61,7 +61,7 @@ class ServiceKnowledgeBaseCategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[KnowledgeBaseCategoryModel]: The parsed response data.
         """
-        return self._parse_many(KnowledgeBaseCategoryModel, super().make_request("GET", params=params).json())
+        return self._parse_many(KnowledgeBaseCategoryModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseCategoryModel:
         """
@@ -73,5 +73,5 @@ class ServiceKnowledgeBaseCategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseCategoryModel: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseCategoryModel, super().make_request("POST", params=params).json())
+        return self._parse_one(KnowledgeBaseCategoryModel, super().make_request("POST", data=data, params=params).json())
         

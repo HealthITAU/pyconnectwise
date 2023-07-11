@@ -61,7 +61,7 @@ class FinanceAgreementsIdSitesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementSiteModel]: The parsed response data.
         """
-        return self._parse_many(AgreementSiteModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementSiteModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementSiteModel:
         """
@@ -73,5 +73,5 @@ class FinanceAgreementsIdSitesEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementSiteModel: The parsed response data.
         """
-        return self._parse_one(AgreementSiteModel, super().make_request("POST", params=params).json())
+        return self._parse_one(AgreementSiteModel, super().make_request("POST", data=data, params=params).json())
         

@@ -47,7 +47,7 @@ class ScheduleEntriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleEntryModel: The parsed response data.
         """
-        return self._parse_one(ScheduleEntryModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ScheduleEntryModel, super().make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -59,7 +59,7 @@ class ScheduleEntriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", params=params).json())
+        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleEntryModel:
         """
@@ -71,7 +71,7 @@ class ScheduleEntriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleEntryModel: The parsed response data.
         """
-        return self._parse_one(ScheduleEntryModel, super().make_request("PUT", params=params).json())
+        return self._parse_one(ScheduleEntryModel, super().make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleEntryModel:
         """
@@ -83,5 +83,5 @@ class ScheduleEntriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleEntryModel: The parsed response data.
         """
-        return self._parse_one(ScheduleEntryModel, super().make_request("PATCH", params=params).json())
+        return self._parse_one(ScheduleEntryModel, super().make_request("PATCH", data=data, params=params).json())
         

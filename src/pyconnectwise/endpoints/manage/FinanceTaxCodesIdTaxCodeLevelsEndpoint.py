@@ -61,7 +61,7 @@ class FinanceTaxCodesIdTaxCodeLevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TaxCodeLevelModel]: The parsed response data.
         """
-        return self._parse_many(TaxCodeLevelModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TaxCodeLevelModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevelModel:
         """
@@ -73,5 +73,5 @@ class FinanceTaxCodesIdTaxCodeLevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeLevelModel: The parsed response data.
         """
-        return self._parse_one(TaxCodeLevelModel, super().make_request("POST", params=params).json())
+        return self._parse_one(TaxCodeLevelModel, super().make_request("POST", data=data, params=params).json())
         

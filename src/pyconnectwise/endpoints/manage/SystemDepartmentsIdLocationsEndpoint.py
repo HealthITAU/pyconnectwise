@@ -61,7 +61,7 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DepartmentLocationModel]: The parsed response data.
         """
-        return self._parse_many(DepartmentLocationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(DepartmentLocationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DepartmentLocationModel:
         """
@@ -73,5 +73,5 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             DepartmentLocationModel: The parsed response data.
         """
-        return self._parse_one(DepartmentLocationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(DepartmentLocationModel, super().make_request("POST", data=data, params=params).json())
         

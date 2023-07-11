@@ -61,7 +61,7 @@ class TimeChargeCodesIdExpenseTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ChargeCodeExpenseTypeModel]: The parsed response data.
         """
-        return self._parse_many(ChargeCodeExpenseTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ChargeCodeExpenseTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeExpenseTypeModel:
         """
@@ -73,5 +73,5 @@ class TimeChargeCodesIdExpenseTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             ChargeCodeExpenseTypeModel: The parsed response data.
         """
-        return self._parse_one(ChargeCodeExpenseTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ChargeCodeExpenseTypeModel, super().make_request("POST", data=data, params=params).json())
         

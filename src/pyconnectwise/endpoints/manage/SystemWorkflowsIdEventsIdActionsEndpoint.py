@@ -61,7 +61,7 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowActionModel]: The parsed response data.
         """
-        return self._parse_many(WorkflowActionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(WorkflowActionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowActionModel:
         """
@@ -73,5 +73,5 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowActionModel: The parsed response data.
         """
-        return self._parse_one(WorkflowActionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(WorkflowActionModel, super().make_request("POST", data=data, params=params).json())
         

@@ -73,7 +73,7 @@ class MarketingCampaignsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignModel]: The parsed response data.
         """
-        return self._parse_many(CampaignModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CampaignModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignModel:
         """
@@ -85,5 +85,5 @@ class MarketingCampaignsEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignModel: The parsed response data.
         """
-        return self._parse_one(CampaignModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CampaignModel, super().make_request("POST", data=data, params=params).json())
         

@@ -43,5 +43,5 @@ class SystemTimeZoneSetupsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeZoneSetupInfoModel: The parsed response data.
         """
-        return self._parse_one(TimeZoneSetupInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(TimeZoneSetupInfoModel, super().make_request("GET", data=data, params=params).json())
         

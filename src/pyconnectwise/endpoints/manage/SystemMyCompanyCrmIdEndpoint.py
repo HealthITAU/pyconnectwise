@@ -47,7 +47,7 @@ class SystemMyCompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CrmModel: The parsed response data.
         """
-        return self._parse_one(CrmModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CrmModel, super().make_request("GET", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CrmModel:
         """
@@ -59,7 +59,7 @@ class SystemMyCompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CrmModel: The parsed response data.
         """
-        return self._parse_one(CrmModel, super().make_request("PUT", params=params).json())
+        return self._parse_one(CrmModel, super().make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CrmModel:
         """
@@ -71,5 +71,5 @@ class SystemMyCompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CrmModel: The parsed response data.
         """
-        return self._parse_one(CrmModel, super().make_request("PATCH", params=params).json())
+        return self._parse_one(CrmModel, super().make_request("PATCH", data=data, params=params).json())
         

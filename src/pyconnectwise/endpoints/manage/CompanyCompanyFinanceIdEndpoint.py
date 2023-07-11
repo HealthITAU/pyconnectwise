@@ -20,5 +20,5 @@ class CompanyCompanyFinanceIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyFinanceModel: The parsed response data.
         """
-        return self._parse_one(CompanyFinanceModel, super().make_request("PUT", params=params).json())
+        return self._parse_one(CompanyFinanceModel, super().make_request("PUT", data=data, params=params).json())
         

@@ -65,7 +65,7 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardModel]: The parsed response data.
         """
-        return self._parse_many(BoardModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BoardModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardModel:
         """
@@ -77,5 +77,5 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardModel, super().make_request("POST", data=data, params=params).json())
         

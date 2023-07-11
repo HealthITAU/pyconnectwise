@@ -43,5 +43,5 @@ class FinanceBillingStatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatusInfoModel: The parsed response data.
         """
-        return self._parse_one(BillingStatusInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(BillingStatusInfoModel, super().make_request("GET", data=data, params=params).json())
         

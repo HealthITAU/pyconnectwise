@@ -65,7 +65,7 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityStatusModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityStatusModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OpportunityStatusModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStatusModel:
         """
@@ -77,5 +77,5 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStatusModel: The parsed response data.
         """
-        return self._parse_one(OpportunityStatusModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OpportunityStatusModel, super().make_request("POST", data=data, params=params).json())
         

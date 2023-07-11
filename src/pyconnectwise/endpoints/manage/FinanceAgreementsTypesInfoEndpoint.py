@@ -47,5 +47,5 @@ class FinanceAgreementsTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeInfoModel]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

@@ -61,7 +61,7 @@ class ProcurementSubcategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SubCategoryModel]: The parsed response data.
         """
-        return self._parse_many(SubCategoryModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SubCategoryModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SubCategoryModel:
         """
@@ -73,5 +73,5 @@ class ProcurementSubcategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             SubCategoryModel: The parsed response data.
         """
-        return self._parse_one(SubCategoryModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SubCategoryModel, super().make_request("POST", data=data, params=params).json())
         

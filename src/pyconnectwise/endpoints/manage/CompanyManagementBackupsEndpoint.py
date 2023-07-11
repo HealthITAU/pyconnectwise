@@ -61,7 +61,7 @@ class CompanyManagementBackupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagementBackupModel]: The parsed response data.
         """
-        return self._parse_many(ManagementBackupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ManagementBackupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementBackupModel:
         """
@@ -73,5 +73,5 @@ class CompanyManagementBackupsEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementBackupModel: The parsed response data.
         """
-        return self._parse_one(ManagementBackupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ManagementBackupModel, super().make_request("POST", data=data, params=params).json())
         

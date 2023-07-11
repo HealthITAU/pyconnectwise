@@ -61,5 +61,5 @@ class CompanyPortalConfigurationsIdServiceSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalConfigurationServiceSetupModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationServiceSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PortalConfigurationServiceSetupModel, super().make_request("GET", data=data, params=params).json())
         

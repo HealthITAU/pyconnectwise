@@ -43,5 +43,5 @@ class SystemWorkflowsTableTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowTableTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(WorkflowTableTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(WorkflowTableTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

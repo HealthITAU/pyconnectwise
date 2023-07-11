@@ -43,5 +43,5 @@ class SystemEmailTokensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailTokenModel: The parsed response data.
         """
-        return self._parse_one(EmailTokenModel, super().make_request("GET", params=params).json())
+        return self._parse_one(EmailTokenModel, super().make_request("GET", data=data, params=params).json())
         

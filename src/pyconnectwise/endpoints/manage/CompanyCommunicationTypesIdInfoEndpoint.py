@@ -43,5 +43,5 @@ class CompanyCommunicationTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             CommunicationTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(CommunicationTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CommunicationTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

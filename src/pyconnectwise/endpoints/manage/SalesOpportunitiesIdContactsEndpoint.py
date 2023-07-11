@@ -61,7 +61,7 @@ class SalesOpportunitiesIdContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityContactModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityContactModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OpportunityContactModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityContactModel:
         """
@@ -73,5 +73,5 @@ class SalesOpportunitiesIdContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityContactModel: The parsed response data.
         """
-        return self._parse_one(OpportunityContactModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OpportunityContactModel, super().make_request("POST", data=data, params=params).json())
         

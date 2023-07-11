@@ -61,7 +61,7 @@ class CompanyCompaniesIdManagementSummaryReportsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyManagementSummaryModel]: The parsed response data.
         """
-        return self._parse_many(CompanyManagementSummaryModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CompanyManagementSummaryModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyManagementSummaryModel:
         """
@@ -73,5 +73,5 @@ class CompanyCompaniesIdManagementSummaryReportsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyManagementSummaryModel: The parsed response data.
         """
-        return self._parse_one(CompanyManagementSummaryModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CompanyManagementSummaryModel, super().make_request("POST", data=data, params=params).json())
         

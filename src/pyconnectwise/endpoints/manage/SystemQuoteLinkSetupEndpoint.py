@@ -65,7 +65,7 @@ class SystemQuoteLinkSetupEndpoint(ConnectWiseEndpoint):
         Returns:
             list[QuoteLinkModel]: The parsed response data.
         """
-        return self._parse_many(QuoteLinkModel, super().make_request("GET", params=params).json())
+        return self._parse_many(QuoteLinkModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> QuoteLinkModel:
         """
@@ -77,5 +77,5 @@ class SystemQuoteLinkSetupEndpoint(ConnectWiseEndpoint):
         Returns:
             QuoteLinkModel: The parsed response data.
         """
-        return self._parse_one(QuoteLinkModel, super().make_request("POST", params=params).json())
+        return self._parse_one(QuoteLinkModel, super().make_request("POST", data=data, params=params).json())
         

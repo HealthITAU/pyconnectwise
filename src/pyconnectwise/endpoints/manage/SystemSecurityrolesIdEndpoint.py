@@ -47,7 +47,7 @@ class SystemSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SecurityRoleModel: The parsed response data.
         """
-        return self._parse_one(SecurityRoleModel, super().make_request("GET", params=params).json())
+        return self._parse_one(SecurityRoleModel, super().make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -59,5 +59,5 @@ class SystemSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", params=params).json())
+        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
         

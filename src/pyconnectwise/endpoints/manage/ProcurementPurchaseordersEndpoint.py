@@ -61,7 +61,7 @@ class ProcurementPurchaseordersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PurchaseOrderModel]: The parsed response data.
         """
-        return self._parse_many(PurchaseOrderModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PurchaseOrderModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderModel:
         """
@@ -73,5 +73,5 @@ class ProcurementPurchaseordersEndpoint(ConnectWiseEndpoint):
         Returns:
             PurchaseOrderModel: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderModel, super().make_request("POST", params=params).json())
+        return self._parse_one(PurchaseOrderModel, super().make_request("POST", data=data, params=params).json())
         

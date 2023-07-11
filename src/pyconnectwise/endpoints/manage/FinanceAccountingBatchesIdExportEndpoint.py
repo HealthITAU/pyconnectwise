@@ -20,5 +20,5 @@ class FinanceAccountingBatchesIdExportEndpoint(ConnectWiseEndpoint):
         Returns:
             GLExportModel: The parsed response data.
         """
-        return self._parse_one(GLExportModel, super().make_request("POST", params=params).json())
+        return self._parse_one(GLExportModel, super().make_request("POST", data=data, params=params).json())
         

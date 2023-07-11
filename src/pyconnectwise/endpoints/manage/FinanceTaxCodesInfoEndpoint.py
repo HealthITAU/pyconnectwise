@@ -47,5 +47,5 @@ class FinanceTaxCodesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TaxCodeInfoModel]: The parsed response data.
         """
-        return self._parse_many(TaxCodeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TaxCodeInfoModel, super().make_request("GET", data=data, params=params).json())
         

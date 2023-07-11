@@ -43,5 +43,5 @@ class ServiceSlainfoInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SLAInfoModel]: The parsed response data.
         """
-        return self._parse_many(SLAInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SLAInfoModel, super().make_request("GET", data=data, params=params).json())
         

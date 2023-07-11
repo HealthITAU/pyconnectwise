@@ -65,7 +65,7 @@ class ServiceServiceSignoffEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceSignoffModel]: The parsed response data.
         """
-        return self._parse_many(ServiceSignoffModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ServiceSignoffModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffModel:
         """
@@ -77,5 +77,5 @@ class ServiceServiceSignoffEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSignoffModel: The parsed response data.
         """
-        return self._parse_one(ServiceSignoffModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ServiceSignoffModel, super().make_request("POST", data=data, params=params).json())
         

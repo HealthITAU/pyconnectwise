@@ -61,7 +61,7 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[GroupModel]: The parsed response data.
         """
-        return self._parse_many(GroupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(GroupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GroupModel:
         """
@@ -73,5 +73,5 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             GroupModel: The parsed response data.
         """
-        return self._parse_one(GroupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(GroupModel, super().make_request("POST", data=data, params=params).json())
         

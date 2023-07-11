@@ -65,7 +65,7 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[HolidayListModel]: The parsed response data.
         """
-        return self._parse_many(HolidayListModel, super().make_request("GET", params=params).json())
+        return self._parse_many(HolidayListModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> HolidayListModel:
         """
@@ -77,5 +77,5 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
         Returns:
             HolidayListModel: The parsed response data.
         """
-        return self._parse_one(HolidayListModel, super().make_request("POST", params=params).json())
+        return self._parse_one(HolidayListModel, super().make_request("POST", data=data, params=params).json())
         

@@ -43,5 +43,5 @@ class SystemMembersIdPersonasIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberPersonaModel: The parsed response data.
         """
-        return self._parse_one(MemberPersonaModel, super().make_request("GET", params=params).json())
+        return self._parse_one(MemberPersonaModel, super().make_request("GET", data=data, params=params).json())
         

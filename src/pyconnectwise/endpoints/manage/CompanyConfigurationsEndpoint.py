@@ -73,7 +73,7 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationModel]: The parsed response data.
         """
-        return self._parse_many(ConfigurationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConfigurationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationModel:
         """
@@ -85,5 +85,5 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ConfigurationModel, super().make_request("POST", data=data, params=params).json())
         

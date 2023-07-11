@@ -43,5 +43,5 @@ class ProjectTicketsIdAllNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectTicketNoteModel]: The parsed response data.
         """
-        return self._parse_many(ProjectTicketNoteModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProjectTicketNoteModel, super().make_request("GET", data=data, params=params).json())
         

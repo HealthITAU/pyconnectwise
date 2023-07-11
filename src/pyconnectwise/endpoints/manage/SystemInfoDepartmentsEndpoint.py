@@ -61,5 +61,5 @@ class SystemInfoDepartmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DepartmentInfoModel]: The parsed response data.
         """
-        return self._parse_many(DepartmentInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(DepartmentInfoModel, super().make_request("GET", data=data, params=params).json())
         

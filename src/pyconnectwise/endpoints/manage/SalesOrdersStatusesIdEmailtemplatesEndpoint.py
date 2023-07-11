@@ -61,7 +61,7 @@ class SalesOrdersStatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderStatusEmailTemplateModel]: The parsed response data.
         """
-        return self._parse_many(OrderStatusEmailTemplateModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OrderStatusEmailTemplateModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusEmailTemplateModel:
         """
@@ -73,5 +73,5 @@ class SalesOrdersStatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusEmailTemplateModel: The parsed response data.
         """
-        return self._parse_one(OrderStatusEmailTemplateModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OrderStatusEmailTemplateModel, super().make_request("POST", data=data, params=params).json())
         

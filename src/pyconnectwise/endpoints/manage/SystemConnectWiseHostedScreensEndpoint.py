@@ -61,5 +61,5 @@ class SystemConnectWiseHostedScreensEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConnectWiseHostedScreenModel]: The parsed response data.
         """
-        return self._parse_many(ConnectWiseHostedScreenModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConnectWiseHostedScreenModel, super().make_request("GET", data=data, params=params).json())
         

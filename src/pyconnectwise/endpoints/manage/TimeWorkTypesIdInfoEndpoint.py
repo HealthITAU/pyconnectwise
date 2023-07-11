@@ -43,5 +43,5 @@ class TimeWorkTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(WorkTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(WorkTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

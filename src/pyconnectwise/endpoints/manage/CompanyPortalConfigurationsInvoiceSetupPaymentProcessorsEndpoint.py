@@ -61,5 +61,5 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
         Returns:
             list[PortalConfigurationPaymentProcessorModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationPaymentProcessorModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PortalConfigurationPaymentProcessorModel, super().make_request("GET", data=data, params=params).json())
         

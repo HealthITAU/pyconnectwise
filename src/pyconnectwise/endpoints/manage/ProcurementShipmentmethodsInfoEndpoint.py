@@ -47,5 +47,5 @@ class ProcurementShipmentmethodsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ShipmentMethodInfoModel]: The parsed response data.
         """
-        return self._parse_many(ShipmentMethodInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ShipmentMethodInfoModel, super().make_request("GET", data=data, params=params).json())
         

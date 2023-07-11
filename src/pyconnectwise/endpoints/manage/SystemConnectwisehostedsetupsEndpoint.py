@@ -61,7 +61,7 @@ class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConnectWiseHostedSetupModel]: The parsed response data.
         """
-        return self._parse_many(ConnectWiseHostedSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConnectWiseHostedSetupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConnectWiseHostedSetupModel:
         """
@@ -73,5 +73,5 @@ class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConnectWiseHostedSetupModel: The parsed response data.
         """
-        return self._parse_one(ConnectWiseHostedSetupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ConnectWiseHostedSetupModel, super().make_request("POST", data=data, params=params).json())
         

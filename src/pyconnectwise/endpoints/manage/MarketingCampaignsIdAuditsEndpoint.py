@@ -61,7 +61,7 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignAuditModel]: The parsed response data.
         """
-        return self._parse_many(CampaignAuditModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CampaignAuditModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignAuditModel:
         """
@@ -73,5 +73,5 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignAuditModel: The parsed response data.
         """
-        return self._parse_one(CampaignAuditModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CampaignAuditModel, super().make_request("POST", data=data, params=params).json())
         

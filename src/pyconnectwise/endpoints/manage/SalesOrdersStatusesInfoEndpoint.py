@@ -47,5 +47,5 @@ class SalesOrdersStatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderStatusInfoModel]: The parsed response data.
         """
-        return self._parse_many(OrderStatusInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OrderStatusInfoModel, super().make_request("GET", data=data, params=params).json())
         

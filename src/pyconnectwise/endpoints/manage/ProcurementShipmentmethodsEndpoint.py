@@ -65,7 +65,7 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ShipmentMethodModel]: The parsed response data.
         """
-        return self._parse_many(ShipmentMethodModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ShipmentMethodModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethodModel:
         """
@@ -77,5 +77,5 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             ShipmentMethodModel: The parsed response data.
         """
-        return self._parse_one(ShipmentMethodModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ShipmentMethodModel, super().make_request("POST", data=data, params=params).json())
         

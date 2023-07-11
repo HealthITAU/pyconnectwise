@@ -61,5 +61,5 @@ class TimeTimePeriodSetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimePeriodModel]: The parsed response data.
         """
-        return self._parse_many(TimePeriodModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TimePeriodModel, super().make_request("GET", data=data, params=params).json())
         

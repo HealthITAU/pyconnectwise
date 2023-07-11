@@ -65,7 +65,7 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CountryModel]: The parsed response data.
         """
-        return self._parse_many(CountryModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CountryModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CountryModel:
         """
@@ -77,5 +77,5 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         Returns:
             CountryModel: The parsed response data.
         """
-        return self._parse_one(CountryModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CountryModel, super().make_request("POST", data=data, params=params).json())
         

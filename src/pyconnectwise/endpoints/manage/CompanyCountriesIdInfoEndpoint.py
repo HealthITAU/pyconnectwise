@@ -43,5 +43,5 @@ class CompanyCountriesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             CountryInfoModel: The parsed response data.
         """
-        return self._parse_one(CountryInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CountryInfoModel, super().make_request("GET", data=data, params=params).json())
         

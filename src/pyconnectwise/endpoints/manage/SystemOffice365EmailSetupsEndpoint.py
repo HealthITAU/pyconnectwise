@@ -61,7 +61,7 @@ class SystemOffice365EmailSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Office365EmailSetupModel]: The parsed response data.
         """
-        return self._parse_many(Office365EmailSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(Office365EmailSetupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetupModel:
         """
@@ -73,5 +73,5 @@ class SystemOffice365EmailSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             Office365EmailSetupModel: The parsed response data.
         """
-        return self._parse_one(Office365EmailSetupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(Office365EmailSetupModel, super().make_request("POST", data=data, params=params).json())
         

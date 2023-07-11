@@ -43,5 +43,5 @@ class CompanyContactsIdPortalSecurityEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalSecurityModel]: The parsed response data.
         """
-        return self._parse_many(PortalSecurityModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PortalSecurityModel, super().make_request("GET", data=data, params=params).json())
         

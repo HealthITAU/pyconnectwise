@@ -43,5 +43,5 @@ class ExpenseEntriesIdAuditsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseEntryAuditModel: The parsed response data.
         """
-        return self._parse_one(ExpenseEntryAuditModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ExpenseEntryAuditModel, super().make_request("GET", data=data, params=params).json())
         

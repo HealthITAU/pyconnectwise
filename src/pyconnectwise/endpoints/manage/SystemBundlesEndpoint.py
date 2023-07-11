@@ -24,5 +24,5 @@ class SystemBundlesEndpoint(ConnectWiseEndpoint):
         Returns:
             BundleResultsCollectionModel: The parsed response data.
         """
-        return self._parse_one(BundleResultsCollectionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BundleResultsCollectionModel, super().make_request("POST", data=data, params=params).json())
         

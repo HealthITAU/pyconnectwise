@@ -65,7 +65,7 @@ class ServiceBoardsIdSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardSubTypeModel]: The parsed response data.
         """
-        return self._parse_many(BoardSubTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BoardSubTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardSubTypeModel:
         """
@@ -77,5 +77,5 @@ class ServiceBoardsIdSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardSubTypeModel: The parsed response data.
         """
-        return self._parse_one(BoardSubTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardSubTypeModel, super().make_request("POST", data=data, params=params).json())
         

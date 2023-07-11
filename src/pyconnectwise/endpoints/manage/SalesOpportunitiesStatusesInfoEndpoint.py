@@ -47,5 +47,5 @@ class SalesOpportunitiesStatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityStatusInfoModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityStatusInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OpportunityStatusInfoModel, super().make_request("GET", data=data, params=params).json())
         

@@ -20,5 +20,5 @@ class CompanyContactsValidatePortalCredentialsEndpoint(ConnectWiseEndpoint):
         Returns:
             ValidatePortalResponseModel: The parsed response data.
         """
-        return self._parse_one(ValidatePortalResponseModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ValidatePortalResponseModel, super().make_request("POST", data=data, params=params).json())
         

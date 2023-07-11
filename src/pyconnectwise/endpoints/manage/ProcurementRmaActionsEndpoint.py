@@ -65,7 +65,7 @@ class ProcurementRmaActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaActionModel]: The parsed response data.
         """
-        return self._parse_many(RmaActionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(RmaActionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaActionModel:
         """
@@ -77,5 +77,5 @@ class ProcurementRmaActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaActionModel: The parsed response data.
         """
-        return self._parse_one(RmaActionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(RmaActionModel, super().make_request("POST", data=data, params=params).json())
         

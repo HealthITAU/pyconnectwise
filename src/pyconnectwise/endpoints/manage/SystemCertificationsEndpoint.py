@@ -61,7 +61,7 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CertificationModel]: The parsed response data.
         """
-        return self._parse_many(CertificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CertificationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CertificationModel:
         """
@@ -73,5 +73,5 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             CertificationModel: The parsed response data.
         """
-        return self._parse_one(CertificationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CertificationModel, super().make_request("POST", data=data, params=params).json())
         

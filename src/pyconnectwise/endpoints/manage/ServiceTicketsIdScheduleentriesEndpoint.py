@@ -47,5 +47,5 @@ class ServiceTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleEntryReferenceModel]: The parsed response data.
         """
-        return self._parse_many(ScheduleEntryReferenceModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ScheduleEntryReferenceModel, super().make_request("GET", data=data, params=params).json())
         

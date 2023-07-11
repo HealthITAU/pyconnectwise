@@ -61,5 +61,5 @@ class SystemParsingVariablesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ParsingVariableModel]: The parsed response data.
         """
-        return self._parse_many(ParsingVariableModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ParsingVariableModel, super().make_request("GET", data=data, params=params).json())
         

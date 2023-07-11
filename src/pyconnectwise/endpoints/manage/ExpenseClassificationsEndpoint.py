@@ -61,5 +61,5 @@ class ExpenseClassificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ClassificationModel]: The parsed response data.
         """
-        return self._parse_many(ClassificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ClassificationModel, super().make_request("GET", data=data, params=params).json())
         

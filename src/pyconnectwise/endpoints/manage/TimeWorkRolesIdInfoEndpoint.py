@@ -43,5 +43,5 @@ class TimeWorkRolesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleInfoModel: The parsed response data.
         """
-        return self._parse_one(WorkRoleInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(WorkRoleInfoModel, super().make_request("GET", data=data, params=params).json())
         

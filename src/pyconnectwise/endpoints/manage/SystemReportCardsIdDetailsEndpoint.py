@@ -61,7 +61,7 @@ class SystemReportCardsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ReportCardDetailModel]: The parsed response data.
         """
-        return self._parse_many(ReportCardDetailModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ReportCardDetailModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportCardDetailModel:
         """
@@ -73,5 +73,5 @@ class SystemReportCardsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportCardDetailModel: The parsed response data.
         """
-        return self._parse_one(ReportCardDetailModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ReportCardDetailModel, super().make_request("POST", data=data, params=params).json())
         

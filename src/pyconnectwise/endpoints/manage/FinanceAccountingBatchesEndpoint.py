@@ -62,7 +62,7 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AccountingBatchModel]: The parsed response data.
         """
-        return self._parse_many(AccountingBatchModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AccountingBatchModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLExportModel:
         """
@@ -74,5 +74,5 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             GLExportModel: The parsed response data.
         """
-        return self._parse_one(GLExportModel, super().make_request("POST", params=params).json())
+        return self._parse_one(GLExportModel, super().make_request("POST", data=data, params=params).json())
         

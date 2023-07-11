@@ -43,5 +43,5 @@ class ExpensePaymentTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PaymentTypeInfoModel]: The parsed response data.
         """
-        return self._parse_many(PaymentTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PaymentTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

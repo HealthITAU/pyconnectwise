@@ -61,7 +61,7 @@ class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TicketStopwatchModel]: The parsed response data.
         """
-        return self._parse_many(TicketStopwatchModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TicketStopwatchModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketStopwatchModel:
         """
@@ -73,5 +73,5 @@ class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             TicketStopwatchModel: The parsed response data.
         """
-        return self._parse_one(TicketStopwatchModel, super().make_request("POST", params=params).json())
+        return self._parse_one(TicketStopwatchModel, super().make_request("POST", data=data, params=params).json())
         

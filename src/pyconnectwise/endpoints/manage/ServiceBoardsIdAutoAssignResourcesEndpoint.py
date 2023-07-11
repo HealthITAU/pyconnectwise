@@ -61,7 +61,7 @@ class ServiceBoardsIdAutoAssignResourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardAutoAssignResourceModel]: The parsed response data.
         """
-        return self._parse_many(BoardAutoAssignResourceModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BoardAutoAssignResourceModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoAssignResourceModel:
         """
@@ -73,5 +73,5 @@ class ServiceBoardsIdAutoAssignResourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardAutoAssignResourceModel: The parsed response data.
         """
-        return self._parse_one(BoardAutoAssignResourceModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardAutoAssignResourceModel, super().make_request("POST", data=data, params=params).json())
         

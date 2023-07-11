@@ -61,7 +61,7 @@ class ProcurementPricingschedulesIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PricingDetailModel]: The parsed response data.
         """
-        return self._parse_many(PricingDetailModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PricingDetailModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetailModel:
         """
@@ -73,5 +73,5 @@ class ProcurementPricingschedulesIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingDetailModel: The parsed response data.
         """
-        return self._parse_one(PricingDetailModel, super().make_request("POST", params=params).json())
+        return self._parse_one(PricingDetailModel, super().make_request("POST", data=data, params=params).json())
         

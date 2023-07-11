@@ -20,5 +20,5 @@ class SystemWorkflowsIdEventsIdCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEventModel: The parsed response data.
         """
-        return self._parse_one(WorkflowEventModel, super().make_request("POST", params=params).json())
+        return self._parse_one(WorkflowEventModel, super().make_request("POST", data=data, params=params).json())
         

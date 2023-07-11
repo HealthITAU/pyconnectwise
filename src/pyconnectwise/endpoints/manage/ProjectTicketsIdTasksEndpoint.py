@@ -61,7 +61,7 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TicketTaskModel]: The parsed response data.
         """
-        return self._parse_many(TicketTaskModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TicketTaskModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketTaskModel:
         """
@@ -73,5 +73,5 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         Returns:
             TicketTaskModel: The parsed response data.
         """
-        return self._parse_one(TicketTaskModel, super().make_request("POST", params=params).json())
+        return self._parse_one(TicketTaskModel, super().make_request("POST", data=data, params=params).json())
         

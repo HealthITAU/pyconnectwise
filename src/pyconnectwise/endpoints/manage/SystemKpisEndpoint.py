@@ -61,5 +61,5 @@ class SystemKpisEndpoint(ConnectWiseEndpoint):
         Returns:
             list[KPIModel]: The parsed response data.
         """
-        return self._parse_many(KPIModel, super().make_request("GET", params=params).json())
+        return self._parse_many(KPIModel, super().make_request("GET", data=data, params=params).json())
         

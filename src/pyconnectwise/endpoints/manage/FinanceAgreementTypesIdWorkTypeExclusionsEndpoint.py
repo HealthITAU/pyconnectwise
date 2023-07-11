@@ -61,7 +61,7 @@ class FinanceAgreementTypesIdWorkTypeExclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeWorkTypeExclusionModel]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkTypeExclusionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementTypeWorkTypeExclusionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkTypeExclusionModel:
         """
@@ -73,5 +73,5 @@ class FinanceAgreementTypesIdWorkTypeExclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeWorkTypeExclusionModel: The parsed response data.
         """
-        return self._parse_one(AgreementTypeWorkTypeExclusionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(AgreementTypeWorkTypeExclusionModel, super().make_request("POST", data=data, params=params).json())
         

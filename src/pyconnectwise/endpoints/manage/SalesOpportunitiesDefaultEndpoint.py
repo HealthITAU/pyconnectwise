@@ -43,5 +43,5 @@ class SalesOpportunitiesDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityModel: The parsed response data.
         """
-        return self._parse_one(OpportunityModel, super().make_request("GET", params=params).json())
+        return self._parse_one(OpportunityModel, super().make_request("GET", data=data, params=params).json())
         

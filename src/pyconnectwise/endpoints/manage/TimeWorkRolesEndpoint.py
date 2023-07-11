@@ -65,7 +65,7 @@ class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkRoleModel]: The parsed response data.
         """
-        return self._parse_many(WorkRoleModel, super().make_request("GET", params=params).json())
+        return self._parse_many(WorkRoleModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleModel:
         """
@@ -77,5 +77,5 @@ class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleModel: The parsed response data.
         """
-        return self._parse_one(WorkRoleModel, super().make_request("POST", params=params).json())
+        return self._parse_one(WorkRoleModel, super().make_request("POST", data=data, params=params).json())
         

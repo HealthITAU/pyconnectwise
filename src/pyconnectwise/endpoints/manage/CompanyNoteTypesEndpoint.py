@@ -65,7 +65,7 @@ class CompanyNoteTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyNoteTypeModel]: The parsed response data.
         """
-        return self._parse_many(CompanyNoteTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CompanyNoteTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteTypeModel:
         """
@@ -77,5 +77,5 @@ class CompanyNoteTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyNoteTypeModel: The parsed response data.
         """
-        return self._parse_one(CompanyNoteTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CompanyNoteTypeModel, super().make_request("POST", data=data, params=params).json())
         

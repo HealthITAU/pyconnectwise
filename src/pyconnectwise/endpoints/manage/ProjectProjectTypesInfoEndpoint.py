@@ -47,5 +47,5 @@ class ProjectProjectTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectTypeInfoModel]: The parsed response data.
         """
-        return self._parse_many(ProjectTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProjectTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

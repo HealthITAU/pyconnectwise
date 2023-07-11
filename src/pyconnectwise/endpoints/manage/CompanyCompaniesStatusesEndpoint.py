@@ -61,7 +61,7 @@ class CompanyCompaniesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyStatusModel]: The parsed response data.
         """
-        return self._parse_many(CompanyStatusModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CompanyStatusModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyStatusModel:
         """
@@ -73,5 +73,5 @@ class CompanyCompaniesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyStatusModel: The parsed response data.
         """
-        return self._parse_one(CompanyStatusModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CompanyStatusModel, super().make_request("POST", data=data, params=params).json())
         

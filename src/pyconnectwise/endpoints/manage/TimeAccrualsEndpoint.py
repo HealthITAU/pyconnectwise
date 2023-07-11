@@ -61,7 +61,7 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeAccrualModel]: The parsed response data.
         """
-        return self._parse_many(TimeAccrualModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TimeAccrualModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrualModel:
         """
@@ -73,5 +73,5 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeAccrualModel: The parsed response data.
         """
-        return self._parse_one(TimeAccrualModel, super().make_request("POST", params=params).json())
+        return self._parse_one(TimeAccrualModel, super().make_request("POST", data=data, params=params).json())
         

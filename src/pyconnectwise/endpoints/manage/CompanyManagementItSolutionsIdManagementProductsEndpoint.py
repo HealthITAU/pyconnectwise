@@ -61,7 +61,7 @@ class CompanyManagementItSolutionsIdManagementProductsEndpoint(ConnectWiseEndpoi
         Returns:
             list[ManagementItSolutionAgreementInterfaceParameterModel]: The parsed response data.
         """
-        return self._parse_many(ManagementItSolutionAgreementInterfaceParameterModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ManagementItSolutionAgreementInterfaceParameterModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolutionAgreementInterfaceParameterModel:
         """
@@ -73,5 +73,5 @@ class CompanyManagementItSolutionsIdManagementProductsEndpoint(ConnectWiseEndpoi
         Returns:
             ManagementItSolutionAgreementInterfaceParameterModel: The parsed response data.
         """
-        return self._parse_one(ManagementItSolutionAgreementInterfaceParameterModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ManagementItSolutionAgreementInterfaceParameterModel, super().make_request("POST", data=data, params=params).json())
         

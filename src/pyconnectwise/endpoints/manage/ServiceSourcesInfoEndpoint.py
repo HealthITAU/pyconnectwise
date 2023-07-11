@@ -47,5 +47,5 @@ class ServiceSourcesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SourceInfoModel]: The parsed response data.
         """
-        return self._parse_many(SourceInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SourceInfoModel, super().make_request("GET", data=data, params=params).json())
         

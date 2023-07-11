@@ -43,5 +43,5 @@ class ServiceBoardsIdSubtypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardSubTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(BoardSubTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(BoardSubTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

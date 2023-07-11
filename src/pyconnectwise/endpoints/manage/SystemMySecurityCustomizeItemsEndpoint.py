@@ -43,5 +43,5 @@ class SystemMySecurityCustomizeItemsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MySecurityCustomizeItemModel]: The parsed response data.
         """
-        return self._parse_many(MySecurityCustomizeItemModel, super().make_request("GET", params=params).json())
+        return self._parse_many(MySecurityCustomizeItemModel, super().make_request("GET", data=data, params=params).json())
         

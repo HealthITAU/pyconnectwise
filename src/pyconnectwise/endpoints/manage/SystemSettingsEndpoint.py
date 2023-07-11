@@ -61,5 +61,5 @@ class SystemSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SystemSettingModel]: The parsed response data.
         """
-        return self._parse_many(SystemSettingModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SystemSettingModel, super().make_request("GET", data=data, params=params).json())
         

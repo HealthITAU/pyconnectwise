@@ -61,7 +61,7 @@ class FinanceAgreementTypesIdWorkRoleExclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeWorkRoleExclusionModel]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkRoleExclusionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(AgreementTypeWorkRoleExclusionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkRoleExclusionModel:
         """
@@ -73,5 +73,5 @@ class FinanceAgreementTypesIdWorkRoleExclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeWorkRoleExclusionModel: The parsed response data.
         """
-        return self._parse_one(AgreementTypeWorkRoleExclusionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(AgreementTypeWorkRoleExclusionModel, super().make_request("POST", data=data, params=params).json())
         

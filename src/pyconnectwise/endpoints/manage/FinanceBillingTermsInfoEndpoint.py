@@ -47,5 +47,5 @@ class FinanceBillingTermsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingTermInfoModel]: The parsed response data.
         """
-        return self._parse_many(BillingTermInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BillingTermInfoModel, super().make_request("GET", data=data, params=params).json())
         

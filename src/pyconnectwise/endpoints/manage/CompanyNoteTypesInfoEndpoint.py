@@ -43,5 +43,5 @@ class CompanyNoteTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyNoteTypeInfoModel]: The parsed response data.
         """
-        return self._parse_many(CompanyNoteTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CompanyNoteTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

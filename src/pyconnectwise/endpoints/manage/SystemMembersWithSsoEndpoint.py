@@ -43,5 +43,5 @@ class SystemMembersWithSsoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberModel]: The parsed response data.
         """
-        return self._parse_many(MemberModel, super().make_request("GET", params=params).json())
+        return self._parse_many(MemberModel, super().make_request("GET", data=data, params=params).json())
         

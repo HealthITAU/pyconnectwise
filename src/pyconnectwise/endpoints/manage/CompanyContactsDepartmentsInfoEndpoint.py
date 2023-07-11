@@ -47,5 +47,5 @@ class CompanyContactsDepartmentsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactDepartmentInfoModel]: The parsed response data.
         """
-        return self._parse_many(ContactDepartmentInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ContactDepartmentInfoModel, super().make_request("GET", data=data, params=params).json())
         

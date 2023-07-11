@@ -20,7 +20,7 @@ class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResultModel: The parsed response data.
         """
-        return self._parse_one(BulkResultModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BulkResultModel, super().make_request("POST", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResultModel:
         """
@@ -32,7 +32,7 @@ class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResultModel: The parsed response data.
         """
-        return self._parse_one(BulkResultModel, super().make_request("DELETE", params=params).json())
+        return self._parse_one(BulkResultModel, super().make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResultModel:
         """
@@ -44,5 +44,5 @@ class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResultModel: The parsed response data.
         """
-        return self._parse_one(BulkResultModel, super().make_request("PUT", params=params).json())
+        return self._parse_one(BulkResultModel, super().make_request("PUT", data=data, params=params).json())
         

@@ -20,5 +20,5 @@ class ServiceBoardsCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardModel, super().make_request("POST", data=data, params=params).json())
         

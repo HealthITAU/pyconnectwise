@@ -43,5 +43,5 @@ class ProjectBoardsIdTeamsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectBoardTeamInfoModel]: The parsed response data.
         """
-        return self._parse_many(ProjectBoardTeamInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProjectBoardTeamInfoModel, super().make_request("GET", data=data, params=params).json())
         

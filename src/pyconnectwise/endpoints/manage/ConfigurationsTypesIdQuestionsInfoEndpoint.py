@@ -47,5 +47,5 @@ class ConfigurationsTypesIdQuestionsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationTypeQuestionInfoModel]: The parsed response data.
         """
-        return self._parse_many(ConfigurationTypeQuestionInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConfigurationTypeQuestionInfoModel, super().make_request("GET", data=data, params=params).json())
         

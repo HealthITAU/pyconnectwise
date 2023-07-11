@@ -43,5 +43,5 @@ class SystemSetupScreensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SetupScreenModel: The parsed response data.
         """
-        return self._parse_one(SetupScreenModel, super().make_request("GET", params=params).json())
+        return self._parse_one(SetupScreenModel, super().make_request("GET", data=data, params=params).json())
         

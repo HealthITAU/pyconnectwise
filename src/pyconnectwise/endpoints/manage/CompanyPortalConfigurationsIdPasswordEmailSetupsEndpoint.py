@@ -57,5 +57,5 @@ class CompanyPortalConfigurationsIdPasswordEmailSetupsEndpoint(ConnectWiseEndpoi
         Returns:
             list[PortalConfigurationPasswordEmailSetupModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationPasswordEmailSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PortalConfigurationPasswordEmailSetupModel, super().make_request("GET", data=data, params=params).json())
         

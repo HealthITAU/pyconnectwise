@@ -61,7 +61,7 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TrackModel]: The parsed response data.
         """
-        return self._parse_many(TrackModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TrackModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TrackModel:
         """
@@ -73,5 +73,5 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             TrackModel: The parsed response data.
         """
-        return self._parse_one(TrackModel, super().make_request("POST", params=params).json())
+        return self._parse_one(TrackModel, super().make_request("POST", data=data, params=params).json())
         

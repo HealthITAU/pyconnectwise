@@ -65,5 +65,5 @@ class ServiceTemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceTemplateModel]: The parsed response data.
         """
-        return self._parse_many(ServiceTemplateModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ServiceTemplateModel, super().make_request("GET", data=data, params=params).json())
         

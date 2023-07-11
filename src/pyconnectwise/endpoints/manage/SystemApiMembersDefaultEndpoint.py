@@ -43,5 +43,5 @@ class SystemApiMembersDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMemberModel: The parsed response data.
         """
-        return self._parse_one(ApiMemberModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ApiMemberModel, super().make_request("GET", data=data, params=params).json())
         

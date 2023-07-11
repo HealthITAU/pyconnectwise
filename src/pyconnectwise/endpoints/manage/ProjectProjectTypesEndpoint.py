@@ -65,7 +65,7 @@ class ProjectProjectTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectTypeModel]: The parsed response data.
         """
-        return self._parse_many(ProjectTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProjectTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTypeModel:
         """
@@ -77,5 +77,5 @@ class ProjectProjectTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectTypeModel: The parsed response data.
         """
-        return self._parse_one(ProjectTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ProjectTypeModel, super().make_request("POST", data=data, params=params).json())
         

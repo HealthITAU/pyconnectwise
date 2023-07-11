@@ -65,7 +65,7 @@ class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CalendarModel]: The parsed response data.
         """
-        return self._parse_many(CalendarModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CalendarModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CalendarModel:
         """
@@ -77,5 +77,5 @@ class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
         Returns:
             CalendarModel: The parsed response data.
         """
-        return self._parse_one(CalendarModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CalendarModel, super().make_request("POST", data=data, params=params).json())
         

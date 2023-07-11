@@ -43,5 +43,5 @@ class ProcurementCatalogIdInventoryIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogInventoryModel: The parsed response data.
         """
-        return self._parse_one(CatalogInventoryModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CatalogInventoryModel, super().make_request("GET", data=data, params=params).json())
         

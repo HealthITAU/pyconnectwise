@@ -69,7 +69,7 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ActivityModel]: The parsed response data.
         """
-        return self._parse_many(ActivityModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ActivityModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ActivityModel:
         """
@@ -81,5 +81,5 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             ActivityModel: The parsed response data.
         """
-        return self._parse_one(ActivityModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ActivityModel, super().make_request("POST", data=data, params=params).json())
         

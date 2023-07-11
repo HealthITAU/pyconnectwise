@@ -61,7 +61,7 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationReferenceModel]: The parsed response data.
         """
-        return self._parse_many(ConfigurationReferenceModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConfigurationReferenceModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationReferenceModel:
         """
@@ -73,5 +73,5 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationReferenceModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationReferenceModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ConfigurationReferenceModel, super().make_request("POST", data=data, params=params).json())
         

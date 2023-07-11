@@ -43,5 +43,5 @@ class SystemParsingTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ParsingTypeModel: The parsed response data.
         """
-        return self._parse_one(ParsingTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ParsingTypeModel, super().make_request("GET", data=data, params=params).json())
         

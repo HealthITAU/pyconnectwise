@@ -61,7 +61,7 @@ class SystemGoogleemailsetupEndpoint(ConnectWiseEndpoint):
         Returns:
             list[GoogleEmailSetupModel]: The parsed response data.
         """
-        return self._parse_many(GoogleEmailSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(GoogleEmailSetupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetupModel:
         """
@@ -73,5 +73,5 @@ class SystemGoogleemailsetupEndpoint(ConnectWiseEndpoint):
         Returns:
             GoogleEmailSetupModel: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(GoogleEmailSetupModel, super().make_request("POST", data=data, params=params).json())
         

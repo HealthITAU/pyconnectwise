@@ -65,7 +65,7 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DocumentInfoModel]: The parsed response data.
         """
-        return self._parse_many(DocumentInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(DocumentInfoModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentInfoModel:
         """
@@ -77,5 +77,5 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfoModel: The parsed response data.
         """
-        return self._parse_one(DocumentInfoModel, super().make_request("POST", params=params).json())
+        return self._parse_one(DocumentInfoModel, super().make_request("POST", data=data, params=params).json())
         

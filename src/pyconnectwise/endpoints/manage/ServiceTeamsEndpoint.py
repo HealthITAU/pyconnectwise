@@ -61,5 +61,5 @@ class ServiceTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceTeamModel]: The parsed response data.
         """
-        return self._parse_many(ServiceTeamModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ServiceTeamModel, super().make_request("GET", data=data, params=params).json())
         

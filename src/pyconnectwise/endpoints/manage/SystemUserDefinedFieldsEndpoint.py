@@ -65,7 +65,7 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UserDefinedFieldModel]: The parsed response data.
         """
-        return self._parse_many(UserDefinedFieldModel, super().make_request("GET", params=params).json())
+        return self._parse_many(UserDefinedFieldModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserDefinedFieldModel:
         """
@@ -77,5 +77,5 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
         Returns:
             UserDefinedFieldModel: The parsed response data.
         """
-        return self._parse_one(UserDefinedFieldModel, super().make_request("POST", params=params).json())
+        return self._parse_one(UserDefinedFieldModel, super().make_request("POST", data=data, params=params).json())
         

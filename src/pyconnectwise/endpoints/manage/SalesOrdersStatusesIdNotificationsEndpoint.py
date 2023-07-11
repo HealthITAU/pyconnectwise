@@ -61,7 +61,7 @@ class SalesOrdersStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderStatusNotificationModel]: The parsed response data.
         """
-        return self._parse_many(OrderStatusNotificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OrderStatusNotificationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotificationModel:
         """
@@ -73,5 +73,5 @@ class SalesOrdersStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusNotificationModel: The parsed response data.
         """
-        return self._parse_one(OrderStatusNotificationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OrderStatusNotificationModel, super().make_request("POST", data=data, params=params).json())
         

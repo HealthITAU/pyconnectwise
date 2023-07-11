@@ -61,7 +61,7 @@ class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SalesTeamModel]: The parsed response data.
         """
-        return self._parse_many(SalesTeamModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SalesTeamModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesTeamModel:
         """
@@ -73,5 +73,5 @@ class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesTeamModel: The parsed response data.
         """
-        return self._parse_one(SalesTeamModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SalesTeamModel, super().make_request("POST", data=data, params=params).json())
         

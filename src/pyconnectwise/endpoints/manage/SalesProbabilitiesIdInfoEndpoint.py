@@ -43,5 +43,5 @@ class SalesProbabilitiesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesProbabilityInfoModel: The parsed response data.
         """
-        return self._parse_one(SalesProbabilityInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(SalesProbabilityInfoModel, super().make_request("GET", data=data, params=params).json())
         

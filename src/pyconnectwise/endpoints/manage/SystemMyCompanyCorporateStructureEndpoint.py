@@ -65,5 +65,5 @@ class SystemMyCompanyCorporateStructureEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CorporateStructureModel]: The parsed response data.
         """
-        return self._parse_many(CorporateStructureModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CorporateStructureModel, super().make_request("GET", data=data, params=params).json())
         

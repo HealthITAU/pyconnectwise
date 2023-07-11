@@ -61,7 +61,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyQuestionModel]: The parsed response data.
         """
-        return self._parse_many(SurveyQuestionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SurveyQuestionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestionModel:
         """
@@ -73,5 +73,5 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyQuestionModel: The parsed response data.
         """
-        return self._parse_one(SurveyQuestionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SurveyQuestionModel, super().make_request("POST", data=data, params=params).json())
         

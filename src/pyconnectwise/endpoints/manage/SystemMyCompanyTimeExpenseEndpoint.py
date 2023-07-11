@@ -61,5 +61,5 @@ class SystemMyCompanyTimeExpenseEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeExpenseModel]: The parsed response data.
         """
-        return self._parse_many(TimeExpenseModel, super().make_request("GET", params=params).json())
+        return self._parse_many(TimeExpenseModel, super().make_request("GET", data=data, params=params).json())
         

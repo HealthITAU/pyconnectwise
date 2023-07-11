@@ -43,5 +43,5 @@ class ProcurementCatalog{catalogItemIdentifier}QuantityOnHandEndpoint(ConnectWis
         Returns:
             CountModel: The parsed response data.
         """
-        return self._parse_one(CountModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CountModel, super().make_request("GET", data=data, params=params).json())
         

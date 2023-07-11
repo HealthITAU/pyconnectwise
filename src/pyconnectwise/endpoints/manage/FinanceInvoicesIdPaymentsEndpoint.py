@@ -57,7 +57,7 @@ class FinanceInvoicesIdPaymentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PaymentModel]: The parsed response data.
         """
-        return self._parse_many(PaymentModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PaymentModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PaymentModel:
         """
@@ -69,5 +69,5 @@ class FinanceInvoicesIdPaymentsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaymentModel: The parsed response data.
         """
-        return self._parse_one(PaymentModel, super().make_request("POST", params=params).json())
+        return self._parse_one(PaymentModel, super().make_request("POST", data=data, params=params).json())
         

@@ -43,5 +43,5 @@ class CompanyOwnershipTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             OwnershipTypeInfoModel: The parsed response data.
         """
-        return self._parse_one(OwnershipTypeInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(OwnershipTypeInfoModel, super().make_request("GET", data=data, params=params).json())
         

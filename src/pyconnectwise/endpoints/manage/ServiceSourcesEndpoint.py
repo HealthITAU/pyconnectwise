@@ -65,7 +65,7 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SourceModel]: The parsed response data.
         """
-        return self._parse_many(SourceModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SourceModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SourceModel:
         """
@@ -77,5 +77,5 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             SourceModel: The parsed response data.
         """
-        return self._parse_one(SourceModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SourceModel, super().make_request("POST", data=data, params=params).json())
         

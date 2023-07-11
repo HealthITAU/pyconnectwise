@@ -65,7 +65,7 @@ class ServiceLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceLocationModel]: The parsed response data.
         """
-        return self._parse_many(ServiceLocationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ServiceLocationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceLocationModel:
         """
@@ -77,5 +77,5 @@ class ServiceLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceLocationModel: The parsed response data.
         """
-        return self._parse_one(ServiceLocationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ServiceLocationModel, super().make_request("POST", data=data, params=params).json())
         

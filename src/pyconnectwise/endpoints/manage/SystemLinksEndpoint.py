@@ -61,7 +61,7 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LinkModel]: The parsed response data.
         """
-        return self._parse_many(LinkModel, super().make_request("GET", params=params).json())
+        return self._parse_many(LinkModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LinkModel:
         """
@@ -73,5 +73,5 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             LinkModel: The parsed response data.
         """
-        return self._parse_one(LinkModel, super().make_request("POST", params=params).json())
+        return self._parse_one(LinkModel, super().make_request("POST", data=data, params=params).json())
         

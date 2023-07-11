@@ -19,5 +19,5 @@ class FinanceAgreementsIdWorkRoleExclusionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", params=params).json())
+        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
         

@@ -61,7 +61,7 @@ class MarketingCampaignsIdEmailsOpenedEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EmailOpenedModel]: The parsed response data.
         """
-        return self._parse_many(EmailOpenedModel, super().make_request("GET", params=params).json())
+        return self._parse_many(EmailOpenedModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailOpenedModel:
         """
@@ -73,5 +73,5 @@ class MarketingCampaignsIdEmailsOpenedEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailOpenedModel: The parsed response data.
         """
-        return self._parse_one(EmailOpenedModel, super().make_request("POST", params=params).json())
+        return self._parse_one(EmailOpenedModel, super().make_request("POST", data=data, params=params).json())
         

@@ -61,7 +61,7 @@ class ProcurementUnitOfMeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConversionModel]: The parsed response data.
         """
-        return self._parse_many(ConversionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ConversionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConversionModel:
         """
@@ -73,5 +73,5 @@ class ProcurementUnitOfMeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConversionModel: The parsed response data.
         """
-        return self._parse_one(ConversionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ConversionModel, super().make_request("POST", data=data, params=params).json())
         

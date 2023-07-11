@@ -61,5 +61,5 @@ class FinanceAccountingUnpostedprocurementIdTaxableLevelsEndpoint(ConnectWiseEnd
         Returns:
             list[UnpostedProcurementTaxableLevelModel]: The parsed response data.
         """
-        return self._parse_many(UnpostedProcurementTaxableLevelModel, super().make_request("GET", params=params).json())
+        return self._parse_many(UnpostedProcurementTaxableLevelModel, super().make_request("GET", data=data, params=params).json())
         

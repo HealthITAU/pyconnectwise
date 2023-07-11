@@ -47,5 +47,5 @@ class SystemSurveysInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyInfoModel]: The parsed response data.
         """
-        return self._parse_many(SurveyInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SurveyInfoModel, super().make_request("GET", data=data, params=params).json())
         

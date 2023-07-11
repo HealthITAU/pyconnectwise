@@ -61,7 +61,7 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardNotificationModel]: The parsed response data.
         """
-        return self._parse_many(BoardNotificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BoardNotificationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardNotificationModel:
         """
@@ -73,5 +73,5 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardNotificationModel: The parsed response data.
         """
-        return self._parse_one(BoardNotificationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardNotificationModel, super().make_request("POST", data=data, params=params).json())
         

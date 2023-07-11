@@ -20,5 +20,5 @@ class ProcurementCatalogIdPricingEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogPricingModel: The parsed response data.
         """
-        return self._parse_one(CatalogPricingModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CatalogPricingModel, super().make_request("POST", data=data, params=params).json())
         

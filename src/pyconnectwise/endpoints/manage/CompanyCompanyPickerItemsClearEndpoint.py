@@ -20,5 +20,5 @@ class CompanyCompanyPickerItemsClearEndpoint(ConnectWiseEndpoint):
         Returns:
             ClearPickerRequestModel: The parsed response data.
         """
-        return self._parse_one(ClearPickerRequestModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ClearPickerRequestModel, super().make_request("POST", data=data, params=params).json())
         

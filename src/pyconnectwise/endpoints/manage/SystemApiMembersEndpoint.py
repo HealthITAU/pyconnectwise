@@ -65,7 +65,7 @@ class SystemApiMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ApiMemberModel]: The parsed response data.
         """
-        return self._parse_many(ApiMemberModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ApiMemberModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMemberModel:
         """
@@ -77,5 +77,5 @@ class SystemApiMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMemberModel: The parsed response data.
         """
-        return self._parse_one(ApiMemberModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ApiMemberModel, super().make_request("POST", data=data, params=params).json())
         

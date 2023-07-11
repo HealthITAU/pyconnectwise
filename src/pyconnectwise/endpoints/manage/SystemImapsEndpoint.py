@@ -65,7 +65,7 @@ class SystemImapsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ImapModel]: The parsed response data.
         """
-        return self._parse_many(ImapModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ImapModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ImapModel:
         """
@@ -77,5 +77,5 @@ class SystemImapsEndpoint(ConnectWiseEndpoint):
         Returns:
             ImapModel: The parsed response data.
         """
-        return self._parse_one(ImapModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ImapModel, super().make_request("POST", data=data, params=params).json())
         

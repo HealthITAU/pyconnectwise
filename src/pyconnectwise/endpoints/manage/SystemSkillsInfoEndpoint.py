@@ -47,5 +47,5 @@ class SystemSkillsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SkillInfoModel]: The parsed response data.
         """
-        return self._parse_many(SkillInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SkillInfoModel, super().make_request("GET", data=data, params=params).json())
         

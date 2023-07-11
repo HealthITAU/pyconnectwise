@@ -65,7 +65,7 @@ class ServiceBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardTeamModel]: The parsed response data.
         """
-        return self._parse_many(BoardTeamModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BoardTeamModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTeamModel:
         """
@@ -77,5 +77,5 @@ class ServiceBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardTeamModel: The parsed response data.
         """
-        return self._parse_one(BoardTeamModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BoardTeamModel, super().make_request("POST", data=data, params=params).json())
         

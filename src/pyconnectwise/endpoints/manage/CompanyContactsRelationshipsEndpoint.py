@@ -61,7 +61,7 @@ class CompanyContactsRelationshipsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactRelationshipModel]: The parsed response data.
         """
-        return self._parse_many(ContactRelationshipModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ContactRelationshipModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactRelationshipModel:
         """
@@ -73,5 +73,5 @@ class CompanyContactsRelationshipsEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactRelationshipModel: The parsed response data.
         """
-        return self._parse_one(ContactRelationshipModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ContactRelationshipModel, super().make_request("POST", data=data, params=params).json())
         

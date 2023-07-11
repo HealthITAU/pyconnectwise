@@ -61,5 +61,5 @@ class ScheduleEntriesIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleDetailModel]: The parsed response data.
         """
-        return self._parse_many(ScheduleDetailModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ScheduleDetailModel, super().make_request("GET", data=data, params=params).json())
         

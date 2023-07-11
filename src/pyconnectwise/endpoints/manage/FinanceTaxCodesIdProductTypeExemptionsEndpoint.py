@@ -61,7 +61,7 @@ class FinanceTaxCodesIdProductTypeExemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductTypeExemptionModel]: The parsed response data.
         """
-        return self._parse_many(ProductTypeExemptionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProductTypeExemptionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemptionModel:
         """
@@ -73,5 +73,5 @@ class FinanceTaxCodesIdProductTypeExemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductTypeExemptionModel: The parsed response data.
         """
-        return self._parse_one(ProductTypeExemptionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ProductTypeExemptionModel, super().make_request("POST", data=data, params=params).json())
         

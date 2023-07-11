@@ -43,5 +43,5 @@ class ServiceLocationsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceLocationInfoModel: The parsed response data.
         """
-        return self._parse_one(ServiceLocationInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ServiceLocationInfoModel, super().make_request("GET", data=data, params=params).json())
         

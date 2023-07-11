@@ -61,5 +61,5 @@ class CompanyPortalConfigurationsIdInvoiceSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalConfigurationInvoiceSetupModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationInvoiceSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PortalConfigurationInvoiceSetupModel, super().make_request("GET", data=data, params=params).json())
         

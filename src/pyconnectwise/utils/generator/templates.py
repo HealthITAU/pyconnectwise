@@ -74,9 +74,9 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
             {{ operation.return_type }}: The parsed response data.
         \"""
         {%- if operation.returns_single %}
-        return self._parse_one({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", params=params).json())
+        return self._parse_one({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", data=data, params=params).json())
         {% else %}
-        return self._parse_many({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", params=params).json())
+        return self._parse_many({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", data=data, params=params).json())
         {% endif %}
     {%- endfor %}
 """

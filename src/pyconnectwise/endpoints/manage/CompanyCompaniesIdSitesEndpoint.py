@@ -61,7 +61,7 @@ class CompanyCompaniesIdSitesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanySiteModel]: The parsed response data.
         """
-        return self._parse_many(CompanySiteModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CompanySiteModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanySiteModel:
         """
@@ -73,5 +73,5 @@ class CompanyCompaniesIdSitesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanySiteModel: The parsed response data.
         """
-        return self._parse_one(CompanySiteModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CompanySiteModel, super().make_request("POST", data=data, params=params).json())
         

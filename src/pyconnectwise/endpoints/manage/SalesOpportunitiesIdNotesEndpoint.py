@@ -61,7 +61,7 @@ class SalesOpportunitiesIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityNoteModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityNoteModel, super().make_request("GET", params=params).json())
+        return self._parse_many(OpportunityNoteModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityNoteModel:
         """
@@ -73,5 +73,5 @@ class SalesOpportunitiesIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityNoteModel: The parsed response data.
         """
-        return self._parse_one(OpportunityNoteModel, super().make_request("POST", params=params).json())
+        return self._parse_one(OpportunityNoteModel, super().make_request("POST", data=data, params=params).json())
         

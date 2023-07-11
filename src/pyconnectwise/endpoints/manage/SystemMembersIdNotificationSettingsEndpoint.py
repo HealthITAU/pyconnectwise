@@ -61,7 +61,7 @@ class SystemMembersIdNotificationSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberNotificationSettingModel]: The parsed response data.
         """
-        return self._parse_many(MemberNotificationSettingModel, super().make_request("GET", params=params).json())
+        return self._parse_many(MemberNotificationSettingModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberNotificationSettingModel:
         """
@@ -73,5 +73,5 @@ class SystemMembersIdNotificationSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberNotificationSettingModel: The parsed response data.
         """
-        return self._parse_one(MemberNotificationSettingModel, super().make_request("POST", params=params).json())
+        return self._parse_one(MemberNotificationSettingModel, super().make_request("POST", data=data, params=params).json())
         

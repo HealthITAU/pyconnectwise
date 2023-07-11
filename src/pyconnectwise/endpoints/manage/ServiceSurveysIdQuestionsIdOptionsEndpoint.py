@@ -61,7 +61,7 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyOptionModel]: The parsed response data.
         """
-        return self._parse_many(SurveyOptionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(SurveyOptionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyOptionModel:
         """
@@ -73,5 +73,5 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyOptionModel: The parsed response data.
         """
-        return self._parse_one(SurveyOptionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(SurveyOptionModel, super().make_request("POST", data=data, params=params).json())
         

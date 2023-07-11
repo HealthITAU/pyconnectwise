@@ -61,7 +61,7 @@ class MarketingCampaignsIdLinksClickedEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LinkClickedModel]: The parsed response data.
         """
-        return self._parse_many(LinkClickedModel, super().make_request("GET", params=params).json())
+        return self._parse_many(LinkClickedModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LinkClickedModel:
         """
@@ -73,5 +73,5 @@ class MarketingCampaignsIdLinksClickedEndpoint(ConnectWiseEndpoint):
         Returns:
             LinkClickedModel: The parsed response data.
         """
-        return self._parse_one(LinkClickedModel, super().make_request("POST", params=params).json())
+        return self._parse_one(LinkClickedModel, super().make_request("POST", data=data, params=params).json())
         

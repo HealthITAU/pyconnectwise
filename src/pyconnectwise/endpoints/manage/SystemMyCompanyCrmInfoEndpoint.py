@@ -47,5 +47,5 @@ class SystemMyCompanyCrmInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CrmInfoModel]: The parsed response data.
         """
-        return self._parse_many(CrmInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CrmInfoModel, super().make_request("GET", data=data, params=params).json())
         

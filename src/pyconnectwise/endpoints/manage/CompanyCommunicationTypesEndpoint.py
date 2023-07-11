@@ -65,7 +65,7 @@ class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CommunicationTypeModel]: The parsed response data.
         """
-        return self._parse_many(CommunicationTypeModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CommunicationTypeModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommunicationTypeModel:
         """
@@ -77,5 +77,5 @@ class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CommunicationTypeModel: The parsed response data.
         """
-        return self._parse_one(CommunicationTypeModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CommunicationTypeModel, super().make_request("POST", data=data, params=params).json())
         

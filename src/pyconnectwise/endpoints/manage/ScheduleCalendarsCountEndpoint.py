@@ -43,5 +43,5 @@ class ScheduleCalendarsCountEndpoint(ConnectWiseEndpoint):
         Returns:
             CalendarModel: The parsed response data.
         """
-        return self._parse_one(CalendarModel, super().make_request("GET", params=params).json())
+        return self._parse_one(CalendarModel, super().make_request("GET", data=data, params=params).json())
         

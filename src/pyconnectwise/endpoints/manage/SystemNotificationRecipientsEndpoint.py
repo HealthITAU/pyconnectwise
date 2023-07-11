@@ -61,5 +61,5 @@ class SystemNotificationRecipientsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[NotificationRecipientModel]: The parsed response data.
         """
-        return self._parse_many(NotificationRecipientModel, super().make_request("GET", params=params).json())
+        return self._parse_many(NotificationRecipientModel, super().make_request("GET", data=data, params=params).json())
         

@@ -43,5 +43,5 @@ class ConfigurationsTypesIdQuestionsIdValuesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationTypeQuestionInfoModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationTypeQuestionInfoModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ConfigurationTypeQuestionInfoModel, super().make_request("GET", data=data, params=params).json())
         

@@ -65,7 +65,7 @@ class FinanceBillingSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingSetupModel]: The parsed response data.
         """
-        return self._parse_many(BillingSetupModel, super().make_request("GET", params=params).json())
+        return self._parse_many(BillingSetupModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingSetupModel:
         """
@@ -77,5 +77,5 @@ class FinanceBillingSetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingSetupModel: The parsed response data.
         """
-        return self._parse_one(BillingSetupModel, super().make_request("POST", params=params).json())
+        return self._parse_one(BillingSetupModel, super().make_request("POST", data=data, params=params).json())
         

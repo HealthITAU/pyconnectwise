@@ -61,7 +61,7 @@ class ProcurementRmaStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaStatusNotificationModel]: The parsed response data.
         """
-        return self._parse_many(RmaStatusNotificationModel, super().make_request("GET", params=params).json())
+        return self._parse_many(RmaStatusNotificationModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatusNotificationModel:
         """
@@ -73,5 +73,5 @@ class ProcurementRmaStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaStatusNotificationModel: The parsed response data.
         """
-        return self._parse_one(RmaStatusNotificationModel, super().make_request("POST", params=params).json())
+        return self._parse_one(RmaStatusNotificationModel, super().make_request("POST", data=data, params=params).json())
         

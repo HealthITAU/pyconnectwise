@@ -43,5 +43,5 @@ class TimeSheetsIdAuditsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeSheetAuditModel: The parsed response data.
         """
-        return self._parse_one(TimeSheetAuditModel, super().make_request("GET", params=params).json())
+        return self._parse_one(TimeSheetAuditModel, super().make_request("GET", data=data, params=params).json())
         

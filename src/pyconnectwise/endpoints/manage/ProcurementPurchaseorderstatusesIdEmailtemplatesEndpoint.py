@@ -61,7 +61,7 @@ class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoi
         Returns:
             list[PurchaseOrderStatusEmailTemplateModel]: The parsed response data.
         """
-        return self._parse_many(PurchaseOrderStatusEmailTemplateModel, super().make_request("GET", params=params).json())
+        return self._parse_many(PurchaseOrderStatusEmailTemplateModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatusEmailTemplateModel:
         """
@@ -73,5 +73,5 @@ class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoi
         Returns:
             PurchaseOrderStatusEmailTemplateModel: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderStatusEmailTemplateModel, super().make_request("POST", params=params).json())
+        return self._parse_one(PurchaseOrderStatusEmailTemplateModel, super().make_request("POST", data=data, params=params).json())
         

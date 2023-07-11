@@ -61,7 +61,7 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductItemModel]: The parsed response data.
         """
-        return self._parse_many(ProductItemModel, super().make_request("GET", params=params).json())
+        return self._parse_many(ProductItemModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
         """
@@ -73,5 +73,5 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductItemModel: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super().make_request("POST", params=params).json())
+        return self._parse_one(ProductItemModel, super().make_request("POST", data=data, params=params).json())
         

@@ -61,7 +61,7 @@ class FinanceDeliveryMethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DeliveryMethodModel]: The parsed response data.
         """
-        return self._parse_many(DeliveryMethodModel, super().make_request("GET", params=params).json())
+        return self._parse_many(DeliveryMethodModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethodModel:
         """
@@ -73,5 +73,5 @@ class FinanceDeliveryMethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             DeliveryMethodModel: The parsed response data.
         """
-        return self._parse_one(DeliveryMethodModel, super().make_request("POST", params=params).json())
+        return self._parse_one(DeliveryMethodModel, super().make_request("POST", data=data, params=params).json())
         

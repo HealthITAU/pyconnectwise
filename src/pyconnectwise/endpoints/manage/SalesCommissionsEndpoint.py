@@ -61,7 +61,7 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CommissionModel]: The parsed response data.
         """
-        return self._parse_many(CommissionModel, super().make_request("GET", params=params).json())
+        return self._parse_many(CommissionModel, super().make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommissionModel:
         """
@@ -73,5 +73,5 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
         Returns:
             CommissionModel: The parsed response data.
         """
-        return self._parse_one(CommissionModel, super().make_request("POST", params=params).json())
+        return self._parse_one(CommissionModel, super().make_request("POST", data=data, params=params).json())
         

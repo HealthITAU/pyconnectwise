@@ -43,5 +43,5 @@ class CompanyContactsDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactModel: The parsed response data.
         """
-        return self._parse_one(ContactModel, super().make_request("GET", params=params).json())
+        return self._parse_one(ContactModel, super().make_request("GET", data=data, params=params).json())
         
