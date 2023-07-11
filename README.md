@@ -1,23 +1,23 @@
 [![Health IT Logo](https://healthit.com.au/wp-content/uploads/2019/06/HIT-proper-logo.png)](https://healthit.com.au)
 
-# pyconnectwise - a client for simplifying interactions with the ConnectWise Manage API in Python
+# pyConnectWise - a library for simplifying interactions with the ConnectWise Manage API in Python
 
-pyconnectwise is a full featured, type annotated API client written in Python for the ConnectWise API's. 
+pyConnectWise is a full featured, type annotated API client written in Python for the ConnectWise APIs. 
 
-This library has been developed with the intention of making the ConnectWise API's simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
+This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
-Currently, it only supports ConnectWise Manage, but more is planned.
-- - - - 
+pyConnectWise currently only supports ConnectWise Manage, but more is planned.
+
 Features:
 =========
-- 100% API Coverage. All endpoints and response schemas have had their code generated from the ConnectWise Manage OpenAPI Schema.
-- Beginner and expert friendly.
+- 100% API Coverage. All endpoints and response models have had their code generated from the ConnectWise Manage OpenAPI spec.
+- Non-coder friendly
 - Focus on type annotations and DX (Developer Experience). Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
 
-pyconnectwise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies. 
+pyConnectWise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies. 
 
 As all Endpoint and Model code has been generated, not all of it has been tested. YMMV.
-- - - - 
+
 Known Issues:
 =============
 - The ConnectWise API spec doesn't label optional fields correctly - for example, the mergedParentTicket field on a service ticket is only included in an API response if the ticket has a parent.
@@ -33,30 +33,28 @@ Known Issues:
 - As this project is still a WIP, documentation or code commentary may not always align. 
 - Little to no error handling just yet
 
-- - - - 
-Planned and in progress:
+Roadmap:
 =============
-- Automate API Support
-- Input model validation
-- Robust error handling
+- Automate API Support - :construction: In Progress
+- Robust error handling - :construction: In Progress
+- Input model validation - :chart_with_upwards_trend: Planned
+- ScreenConnect (Control) API Support - :chart_with_upwards_trend: Planned
+- Batch requests - :chart_with_upwards_trend: Planned
 
-- - - - 
 How-to:
-======
+=============
 - [Install](#install)
 - [Initialize API client](#initialize-api-client)
 - [Working with Endpoints](#working-with-endpoints)
-  - [Get](#get)
   - [Child Endpoints](#child-endpoints)
 - [Pagination](#pagination)
 - [Examples](#examples)
+- [Contributing](#contributing)
+- [Supporting the project](#supporting-the-project)
 
-- - - - 
 # Install
-
 Open a terminal and run ```pip install pyconnectwise```
 
-- - - - 
 # Initialize API client
 ```python
 from pyconnectwise import ConnectWiseManageAPIClient
@@ -71,25 +69,24 @@ api = ConnectWiseManageAPIClient(
 )
 ```
 
-- - - - 
 # Working with Endpoints
-Endpoints are 1:1 to what's available with ConnectWise Manage as code is generated from their OpenAPI schema.
+Endpoints are 1:1 to what's available with ConnectWise Manage as code is generated from their OpenAPI spec.
 
 For more information, check out the [ConnectWise Manage REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_PSA/REST)
 
-# Get
+### Get
 ```python
 # sends get request to /company/companies endpoint
 companies = api.company.companies.get()
 ```
 
-# Get one
+### Get one
 ```python
 # sends get request to /company/companies/{id} endpoint
 companies = api.company.companies.id(250).get()
 ```
 
-# Get with params
+### Get with params
 ```python
 # sends get request to /company/companies with a condition query string
 conditional_get = api.company.companies.get(params={
@@ -102,7 +99,7 @@ The ConnectWise API has many instances of nested endpoints - for example, ```/co
 
 This is replicated in the library. Endpoints provide an ```id``` method for setting the ID and traversing down the path.
 
-###### Example using ```/company/companies/{company_id}/sites```
+##### Example using ```/company/companies/{company_id}/sites```
 ```python
 sites = api.company.companies.id(250).sites.get()
 ```
@@ -135,18 +132,35 @@ for company in paginated_companies:
 for company in paginated_companies.all():
   # ... do things ...
 ```
-- - - -
+
 # Examples
-## Get all agreements, then all additions for an agreement
+
+### Get all agreements, then all additions for an agreement
 ```python
 agreements = api.finance.agreements.paginated(1, 1000)
 for agreement in agreements.all():
     additions = api.finance.agreements.id(agreement.id).additions.get()
 ```
 
-## Get all service tickets with an ID > 1000
+### Get all service tickets with an ID > 1000
 ```python
 tickets = api.service.tickets.get(params={
     'conditions': 'id > 1000'
 })
 ```
+
+# Contributing
+Contributions to the project are welcome. If you find any issues or have suggestions for improvement, please feel free to open an issue or submit a pull request.
+
+When working on the project, please note that there's a few requirements you'll need to install in order to run the project locally. These requirements are stored in [requirements.txt](requirements.txt)
+
+You can install these requirements by opening a terminal, navigating to the repo's directory and running ```pip install -r requirements.txt```
+
+# Supporting the project
+:heart: the project and would like to show your support? Please consider donating to the following charities:
+- [Black Dog](https://donate.blackdoginstitute.org.au/)
+- [Cure4 CysticFibrosis Foundation](https://app.etapestry.com/onlineforms/Cure4CFFoundation/Donatenow.html)
+- [Vinnies CEO Sleepout](https://www.ceosleepout.org.au/donation)
+- [Care.org.au's Ukraine Humanitarian Crisis fund](https://www.care.org.au/appeals/ukraine-humanitarian-crisis/)
+- [RedFrogs Australia](https://redfrogs.com.au/support/donate)
+- [Love Your Sister (Sam's 1000)](https://www.loveyoursister.org/makeadonation)
