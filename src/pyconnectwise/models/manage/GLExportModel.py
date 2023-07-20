@@ -23,8 +23,3 @@ class GLExportModel(ConnectWiseModel):
     purchase_transactions: list[GLExportPurchaseTransactionModel]
     adjustment_transactions: list[GLExportAdjustmentTransactionModel]
     inventory_transfers: list[GLExportInventoryTransferModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

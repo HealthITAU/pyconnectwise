@@ -30,8 +30,3 @@ class SsoConfigurationModel(ConnectWiseModel):
     all_members_submitted: bool
     _info: dict[str, str]
     is_sso_on_by_default: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

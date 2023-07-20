@@ -10,8 +10,3 @@ class MemberDeactivationStatusWorkflowModel(ConnectWiseModel):
     id: int
     name: str
     re_assign_to_member: MemberReferenceModel
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

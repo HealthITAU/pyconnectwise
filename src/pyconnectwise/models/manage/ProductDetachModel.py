@@ -10,8 +10,3 @@ class ProductDetachModel(ConnectWiseModel):
     remove_from_opportunity: bool
     remove_from_sales_order: bool
     remove_from_project: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

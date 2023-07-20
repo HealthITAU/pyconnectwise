@@ -14,8 +14,3 @@ class AgreementSiteModel(ConnectWiseModel):
     agreement_id: int
     _info: dict[str, str]
     custom_fields: list[CustomFieldValueModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

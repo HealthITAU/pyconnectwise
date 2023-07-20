@@ -11,8 +11,3 @@ class InfoModel(ConnectWiseModel):
     server_time_zone: str
     license_bits: list[LicenseBitModel]
     cloud_region: str
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

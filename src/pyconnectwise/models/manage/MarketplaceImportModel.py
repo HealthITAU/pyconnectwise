@@ -24,8 +24,3 @@ class MarketplaceImportModel(ConnectWiseModel):
     marketplace_import_type: MarketplaceImportType
     marketplace_object: list[Any]
     required_fields: list[str]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

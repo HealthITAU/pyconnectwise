@@ -25,8 +25,3 @@ class ConfigurationQuestionModel(ConnectWiseModel):
     number_of_decimals: int
     field_type: FieldType
     required_flag: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

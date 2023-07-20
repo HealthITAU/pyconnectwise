@@ -22,8 +22,3 @@ class EmailTokenModel(ConnectWiseModel):
     tracks_flag: bool
     workflow_flag: bool
     portal_password_flag: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

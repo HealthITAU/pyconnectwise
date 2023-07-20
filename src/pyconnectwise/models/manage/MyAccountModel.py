@@ -180,8 +180,3 @@ class MyAccountModel(ConnectWiseModel):
     copy_column_layouts_and_filters: bool
     from_member_rec_id: int
     custom_fields: list[CustomFieldValueModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

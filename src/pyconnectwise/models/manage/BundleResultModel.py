@@ -15,8 +15,3 @@ class BundleResultModel(ConnectWiseModel):
     success: bool
     status_code: int
     error: ErrorResponseMessageModel
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

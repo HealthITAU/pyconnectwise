@@ -52,8 +52,3 @@ class MemberDeactivationModel(ConnectWiseModel):
     duty_manager: MemberDeactivationDutyManagerModel
     send_from_email_notify: MemberDeactivationSendFromEmailNotifyModel
     delete_open_time_sheets_flag: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

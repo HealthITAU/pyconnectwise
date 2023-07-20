@@ -72,8 +72,3 @@ class ConfigurationModel(ConnectWiseModel):
     needs_renewal_flag: bool
     manufacturer_part_number: str
     custom_fields: list[CustomFieldValueModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

@@ -8,8 +8,3 @@ class PortalConfigurationPaymentProcessorModel(ConnectWiseModel):
     id: int
     name: str
     test_u_r_l: str
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

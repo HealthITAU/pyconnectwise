@@ -32,8 +32,3 @@ class CrmModel(ConnectWiseModel):
     other2_caption: str
     default_year: bool
     _info: dict[str, str]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

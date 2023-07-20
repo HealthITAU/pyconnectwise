@@ -33,8 +33,3 @@ class AccountingPackageSetupModel(ConnectWiseModel):
     send_uom_flag: bool
     include_cogs_entries_flag: bool
     include_cogs_drop_ship_flag: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

@@ -9,8 +9,3 @@ class PriorityReferenceModel(ConnectWiseModel):
     name: str
     sort: int
     _info: dict[str, str]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True
