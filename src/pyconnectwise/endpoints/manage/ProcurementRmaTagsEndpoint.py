@@ -11,10 +11,10 @@ class ProcurementRmaTagsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "rmaTags", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProcurementRmaTagsCountEndpoint(client, parent_endpoint=self)
         )
-        self.default = self.register_child_endpoint(
+        self.default = self._register_child_endpoint(
             ProcurementRmaTagsDefaultEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class ProcurementRmaTagsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class ProcurementRmaTagsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaTagModel]: The parsed response data.
         """
-        return self._parse_many(RmaTagModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(RmaTagModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTagModel:
         """
@@ -77,5 +77,5 @@ class ProcurementRmaTagsEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaTagModel: The parsed response data.
         """
-        return self._parse_one(RmaTagModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(RmaTagModel, super()._make_request("POST", data=data, params=params).json())
         

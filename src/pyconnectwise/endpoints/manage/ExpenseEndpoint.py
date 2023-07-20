@@ -9,18 +9,18 @@ class ExpenseEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "expense")
         
-        self.classifications = self.register_child_endpoint(
+        self.classifications = self._register_child_endpoint(
             ExpenseClassificationsEndpoint(client, parent_endpoint=self)
         )
-        self.entries = self.register_child_endpoint(
+        self.entries = self._register_child_endpoint(
             ExpenseEntriesEndpoint(client, parent_endpoint=self)
         )
-        self.paymentTypes = self.register_child_endpoint(
+        self.paymentTypes = self._register_child_endpoint(
             ExpensePaymentTypesEndpoint(client, parent_endpoint=self)
         )
-        self.reports = self.register_child_endpoint(
+        self.reports = self._register_child_endpoint(
             ExpenseReportsEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             ExpenseTypesEndpoint(client, parent_endpoint=self)
         )

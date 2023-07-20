@@ -13,19 +13,19 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             ProcurementCatalogIdInfoEndpoint(client, parent_endpoint=self)
         )
-        self.pricing = self.register_child_endpoint(
+        self.pricing = self._register_child_endpoint(
             ProcurementCatalogIdPricingEndpoint(client, parent_endpoint=self)
         )
-        self.components = self.register_child_endpoint(
+        self.components = self._register_child_endpoint(
             ProcurementCatalogIdComponentsEndpoint(client, parent_endpoint=self)
         )
-        self.inventory = self.register_child_endpoint(
+        self.inventory = self._register_child_endpoint(
             ProcurementCatalogIdInventoryEndpoint(client, parent_endpoint=self)
         )
-        self.minimumStockByWarehouse = self.register_child_endpoint(
+        self.minimumStockByWarehouse = self._register_child_endpoint(
             ProcurementCatalogIdMinimumStockByWarehouseEndpoint(client, parent_endpoint=self)
         )
     
@@ -44,7 +44,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -63,7 +63,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogItemModel: The parsed response data.
         """
-        return self._parse_one(CatalogItemModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(CatalogItemModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -75,7 +75,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogItemModel:
         """
@@ -87,7 +87,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogItemModel: The parsed response data.
         """
-        return self._parse_one(CatalogItemModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(CatalogItemModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogItemModel:
         """
@@ -99,5 +99,5 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogItemModel: The parsed response data.
         """
-        return self._parse_one(CatalogItemModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(CatalogItemModel, super()._make_request("PATCH", data=data, params=params).json())
         

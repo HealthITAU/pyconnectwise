@@ -11,10 +11,10 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProcurementAdjustmentsTypesCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             ProcurementAdjustmentsTypesInfoEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AdjustmentTypeModel]: The parsed response data.
         """
-        return self._parse_many(AdjustmentTypeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(AdjustmentTypeModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentTypeModel:
         """
@@ -77,5 +77,5 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             AdjustmentTypeModel: The parsed response data.
         """
-        return self._parse_one(AdjustmentTypeModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(AdjustmentTypeModel, super()._make_request("POST", data=data, params=params).json())
         

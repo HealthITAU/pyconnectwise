@@ -17,31 +17,31 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.additions = self.register_child_endpoint(
+        self.additions = self._register_child_endpoint(
             FinanceAgreementsIdAdditionsEndpoint(client, parent_endpoint=self)
         )
-        self.adjustments = self.register_child_endpoint(
+        self.adjustments = self._register_child_endpoint(
             FinanceAgreementsIdAdjustmentsEndpoint(client, parent_endpoint=self)
         )
-        self.boardDefaults = self.register_child_endpoint(
+        self.boardDefaults = self._register_child_endpoint(
             FinanceAgreementsIdBoardDefaultsEndpoint(client, parent_endpoint=self)
         )
-        self.configurations = self.register_child_endpoint(
+        self.configurations = self._register_child_endpoint(
             FinanceAgreementsIdConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.sites = self.register_child_endpoint(
+        self.sites = self._register_child_endpoint(
             FinanceAgreementsIdSitesEndpoint(client, parent_endpoint=self)
         )
-        self.workRoleExclusions = self.register_child_endpoint(
+        self.workRoleExclusions = self._register_child_endpoint(
             FinanceAgreementsIdWorkRoleExclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.workroles = self.register_child_endpoint(
+        self.workroles = self._register_child_endpoint(
             FinanceAgreementsIdWorkrolesEndpoint(client, parent_endpoint=self)
         )
-        self.workTypeExclusions = self.register_child_endpoint(
+        self.workTypeExclusions = self._register_child_endpoint(
             FinanceAgreementsIdWorkTypeExclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.worktypes = self.register_child_endpoint(
+        self.worktypes = self._register_child_endpoint(
             FinanceAgreementsIdWorktypesEndpoint(client, parent_endpoint=self)
         )
     
@@ -60,7 +60,7 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -79,7 +79,7 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementModel: The parsed response data.
         """
-        return self._parse_one(AgreementModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(AgreementModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -91,7 +91,7 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementModel:
         """
@@ -103,7 +103,7 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementModel: The parsed response data.
         """
-        return self._parse_one(AgreementModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(AgreementModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementModel:
         """
@@ -115,5 +115,5 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementModel: The parsed response data.
         """
-        return self._parse_one(AgreementModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(AgreementModel, super()._make_request("PATCH", data=data, params=params).json())
         

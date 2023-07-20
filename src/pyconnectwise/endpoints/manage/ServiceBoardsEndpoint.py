@@ -11,10 +11,10 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "boards", parent_endpoint=parent_endpoint)
         
-        self.copy = self.register_child_endpoint(
+        self.copy = self._register_child_endpoint(
             ServiceBoardsCopyEndpoint(client, parent_endpoint=self)
         )
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ServiceBoardsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardModel]: The parsed response data.
         """
-        return self._parse_many(BoardModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(BoardModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardModel:
         """
@@ -77,5 +77,5 @@ class ServiceBoardsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(BoardModel, super()._make_request("POST", data=data, params=params).json())
         

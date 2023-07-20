@@ -11,10 +11,10 @@ class CompanyPortalConfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalConfigurations", parent_endpoint=parent_endpoint)
         
-        self.copy = self.register_child_endpoint(
+        self.copy = self._register_child_endpoint(
             CompanyPortalConfigurationsCopyEndpoint(client, parent_endpoint=self)
         )
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyPortalConfigurationsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class CompanyPortalConfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class CompanyPortalConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalConfigurationModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(PortalConfigurationModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationModel:
         """
@@ -77,5 +77,5 @@ class CompanyPortalConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationModel, super()._make_request("POST", data=data, params=params).json())
         

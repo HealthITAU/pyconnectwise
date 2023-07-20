@@ -13,16 +13,16 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companies", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyCompaniesCountEndpoint(client, parent_endpoint=self)
         )
-        self.default = self.register_child_endpoint(
+        self.default = self._register_child_endpoint(
             CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             CompanyCompaniesTypesEndpoint(client, parent_endpoint=self)
         )
     
@@ -54,7 +54,7 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -73,7 +73,7 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyModel]: The parsed response data.
         """
-        return self._parse_many(CompanyModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(CompanyModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyModel:
         """
@@ -85,5 +85,5 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyModel: The parsed response data.
         """
-        return self._parse_one(CompanyModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(CompanyModel, super()._make_request("POST", data=data, params=params).json())
         

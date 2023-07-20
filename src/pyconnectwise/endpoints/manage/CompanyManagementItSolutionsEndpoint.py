@@ -10,7 +10,7 @@ class CompanyManagementItSolutionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementItSolutions", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyManagementItSolutionsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class CompanyManagementItSolutionsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class CompanyManagementItSolutionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagementItSolutionModel]: The parsed response data.
         """
-        return self._parse_many(ManagementItSolutionModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ManagementItSolutionModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolutionModel:
         """
@@ -73,5 +73,5 @@ class CompanyManagementItSolutionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementItSolutionModel: The parsed response data.
         """
-        return self._parse_one(ManagementItSolutionModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ManagementItSolutionModel, super()._make_request("POST", data=data, params=params).json())
         

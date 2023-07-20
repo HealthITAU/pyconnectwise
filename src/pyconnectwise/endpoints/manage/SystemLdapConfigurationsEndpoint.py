@@ -12,13 +12,13 @@ class SystemLdapConfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ldapConfigurations", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemLdapConfigurationsCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             SystemLdapConfigurationsInfoEndpoint(client, parent_endpoint=self)
         )
-        self.testLink = self.register_child_endpoint(
+        self.testLink = self._register_child_endpoint(
             SystemLdapConfigurationsTestLinkEndpoint(client, parent_endpoint=self)
         )
     
@@ -50,7 +50,7 @@ class SystemLdapConfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -69,7 +69,7 @@ class SystemLdapConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LdapConfigurationModel]: The parsed response data.
         """
-        return self._parse_many(LdapConfigurationModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(LdapConfigurationModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LdapConfigurationModel:
         """
@@ -81,5 +81,5 @@ class SystemLdapConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             LdapConfigurationModel: The parsed response data.
         """
-        return self._parse_one(LdapConfigurationModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(LdapConfigurationModel, super()._make_request("POST", data=data, params=params).json())
         

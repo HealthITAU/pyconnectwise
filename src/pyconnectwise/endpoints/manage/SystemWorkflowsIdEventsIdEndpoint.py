@@ -11,13 +11,13 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.actions = self.register_child_endpoint(
+        self.actions = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdActionsEndpoint(client, parent_endpoint=self)
         )
-        self.copy = self.register_child_endpoint(
+        self.copy = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self)
         )
-        self.test = self.register_child_endpoint(
+        self.test = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self)
         )
     
@@ -36,7 +36,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -55,7 +55,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEventModel: The parsed response data.
         """
-        return self._parse_one(WorkflowEventModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(WorkflowEventModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -67,7 +67,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEventModel:
         """
@@ -79,7 +79,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEventModel: The parsed response data.
         """
-        return self._parse_one(WorkflowEventModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(WorkflowEventModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEventModel:
         """
@@ -91,5 +91,5 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEventModel: The parsed response data.
         """
-        return self._parse_one(WorkflowEventModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(WorkflowEventModel, super()._make_request("PATCH", data=data, params=params).json())
         

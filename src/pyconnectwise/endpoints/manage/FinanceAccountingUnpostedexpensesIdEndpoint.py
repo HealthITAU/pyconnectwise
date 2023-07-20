@@ -9,7 +9,7 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.taxableLevels = self.register_child_endpoint(
+        self.taxableLevels = self._register_child_endpoint(
             FinanceAccountingUnpostedexpensesIdTaxableLevelsEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UnpostedExpenseModel: The parsed response data.
         """
-        return self._parse_one(UnpostedExpenseModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(UnpostedExpenseModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -10,7 +10,7 @@ class FinanceAgreementsIdWorkrolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workroles", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             FinanceAgreementsIdWorkrolesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class FinanceAgreementsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class FinanceAgreementsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementWorkRoleModel]: The parsed response data.
         """
-        return self._parse_many(AgreementWorkRoleModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(AgreementWorkRoleModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkRoleModel:
         """
@@ -73,5 +73,5 @@ class FinanceAgreementsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementWorkRoleModel: The parsed response data.
         """
-        return self._parse_one(AgreementWorkRoleModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(AgreementWorkRoleModel, super()._make_request("POST", data=data, params=params).json())
         

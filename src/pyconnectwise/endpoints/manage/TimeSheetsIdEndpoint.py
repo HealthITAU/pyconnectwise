@@ -13,19 +13,19 @@ class TimeSheetsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.approve = self.register_child_endpoint(
+        self.approve = self._register_child_endpoint(
             TimeSheetsIdApproveEndpoint(client, parent_endpoint=self)
         )
-        self.reject = self.register_child_endpoint(
+        self.reject = self._register_child_endpoint(
             TimeSheetsIdRejectEndpoint(client, parent_endpoint=self)
         )
-        self.reverse = self.register_child_endpoint(
+        self.reverse = self._register_child_endpoint(
             TimeSheetsIdReverseEndpoint(client, parent_endpoint=self)
         )
-        self.submit = self.register_child_endpoint(
+        self.submit = self._register_child_endpoint(
             TimeSheetsIdSubmitEndpoint(client, parent_endpoint=self)
         )
-        self.audits = self.register_child_endpoint(
+        self.audits = self._register_child_endpoint(
             TimeSheetsIdAuditsEndpoint(client, parent_endpoint=self)
         )
     
@@ -44,7 +44,7 @@ class TimeSheetsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -63,5 +63,5 @@ class TimeSheetsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeSheetModel: The parsed response data.
         """
-        return self._parse_one(TimeSheetModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(TimeSheetModel, super()._make_request("GET", data=data, params=params).json())
         

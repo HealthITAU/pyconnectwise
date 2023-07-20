@@ -2,11 +2,8 @@ from __future__ import annotations
 import requests
 from requests import Response
 from pydantic import BaseModel
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
-from typing import Any, TypeVar, Generic, TYPE_CHECKING
-from pyconnectwise.utils.experimental.patch_maker import PatchGroup
-from typing import TypeVar, Type, List, Union
+from typing import Any, TypeVar
+from typing import TypeVar, Type
 
 TChildEndpoint = TypeVar("TChildEndpoint", bound="ConnectWiseEndpoint")
 TSelf = TypeVar("TSelf", bound="ConnectWiseEndpoint")
@@ -68,7 +65,7 @@ class ConnectWiseEndpoint:
         self._id = None
         self._child_endpoints: list[ConnectWiseEndpoint] = []
 
-    def register_child_endpoint(self, child_endpoint: TChildEndpoint) -> TChildEndpoint:
+    def _register_child_endpoint(self, child_endpoint: TChildEndpoint) -> TChildEndpoint:
         """
         Register a child endpoint to the current endpoint.
 
@@ -94,15 +91,15 @@ class ConnectWiseEndpoint:
         url_parts = [str(arg).strip("/") for arg in args]
         return "/".join(url_parts)
 
-    def __get_replaced_url(self) -> str:
+    def _get_replaced_url(self) -> str:
         if self._id is None:
             return self.endpoint_base
         return self.endpoint_base.replace("{id}", str(self._id))
     
-    def make_request_and_get_json(self, endpoint=None, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> dict[str, Any]:
-        return self.make_request("GET", endpoint, data, params).json()
+    def _make_request_and_get_json(self, endpoint=None, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> dict[str, Any]:
+        return self._make_request("GET", endpoint, data, params).json()
 
-    def make_request(
+    def _make_request(
         self, method: str, endpoint=None, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
     ) -> Response:
         """
@@ -134,13 +131,13 @@ class ConnectWiseEndpoint:
                 if endpoint._parent_endpoint._id is not None:
                     return self._url_join(
                         parent_url,
-                        endpoint.__get_replaced_url(),
+                        endpoint._get_replaced_url(),
                     )
                 else:
-                    return self._url_join(parent_url, endpoint.__get_replaced_url())
+                    return self._url_join(parent_url, endpoint._get_replaced_url())
             else:
                 return self._url_join(
-                    self.client.get_url(), endpoint.__get_replaced_url()
+                    self.client.get_url(), endpoint._get_replaced_url()
                 )
 
         url = build_url(self)

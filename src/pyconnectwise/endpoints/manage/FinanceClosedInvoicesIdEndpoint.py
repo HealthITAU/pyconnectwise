@@ -20,7 +20,7 @@ class FinanceClosedInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ClosedInvoiceModel: The parsed response data.
         """
-        return self._parse_one(ClosedInvoiceModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ClosedInvoiceModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClosedInvoiceModel:
         """
@@ -32,5 +32,5 @@ class FinanceClosedInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ClosedInvoiceModel: The parsed response data.
         """
-        return self._parse_one(ClosedInvoiceModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ClosedInvoiceModel, super()._make_request("PATCH", data=data, params=params).json())
         

@@ -24,7 +24,7 @@ class ServiceTicketLinksIdInfoEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -43,5 +43,5 @@ class ServiceTicketLinksIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTicketLinkInfoModel: The parsed response data.
         """
-        return self._parse_one(ServiceTicketLinkInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ServiceTicketLinkInfoModel, super()._make_request("GET", data=data, params=params).json())
         

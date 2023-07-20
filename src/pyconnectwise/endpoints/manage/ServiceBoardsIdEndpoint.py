@@ -19,37 +19,37 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.usages = self.register_child_endpoint(
+        self.usages = self._register_child_endpoint(
             ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.autoAssignResources = self.register_child_endpoint(
+        self.autoAssignResources = self._register_child_endpoint(
             ServiceBoardsIdAutoAssignResourcesEndpoint(client, parent_endpoint=self)
         )
-        self.autoTemplates = self.register_child_endpoint(
+        self.autoTemplates = self._register_child_endpoint(
             ServiceBoardsIdAutoTemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.excludedMembers = self.register_child_endpoint(
+        self.excludedMembers = self._register_child_endpoint(
             ServiceBoardsIdExcludedMembersEndpoint(client, parent_endpoint=self)
         )
-        self.items = self.register_child_endpoint(
+        self.items = self._register_child_endpoint(
             ServiceBoardsIdItemsEndpoint(client, parent_endpoint=self)
         )
-        self.notifications = self.register_child_endpoint(
+        self.notifications = self._register_child_endpoint(
             ServiceBoardsIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.subtypes = self.register_child_endpoint(
+        self.subtypes = self._register_child_endpoint(
             ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self)
         )
-        self.teams = self.register_child_endpoint(
+        self.teams = self._register_child_endpoint(
             ServiceBoardsIdTeamsEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self)
         )
-        self.typeSubTypeItemAssociations = self.register_child_endpoint(
+        self.typeSubTypeItemAssociations = self._register_child_endpoint(
             ServiceBoardsIdTypeSubTypeItemAssociationsEndpoint(client, parent_endpoint=self)
         )
     
@@ -68,7 +68,7 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -87,7 +87,7 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(BoardModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -99,7 +99,7 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardModel:
         """
@@ -111,7 +111,7 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(BoardModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardModel:
         """
@@ -123,5 +123,5 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardModel: The parsed response data.
         """
-        return self._parse_one(BoardModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(BoardModel, super()._make_request("PATCH", data=data, params=params).json())
         

@@ -11,10 +11,10 @@ class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "authAnvils", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemAuthAnvilsCountEndpoint(client, parent_endpoint=self)
         )
-        self.testConnection = self.register_child_endpoint(
+        self.testConnection = self._register_child_endpoint(
             SystemAuthAnvilsTestConnectionEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,5 +65,5 @@ class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AuthAnvilModel]: The parsed response data.
         """
-        return self._parse_many(AuthAnvilModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(AuthAnvilModel, super()._make_request("GET", data=data, params=params).json())
         

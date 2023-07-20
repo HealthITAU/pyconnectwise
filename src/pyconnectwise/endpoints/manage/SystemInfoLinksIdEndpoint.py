@@ -9,7 +9,7 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.resolveurl = self.register_child_endpoint(
+        self.resolveurl = self._register_child_endpoint(
             SystemInfoLinksIdResolveurlEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             LinkInfoModel: The parsed response data.
         """
-        return self._parse_one(LinkInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(LinkInfoModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -9,7 +9,7 @@ class SystemMembersIdManagedDeviceAccountsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managedDeviceAccounts", parent_endpoint=parent_endpoint)
         
-        self.bulk = self.register_child_endpoint(
+        self.bulk = self._register_child_endpoint(
             SystemMembersIdManagedDeviceAccountsBulkEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class SystemMembersIdManagedDeviceAccountsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class SystemMembersIdManagedDeviceAccountsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagedDeviceAccountModel]: The parsed response data.
         """
-        return self._parse_many(ManagedDeviceAccountModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ManagedDeviceAccountModel, super()._make_request("GET", data=data, params=params).json())
         

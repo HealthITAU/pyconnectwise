@@ -9,7 +9,7 @@ class CompanyAddressFormatsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyAddressFormatsInfoCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class CompanyAddressFormatsInfoEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class CompanyAddressFormatsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AddressFormatInfoModel]: The parsed response data.
         """
-        return self._parse_many(AddressFormatInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(AddressFormatInfoModel, super()._make_request("GET", data=data, params=params).json())
         

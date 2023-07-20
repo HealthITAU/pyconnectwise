@@ -27,72 +27,72 @@ class CompanyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "company")
         
-        self.addressFormats = self.register_child_endpoint(
+        self.addressFormats = self._register_child_endpoint(
             CompanyAddressFormatsEndpoint(client, parent_endpoint=self)
         )
-        self.communicationTypes = self.register_child_endpoint(
+        self.communicationTypes = self._register_child_endpoint(
             CompanyCommunicationTypesEndpoint(client, parent_endpoint=self)
         )
-        self.companies = self.register_child_endpoint(
+        self.companies = self._register_child_endpoint(
             CompanyCompaniesEndpoint(client, parent_endpoint=self)
         )
-        self.companyPickerItems = self.register_child_endpoint(
+        self.companyPickerItems = self._register_child_endpoint(
             CompanyCompanyPickerItemsEndpoint(client, parent_endpoint=self)
         )
-        self.companyTypeAssociations = self.register_child_endpoint(
+        self.companyTypeAssociations = self._register_child_endpoint(
             CompanyCompanyTypeAssociationsEndpoint(client, parent_endpoint=self)
         )
-        self.configurations = self.register_child_endpoint(
+        self.configurations = self._register_child_endpoint(
             CompanyConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.contacts = self.register_child_endpoint(
+        self.contacts = self._register_child_endpoint(
             CompanyContactsEndpoint(client, parent_endpoint=self)
         )
-        self.contactTypeAssociations = self.register_child_endpoint(
+        self.contactTypeAssociations = self._register_child_endpoint(
             CompanyContactTypeAssociationsEndpoint(client, parent_endpoint=self)
         )
-        self.countries = self.register_child_endpoint(
+        self.countries = self._register_child_endpoint(
             CompanyCountriesEndpoint(client, parent_endpoint=self)
         )
-        self.entityTypes = self.register_child_endpoint(
+        self.entityTypes = self._register_child_endpoint(
             CompanyEntityTypesEndpoint(client, parent_endpoint=self)
         )
-        self.managedDevicesIntegrations = self.register_child_endpoint(
+        self.managedDevicesIntegrations = self._register_child_endpoint(
             CompanyManagedDevicesIntegrationsEndpoint(client, parent_endpoint=self)
         )
-        self.management = self.register_child_endpoint(
+        self.management = self._register_child_endpoint(
             CompanyManagementEndpoint(client, parent_endpoint=self)
         )
-        self.managementBackups = self.register_child_endpoint(
+        self.managementBackups = self._register_child_endpoint(
             CompanyManagementBackupsEndpoint(client, parent_endpoint=self)
         )
-        self.managementItSolutions = self.register_child_endpoint(
+        self.managementItSolutions = self._register_child_endpoint(
             CompanyManagementItSolutionsEndpoint(client, parent_endpoint=self)
         )
-        self.marketDescriptions = self.register_child_endpoint(
+        self.marketDescriptions = self._register_child_endpoint(
             CompanyMarketDescriptionsEndpoint(client, parent_endpoint=self)
         )
-        self.noteTypes = self.register_child_endpoint(
+        self.noteTypes = self._register_child_endpoint(
             CompanyNoteTypesEndpoint(client, parent_endpoint=self)
         )
-        self.ownershipTypes = self.register_child_endpoint(
+        self.ownershipTypes = self._register_child_endpoint(
             CompanyOwnershipTypesEndpoint(client, parent_endpoint=self)
         )
-        self.portalConfigurations = self.register_child_endpoint(
+        self.portalConfigurations = self._register_child_endpoint(
             CompanyPortalConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.portalSecurityLevels = self.register_child_endpoint(
+        self.portalSecurityLevels = self._register_child_endpoint(
             CompanyPortalSecurityLevelsEndpoint(client, parent_endpoint=self)
         )
-        self.portalSecuritySettings = self.register_child_endpoint(
+        self.portalSecuritySettings = self._register_child_endpoint(
             CompanyPortalSecuritySettingsEndpoint(client, parent_endpoint=self)
         )
-        self.states = self.register_child_endpoint(
+        self.states = self._register_child_endpoint(
             CompanyStatesEndpoint(client, parent_endpoint=self)
         )
-        self.teamRoles = self.register_child_endpoint(
+        self.teamRoles = self._register_child_endpoint(
             CompanyTeamRolesEndpoint(client, parent_endpoint=self)
         )
-        self.tracks = self.register_child_endpoint(
+        self.tracks = self._register_child_endpoint(
             CompanyTracksEndpoint(client, parent_endpoint=self)
         )

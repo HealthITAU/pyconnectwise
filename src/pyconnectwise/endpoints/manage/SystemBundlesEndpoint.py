@@ -9,7 +9,7 @@ class SystemBundlesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "bundles", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemBundlesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -24,5 +24,5 @@ class SystemBundlesEndpoint(ConnectWiseEndpoint):
         Returns:
             BundleResultsCollectionModel: The parsed response data.
         """
-        return self._parse_one(BundleResultsCollectionModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(BundleResultsCollectionModel, super()._make_request("POST", data=data, params=params).json())
         

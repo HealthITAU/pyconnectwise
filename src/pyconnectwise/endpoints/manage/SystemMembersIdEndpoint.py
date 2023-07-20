@@ -23,49 +23,49 @@ class SystemMembersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.deactivate = self.register_child_endpoint(
+        self.deactivate = self._register_child_endpoint(
             SystemMembersIdDeactivateEndpoint(client, parent_endpoint=self)
         )
-        self.image = self.register_child_endpoint(
+        self.image = self._register_child_endpoint(
             SystemMembersIdImageEndpoint(client, parent_endpoint=self)
         )
-        self.linkSsoUser = self.register_child_endpoint(
+        self.linkSsoUser = self._register_child_endpoint(
             SystemMembersIdLinkSsoUserEndpoint(client, parent_endpoint=self)
         )
-        self.submit = self.register_child_endpoint(
+        self.submit = self._register_child_endpoint(
             SystemMembersIdSubmitEndpoint(client, parent_endpoint=self)
         )
-        self.unlinkSsoUser = self.register_child_endpoint(
+        self.unlinkSsoUser = self._register_child_endpoint(
             SystemMembersIdUnlinkSsoUserEndpoint(client, parent_endpoint=self)
         )
-        self.unusedTimeSheets = self.register_child_endpoint(
+        self.unusedTimeSheets = self._register_child_endpoint(
             SystemMembersIdUnusedTimeSheetsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self.register_child_endpoint(
+        self.usages = self._register_child_endpoint(
             SystemMembersIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.accruals = self.register_child_endpoint(
+        self.accruals = self._register_child_endpoint(
             SystemMembersIdAccrualsEndpoint(client, parent_endpoint=self)
         )
-        self.certifications = self.register_child_endpoint(
+        self.certifications = self._register_child_endpoint(
             SystemMembersIdCertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.delegations = self.register_child_endpoint(
+        self.delegations = self._register_child_endpoint(
             SystemMembersIdDelegationsEndpoint(client, parent_endpoint=self)
         )
-        self.managedDeviceAccounts = self.register_child_endpoint(
+        self.managedDeviceAccounts = self._register_child_endpoint(
             SystemMembersIdManagedDeviceAccountsEndpoint(client, parent_endpoint=self)
         )
-        self.mycertifications = self.register_child_endpoint(
+        self.mycertifications = self._register_child_endpoint(
             SystemMembersIdMycertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.notificationSettings = self.register_child_endpoint(
+        self.notificationSettings = self._register_child_endpoint(
             SystemMembersIdNotificationSettingsEndpoint(client, parent_endpoint=self)
         )
-        self.personas = self.register_child_endpoint(
+        self.personas = self._register_child_endpoint(
             SystemMembersIdPersonasEndpoint(client, parent_endpoint=self)
         )
-        self.skills = self.register_child_endpoint(
+        self.skills = self._register_child_endpoint(
             SystemMembersIdSkillsEndpoint(client, parent_endpoint=self)
         )
     
@@ -84,7 +84,7 @@ class SystemMembersIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -103,7 +103,7 @@ class SystemMembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberModel: The parsed response data.
         """
-        return self._parse_one(MemberModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(MemberModel, super()._make_request("GET", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberModel:
         """
@@ -115,7 +115,7 @@ class SystemMembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberModel: The parsed response data.
         """
-        return self._parse_one(MemberModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(MemberModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberModel:
         """
@@ -127,5 +127,5 @@ class SystemMembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberModel: The parsed response data.
         """
-        return self._parse_one(MemberModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(MemberModel, super()._make_request("PATCH", data=data, params=params).json())
         

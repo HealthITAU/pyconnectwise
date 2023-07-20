@@ -23,60 +23,60 @@ class FinanceEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "finance")
         
-        self.accountingPackages = self.register_child_endpoint(
+        self.accountingPackages = self._register_child_endpoint(
             FinanceAccountingPackagesEndpoint(client, parent_endpoint=self)
         )
-        self.accountingPackageSetup = self.register_child_endpoint(
+        self.accountingPackageSetup = self._register_child_endpoint(
             FinanceAccountingPackageSetupEndpoint(client, parent_endpoint=self)
         )
-        self.agreements = self.register_child_endpoint(
+        self.agreements = self._register_child_endpoint(
             FinanceAgreementsEndpoint(client, parent_endpoint=self)
         )
-        self.batchSetups = self.register_child_endpoint(
+        self.batchSetups = self._register_child_endpoint(
             FinanceBatchSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.billingCycles = self.register_child_endpoint(
+        self.billingCycles = self._register_child_endpoint(
             FinanceBillingCyclesEndpoint(client, parent_endpoint=self)
         )
-        self.billingSetups = self.register_child_endpoint(
+        self.billingSetups = self._register_child_endpoint(
             FinanceBillingSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.billingStatuses = self.register_child_endpoint(
+        self.billingStatuses = self._register_child_endpoint(
             FinanceBillingStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.billingTerms = self.register_child_endpoint(
+        self.billingTerms = self._register_child_endpoint(
             FinanceBillingTermsEndpoint(client, parent_endpoint=self)
         )
-        self.currencies = self.register_child_endpoint(
+        self.currencies = self._register_child_endpoint(
             FinanceCurrenciesEndpoint(client, parent_endpoint=self)
         )
-        self.deliveryMethods = self.register_child_endpoint(
+        self.deliveryMethods = self._register_child_endpoint(
             FinanceDeliveryMethodsEndpoint(client, parent_endpoint=self)
         )
-        self.glAccounts = self.register_child_endpoint(
+        self.glAccounts = self._register_child_endpoint(
             FinanceGlAccountsEndpoint(client, parent_endpoint=self)
         )
-        self.glCaptions = self.register_child_endpoint(
+        self.glCaptions = self._register_child_endpoint(
             FinanceGlCaptionsEndpoint(client, parent_endpoint=self)
         )
-        self.glpaths = self.register_child_endpoint(
+        self.glpaths = self._register_child_endpoint(
             FinanceGlpathsEndpoint(client, parent_endpoint=self)
         )
-        self.invoiceEmailTemplates = self.register_child_endpoint(
+        self.invoiceEmailTemplates = self._register_child_endpoint(
             FinanceInvoiceEmailTemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.invoices = self.register_child_endpoint(
+        self.invoices = self._register_child_endpoint(
             FinanceInvoicesEndpoint(client, parent_endpoint=self)
         )
-        self.invoiceTemplates = self.register_child_endpoint(
+        self.invoiceTemplates = self._register_child_endpoint(
             FinanceInvoiceTemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.invoiceTemplateSetups = self.register_child_endpoint(
+        self.invoiceTemplateSetups = self._register_child_endpoint(
             FinanceInvoiceTemplateSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.taxCodes = self.register_child_endpoint(
+        self.taxCodes = self._register_child_endpoint(
             FinanceTaxCodesEndpoint(client, parent_endpoint=self)
         )
-        self.taxIntegrations = self.register_child_endpoint(
+        self.taxIntegrations = self._register_child_endpoint(
             FinanceTaxIntegrationsEndpoint(client, parent_endpoint=self)
         )

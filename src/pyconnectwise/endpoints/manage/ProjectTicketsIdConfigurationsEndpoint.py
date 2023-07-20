@@ -10,7 +10,7 @@ class ProjectTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "configurations", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProjectTicketsIdConfigurationsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ProjectTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class ProjectTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationReferenceModel]: The parsed response data.
         """
-        return self._parse_many(ConfigurationReferenceModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ConfigurationReferenceModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationReferenceModel:
         """
@@ -73,5 +73,5 @@ class ProjectTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationReferenceModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationReferenceModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ConfigurationReferenceModel, super()._make_request("POST", data=data, params=params).json())
         

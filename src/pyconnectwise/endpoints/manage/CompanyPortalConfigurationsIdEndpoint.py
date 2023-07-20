@@ -13,19 +13,19 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.invoiceSetups = self.register_child_endpoint(
+        self.invoiceSetups = self._register_child_endpoint(
             CompanyPortalConfigurationsIdInvoiceSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.opportunitySetups = self.register_child_endpoint(
+        self.opportunitySetups = self._register_child_endpoint(
             CompanyPortalConfigurationsIdOpportunitySetupsEndpoint(client, parent_endpoint=self)
         )
-        self.passwordEmailSetups = self.register_child_endpoint(
+        self.passwordEmailSetups = self._register_child_endpoint(
             CompanyPortalConfigurationsIdPasswordEmailSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.projectSetups = self.register_child_endpoint(
+        self.projectSetups = self._register_child_endpoint(
             CompanyPortalConfigurationsIdProjectSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.serviceSetups = self.register_child_endpoint(
+        self.serviceSetups = self._register_child_endpoint(
             CompanyPortalConfigurationsIdServiceSetupsEndpoint(client, parent_endpoint=self)
         )
     
@@ -44,7 +44,7 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -63,7 +63,7 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -75,7 +75,7 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationModel:
         """
@@ -87,7 +87,7 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationModel:
         """
@@ -99,5 +99,5 @@ class CompanyPortalConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationModel, super()._make_request("PATCH", data=data, params=params).json())
         

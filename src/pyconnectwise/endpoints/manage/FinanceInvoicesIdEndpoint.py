@@ -10,10 +10,10 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.pdf = self.register_child_endpoint(
+        self.pdf = self._register_child_endpoint(
             FinanceInvoicesIdPdfEndpoint(client, parent_endpoint=self)
         )
-        self.payments = self.register_child_endpoint(
+        self.payments = self._register_child_endpoint(
             FinanceInvoicesIdPaymentsEndpoint(client, parent_endpoint=self)
         )
     
@@ -32,7 +32,7 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -51,7 +51,7 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceModel: The parsed response data.
         """
-        return self._parse_one(InvoiceModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(InvoiceModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -63,7 +63,7 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceModel:
         """
@@ -75,7 +75,7 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceModel: The parsed response data.
         """
-        return self._parse_one(InvoiceModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(InvoiceModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceModel:
         """
@@ -87,5 +87,5 @@ class FinanceInvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceModel: The parsed response data.
         """
-        return self._parse_one(InvoiceModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(InvoiceModel, super()._make_request("PATCH", data=data, params=params).json())
         

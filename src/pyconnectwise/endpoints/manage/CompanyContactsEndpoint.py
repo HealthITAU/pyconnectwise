@@ -16,25 +16,25 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "contacts", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyContactsCountEndpoint(client, parent_endpoint=self)
         )
-        self.default = self.register_child_endpoint(
+        self.default = self._register_child_endpoint(
             CompanyContactsDefaultEndpoint(client, parent_endpoint=self)
         )
-        self.departments = self.register_child_endpoint(
+        self.departments = self._register_child_endpoint(
             CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
         )
-        self.relationships = self.register_child_endpoint(
+        self.relationships = self._register_child_endpoint(
             CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
         )
-        self.requestPassword = self.register_child_endpoint(
+        self.requestPassword = self._register_child_endpoint(
             CompanyContactsRequestPasswordEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             CompanyContactsTypesEndpoint(client, parent_endpoint=self)
         )
-        self.validatePortalCredentials = self.register_child_endpoint(
+        self.validatePortalCredentials = self._register_child_endpoint(
             CompanyContactsValidatePortalCredentialsEndpoint(client, parent_endpoint=self)
         )
     
@@ -66,7 +66,7 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -85,7 +85,7 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactModel]: The parsed response data.
         """
-        return self._parse_many(ContactModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ContactModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactModel:
         """
@@ -97,5 +97,5 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactModel: The parsed response data.
         """
-        return self._parse_one(ContactModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ContactModel, super()._make_request("POST", data=data, params=params).json())
         

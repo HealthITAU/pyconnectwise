@@ -10,7 +10,7 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "onhandserialnumbers", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProcurementOnhandserialnumbersCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,5 +61,5 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OnHandSerialNumberModel]: The parsed response data.
         """
-        return self._parse_many(OnHandSerialNumberModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(OnHandSerialNumberModel, super()._make_request("GET", data=data, params=params).json())
         

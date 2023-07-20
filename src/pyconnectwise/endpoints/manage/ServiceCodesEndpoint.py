@@ -10,7 +10,7 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "codes", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ServiceCodesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CodeModel]: The parsed response data.
         """
-        return self._parse_many(CodeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(CodeModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CodeModel:
         """
@@ -73,5 +73,5 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         Returns:
             CodeModel: The parsed response data.
         """
-        return self._parse_one(CodeModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(CodeModel, super()._make_request("POST", data=data, params=params).json())
         

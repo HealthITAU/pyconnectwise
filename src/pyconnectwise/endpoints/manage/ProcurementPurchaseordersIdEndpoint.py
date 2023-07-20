@@ -9,7 +9,7 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.lineitems = self.register_child_endpoint(
+        self.lineitems = self._register_child_endpoint(
             ProcurementPurchaseordersIdLineitemsEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,7 +47,7 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PurchaseOrderModel: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(PurchaseOrderModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -59,7 +59,7 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderModel:
         """
@@ -71,7 +71,7 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PurchaseOrderModel: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(PurchaseOrderModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderModel:
         """
@@ -83,5 +83,5 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PurchaseOrderModel: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(PurchaseOrderModel, super()._make_request("PATCH", data=data, params=params).json())
         

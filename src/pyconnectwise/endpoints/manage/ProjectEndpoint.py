@@ -11,24 +11,24 @@ class ProjectEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "project")
         
-        self.phaseStatuses = self.register_child_endpoint(
+        self.phaseStatuses = self._register_child_endpoint(
             ProjectPhaseStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.projects = self.register_child_endpoint(
+        self.projects = self._register_child_endpoint(
             ProjectProjectsEndpoint(client, parent_endpoint=self)
         )
-        self.projectTypes = self.register_child_endpoint(
+        self.projectTypes = self._register_child_endpoint(
             ProjectProjectTypesEndpoint(client, parent_endpoint=self)
         )
-        self.securityRoles = self.register_child_endpoint(
+        self.securityRoles = self._register_child_endpoint(
             ProjectSecurityRolesEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             ProjectStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.statusIndicators = self.register_child_endpoint(
+        self.statusIndicators = self._register_child_endpoint(
             ProjectStatusIndicatorsEndpoint(client, parent_endpoint=self)
         )
-        self.tickets = self.register_child_endpoint(
+        self.tickets = self._register_child_endpoint(
             ProjectTicketsEndpoint(client, parent_endpoint=self)
         )

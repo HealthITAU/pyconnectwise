@@ -14,22 +14,22 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.activities = self.register_child_endpoint(
+        self.activities = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
-        self.opportunities = self.register_child_endpoint(
+        self.opportunities = self._register_child_endpoint(
             MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
         )
-        self.audits = self.register_child_endpoint(
+        self.audits = self._register_child_endpoint(
             MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self)
         )
-        self.emailsOpened = self.register_child_endpoint(
+        self.emailsOpened = self._register_child_endpoint(
             MarketingCampaignsIdEmailsOpenedEndpoint(client, parent_endpoint=self)
         )
-        self.formsSubmitted = self.register_child_endpoint(
+        self.formsSubmitted = self._register_child_endpoint(
             MarketingCampaignsIdFormsSubmittedEndpoint(client, parent_endpoint=self)
         )
-        self.linksClicked = self.register_child_endpoint(
+        self.linksClicked = self._register_child_endpoint(
             MarketingCampaignsIdLinksClickedEndpoint(client, parent_endpoint=self)
         )
     
@@ -48,7 +48,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -67,7 +67,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignModel: The parsed response data.
         """
-        return self._parse_one(CampaignModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(CampaignModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -79,7 +79,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignModel:
         """
@@ -91,7 +91,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignModel: The parsed response data.
         """
-        return self._parse_one(CampaignModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(CampaignModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignModel:
         """
@@ -103,5 +103,5 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignModel: The parsed response data.
         """
-        return self._parse_one(CampaignModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(CampaignModel, super()._make_request("PATCH", data=data, params=params).json())
         

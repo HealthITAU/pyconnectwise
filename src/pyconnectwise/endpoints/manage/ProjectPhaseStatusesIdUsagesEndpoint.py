@@ -9,7 +9,7 @@ class ProjectPhaseStatusesIdUsagesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "usages", parent_endpoint=parent_endpoint)
         
-        self.list = self.register_child_endpoint(
+        self.list = self._register_child_endpoint(
             ProjectPhaseStatusesIdUsagesListEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class ProjectPhaseStatusesIdUsagesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class ProjectPhaseStatusesIdUsagesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UsageModel]: The parsed response data.
         """
-        return self._parse_many(UsageModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(UsageModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -20,5 +20,5 @@ class CompanyConfigurationsIdChangeTypeEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ConfigurationModel, super()._make_request("PATCH", data=data, params=params).json())
         

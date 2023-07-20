@@ -13,16 +13,16 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "configurations", parent_endpoint=parent_endpoint)
         
-        self.bulk = self.register_child_endpoint(
+        self.bulk = self._register_child_endpoint(
             CompanyConfigurationsBulkEndpoint(client, parent_endpoint=self)
         )
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyConfigurationsCountEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             CompanyConfigurationsStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             CompanyConfigurationsTypesEndpoint(client, parent_endpoint=self)
         )
     
@@ -54,7 +54,7 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -73,7 +73,7 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationModel]: The parsed response data.
         """
-        return self._parse_many(ConfigurationModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ConfigurationModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationModel:
         """
@@ -85,5 +85,5 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationModel: The parsed response data.
         """
-        return self._parse_one(ConfigurationModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ConfigurationModel, super()._make_request("POST", data=data, params=params).json())
         

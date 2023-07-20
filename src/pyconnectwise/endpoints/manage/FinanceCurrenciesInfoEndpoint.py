@@ -9,7 +9,7 @@ class FinanceCurrenciesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             FinanceCurrenciesInfoCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class FinanceCurrenciesInfoEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class FinanceCurrenciesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CurrencyInfoModel]: The parsed response data.
         """
-        return self._parse_many(CurrencyInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(CurrencyInfoModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -11,13 +11,13 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.detach = self.register_child_endpoint(
+        self.detach = self._register_child_endpoint(
             ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self)
         )
-        self.components = self.register_child_endpoint(
+        self.components = self._register_child_endpoint(
             ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
         )
-        self.pickingShippingDetails = self.register_child_endpoint(
+        self.pickingShippingDetails = self._register_child_endpoint(
             ProcurementProductsIdPickingShippingDetailsEndpoint(client, parent_endpoint=self)
         )
     
@@ -36,7 +36,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -55,7 +55,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductItemModel: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ProductItemModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -67,7 +67,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
         """
@@ -79,7 +79,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductItemModel: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ProductItemModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
         """
@@ -91,5 +91,5 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductItemModel: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ProductItemModel, super()._make_request("PATCH", data=data, params=params).json())
         

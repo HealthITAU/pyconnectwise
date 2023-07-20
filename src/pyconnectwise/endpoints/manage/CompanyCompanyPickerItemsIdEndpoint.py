@@ -24,7 +24,7 @@ class CompanyCompanyPickerItemsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -43,7 +43,7 @@ class CompanyCompanyPickerItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyPickerItemModel: The parsed response data.
         """
-        return self._parse_one(CompanyPickerItemModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(CompanyPickerItemModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -55,5 +55,5 @@ class CompanyCompanyPickerItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         

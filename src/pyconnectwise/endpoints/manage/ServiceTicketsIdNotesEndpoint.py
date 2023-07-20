@@ -10,7 +10,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notes", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ServiceTicketsIdNotesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceNoteModel]: The parsed response data.
         """
-        return self._parse_many(ServiceNoteModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ServiceNoteModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceNoteModel:
         """
@@ -73,5 +73,5 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceNoteModel: The parsed response data.
         """
-        return self._parse_one(ServiceNoteModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ServiceNoteModel, super()._make_request("POST", data=data, params=params).json())
         
