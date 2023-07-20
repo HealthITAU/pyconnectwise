@@ -39,8 +39,3 @@ class ActivityStopwatchModel(ConnectWiseModel):
     total_pause_time: int
     work_role: WorkRoleReferenceModel
     work_type: WorkTypeReferenceModel
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

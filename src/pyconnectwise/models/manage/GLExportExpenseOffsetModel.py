@@ -16,8 +16,3 @@ class GLExportExpenseOffsetModel(ConnectWiseModel):
     memo: str
     description: str
     total: float
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

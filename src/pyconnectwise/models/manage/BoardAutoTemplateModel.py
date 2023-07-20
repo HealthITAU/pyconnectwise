@@ -69,8 +69,3 @@ class BoardAutoTemplateModel(ConnectWiseModel):
     send_notes_as_email_setting: SendNotesAsEmailSetting
     auto_apply_flag: bool
     _info: dict[str, str]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

@@ -12,8 +12,3 @@ class ConversionModel(ConnectWiseModel):
     uom_type: UnitOfMeasureReferenceModel
     parent_u_o_m: UnitOfMeasureReferenceModel
     _info: dict[str, str]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

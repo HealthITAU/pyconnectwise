@@ -47,8 +47,3 @@ class TicketStopwatchModel(ConnectWiseModel):
     show_notes_in_resolution_flag: bool
     email_notes_to_contact_flag: bool
     email_notes_to_resources_flag: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

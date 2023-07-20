@@ -78,8 +78,3 @@ class GLExportTransactionModel(ConnectWiseModel):
     ship_contact: str
     detail: list[GLExportTransactionDetailModel]
     tax_levels: list[GLExportTransactionTaxLevelModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

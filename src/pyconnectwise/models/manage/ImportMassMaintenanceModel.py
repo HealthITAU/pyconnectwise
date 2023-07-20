@@ -9,8 +9,3 @@ class ImportMassMaintenanceModel(ConnectWiseModel):
     deleted_company_count: int
     message: str
     success: bool
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

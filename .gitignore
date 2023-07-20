@@ -9,8 +9,6 @@ __pycache__/
 
 test.py
 gen.py
-setup.cfg
-setup.py
 
 # C extensions
 *.so

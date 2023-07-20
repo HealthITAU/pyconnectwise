@@ -17,8 +17,3 @@ class GLExportAdjustmentTransactionDetailModel(ConnectWiseModel):
     inventory_account_number: str
     account_number: str
     product_account_number: str
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

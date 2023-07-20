@@ -63,8 +63,3 @@ class GLExportPurchaseTransactionModel(ConnectWiseModel):
     tax_levels: list[GLExportPurchaseTransactionTaxLevelModel]
     purchase_detail: list[GLExportPurchaseTransactionDetailModel]
     purchase_detail_tax: list[GLExportPurchaseTransactionDetailTaxModel]
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

@@ -12,8 +12,3 @@ class MemberDeactivationCompanyTeamModel(ConnectWiseModel):
     name: str
     re_assign_to_member: MemberReferenceModel
     re_assign_to_contact: ContactReferenceModel
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

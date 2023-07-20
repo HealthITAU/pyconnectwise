@@ -12,8 +12,3 @@ class ResultInfoModel(ConnectWiseModel):
     status_code: int
     data: IRestIdentifiedItemModel
     error: ErrorResponseMessageModel
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

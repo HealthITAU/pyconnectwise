@@ -56,8 +56,3 @@ class GLExportPurchaseTransactionDetailTaxModel(ConnectWiseModel):
     tax_agency_xref: str
     tax_note: str
     purchase_header_tax_group: str
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True

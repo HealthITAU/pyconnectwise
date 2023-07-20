@@ -31,6 +31,7 @@ def generate_model(
     fields = []
     imports = []
     enums = []
+    is_empty_model = False
     has_imported_enum = False
 
     def convert_type_name(input_type: str, input_format: str | None = None) -> str:
@@ -177,9 +178,11 @@ def generate_model(
                         "type": field_type,
                     }
                 )
+    else:
+        is_empty_model = True
 
     model_code = model_template.render(
-        mod_enums=enums, model_class=model_class_name, imports=imports, fields=fields
+        mod_enums=enums, model_class=model_class_name, imports=imports, fields=fields, empty_model=is_empty_model
     )
 
     save_py_file(os.path.join(file_output_directory, model_class_name), model_code)
