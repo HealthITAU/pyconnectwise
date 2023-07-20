@@ -163,14 +163,14 @@ class ConnectWiseEndpoint:
         # ideally, we'd use the model's parse method, but
         # due to issues validating optional fields in the ConnectWise Manage schema
         # we have to use the construct method instead until a better solution is found
-        return [model_type.construct(**d) for d in data]
+        return [model_type.model_construct(**d) for d in data]
 
     def _parse_one(self, model_type: Type[T], data: dict[str, Any]) -> T:
         # use the model's construct method to create instances from the data
         # ideally, we'd use the model's parse method, but
         # due to issues validating optional fields in the ConnectWise Manage schema
         # we have to use the construct method instead until a better solution is found
-        return model_type.construct(**data)
+        return model_type.model_construct(**data)
 
     def id(self: TSelf, id: int) -> TSelf:
         """

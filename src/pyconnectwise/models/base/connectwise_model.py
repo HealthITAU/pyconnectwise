@@ -1,49 +1,57 @@
 from __future__ import annotations
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from pyconnectwise.utils.naming import to_camel_case
 from typing import Optional, Type, Any, TypeVar
 
 Model = TypeVar('Model', bound='BaseModel')
 
 class ConnectWiseModel(BaseModel):
-
-    class Config:
-        alias_generator = to_camel_case
-        allow_population_by_field_name = True
-        use_enum_values = True
+    model_config = ConfigDict(alias_generator=to_camel_case, populate_by_name=True, use_enum_values=True, protected_namespaces=())
 
     @classmethod
-    def construct(cls: Type['ConnectWiseModel'], **values: Any) -> 'ConnectWiseModel':
+    def model_construct(cls: Type['ConnectWiseModel'], **values: Any) -> 'ConnectWiseModel':
         """
         Overriding Pydantics construct method to allow for nested models.
         """
         m = cls.__new__(cls)
         fields_values: dict[str, Any] = {}
+        defaults: dict[str, Any] = {}
 
         def handle_nested_model(field, value):
-            if issubclass(field.type_, BaseModel):
+            if issubclass(type(field.annotation), BaseModel):
                 if isinstance(value, list):
-                    return [field.type_.construct(**v) for v in value]
+                    return [field.annotation.model_construct(**v) for v in value]
                 else:
-                    return field.type_.construct(**value)
+                    return field.annotation.model_construct(**value)
             else:
                 return value
 
-        for name, field in cls.__fields__.items():
-            if field.alt_alias and field.alias in values:
+        for name, field in cls.model_fields.items():
+            if field.alias and field.alias in values:
                 fields_values[name] = handle_nested_model(field, values[field.alias])
             elif name in values:
                 fields_values[name] = handle_nested_model(field, values[name])
-            elif not field.required:
-                fields_values[name] = field.get_default()
-            else:
-                value = values.get(name)
-                if value is None:
-                    fields_values[name] = None
-                    continue
-                fields_values[name] = handle_nested_model(field, value)
+            elif not field.is_required():
+                defaults[name] = field.get_default(call_default_factory=True)
+        fields_values.update(defaults)
 
+        _extra: dict[str, Any] | None = None
+        if cls.model_config.get('extra') == 'allow':
+            _extra = {}
+            for k, v in values.items():
+                _extra[k] = v
+        else:
+            fields_values.update(values)
         object.__setattr__(m, '__dict__', fields_values)
-        object.__setattr__(m, '__fields_set__', set(values.keys()))
-        m._init_private_attributes()
+        object.__setattr__(m, '__pydantic_fields_set__', fields_values.keys())
+        if not cls.__pydantic_root_model__:
+            object.__setattr__(m, '__pydantic_extra__', _extra)
+
+        if cls.__pydantic_post_init__:
+            m.model_post_init(None)
+        elif not cls.__pydantic_root_model__:
+            # Note: if there are any private attributes, cls.__pydantic_post_init__ would exist
+            # Since it doesn't, that means that `__pydantic_private__` should be set to None
+            object.__setattr__(m, '__pydantic_private__', None)
+
         return m
