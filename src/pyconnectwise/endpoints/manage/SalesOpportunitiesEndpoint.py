@@ -14,19 +14,19 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SalesOpportunitiesCountEndpoint(client, parent_endpoint=self)
         )
-        self.default = self.register_child_endpoint(
+        self.default = self._register_child_endpoint(
             SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self)
         )
-        self.ratings = self.register_child_endpoint(
+        self.ratings = self._register_child_endpoint(
             SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self)
         )
     
@@ -58,7 +58,7 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -77,7 +77,7 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityModel]: The parsed response data.
         """
-        return self._parse_many(OpportunityModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(OpportunityModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityModel:
         """
@@ -89,5 +89,5 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityModel: The parsed response data.
         """
-        return self._parse_one(OpportunityModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(OpportunityModel, super()._make_request("POST", data=data, params=params).json())
         

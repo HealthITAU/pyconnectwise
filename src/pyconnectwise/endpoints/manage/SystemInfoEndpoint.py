@@ -16,28 +16,28 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
         
-        self.departmentlocations = self.register_child_endpoint(
+        self.departmentlocations = self._register_child_endpoint(
             SystemInfoDepartmentlocationsEndpoint(client, parent_endpoint=self)
         )
-        self.departments = self.register_child_endpoint(
+        self.departments = self._register_child_endpoint(
             SystemInfoDepartmentsEndpoint(client, parent_endpoint=self)
         )
-        self.links = self.register_child_endpoint(
+        self.links = self._register_child_endpoint(
             SystemInfoLinksEndpoint(client, parent_endpoint=self)
         )
-        self.locales = self.register_child_endpoint(
+        self.locales = self._register_child_endpoint(
             SystemInfoLocalesEndpoint(client, parent_endpoint=self)
         )
-        self.locations = self.register_child_endpoint(
+        self.locations = self._register_child_endpoint(
             SystemInfoLocationsEndpoint(client, parent_endpoint=self)
         )
-        self.members = self.register_child_endpoint(
+        self.members = self._register_child_endpoint(
             SystemInfoMembersEndpoint(client, parent_endpoint=self)
         )
-        self.personas = self.register_child_endpoint(
+        self.personas = self._register_child_endpoint(
             SystemInfoPersonasEndpoint(client, parent_endpoint=self)
         )
-        self.standardNotes = self.register_child_endpoint(
+        self.standardNotes = self._register_child_endpoint(
             SystemInfoStandardNotesEndpoint(client, parent_endpoint=self)
         )
     
@@ -56,7 +56,7 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -75,5 +75,5 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             InfoModel: The parsed response data.
         """
-        return self._parse_one(InfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(InfoModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -11,13 +11,13 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.executeManagedItSync = self.register_child_endpoint(
+        self.executeManagedItSync = self._register_child_endpoint(
             CompanyManagementIdExecuteManagedItSyncEndpoint(client, parent_endpoint=self)
         )
-        self.logs = self.register_child_endpoint(
+        self.logs = self._register_child_endpoint(
             CompanyManagementIdLogsEndpoint(client, parent_endpoint=self)
         )
-        self.managementReportNotifications = self.register_child_endpoint(
+        self.managementReportNotifications = self._register_child_endpoint(
             CompanyManagementIdManagementReportNotificationsEndpoint(client, parent_endpoint=self)
         )
     
@@ -36,7 +36,7 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -55,7 +55,7 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementModel: The parsed response data.
         """
-        return self._parse_one(ManagementModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ManagementModel, super()._make_request("GET", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementModel:
         """
@@ -67,7 +67,7 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementModel: The parsed response data.
         """
-        return self._parse_one(ManagementModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ManagementModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementModel:
         """
@@ -79,5 +79,5 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementModel: The parsed response data.
         """
-        return self._parse_one(ManagementModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ManagementModel, super()._make_request("PATCH", data=data, params=params).json())
         

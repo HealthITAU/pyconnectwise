@@ -60,171 +60,171 @@ class SystemEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "system")
         
-        self.allowedorigins = self.register_child_endpoint(
+        self.allowedorigins = self._register_child_endpoint(
             SystemAllowedoriginsEndpoint(client, parent_endpoint=self)
         )
-        self.apiMembers = self.register_child_endpoint(
+        self.apiMembers = self._register_child_endpoint(
             SystemApiMembersEndpoint(client, parent_endpoint=self)
         )
-        self.audittrail = self.register_child_endpoint(
+        self.audittrail = self._register_child_endpoint(
             SystemAudittrailEndpoint(client, parent_endpoint=self)
         )
-        self.authAnvils = self.register_child_endpoint(
+        self.authAnvils = self._register_child_endpoint(
             SystemAuthAnvilsEndpoint(client, parent_endpoint=self)
         )
-        self.autoSyncTime = self.register_child_endpoint(
+        self.autoSyncTime = self._register_child_endpoint(
             SystemAutoSyncTimeEndpoint(client, parent_endpoint=self)
         )
-        self.bundles = self.register_child_endpoint(
+        self.bundles = self._register_child_endpoint(
             SystemBundlesEndpoint(client, parent_endpoint=self)
         )
-        self.callbacks = self.register_child_endpoint(
+        self.callbacks = self._register_child_endpoint(
             SystemCallbacksEndpoint(client, parent_endpoint=self)
         )
-        self.certifications = self.register_child_endpoint(
+        self.certifications = self._register_child_endpoint(
             SystemCertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.connectWiseHostedScreens = self.register_child_endpoint(
+        self.connectWiseHostedScreens = self._register_child_endpoint(
             SystemConnectWiseHostedScreensEndpoint(client, parent_endpoint=self)
         )
-        self.connectwisehostedsetups = self.register_child_endpoint(
+        self.connectwisehostedsetups = self._register_child_endpoint(
             SystemConnectwisehostedsetupsEndpoint(client, parent_endpoint=self)
         )
-        self.customReports = self.register_child_endpoint(
+        self.customReports = self._register_child_endpoint(
             SystemCustomReportsEndpoint(client, parent_endpoint=self)
         )
-        self.cwTimeZones = self.register_child_endpoint(
+        self.cwTimeZones = self._register_child_endpoint(
             SystemCwTimeZonesEndpoint(client, parent_endpoint=self)
         )
-        self.departments = self.register_child_endpoint(
+        self.departments = self._register_child_endpoint(
             SystemDepartmentsEndpoint(client, parent_endpoint=self)
         )
-        self.documents = self.register_child_endpoint(
+        self.documents = self._register_child_endpoint(
             SystemDocumentsEndpoint(client, parent_endpoint=self)
         )
-        self.emailConnectors = self.register_child_endpoint(
+        self.emailConnectors = self._register_child_endpoint(
             SystemEmailConnectorsEndpoint(client, parent_endpoint=self)
         )
-        self.emailExclusions = self.register_child_endpoint(
+        self.emailExclusions = self._register_child_endpoint(
             SystemEmailExclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.emailTokens = self.register_child_endpoint(
+        self.emailTokens = self._register_child_endpoint(
             SystemEmailTokensEndpoint(client, parent_endpoint=self)
         )
-        self.ePayConfigurations = self.register_child_endpoint(
+        self.ePayConfigurations = self._register_child_endpoint(
             SystemEPayConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.experiments = self.register_child_endpoint(
+        self.experiments = self._register_child_endpoint(
             SystemExperimentsEndpoint(client, parent_endpoint=self)
         )
-        self.imaps = self.register_child_endpoint(
+        self.imaps = self._register_child_endpoint(
             SystemImapsEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             SystemInfoEndpoint(client, parent_endpoint=self)
         )
-        self.inOutBoards = self.register_child_endpoint(
+        self.inOutBoards = self._register_child_endpoint(
             SystemInOutBoardsEndpoint(client, parent_endpoint=self)
         )
-        self.inOutTypes = self.register_child_endpoint(
+        self.inOutTypes = self._register_child_endpoint(
             SystemInOutTypesEndpoint(client, parent_endpoint=self)
         )
-        self.integratorlogins = self.register_child_endpoint(
+        self.integratorlogins = self._register_child_endpoint(
             SystemIntegratorloginsEndpoint(client, parent_endpoint=self)
         )
-        self.integratorTags = self.register_child_endpoint(
+        self.integratorTags = self._register_child_endpoint(
             SystemIntegratorTagsEndpoint(client, parent_endpoint=self)
         )
-        self.kpiCategories = self.register_child_endpoint(
+        self.kpiCategories = self._register_child_endpoint(
             SystemKpiCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.kpis = self.register_child_endpoint(
+        self.kpis = self._register_child_endpoint(
             SystemKpisEndpoint(client, parent_endpoint=self)
         )
-        self.ldapConfigurations = self.register_child_endpoint(
+        self.ldapConfigurations = self._register_child_endpoint(
             SystemLdapConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.links = self.register_child_endpoint(
+        self.links = self._register_child_endpoint(
             SystemLinksEndpoint(client, parent_endpoint=self)
         )
-        self.locations = self.register_child_endpoint(
+        self.locations = self._register_child_endpoint(
             SystemLocationsEndpoint(client, parent_endpoint=self)
         )
-        self.managementNetworkSecurities = self.register_child_endpoint(
+        self.managementNetworkSecurities = self._register_child_endpoint(
             SystemManagementNetworkSecuritiesEndpoint(client, parent_endpoint=self)
         )
-        self.members = self.register_child_endpoint(
+        self.members = self._register_child_endpoint(
             SystemMembersEndpoint(client, parent_endpoint=self)
         )
-        self.menuentries = self.register_child_endpoint(
+        self.menuentries = self._register_child_endpoint(
             SystemMenuentriesEndpoint(client, parent_endpoint=self)
         )
-        self.myMembers = self.register_child_endpoint(
+        self.myMembers = self._register_child_endpoint(
             SystemMyMembersEndpoint(client, parent_endpoint=self)
         )
-        self.mySecurity = self.register_child_endpoint(
+        self.mySecurity = self._register_child_endpoint(
             SystemMySecurityEndpoint(client, parent_endpoint=self)
         )
-        self.notificationRecipients = self.register_child_endpoint(
+        self.notificationRecipients = self._register_child_endpoint(
             SystemNotificationRecipientsEndpoint(client, parent_endpoint=self)
         )
-        self.osgradeweights = self.register_child_endpoint(
+        self.osgradeweights = self._register_child_endpoint(
             SystemOsgradeweightsEndpoint(client, parent_endpoint=self)
         )
-        self.parsingTypes = self.register_child_endpoint(
+        self.parsingTypes = self._register_child_endpoint(
             SystemParsingTypesEndpoint(client, parent_endpoint=self)
         )
-        self.parsingVariables = self.register_child_endpoint(
+        self.parsingVariables = self._register_child_endpoint(
             SystemParsingVariablesEndpoint(client, parent_endpoint=self)
         )
-        self.portalReports = self.register_child_endpoint(
+        self.portalReports = self._register_child_endpoint(
             SystemPortalReportsEndpoint(client, parent_endpoint=self)
         )
-        self.quoteLinkSetup = self.register_child_endpoint(
+        self.quoteLinkSetup = self._register_child_endpoint(
             SystemQuoteLinkSetupEndpoint(client, parent_endpoint=self)
         )
-        self.reportCards = self.register_child_endpoint(
+        self.reportCards = self._register_child_endpoint(
             SystemReportCardsEndpoint(client, parent_endpoint=self)
         )
-        self.reports = self.register_child_endpoint(
+        self.reports = self._register_child_endpoint(
             SystemReportsEndpoint(client, parent_endpoint=self)
         )
-        self.securityroles = self.register_child_endpoint(
+        self.securityroles = self._register_child_endpoint(
             SystemSecurityrolesEndpoint(client, parent_endpoint=self)
         )
-        self.settings = self.register_child_endpoint(
+        self.settings = self._register_child_endpoint(
             SystemSettingsEndpoint(client, parent_endpoint=self)
         )
-        self.setupScreens = self.register_child_endpoint(
+        self.setupScreens = self._register_child_endpoint(
             SystemSetupScreensEndpoint(client, parent_endpoint=self)
         )
-        self.skillCategories = self.register_child_endpoint(
+        self.skillCategories = self._register_child_endpoint(
             SystemSkillCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.skills = self.register_child_endpoint(
+        self.skills = self._register_child_endpoint(
             SystemSkillsEndpoint(client, parent_endpoint=self)
         )
-        self.ssoConfigurations = self.register_child_endpoint(
+        self.ssoConfigurations = self._register_child_endpoint(
             SystemSsoConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.ssoUsers = self.register_child_endpoint(
+        self.ssoUsers = self._register_child_endpoint(
             SystemSsoUsersEndpoint(client, parent_endpoint=self)
         )
-        self.standardNotes = self.register_child_endpoint(
+        self.standardNotes = self._register_child_endpoint(
             SystemStandardNotesEndpoint(client, parent_endpoint=self)
         )
-        self.surveys = self.register_child_endpoint(
+        self.surveys = self._register_child_endpoint(
             SystemSurveysEndpoint(client, parent_endpoint=self)
         )
-        self.timeZoneSetups = self.register_child_endpoint(
+        self.timeZoneSetups = self._register_child_endpoint(
             SystemTimeZoneSetupsEndpoint(client, parent_endpoint=self)
         )
-        self.todayPageCategories = self.register_child_endpoint(
+        self.todayPageCategories = self._register_child_endpoint(
             SystemTodayPageCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.userDefinedFields = self.register_child_endpoint(
+        self.userDefinedFields = self._register_child_endpoint(
             SystemUserDefinedFieldsEndpoint(client, parent_endpoint=self)
         )
-        self.workflows = self.register_child_endpoint(
+        self.workflows = self._register_child_endpoint(
             SystemWorkflowsEndpoint(client, parent_endpoint=self)
         )

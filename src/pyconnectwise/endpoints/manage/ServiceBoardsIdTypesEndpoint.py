@@ -10,7 +10,7 @@ class ServiceBoardsIdTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ServiceBoardsIdTypesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ServiceBoardsIdTypesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class ServiceBoardsIdTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardTypeModel]: The parsed response data.
         """
-        return self._parse_many(BoardTypeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(BoardTypeModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTypeModel:
         """
@@ -73,5 +73,5 @@ class ServiceBoardsIdTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardTypeModel: The parsed response data.
         """
-        return self._parse_one(BoardTypeModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(BoardTypeModel, super()._make_request("POST", data=data, params=params).json())
         

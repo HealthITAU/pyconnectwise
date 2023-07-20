@@ -38,7 +38,7 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -57,7 +57,7 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectBoardTeamMemberModel]: The parsed response data.
         """
-        return self._parse_many(ProjectBoardTeamMemberModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ProjectBoardTeamMemberModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBoardTeamMemberModel:
         """
@@ -69,5 +69,5 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBoardTeamMemberModel: The parsed response data.
         """
-        return self._parse_one(ProjectBoardTeamMemberModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ProjectBoardTeamMemberModel, super()._make_request("POST", data=data, params=params).json())
         

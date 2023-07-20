@@ -12,16 +12,16 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.contacts = self.register_child_endpoint(
+        self.contacts = self._register_child_endpoint(
             ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self)
         )
-        self.notes = self.register_child_endpoint(
+        self.notes = self._register_child_endpoint(
             ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self)
         )
-        self.phases = self.register_child_endpoint(
+        self.phases = self._register_child_endpoint(
             ProjectProjectsIdPhasesEndpoint(client, parent_endpoint=self)
         )
-        self.teamMembers = self.register_child_endpoint(
+        self.teamMembers = self._register_child_endpoint(
             ProjectProjectsIdTeamMembersEndpoint(client, parent_endpoint=self)
         )
     
@@ -40,7 +40,7 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -59,7 +59,7 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectModel: The parsed response data.
         """
-        return self._parse_one(ProjectModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ProjectModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -71,7 +71,7 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectModel:
         """
@@ -83,7 +83,7 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectModel: The parsed response data.
         """
-        return self._parse_one(ProjectModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ProjectModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectModel:
         """
@@ -95,5 +95,5 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectModel: The parsed response data.
         """
-        return self._parse_one(ProjectModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ProjectModel, super()._make_request("PATCH", data=data, params=params).json())
         

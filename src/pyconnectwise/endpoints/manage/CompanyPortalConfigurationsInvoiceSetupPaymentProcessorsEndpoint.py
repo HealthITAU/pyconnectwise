@@ -10,7 +10,7 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "paymentProcessors", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,5 +61,5 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
         Returns:
             list[PortalConfigurationPaymentProcessorModel]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationPaymentProcessorModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(PortalConfigurationPaymentProcessorModel, super()._make_request("GET", data=data, params=params).json())
         

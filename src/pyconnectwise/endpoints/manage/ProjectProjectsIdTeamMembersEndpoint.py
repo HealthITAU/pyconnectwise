@@ -10,7 +10,7 @@ class ProjectProjectsIdTeamMembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "teamMembers", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProjectProjectsIdTeamMembersCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class ProjectProjectsIdTeamMembersEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class ProjectProjectsIdTeamMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectTeamMemberModel]: The parsed response data.
         """
-        return self._parse_many(ProjectTeamMemberModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ProjectTeamMemberModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTeamMemberModel:
         """
@@ -73,5 +73,5 @@ class ProjectProjectsIdTeamMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectTeamMemberModel: The parsed response data.
         """
-        return self._parse_one(ProjectTeamMemberModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(ProjectTeamMemberModel, super()._make_request("POST", data=data, params=params).json())
         

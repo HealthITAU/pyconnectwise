@@ -10,7 +10,7 @@ class TimeAccrualsIdDetailsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             TimeAccrualsIdDetailsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -38,5 +38,5 @@ class TimeAccrualsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeAccrualDetailModel: The parsed response data.
         """
-        return self._parse_one(TimeAccrualDetailModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(TimeAccrualDetailModel, super()._make_request("POST", data=data, params=params).json())
         

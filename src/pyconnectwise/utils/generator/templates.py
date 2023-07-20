@@ -52,7 +52,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -74,9 +74,9 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
             {{ operation.return_type }}: The parsed response data.
         \"""
         {%- if operation.returns_single %}
-        return self._parse_one({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", data=data, params=params).json())
+        return self._parse_one({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
         {% else %}
-        return self._parse_many({{operation.return_class}}, super().make_request("{{ operation.name.upper() }}", data=data, params=params).json())
+        return self._parse_many({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
         {% endif %}
     {%- endfor %}
 """
@@ -180,10 +180,10 @@ class ConnectWiseManageAPIClient:
         
         # Retrieve codebase from the API if not provided
         if not codebase:
-            codebase_request = self.__try_get_codebase_from_api(
+            codebase_request = self._try_get_codebase_from_api(
                 manage_url=manage_url,
                 company_name=company_name,
-                headers=self.get_headers(),
+                headers=self._get_headers(),
             )
 
             if codebase_request is None:
@@ -197,7 +197,7 @@ class ConnectWiseManageAPIClient:
         self.{{ endpoint.field_name }} = {{ endpoint.class_name }}(self)
         {%- endfor %}
 
-    def get_url(self) -> str:
+    def _get_url(self) -> str:
         \"""
         Generates and returns the URL for the ConnectWise Manage API endpoints based on the company url and codebase.
 
@@ -206,7 +206,7 @@ class ConnectWiseManageAPIClient:
         \"""
         return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
 
-    def __try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str | None:
+    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str | None:
         \"""
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 
@@ -228,7 +228,7 @@ class ConnectWiseManageAPIClient:
             result = None
         return result
 
-    def __get_auth_string(self) -> str:
+    def _get_auth_string(self) -> str:
         \"""
         Creates and returns the base64 encoded authorization string required for API requests.
 
@@ -242,7 +242,7 @@ class ConnectWiseManageAPIClient:
             )
         ).decode("ascii")
 
-    def get_headers(self) -> dict[str, str]:
+    def _get_headers(self) -> dict[str, str]:
         \"""
         Generates and returns the headers required for making API requests.
 
@@ -252,7 +252,7 @@ class ConnectWiseManageAPIClient:
         headers = {
             "Content-Type": "application/json",
             "clientId": self.client_id,
-            "Authorization": self.__get_auth_string(),
+            "Authorization": self._get_auth_string(),
         }
         return headers
 
@@ -298,14 +298,14 @@ class ConnectWiseAutomateAPIClient:
         self.token_expiry_time: datetime = datetime.now().isoformat()
 
         # Grab first access token
-        self.access_token: str = __get_access_token()
+        self.access_token: str = _get_access_token()
                 
         # Initializing endpoints
         {%- for endpoint in endpoints %}
         self.{{ endpoint.field_name }} = {{ endpoint.class_name }}(self)
         {%- endfor %}
 
-    def get_url(self) -> str:
+    def _get_url(self) -> str:
         \"""
         Generates and returns the URL for the ConnectWise Automate API endpoints based on the company url and codebase.
         Logs in an obtains an access token.
@@ -314,12 +314,12 @@ class ConnectWiseAutomateAPIClient:
         \"""
         return f"https://{self.automate_url}/cwa"
 
-    def __get_access_token() -> str:
+    def _get_access_token() -> str:
         token = ""
         try:
             result
 
-    def get_headers(self) -> dict[str, str]:
+    def _get_headers(self) -> dict[str, str]:
         \"""
         Generates and returns the headers required for making API requests.
 

@@ -16,28 +16,28 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.copy = self.register_child_endpoint(
+        self.copy = self._register_child_endpoint(
             FinanceTaxCodesIdCopyEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             FinanceTaxCodesIdInfoEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self.register_child_endpoint(
+        self.usages = self._register_child_endpoint(
             FinanceTaxCodesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.expenseTypeExemptions = self.register_child_endpoint(
+        self.expenseTypeExemptions = self._register_child_endpoint(
             FinanceTaxCodesIdExpenseTypeExemptionsEndpoint(client, parent_endpoint=self)
         )
-        self.productTypeExemptions = self.register_child_endpoint(
+        self.productTypeExemptions = self._register_child_endpoint(
             FinanceTaxCodesIdProductTypeExemptionsEndpoint(client, parent_endpoint=self)
         )
-        self.taxCodeLevels = self.register_child_endpoint(
+        self.taxCodeLevels = self._register_child_endpoint(
             FinanceTaxCodesIdTaxCodeLevelsEndpoint(client, parent_endpoint=self)
         )
-        self.taxCodeXRefs = self.register_child_endpoint(
+        self.taxCodeXRefs = self._register_child_endpoint(
             FinanceTaxCodesIdTaxCodeXRefsEndpoint(client, parent_endpoint=self)
         )
-        self.workRoleExemptions = self.register_child_endpoint(
+        self.workRoleExemptions = self._register_child_endpoint(
             FinanceTaxCodesIdWorkRoleExemptionsEndpoint(client, parent_endpoint=self)
         )
     
@@ -56,7 +56,7 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -75,7 +75,7 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeModel: The parsed response data.
         """
-        return self._parse_one(TaxCodeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(TaxCodeModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -87,7 +87,7 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeModel:
         """
@@ -99,7 +99,7 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeModel: The parsed response data.
         """
-        return self._parse_one(TaxCodeModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(TaxCodeModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeModel:
         """
@@ -111,5 +111,5 @@ class FinanceTaxCodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeModel: The parsed response data.
         """
-        return self._parse_one(TaxCodeModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(TaxCodeModel, super()._make_request("PATCH", data=data, params=params).json())
         

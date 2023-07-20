@@ -11,10 +11,10 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "userDefinedFields", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemUserDefinedFieldsCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             SystemUserDefinedFieldsInfoEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UserDefinedFieldModel]: The parsed response data.
         """
-        return self._parse_many(UserDefinedFieldModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(UserDefinedFieldModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserDefinedFieldModel:
         """
@@ -77,5 +77,5 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
         Returns:
             UserDefinedFieldModel: The parsed response data.
         """
-        return self._parse_one(UserDefinedFieldModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(UserDefinedFieldModel, super()._make_request("POST", data=data, params=params).json())
         

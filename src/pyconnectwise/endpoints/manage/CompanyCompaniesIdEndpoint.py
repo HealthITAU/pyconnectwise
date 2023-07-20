@@ -20,40 +20,40 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.merge = self.register_child_endpoint(
+        self.merge = self._register_child_endpoint(
             CompanyCompaniesIdMergeEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self.register_child_endpoint(
+        self.usages = self._register_child_endpoint(
             CompanyCompaniesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.customStatusNotes = self.register_child_endpoint(
+        self.customStatusNotes = self._register_child_endpoint(
             CompanyCompaniesIdCustomStatusNotesEndpoint(client, parent_endpoint=self)
         )
-        self.groups = self.register_child_endpoint(
+        self.groups = self._register_child_endpoint(
             CompanyCompaniesIdGroupsEndpoint(client, parent_endpoint=self)
         )
-        self.managementReportNotifications = self.register_child_endpoint(
+        self.managementReportNotifications = self._register_child_endpoint(
             CompanyCompaniesIdManagementReportNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.managementReportSetup = self.register_child_endpoint(
+        self.managementReportSetup = self._register_child_endpoint(
             CompanyCompaniesIdManagementReportSetupEndpoint(client, parent_endpoint=self)
         )
-        self.managementSummaryReports = self.register_child_endpoint(
+        self.managementSummaryReports = self._register_child_endpoint(
             CompanyCompaniesIdManagementSummaryReportsEndpoint(client, parent_endpoint=self)
         )
-        self.notes = self.register_child_endpoint(
+        self.notes = self._register_child_endpoint(
             CompanyCompaniesIdNotesEndpoint(client, parent_endpoint=self)
         )
-        self.sites = self.register_child_endpoint(
+        self.sites = self._register_child_endpoint(
             CompanyCompaniesIdSitesEndpoint(client, parent_endpoint=self)
         )
-        self.teams = self.register_child_endpoint(
+        self.teams = self._register_child_endpoint(
             CompanyCompaniesIdTeamsEndpoint(client, parent_endpoint=self)
         )
-        self.tracks = self.register_child_endpoint(
+        self.tracks = self._register_child_endpoint(
             CompanyCompaniesIdTracksEndpoint(client, parent_endpoint=self)
         )
-        self.typeAssociations = self.register_child_endpoint(
+        self.typeAssociations = self._register_child_endpoint(
             CompanyCompaniesIdTypeAssociationsEndpoint(client, parent_endpoint=self)
         )
     
@@ -72,7 +72,7 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -91,7 +91,7 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyModel: The parsed response data.
         """
-        return self._parse_one(CompanyModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(CompanyModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -103,7 +103,7 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyModel:
         """
@@ -115,7 +115,7 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyModel: The parsed response data.
         """
-        return self._parse_one(CompanyModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(CompanyModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyModel:
         """
@@ -127,5 +127,5 @@ class CompanyCompaniesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyModel: The parsed response data.
         """
-        return self._parse_one(CompanyModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(CompanyModel, super()._make_request("PATCH", data=data, params=params).json())
         

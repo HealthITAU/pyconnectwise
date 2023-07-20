@@ -9,7 +9,7 @@ class SystemWorkflowsIdNotifyTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             SystemWorkflowsIdNotifyTypesIdInfoEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class SystemWorkflowsIdNotifyTypesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class SystemWorkflowsIdNotifyTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowNotifyTypeModel: The parsed response data.
         """
-        return self._parse_one(WorkflowNotifyTypeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(WorkflowNotifyTypeModel, super()._make_request("GET", data=data, params=params).json())
         

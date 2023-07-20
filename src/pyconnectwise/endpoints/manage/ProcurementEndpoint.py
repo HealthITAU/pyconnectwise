@@ -24,63 +24,63 @@ class ProcurementEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "procurement")
         
-        self.adjustments = self.register_child_endpoint(
+        self.adjustments = self._register_child_endpoint(
             ProcurementAdjustmentsEndpoint(client, parent_endpoint=self)
         )
-        self.catalog = self.register_child_endpoint(
+        self.catalog = self._register_child_endpoint(
             ProcurementCatalogEndpoint(client, parent_endpoint=self)
         )
-        self.categories = self.register_child_endpoint(
+        self.categories = self._register_child_endpoint(
             ProcurementCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.manufacturers = self.register_child_endpoint(
+        self.manufacturers = self._register_child_endpoint(
             ProcurementManufacturersEndpoint(client, parent_endpoint=self)
         )
-        self.onhandserialnumbers = self.register_child_endpoint(
+        self.onhandserialnumbers = self._register_child_endpoint(
             ProcurementOnhandserialnumbersEndpoint(client, parent_endpoint=self)
         )
-        self.pricingschedules = self.register_child_endpoint(
+        self.pricingschedules = self._register_child_endpoint(
             ProcurementPricingschedulesEndpoint(client, parent_endpoint=self)
         )
-        self.products = self.register_child_endpoint(
+        self.products = self._register_child_endpoint(
             ProcurementProductsEndpoint(client, parent_endpoint=self)
         )
-        self.purchaseorders = self.register_child_endpoint(
+        self.purchaseorders = self._register_child_endpoint(
             ProcurementPurchaseordersEndpoint(client, parent_endpoint=self)
         )
-        self.purchaseorderstatuses = self.register_child_endpoint(
+        self.purchaseorderstatuses = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesEndpoint(client, parent_endpoint=self)
         )
-        self.purchasingDemands = self.register_child_endpoint(
+        self.purchasingDemands = self._register_child_endpoint(
             ProcurementPurchasingDemandsEndpoint(client, parent_endpoint=self)
         )
-        self.rmaActions = self.register_child_endpoint(
+        self.rmaActions = self._register_child_endpoint(
             ProcurementRmaActionsEndpoint(client, parent_endpoint=self)
         )
-        self.RMADispositions = self.register_child_endpoint(
+        self.RMADispositions = self._register_child_endpoint(
             ProcurementRMADispositionsEndpoint(client, parent_endpoint=self)
         )
-        self.rmaStatuses = self.register_child_endpoint(
+        self.rmaStatuses = self._register_child_endpoint(
             ProcurementRmaStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.rmaTags = self.register_child_endpoint(
+        self.rmaTags = self._register_child_endpoint(
             ProcurementRmaTagsEndpoint(client, parent_endpoint=self)
         )
-        self.settings = self.register_child_endpoint(
+        self.settings = self._register_child_endpoint(
             ProcurementSettingsEndpoint(client, parent_endpoint=self)
         )
-        self.shipmentmethods = self.register_child_endpoint(
+        self.shipmentmethods = self._register_child_endpoint(
             ProcurementShipmentmethodsEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             ProcurementTypesEndpoint(client, parent_endpoint=self)
         )
-        self.unitOfMeasures = self.register_child_endpoint(
+        self.unitOfMeasures = self._register_child_endpoint(
             ProcurementUnitOfMeasuresEndpoint(client, parent_endpoint=self)
         )
-        self.warehouseBins = self.register_child_endpoint(
+        self.warehouseBins = self._register_child_endpoint(
             ProcurementWarehouseBinsEndpoint(client, parent_endpoint=self)
         )
-        self.warehouses = self.register_child_endpoint(
+        self.warehouses = self._register_child_endpoint(
             ProcurementWarehousesEndpoint(client, parent_endpoint=self)
         )

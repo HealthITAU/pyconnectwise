@@ -20,5 +20,5 @@ class ScheduleColorsResetEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleColorModel]: The parsed response data.
         """
-        return self._parse_many(ScheduleColorModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_many(ScheduleColorModel, super()._make_request("POST", data=data, params=params).json())
         

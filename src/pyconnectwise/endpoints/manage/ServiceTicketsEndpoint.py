@@ -12,13 +12,13 @@ class ServiceTicketsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tickets", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ServiceTicketsCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             ServiceTicketsInfoEndpoint(client, parent_endpoint=self)
         )
-        self.search = self.register_child_endpoint(
+        self.search = self._register_child_endpoint(
             ServiceTicketsSearchEndpoint(client, parent_endpoint=self)
         )
     
@@ -50,7 +50,7 @@ class ServiceTicketsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -69,7 +69,7 @@ class ServiceTicketsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TicketModel]: The parsed response data.
         """
-        return self._parse_many(TicketModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(TicketModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketModel:
         """
@@ -81,5 +81,5 @@ class ServiceTicketsEndpoint(ConnectWiseEndpoint):
         Returns:
             TicketModel: The parsed response data.
         """
-        return self._parse_one(TicketModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(TicketModel, super()._make_request("POST", data=data, params=params).json())
         

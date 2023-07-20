@@ -9,7 +9,7 @@ class ProjectTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "scheduleentries", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ProjectTicketsIdScheduleentriesCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class ProjectTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,5 +47,5 @@ class ProjectTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleEntryReferenceModel]: The parsed response data.
         """
-        return self._parse_many(ScheduleEntryReferenceModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(ScheduleEntryReferenceModel, super()._make_request("GET", data=data, params=params).json())
         

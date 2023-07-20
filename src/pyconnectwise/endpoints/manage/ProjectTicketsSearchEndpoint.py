@@ -20,5 +20,5 @@ class ProjectTicketsSearchEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectTicketModel]: The parsed response data.
         """
-        return self._parse_many(ProjectTicketModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_many(ProjectTicketModel, super()._make_request("POST", data=data, params=params).json())
         

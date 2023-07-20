@@ -11,10 +11,10 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "agreements", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             FinanceAgreementsCountEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             FinanceAgreementsTypesEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementModel]: The parsed response data.
         """
-        return self._parse_many(AgreementModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(AgreementModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementModel:
         """
@@ -77,5 +77,5 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementModel: The parsed response data.
         """
-        return self._parse_one(AgreementModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(AgreementModel, super()._make_request("POST", data=data, params=params).json())
         

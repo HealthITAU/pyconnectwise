@@ -6,9 +6,9 @@ class MarketingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "marketing")
         
-        self.campaigns = self.register_child_endpoint(
+        self.campaigns = self._register_child_endpoint(
             MarketingCampaignsEndpoint(client, parent_endpoint=self)
         )
-        self.groups = self.register_child_endpoint(
+        self.groups = self._register_child_endpoint(
             MarketingGroupsEndpoint(client, parent_endpoint=self)
         )

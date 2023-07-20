@@ -11,10 +11,10 @@ class SalesOrdersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "orders", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SalesOrdersCountEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             SalesOrdersStatusesEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class SalesOrdersEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class SalesOrdersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderModel]: The parsed response data.
         """
-        return self._parse_many(OrderModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(OrderModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderModel:
         """
@@ -77,5 +77,5 @@ class SalesOrdersEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderModel: The parsed response data.
         """
-        return self._parse_one(OrderModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(OrderModel, super()._make_request("POST", data=data, params=params).json())
         

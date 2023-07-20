@@ -11,10 +11,10 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "holidayLists", parent_endpoint=parent_endpoint)
         
-        self.copy = self.register_child_endpoint(
+        self.copy = self._register_child_endpoint(
             ScheduleHolidayListsCopyEndpoint(client, parent_endpoint=self)
         )
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             ScheduleHolidayListsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[HolidayListModel]: The parsed response data.
         """
-        return self._parse_many(HolidayListModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(HolidayListModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> HolidayListModel:
         """
@@ -77,5 +77,5 @@ class ScheduleHolidayListsEndpoint(ConnectWiseEndpoint):
         Returns:
             HolidayListModel: The parsed response data.
         """
-        return self._parse_one(HolidayListModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(HolidayListModel, super()._make_request("POST", data=data, params=params).json())
         

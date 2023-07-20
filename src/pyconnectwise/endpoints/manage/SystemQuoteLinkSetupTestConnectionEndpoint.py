@@ -24,7 +24,7 @@ class SystemQuoteLinkSetupTestConnectionEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -43,5 +43,5 @@ class SystemQuoteLinkSetupTestConnectionEndpoint(ConnectWiseEndpoint):
         Returns:
             SuccessResponseModel: The parsed response data.
         """
-        return self._parse_one(SuccessResponseModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(SuccessResponseModel, super()._make_request("GET", data=data, params=params).json())
         

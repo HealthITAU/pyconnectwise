@@ -9,7 +9,7 @@ class ScheduleColorsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.clear = self.register_child_endpoint(
+        self.clear = self._register_child_endpoint(
             ScheduleColorsIdClearEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class ScheduleColorsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,7 +47,7 @@ class ScheduleColorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleColorModel: The parsed response data.
         """
-        return self._parse_one(ScheduleColorModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ScheduleColorModel, super()._make_request("GET", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleColorModel:
         """
@@ -59,7 +59,7 @@ class ScheduleColorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleColorModel: The parsed response data.
         """
-        return self._parse_one(ScheduleColorModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ScheduleColorModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleColorModel:
         """
@@ -71,5 +71,5 @@ class ScheduleColorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleColorModel: The parsed response data.
         """
-        return self._parse_one(ScheduleColorModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ScheduleColorModel, super()._make_request("PATCH", data=data, params=params).json())
         

@@ -11,10 +11,10 @@ class SystemInOutTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "inOutTypes", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemInOutTypesCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             SystemInOutTypesInfoEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class SystemInOutTypesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class SystemInOutTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InOutTypeModel]: The parsed response data.
         """
-        return self._parse_many(InOutTypeModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(InOutTypeModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutTypeModel:
         """
@@ -77,5 +77,5 @@ class SystemInOutTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutTypeModel: The parsed response data.
         """
-        return self._parse_one(InOutTypeModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(InOutTypeModel, super()._make_request("POST", data=data, params=params).json())
         

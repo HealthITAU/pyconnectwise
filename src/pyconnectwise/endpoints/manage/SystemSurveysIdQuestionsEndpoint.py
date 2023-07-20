@@ -10,7 +10,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "questions", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemSurveysIdQuestionsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,7 +61,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyQuestionModel]: The parsed response data.
         """
-        return self._parse_many(SurveyQuestionModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(SurveyQuestionModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestionModel:
         """
@@ -73,5 +73,5 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyQuestionModel: The parsed response data.
         """
-        return self._parse_one(SurveyQuestionModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(SurveyQuestionModel, super()._make_request("POST", data=data, params=params).json())
         

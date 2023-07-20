@@ -10,10 +10,10 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.generate = self.register_child_endpoint(
+        self.generate = self._register_child_endpoint(
             ServiceTemplatesIdGenerateEndpoint(client, parent_endpoint=self)
         )
-        self.info = self.register_child_endpoint(
+        self.info = self._register_child_endpoint(
             ServiceTemplatesIdInfoEndpoint(client, parent_endpoint=self)
         )
     
@@ -32,7 +32,7 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -51,5 +51,5 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTemplateModel: The parsed response data.
         """
-        return self._parse_one(ServiceTemplateModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ServiceTemplateModel, super()._make_request("GET", data=data, params=params).json())
         

@@ -10,10 +10,10 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.download = self.register_child_endpoint(
+        self.download = self._register_child_endpoint(
             SystemDocumentsIdDownloadEndpoint(client, parent_endpoint=self)
         )
-        self.thumbnail = self.register_child_endpoint(
+        self.thumbnail = self._register_child_endpoint(
             SystemDocumentsIdThumbnailEndpoint(client, parent_endpoint=self)
         )
     
@@ -32,7 +32,7 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -51,7 +51,7 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfoModel: The parsed response data.
         """
-        return self._parse_one(DocumentInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(DocumentInfoModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -63,7 +63,7 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentInfoModel:
         """
@@ -75,5 +75,5 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfoModel: The parsed response data.
         """
-        return self._parse_one(DocumentInfoModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(DocumentInfoModel, super()._make_request("POST", data=data, params=params).json())
         

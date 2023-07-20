@@ -9,7 +9,7 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.details = self.register_child_endpoint(
+        self.details = self._register_child_endpoint(
             ProcurementAdjustmentsIdDetailsEndpoint(client, parent_endpoint=self)
         )
     
@@ -28,7 +28,7 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -47,7 +47,7 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementAdjustmentModel: The parsed response data.
         """
-        return self._parse_one(ProcurementAdjustmentModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ProcurementAdjustmentModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -59,7 +59,7 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProcurementAdjustmentModel:
         """
@@ -71,7 +71,7 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementAdjustmentModel: The parsed response data.
         """
-        return self._parse_one(ProcurementAdjustmentModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ProcurementAdjustmentModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProcurementAdjustmentModel:
         """
@@ -83,5 +83,5 @@ class ProcurementAdjustmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementAdjustmentModel: The parsed response data.
         """
-        return self._parse_one(ProcurementAdjustmentModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ProcurementAdjustmentModel, super()._make_request("PATCH", data=data, params=params).json())
         

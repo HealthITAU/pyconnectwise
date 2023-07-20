@@ -11,13 +11,13 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.reverse = self.register_child_endpoint(
+        self.reverse = self._register_child_endpoint(
             ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self)
         )
-        self.submit = self.register_child_endpoint(
+        self.submit = self._register_child_endpoint(
             ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self)
         )
-        self.audits = self.register_child_endpoint(
+        self.audits = self._register_child_endpoint(
             ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self)
         )
     
@@ -36,7 +36,7 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -55,5 +55,5 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseReportModel: The parsed response data.
         """
-        return self._parse_one(ExpenseReportModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ExpenseReportModel, super()._make_request("GET", data=data, params=params).json())
         

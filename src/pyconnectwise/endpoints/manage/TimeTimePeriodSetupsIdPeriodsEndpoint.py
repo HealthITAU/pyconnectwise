@@ -10,7 +10,7 @@ class TimeTimePeriodSetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "periods", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             TimeTimePeriodSetupsIdPeriodsCountEndpoint(client, parent_endpoint=self)
         )
     
@@ -42,7 +42,7 @@ class TimeTimePeriodSetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -61,5 +61,5 @@ class TimeTimePeriodSetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimePeriodModel]: The parsed response data.
         """
-        return self._parse_many(TimePeriodModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(TimePeriodModel, super()._make_request("GET", data=data, params=params).json())
         

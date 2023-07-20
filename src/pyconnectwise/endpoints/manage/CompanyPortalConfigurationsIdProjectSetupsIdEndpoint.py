@@ -24,7 +24,7 @@ class CompanyPortalConfigurationsIdProjectSetupsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -43,7 +43,7 @@ class CompanyPortalConfigurationsIdProjectSetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationProjectSetupModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationProjectSetupModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationProjectSetupModel, super()._make_request("GET", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationProjectSetupModel:
         """
@@ -55,7 +55,7 @@ class CompanyPortalConfigurationsIdProjectSetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationProjectSetupModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationProjectSetupModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationProjectSetupModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationProjectSetupModel:
         """
@@ -67,5 +67,5 @@ class CompanyPortalConfigurationsIdProjectSetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalConfigurationProjectSetupModel: The parsed response data.
         """
-        return self._parse_one(PortalConfigurationProjectSetupModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(PortalConfigurationProjectSetupModel, super()._make_request("PATCH", data=data, params=params).json())
         

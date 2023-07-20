@@ -25,66 +25,66 @@ class ServiceEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "service")
         
-        self.boards = self.register_child_endpoint(
+        self.boards = self._register_child_endpoint(
             ServiceBoardsEndpoint(client, parent_endpoint=self)
         )
-        self.codes = self.register_child_endpoint(
+        self.codes = self._register_child_endpoint(
             ServiceCodesEndpoint(client, parent_endpoint=self)
         )
-        self.emailTemplates = self.register_child_endpoint(
+        self.emailTemplates = self._register_child_endpoint(
             ServiceEmailTemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.impacts = self.register_child_endpoint(
+        self.impacts = self._register_child_endpoint(
             ServiceImpactsEndpoint(client, parent_endpoint=self)
         )
-        self.knowledgeBaseArticles = self.register_child_endpoint(
+        self.knowledgeBaseArticles = self._register_child_endpoint(
             ServiceKnowledgeBaseArticlesEndpoint(client, parent_endpoint=self)
         )
-        self.knowledgeBaseCategories = self.register_child_endpoint(
+        self.knowledgeBaseCategories = self._register_child_endpoint(
             ServiceKnowledgeBaseCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.knowledgebasesettings = self.register_child_endpoint(
+        self.knowledgebasesettings = self._register_child_endpoint(
             ServiceKnowledgebasesettingsEndpoint(client, parent_endpoint=self)
         )
-        self.knowledgeBaseSubCategories = self.register_child_endpoint(
+        self.knowledgeBaseSubCategories = self._register_child_endpoint(
             ServiceKnowledgeBaseSubCategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.locations = self.register_child_endpoint(
+        self.locations = self._register_child_endpoint(
             ServiceLocationsEndpoint(client, parent_endpoint=self)
         )
-        self.priorities = self.register_child_endpoint(
+        self.priorities = self._register_child_endpoint(
             ServicePrioritiesEndpoint(client, parent_endpoint=self)
         )
-        self.serviceSignoff = self.register_child_endpoint(
+        self.serviceSignoff = self._register_child_endpoint(
             ServiceServiceSignoffEndpoint(client, parent_endpoint=self)
         )
-        self.severities = self.register_child_endpoint(
+        self.severities = self._register_child_endpoint(
             ServiceSeveritiesEndpoint(client, parent_endpoint=self)
         )
-        self.SLAs = self.register_child_endpoint(
+        self.SLAs = self._register_child_endpoint(
             ServiceSLAsEndpoint(client, parent_endpoint=self)
         )
-        self.sources = self.register_child_endpoint(
+        self.sources = self._register_child_endpoint(
             ServiceSourcesEndpoint(client, parent_endpoint=self)
         )
-        self.surveys = self.register_child_endpoint(
+        self.surveys = self._register_child_endpoint(
             ServiceSurveysEndpoint(client, parent_endpoint=self)
         )
-        self.teamMembers = self.register_child_endpoint(
+        self.teamMembers = self._register_child_endpoint(
             ServiceTeamMembersEndpoint(client, parent_endpoint=self)
         )
-        self.teams = self.register_child_endpoint(
+        self.teams = self._register_child_endpoint(
             ServiceTeamsEndpoint(client, parent_endpoint=self)
         )
-        self.templates = self.register_child_endpoint(
+        self.templates = self._register_child_endpoint(
             ServiceTemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.ticketLinks = self.register_child_endpoint(
+        self.ticketLinks = self._register_child_endpoint(
             ServiceTicketLinksEndpoint(client, parent_endpoint=self)
         )
-        self.tickets = self.register_child_endpoint(
+        self.tickets = self._register_child_endpoint(
             ServiceTicketsEndpoint(client, parent_endpoint=self)
         )
-        self.ticketSyncs = self.register_child_endpoint(
+        self.ticketSyncs = self._register_child_endpoint(
             ServiceTicketSyncsEndpoint(client, parent_endpoint=self)
         )

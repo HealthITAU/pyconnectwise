@@ -11,10 +11,10 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "documents", parent_endpoint=parent_endpoint)
         
-        self.count = self.register_child_endpoint(
+        self.count = self._register_child_endpoint(
             SystemDocumentsCountEndpoint(client, parent_endpoint=self)
         )
-        self.uploadsample = self.register_child_endpoint(
+        self.uploadsample = self._register_child_endpoint(
             SystemDocumentsUploadsampleEndpoint(client, parent_endpoint=self)
         )
     
@@ -46,7 +46,7 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -65,7 +65,7 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DocumentInfoModel]: The parsed response data.
         """
-        return self._parse_many(DocumentInfoModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_many(DocumentInfoModel, super()._make_request("GET", data=data, params=params).json())
         
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentInfoModel:
         """
@@ -77,5 +77,5 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfoModel: The parsed response data.
         """
-        return self._parse_one(DocumentInfoModel, super().make_request("POST", data=data, params=params).json())
+        return self._parse_one(DocumentInfoModel, super()._make_request("POST", data=data, params=params).json())
         

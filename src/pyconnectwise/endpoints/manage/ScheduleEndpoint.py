@@ -13,30 +13,30 @@ class ScheduleEndpoint(ConnectWiseEndpoint):
     def __init__(self, client):
         super().__init__(client, "schedule")
         
-        self.calendars = self.register_child_endpoint(
+        self.calendars = self._register_child_endpoint(
             ScheduleCalendarsEndpoint(client, parent_endpoint=self)
         )
-        self.colors = self.register_child_endpoint(
+        self.colors = self._register_child_endpoint(
             ScheduleColorsEndpoint(client, parent_endpoint=self)
         )
-        self.details = self.register_child_endpoint(
+        self.details = self._register_child_endpoint(
             ScheduleDetailsEndpoint(client, parent_endpoint=self)
         )
-        self.entries = self.register_child_endpoint(
+        self.entries = self._register_child_endpoint(
             ScheduleEntriesEndpoint(client, parent_endpoint=self)
         )
-        self.holidayLists = self.register_child_endpoint(
+        self.holidayLists = self._register_child_endpoint(
             ScheduleHolidayListsEndpoint(client, parent_endpoint=self)
         )
-        self.portalcalendars = self.register_child_endpoint(
+        self.portalcalendars = self._register_child_endpoint(
             SchedulePortalcalendarsEndpoint(client, parent_endpoint=self)
         )
-        self.reminderTimes = self.register_child_endpoint(
+        self.reminderTimes = self._register_child_endpoint(
             ScheduleReminderTimesEndpoint(client, parent_endpoint=self)
         )
-        self.statuses = self.register_child_endpoint(
+        self.statuses = self._register_child_endpoint(
             ScheduleStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.types = self.register_child_endpoint(
+        self.types = self._register_child_endpoint(
             ScheduleTypesEndpoint(client, parent_endpoint=self)
         )

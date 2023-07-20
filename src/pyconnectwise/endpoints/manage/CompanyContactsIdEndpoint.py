@@ -16,28 +16,28 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
         
-        self.image = self.register_child_endpoint(
+        self.image = self._register_child_endpoint(
             CompanyContactsIdImageEndpoint(client, parent_endpoint=self)
         )
-        self.portalSecurity = self.register_child_endpoint(
+        self.portalSecurity = self._register_child_endpoint(
             CompanyContactsIdPortalSecurityEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self.register_child_endpoint(
+        self.usages = self._register_child_endpoint(
             CompanyContactsIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.communications = self.register_child_endpoint(
+        self.communications = self._register_child_endpoint(
             CompanyContactsIdCommunicationsEndpoint(client, parent_endpoint=self)
         )
-        self.groups = self.register_child_endpoint(
+        self.groups = self._register_child_endpoint(
             CompanyContactsIdGroupsEndpoint(client, parent_endpoint=self)
         )
-        self.notes = self.register_child_endpoint(
+        self.notes = self._register_child_endpoint(
             CompanyContactsIdNotesEndpoint(client, parent_endpoint=self)
         )
-        self.tracks = self.register_child_endpoint(
+        self.tracks = self._register_child_endpoint(
             CompanyContactsIdTracksEndpoint(client, parent_endpoint=self)
         )
-        self.typeAssociations = self.register_child_endpoint(
+        self.typeAssociations = self._register_child_endpoint(
             CompanyContactsIdTypeAssociationsEndpoint(client, parent_endpoint=self)
         )
     
@@ -56,7 +56,7 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super().make_request(
+            super()._make_request(
                 "GET",
                 params=params
             ),
@@ -75,7 +75,7 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactModel: The parsed response data.
         """
-        return self._parse_one(ContactModel, super().make_request("GET", data=data, params=params).json())
+        return self._parse_one(ContactModel, super()._make_request("GET", data=data, params=params).json())
         
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
@@ -87,7 +87,7 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super().make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
         
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactModel:
         """
@@ -99,7 +99,7 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactModel: The parsed response data.
         """
-        return self._parse_one(ContactModel, super().make_request("PUT", data=data, params=params).json())
+        return self._parse_one(ContactModel, super()._make_request("PUT", data=data, params=params).json())
         
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactModel:
         """
@@ -111,5 +111,5 @@ class CompanyContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactModel: The parsed response data.
         """
-        return self._parse_one(ContactModel, super().make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(ContactModel, super()._make_request("PATCH", data=data, params=params).json())
         
