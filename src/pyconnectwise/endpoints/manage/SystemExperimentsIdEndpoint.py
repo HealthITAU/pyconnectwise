@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ExperimentModel import ExperimentModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Experiment
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ExperimentModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Experiment]:
         """
         Performs a GET request against the /system/experiments/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ExperimentModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Experiment]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ExperimentModel,
+            super()._make_request("GET", params=params),
+            Experiment,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExperimentModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Experiment:
         """
         Performs a GET request against the /system/experiments/{id} endpoint.
 
@@ -41,7 +39,6 @@ class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ExperimentModel: The parsed response data.
+            Experiment: The parsed response data.
         """
-        return self._parse_one(ExperimentModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(Experiment, super()._make_request("GET", data=data, params=params).json())

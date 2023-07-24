@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.IntegratorTagModel import IntegratorTagModel
 
-class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import IntegratorTag
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemIntegratortagsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[IntegratorTagModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[IntegratorTag]:
         """
         Performs a GET request against the /system/integratorTags/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[IntegratorTagModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[IntegratorTag]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            IntegratorTagModel,
+            super()._make_request("GET", params=params),
+            IntegratorTag,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTagModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTag:
         """
         Performs a GET request against the /system/integratorTags/{id} endpoint.
 
@@ -41,10 +41,10 @@ class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            IntegratorTagModel: The parsed response data.
+            IntegratorTag: The parsed response data.
         """
-        return self._parse_one(IntegratorTagModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(IntegratorTag, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/integratorTags/{id} endpoint.
@@ -56,8 +56,8 @@ class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTagModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTag:
         """
         Performs a PUT request against the /system/integratorTags/{id} endpoint.
 
@@ -65,11 +65,11 @@ class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            IntegratorTagModel: The parsed response data.
+            IntegratorTag: The parsed response data.
         """
-        return self._parse_one(IntegratorTagModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTagModel:
+        return self._parse_one(IntegratorTag, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTag:
         """
         Performs a PATCH request against the /system/integratorTags/{id} endpoint.
 
@@ -77,7 +77,6 @@ class SystemIntegratorTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            IntegratorTagModel: The parsed response data.
+            IntegratorTag: The parsed response data.
         """
-        return self._parse_one(IntegratorTagModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(IntegratorTag, super()._make_request("PATCH", data=data, params=params).json())

@@ -1,24 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceSourcesIdEndpoint import ServiceSourcesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesCountEndpoint import ServiceSourcesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceSourcesIdEndpoint import ServiceSourcesIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesInfoEndpoint import ServiceSourcesInfoEndpoint
-from pyconnectwise.models.manage.SourceModel import SourceModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Source
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceSourcesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "sources", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceSourcesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ServiceSourcesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.info = self._register_child_endpoint(ServiceSourcesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ServiceSourcesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> ServiceSourcesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceSourcesIdEndpoint object to move down the chain.
@@ -31,8 +28,8 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         child = ServiceSourcesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SourceModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Source]:
         """
         Performs a GET request against the /service/sources endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +38,19 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SourceModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Source]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SourceModel,
+            super()._make_request("GET", params=params),
+            Source,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SourceModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Source]:
         """
         Performs a GET request against the /service/sources endpoint.
 
@@ -63,11 +58,11 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SourceModel]: The parsed response data.
+            list[Source]: The parsed response data.
         """
-        return self._parse_many(SourceModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SourceModel:
+        return self._parse_many(Source, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Source:
         """
         Performs a POST request against the /service/sources endpoint.
 
@@ -75,7 +70,6 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SourceModel: The parsed response data.
+            Source: The parsed response data.
         """
-        return self._parse_one(SourceModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Source, super()._make_request("POST", data=data, params=params).json())

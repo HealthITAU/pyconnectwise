@@ -1,28 +1,25 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.TimeChargeCodesIdInfoEndpoint import TimeChargeCodesIdInfoEndpoint
-from pyconnectwise.endpoints.manage.TimeChargeCodesIdUsagesEndpoint import TimeChargeCodesIdUsagesEndpoint
-from pyconnectwise.endpoints.manage.TimeChargeCodesIdExpenseTypesEndpoint import TimeChargeCodesIdExpenseTypesEndpoint
-from pyconnectwise.models.manage.ChargeCodeModel import ChargeCodeModel
 
-class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesEndpoint import TimeChargecodesIdExpensetypesEndpoint
+from pyconnectwise.endpoints.manage.TimeChargecodesIdInfoEndpoint import TimeChargecodesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.TimeChargecodesIdUsagesEndpoint import TimeChargecodesIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ChargeCode
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class TimeChargecodesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            TimeChargeCodesIdInfoEndpoint(client, parent_endpoint=self)
+
+        self.info = self._register_child_endpoint(TimeChargecodesIdInfoEndpoint(client, parent_endpoint=self))
+        self.expense_types = self._register_child_endpoint(
+            TimeChargecodesIdExpensetypesEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(
-            TimeChargeCodesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.expenseTypes = self._register_child_endpoint(
-            TimeChargeCodesIdExpenseTypesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ChargeCodeModel]:
+        self.usages = self._register_child_endpoint(TimeChargecodesIdUsagesEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ChargeCode]:
         """
         Performs a GET request against the /time/chargeCodes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,21 +28,19 @@ class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ChargeCodeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ChargeCode]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ChargeCodeModel,
+            super()._make_request("GET", params=params),
+            ChargeCode,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCode:
         """
         Performs a GET request against the /time/chargeCodes/{id} endpoint.
 
@@ -53,10 +48,10 @@ class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ChargeCodeModel: The parsed response data.
+            ChargeCode: The parsed response data.
         """
-        return self._parse_one(ChargeCodeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ChargeCode, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /time/chargeCodes/{id} endpoint.
@@ -68,8 +63,8 @@ class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCode:
         """
         Performs a PUT request against the /time/chargeCodes/{id} endpoint.
 
@@ -77,11 +72,11 @@ class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ChargeCodeModel: The parsed response data.
+            ChargeCode: The parsed response data.
         """
-        return self._parse_one(ChargeCodeModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeModel:
+        return self._parse_one(ChargeCode, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCode:
         """
         Performs a PATCH request against the /time/chargeCodes/{id} endpoint.
 
@@ -89,7 +84,6 @@ class TimeChargeCodesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ChargeCodeModel: The parsed response data.
+            ChargeCode: The parsed response data.
         """
-        return self._parse_one(ChargeCodeModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(ChargeCode, super()._make_request("PATCH", data=data, params=params).json())

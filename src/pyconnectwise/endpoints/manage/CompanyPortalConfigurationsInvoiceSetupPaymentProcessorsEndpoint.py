@@ -1,34 +1,39 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint import CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsCountEndpoint import CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsCountEndpoint
-from pyconnectwise.models.manage.PortalConfigurationPaymentProcessorModel import PortalConfigurationPaymentProcessorModel
 
-class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint import \
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import \
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PortalConfigurationPaymentProcessor
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "paymentProcessors", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint:
+
+    def id(self, id: int) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint: The initialized CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint object.
+            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint: The initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object.
         """
-        child = CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PortalConfigurationPaymentProcessorModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +42,21 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PortalConfigurationPaymentProcessorModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PortalConfigurationPaymentProcessor]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PortalConfigurationPaymentProcessorModel,
+            super()._make_request("GET", params=params),
+            PortalConfigurationPaymentProcessor,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalConfigurationPaymentProcessorModel]:
+
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint.
 
@@ -59,7 +64,8 @@ class CompanyPortalConfigurationsInvoiceSetupPaymentProcessorsEndpoint(ConnectWi
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PortalConfigurationPaymentProcessorModel]: The parsed response data.
+            list[PortalConfigurationPaymentProcessor]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationPaymentProcessorModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(
+            PortalConfigurationPaymentProcessor, super()._make_request("GET", data=data, params=params).json()
+        )

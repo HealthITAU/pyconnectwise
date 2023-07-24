@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesCopyEndpoint import CompanyConfigurationsTypesCopyEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesCountEndpoint import \
+    CompanyConfigurationsTypesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdEndpoint import CompanyConfigurationsTypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesCountEndpoint import CompanyConfigurationsTypesCountEndpoint
-from pyconnectwise.models.manage.ConfigurationTypeModel import ConfigurationTypeModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ConfigurationType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
-        
+
+        self.copy = self._register_child_endpoint(CompanyConfigurationsTypesCopyEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             CompanyConfigurationsTypesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> CompanyConfigurationsTypesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyConfigurationsTypesIdEndpoint object to move down the chain.
@@ -27,8 +31,10 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
         child = CompanyConfigurationsTypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ConfigurationTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ConfigurationType]:
         """
         Performs a GET request against the /company/configurations/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +43,19 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ConfigurationTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ConfigurationType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ConfigurationTypeModel,
+            super()._make_request("GET", params=params),
+            ConfigurationType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationType]:
         """
         Performs a GET request against the /company/configurations/types endpoint.
 
@@ -59,11 +63,11 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ConfigurationTypeModel]: The parsed response data.
+            list[ConfigurationType]: The parsed response data.
         """
-        return self._parse_many(ConfigurationTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationTypeModel:
+        return self._parse_many(ConfigurationType, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
         """
         Performs a POST request against the /company/configurations/types endpoint.
 
@@ -71,7 +75,6 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ConfigurationTypeModel: The parsed response data.
+            ConfigurationType: The parsed response data.
         """
-        return self._parse_one(ConfigurationTypeModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ConfigurationType, super()._make_request("POST", data=data, params=params).json())

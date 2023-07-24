@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.DeliveryMethodModel import DeliveryMethodModel
 
-class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import DeliveryMethod
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceDeliverymethodsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[DeliveryMethodModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[DeliveryMethod]:
         """
         Performs a GET request against the /finance/deliveryMethods/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[DeliveryMethodModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[DeliveryMethod]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            DeliveryMethodModel,
+            super()._make_request("GET", params=params),
+            DeliveryMethod,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethodModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethod:
         """
         Performs a GET request against the /finance/deliveryMethods/{id} endpoint.
 
@@ -41,10 +41,10 @@ class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            DeliveryMethodModel: The parsed response data.
+            DeliveryMethod: The parsed response data.
         """
-        return self._parse_one(DeliveryMethodModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(DeliveryMethod, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/deliveryMethods/{id} endpoint.
@@ -56,8 +56,8 @@ class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethodModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethod:
         """
         Performs a PUT request against the /finance/deliveryMethods/{id} endpoint.
 
@@ -65,11 +65,11 @@ class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            DeliveryMethodModel: The parsed response data.
+            DeliveryMethod: The parsed response data.
         """
-        return self._parse_one(DeliveryMethodModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethodModel:
+        return self._parse_one(DeliveryMethod, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DeliveryMethod:
         """
         Performs a PATCH request against the /finance/deliveryMethods/{id} endpoint.
 
@@ -77,7 +77,6 @@ class FinanceDeliveryMethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            DeliveryMethodModel: The parsed response data.
+            DeliveryMethod: The parsed response data.
         """
-        return self._parse_one(DeliveryMethodModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(DeliveryMethod, super()._make_request("PATCH", data=data, params=params).json())

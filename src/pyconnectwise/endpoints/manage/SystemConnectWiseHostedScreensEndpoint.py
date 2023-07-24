@@ -1,34 +1,39 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemConnectWiseHostedScreensIdEndpoint import SystemConnectWiseHostedScreensIdEndpoint
-from pyconnectwise.endpoints.manage.SystemConnectWiseHostedScreensCountEndpoint import SystemConnectWiseHostedScreensCountEndpoint
-from pyconnectwise.models.manage.ConnectWiseHostedScreenModel import ConnectWiseHostedScreenModel
 
-class SystemConnectWiseHostedScreensEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemConnectwisehostedscreensCountEndpoint import \
+    SystemConnectwisehostedscreensCountEndpoint
+from pyconnectwise.endpoints.manage.SystemConnectwisehostedscreensIdEndpoint import \
+    SystemConnectwisehostedscreensIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ConnectWiseHostedScreen
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemConnectwisehostedscreensEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "connectWiseHostedScreens", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemConnectWiseHostedScreensCountEndpoint(client, parent_endpoint=self)
+            SystemConnectwisehostedscreensCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> SystemConnectWiseHostedScreensIdEndpoint:
+
+    def id(self, id: int) -> SystemConnectwisehostedscreensIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemConnectWiseHostedScreensIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemConnectwisehostedscreensIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemConnectWiseHostedScreensIdEndpoint: The initialized SystemConnectWiseHostedScreensIdEndpoint object.
+            SystemConnectwisehostedscreensIdEndpoint: The initialized SystemConnectwisehostedscreensIdEndpoint object.
         """
-        child = SystemConnectWiseHostedScreensIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemConnectwisehostedscreensIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ConnectWiseHostedScreenModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ConnectWiseHostedScreen]:
         """
         Performs a GET request against the /system/connectWiseHostedScreens endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +42,19 @@ class SystemConnectWiseHostedScreensEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ConnectWiseHostedScreenModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ConnectWiseHostedScreen]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ConnectWiseHostedScreenModel,
+            super()._make_request("GET", params=params),
+            ConnectWiseHostedScreen,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConnectWiseHostedScreenModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConnectWiseHostedScreen]:
         """
         Performs a GET request against the /system/connectWiseHostedScreens endpoint.
 
@@ -59,7 +62,6 @@ class SystemConnectWiseHostedScreensEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ConnectWiseHostedScreenModel]: The parsed response data.
+            list[ConnectWiseHostedScreen]: The parsed response data.
         """
-        return self._parse_many(ConnectWiseHostedScreenModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(ConnectWiseHostedScreen, super()._make_request("GET", data=data, params=params).json())

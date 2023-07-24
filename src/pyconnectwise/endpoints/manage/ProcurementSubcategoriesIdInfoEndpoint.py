@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.SubCategoryInfoModel import SubCategoryInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SubCategoryInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SubCategoryInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SubCategoryInfo]:
         """
         Performs a GET request against the /procurement/subcategories/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class ProcurementSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SubCategoryInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SubCategoryInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SubCategoryInfoModel,
+            super()._make_request("GET", params=params),
+            SubCategoryInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SubCategoryInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SubCategoryInfo:
         """
         Performs a GET request against the /procurement/subcategories/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class ProcurementSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SubCategoryInfoModel: The parsed response data.
+            SubCategoryInfo: The parsed response data.
         """
-        return self._parse_one(SubCategoryInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(SubCategoryInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,77 +1,83 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMembersIdNotificationSettingsIdEndpoint import SystemMembersIdNotificationSettingsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdNotificationSettingsCountEndpoint import SystemMembersIdNotificationSettingsCountEndpoint
-from pyconnectwise.models.manage.MemberNotificationSettingModel import MemberNotificationSettingModel
 
-class SystemMembersIdNotificationSettingsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsCountEndpoint import \
+    SystemMembersIdNotificationsettingsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsIdEndpoint import \
+    SystemMembersIdNotificationsettingsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import MemberNotificationSetting
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMembersIdNotificationsettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notificationSettings", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemMembersIdNotificationSettingsCountEndpoint(client, parent_endpoint=self)
+            SystemMembersIdNotificationsettingsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> SystemMembersIdNotificationSettingsIdEndpoint:
+
+    def id(self, id: int) -> SystemMembersIdNotificationsettingsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemMembersIdNotificationSettingsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemMembersIdNotificationsettingsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemMembersIdNotificationSettingsIdEndpoint: The initialized SystemMembersIdNotificationSettingsIdEndpoint object.
+            SystemMembersIdNotificationsettingsIdEndpoint: The initialized SystemMembersIdNotificationsettingsIdEndpoint object.
         """
-        child = SystemMembersIdNotificationSettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMembersIdNotificationsettingsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberNotificationSettingModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MemberNotificationSetting]:
         """
-        Performs a GET request against the /system/members/{parentId}/notificationSettings endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /system/members/{id}/notificationSettings endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MemberNotificationSettingModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[MemberNotificationSetting]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            MemberNotificationSettingModel,
+            super()._make_request("GET", params=params),
+            MemberNotificationSetting,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberNotificationSettingModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberNotificationSetting]:
         """
-        Performs a GET request against the /system/members/{parentId}/notificationSettings endpoint.
+        Performs a GET request against the /system/members/{id}/notificationSettings endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[MemberNotificationSettingModel]: The parsed response data.
+            list[MemberNotificationSetting]: The parsed response data.
         """
-        return self._parse_many(MemberNotificationSettingModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberNotificationSettingModel:
+        return self._parse_many(
+            MemberNotificationSetting, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberNotificationSetting:
         """
-        Performs a POST request against the /system/members/{parentId}/notificationSettings endpoint.
+        Performs a POST request against the /system/members/{id}/notificationSettings endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            MemberNotificationSettingModel: The parsed response data.
+            MemberNotificationSetting: The parsed response data.
         """
-        return self._parse_one(MemberNotificationSettingModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            MemberNotificationSetting, super()._make_request("POST", data=data, params=params).json()
+        )

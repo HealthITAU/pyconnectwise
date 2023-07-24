@@ -1,24 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceCurrenciesIdEndpoint import FinanceCurrenciesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceCurrenciesCountEndpoint import FinanceCurrenciesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceCurrenciesIdEndpoint import FinanceCurrenciesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceCurrenciesInfoEndpoint import FinanceCurrenciesInfoEndpoint
-from pyconnectwise.models.manage.CurrencyModel import CurrencyModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Finance
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "currencies", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            FinanceCurrenciesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceCurrenciesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.info = self._register_child_endpoint(FinanceCurrenciesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(FinanceCurrenciesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> FinanceCurrenciesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceCurrenciesIdEndpoint object to move down the chain.
@@ -31,8 +28,8 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
         child = FinanceCurrenciesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CurrencyModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Finance]:
         """
         Performs a GET request against the /finance/currencies endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +38,19 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CurrencyModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Finance]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CurrencyModel,
+            super()._make_request("GET", params=params),
+            Finance,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CurrencyModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Finance]:
         """
         Performs a GET request against the /finance/currencies endpoint.
 
@@ -63,11 +58,11 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CurrencyModel]: The parsed response data.
+            list[Finance]: The parsed response data.
         """
-        return self._parse_many(CurrencyModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CurrencyModel:
+        return self._parse_many(Finance, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Finance:
         """
         Performs a POST request against the /finance/currencies endpoint.
 
@@ -75,7 +70,6 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CurrencyModel: The parsed response data.
+            Finance: The parsed response data.
         """
-        return self._parse_one(CurrencyModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Finance, super()._make_request("POST", data=data, params=params).json())

@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemUserDefinedFieldsIdEndpoint import SystemUserDefinedFieldsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemUserDefinedFieldsCountEndpoint import SystemUserDefinedFieldsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemUserDefinedFieldsInfoEndpoint import SystemUserDefinedFieldsInfoEndpoint
-from pyconnectwise.models.manage.UserDefinedFieldModel import UserDefinedFieldModel
 
-class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsCountEndpoint import SystemUserdefinedfieldsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsIdEndpoint import SystemUserdefinedfieldsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsInfoEndpoint import SystemUserdefinedfieldsInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import UserDefinedField
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemUserdefinedfieldsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "userDefinedFields", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemUserDefinedFieldsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SystemUserDefinedFieldsInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemUserDefinedFieldsIdEndpoint:
+
+        self.info = self._register_child_endpoint(SystemUserdefinedfieldsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemUserdefinedfieldsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemUserdefinedfieldsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemUserDefinedFieldsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemUserdefinedfieldsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemUserDefinedFieldsIdEndpoint: The initialized SystemUserDefinedFieldsIdEndpoint object.
+            SystemUserdefinedfieldsIdEndpoint: The initialized SystemUserdefinedfieldsIdEndpoint object.
         """
-        child = SystemUserDefinedFieldsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemUserdefinedfieldsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserDefinedFieldModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[UserDefinedField]:
         """
         Performs a GET request against the /system/userDefinedFields endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[UserDefinedFieldModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[UserDefinedField]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            UserDefinedFieldModel,
+            super()._make_request("GET", params=params),
+            UserDefinedField,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserDefinedFieldModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserDefinedField]:
         """
         Performs a GET request against the /system/userDefinedFields endpoint.
 
@@ -63,11 +60,11 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[UserDefinedFieldModel]: The parsed response data.
+            list[UserDefinedField]: The parsed response data.
         """
-        return self._parse_many(UserDefinedFieldModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserDefinedFieldModel:
+        return self._parse_many(UserDefinedField, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserDefinedField:
         """
         Performs a POST request against the /system/userDefinedFields endpoint.
 
@@ -75,7 +72,6 @@ class SystemUserDefinedFieldsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            UserDefinedFieldModel: The parsed response data.
+            UserDefinedField: The parsed response data.
         """
-        return self._parse_one(UserDefinedFieldModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(UserDefinedField, super()._make_request("POST", data=data, params=params).json())

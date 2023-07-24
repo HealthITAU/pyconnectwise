@@ -1,24 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyCountriesIdEndpoint import CompanyCountriesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyCountriesCountEndpoint import CompanyCountriesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCountriesIdEndpoint import CompanyCountriesIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyCountriesInfoEndpoint import CompanyCountriesInfoEndpoint
-from pyconnectwise.models.manage.CountryModel import CountryModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Country
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyCountriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "countries", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyCountriesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyCountriesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.info = self._register_child_endpoint(CompanyCountriesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCountriesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> CompanyCountriesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyCountriesIdEndpoint object to move down the chain.
@@ -31,8 +28,8 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         child = CompanyCountriesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CountryModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Country]:
         """
         Performs a GET request against the /company/countries endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +38,19 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CountryModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Country]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CountryModel,
+            super()._make_request("GET", params=params),
+            Country,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CountryModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Country]:
         """
         Performs a GET request against the /company/countries endpoint.
 
@@ -63,11 +58,11 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CountryModel]: The parsed response data.
+            list[Country]: The parsed response data.
         """
-        return self._parse_many(CountryModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CountryModel:
+        return self._parse_many(Country, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Country:
         """
         Performs a POST request against the /company/countries endpoint.
 
@@ -75,7 +70,6 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CountryModel: The parsed response data.
+            Country: The parsed response data.
         """
-        return self._parse_one(CountryModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Country, super()._make_request("POST", data=data, params=params).json())

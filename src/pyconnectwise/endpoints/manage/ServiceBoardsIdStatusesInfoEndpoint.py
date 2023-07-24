@@ -1,51 +1,52 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoCountEndpoint import ServiceBoardsIdStatusesInfoCountEndpoint
-from pyconnectwise.models.manage.BoardStatusInfoModel import BoardStatusInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoCountEndpoint import \
+    ServiceBoardsIdStatusesInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BoardStatusInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceBoardsIdStatusesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             ServiceBoardsIdStatusesInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardStatusInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BoardStatusInfo]:
         """
-        Performs a GET request against the /service/boards/{parentId}/statuses/info endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /service/boards/{id}/statuses/info endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BoardStatusInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BoardStatusInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BoardStatusInfoModel,
+            super()._make_request("GET", params=params),
+            BoardStatusInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardStatusInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardStatusInfo]:
         """
-        Performs a GET request against the /service/boards/{parentId}/statuses/info endpoint.
+        Performs a GET request against the /service/boards/{id}/statuses/info endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[BoardStatusInfoModel]: The parsed response data.
+            list[BoardStatusInfo]: The parsed response data.
         """
-        return self._parse_many(BoardStatusInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(BoardStatusInfo, super()._make_request("GET", data=data, params=params).json())

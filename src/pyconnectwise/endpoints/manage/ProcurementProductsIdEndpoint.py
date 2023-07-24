@@ -1,28 +1,29 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementProductsIdComponentsEndpoint import \
+    ProcurementProductsIdComponentsEndpoint
 from pyconnectwise.endpoints.manage.ProcurementProductsIdDetachEndpoint import ProcurementProductsIdDetachEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdComponentsEndpoint import ProcurementProductsIdComponentsEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingShippingDetailsEndpoint import ProcurementProductsIdPickingShippingDetailsEndpoint
-from pyconnectwise.models.manage.ProductItemModel import ProductItemModel
+from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsEndpoint import \
+    ProcurementProductsIdPickingshippingdetailsEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ProductItem
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.detach = self._register_child_endpoint(
-            ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self)
-        )
+
         self.components = self._register_child_endpoint(
             ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
         )
-        self.pickingShippingDetails = self._register_child_endpoint(
-            ProcurementProductsIdPickingShippingDetailsEndpoint(client, parent_endpoint=self)
+        self.picking_shipping_details = self._register_child_endpoint(
+            ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductItemModel]:
+        self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductItem]:
         """
         Performs a GET request against the /procurement/products/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,21 +32,19 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ProductItemModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ProductItem]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ProductItemModel,
+            super()._make_request("GET", params=params),
+            ProductItem,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
         """
         Performs a GET request against the /procurement/products/{id} endpoint.
 
@@ -53,10 +52,10 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductItemModel: The parsed response data.
+            ProductItem: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ProductItem, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/products/{id} endpoint.
@@ -68,8 +67,8 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
         """
         Performs a PUT request against the /procurement/products/{id} endpoint.
 
@@ -77,11 +76,11 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductItemModel: The parsed response data.
+            ProductItem: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItemModel:
+        return self._parse_one(ProductItem, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
         """
         Performs a PATCH request against the /procurement/products/{id} endpoint.
 
@@ -89,7 +88,6 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductItemModel: The parsed response data.
+            ProductItem: The parsed response data.
         """
-        return self._parse_one(ProductItemModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(ProductItem, super()._make_request("PATCH", data=data, params=params).json())

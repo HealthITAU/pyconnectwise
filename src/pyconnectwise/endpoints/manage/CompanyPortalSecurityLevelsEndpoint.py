@@ -1,34 +1,38 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyPortalSecurityLevelsIdEndpoint import CompanyPortalSecurityLevelsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalSecurityLevelsCountEndpoint import CompanyPortalSecurityLevelsCountEndpoint
-from pyconnectwise.models.manage.PortalSecurityLevelModel import PortalSecurityLevelModel
 
-class CompanyPortalSecurityLevelsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsCountEndpoint import \
+    CompanyPortalsecuritylevelsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsIdEndpoint import CompanyPortalsecuritylevelsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PortalSecurityLevel
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyPortalsecuritylevelsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalSecurityLevels", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyPortalSecurityLevelsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalsecuritylevelsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyPortalSecurityLevelsIdEndpoint:
+
+    def id(self, id: int) -> CompanyPortalsecuritylevelsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyPortalSecurityLevelsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyPortalsecuritylevelsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyPortalSecurityLevelsIdEndpoint: The initialized CompanyPortalSecurityLevelsIdEndpoint object.
+            CompanyPortalsecuritylevelsIdEndpoint: The initialized CompanyPortalsecuritylevelsIdEndpoint object.
         """
-        child = CompanyPortalSecurityLevelsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalsecuritylevelsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PortalSecurityLevelModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PortalSecurityLevel]:
         """
         Performs a GET request against the /company/portalSecurityLevels endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +41,19 @@ class CompanyPortalSecurityLevelsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PortalSecurityLevelModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PortalSecurityLevel]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PortalSecurityLevelModel,
+            super()._make_request("GET", params=params),
+            PortalSecurityLevel,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecurityLevelModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecurityLevel]:
         """
         Performs a GET request against the /company/portalSecurityLevels endpoint.
 
@@ -59,7 +61,6 @@ class CompanyPortalSecurityLevelsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PortalSecurityLevelModel]: The parsed response data.
+            list[PortalSecurityLevel]: The parsed response data.
         """
-        return self._parse_many(PortalSecurityLevelModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(PortalSecurityLevel, super()._make_request("GET", data=data, params=params).json())

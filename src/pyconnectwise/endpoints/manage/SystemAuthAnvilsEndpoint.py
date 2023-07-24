@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemAuthAnvilsIdEndpoint import SystemAuthAnvilsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemAuthAnvilsCountEndpoint import SystemAuthAnvilsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemAuthAnvilsTestConnectionEndpoint import SystemAuthAnvilsTestConnectionEndpoint
-from pyconnectwise.models.manage.AuthAnvilModel import AuthAnvilModel
 
-class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemAuthanvilsCountEndpoint import SystemAuthanvilsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemAuthanvilsIdEndpoint import SystemAuthanvilsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemAuthanvilsTestconnectionEndpoint import SystemAuthanvilsTestconnectionEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AuthAnvil
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "authAnvils", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemAuthAnvilsCountEndpoint(client, parent_endpoint=self)
+
+        self.count = self._register_child_endpoint(SystemAuthanvilsCountEndpoint(client, parent_endpoint=self))
+        self.test_connection = self._register_child_endpoint(
+            SystemAuthanvilsTestconnectionEndpoint(client, parent_endpoint=self)
         )
-        self.testConnection = self._register_child_endpoint(
-            SystemAuthAnvilsTestConnectionEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemAuthAnvilsIdEndpoint:
+
+    def id(self, id: int) -> SystemAuthanvilsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemAuthAnvilsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemAuthanvilsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemAuthAnvilsIdEndpoint: The initialized SystemAuthAnvilsIdEndpoint object.
+            SystemAuthanvilsIdEndpoint: The initialized SystemAuthanvilsIdEndpoint object.
         """
-        child = SystemAuthAnvilsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemAuthanvilsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AuthAnvilModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AuthAnvil]:
         """
         Performs a GET request against the /system/authAnvils endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AuthAnvilModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AuthAnvil]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AuthAnvilModel,
+            super()._make_request("GET", params=params),
+            AuthAnvil,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AuthAnvilModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AuthAnvil]:
         """
         Performs a GET request against the /system/authAnvils endpoint.
 
@@ -63,7 +60,6 @@ class SystemAuthAnvilsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AuthAnvilModel]: The parsed response data.
+            list[AuthAnvil]: The parsed response data.
         """
-        return self._parse_many(AuthAnvilModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(AuthAnvil, super()._make_request("GET", data=data, params=params).json())

@@ -1,20 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint import ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint import ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint
-from pyconnectwise.models.manage.PurchaseOrderStatusNotificationModel import PurchaseOrderStatusNotificationModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint import \
+    ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint import \
+    ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PurchaseOrderStatusNotification
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint object to move down the chain.
@@ -27,51 +30,56 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoin
         child = ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PurchaseOrderStatusNotificationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PurchaseOrderStatusNotification]:
         """
-        Performs a GET request against the /procurement/purchaseorderstatuses/{parentId}/notifications endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /procurement/purchaseorderstatuses/{id}/notifications endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PurchaseOrderStatusNotificationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PurchaseOrderStatusNotification]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PurchaseOrderStatusNotificationModel,
+            super()._make_request("GET", params=params),
+            PurchaseOrderStatusNotification,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PurchaseOrderStatusNotificationModel]:
+
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PurchaseOrderStatusNotification]:
         """
-        Performs a GET request against the /procurement/purchaseorderstatuses/{parentId}/notifications endpoint.
+        Performs a GET request against the /procurement/purchaseorderstatuses/{id}/notifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PurchaseOrderStatusNotificationModel]: The parsed response data.
+            list[PurchaseOrderStatusNotification]: The parsed response data.
         """
-        return self._parse_many(PurchaseOrderStatusNotificationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatusNotificationModel:
+        return self._parse_many(
+            PurchaseOrderStatusNotification, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatusNotification:
         """
-        Performs a POST request against the /procurement/purchaseorderstatuses/{parentId}/notifications endpoint.
+        Performs a POST request against the /procurement/purchaseorderstatuses/{id}/notifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PurchaseOrderStatusNotificationModel: The parsed response data.
+            PurchaseOrderStatusNotification: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderStatusNotificationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            PurchaseOrderStatusNotification, super()._make_request("POST", data=data, params=params).json()
+        )

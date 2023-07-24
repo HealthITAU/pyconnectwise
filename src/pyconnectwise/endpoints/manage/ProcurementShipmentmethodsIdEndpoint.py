@@ -1,24 +1,29 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdInfoEndpoint import ProcurementShipmentmethodsIdInfoEndpoint
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdUsagesEndpoint import ProcurementShipmentmethodsIdUsagesEndpoint
-from pyconnectwise.models.manage.ShipmentMethodModel import ShipmentMethodModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdInfoEndpoint import \
+    ProcurementShipmentmethodsIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdUsagesEndpoint import \
+    ProcurementShipmentmethodsIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ShipmentMethod
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
+
         self.info = self._register_child_endpoint(
             ProcurementShipmentmethodsIdInfoEndpoint(client, parent_endpoint=self)
         )
         self.usages = self._register_child_endpoint(
             ProcurementShipmentmethodsIdUsagesEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ShipmentMethodModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ShipmentMethod]:
         """
         Performs a GET request against the /procurement/shipmentmethods/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -27,21 +32,19 @@ class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ShipmentMethodModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ShipmentMethod]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ShipmentMethodModel,
+            super()._make_request("GET", params=params),
+            ShipmentMethod,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethodModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethod:
         """
         Performs a GET request against the /procurement/shipmentmethods/{id} endpoint.
 
@@ -49,10 +52,10 @@ class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ShipmentMethodModel: The parsed response data.
+            ShipmentMethod: The parsed response data.
         """
-        return self._parse_one(ShipmentMethodModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ShipmentMethod, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/shipmentmethods/{id} endpoint.
@@ -64,8 +67,8 @@ class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethodModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethod:
         """
         Performs a PUT request against the /procurement/shipmentmethods/{id} endpoint.
 
@@ -73,11 +76,11 @@ class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ShipmentMethodModel: The parsed response data.
+            ShipmentMethod: The parsed response data.
         """
-        return self._parse_one(ShipmentMethodModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethodModel:
+        return self._parse_one(ShipmentMethod, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethod:
         """
         Performs a PATCH request against the /procurement/shipmentmethods/{id} endpoint.
 
@@ -85,7 +88,6 @@ class ProcurementShipmentmethodsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ShipmentMethodModel: The parsed response data.
+            ShipmentMethod: The parsed response data.
         """
-        return self._parse_one(ShipmentMethodModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(ShipmentMethod, super()._make_request("PATCH", data=data, params=params).json())

@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceTicketLinksIdEndpoint import ServiceTicketLinksIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketLinksCountEndpoint import ServiceTicketLinksCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketLinksInfoEndpoint import ServiceTicketLinksInfoEndpoint
-from pyconnectwise.models.manage.ServiceTicketLinkModel import ServiceTicketLinkModel
 
-class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketlinksCountEndpoint import ServiceTicketlinksCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketlinksIdEndpoint import ServiceTicketlinksIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketlinksInfoEndpoint import ServiceTicketlinksInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ServiceTicketLink
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceTicketlinksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ticketLinks", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceTicketLinksCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ServiceTicketLinksInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> ServiceTicketLinksIdEndpoint:
+
+        self.info = self._register_child_endpoint(ServiceTicketlinksInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ServiceTicketlinksCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> ServiceTicketlinksIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ServiceTicketLinksIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ServiceTicketlinksIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            ServiceTicketLinksIdEndpoint: The initialized ServiceTicketLinksIdEndpoint object.
+            ServiceTicketlinksIdEndpoint: The initialized ServiceTicketlinksIdEndpoint object.
         """
-        child = ServiceTicketLinksIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceTicketlinksIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceTicketLinkModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ServiceTicketLink]:
         """
         Performs a GET request against the /service/ticketLinks endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ServiceTicketLinkModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ServiceTicketLink]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ServiceTicketLinkModel,
+            super()._make_request("GET", params=params),
+            ServiceTicketLink,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceTicketLinkModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceTicketLink]:
         """
         Performs a GET request against the /service/ticketLinks endpoint.
 
@@ -63,11 +60,11 @@ class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ServiceTicketLinkModel]: The parsed response data.
+            list[ServiceTicketLink]: The parsed response data.
         """
-        return self._parse_many(ServiceTicketLinkModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTicketLinkModel:
+        return self._parse_many(ServiceTicketLink, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTicketLink:
         """
         Performs a POST request against the /service/ticketLinks endpoint.
 
@@ -75,7 +72,6 @@ class ServiceTicketLinksEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ServiceTicketLinkModel: The parsed response data.
+            ServiceTicketLink: The parsed response data.
         """
-        return self._parse_one(ServiceTicketLinkModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ServiceTicketLink, super()._make_request("POST", data=data, params=params).json())

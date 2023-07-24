@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ScheduleEntriesIdEndpoint import ScheduleEntriesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ScheduleEntriesCountEndpoint import ScheduleEntriesCountEndpoint
-from pyconnectwise.models.manage.ScheduleEntryModel import ScheduleEntryModel
+from pyconnectwise.endpoints.manage.ScheduleEntriesIdEndpoint import ScheduleEntriesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ScheduleEntry
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ScheduleEntriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "entries", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ScheduleEntriesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(ScheduleEntriesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> ScheduleEntriesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ScheduleEntriesIdEndpoint object to move down the chain.
@@ -27,8 +26,10 @@ class ScheduleEntriesEndpoint(ConnectWiseEndpoint):
         child = ScheduleEntriesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ScheduleEntryModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ScheduleEntry]:
         """
         Performs a GET request against the /schedule/entries endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class ScheduleEntriesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ScheduleEntryModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ScheduleEntry]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ScheduleEntryModel,
+            super()._make_request("GET", params=params),
+            ScheduleEntry,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleEntryModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleEntry]:
         """
         Performs a GET request against the /schedule/entries endpoint.
 
@@ -59,11 +58,11 @@ class ScheduleEntriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ScheduleEntryModel]: The parsed response data.
+            list[ScheduleEntry]: The parsed response data.
         """
-        return self._parse_many(ScheduleEntryModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleEntryModel:
+        return self._parse_many(ScheduleEntry, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleEntry:
         """
         Performs a POST request against the /schedule/entries endpoint.
 
@@ -71,7 +70,6 @@ class ScheduleEntriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ScheduleEntryModel: The parsed response data.
+            ScheduleEntry: The parsed response data.
         """
-        return self._parse_one(ScheduleEntryModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ScheduleEntry, super()._make_request("POST", data=data, params=params).json())

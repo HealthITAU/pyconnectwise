@@ -1,34 +1,33 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SalesSalesTeamsIdEndpoint import SalesSalesTeamsIdEndpoint
-from pyconnectwise.endpoints.manage.SalesSalesTeamsCountEndpoint import SalesSalesTeamsCountEndpoint
-from pyconnectwise.models.manage.SalesTeamModel import SalesTeamModel
 
-class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SalesSalesteamsCountEndpoint import SalesSalesteamsCountEndpoint
+from pyconnectwise.endpoints.manage.SalesSalesteamsIdEndpoint import SalesSalesteamsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SalesTeam
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "salesTeams", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SalesSalesTeamsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SalesSalesTeamsIdEndpoint:
+
+        self.count = self._register_child_endpoint(SalesSalesteamsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SalesSalesteamsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SalesSalesTeamsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SalesSalesteamsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SalesSalesTeamsIdEndpoint: The initialized SalesSalesTeamsIdEndpoint object.
+            SalesSalesteamsIdEndpoint: The initialized SalesSalesteamsIdEndpoint object.
         """
-        child = SalesSalesTeamsIdEndpoint(self.client, parent_endpoint=self)
+        child = SalesSalesteamsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SalesTeamModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SalesTeam]:
         """
         Performs a GET request against the /sales/salesTeams endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SalesTeamModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SalesTeam]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SalesTeamModel,
+            super()._make_request("GET", params=params),
+            SalesTeam,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SalesTeamModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SalesTeam]:
         """
         Performs a GET request against the /sales/salesTeams endpoint.
 
@@ -59,11 +56,11 @@ class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SalesTeamModel]: The parsed response data.
+            list[SalesTeam]: The parsed response data.
         """
-        return self._parse_many(SalesTeamModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesTeamModel:
+        return self._parse_many(SalesTeam, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesTeam:
         """
         Performs a POST request against the /sales/salesTeams endpoint.
 
@@ -71,7 +68,6 @@ class SalesSalesTeamsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SalesTeamModel: The parsed response data.
+            SalesTeam: The parsed response data.
         """
-        return self._parse_one(SalesTeamModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(SalesTeam, super()._make_request("POST", data=data, params=params).json())

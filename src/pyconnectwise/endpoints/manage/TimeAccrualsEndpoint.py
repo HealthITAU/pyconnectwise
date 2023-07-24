@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.TimeAccrualsIdEndpoint import TimeAccrualsIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeAccrualsCountEndpoint import TimeAccrualsCountEndpoint
-from pyconnectwise.models.manage.TimeAccrualModel import TimeAccrualModel
+from pyconnectwise.endpoints.manage.TimeAccrualsIdEndpoint import TimeAccrualsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TimeAccrual
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class TimeAccrualsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "accruals", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            TimeAccrualsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(TimeAccrualsCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> TimeAccrualsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized TimeAccrualsIdEndpoint object to move down the chain.
@@ -27,8 +26,8 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
         child = TimeAccrualsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeAccrualModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeAccrual]:
         """
         Performs a GET request against the /time/accruals endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TimeAccrualModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TimeAccrual]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TimeAccrualModel,
+            super()._make_request("GET", params=params),
+            TimeAccrual,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeAccrualModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeAccrual]:
         """
         Performs a GET request against the /time/accruals endpoint.
 
@@ -59,11 +56,11 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TimeAccrualModel]: The parsed response data.
+            list[TimeAccrual]: The parsed response data.
         """
-        return self._parse_many(TimeAccrualModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrualModel:
+        return self._parse_many(TimeAccrual, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrual:
         """
         Performs a POST request against the /time/accruals endpoint.
 
@@ -71,7 +68,6 @@ class TimeAccrualsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TimeAccrualModel: The parsed response data.
+            TimeAccrual: The parsed response data.
         """
-        return self._parse_one(TimeAccrualModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(TimeAccrual, super()._make_request("POST", data=data, params=params).json())

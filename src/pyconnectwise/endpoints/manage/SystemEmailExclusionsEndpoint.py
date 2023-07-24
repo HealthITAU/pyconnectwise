@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemEmailExclusionsIdEndpoint import SystemEmailExclusionsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailExclusionsCountEndpoint import SystemEmailExclusionsCountEndpoint
-from pyconnectwise.models.manage.EmailExclusionModel import EmailExclusionModel
 
-class SystemEmailExclusionsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemEmailexclusionsCountEndpoint import SystemEmailexclusionsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemEmailexclusionsIdEndpoint import SystemEmailexclusionsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import EmailExclusion
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemEmailexclusionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "emailExclusions", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemEmailExclusionsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemEmailExclusionsIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemEmailexclusionsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemEmailexclusionsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemEmailExclusionsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemEmailexclusionsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemEmailExclusionsIdEndpoint: The initialized SystemEmailExclusionsIdEndpoint object.
+            SystemEmailexclusionsIdEndpoint: The initialized SystemEmailexclusionsIdEndpoint object.
         """
-        child = SystemEmailExclusionsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemEmailexclusionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailExclusionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[EmailExclusion]:
         """
         Performs a GET request against the /system/emailExclusions endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class SystemEmailExclusionsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[EmailExclusionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[EmailExclusion]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            EmailExclusionModel,
+            super()._make_request("GET", params=params),
+            EmailExclusion,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailExclusionModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailExclusion]:
         """
         Performs a GET request against the /system/emailExclusions endpoint.
 
@@ -59,11 +58,11 @@ class SystemEmailExclusionsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[EmailExclusionModel]: The parsed response data.
+            list[EmailExclusion]: The parsed response data.
         """
-        return self._parse_many(EmailExclusionModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusionModel:
+        return self._parse_many(EmailExclusion, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusion:
         """
         Performs a POST request against the /system/emailExclusions endpoint.
 
@@ -71,7 +70,6 @@ class SystemEmailExclusionsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            EmailExclusionModel: The parsed response data.
+            EmailExclusion: The parsed response data.
         """
-        return self._parse_one(EmailExclusionModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(EmailExclusion, super()._make_request("POST", data=data, params=params).json())

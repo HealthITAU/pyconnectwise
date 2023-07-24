@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyCompanyPickerItemsIdEndpoint import CompanyCompanyPickerItemsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompanyPickerItemsClearEndpoint import CompanyCompanyPickerItemsClearEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompanyPickerItemsCountEndpoint import CompanyCompanyPickerItemsCountEndpoint
-from pyconnectwise.models.manage.CompanyPickerItemModel import CompanyPickerItemModel
 
-class CompanyCompanyPickerItemsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import CompanyCompanypickeritemsClearEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import CompanyCompanypickeritemsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import CompanyCompanypickeritemsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CompanyPickerItem
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companyPickerItems", parent_endpoint=parent_endpoint)
-        
-        self.clear = self._register_child_endpoint(
-            CompanyCompanyPickerItemsClearEndpoint(client, parent_endpoint=self)
-        )
-        self.count = self._register_child_endpoint(
-            CompanyCompanyPickerItemsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyCompanyPickerItemsIdEndpoint:
+
+        self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyCompanyPickerItemsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyCompanypickeritemsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyCompanyPickerItemsIdEndpoint: The initialized CompanyCompanyPickerItemsIdEndpoint object.
+            CompanyCompanypickeritemsIdEndpoint: The initialized CompanyCompanypickeritemsIdEndpoint object.
         """
-        child = CompanyCompanyPickerItemsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCompanypickeritemsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanyPickerItemModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyPickerItem]:
         """
         Performs a GET request against the /company/companyPickerItems endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class CompanyCompanyPickerItemsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CompanyPickerItemModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CompanyPickerItem]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CompanyPickerItemModel,
+            super()._make_request("GET", params=params),
+            CompanyPickerItem,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyPickerItemModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyPickerItem]:
         """
         Performs a GET request against the /company/companyPickerItems endpoint.
 
@@ -63,11 +60,11 @@ class CompanyCompanyPickerItemsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CompanyPickerItemModel]: The parsed response data.
+            list[CompanyPickerItem]: The parsed response data.
         """
-        return self._parse_many(CompanyPickerItemModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyPickerItemModel:
+        return self._parse_many(CompanyPickerItem, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyPickerItem:
         """
         Performs a POST request against the /company/companyPickerItems endpoint.
 
@@ -75,7 +72,6 @@ class CompanyCompanyPickerItemsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyPickerItemModel: The parsed response data.
+            CompanyPickerItem: The parsed response data.
         """
-        return self._parse_one(CompanyPickerItemModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(CompanyPickerItem, super()._make_request("POST", data=data, params=params).json())

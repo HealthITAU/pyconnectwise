@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.KPIModel import KPIModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import KPI
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemKpisIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KPIModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KPI]:
         """
         Performs a GET request against the /system/kpis/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemKpisIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[KPIModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[KPI]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            KPIModel,
+            super()._make_request("GET", params=params),
+            KPI,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KPIModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KPI:
         """
         Performs a GET request against the /system/kpis/{id} endpoint.
 
@@ -41,7 +39,6 @@ class SystemKpisIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            KPIModel: The parsed response data.
+            KPI: The parsed response data.
         """
-        return self._parse_one(KPIModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(KPI, super()._make_request("GET", data=data, params=params).json())

@@ -1,77 +1,73 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMyAccountIdSkillsIdEndpoint import SystemMyAccountIdSkillsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMyAccountIdSkillsCountEndpoint import SystemMyAccountIdSkillsCountEndpoint
-from pyconnectwise.models.manage.MemberSkillModel import MemberSkillModel
 
-class SystemMyAccountIdSkillsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsCountEndpoint import SystemMyaccountIdSkillsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsIdEndpoint import SystemMyaccountIdSkillsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import MemberSkill
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMyaccountIdSkillsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "skills", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemMyAccountIdSkillsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemMyAccountIdSkillsIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemMyaccountIdSkillsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemMyaccountIdSkillsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemMyAccountIdSkillsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemMyaccountIdSkillsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemMyAccountIdSkillsIdEndpoint: The initialized SystemMyAccountIdSkillsIdEndpoint object.
+            SystemMyaccountIdSkillsIdEndpoint: The initialized SystemMyaccountIdSkillsIdEndpoint object.
         """
-        child = SystemMyAccountIdSkillsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMyaccountIdSkillsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberSkillModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberSkill]:
         """
-        Performs a GET request against the /system/myAccount/{parentId}/skills endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /system/myAccount/{id}/skills endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MemberSkillModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[MemberSkill]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            MemberSkillModel,
+            super()._make_request("GET", params=params),
+            MemberSkill,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberSkillModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberSkill]:
         """
-        Performs a GET request against the /system/myAccount/{parentId}/skills endpoint.
+        Performs a GET request against the /system/myAccount/{id}/skills endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[MemberSkillModel]: The parsed response data.
+            list[MemberSkill]: The parsed response data.
         """
-        return self._parse_many(MemberSkillModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberSkillModel:
+        return self._parse_many(MemberSkill, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberSkill:
         """
-        Performs a POST request against the /system/myAccount/{parentId}/skills endpoint.
+        Performs a POST request against the /system/myAccount/{id}/skills endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            MemberSkillModel: The parsed response data.
+            MemberSkill: The parsed response data.
         """
-        return self._parse_one(MemberSkillModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(MemberSkill, super()._make_request("POST", data=data, params=params).json())

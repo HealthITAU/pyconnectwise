@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.GLAccountModel import GLAccountModel
 
-class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import GLAccount
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceGlaccountsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLAccountModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLAccount]:
         """
         Performs a GET request against the /finance/glAccounts/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[GLAccountModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[GLAccount]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            GLAccountModel,
+            super()._make_request("GET", params=params),
+            GLAccount,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccountModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccount:
         """
         Performs a GET request against the /finance/glAccounts/{id} endpoint.
 
@@ -41,11 +39,11 @@ class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GLAccountModel: The parsed response data.
+            GLAccount: The parsed response data.
         """
-        return self._parse_one(GLAccountModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccountModel:
+        return self._parse_one(GLAccount, super()._make_request("GET", data=data, params=params).json())
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccount:
         """
         Performs a PUT request against the /finance/glAccounts/{id} endpoint.
 
@@ -53,11 +51,11 @@ class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GLAccountModel: The parsed response data.
+            GLAccount: The parsed response data.
         """
-        return self._parse_one(GLAccountModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccountModel:
+        return self._parse_one(GLAccount, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccount:
         """
         Performs a PATCH request against the /finance/glAccounts/{id} endpoint.
 
@@ -65,10 +63,10 @@ class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GLAccountModel: The parsed response data.
+            GLAccount: The parsed response data.
         """
-        return self._parse_one(GLAccountModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(GLAccount, super()._make_request("PATCH", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/glAccounts/{id} endpoint.
@@ -80,4 +78,3 @@ class FinanceGlAccountsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        

@@ -1,65 +1,71 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint import CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalConfigurationsIdInvoiceSetupsCountEndpoint import CompanyPortalConfigurationsIdInvoiceSetupsCountEndpoint
-from pyconnectwise.models.manage.PortalConfigurationInvoiceSetupModel import PortalConfigurationInvoiceSetupModel
 
-class CompanyPortalConfigurationsIdInvoiceSetupsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdInvoicesetupsCountEndpoint import \
+    CompanyPortalconfigurationsIdInvoicesetupsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint import \
+    CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PortalConfigurationInvoiceSetup
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyPortalconfigurationsIdInvoicesetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "invoiceSetups", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyPortalConfigurationsIdInvoiceSetupsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalconfigurationsIdInvoicesetupsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint:
+
+    def id(self, id: int) -> CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint: The initialized CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint object.
+            CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint object.
         """
-        child = CompanyPortalConfigurationsIdInvoiceSetupsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PortalConfigurationInvoiceSetupModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PortalConfigurationInvoiceSetup]:
         """
-        Performs a GET request against the /company/portalConfigurations/{parentId}/invoiceSetups endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/portalConfigurations/{id}/invoiceSetups endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PortalConfigurationInvoiceSetupModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PortalConfigurationInvoiceSetup]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PortalConfigurationInvoiceSetupModel,
+            super()._make_request("GET", params=params),
+            PortalConfigurationInvoiceSetup,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalConfigurationInvoiceSetupModel]:
+
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PortalConfigurationInvoiceSetup]:
         """
-        Performs a GET request against the /company/portalConfigurations/{parentId}/invoiceSetups endpoint.
+        Performs a GET request against the /company/portalConfigurations/{id}/invoiceSetups endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PortalConfigurationInvoiceSetupModel]: The parsed response data.
+            list[PortalConfigurationInvoiceSetup]: The parsed response data.
         """
-        return self._parse_many(PortalConfigurationInvoiceSetupModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(
+            PortalConfigurationInvoiceSetup, super()._make_request("GET", data=data, params=params).json()
+        )

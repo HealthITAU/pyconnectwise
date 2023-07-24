@@ -1,51 +1,52 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifyTypesInfoCountEndpoint import SystemWorkflowsIdNotifyTypesInfoCountEndpoint
-from pyconnectwise.models.manage.WorkflowNotifyTypeInfoModel import WorkflowNotifyTypeInfoModel
 
-class SystemWorkflowsIdNotifyTypesInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoCountEndpoint import \
+    SystemWorkflowsIdNotifytypesInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WorkflowNotifyTypeInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemWorkflowsIdNotifytypesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemWorkflowsIdNotifyTypesInfoCountEndpoint(client, parent_endpoint=self)
+            SystemWorkflowsIdNotifytypesInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkflowNotifyTypeInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WorkflowNotifyTypeInfo]:
         """
-        Performs a GET request against the /system/workflows/{parentId}/notifyTypes/info endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /system/workflows/{id}/notifyTypes/info endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WorkflowNotifyTypeInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WorkflowNotifyTypeInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WorkflowNotifyTypeInfoModel,
+            super()._make_request("GET", params=params),
+            WorkflowNotifyTypeInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowNotifyTypeInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowNotifyTypeInfo]:
         """
-        Performs a GET request against the /system/workflows/{parentId}/notifyTypes/info endpoint.
+        Performs a GET request against the /system/workflows/{id}/notifyTypes/info endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[WorkflowNotifyTypeInfoModel]: The parsed response data.
+            list[WorkflowNotifyTypeInfo]: The parsed response data.
         """
-        return self._parse_many(WorkflowNotifyTypeInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(WorkflowNotifyTypeInfo, super()._make_request("GET", data=data, params=params).json())

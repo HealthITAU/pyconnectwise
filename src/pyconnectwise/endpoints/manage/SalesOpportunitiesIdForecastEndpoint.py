@@ -1,20 +1,27 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCopyEndpoint import \
+    SalesOpportunitiesIdForecastCopyEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCountEndpoint import \
+    SalesOpportunitiesIdForecastCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastIdEndpoint import SalesOpportunitiesIdForecastIdEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCountEndpoint import SalesOpportunitiesIdForecastCountEndpoint
-from pyconnectwise.models.manage.ForecastModel import ForecastModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Forecast
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SalesOpportunitiesIdForecastEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "", parent_endpoint=parent_endpoint)
-        
+        super().__init__(client, "forecast", parent_endpoint=parent_endpoint)
+
+        self.copy = self._register_child_endpoint(
+            SalesOpportunitiesIdForecastCopyEndpoint(client, parent_endpoint=self)
+        )
         self.count = self._register_child_endpoint(
             SalesOpportunitiesIdForecastCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> SalesOpportunitiesIdForecastIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesIdForecastIdEndpoint object to move down the chain.
@@ -27,40 +34,48 @@ class SalesOpportunitiesIdForecastEndpoint(ConnectWiseEndpoint):
         child = SalesOpportunitiesIdForecastIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Forecast]:
         """
-        Performs a DELETE request against the /sales/opportunities/{parentId}/forecast/ endpoint.
+        Performs a GET request against the /sales/opportunities/{id}/forecast endpoint and returns an initialized PaginatedResponse object.
+
+        Parameters:
+            page (int): The page number to request.
+            page_size (int): The number of results to return per page.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            PaginatedResponse[Forecast]: The initialized PaginatedResponse object.
+        """
+        params["page"] = page
+        params["pageSize"] = page_size
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Forecast,
+            self,
+            page,
+            page_size,
+        )
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Forecast]:
+        """
+        Performs a GET request against the /sales/opportunities/{id}/forecast endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GenericMessageModel: The parsed response data.
+            list[Forecast]: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ForecastModel:
+        return self._parse_many(Forecast, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Forecast:
         """
-        Performs a PUT request against the /sales/opportunities/{parentId}/forecast/ endpoint.
+        Performs a POST request against the /sales/opportunities/{id}/forecast endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ForecastModel: The parsed response data.
+            Forecast: The parsed response data.
         """
-        return self._parse_one(ForecastModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ForecastModel:
-        """
-        Performs a PATCH request against the /sales/opportunities/{parentId}/forecast/ endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            ForecastModel: The parsed response data.
-        """
-        return self._parse_one(ForecastModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(Forecast, super()._make_request("POST", data=data, params=params).json())

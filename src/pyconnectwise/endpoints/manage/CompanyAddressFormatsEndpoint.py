@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyAddressFormatsIdEndpoint import CompanyAddressFormatsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyAddressFormatsCountEndpoint import CompanyAddressFormatsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyAddressFormatsInfoEndpoint import CompanyAddressFormatsInfoEndpoint
-from pyconnectwise.models.manage.AddressFormatModel import AddressFormatModel
 
-class CompanyAddressFormatsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsCountEndpoint import CompanyAddressformatsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsIdEndpoint import CompanyAddressformatsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsInfoEndpoint import CompanyAddressformatsInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AddressFormat
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyAddressformatsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "addressFormats", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyAddressFormatsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyAddressFormatsInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyAddressFormatsIdEndpoint:
+
+        self.info = self._register_child_endpoint(CompanyAddressformatsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyAddressformatsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyAddressformatsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyAddressFormatsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyAddressformatsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyAddressFormatsIdEndpoint: The initialized CompanyAddressFormatsIdEndpoint object.
+            CompanyAddressformatsIdEndpoint: The initialized CompanyAddressformatsIdEndpoint object.
         """
-        child = CompanyAddressFormatsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyAddressformatsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AddressFormatModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AddressFormat]:
         """
         Performs a GET request against the /company/addressFormats endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class CompanyAddressFormatsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AddressFormatModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AddressFormat]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AddressFormatModel,
+            super()._make_request("GET", params=params),
+            AddressFormat,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AddressFormatModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AddressFormat]:
         """
         Performs a GET request against the /company/addressFormats endpoint.
 
@@ -63,11 +60,11 @@ class CompanyAddressFormatsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AddressFormatModel]: The parsed response data.
+            list[AddressFormat]: The parsed response data.
         """
-        return self._parse_many(AddressFormatModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormatModel:
+        return self._parse_many(AddressFormat, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormat:
         """
         Performs a POST request against the /company/addressFormats endpoint.
 
@@ -75,7 +72,6 @@ class CompanyAddressFormatsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AddressFormatModel: The parsed response data.
+            AddressFormat: The parsed response data.
         """
-        return self._parse_one(AddressFormatModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(AddressFormat, super()._make_request("POST", data=data, params=params).json())

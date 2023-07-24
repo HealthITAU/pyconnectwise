@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.InOutBoardModel import InOutBoardModel
 
-class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import InOutBoard
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutBoardModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[InOutBoardModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[InOutBoard]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            InOutBoardModel,
+            super()._make_request("GET", params=params),
+            InOutBoard,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoardModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
         """
         Performs a GET request against the /system/inOutBoards/{id} endpoint.
 
@@ -41,10 +39,10 @@ class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InOutBoardModel: The parsed response data.
+            InOutBoard: The parsed response data.
         """
-        return self._parse_one(InOutBoardModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(InOutBoard, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/inOutBoards/{id} endpoint.
@@ -56,8 +54,8 @@ class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoardModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
         """
         Performs a PUT request against the /system/inOutBoards/{id} endpoint.
 
@@ -65,11 +63,11 @@ class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InOutBoardModel: The parsed response data.
+            InOutBoard: The parsed response data.
         """
-        return self._parse_one(InOutBoardModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoardModel:
+        return self._parse_one(InOutBoard, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
         """
         Performs a PATCH request against the /system/inOutBoards/{id} endpoint.
 
@@ -77,7 +75,6 @@ class SystemInOutBoardsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InOutBoardModel: The parsed response data.
+            InOutBoard: The parsed response data.
         """
-        return self._parse_one(InOutBoardModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(InOutBoard, super()._make_request("PATCH", data=data, params=params).json())

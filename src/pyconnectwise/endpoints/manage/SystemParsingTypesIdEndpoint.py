@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ParsingTypeModel import ParsingTypeModel
 
-class SystemParsingTypesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ParsingType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemParsingtypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ParsingTypeModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ParsingType]:
         """
         Performs a GET request against the /system/parsingTypes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemParsingTypesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ParsingTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ParsingType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ParsingTypeModel,
+            super()._make_request("GET", params=params),
+            ParsingType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ParsingTypeModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ParsingType:
         """
         Performs a GET request against the /system/parsingTypes/{id} endpoint.
 
@@ -41,7 +39,6 @@ class SystemParsingTypesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ParsingTypeModel: The parsed response data.
+            ParsingType: The parsed response data.
         """
-        return self._parse_one(ParsingTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ParsingType, super()._make_request("GET", data=data, params=params).json())

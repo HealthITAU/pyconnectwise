@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ProjectModel import ProjectModel
 
-class SalesOpportunitiesIdConvertToProjectEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Project
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SalesOpportunitiesIdConverttoprojectEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "convertToProject", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectModel:
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Project:
         """
         Performs a POST request against the /sales/opportunities/{id}/convertToProject endpoint.
 
@@ -18,7 +18,6 @@ class SalesOpportunitiesIdConvertToProjectEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProjectModel: The parsed response data.
+            Project: The parsed response data.
         """
-        return self._parse_one(ProjectModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Project, super()._make_request("POST", data=data, params=params).json())

@@ -1,57 +1,59 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceTaxCodesIdWorkRoleExemptionsIdTaxableWorkRoleLevelsEndpoint import FinanceTaxCodesIdWorkRoleExemptionsIdTaxableWorkRoleLevelsEndpoint
-from pyconnectwise.models.manage.WorkRoleExemptionModel import WorkRoleExemptionModel
 
-class FinanceTaxCodesIdWorkRoleExemptionsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint import \
+    FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WorkRoleExemption
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.taxableWorkRoleLevels = self._register_child_endpoint(
-            FinanceTaxCodesIdWorkRoleExemptionsIdTaxableWorkRoleLevelsEndpoint(client, parent_endpoint=self)
+
+        self.taxable_work_role_levels = self._register_child_endpoint(
+            FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkRoleExemptionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WorkRoleExemption]:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/workRoleExemptions/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WorkRoleExemptionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WorkRoleExemption]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WorkRoleExemptionModel,
+            super()._make_request("GET", params=params),
+            WorkRoleExemption,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemptionModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/workRoleExemptions/{id} endpoint.
+        Performs a GET request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WorkRoleExemptionModel: The parsed response data.
+            WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(WorkRoleExemptionModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(WorkRoleExemption, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
-        Performs a DELETE request against the /finance/taxCodes/{parentId}/workRoleExemptions/{id} endpoint.
+        Performs a DELETE request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -60,28 +62,27 @@ class FinanceTaxCodesIdWorkRoleExemptionsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemptionModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
-        Performs a PUT request against the /finance/taxCodes/{parentId}/workRoleExemptions/{id} endpoint.
+        Performs a PUT request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WorkRoleExemptionModel: The parsed response data.
+            WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(WorkRoleExemptionModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemptionModel:
+        return self._parse_one(WorkRoleExemption, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
-        Performs a PATCH request against the /finance/taxCodes/{parentId}/workRoleExemptions/{id} endpoint.
+        Performs a PATCH request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WorkRoleExemptionModel: The parsed response data.
+            WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(WorkRoleExemptionModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(WorkRoleExemption, super()._make_request("PATCH", data=data, params=params).json())

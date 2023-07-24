@@ -1,65 +1,69 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAgreementTypesIdWorkrolesInfoIdEndpoint import FinanceAgreementTypesIdWorkrolesInfoIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementTypesIdWorkrolesInfoCountEndpoint import FinanceAgreementTypesIdWorkrolesInfoCountEndpoint
-from pyconnectwise.models.manage.AgreementTypeWorkRoleInfoModel import AgreementTypeWorkRoleInfoModel
 
-class FinanceAgreementTypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoCountEndpoint import \
+    FinanceAgreementtypesIdWorkrolesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoIdEndpoint import \
+    FinanceAgreementtypesIdWorkrolesInfoIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AgreementTypeWorkRoleInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceAgreementtypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            FinanceAgreementTypesIdWorkrolesInfoCountEndpoint(client, parent_endpoint=self)
+            FinanceAgreementtypesIdWorkrolesInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> FinanceAgreementTypesIdWorkrolesInfoIdEndpoint:
+
+    def id(self, id: int) -> FinanceAgreementtypesIdWorkrolesInfoIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceAgreementTypesIdWorkrolesInfoIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceAgreementtypesIdWorkrolesInfoIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceAgreementTypesIdWorkrolesInfoIdEndpoint: The initialized FinanceAgreementTypesIdWorkrolesInfoIdEndpoint object.
+            FinanceAgreementtypesIdWorkrolesInfoIdEndpoint: The initialized FinanceAgreementtypesIdWorkrolesInfoIdEndpoint object.
         """
-        child = FinanceAgreementTypesIdWorkrolesInfoIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementtypesIdWorkrolesInfoIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AgreementTypeWorkRoleInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AgreementTypeWorkRoleInfo]:
         """
-        Performs a GET request against the /finance/agreementTypes/{parentId}/workroles/info endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/agreementTypes/{id}/workroles/info endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AgreementTypeWorkRoleInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AgreementTypeWorkRoleInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AgreementTypeWorkRoleInfoModel,
+            super()._make_request("GET", params=params),
+            AgreementTypeWorkRoleInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkRoleInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkRoleInfo]:
         """
-        Performs a GET request against the /finance/agreementTypes/{parentId}/workroles/info endpoint.
+        Performs a GET request against the /finance/agreementTypes/{id}/workroles/info endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AgreementTypeWorkRoleInfoModel]: The parsed response data.
+            list[AgreementTypeWorkRoleInfo]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkRoleInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(
+            AgreementTypeWorkRoleInfo, super()._make_request("GET", data=data, params=params).json()
+        )

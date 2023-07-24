@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyMarketDescriptionsIdEndpoint import CompanyMarketDescriptionsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyMarketDescriptionsCountEndpoint import CompanyMarketDescriptionsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyMarketDescriptionsInfoEndpoint import CompanyMarketDescriptionsInfoEndpoint
-from pyconnectwise.models.manage.MarketDescriptionModel import MarketDescriptionModel
 
-class CompanyMarketDescriptionsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsCountEndpoint import CompanyMarketdescriptionsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsIdEndpoint import CompanyMarketdescriptionsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoEndpoint import CompanyMarketdescriptionsInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import MarketDescription
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyMarketdescriptionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "marketDescriptions", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyMarketDescriptionsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyMarketDescriptionsInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyMarketDescriptionsIdEndpoint:
+
+        self.info = self._register_child_endpoint(CompanyMarketdescriptionsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyMarketdescriptionsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyMarketdescriptionsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyMarketDescriptionsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyMarketdescriptionsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyMarketDescriptionsIdEndpoint: The initialized CompanyMarketDescriptionsIdEndpoint object.
+            CompanyMarketdescriptionsIdEndpoint: The initialized CompanyMarketdescriptionsIdEndpoint object.
         """
-        child = CompanyMarketDescriptionsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyMarketdescriptionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MarketDescriptionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MarketDescription]:
         """
         Performs a GET request against the /company/marketDescriptions endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class CompanyMarketDescriptionsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MarketDescriptionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[MarketDescription]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            MarketDescriptionModel,
+            super()._make_request("GET", params=params),
+            MarketDescription,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescriptionModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescription]:
         """
         Performs a GET request against the /company/marketDescriptions endpoint.
 
@@ -63,11 +60,11 @@ class CompanyMarketDescriptionsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[MarketDescriptionModel]: The parsed response data.
+            list[MarketDescription]: The parsed response data.
         """
-        return self._parse_many(MarketDescriptionModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketDescriptionModel:
+        return self._parse_many(MarketDescription, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketDescription:
         """
         Performs a POST request against the /company/marketDescriptions endpoint.
 
@@ -75,7 +72,6 @@ class CompanyMarketDescriptionsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            MarketDescriptionModel: The parsed response data.
+            MarketDescription: The parsed response data.
         """
-        return self._parse_one(MarketDescriptionModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(MarketDescription, super()._make_request("POST", data=data, params=params).json())

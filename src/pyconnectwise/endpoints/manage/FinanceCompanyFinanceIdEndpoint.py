@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.CompanyFinanceModel import CompanyFinanceModel
 
-class FinanceCompanyFinanceIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CompanyFinance
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceCompanyfinanceIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanyFinanceModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyFinance]:
         """
         Performs a GET request against the /finance/companyFinance/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class FinanceCompanyFinanceIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CompanyFinanceModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CompanyFinance]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CompanyFinanceModel,
+            super()._make_request("GET", params=params),
+            CompanyFinance,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyFinanceModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyFinance:
         """
         Performs a GET request against the /finance/companyFinance/{id} endpoint.
 
@@ -41,11 +41,11 @@ class FinanceCompanyFinanceIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyFinanceModel: The parsed response data.
+            CompanyFinance: The parsed response data.
         """
-        return self._parse_one(CompanyFinanceModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyFinanceModel:
+        return self._parse_one(CompanyFinance, super()._make_request("GET", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyFinance:
         """
         Performs a PATCH request against the /finance/companyFinance/{id} endpoint.
 
@@ -53,7 +53,6 @@ class FinanceCompanyFinanceIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyFinanceModel: The parsed response data.
+            CompanyFinance: The parsed response data.
         """
-        return self._parse_one(CompanyFinanceModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(CompanyFinance, super()._make_request("PATCH", data=data, params=params).json())

@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SalesCommissionsIdUsagesEndpoint import SalesCommissionsIdUsagesEndpoint
-from pyconnectwise.models.manage.CommissionModel import CommissionModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Commission
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.usages = self._register_child_endpoint(
-            SalesCommissionsIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CommissionModel]:
+
+        self.usages = self._register_child_endpoint(SalesCommissionsIdUsagesEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Commission]:
         """
         Performs a GET request against the /sales/commissions/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +22,19 @@ class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CommissionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Commission]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CommissionModel,
+            super()._make_request("GET", params=params),
+            Commission,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommissionModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Commission:
         """
         Performs a GET request against the /sales/commissions/{id} endpoint.
 
@@ -45,10 +42,10 @@ class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CommissionModel: The parsed response data.
+            Commission: The parsed response data.
         """
-        return self._parse_one(CommissionModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(Commission, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/commissions/{id} endpoint.
@@ -60,8 +57,8 @@ class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommissionModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Commission:
         """
         Performs a PUT request against the /sales/commissions/{id} endpoint.
 
@@ -69,11 +66,11 @@ class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CommissionModel: The parsed response data.
+            Commission: The parsed response data.
         """
-        return self._parse_one(CommissionModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommissionModel:
+        return self._parse_one(Commission, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Commission:
         """
         Performs a PATCH request against the /sales/commissions/{id} endpoint.
 
@@ -81,7 +78,6 @@ class SalesCommissionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CommissionModel: The parsed response data.
+            Commission: The parsed response data.
         """
-        return self._parse_one(CommissionModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(Commission, super()._make_request("PATCH", data=data, params=params).json())

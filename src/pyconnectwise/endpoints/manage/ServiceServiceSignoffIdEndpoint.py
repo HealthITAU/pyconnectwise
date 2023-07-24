@@ -1,24 +1,28 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceServiceSignoffIdInfoEndpoint import ServiceServiceSignoffIdInfoEndpoint
-from pyconnectwise.endpoints.manage.ServiceServiceSignoffIdUsagesEndpoint import ServiceServiceSignoffIdUsagesEndpoint
-from pyconnectwise.models.manage.ServiceSignoffModel import ServiceSignoffModel
 
-class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceServicesignoffIdInfoEndpoint import ServiceServicesignoffIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsEndpoint import \
+    ServiceServicesignoffIdSignoffcustomfieldsEndpoint
+from pyconnectwise.endpoints.manage.ServiceServicesignoffIdUsagesEndpoint import ServiceServicesignoffIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ServiceSignoff
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceServicesignoffIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            ServiceServiceSignoffIdInfoEndpoint(client, parent_endpoint=self)
+
+        self.info = self._register_child_endpoint(ServiceServicesignoffIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(ServiceServicesignoffIdUsagesEndpoint(client, parent_endpoint=self))
+        self.signoffcustomfields = self._register_child_endpoint(
+            ServiceServicesignoffIdSignoffcustomfieldsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(
-            ServiceServiceSignoffIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceSignoffModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ServiceSignoff]:
         """
         Performs a GET request against the /service/serviceSignoff/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -27,21 +31,19 @@ class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ServiceSignoffModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ServiceSignoff]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ServiceSignoffModel,
+            super()._make_request("GET", params=params),
+            ServiceSignoff,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoff:
         """
         Performs a GET request against the /service/serviceSignoff/{id} endpoint.
 
@@ -49,10 +51,10 @@ class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ServiceSignoffModel: The parsed response data.
+            ServiceSignoff: The parsed response data.
         """
-        return self._parse_one(ServiceSignoffModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ServiceSignoff, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/serviceSignoff/{id} endpoint.
@@ -64,8 +66,8 @@ class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoff:
         """
         Performs a PUT request against the /service/serviceSignoff/{id} endpoint.
 
@@ -73,11 +75,11 @@ class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ServiceSignoffModel: The parsed response data.
+            ServiceSignoff: The parsed response data.
         """
-        return self._parse_one(ServiceSignoffModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffModel:
+        return self._parse_one(ServiceSignoff, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoff:
         """
         Performs a PATCH request against the /service/serviceSignoff/{id} endpoint.
 
@@ -85,7 +87,6 @@ class ServiceServiceSignoffIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ServiceSignoffModel: The parsed response data.
+            ServiceSignoff: The parsed response data.
         """
-        return self._parse_one(ServiceSignoffModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(ServiceSignoff, super()._make_request("PATCH", data=data, params=params).json())

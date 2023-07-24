@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdActivitiesCountEndpoint import MarketingCampaignsIdActivitiesCountEndpoint
-from pyconnectwise.models.manage.ActivityReferenceModel import ActivityReferenceModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdActivitiesCountEndpoint import \
+    MarketingCampaignsIdActivitiesCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ActivityReference
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class MarketingCampaignsIdActivitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "activities", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ActivityReferenceModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ActivityReference]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/activities endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class MarketingCampaignsIdActivitiesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ActivityReferenceModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ActivityReference]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ActivityReferenceModel,
+            super()._make_request("GET", params=params),
+            ActivityReference,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityReferenceModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityReference]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/activities endpoint.
 
@@ -45,7 +47,6 @@ class MarketingCampaignsIdActivitiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ActivityReferenceModel]: The parsed response data.
+            list[ActivityReference]: The parsed response data.
         """
-        return self._parse_many(ActivityReferenceModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(ActivityReference, super()._make_request("GET", data=data, params=params).json())

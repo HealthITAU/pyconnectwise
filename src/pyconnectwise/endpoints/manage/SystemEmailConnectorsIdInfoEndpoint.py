@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.EmailConnectorInfoModel import EmailConnectorInfoModel
 
-class SystemEmailConnectorsIdInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import EmailConnectorInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemEmailconnectorsIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailConnectorInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[EmailConnectorInfo]:
         """
         Performs a GET request against the /system/emailConnectors/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class SystemEmailConnectorsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[EmailConnectorInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[EmailConnectorInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            EmailConnectorInfoModel,
+            super()._make_request("GET", params=params),
+            EmailConnectorInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorInfo:
         """
         Performs a GET request against the /system/emailConnectors/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class SystemEmailConnectorsIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            EmailConnectorInfoModel: The parsed response data.
+            EmailConnectorInfo: The parsed response data.
         """
-        return self._parse_one(EmailConnectorInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(EmailConnectorInfo, super()._make_request("GET", data=data, params=params).json())

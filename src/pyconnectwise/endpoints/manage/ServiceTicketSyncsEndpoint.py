@@ -1,34 +1,33 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceTicketSyncsIdEndpoint import ServiceTicketSyncsIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketSyncsCountEndpoint import ServiceTicketSyncsCountEndpoint
-from pyconnectwise.models.manage.TicketSyncModel import TicketSyncModel
 
-class ServiceTicketSyncsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketsyncsCountEndpoint import ServiceTicketsyncsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketsyncsIdEndpoint import ServiceTicketsyncsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TicketSync
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceTicketsyncsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ticketSyncs", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceTicketSyncsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> ServiceTicketSyncsIdEndpoint:
+
+        self.count = self._register_child_endpoint(ServiceTicketsyncsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> ServiceTicketsyncsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ServiceTicketSyncsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ServiceTicketsyncsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            ServiceTicketSyncsIdEndpoint: The initialized ServiceTicketSyncsIdEndpoint object.
+            ServiceTicketsyncsIdEndpoint: The initialized ServiceTicketsyncsIdEndpoint object.
         """
-        child = ServiceTicketSyncsIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceTicketsyncsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketSyncModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketSync]:
         """
         Performs a GET request against the /service/ticketSyncs endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class ServiceTicketSyncsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TicketSyncModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TicketSync]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TicketSyncModel,
+            super()._make_request("GET", params=params),
+            TicketSync,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TicketSyncModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TicketSync]:
         """
         Performs a GET request against the /service/ticketSyncs endpoint.
 
@@ -59,11 +56,11 @@ class ServiceTicketSyncsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TicketSyncModel]: The parsed response data.
+            list[TicketSync]: The parsed response data.
         """
-        return self._parse_many(TicketSyncModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketSyncModel:
+        return self._parse_many(TicketSync, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketSync:
         """
         Performs a POST request against the /service/ticketSyncs endpoint.
 
@@ -71,7 +68,6 @@ class ServiceTicketSyncsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TicketSyncModel: The parsed response data.
+            TicketSync: The parsed response data.
         """
-        return self._parse_one(TicketSyncModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(TicketSync, super()._make_request("POST", data=data, params=params).json())

@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMyCompanyCrmInfoCountEndpoint import SystemMyCompanyCrmInfoCountEndpoint
-from pyconnectwise.models.manage.CrmInfoModel import CrmInfoModel
 
-class SystemMyCompanyCrmInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCrmInfoCountEndpoint import SystemMycompanyCrmInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CrmInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMycompanyCrmInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemMyCompanyCrmInfoCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CrmInfoModel]:
+
+        self.count = self._register_child_endpoint(SystemMycompanyCrmInfoCountEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CrmInfo]:
         """
         Performs a GET request against the /system/myCompany/crm/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +22,19 @@ class SystemMyCompanyCrmInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CrmInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CrmInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CrmInfoModel,
+            super()._make_request("GET", params=params),
+            CrmInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CrmInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CrmInfo]:
         """
         Performs a GET request against the /system/myCompany/crm/info endpoint.
 
@@ -45,7 +42,6 @@ class SystemMyCompanyCrmInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CrmInfoModel]: The parsed response data.
+            list[CrmInfo]: The parsed response data.
         """
-        return self._parse_many(CrmInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(CrmInfo, super()._make_request("GET", data=data, params=params).json())

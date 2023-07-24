@@ -1,20 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import CompanyContactsIdCommunicationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint import CompanyContactsIdCommunicationsCountEndpoint
-from pyconnectwise.models.manage.ContactCommunicationModel import ContactCommunicationModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint import \
+    CompanyContactsIdCommunicationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import \
+    CompanyContactsIdCommunicationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ContactCommunication
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "communications", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             CompanyContactsIdCommunicationsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> CompanyContactsIdCommunicationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsIdCommunicationsIdEndpoint object to move down the chain.
@@ -27,51 +30,50 @@ class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
         child = CompanyContactsIdCommunicationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ContactCommunicationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ContactCommunication]:
         """
-        Performs a GET request against the /company/contacts/{parentId}/communications endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/contacts/{id}/communications endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ContactCommunicationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ContactCommunication]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ContactCommunicationModel,
+            super()._make_request("GET", params=params),
+            ContactCommunication,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactCommunicationModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactCommunication]:
         """
-        Performs a GET request against the /company/contacts/{parentId}/communications endpoint.
+        Performs a GET request against the /company/contacts/{id}/communications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ContactCommunicationModel]: The parsed response data.
+            list[ContactCommunication]: The parsed response data.
         """
-        return self._parse_many(ContactCommunicationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactCommunicationModel:
+        return self._parse_many(ContactCommunication, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactCommunication:
         """
-        Performs a POST request against the /company/contacts/{parentId}/communications endpoint.
+        Performs a POST request against the /company/contacts/{id}/communications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactCommunicationModel: The parsed response data.
+            ContactCommunication: The parsed response data.
         """
-        return self._parse_one(ContactCommunicationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ContactCommunication, super()._make_request("POST", data=data, params=params).json())

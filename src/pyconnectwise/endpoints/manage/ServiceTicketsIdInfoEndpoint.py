@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.TicketInfoModel import TicketInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TicketInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceTicketsIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketInfoModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketInfo]:
         """
         Performs a GET request against the /service/tickets/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class ServiceTicketsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TicketInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TicketInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TicketInfoModel,
+            super()._make_request("GET", params=params),
+            TicketInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketInfo:
         """
         Performs a GET request against the /service/tickets/{id}/info endpoint.
 
@@ -41,7 +39,6 @@ class ServiceTicketsIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TicketInfoModel: The parsed response data.
+            TicketInfo: The parsed response data.
         """
-        return self._parse_one(TicketInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(TicketInfo, super()._make_request("GET", data=data, params=params).json())

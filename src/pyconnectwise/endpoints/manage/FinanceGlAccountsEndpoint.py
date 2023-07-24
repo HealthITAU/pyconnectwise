@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceGlAccountsIdEndpoint import FinanceGlAccountsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlAccountsCountEndpoint import FinanceGlAccountsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlAccountsMappedTypesEndpoint import FinanceGlAccountsMappedTypesEndpoint
-from pyconnectwise.models.manage.GLAccountModel import GLAccountModel
 
-class FinanceGlAccountsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceGlaccountsCountEndpoint import FinanceGlaccountsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceGlaccountsIdEndpoint import FinanceGlaccountsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesEndpoint import FinanceGlaccountsMappedtypesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import GLAccount
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceGlaccountsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "glAccounts", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            FinanceGlAccountsCountEndpoint(client, parent_endpoint=self)
+
+        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
+        self.mapped_types = self._register_child_endpoint(
+            FinanceGlaccountsMappedtypesEndpoint(client, parent_endpoint=self)
         )
-        self.mappedTypes = self._register_child_endpoint(
-            FinanceGlAccountsMappedTypesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> FinanceGlAccountsIdEndpoint:
+
+    def id(self, id: int) -> FinanceGlaccountsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceGlAccountsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceGlaccountsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceGlAccountsIdEndpoint: The initialized FinanceGlAccountsIdEndpoint object.
+            FinanceGlaccountsIdEndpoint: The initialized FinanceGlaccountsIdEndpoint object.
         """
-        child = FinanceGlAccountsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceGlaccountsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLAccountModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLAccount]:
         """
         Performs a GET request against the /finance/glAccounts endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class FinanceGlAccountsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[GLAccountModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[GLAccount]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            GLAccountModel,
+            super()._make_request("GET", params=params),
+            GLAccount,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[GLAccountModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[GLAccount]:
         """
         Performs a GET request against the /finance/glAccounts endpoint.
 
@@ -63,11 +60,11 @@ class FinanceGlAccountsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[GLAccountModel]: The parsed response data.
+            list[GLAccount]: The parsed response data.
         """
-        return self._parse_many(GLAccountModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccountModel:
+        return self._parse_many(GLAccount, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLAccount:
         """
         Performs a POST request against the /finance/glAccounts endpoint.
 
@@ -75,7 +72,6 @@ class FinanceGlAccountsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GLAccountModel: The parsed response data.
+            GLAccount: The parsed response data.
         """
-        return self._parse_one(GLAccountModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(GLAccount, super()._make_request("POST", data=data, params=params).json())

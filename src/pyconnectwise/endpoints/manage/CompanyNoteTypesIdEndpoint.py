@@ -1,20 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyNoteTypesIdInfoEndpoint import CompanyNoteTypesIdInfoEndpoint
-from pyconnectwise.models.manage.CompanyNoteTypeModel import CompanyNoteTypeModel
 
-class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyNotetypesIdInfoEndpoint import CompanyNotetypesIdInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CompanyNoteType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyNotetypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            CompanyNoteTypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanyNoteTypeModel]:
+
+        self.info = self._register_child_endpoint(CompanyNotetypesIdInfoEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyNoteType]:
         """
         Performs a GET request against the /company/noteTypes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +24,19 @@ class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CompanyNoteTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CompanyNoteType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CompanyNoteTypeModel,
+            super()._make_request("GET", params=params),
+            CompanyNoteType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteTypeModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteType:
         """
         Performs a GET request against the /company/noteTypes/{id} endpoint.
 
@@ -45,10 +44,10 @@ class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyNoteTypeModel: The parsed response data.
+            CompanyNoteType: The parsed response data.
         """
-        return self._parse_one(CompanyNoteTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(CompanyNoteType, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/noteTypes/{id} endpoint.
@@ -60,8 +59,8 @@ class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteTypeModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteType:
         """
         Performs a PUT request against the /company/noteTypes/{id} endpoint.
 
@@ -69,11 +68,11 @@ class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyNoteTypeModel: The parsed response data.
+            CompanyNoteType: The parsed response data.
         """
-        return self._parse_one(CompanyNoteTypeModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteTypeModel:
+        return self._parse_one(CompanyNoteType, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyNoteType:
         """
         Performs a PATCH request against the /company/noteTypes/{id} endpoint.
 
@@ -81,7 +80,6 @@ class CompanyNoteTypesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyNoteTypeModel: The parsed response data.
+            CompanyNoteType: The parsed response data.
         """
-        return self._parse_one(CompanyNoteTypeModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(CompanyNoteType, super()._make_request("PATCH", data=data, params=params).json())

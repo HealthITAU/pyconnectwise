@@ -1,34 +1,33 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemSsoUsersIdEndpoint import SystemSsoUsersIdEndpoint
-from pyconnectwise.endpoints.manage.SystemSsoUsersCountEndpoint import SystemSsoUsersCountEndpoint
-from pyconnectwise.models.manage.SsoUserModel import SsoUserModel
 
-class SystemSsoUsersEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemSsousersCountEndpoint import SystemSsousersCountEndpoint
+from pyconnectwise.endpoints.manage.SystemSsousersIdEndpoint import SystemSsousersIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SsoUser
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemSsousersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ssoUsers", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemSsoUsersCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemSsoUsersIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemSsousersCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemSsousersIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemSsoUsersIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemSsousersIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemSsoUsersIdEndpoint: The initialized SystemSsoUsersIdEndpoint object.
+            SystemSsousersIdEndpoint: The initialized SystemSsousersIdEndpoint object.
         """
-        child = SystemSsoUsersIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemSsousersIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SsoUserModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SsoUser]:
         """
         Performs a GET request against the /system/ssoUsers endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class SystemSsoUsersEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SsoUserModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SsoUser]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SsoUserModel,
+            super()._make_request("GET", params=params),
+            SsoUser,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SsoUserModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SsoUser]:
         """
         Performs a GET request against the /system/ssoUsers endpoint.
 
@@ -59,7 +56,6 @@ class SystemSsoUsersEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SsoUserModel]: The parsed response data.
+            list[SsoUser]: The parsed response data.
         """
-        return self._parse_many(SsoUserModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(SsoUser, super()._make_request("GET", data=data, params=params).json())

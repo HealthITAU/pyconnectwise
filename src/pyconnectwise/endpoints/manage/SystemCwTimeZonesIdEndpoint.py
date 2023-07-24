@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.CwTimeZoneModel import CwTimeZoneModel
 
-class SystemCwTimeZonesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CwTimeZone
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemCwtimezonesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CwTimeZoneModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CwTimeZone]:
         """
         Performs a GET request against the /system/cwTimeZones/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemCwTimeZonesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CwTimeZoneModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CwTimeZone]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CwTimeZoneModel,
+            super()._make_request("GET", params=params),
+            CwTimeZone,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CwTimeZoneModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CwTimeZone:
         """
         Performs a GET request against the /system/cwTimeZones/{id} endpoint.
 
@@ -41,7 +39,6 @@ class SystemCwTimeZonesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CwTimeZoneModel: The parsed response data.
+            CwTimeZone: The parsed response data.
         """
-        return self._parse_one(CwTimeZoneModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(CwTimeZone, super()._make_request("GET", data=data, params=params).json())

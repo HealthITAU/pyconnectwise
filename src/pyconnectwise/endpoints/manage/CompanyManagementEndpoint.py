@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import CompanyManagementIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import CompanyManagementCountEndpoint
-from pyconnectwise.models.manage.ManagementModel import ManagementModel
+from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import CompanyManagementIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Management
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyManagementEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "management", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyManagementCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(CompanyManagementCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> CompanyManagementIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManagementIdEndpoint object to move down the chain.
@@ -27,8 +26,8 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
         child = CompanyManagementIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagementModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Management]:
         """
         Performs a GET request against the /company/management endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagementModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Management]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagementModel,
+            super()._make_request("GET", params=params),
+            Management,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Management]:
         """
         Performs a GET request against the /company/management endpoint.
 
@@ -59,7 +56,6 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagementModel]: The parsed response data.
+            list[Management]: The parsed response data.
         """
-        return self._parse_many(ManagementModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(Management, super()._make_request("GET", data=data, params=params).json())

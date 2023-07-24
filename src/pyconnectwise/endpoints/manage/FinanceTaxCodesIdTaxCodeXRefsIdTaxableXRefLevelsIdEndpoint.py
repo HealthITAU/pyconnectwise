@@ -1,53 +1,53 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.TaxableXRefLevelModel import TaxableXRefLevelModel
 
-class FinanceTaxCodesIdTaxCodeXRefsIdTaxableXRefLevelsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TaxableXRefLevel
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxableXRefLevelModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TaxableXRefLevel]:
         """
-        Performs a GET request against the /finance/taxCodes/{grandparentId}/taxCodeXRefs/{parentId}/taxableXRefLevels/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TaxableXRefLevelModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TaxableXRefLevel]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TaxableXRefLevelModel,
+            super()._make_request("GET", params=params),
+            TaxableXRefLevel,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevelModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevel:
         """
-        Performs a GET request against the /finance/taxCodes/{grandparentId}/taxCodeXRefs/{parentId}/taxableXRefLevels/{id} endpoint.
+        Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxableXRefLevelModel: The parsed response data.
+            TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevelModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(TaxableXRefLevel, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
-        Performs a DELETE request against the /finance/taxCodes/{grandparentId}/taxCodeXRefs/{parentId}/taxableXRefLevels/{id} endpoint.
+        Performs a DELETE request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -56,28 +56,27 @@ class FinanceTaxCodesIdTaxCodeXRefsIdTaxableXRefLevelsIdEndpoint(ConnectWiseEndp
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevelModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevel:
         """
-        Performs a PUT request against the /finance/taxCodes/{grandparentId}/taxCodeXRefs/{parentId}/taxableXRefLevels/{id} endpoint.
+        Performs a PUT request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxableXRefLevelModel: The parsed response data.
+            TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevelModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevelModel:
+        return self._parse_one(TaxableXRefLevel, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevel:
         """
-        Performs a PATCH request against the /finance/taxCodes/{grandparentId}/taxCodeXRefs/{parentId}/taxableXRefLevels/{id} endpoint.
+        Performs a PATCH request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxableXRefLevelModel: The parsed response data.
+            TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevelModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(TaxableXRefLevel, super()._make_request("PATCH", data=data, params=params).json())

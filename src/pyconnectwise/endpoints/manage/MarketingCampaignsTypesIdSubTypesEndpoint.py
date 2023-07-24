@@ -1,65 +1,67 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubTypesIdEndpoint import MarketingCampaignsTypesIdSubTypesIdEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubTypesCountEndpoint import MarketingCampaignsTypesIdSubTypesCountEndpoint
-from pyconnectwise.models.manage.CampaignSubTypeModel import CampaignSubTypeModel
 
-class MarketingCampaignsTypesIdSubTypesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesCountEndpoint import \
+    MarketingCampaignsTypesIdSubtypesCountEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesIdEndpoint import \
+    MarketingCampaignsTypesIdSubtypesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage.Type.SubType import CampaignSubType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class MarketingCampaignsTypesIdSubtypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "subTypes", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            MarketingCampaignsTypesIdSubTypesCountEndpoint(client, parent_endpoint=self)
+            MarketingCampaignsTypesIdSubtypesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> MarketingCampaignsTypesIdSubTypesIdEndpoint:
+
+    def id(self, id: int) -> MarketingCampaignsTypesIdSubtypesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized MarketingCampaignsTypesIdSubTypesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized MarketingCampaignsTypesIdSubtypesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            MarketingCampaignsTypesIdSubTypesIdEndpoint: The initialized MarketingCampaignsTypesIdSubTypesIdEndpoint object.
+            MarketingCampaignsTypesIdSubtypesIdEndpoint: The initialized MarketingCampaignsTypesIdSubtypesIdEndpoint object.
         """
-        child = MarketingCampaignsTypesIdSubTypesIdEndpoint(self.client, parent_endpoint=self)
+        child = MarketingCampaignsTypesIdSubtypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CampaignSubTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CampaignSubType]:
         """
-        Performs a GET request against the /marketing/campaigns/types/{parentId}/subTypes endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /marketing/campaigns/types/{id}/subTypes endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CampaignSubTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CampaignSubType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CampaignSubTypeModel,
+            super()._make_request("GET", params=params),
+            CampaignSubType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignSubTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignSubType]:
         """
-        Performs a GET request against the /marketing/campaigns/types/{parentId}/subTypes endpoint.
+        Performs a GET request against the /marketing/campaigns/types/{id}/subTypes endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CampaignSubTypeModel]: The parsed response data.
+            list[CampaignSubType]: The parsed response data.
         """
-        return self._parse_many(CampaignSubTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(CampaignSubType, super()._make_request("GET", data=data, params=params).json())

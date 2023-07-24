@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyCommunicationTypesIdEndpoint import CompanyCommunicationTypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationTypesCountEndpoint import CompanyCommunicationTypesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationTypesInfoEndpoint import CompanyCommunicationTypesInfoEndpoint
-from pyconnectwise.models.manage.CommunicationTypeModel import CommunicationTypeModel
 
-class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesCountEndpoint import CompanyCommunicationtypesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesIdEndpoint import CompanyCommunicationtypesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesInfoEndpoint import CompanyCommunicationtypesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CommunicationType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyCommunicationtypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "communicationTypes", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyCommunicationTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyCommunicationTypesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyCommunicationTypesIdEndpoint:
+
+        self.info = self._register_child_endpoint(CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyCommunicationtypesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyCommunicationTypesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyCommunicationtypesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyCommunicationTypesIdEndpoint: The initialized CompanyCommunicationTypesIdEndpoint object.
+            CompanyCommunicationtypesIdEndpoint: The initialized CompanyCommunicationtypesIdEndpoint object.
         """
-        child = CompanyCommunicationTypesIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCommunicationtypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CommunicationTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CommunicationType]:
         """
         Performs a GET request against the /company/communicationTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CommunicationTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CommunicationType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CommunicationTypeModel,
+            super()._make_request("GET", params=params),
+            CommunicationType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommunicationTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommunicationType]:
         """
         Performs a GET request against the /company/communicationTypes endpoint.
 
@@ -63,11 +60,11 @@ class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CommunicationTypeModel]: The parsed response data.
+            list[CommunicationType]: The parsed response data.
         """
-        return self._parse_many(CommunicationTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommunicationTypeModel:
+        return self._parse_many(CommunicationType, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommunicationType:
         """
         Performs a POST request against the /company/communicationTypes endpoint.
 
@@ -75,7 +72,6 @@ class CompanyCommunicationTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CommunicationTypeModel: The parsed response data.
+            CommunicationType: The parsed response data.
         """
-        return self._parse_one(CommunicationTypeModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(CommunicationType, super()._make_request("POST", data=data, params=params).json())

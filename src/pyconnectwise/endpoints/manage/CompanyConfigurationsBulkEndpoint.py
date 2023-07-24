@@ -1,17 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ConfigurationModel import ConfigurationModel
-from pyconnectwise.models.manage.BulkResultModel import BulkResultModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BulkResult, Company
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationModel:
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
         """
         Performs a POST request against the /company/configurations/bulk endpoint.
 
@@ -19,11 +18,11 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ConfigurationModel: The parsed response data.
+            Company: The parsed response data.
         """
-        return self._parse_one(ConfigurationModel, super()._make_request("POST", data=data, params=params).json())
-        
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResultModel:
+        return self._parse_one(Company, super()._make_request("POST", data=data, params=params).json())
+
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
         """
         Performs a DELETE request against the /company/configurations/bulk endpoint.
 
@@ -31,11 +30,11 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BulkResultModel: The parsed response data.
+            BulkResult: The parsed response data.
         """
-        return self._parse_one(BulkResultModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationModel:
+        return self._parse_one(BulkResult, super()._make_request("DELETE", data=data, params=params).json())
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
         """
         Performs a PUT request against the /company/configurations/bulk endpoint.
 
@@ -43,7 +42,6 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ConfigurationModel: The parsed response data.
+            Company: The parsed response data.
         """
-        return self._parse_one(ConfigurationModel, super()._make_request("PUT", data=data, params=params).json())
-        
+        return self._parse_one(Company, super()._make_request("PUT", data=data, params=params).json())

@@ -1,20 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEndpoint import ProcurementPurchaseorderstatusesIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesCountEndpoint import ProcurementPurchaseorderstatusesCountEndpoint
-from pyconnectwise.models.manage.PurchaseOrderStatusModel import PurchaseOrderStatusModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesCountEndpoint import \
+    ProcurementPurchaseorderstatusesCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEndpoint import \
+    ProcurementPurchaseorderstatusesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PurchaseOrderStatus
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "purchaseorderstatuses", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> ProcurementPurchaseorderstatusesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseorderstatusesIdEndpoint object to move down the chain.
@@ -27,8 +30,10 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
         child = ProcurementPurchaseorderstatusesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PurchaseOrderStatusModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PurchaseOrderStatus]:
         """
         Performs a GET request against the /procurement/purchaseorderstatuses endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +42,19 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PurchaseOrderStatusModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PurchaseOrderStatus]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PurchaseOrderStatusModel,
+            super()._make_request("GET", params=params),
+            PurchaseOrderStatus,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PurchaseOrderStatusModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PurchaseOrderStatus]:
         """
         Performs a GET request against the /procurement/purchaseorderstatuses endpoint.
 
@@ -59,11 +62,11 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PurchaseOrderStatusModel]: The parsed response data.
+            list[PurchaseOrderStatus]: The parsed response data.
         """
-        return self._parse_many(PurchaseOrderStatusModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatusModel:
+        return self._parse_many(PurchaseOrderStatus, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatus:
         """
         Performs a POST request against the /procurement/purchaseorderstatuses endpoint.
 
@@ -71,7 +74,6 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PurchaseOrderStatusModel: The parsed response data.
+            PurchaseOrderStatus: The parsed response data.
         """
-        return self._parse_one(PurchaseOrderStatusModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(PurchaseOrderStatus, super()._make_request("POST", data=data, params=params).json())

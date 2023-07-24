@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceCodesIdEndpoint import ServiceCodesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceCodesCountEndpoint import ServiceCodesCountEndpoint
-from pyconnectwise.models.manage.CodeModel import CodeModel
+from pyconnectwise.endpoints.manage.ServiceCodesIdEndpoint import ServiceCodesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Code
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceCodesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "codes", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceCodesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(ServiceCodesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> ServiceCodesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceCodesIdEndpoint object to move down the chain.
@@ -27,8 +26,8 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         child = ServiceCodesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CodeModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Code]:
         """
         Performs a GET request against the /service/codes endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CodeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Code]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CodeModel,
+            super()._make_request("GET", params=params),
+            Code,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CodeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Code]:
         """
         Performs a GET request against the /service/codes endpoint.
 
@@ -59,11 +56,11 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CodeModel]: The parsed response data.
+            list[Code]: The parsed response data.
         """
-        return self._parse_many(CodeModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CodeModel:
+        return self._parse_many(Code, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Code:
         """
         Performs a POST request against the /service/codes endpoint.
 
@@ -71,7 +68,6 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CodeModel: The parsed response data.
+            Code: The parsed response data.
         """
-        return self._parse_one(CodeModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Code, super()._make_request("POST", data=data, params=params).json())

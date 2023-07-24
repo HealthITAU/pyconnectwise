@@ -1,77 +1,83 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyContactsIdTypeAssociationsIdEndpoint import CompanyContactsIdTypeAssociationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdTypeAssociationsCountEndpoint import CompanyContactsIdTypeAssociationsCountEndpoint
-from pyconnectwise.models.manage.ContactTypeAssociationModel import ContactTypeAssociationModel
 
-class CompanyContactsIdTypeAssociationsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoint import \
+    CompanyContactsIdTypeassociationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsIdEndpoint import \
+    CompanyContactsIdTypeassociationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ContactContactTypeAssociation
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "typeAssociations", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyContactsIdTypeAssociationsCountEndpoint(client, parent_endpoint=self)
+            CompanyContactsIdTypeassociationsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyContactsIdTypeAssociationsIdEndpoint:
+
+    def id(self, id: int) -> CompanyContactsIdTypeassociationsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyContactsIdTypeAssociationsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyContactsIdTypeassociationsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyContactsIdTypeAssociationsIdEndpoint: The initialized CompanyContactsIdTypeAssociationsIdEndpoint object.
+            CompanyContactsIdTypeassociationsIdEndpoint: The initialized CompanyContactsIdTypeassociationsIdEndpoint object.
         """
-        child = CompanyContactsIdTypeAssociationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyContactsIdTypeassociationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ContactTypeAssociationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ContactContactTypeAssociation]:
         """
-        Performs a GET request against the /company/contacts/{parentId}/typeAssociations endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ContactTypeAssociationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ContactContactTypeAssociation]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ContactTypeAssociationModel,
+            super()._make_request("GET", params=params),
+            ContactContactTypeAssociation,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactTypeAssociationModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactContactTypeAssociation]:
         """
-        Performs a GET request against the /company/contacts/{parentId}/typeAssociations endpoint.
+        Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ContactTypeAssociationModel]: The parsed response data.
+            list[ContactContactTypeAssociation]: The parsed response data.
         """
-        return self._parse_many(ContactTypeAssociationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactTypeAssociationModel:
+        return self._parse_many(
+            ContactContactTypeAssociation, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
         """
-        Performs a POST request against the /company/contacts/{parentId}/typeAssociations endpoint.
+        Performs a POST request against the /company/contacts/{id}/typeAssociations endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactTypeAssociationModel: The parsed response data.
+            ContactContactTypeAssociation: The parsed response data.
         """
-        return self._parse_one(ContactTypeAssociationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            ContactContactTypeAssociation, super()._make_request("POST", data=data, params=params).json()
+        )

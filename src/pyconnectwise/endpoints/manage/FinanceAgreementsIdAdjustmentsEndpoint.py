@@ -1,20 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsIdEndpoint import FinanceAgreementsIdAdjustmentsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsCountEndpoint import FinanceAgreementsIdAdjustmentsCountEndpoint
-from pyconnectwise.models.manage.AdjustmentModel import AdjustmentModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsCountEndpoint import \
+    FinanceAgreementsIdAdjustmentsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsIdEndpoint import \
+    FinanceAgreementsIdAdjustmentsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Agreement
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "adjustments", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             FinanceAgreementsIdAdjustmentsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> FinanceAgreementsIdAdjustmentsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdAdjustmentsIdEndpoint object to move down the chain.
@@ -27,51 +30,48 @@ class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
         child = FinanceAgreementsIdAdjustmentsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AdjustmentModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Agreement]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/adjustments endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/agreements/{id}/adjustments endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AdjustmentModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Agreement]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AdjustmentModel,
+            super()._make_request("GET", params=params),
+            Agreement,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Agreement]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/adjustments endpoint.
+        Performs a GET request against the /finance/agreements/{id}/adjustments endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AdjustmentModel]: The parsed response data.
+            list[Agreement]: The parsed response data.
         """
-        return self._parse_many(AdjustmentModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentModel:
+        return self._parse_many(Agreement, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
         """
-        Performs a POST request against the /finance/agreements/{parentId}/adjustments endpoint.
+        Performs a POST request against the /finance/agreements/{id}/adjustments endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AdjustmentModel: The parsed response data.
+            Agreement: The parsed response data.
         """
-        return self._parse_one(AdjustmentModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())

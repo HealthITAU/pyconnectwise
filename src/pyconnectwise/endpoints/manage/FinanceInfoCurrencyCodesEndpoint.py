@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceInfoCurrencyCodesIdEndpoint import FinanceInfoCurrencyCodesIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceInfoCurrencyCodesCountEndpoint import FinanceInfoCurrencyCodesCountEndpoint
-from pyconnectwise.models.manage.CurrencyCodeModel import CurrencyCodeModel
 
-class FinanceInfoCurrencyCodesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesCountEndpoint import FinanceInfoCurrencycodesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesIdEndpoint import FinanceInfoCurrencycodesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CurrencyCode
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceInfoCurrencycodesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "currencyCodes", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            FinanceInfoCurrencyCodesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> FinanceInfoCurrencyCodesIdEndpoint:
+
+        self.count = self._register_child_endpoint(FinanceInfoCurrencycodesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> FinanceInfoCurrencycodesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceInfoCurrencyCodesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceInfoCurrencycodesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceInfoCurrencyCodesIdEndpoint: The initialized FinanceInfoCurrencyCodesIdEndpoint object.
+            FinanceInfoCurrencycodesIdEndpoint: The initialized FinanceInfoCurrencycodesIdEndpoint object.
         """
-        child = FinanceInfoCurrencyCodesIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceInfoCurrencycodesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CurrencyCodeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CurrencyCode]:
         """
         Performs a GET request against the /finance/info/currencyCodes endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class FinanceInfoCurrencyCodesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CurrencyCodeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CurrencyCode]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CurrencyCodeModel,
+            super()._make_request("GET", params=params),
+            CurrencyCode,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CurrencyCodeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CurrencyCode]:
         """
         Performs a GET request against the /finance/info/currencyCodes endpoint.
 
@@ -59,7 +58,6 @@ class FinanceInfoCurrencyCodesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CurrencyCodeModel]: The parsed response data.
+            list[CurrencyCode]: The parsed response data.
         """
-        return self._parse_many(CurrencyCodeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(CurrencyCode, super()._make_request("GET", data=data, params=params).json())

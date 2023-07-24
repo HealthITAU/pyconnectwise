@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProcurementWarehouseBinsIdEndpoint import ProcurementWarehouseBinsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehouseBinsCountEndpoint import ProcurementWarehouseBinsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehouseBinsInfoEndpoint import ProcurementWarehouseBinsInfoEndpoint
-from pyconnectwise.models.manage.WarehouseBinModel import WarehouseBinModel
 
-class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsCountEndpoint import ProcurementWarehousebinsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdEndpoint import ProcurementWarehousebinsIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoEndpoint import ProcurementWarehousebinsInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WarehouseBin
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ProcurementWarehousebinsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "warehouseBins", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ProcurementWarehouseBinsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ProcurementWarehouseBinsInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> ProcurementWarehouseBinsIdEndpoint:
+
+        self.info = self._register_child_endpoint(ProcurementWarehousebinsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ProcurementWarehousebinsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> ProcurementWarehousebinsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ProcurementWarehouseBinsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ProcurementWarehousebinsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            ProcurementWarehouseBinsIdEndpoint: The initialized ProcurementWarehouseBinsIdEndpoint object.
+            ProcurementWarehousebinsIdEndpoint: The initialized ProcurementWarehousebinsIdEndpoint object.
         """
-        child = ProcurementWarehouseBinsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementWarehousebinsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WarehouseBinModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WarehouseBin]:
         """
         Performs a GET request against the /procurement/warehouseBins endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WarehouseBinModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WarehouseBin]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WarehouseBinModel,
+            super()._make_request("GET", params=params),
+            WarehouseBin,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WarehouseBinModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WarehouseBin]:
         """
         Performs a GET request against the /procurement/warehouseBins endpoint.
 
@@ -63,11 +60,11 @@ class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[WarehouseBinModel]: The parsed response data.
+            list[WarehouseBin]: The parsed response data.
         """
-        return self._parse_many(WarehouseBinModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBinModel:
+        return self._parse_many(WarehouseBin, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBin:
         """
         Performs a POST request against the /procurement/warehouseBins endpoint.
 
@@ -75,7 +72,6 @@ class ProcurementWarehouseBinsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WarehouseBinModel: The parsed response data.
+            WarehouseBin: The parsed response data.
         """
-        return self._parse_one(WarehouseBinModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(WarehouseBin, super()._make_request("POST", data=data, params=params).json())

@@ -1,51 +1,52 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersIdOptionsCountEndpoint import SystemWorkflowsIdTriggersIdOptionsCountEndpoint
-from pyconnectwise.models.manage.WorkflowTriggerOptionModel import WorkflowTriggerOptionModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersIdOptionsCountEndpoint import \
+    SystemWorkflowsIdTriggersIdOptionsCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WorkflowTriggerOption
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemWorkflowsIdTriggersIdOptionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "options", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             SystemWorkflowsIdTriggersIdOptionsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkflowTriggerOptionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WorkflowTriggerOption]:
         """
-        Performs a GET request against the /system/workflows/{grandparentId}/triggers/{parentId}/options endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /system/workflows/{id}/triggers/{id}/options endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WorkflowTriggerOptionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WorkflowTriggerOption]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WorkflowTriggerOptionModel,
+            super()._make_request("GET", params=params),
+            WorkflowTriggerOption,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowTriggerOptionModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowTriggerOption]:
         """
-        Performs a GET request against the /system/workflows/{grandparentId}/triggers/{parentId}/options endpoint.
+        Performs a GET request against the /system/workflows/{id}/triggers/{id}/options endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[WorkflowTriggerOptionModel]: The parsed response data.
+            list[WorkflowTriggerOption]: The parsed response data.
         """
-        return self._parse_many(WorkflowTriggerOptionModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(WorkflowTriggerOption, super()._make_request("GET", data=data, params=params).json())

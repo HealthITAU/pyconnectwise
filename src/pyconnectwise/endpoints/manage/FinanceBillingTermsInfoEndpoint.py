@@ -1,20 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceBillingTermsInfoCountEndpoint import FinanceBillingTermsInfoCountEndpoint
-from pyconnectwise.models.manage.BillingTermInfoModel import BillingTermInfoModel
 
-class FinanceBillingTermsInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingtermsInfoCountEndpoint import FinanceBillingtermsInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BillingTermInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceBillingtermsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            FinanceBillingTermsInfoCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BillingTermInfoModel]:
+
+        self.count = self._register_child_endpoint(FinanceBillingtermsInfoCountEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BillingTermInfo]:
         """
         Performs a GET request against the /finance/billingTerms/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +24,19 @@ class FinanceBillingTermsInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BillingTermInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BillingTermInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BillingTermInfoModel,
+            super()._make_request("GET", params=params),
+            BillingTermInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingTermInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingTermInfo]:
         """
         Performs a GET request against the /finance/billingTerms/info endpoint.
 
@@ -45,7 +44,6 @@ class FinanceBillingTermsInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[BillingTermInfoModel]: The parsed response data.
+            list[BillingTermInfo]: The parsed response data.
         """
-        return self._parse_many(BillingTermInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(BillingTermInfo, super()._make_request("GET", data=data, params=params).json())

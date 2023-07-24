@@ -1,38 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.TimeWorkRolesIdEndpoint import TimeWorkRolesIdEndpoint
-from pyconnectwise.endpoints.manage.TimeWorkRolesCountEndpoint import TimeWorkRolesCountEndpoint
-from pyconnectwise.endpoints.manage.TimeWorkRolesInfoEndpoint import TimeWorkRolesInfoEndpoint
-from pyconnectwise.models.manage.WorkRoleModel import WorkRoleModel
 
-class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesCountEndpoint import TimeWorkrolesCountEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesIdEndpoint import TimeWorkrolesIdEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesInfoEndpoint import TimeWorkrolesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WorkRole
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workRoles", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            TimeWorkRolesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            TimeWorkRolesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> TimeWorkRolesIdEndpoint:
+
+        self.info = self._register_child_endpoint(TimeWorkrolesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(TimeWorkrolesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> TimeWorkrolesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized TimeWorkRolesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized TimeWorkrolesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            TimeWorkRolesIdEndpoint: The initialized TimeWorkRolesIdEndpoint object.
+            TimeWorkrolesIdEndpoint: The initialized TimeWorkrolesIdEndpoint object.
         """
-        child = TimeWorkRolesIdEndpoint(self.client, parent_endpoint=self)
+        child = TimeWorkrolesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkRoleModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkRole]:
         """
         Performs a GET request against the /time/workRoles endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +38,19 @@ class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WorkRoleModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WorkRole]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WorkRoleModel,
+            super()._make_request("GET", params=params),
+            WorkRole,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkRoleModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkRole]:
         """
         Performs a GET request against the /time/workRoles endpoint.
 
@@ -63,11 +58,11 @@ class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[WorkRoleModel]: The parsed response data.
+            list[WorkRole]: The parsed response data.
         """
-        return self._parse_many(WorkRoleModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleModel:
+        return self._parse_many(WorkRole, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRole:
         """
         Performs a POST request against the /time/workRoles endpoint.
 
@@ -75,7 +70,6 @@ class TimeWorkRolesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WorkRoleModel: The parsed response data.
+            WorkRole: The parsed response data.
         """
-        return self._parse_one(WorkRoleModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(WorkRole, super()._make_request("POST", data=data, params=params).json())

@@ -1,20 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyAddressFormatsIdInfoEndpoint import CompanyAddressFormatsIdInfoEndpoint
-from pyconnectwise.models.manage.AddressFormatModel import AddressFormatModel
 
-class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsIdInfoEndpoint import CompanyAddressformatsIdInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AddressFormat
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyAddressformatsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            CompanyAddressFormatsIdInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AddressFormatModel]:
+
+        self.info = self._register_child_endpoint(CompanyAddressformatsIdInfoEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AddressFormat]:
         """
         Performs a GET request against the /company/addressFormats/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +24,19 @@ class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AddressFormatModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AddressFormat]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AddressFormatModel,
+            super()._make_request("GET", params=params),
+            AddressFormat,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormatModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormat:
         """
         Performs a GET request against the /company/addressFormats/{id} endpoint.
 
@@ -45,10 +44,10 @@ class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AddressFormatModel: The parsed response data.
+            AddressFormat: The parsed response data.
         """
-        return self._parse_one(AddressFormatModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(AddressFormat, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/addressFormats/{id} endpoint.
@@ -60,8 +59,8 @@ class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormatModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormat:
         """
         Performs a PUT request against the /company/addressFormats/{id} endpoint.
 
@@ -69,11 +68,11 @@ class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AddressFormatModel: The parsed response data.
+            AddressFormat: The parsed response data.
         """
-        return self._parse_one(AddressFormatModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormatModel:
+        return self._parse_one(AddressFormat, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AddressFormat:
         """
         Performs a PATCH request against the /company/addressFormats/{id} endpoint.
 
@@ -81,7 +80,6 @@ class CompanyAddressFormatsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AddressFormatModel: The parsed response data.
+            AddressFormat: The parsed response data.
         """
-        return self._parse_one(AddressFormatModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(AddressFormat, super()._make_request("PATCH", data=data, params=params).json())
