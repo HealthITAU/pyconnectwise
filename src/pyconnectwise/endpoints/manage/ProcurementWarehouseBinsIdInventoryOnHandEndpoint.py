@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandCountEndpoint import \
-    ProcurementWarehousebinsIdInventoryonhandCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandIdEndpoint import \
-    ProcurementWarehousebinsIdInventoryonhandIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandCountEndpoint import (
+    ProcurementWarehousebinsIdInventoryonhandCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandIdEndpoint import (
+    ProcurementWarehousebinsIdInventoryonhandIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InventoryOnHand
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "inventoryOnHand", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementWarehousebinsIdInventoryonhandCountEndpoint(client, parent_endpoint=self)
+            ProcurementWarehousebinsIdInventoryonhandCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ProcurementWarehousebinsIdInventoryonhandIdEndpoint:
@@ -27,7 +31,9 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementWarehousebinsIdInventoryonhandIdEndpoint: The initialized ProcurementWarehousebinsIdInventoryonhandIdEndpoint object.
         """
-        child = ProcurementWarehousebinsIdInventoryonhandIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementWarehousebinsIdInventoryonhandIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InventoryOnHand]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[InventoryOnHand]:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/inventoryOnHand endpoint.
 
@@ -64,4 +72,7 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InventoryOnHand]: The parsed response data.
         """
-        return self._parse_many(InventoryOnHand, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            InventoryOnHand,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

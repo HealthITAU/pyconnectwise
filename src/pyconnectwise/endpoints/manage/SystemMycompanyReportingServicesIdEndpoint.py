@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyReportingservicesIdTestconnectionEndpoint import \
-    SystemMycompanyReportingservicesIdTestconnectionEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyReportingservicesIdTestconnectionEndpoint import (
+    SystemMycompanyReportingservicesIdTestconnectionEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ReportingService
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +14,9 @@ class SystemMycompanyReportingservicesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.test_connection = self._register_child_endpoint(
-            SystemMycompanyReportingservicesIdTestconnectionEndpoint(client, parent_endpoint=self)
+            SystemMycompanyReportingservicesIdTestconnectionEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +42,9 @@ class SystemMycompanyReportingservicesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportingService:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ReportingService:
         """
         Performs a GET request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -49,9 +54,14 @@ class SystemMycompanyReportingservicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportingService:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ReportingService:
         """
         Performs a PUT request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -61,9 +71,14 @@ class SystemMycompanyReportingservicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportingService:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ReportingService:
         """
         Performs a PATCH request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -73,4 +88,7 @@ class SystemMycompanyReportingservicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

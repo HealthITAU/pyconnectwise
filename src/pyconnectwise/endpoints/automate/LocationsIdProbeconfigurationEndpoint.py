@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models.NetworkProbe import ProbeConfiguration
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models.NetworkProbe import (
+    ProbeConfiguration,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -33,7 +35,9 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProbeConfiguration:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProbeConfiguration:
         """
         Performs a GET request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -43,9 +47,14 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             ProbeConfiguration: The parsed response data.
         """
-        return self._parse_one(ProbeConfiguration, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProbeConfiguration,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProbeConfiguration:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProbeConfiguration:
         """
         Performs a POST request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -55,9 +64,14 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             ProbeConfiguration: The parsed response data.
         """
-        return self._parse_one(ProbeConfiguration, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ProbeConfiguration,
+            super()._make_request("POST", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -67,9 +81,14 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProbeConfiguration:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProbeConfiguration:
         """
         Performs a PATCH request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -79,4 +98,7 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             ProbeConfiguration: The parsed response data.
         """
-        return self._parse_one(ProbeConfiguration, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ProbeConfiguration,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

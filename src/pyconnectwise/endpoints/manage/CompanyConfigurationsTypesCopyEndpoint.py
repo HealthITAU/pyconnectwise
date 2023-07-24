@@ -10,7 +10,9 @@ class CompanyConfigurationsTypesCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ConfigurationType:
         """
         Performs a POST request against the /company/configurations/types/copy endpoint.
 
@@ -20,4 +22,7 @@ class CompanyConfigurationsTypesCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationType: The parsed response data.
         """
-        return self._parse_one(ConfigurationType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ConfigurationType,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

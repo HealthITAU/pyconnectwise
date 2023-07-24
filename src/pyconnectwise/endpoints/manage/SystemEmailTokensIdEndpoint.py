@@ -10,7 +10,9 @@ class SystemEmailtokensIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailToken]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[EmailToken]:
         """
         Performs a GET request against the /system/emailTokens/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SystemEmailtokensIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailToken:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailToken:
         """
         Performs a GET request against the /system/emailTokens/{id} endpoint.
 
@@ -41,4 +45,6 @@ class SystemEmailtokensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailToken: The parsed response data.
         """
-        return self._parse_one(EmailToken, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            EmailToken, super()._make_request("GET", data=data, params=params).json()
+        )

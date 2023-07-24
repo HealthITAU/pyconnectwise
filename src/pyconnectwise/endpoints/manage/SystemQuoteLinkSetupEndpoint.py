@@ -1,10 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemQuotelinksetupCountEndpoint import SystemQuotelinksetupCountEndpoint
-from pyconnectwise.endpoints.manage.SystemQuotelinksetupIdEndpoint import SystemQuotelinksetupIdEndpoint
-from pyconnectwise.endpoints.manage.SystemQuotelinksetupTestconnectionEndpoint import \
-    SystemQuotelinksetupTestconnectionEndpoint
+from pyconnectwise.endpoints.manage.SystemQuotelinksetupCountEndpoint import (
+    SystemQuotelinksetupCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemQuotelinksetupIdEndpoint import (
+    SystemQuotelinksetupIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemQuotelinksetupTestconnectionEndpoint import (
+    SystemQuotelinksetupTestconnectionEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import QuoteLink
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,7 +19,9 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "quoteLinkSetup", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemQuotelinksetupCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemQuotelinksetupCountEndpoint(client, parent_endpoint=self)
+        )
         self.test_connection = self._register_child_endpoint(
             SystemQuotelinksetupTestconnectionEndpoint(client, parent_endpoint=self)
         )
@@ -32,7 +39,9 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[QuoteLink]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[QuoteLink]:
         """
         Performs a GET request against the /system/quoteLinkSetup endpoint and returns an initialized PaginatedResponse object.
 
@@ -53,7 +62,9 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[QuoteLink]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[QuoteLink]:
         """
         Performs a GET request against the /system/quoteLinkSetup endpoint.
 
@@ -63,9 +74,13 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
         Returns:
             list[QuoteLink]: The parsed response data.
         """
-        return self._parse_many(QuoteLink, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            QuoteLink, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> QuoteLink:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> QuoteLink:
         """
         Performs a POST request against the /system/quoteLinkSetup endpoint.
 
@@ -75,4 +90,6 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
         Returns:
             QuoteLink: The parsed response data.
         """
-        return self._parse_one(QuoteLink, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            QuoteLink, super()._make_request("POST", data=data, params=params).json()
+        )

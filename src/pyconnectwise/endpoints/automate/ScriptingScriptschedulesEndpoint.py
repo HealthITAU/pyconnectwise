@@ -1,8 +1,12 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ScriptingScriptschedulesIdEndpoint import ScriptingScriptschedulesIdEndpoint
+from pyconnectwise.endpoints.automate.ScriptingScriptschedulesIdEndpoint import (
+    ScriptingScriptschedulesIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import ScheduledScript
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import (
+    ScheduledScript,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -47,7 +51,9 @@ class ScriptingScriptschedulesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduledScript]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScheduledScript]:
         """
         Performs a GET request against the /Scripting/Scriptschedules endpoint.
 
@@ -57,4 +63,7 @@ class ScriptingScriptschedulesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduledScript]: The parsed response data.
         """
-        return self._parse_many(ScheduledScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduledScript,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

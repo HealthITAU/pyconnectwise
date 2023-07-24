@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingtermsCountEndpoint import FinanceBillingtermsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingtermsIdEndpoint import FinanceBillingtermsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingtermsInfoEndpoint import FinanceBillingtermsInfoEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingtermsCountEndpoint import (
+    FinanceBillingtermsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceBillingtermsIdEndpoint import (
+    FinanceBillingtermsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceBillingtermsInfoEndpoint import (
+    FinanceBillingtermsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingTerm
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class FinanceBillingtermsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "billingTerms", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(FinanceBillingtermsInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(FinanceBillingtermsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceBillingtermsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            FinanceBillingtermsInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> FinanceBillingtermsIdEndpoint:
         """
@@ -29,7 +39,9 @@ class FinanceBillingtermsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BillingTerm]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BillingTerm]:
         """
         Performs a GET request against the /finance/billingTerms endpoint and returns an initialized PaginatedResponse object.
 
@@ -50,7 +62,9 @@ class FinanceBillingtermsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingTerm]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BillingTerm]:
         """
         Performs a GET request against the /finance/billingTerms endpoint.
 
@@ -60,9 +74,13 @@ class FinanceBillingtermsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingTerm]: The parsed response data.
         """
-        return self._parse_many(BillingTerm, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BillingTerm, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingTerm:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingTerm:
         """
         Performs a POST request against the /finance/billingTerms endpoint.
 
@@ -72,4 +90,6 @@ class FinanceBillingtermsEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingTerm: The parsed response data.
         """
-        return self._parse_one(BillingTerm, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BillingTerm, super()._make_request("POST", data=data, params=params).json()
+        )

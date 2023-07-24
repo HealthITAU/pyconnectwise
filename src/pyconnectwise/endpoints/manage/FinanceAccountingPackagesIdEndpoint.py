@@ -33,7 +33,9 @@ class FinanceAccountingpackagesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingPackage:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AccountingPackage:
         """
         Performs a GET request against the /finance/accountingPackages/{id} endpoint.
 
@@ -43,4 +45,7 @@ class FinanceAccountingpackagesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AccountingPackage: The parsed response data.
         """
-        return self._parse_one(AccountingPackage, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            AccountingPackage,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

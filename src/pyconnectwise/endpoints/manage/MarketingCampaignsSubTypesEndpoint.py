@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesCountEndpoint import \
-    MarketingCampaignsSubtypesCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesIdEndpoint import MarketingCampaignsSubtypesIdEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesCountEndpoint import (
+    MarketingCampaignsSubtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesIdEndpoint import (
+    MarketingCampaignsSubtypesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage.Campaign.SubType import CampaignSubType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignSubType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/subTypes endpoint.
 
@@ -63,9 +68,14 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignSubType]: The parsed response data.
         """
-        return self._parse_many(CampaignSubType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CampaignSubType,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignSubType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CampaignSubType:
         """
         Performs a POST request against the /marketing/campaigns/subTypes endpoint.
 
@@ -75,4 +85,7 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignSubType: The parsed response data.
         """
-        return self._parse_one(CampaignSubType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CampaignSubType,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

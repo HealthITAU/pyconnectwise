@@ -6,7 +6,9 @@ from pyconnectwise.models.manage import TaxableProductTypeLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint(ConnectWiseEndpoint):
+class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -33,7 +35,9 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableProductTypeLevel:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TaxableProductTypeLevel:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels/{id} endpoint.
 
@@ -43,9 +47,14 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
         Returns:
             TaxableProductTypeLevel: The parsed response data.
         """
-        return self._parse_one(TaxableProductTypeLevel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TaxableProductTypeLevel,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels/{id} endpoint.
 
@@ -55,9 +64,14 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableProductTypeLevel:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TaxableProductTypeLevel:
         """
         Performs a PUT request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels/{id} endpoint.
 
@@ -67,9 +81,14 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
         Returns:
             TaxableProductTypeLevel: The parsed response data.
         """
-        return self._parse_one(TaxableProductTypeLevel, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            TaxableProductTypeLevel,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableProductTypeLevel:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TaxableProductTypeLevel:
         """
         Performs a PATCH request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels/{id} endpoint.
 
@@ -79,4 +98,7 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
         Returns:
             TaxableProductTypeLevel: The parsed response data.
         """
-        return self._parse_one(TaxableProductTypeLevel, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            TaxableProductTypeLevel,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

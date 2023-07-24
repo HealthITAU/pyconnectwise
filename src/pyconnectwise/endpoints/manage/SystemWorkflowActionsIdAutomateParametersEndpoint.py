@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersCountEndpoint import \
-    SystemWorkflowactionsIdAutomateparametersCountEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersIdEndpoint import \
-    SystemWorkflowactionsIdAutomateparametersIdEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersCountEndpoint import (
+    SystemWorkflowactionsIdAutomateparametersCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersIdEndpoint import (
+    SystemWorkflowactionsIdAutomateparametersIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowActionAutomateParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "automateParameters", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            SystemWorkflowactionsIdAutomateparametersCountEndpoint(client, parent_endpoint=self)
+            SystemWorkflowactionsIdAutomateparametersCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> SystemWorkflowactionsIdAutomateparametersIdEndpoint:
@@ -27,7 +31,9 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemWorkflowactionsIdAutomateparametersIdEndpoint: The initialized SystemWorkflowactionsIdAutomateparametersIdEndpoint object.
         """
-        child = SystemWorkflowactionsIdAutomateparametersIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemWorkflowactionsIdAutomateparametersIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -67,10 +73,13 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(ConnectWiseEndpoint):
             list[WorkflowActionAutomateParameter]: The parsed response data.
         """
         return self._parse_many(
-            WorkflowActionAutomateParameter, super()._make_request("GET", data=data, params=params).json()
+            WorkflowActionAutomateParameter,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowActionAutomateParameter:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkflowActionAutomateParameter:
         """
         Performs a POST request against the /system/workflowActions/{id}/automateParameters endpoint.
 
@@ -81,5 +90,6 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(ConnectWiseEndpoint):
             WorkflowActionAutomateParameter: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionAutomateParameter, super()._make_request("POST", data=data, params=params).json()
+            WorkflowActionAutomateParameter,
+            super()._make_request("POST", data=data, params=params).json(),
         )

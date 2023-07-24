@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoCountEndpoint import \
-    ServiceBoardsIdStatusesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoCountEndpoint import (
+    ServiceBoardsIdStatusesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardStatusInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class ServiceBoardsIdStatusesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardStatusInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BoardStatusInfo]:
         """
         Performs a GET request against the /service/boards/{id}/statuses/info endpoint.
 
@@ -49,4 +52,7 @@ class ServiceBoardsIdStatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardStatusInfo]: The parsed response data.
         """
-        return self._parse_many(BoardStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardStatusInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

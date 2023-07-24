@@ -8,9 +8,13 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyContactsValidateportalcredentialsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "validatePortalCredentials", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "validatePortalCredentials", parent_endpoint=parent_endpoint
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ValidatePortalResponse:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ValidatePortalResponse:
         """
         Performs a POST request against the /company/contacts/validatePortalCredentials endpoint.
 
@@ -20,4 +24,7 @@ class CompanyContactsValidateportalcredentialsEndpoint(ConnectWiseEndpoint):
         Returns:
             ValidatePortalResponse: The parsed response data.
         """
-        return self._parse_one(ValidatePortalResponse, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ValidatePortalResponse,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

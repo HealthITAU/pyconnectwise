@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdAuthorizeEndpoint import \
-    SystemOffice365EmailsetupsIdAuthorizeEndpoint
-from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdTestconnectionEndpoint import \
-    SystemOffice365EmailsetupsIdTestconnectionEndpoint
+from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdAuthorizeEndpoint import (
+    SystemOffice365EmailsetupsIdAuthorizeEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdTestconnectionEndpoint import (
+    SystemOffice365EmailsetupsIdTestconnectionEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Office365EmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -18,7 +20,9 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
             SystemOffice365EmailsetupsIdAuthorizeEndpoint(client, parent_endpoint=self)
         )
         self.test_connection = self._register_child_endpoint(
-            SystemOffice365EmailsetupsIdTestconnectionEndpoint(client, parent_endpoint=self)
+            SystemOffice365EmailsetupsIdTestconnectionEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -44,7 +48,9 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetup:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Office365EmailSetup:
         """
         Performs a GET request against the /system/office365/emailSetups/{id} endpoint.
 
@@ -54,9 +60,14 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Office365EmailSetup: The parsed response data.
         """
-        return self._parse_one(Office365EmailSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Office365EmailSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/office365/emailSetups/{id} endpoint.
 
@@ -66,9 +77,14 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetup:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Office365EmailSetup:
         """
         Performs a PUT request against the /system/office365/emailSetups/{id} endpoint.
 
@@ -78,9 +94,14 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Office365EmailSetup: The parsed response data.
         """
-        return self._parse_one(Office365EmailSetup, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Office365EmailSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetup:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Office365EmailSetup:
         """
         Performs a PATCH request against the /system/office365/emailSetups/{id} endpoint.
 
@@ -90,4 +111,7 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Office365EmailSetup: The parsed response data.
         """
-        return self._parse_one(Office365EmailSetup, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            Office365EmailSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

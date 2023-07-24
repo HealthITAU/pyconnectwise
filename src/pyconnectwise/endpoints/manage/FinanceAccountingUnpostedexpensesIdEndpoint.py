@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint import \
-    FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint import (
+    FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +14,9 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.taxable_levels = self._register_child_endpoint(
-            FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(client, parent_endpoint=self)
+            FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +42,9 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedExpense:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> UnpostedExpense:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses/{id} endpoint.
 
@@ -49,4 +54,7 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UnpostedExpense: The parsed response data.
         """
-        return self._parse_one(UnpostedExpense, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            UnpostedExpense,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

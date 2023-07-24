@@ -10,7 +10,9 @@ class RoutersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Routers", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Router]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Router]:
         """
         Performs a GET request against the /Routers endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class RoutersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Router]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Router]:
         """
         Performs a GET request against the /Routers endpoint.
 
@@ -41,4 +45,6 @@ class RoutersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Router]: The parsed response data.
         """
-        return self._parse_many(Router, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Router, super()._make_request("GET", data=data, params=params).json()
+        )

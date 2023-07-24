@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsCountEndpoint import \
-    FinanceAgreementsIdWorktypeexclusionsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsIdEndpoint import \
-    FinanceAgreementsIdWorktypeexclusionsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsCountEndpoint import (
+    FinanceAgreementsIdWorktypeexclusionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsIdEndpoint import (
+    FinanceAgreementsIdWorktypeexclusionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementWorkTypeExclusion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "workTypeExclusions", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceAgreementsIdWorktypeexclusionsCountEndpoint(client, parent_endpoint=self)
+            FinanceAgreementsIdWorktypeexclusionsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> FinanceAgreementsIdWorktypeexclusionsIdEndpoint:
@@ -27,7 +31,9 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementsIdWorktypeexclusionsIdEndpoint: The initialized FinanceAgreementsIdWorktypeexclusionsIdEndpoint object.
         """
-        child = FinanceAgreementsIdWorktypeexclusionsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementsIdWorktypeexclusionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementWorkTypeExclusion]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AgreementWorkTypeExclusion]:
         """
         Performs a GET request against the /finance/agreements/{id}/workTypeExclusions endpoint.
 
@@ -65,10 +73,13 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
             list[AgreementWorkTypeExclusion]: The parsed response data.
         """
         return self._parse_many(
-            AgreementWorkTypeExclusion, super()._make_request("GET", data=data, params=params).json()
+            AgreementWorkTypeExclusion,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkTypeExclusion:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementWorkTypeExclusion:
         """
         Performs a POST request against the /finance/agreements/{id}/workTypeExclusions endpoint.
 
@@ -79,5 +90,6 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
             AgreementWorkTypeExclusion: The parsed response data.
         """
         return self._parse_one(
-            AgreementWorkTypeExclusion, super()._make_request("POST", data=data, params=params).json()
+            AgreementWorkTypeExclusion,
+            super()._make_request("POST", data=data, params=params).json(),
         )

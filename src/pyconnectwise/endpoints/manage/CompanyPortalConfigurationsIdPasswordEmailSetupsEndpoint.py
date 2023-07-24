@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint import \
-    CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint import (
+    CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationPasswordEmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -21,7 +22,9 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(ConnectWiseEndpoi
         Returns:
             CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -61,5 +64,6 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(ConnectWiseEndpoi
             list[PortalConfigurationPasswordEmailSetup]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationPasswordEmailSetup, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationPasswordEmailSetup,
+            super()._make_request("GET", data=data, params=params).json(),
         )

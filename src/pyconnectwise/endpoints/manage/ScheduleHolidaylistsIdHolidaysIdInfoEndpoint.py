@@ -10,7 +10,9 @@ class ScheduleHolidaylistsIdHolidaysIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[HolidayInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[HolidayInfo]:
         """
         Performs a GET request against the /schedule/holidaylists/{id}/holidays/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class ScheduleHolidaylistsIdHolidaysIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> HolidayInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> HolidayInfo:
         """
         Performs a GET request against the /schedule/holidaylists/{id}/holidays/{id}/info endpoint.
 
@@ -41,4 +45,6 @@ class ScheduleHolidaylistsIdHolidaysIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             HolidayInfo: The parsed response data.
         """
-        return self._parse_one(HolidayInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            HolidayInfo, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsStatusesCountEndpoint import \
-    MarketingCampaignsStatusesCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsStatusesIdEndpoint import MarketingCampaignsStatusesIdEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsStatusesCountEndpoint import (
+    MarketingCampaignsStatusesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsStatusesIdEndpoint import (
+    MarketingCampaignsStatusesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CampaignStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class MarketingCampaignsStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignStatus]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CampaignStatus]:
         """
         Performs a GET request against the /marketing/campaigns/statuses endpoint.
 
@@ -63,9 +68,14 @@ class MarketingCampaignsStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignStatus]: The parsed response data.
         """
-        return self._parse_many(CampaignStatus, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CampaignStatus,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignStatus:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CampaignStatus:
         """
         Performs a POST request against the /marketing/campaigns/statuses endpoint.
 
@@ -75,4 +85,7 @@ class MarketingCampaignsStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignStatus: The parsed response data.
         """
-        return self._parse_one(CampaignStatus, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CampaignStatus,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

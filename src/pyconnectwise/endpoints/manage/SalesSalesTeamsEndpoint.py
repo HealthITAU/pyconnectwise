@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesSalesteamsCountEndpoint import SalesSalesteamsCountEndpoint
-from pyconnectwise.endpoints.manage.SalesSalesteamsIdEndpoint import SalesSalesteamsIdEndpoint
+from pyconnectwise.endpoints.manage.SalesSalesteamsCountEndpoint import (
+    SalesSalesteamsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesSalesteamsIdEndpoint import (
+    SalesSalesteamsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SalesTeam
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "salesTeams", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SalesSalesteamsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SalesSalesteamsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SalesSalesteamsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SalesTeam]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SalesTeam]:
         """
         Performs a GET request against the /sales/salesTeams endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SalesTeam]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[SalesTeam]:
         """
         Performs a GET request against the /sales/salesTeams endpoint.
 
@@ -58,9 +68,13 @@ class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SalesTeam]: The parsed response data.
         """
-        return self._parse_many(SalesTeam, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SalesTeam, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesTeam:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> SalesTeam:
         """
         Performs a POST request against the /sales/salesTeams endpoint.
 
@@ -70,4 +84,6 @@ class SalesSalesteamsEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesTeam: The parsed response data.
         """
-        return self._parse_one(SalesTeam, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SalesTeam, super()._make_request("POST", data=data, params=params).json()
+        )

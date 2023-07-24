@@ -33,7 +33,9 @@ class ScheduleTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleTypeInfo:
         """
         Performs a GET request against the /schedule/types/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ScheduleTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleTypeInfo: The parsed response data.
         """
-        return self._parse_one(ScheduleTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

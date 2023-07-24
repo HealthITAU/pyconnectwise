@@ -8,7 +8,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Remoteagenttemplates", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Remoteagenttemplates", parent_endpoint=parent_endpoint
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -33,7 +35,9 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RemoteAgentTemplate]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[RemoteAgentTemplate]:
         """
         Performs a GET request against the /Remoteagenttemplates endpoint.
 
@@ -43,9 +47,14 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RemoteAgentTemplate]: The parsed response data.
         """
-        return self._parse_many(RemoteAgentTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            RemoteAgentTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RemoteAgentTemplate:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> RemoteAgentTemplate:
         """
         Performs a POST request against the /Remoteagenttemplates endpoint.
 
@@ -55,4 +64,7 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             RemoteAgentTemplate: The parsed response data.
         """
-        return self._parse_one(RemoteAgentTemplate, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            RemoteAgentTemplate,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

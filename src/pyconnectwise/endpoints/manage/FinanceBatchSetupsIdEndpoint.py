@@ -33,7 +33,9 @@ class FinanceBatchsetupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementBatchSetup:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementBatchSetup:
         """
         Performs a GET request against the /finance/batchSetups/{id} endpoint.
 
@@ -43,9 +45,14 @@ class FinanceBatchsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementBatchSetup: The parsed response data.
         """
-        return self._parse_one(AgreementBatchSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            AgreementBatchSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementBatchSetup:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementBatchSetup:
         """
         Performs a PUT request against the /finance/batchSetups/{id} endpoint.
 
@@ -55,9 +62,14 @@ class FinanceBatchsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementBatchSetup: The parsed response data.
         """
-        return self._parse_one(AgreementBatchSetup, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            AgreementBatchSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementBatchSetup:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementBatchSetup:
         """
         Performs a PATCH request against the /finance/batchSetups/{id} endpoint.
 
@@ -67,4 +79,7 @@ class FinanceBatchsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementBatchSetup: The parsed response data.
         """
-        return self._parse_one(AgreementBatchSetup, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            AgreementBatchSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

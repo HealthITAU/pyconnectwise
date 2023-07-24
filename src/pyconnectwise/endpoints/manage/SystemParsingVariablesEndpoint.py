@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingvariablesCountEndpoint import SystemParsingvariablesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingvariablesIdEndpoint import SystemParsingvariablesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemParsingvariablesCountEndpoint import (
+    SystemParsingvariablesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemParsingvariablesIdEndpoint import (
+    SystemParsingvariablesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ParsingVariable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "parsingVariables", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemParsingvariablesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemParsingvariablesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemParsingvariablesIdEndpoint:
         """
@@ -50,7 +56,9 @@ class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ParsingVariable]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ParsingVariable]:
         """
         Performs a GET request against the /system/parsingVariables endpoint.
 
@@ -60,4 +68,7 @@ class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ParsingVariable]: The parsed response data.
         """
-        return self._parse_many(ParsingVariable, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ParsingVariable,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

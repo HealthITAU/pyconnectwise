@@ -10,7 +10,9 @@ class SystemLinksIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Link]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Link]:
         """
         Performs a GET request against the /system/links/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,9 +43,13 @@ class SystemLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Link: The parsed response data.
         """
-        return self._parse_one(Link, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Link, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/links/{id} endpoint.
 
@@ -53,7 +59,10 @@ class SystemLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Link:
         """
@@ -65,9 +74,13 @@ class SystemLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Link: The parsed response data.
         """
-        return self._parse_one(Link, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Link, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Link:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Link:
         """
         Performs a PATCH request against the /system/links/{id} endpoint.
 
@@ -77,4 +90,6 @@ class SystemLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Link: The parsed response data.
         """
-        return self._parse_one(Link, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            Link, super()._make_request("PATCH", data=data, params=params).json()
+        )

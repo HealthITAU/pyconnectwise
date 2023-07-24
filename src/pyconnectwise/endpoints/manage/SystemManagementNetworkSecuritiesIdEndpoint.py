@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesIdTestcredentialsEndpoint import \
-    SystemManagementnetworksecuritiesIdTestcredentialsEndpoint
+from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesIdTestcredentialsEndpoint import (
+    SystemManagementnetworksecuritiesIdTestcredentialsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementNetworkSecurity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +14,9 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.test_credentials = self._register_child_endpoint(
-            SystemManagementnetworksecuritiesIdTestcredentialsEndpoint(client, parent_endpoint=self)
+            SystemManagementnetworksecuritiesIdTestcredentialsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +42,9 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementNetworkSecurity:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementNetworkSecurity:
         """
         Performs a GET request against the /system/managementNetworkSecurities/{id} endpoint.
 
@@ -49,9 +54,14 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementNetworkSecurity: The parsed response data.
         """
-        return self._parse_one(ManagementNetworkSecurity, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ManagementNetworkSecurity,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/managementNetworkSecurities/{id} endpoint.
 
@@ -61,9 +71,14 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementNetworkSecurity:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementNetworkSecurity:
         """
         Performs a PUT request against the /system/managementNetworkSecurities/{id} endpoint.
 
@@ -73,9 +88,14 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementNetworkSecurity: The parsed response data.
         """
-        return self._parse_one(ManagementNetworkSecurity, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ManagementNetworkSecurity,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementNetworkSecurity:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementNetworkSecurity:
         """
         Performs a PATCH request against the /system/managementNetworkSecurities/{id} endpoint.
 
@@ -86,5 +106,6 @@ class SystemManagementnetworksecuritiesIdEndpoint(ConnectWiseEndpoint):
             ManagementNetworkSecurity: The parsed response data.
         """
         return self._parse_one(
-            ManagementNetworkSecurity, super()._make_request("PATCH", data=data, params=params).json()
+            ManagementNetworkSecurity,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

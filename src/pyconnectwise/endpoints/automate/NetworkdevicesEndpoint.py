@@ -1,6 +1,8 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.NetworkdevicesIdEndpoint import NetworkdevicesIdEndpoint
+from pyconnectwise.endpoints.automate.NetworkdevicesIdEndpoint import (
+    NetworkdevicesIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import NetworkDevice
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -47,7 +49,9 @@ class NetworkdevicesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[NetworkDevice]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[NetworkDevice]:
         """
         Performs a GET request against the /Networkdevices endpoint.
 
@@ -57,9 +61,13 @@ class NetworkdevicesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[NetworkDevice]: The parsed response data.
         """
-        return self._parse_many(NetworkDevice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            NetworkDevice, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NetworkDevice:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> NetworkDevice:
         """
         Performs a POST request against the /Networkdevices endpoint.
 
@@ -69,4 +77,7 @@ class NetworkdevicesEndpoint(ConnectWiseEndpoint):
         Returns:
             NetworkDevice: The parsed response data.
         """
-        return self._parse_one(NetworkDevice, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            NetworkDevice,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

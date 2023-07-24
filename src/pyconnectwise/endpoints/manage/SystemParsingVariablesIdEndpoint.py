@@ -33,7 +33,9 @@ class SystemParsingvariablesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ParsingVariable:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ParsingVariable:
         """
         Performs a GET request against the /system/parsingVariables/{id} endpoint.
 
@@ -43,4 +45,7 @@ class SystemParsingvariablesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ParsingVariable: The parsed response data.
         """
-        return self._parse_one(ParsingVariable, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ParsingVariable,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

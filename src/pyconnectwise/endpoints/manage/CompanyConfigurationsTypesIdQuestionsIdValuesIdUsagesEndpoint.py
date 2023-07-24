@@ -1,22 +1,29 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint import \
-    CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint import (
+    CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Usage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesEndpoint(ConnectWiseEndpoint):
+class CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "usages", parent_endpoint=parent_endpoint)
 
         self.list = self._register_child_endpoint(
-            CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint(client, parent_endpoint=self)
+            CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesListEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Usage]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Usage]:
         """
         Performs a GET request against the /company/configurations/types/{id}/questions/{id}/values/{id}/usages endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,7 +44,9 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesEndpoint(ConnectWiseE
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Usage]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Usage]:
         """
         Performs a GET request against the /company/configurations/types/{id}/questions/{id}/values/{id}/usages endpoint.
 
@@ -47,4 +56,6 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesEndpoint(ConnectWiseE
         Returns:
             list[Usage]: The parsed response data.
         """
-        return self._parse_many(Usage, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Usage, super()._make_request("GET", data=data, params=params).json()
+        )

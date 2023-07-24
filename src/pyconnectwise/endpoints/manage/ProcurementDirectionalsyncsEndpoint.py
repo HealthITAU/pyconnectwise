@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsCountEndpoint import \
-    ProcurementDirectionalsyncsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsIdEndpoint import ProcurementDirectionalsyncsIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsCountEndpoint import (
+    ProcurementDirectionalsyncsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsIdEndpoint import (
+    ProcurementDirectionalsyncsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DirectionalSync
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DirectionalSync]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[DirectionalSync]:
         """
         Performs a GET request against the /procurement/directionalSyncs endpoint.
 
@@ -63,9 +68,14 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DirectionalSync]: The parsed response data.
         """
-        return self._parse_many(DirectionalSync, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DirectionalSync,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DirectionalSync:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> DirectionalSync:
         """
         Performs a POST request against the /procurement/directionalSyncs endpoint.
 
@@ -75,4 +85,7 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
         Returns:
             DirectionalSync: The parsed response data.
         """
-        return self._parse_one(DirectionalSync, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            DirectionalSync,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

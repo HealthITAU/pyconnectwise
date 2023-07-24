@@ -33,7 +33,9 @@ class FinanceAgreementsIdApplicationparametersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementApplicationParameters:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementApplicationParameters:
         """
         Performs a GET request against the /finance/agreements/{id}/applicationParameters/{id} endpoint.
 
@@ -44,5 +46,6 @@ class FinanceAgreementsIdApplicationparametersIdEndpoint(ConnectWiseEndpoint):
             AgreementApplicationParameters: The parsed response data.
         """
         return self._parse_one(
-            AgreementApplicationParameters, super()._make_request("GET", data=data, params=params).json()
+            AgreementApplicationParameters,
+            super()._make_request("GET", data=data, params=params).json(),
         )

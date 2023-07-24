@@ -1,10 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesCountEndpoint import \
-    SalesOpportunitiesStatusesCountEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesIdEndpoint import SalesOpportunitiesStatusesIdEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesInfoEndpoint import SalesOpportunitiesStatusesInfoEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesCountEndpoint import (
+    SalesOpportunitiesStatusesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesIdEndpoint import (
+    SalesOpportunitiesStatusesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesInfoEndpoint import (
+    SalesOpportunitiesStatusesInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +19,11 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SalesOpportunitiesStatusesInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             SalesOpportunitiesStatusesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            SalesOpportunitiesStatusesInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SalesOpportunitiesStatusesIdEndpoint:
@@ -55,7 +62,9 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityStatus]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[OpportunityStatus]:
         """
         Performs a GET request against the /sales/opportunities/statuses endpoint.
 
@@ -65,9 +74,14 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityStatus]: The parsed response data.
         """
-        return self._parse_many(OpportunityStatus, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            OpportunityStatus,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStatus:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OpportunityStatus:
         """
         Performs a POST request against the /sales/opportunities/statuses endpoint.
 
@@ -77,4 +91,7 @@ class SalesOpportunitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStatus: The parsed response data.
         """
-        return self._parse_one(OpportunityStatus, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            OpportunityStatus,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

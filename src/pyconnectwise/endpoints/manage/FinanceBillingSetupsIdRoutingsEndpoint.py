@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsCountEndpoint import \
-    FinanceBillingsetupsIdRoutingsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsIdEndpoint import \
-    FinanceBillingsetupsIdRoutingsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsCountEndpoint import (
+    FinanceBillingsetupsIdRoutingsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsIdEndpoint import (
+    FinanceBillingsetupsIdRoutingsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingSetupRouting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class FinanceBillingsetupsIdRoutingsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceBillingsetupsIdRoutingsIdEndpoint: The initialized FinanceBillingsetupsIdRoutingsIdEndpoint object.
         """
-        child = FinanceBillingsetupsIdRoutingsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceBillingsetupsIdRoutingsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class FinanceBillingsetupsIdRoutingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingSetupRouting]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BillingSetupRouting]:
         """
         Performs a GET request against the /finance/billingSetups/{id}/routings endpoint.
 
@@ -64,9 +70,14 @@ class FinanceBillingsetupsIdRoutingsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingSetupRouting]: The parsed response data.
         """
-        return self._parse_many(BillingSetupRouting, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BillingSetupRouting,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingSetupRouting:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingSetupRouting:
         """
         Performs a POST request against the /finance/billingSetups/{id}/routings endpoint.
 
@@ -76,4 +87,7 @@ class FinanceBillingsetupsIdRoutingsEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingSetupRouting: The parsed response data.
         """
-        return self._parse_one(BillingSetupRouting, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BillingSetupRouting,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

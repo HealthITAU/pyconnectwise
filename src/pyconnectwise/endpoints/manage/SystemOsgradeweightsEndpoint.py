@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemOsgradeweightsCountEndpoint import SystemOsgradeweightsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemOsgradeweightsIdEndpoint import SystemOsgradeweightsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemOsgradeweightsCountEndpoint import (
+    SystemOsgradeweightsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemOsgradeweightsIdEndpoint import (
+    SystemOsgradeweightsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OsGradeWeight
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemOsgradeweightsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "osgradeweights", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemOsgradeweightsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemOsgradeweightsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemOsgradeweightsIdEndpoint:
         """
@@ -50,7 +56,9 @@ class SystemOsgradeweightsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OsGradeWeight]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[OsGradeWeight]:
         """
         Performs a GET request against the /system/osgradeweights endpoint.
 
@@ -60,4 +68,6 @@ class SystemOsgradeweightsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OsGradeWeight]: The parsed response data.
         """
-        return self._parse_many(OsGradeWeight, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            OsGradeWeight, super()._make_request("GET", data=data, params=params).json()
+        )

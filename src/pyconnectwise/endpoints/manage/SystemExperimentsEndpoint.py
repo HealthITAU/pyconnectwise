@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemExperimentsCountEndpoint import SystemExperimentsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemExperimentsIdEndpoint import SystemExperimentsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemExperimentsCountEndpoint import (
+    SystemExperimentsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemExperimentsIdEndpoint import (
+    SystemExperimentsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Experiment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemExperimentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "experiments", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemExperimentsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemExperimentsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemExperimentsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SystemExperimentsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Experiment]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Experiment]:
         """
         Performs a GET request against the /system/experiments endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SystemExperimentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Experiment]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Experiment]:
         """
         Performs a GET request against the /system/experiments endpoint.
 
@@ -58,4 +68,6 @@ class SystemExperimentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Experiment]: The parsed response data.
         """
-        return self._parse_many(Experiment, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Experiment, super()._make_request("GET", data=data, params=params).json()
+        )

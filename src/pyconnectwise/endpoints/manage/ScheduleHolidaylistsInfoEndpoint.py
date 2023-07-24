@@ -33,7 +33,9 @@ class ScheduleHolidaylistsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[HolidayListInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[HolidayListInfo]:
         """
         Performs a GET request against the /schedule/holidaylists/info endpoint.
 
@@ -43,4 +45,7 @@ class ScheduleHolidaylistsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[HolidayListInfo]: The parsed response data.
         """
-        return self._parse_many(HolidayListInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            HolidayListInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

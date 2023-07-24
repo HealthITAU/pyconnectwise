@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceEmailtemplatesIdUsagesEndpoint import ServiceEmailtemplatesIdUsagesEndpoint
+from pyconnectwise.endpoints.manage.ServiceEmailtemplatesIdUsagesEndpoint import (
+    ServiceEmailtemplatesIdUsagesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceEmailTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(ServiceEmailtemplatesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(
+            ServiceEmailtemplatesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceEmailTemplate:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceEmailTemplate:
         """
         Performs a GET request against the /service/emailTemplates/{id} endpoint.
 
@@ -46,9 +52,14 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceEmailTemplate: The parsed response data.
         """
-        return self._parse_one(ServiceEmailTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ServiceEmailTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/emailTemplates/{id} endpoint.
 
@@ -58,9 +69,14 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceEmailTemplate:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceEmailTemplate:
         """
         Performs a PUT request against the /service/emailTemplates/{id} endpoint.
 
@@ -70,9 +86,14 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceEmailTemplate: The parsed response data.
         """
-        return self._parse_one(ServiceEmailTemplate, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ServiceEmailTemplate,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceEmailTemplate:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceEmailTemplate:
         """
         Performs a PATCH request against the /service/emailTemplates/{id} endpoint.
 
@@ -82,4 +103,7 @@ class ServiceEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceEmailTemplate: The parsed response data.
         """
-        return self._parse_one(ServiceEmailTemplate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ServiceEmailTemplate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceKnowledgebasesettingsIdEndpoint import ServiceKnowledgebasesettingsIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasesettingsIdEndpoint import (
+    ServiceKnowledgebasesettingsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import KnowledgeBaseSettings
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -9,7 +11,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ServiceKnowledgebasesettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgebasesettings", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "knowledgebasesettings", parent_endpoint=parent_endpoint
+        )
 
     def id(self, id: int) -> ServiceKnowledgebasesettingsIdEndpoint:
         """
@@ -20,7 +24,9 @@ class ServiceKnowledgebasesettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceKnowledgebasesettingsIdEndpoint: The initialized ServiceKnowledgebasesettingsIdEndpoint object.
         """
-        child = ServiceKnowledgebasesettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceKnowledgebasesettingsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -47,7 +53,9 @@ class ServiceKnowledgebasesettingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> KnowledgeBaseSettings:
         """
         Performs a GET request against the /service/knowledgebasesettings endpoint.
 
@@ -57,9 +65,14 @@ class ServiceKnowledgebasesettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseSettings: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseSettings, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            KnowledgeBaseSettings,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> KnowledgeBaseSettings:
         """
         Performs a POST request against the /service/knowledgebasesettings endpoint.
 
@@ -69,4 +82,7 @@ class ServiceKnowledgebasesettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseSettings: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseSettings, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            KnowledgeBaseSettings,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -7,4 +7,6 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class MicrosoftupdatepoliciesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Microsoftupdatepolicies", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Microsoftupdatepolicies", parent_endpoint=parent_endpoint
+        )

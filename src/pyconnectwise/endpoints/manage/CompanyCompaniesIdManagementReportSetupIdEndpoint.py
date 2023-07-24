@@ -10,7 +10,9 @@ class CompanyCompaniesIdManagementreportsetupIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportSetup:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementReportSetup:
         """
         Performs a PUT request against the /company/companies/{id}/managementReportSetup/{id} endpoint.
 
@@ -20,9 +22,14 @@ class CompanyCompaniesIdManagementreportsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementReportSetup: The parsed response data.
         """
-        return self._parse_one(ManagementReportSetup, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ManagementReportSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportSetup:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementReportSetup:
         """
         Performs a PATCH request against the /company/companies/{id}/managementReportSetup/{id} endpoint.
 
@@ -32,4 +39,7 @@ class CompanyCompaniesIdManagementreportsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementReportSetup: The parsed response data.
         """
-        return self._parse_one(ManagementReportSetup, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ManagementReportSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

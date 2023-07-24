@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemAllowedoriginsCountEndpoint import SystemAllowedoriginsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemAllowedoriginsIdEndpoint import SystemAllowedoriginsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemAllowedoriginsCountEndpoint import (
+    SystemAllowedoriginsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemAllowedoriginsIdEndpoint import (
+    SystemAllowedoriginsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AllowedOrigin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemAllowedoriginsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "allowedorigins", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemAllowedoriginsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemAllowedoriginsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemAllowedoriginsIdEndpoint:
         """
@@ -50,7 +56,9 @@ class SystemAllowedoriginsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AllowedOrigin]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AllowedOrigin]:
         """
         Performs a GET request against the /system/allowedorigins endpoint.
 
@@ -60,9 +68,13 @@ class SystemAllowedoriginsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AllowedOrigin]: The parsed response data.
         """
-        return self._parse_many(AllowedOrigin, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AllowedOrigin, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AllowedOrigin:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AllowedOrigin:
         """
         Performs a POST request against the /system/allowedorigins endpoint.
 
@@ -72,4 +84,7 @@ class SystemAllowedoriginsEndpoint(ConnectWiseEndpoint):
         Returns:
             AllowedOrigin: The parsed response data.
         """
-        return self._parse_one(AllowedOrigin, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AllowedOrigin,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

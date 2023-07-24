@@ -1,6 +1,8 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ComputersIdScheduledscriptsIdEndpoint import ComputersIdScheduledscriptsIdEndpoint
+from pyconnectwise.endpoints.automate.ComputersIdScheduledscriptsIdEndpoint import (
+    ComputersIdScheduledscriptsIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import ScheduledScript
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -47,7 +49,9 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduledScript]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScheduledScript]:
         """
         Performs a GET request against the /Computers/{id}/Scheduledscripts endpoint.
 
@@ -57,9 +61,14 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduledScript]: The parsed response data.
         """
-        return self._parse_many(ScheduledScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduledScript,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduledScript:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduledScript:
         """
         Performs a POST request against the /Computers/{id}/Scheduledscripts endpoint.
 
@@ -69,4 +78,7 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduledScript: The parsed response data.
         """
-        return self._parse_one(ScheduledScript, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ScheduledScript,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

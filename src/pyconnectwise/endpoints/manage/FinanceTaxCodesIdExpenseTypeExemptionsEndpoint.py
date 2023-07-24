@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint import \
-    FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint import \
-    FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint import (
+    FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint import (
+    FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseTypeExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,10 +14,14 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "expenseTypeExemptions", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "expenseTypeExemptions", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
-            FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint(client, parent_endpoint=self)
+            FinanceTaxcodesIdExpensetypeexemptionsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint:
@@ -27,7 +33,9 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint: The initialized FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint object.
         """
-        child = FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +62,9 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseTypeExemption]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ExpenseTypeExemption]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/expenseTypeExemptions endpoint.
 
@@ -64,9 +74,14 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseTypeExemption]: The parsed response data.
         """
-        return self._parse_many(ExpenseTypeExemption, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ExpenseTypeExemption,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseTypeExemption:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ExpenseTypeExemption:
         """
         Performs a POST request against the /finance/taxCodes/{id}/expenseTypeExemptions endpoint.
 
@@ -76,4 +91,7 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseTypeExemption: The parsed response data.
         """
-        return self._parse_one(ExpenseTypeExemption, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ExpenseTypeExemption,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

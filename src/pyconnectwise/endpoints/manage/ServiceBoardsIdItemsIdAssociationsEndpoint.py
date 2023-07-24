@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsCountEndpoint import \
-    ServiceBoardsIdItemsIdAssociationsCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsIdEndpoint import \
-    ServiceBoardsIdItemsIdAssociationsIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsCountEndpoint import (
+    ServiceBoardsIdItemsIdAssociationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsIdEndpoint import (
+    ServiceBoardsIdItemsIdAssociationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardItemAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ServiceBoardsIdItemsIdAssociationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "associations", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ServiceBoardsIdItemsIdAssociationsCountEndpoint(client, parent_endpoint=self)
+            ServiceBoardsIdItemsIdAssociationsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ServiceBoardsIdItemsIdAssociationsIdEndpoint:
@@ -27,7 +31,9 @@ class ServiceBoardsIdItemsIdAssociationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdItemsIdAssociationsIdEndpoint: The initialized ServiceBoardsIdItemsIdAssociationsIdEndpoint object.
         """
-        child = ServiceBoardsIdItemsIdAssociationsIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceBoardsIdItemsIdAssociationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ServiceBoardsIdItemsIdAssociationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardItemAssociation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BoardItemAssociation]:
         """
         Performs a GET request against the /service/boards/{id}/items/{id}/associations endpoint.
 
@@ -64,4 +72,7 @@ class ServiceBoardsIdItemsIdAssociationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardItemAssociation]: The parsed response data.
         """
-        return self._parse_many(BoardItemAssociation, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardItemAssociation,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

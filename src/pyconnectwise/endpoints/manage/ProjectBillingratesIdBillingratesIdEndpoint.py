@@ -10,7 +10,9 @@ class ProjectBillingratesIdBillingratesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBillingRate:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectBillingRate:
         """
         Performs a PATCH request against the /project/billingRates/{id}/billingRates/{id} endpoint.
 
@@ -20,4 +22,7 @@ class ProjectBillingratesIdBillingratesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBillingRate: The parsed response data.
         """
-        return self._parse_one(ProjectBillingRate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ProjectBillingRate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

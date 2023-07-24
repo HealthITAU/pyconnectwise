@@ -10,7 +10,9 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ApiMember]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ApiMember]:
         """
         Performs a GET request against the /system/apiMembers/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ApiMember:
         """
         Performs a GET request against the /system/apiMembers/{id} endpoint.
 
@@ -41,9 +45,13 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMember: The parsed response data.
         """
-        return self._parse_one(ApiMember, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ApiMember, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ApiMember:
         """
         Performs a PUT request against the /system/apiMembers/{id} endpoint.
 
@@ -53,9 +61,13 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMember: The parsed response data.
         """
-        return self._parse_one(ApiMember, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ApiMember, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ApiMember:
         """
         Performs a PATCH request against the /system/apiMembers/{id} endpoint.
 
@@ -65,4 +77,6 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMember: The parsed response data.
         """
-        return self._parse_one(ApiMember, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ApiMember, super()._make_request("PATCH", data=data, params=params).json()
+        )

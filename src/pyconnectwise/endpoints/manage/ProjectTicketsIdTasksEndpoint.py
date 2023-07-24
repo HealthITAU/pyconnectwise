@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketsIdTasksCountEndpoint import ProjectTicketsIdTasksCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketsIdTasksIdEndpoint import ProjectTicketsIdTasksIdEndpoint
+from pyconnectwise.endpoints.manage.ProjectTicketsIdTasksCountEndpoint import (
+    ProjectTicketsIdTasksCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectTicketsIdTasksIdEndpoint import (
+    ProjectTicketsIdTasksIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TicketTask
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tasks", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ProjectTicketsIdTasksCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProjectTicketsIdTasksCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ProjectTicketsIdTasksIdEndpoint:
         """
@@ -27,7 +33,9 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketTask]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TicketTask]:
         """
         Performs a GET request against the /project/tickets/{id}/tasks endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TicketTask]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[TicketTask]:
         """
         Performs a GET request against the /project/tickets/{id}/tasks endpoint.
 
@@ -58,9 +68,13 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TicketTask]: The parsed response data.
         """
-        return self._parse_many(TicketTask, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TicketTask, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketTask:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TicketTask:
         """
         Performs a POST request against the /project/tickets/{id}/tasks endpoint.
 
@@ -70,4 +84,6 @@ class ProjectTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         Returns:
             TicketTask: The parsed response data.
         """
-        return self._parse_one(TicketTask, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TicketTask, super()._make_request("POST", data=data, params=params).json()
+        )

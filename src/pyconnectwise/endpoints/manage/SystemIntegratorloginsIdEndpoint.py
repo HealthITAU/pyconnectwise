@@ -33,7 +33,9 @@ class SystemIntegratorloginsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorLogin:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> IntegratorLogin:
         """
         Performs a GET request against the /system/integratorlogins/{id} endpoint.
 
@@ -43,9 +45,14 @@ class SystemIntegratorloginsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             IntegratorLogin: The parsed response data.
         """
-        return self._parse_one(IntegratorLogin, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            IntegratorLogin,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/integratorlogins/{id} endpoint.
 
@@ -55,9 +62,14 @@ class SystemIntegratorloginsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorLogin:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> IntegratorLogin:
         """
         Performs a PUT request against the /system/integratorlogins/{id} endpoint.
 
@@ -67,9 +79,14 @@ class SystemIntegratorloginsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             IntegratorLogin: The parsed response data.
         """
-        return self._parse_one(IntegratorLogin, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            IntegratorLogin,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorLogin:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> IntegratorLogin:
         """
         Performs a PATCH request against the /system/integratorlogins/{id} endpoint.
 
@@ -79,4 +96,7 @@ class SystemIntegratorloginsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             IntegratorLogin: The parsed response data.
         """
-        return self._parse_one(IntegratorLogin, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            IntegratorLogin,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

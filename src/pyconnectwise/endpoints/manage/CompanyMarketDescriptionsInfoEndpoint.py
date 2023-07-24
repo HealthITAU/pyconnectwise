@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoCountEndpoint import \
-    CompanyMarketdescriptionsInfoCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoCountEndpoint import (
+    CompanyMarketdescriptionsInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MarketDescriptionInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class CompanyMarketdescriptionsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescriptionInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MarketDescriptionInfo]:
         """
         Performs a GET request against the /company/marketDescriptions/info endpoint.
 
@@ -49,4 +52,7 @@ class CompanyMarketdescriptionsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MarketDescriptionInfo]: The parsed response data.
         """
-        return self._parse_many(MarketDescriptionInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MarketDescriptionInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

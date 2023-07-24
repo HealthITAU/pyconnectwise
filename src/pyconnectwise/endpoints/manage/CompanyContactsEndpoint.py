@@ -1,15 +1,30 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsCountEndpoint import CompanyContactsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsDefaultEndpoint import CompanyContactsDefaultEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsEndpoint import CompanyContactsDepartmentsEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdEndpoint import CompanyContactsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsRelationshipsEndpoint import CompanyContactsRelationshipsEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsRequestpasswordEndpoint import CompanyContactsRequestpasswordEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsTypesEndpoint import CompanyContactsTypesEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsValidateportalcredentialsEndpoint import \
-    CompanyContactsValidateportalcredentialsEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsCountEndpoint import (
+    CompanyContactsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsDefaultEndpoint import (
+    CompanyContactsDefaultEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsEndpoint import (
+    CompanyContactsDepartmentsEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsIdEndpoint import (
+    CompanyContactsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsRelationshipsEndpoint import (
+    CompanyContactsRelationshipsEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsRequestpasswordEndpoint import (
+    CompanyContactsRequestpasswordEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsTypesEndpoint import (
+    CompanyContactsTypesEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsValidateportalcredentialsEndpoint import (
+    CompanyContactsValidateportalcredentialsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Contact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,20 +34,28 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "contacts", parent_endpoint=parent_endpoint)
 
-        self.departments = self._register_child_endpoint(
-            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
-        )
         self.request_password = self._register_child_endpoint(
             CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
-        self.default = self._register_child_endpoint(CompanyContactsDefaultEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(CompanyContactsTypesEndpoint(client, parent_endpoint=self))
+        self.default = self._register_child_endpoint(
+            CompanyContactsDefaultEndpoint(client, parent_endpoint=self)
+        )
         self.validate_portal_credentials = self._register_child_endpoint(
-            CompanyContactsValidateportalcredentialsEndpoint(client, parent_endpoint=self)
+            CompanyContactsValidateportalcredentialsEndpoint(
+                client, parent_endpoint=self
+            )
+        )
+        self.departments = self._register_child_endpoint(
+            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
         )
         self.relationships = self._register_child_endpoint(
             CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
+        )
+        self.types = self._register_child_endpoint(
+            CompanyContactsTypesEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(
+            CompanyContactsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyContactsIdEndpoint:
@@ -48,7 +71,9 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Contact]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Contact]:
         """
         Performs a GET request against the /company/contacts endpoint and returns an initialized PaginatedResponse object.
 
@@ -69,7 +94,9 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Contact]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Contact]:
         """
         Performs a GET request against the /company/contacts endpoint.
 
@@ -79,9 +106,13 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Contact]: The parsed response data.
         """
-        return self._parse_many(Contact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Contact, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Contact:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Contact:
         """
         Performs a POST request against the /company/contacts endpoint.
 
@@ -91,4 +122,6 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             Contact: The parsed response data.
         """
-        return self._parse_one(Contact, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Contact, super()._make_request("POST", data=data, params=params).json()
+        )

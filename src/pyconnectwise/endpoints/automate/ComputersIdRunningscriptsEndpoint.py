@@ -33,7 +33,9 @@ class ComputersIdRunningscriptsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerRunningScript]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ComputerRunningScript]:
         """
         Performs a GET request against the /Computers/{id}/Runningscripts endpoint.
 
@@ -43,4 +45,7 @@ class ComputersIdRunningscriptsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerRunningScript]: The parsed response data.
         """
-        return self._parse_many(ComputerRunningScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ComputerRunningScript,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

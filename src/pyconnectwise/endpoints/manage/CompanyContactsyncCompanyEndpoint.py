@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyCountEndpoint import CompanyContactsyncCompanyCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyIdEndpoint import CompanyContactsyncCompanyIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyCountEndpoint import (
+    CompanyContactsyncCompanyCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyIdEndpoint import (
+    CompanyContactsyncCompanyIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import M365ContactSyncCompany
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class CompanyContactsyncCompanyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "company", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(CompanyContactsyncCompanyCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyContactsyncCompanyCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyContactsyncCompanyIdEndpoint:
         """
@@ -50,7 +56,9 @@ class CompanyContactsyncCompanyEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[M365ContactSyncCompany]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[M365ContactSyncCompany]:
         """
         Performs a GET request against the /company/contactsync/company endpoint.
 
@@ -60,9 +68,14 @@ class CompanyContactsyncCompanyEndpoint(ConnectWiseEndpoint):
         Returns:
             list[M365ContactSyncCompany]: The parsed response data.
         """
-        return self._parse_many(M365ContactSyncCompany, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            M365ContactSyncCompany,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/contactsync/company endpoint.
 
@@ -72,4 +85,7 @@ class CompanyContactsyncCompanyEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )

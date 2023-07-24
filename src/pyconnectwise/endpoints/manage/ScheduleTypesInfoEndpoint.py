@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ScheduleTypesInfoCountEndpoint import ScheduleTypesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ScheduleTypesInfoCountEndpoint import (
+    ScheduleTypesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ScheduleTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ScheduleTypesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ScheduleTypesInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ScheduleTypesInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ScheduleTypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleTypeInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScheduleTypeInfo]:
         """
         Performs a GET request against the /schedule/types/info endpoint.
 
@@ -46,4 +52,7 @@ class ScheduleTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleTypeInfo]: The parsed response data.
         """
-        return self._parse_many(ScheduleTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduleTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

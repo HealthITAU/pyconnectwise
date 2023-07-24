@@ -33,7 +33,9 @@ class FinanceInvoicetemplatesetupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplateSetup:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InvoiceTemplateSetup:
         """
         Performs a GET request against the /finance/invoiceTemplateSetups/{id} endpoint.
 
@@ -43,4 +45,7 @@ class FinanceInvoicetemplatesetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceTemplateSetup: The parsed response data.
         """
-        return self._parse_one(InvoiceTemplateSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            InvoiceTemplateSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

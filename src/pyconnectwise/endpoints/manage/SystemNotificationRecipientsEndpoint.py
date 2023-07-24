@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemNotificationrecipientsCountEndpoint import \
-    SystemNotificationrecipientsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemNotificationrecipientsIdEndpoint import SystemNotificationrecipientsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemNotificationrecipientsCountEndpoint import (
+    SystemNotificationrecipientsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemNotificationrecipientsIdEndpoint import (
+    SystemNotificationrecipientsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import NotificationRecipient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +14,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class SystemNotificationrecipientsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notificationRecipients", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "notificationRecipients", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
             SystemNotificationrecipientsCountEndpoint(client, parent_endpoint=self)
@@ -26,7 +31,9 @@ class SystemNotificationrecipientsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemNotificationrecipientsIdEndpoint: The initialized SystemNotificationrecipientsIdEndpoint object.
         """
-        child = SystemNotificationrecipientsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemNotificationrecipientsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -53,7 +60,9 @@ class SystemNotificationrecipientsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[NotificationRecipient]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[NotificationRecipient]:
         """
         Performs a GET request against the /system/notificationRecipients endpoint.
 
@@ -63,4 +72,7 @@ class SystemNotificationrecipientsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[NotificationRecipient]: The parsed response data.
         """
-        return self._parse_many(NotificationRecipient, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            NotificationRecipient,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

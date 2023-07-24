@@ -10,7 +10,9 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLPath]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[GLPath]:
         """
         Performs a GET request against the /finance/glpaths/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLPath:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLPath:
         """
         Performs a GET request against the /finance/glpaths/{id} endpoint.
 
@@ -41,9 +45,13 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLPath: The parsed response data.
         """
-        return self._parse_one(GLPath, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            GLPath, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/glpaths/{id} endpoint.
 
@@ -53,9 +61,14 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLPath:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLPath:
         """
         Performs a PUT request against the /finance/glpaths/{id} endpoint.
 
@@ -65,9 +78,13 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLPath: The parsed response data.
         """
-        return self._parse_one(GLPath, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            GLPath, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLPath:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLPath:
         """
         Performs a PATCH request against the /finance/glpaths/{id} endpoint.
 
@@ -77,4 +94,6 @@ class FinanceGlpathsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLPath: The parsed response data.
         """
-        return self._parse_one(GLPath, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            GLPath, super()._make_request("PATCH", data=data, params=params).json()
+        )

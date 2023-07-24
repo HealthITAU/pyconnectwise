@@ -6,7 +6,9 @@ from pyconnectwise.models.manage import ProjectTemplateTask
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWiseEndpoint):
+class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -33,7 +35,9 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWi
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTemplateTask:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectTemplateTask:
         """
         Performs a GET request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks/{id} endpoint.
 
@@ -43,9 +47,14 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWi
         Returns:
             ProjectTemplateTask: The parsed response data.
         """
-        return self._parse_one(ProjectTemplateTask, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectTemplateTask,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks/{id} endpoint.
 
@@ -55,9 +64,14 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWi
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTemplateTask:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectTemplateTask:
         """
         Performs a PUT request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks/{id} endpoint.
 
@@ -67,9 +81,14 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWi
         Returns:
             ProjectTemplateTask: The parsed response data.
         """
-        return self._parse_one(ProjectTemplateTask, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ProjectTemplateTask,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTemplateTask:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectTemplateTask:
         """
         Performs a PATCH request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks/{id} endpoint.
 
@@ -79,4 +98,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(ConnectWi
         Returns:
             ProjectTemplateTask: The parsed response data.
         """
-        return self._parse_one(ProjectTemplateTask, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ProjectTemplateTask,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

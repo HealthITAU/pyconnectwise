@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemImapsInfoCountEndpoint import SystemImapsInfoCountEndpoint
+from pyconnectwise.endpoints.manage.SystemImapsInfoCountEndpoint import (
+    SystemImapsInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ImapInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,9 +13,13 @@ class SystemImapsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemImapsInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemImapsInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ImapInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ImapInfo]:
         """
         Performs a GET request against the /system/imaps/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,7 +40,9 @@ class SystemImapsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ImapInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ImapInfo]:
         """
         Performs a GET request against the /system/imaps/info endpoint.
 
@@ -44,4 +52,6 @@ class SystemImapsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ImapInfo]: The parsed response data.
         """
-        return self._parse_many(ImapInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ImapInfo, super()._make_request("GET", data=data, params=params).json()
+        )

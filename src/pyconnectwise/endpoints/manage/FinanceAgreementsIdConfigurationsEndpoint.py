@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsCountEndpoint import \
-    FinanceAgreementsIdConfigurationsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsIdEndpoint import \
-    FinanceAgreementsIdConfigurationsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsCountEndpoint import (
+    FinanceAgreementsIdConfigurationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsIdEndpoint import (
+    FinanceAgreementsIdConfigurationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class FinanceAgreementsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementsIdConfigurationsIdEndpoint: The initialized FinanceAgreementsIdConfigurationsIdEndpoint object.
         """
-        child = FinanceAgreementsIdConfigurationsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementsIdConfigurationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class FinanceAgreementsIdConfigurationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationReference]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ConfigurationReference]:
         """
         Performs a GET request against the /finance/agreements/{id}/configurations endpoint.
 
@@ -64,9 +70,14 @@ class FinanceAgreementsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationReference]: The parsed response data.
         """
-        return self._parse_many(ConfigurationReference, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ConfigurationReference,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationReference:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ConfigurationReference:
         """
         Performs a POST request against the /finance/agreements/{id}/configurations endpoint.
 
@@ -76,4 +87,7 @@ class FinanceAgreementsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationReference: The parsed response data.
         """
-        return self._parse_one(ConfigurationReference, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ConfigurationReference,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

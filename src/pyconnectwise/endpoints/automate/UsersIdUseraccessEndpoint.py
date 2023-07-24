@@ -10,7 +10,9 @@ class UsersIdUseraccessEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Useraccess", parent_endpoint=parent_endpoint)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserAccess:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> UserAccess:
         """
         Performs a GET request against the /Users/{id}/Useraccess endpoint.
 
@@ -20,4 +22,6 @@ class UsersIdUseraccessEndpoint(ConnectWiseEndpoint):
         Returns:
             UserAccess: The parsed response data.
         """
-        return self._parse_one(UserAccess, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            UserAccess, super()._make_request("GET", data=data, params=params).json()
+        )

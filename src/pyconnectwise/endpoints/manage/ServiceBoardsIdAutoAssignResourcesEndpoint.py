@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesCountEndpoint import \
-    ServiceBoardsIdAutoassignresourcesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesIdEndpoint import \
-    ServiceBoardsIdAutoassignresourcesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesCountEndpoint import (
+    ServiceBoardsIdAutoassignresourcesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesIdEndpoint import (
+    ServiceBoardsIdAutoassignresourcesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardAutoAssignResource
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "autoAssignResources", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ServiceBoardsIdAutoassignresourcesCountEndpoint(client, parent_endpoint=self)
+            ServiceBoardsIdAutoassignresourcesCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ServiceBoardsIdAutoassignresourcesIdEndpoint:
@@ -27,7 +31,9 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdAutoassignresourcesIdEndpoint: The initialized ServiceBoardsIdAutoassignresourcesIdEndpoint object.
         """
-        child = ServiceBoardsIdAutoassignresourcesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceBoardsIdAutoassignresourcesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoAssignResource]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BoardAutoAssignResource]:
         """
         Performs a GET request against the /service/boards/{id}/autoAssignResources endpoint.
 
@@ -64,9 +72,14 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardAutoAssignResource]: The parsed response data.
         """
-        return self._parse_many(BoardAutoAssignResource, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardAutoAssignResource,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoAssignResource:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardAutoAssignResource:
         """
         Performs a POST request against the /service/boards/{id}/autoAssignResources endpoint.
 
@@ -76,4 +89,7 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardAutoAssignResource: The parsed response data.
         """
-        return self._parse_one(BoardAutoAssignResource, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BoardAutoAssignResource,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

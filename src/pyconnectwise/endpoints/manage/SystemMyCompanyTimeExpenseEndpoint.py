@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseCountEndpoint import \
-    SystemMycompanyTimeexpenseCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseIdEndpoint import SystemMycompanyTimeexpenseIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseCountEndpoint import (
+    SystemMycompanyTimeexpenseCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseIdEndpoint import (
+    SystemMycompanyTimeexpenseIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -30,7 +33,9 @@ class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeExpense]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint and returns an initialized PaginatedResponse object.
 
@@ -51,7 +56,9 @@ class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeExpense]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint.
 
@@ -61,4 +68,6 @@ class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeExpense]: The parsed response data.
         """
-        return self._parse_many(TimeExpense, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TimeExpense, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -33,7 +33,9 @@ class SystemConnectwisehostedscreensIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConnectWiseHostedScreen:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ConnectWiseHostedScreen:
         """
         Performs a GET request against the /system/connectWiseHostedScreens/{id} endpoint.
 
@@ -43,4 +45,7 @@ class SystemConnectwisehostedscreensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ConnectWiseHostedScreen: The parsed response data.
         """
-        return self._parse_one(ConnectWiseHostedScreen, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ConnectWiseHostedScreen,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsCountEndpoint import \
-    FinanceTaxcodesIdWorkroleexemptionsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdEndpoint import \
-    FinanceTaxcodesIdWorkroleexemptionsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsCountEndpoint import (
+    FinanceTaxcodesIdWorkroleexemptionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdEndpoint import (
+    FinanceTaxcodesIdWorkroleexemptionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRoleExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "workRoleExemptions", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceTaxcodesIdWorkroleexemptionsCountEndpoint(client, parent_endpoint=self)
+            FinanceTaxcodesIdWorkroleexemptionsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> FinanceTaxcodesIdWorkroleexemptionsIdEndpoint:
@@ -27,7 +31,9 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceTaxcodesIdWorkroleexemptionsIdEndpoint: The initialized FinanceTaxcodesIdWorkroleexemptionsIdEndpoint object.
         """
-        child = FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkRoleExemption]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[WorkRoleExemption]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/workRoleExemptions endpoint.
 
@@ -64,9 +72,14 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkRoleExemption]: The parsed response data.
         """
-        return self._parse_many(WorkRoleExemption, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            WorkRoleExemption,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkRoleExemption:
         """
         Performs a POST request against the /finance/taxCodes/{id}/workRoleExemptions endpoint.
 
@@ -76,4 +89,7 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(WorkRoleExemption, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            WorkRoleExemption,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

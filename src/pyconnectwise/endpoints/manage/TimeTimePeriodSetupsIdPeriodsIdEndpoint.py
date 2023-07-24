@@ -10,7 +10,9 @@ class TimeTimeperiodsetupsIdPeriodsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimePeriod]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class TimeTimeperiodsetupsIdPeriodsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriod:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimePeriod:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods/{id} endpoint.
 
@@ -41,4 +45,6 @@ class TimeTimeperiodsetupsIdPeriodsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimePeriod: The parsed response data.
         """
-        return self._parse_one(TimePeriod, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TimePeriod, super()._make_request("GET", data=data, params=params).json()
+        )

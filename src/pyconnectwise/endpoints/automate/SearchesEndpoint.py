@@ -10,7 +10,9 @@ class SearchesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Searches", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Search]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Search]:
         """
         Performs a GET request against the /Searches endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SearchesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Search]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Search]:
         """
         Performs a GET request against the /Searches endpoint.
 
@@ -41,4 +45,6 @@ class SearchesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Search]: The parsed response data.
         """
-        return self._parse_many(Search, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Search, super()._make_request("GET", data=data, params=params).json()
+        )

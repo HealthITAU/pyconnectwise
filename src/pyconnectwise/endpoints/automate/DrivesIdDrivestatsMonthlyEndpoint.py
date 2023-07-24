@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import DriveStats
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import (
+    DriveStats,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -10,7 +12,9 @@ class DrivesIdDrivestatsMonthlyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Monthly", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[DriveStats]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[DriveStats]:
         """
         Performs a GET request against the /Drives/{id}/Drivestats/Monthly endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +35,9 @@ class DrivesIdDrivestatsMonthlyEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DriveStats]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[DriveStats]:
         """
         Performs a GET request against the /Drives/{id}/Drivestats/Monthly endpoint.
 
@@ -41,4 +47,6 @@ class DrivesIdDrivestatsMonthlyEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DriveStats]: The parsed response data.
         """
-        return self._parse_many(DriveStats, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DriveStats, super()._make_request("GET", data=data, params=params).json()
+        )

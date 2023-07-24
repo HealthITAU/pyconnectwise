@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsCountEndpoint import \
-    SystemMembersIdDelegationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsIdEndpoint import SystemMembersIdDelegationsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsCountEndpoint import (
+    SystemMembersIdDelegationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsIdEndpoint import (
+    SystemMembersIdDelegationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberDelegation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class SystemMembersIdDelegationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberDelegation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MemberDelegation]:
         """
         Performs a GET request against the /system/members/{id}/delegations endpoint.
 
@@ -63,9 +68,14 @@ class SystemMembersIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberDelegation]: The parsed response data.
         """
-        return self._parse_many(MemberDelegation, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MemberDelegation,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberDelegation:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberDelegation:
         """
         Performs a POST request against the /system/members/{id}/delegations endpoint.
 
@@ -75,4 +85,7 @@ class SystemMembersIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberDelegation: The parsed response data.
         """
-        return self._parse_one(MemberDelegation, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberDelegation,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

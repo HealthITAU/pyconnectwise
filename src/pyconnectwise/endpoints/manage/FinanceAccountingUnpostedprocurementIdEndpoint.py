@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint import \
-    FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint import (
+    FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedProcurement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +14,9 @@ class FinanceAccountingUnpostedprocurementIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.taxable_levels = self._register_child_endpoint(
-            FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint(client, parent_endpoint=self)
+            FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +42,9 @@ class FinanceAccountingUnpostedprocurementIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedProcurement:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> UnpostedProcurement:
         """
         Performs a GET request against the /finance/accounting/unpostedprocurement/{id} endpoint.
 
@@ -49,4 +54,7 @@ class FinanceAccountingUnpostedprocurementIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UnpostedProcurement: The parsed response data.
         """
-        return self._parse_one(UnpostedProcurement, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            UnpostedProcurement,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

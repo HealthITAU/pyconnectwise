@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesCountEndpoint import \
-    ServiceBoardsIdAutotemplatesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesIdEndpoint import ServiceBoardsIdAutotemplatesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesCountEndpoint import (
+    ServiceBoardsIdAutotemplatesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesIdEndpoint import (
+    ServiceBoardsIdAutotemplatesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardAutoTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -26,7 +29,9 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdAutotemplatesIdEndpoint: The initialized ServiceBoardsIdAutotemplatesIdEndpoint object.
         """
-        child = ServiceBoardsIdAutotemplatesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceBoardsIdAutotemplatesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -53,7 +58,9 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoTemplate]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BoardAutoTemplate]:
         """
         Performs a GET request against the /service/boards/{id}/autoTemplates endpoint.
 
@@ -63,9 +70,14 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardAutoTemplate]: The parsed response data.
         """
-        return self._parse_many(BoardAutoTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardAutoTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoTemplate:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardAutoTemplate:
         """
         Performs a POST request against the /service/boards/{id}/autoTemplates endpoint.
 
@@ -75,4 +87,7 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardAutoTemplate: The parsed response data.
         """
-        return self._parse_one(BoardAutoTemplate, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BoardAutoTemplate,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementManufacturersCountInfoEndpoint import \
-    ProcurementManufacturersCountInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementManufacturersCountInfoEndpoint import (
+    ProcurementManufacturersCountInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Count
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,7 +17,9 @@ class ProcurementManufacturersCountEndpoint(ConnectWiseEndpoint):
             ProcurementManufacturersCountInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Count]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Count]:
         """
         Performs a GET request against the /procurement/manufacturers/count endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,7 +40,9 @@ class ProcurementManufacturersCountEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Count:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Count:
         """
         Performs a GET request against the /procurement/manufacturers/count endpoint.
 
@@ -47,4 +52,6 @@ class ProcurementManufacturersCountEndpoint(ConnectWiseEndpoint):
         Returns:
             Count: The parsed response data.
         """
-        return self._parse_one(Count, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Count, super()._make_request("GET", data=data, params=params).json()
+        )

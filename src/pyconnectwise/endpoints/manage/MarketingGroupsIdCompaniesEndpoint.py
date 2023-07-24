@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsIdCompaniesCountEndpoint import \
-    MarketingGroupsIdCompaniesCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsIdCompaniesIdEndpoint import MarketingGroupsIdCompaniesIdEndpoint
+from pyconnectwise.endpoints.manage.MarketingGroupsIdCompaniesCountEndpoint import (
+    MarketingGroupsIdCompaniesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingGroupsIdCompaniesIdEndpoint import (
+    MarketingGroupsIdCompaniesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MarketingCompany
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class MarketingGroupsIdCompaniesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketingCompany]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MarketingCompany]:
         """
         Performs a GET request against the /marketing/groups/{id}/companies endpoint.
 
@@ -63,9 +68,14 @@ class MarketingGroupsIdCompaniesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MarketingCompany]: The parsed response data.
         """
-        return self._parse_many(MarketingCompany, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MarketingCompany,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketingCompany:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MarketingCompany:
         """
         Performs a POST request against the /marketing/groups/{id}/companies endpoint.
 
@@ -75,4 +85,7 @@ class MarketingGroupsIdCompaniesEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketingCompany: The parsed response data.
         """
-        return self._parse_one(MarketingCompany, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MarketingCompany,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

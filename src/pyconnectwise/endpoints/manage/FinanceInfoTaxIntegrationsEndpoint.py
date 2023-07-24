@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInfoTaxintegrationsCountEndpoint import \
-    FinanceInfoTaxintegrationsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceInfoTaxintegrationsIdEndpoint import FinanceInfoTaxintegrationsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceInfoTaxintegrationsCountEndpoint import (
+    FinanceInfoTaxintegrationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceInfoTaxintegrationsIdEndpoint import (
+    FinanceInfoTaxintegrationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxIntegrationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class FinanceInfoTaxintegrationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxIntegrationInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[TaxIntegrationInfo]:
         """
         Performs a GET request against the /finance/info/taxIntegrations endpoint.
 
@@ -63,4 +68,7 @@ class FinanceInfoTaxintegrationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TaxIntegrationInfo]: The parsed response data.
         """
-        return self._parse_many(TaxIntegrationInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TaxIntegrationInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

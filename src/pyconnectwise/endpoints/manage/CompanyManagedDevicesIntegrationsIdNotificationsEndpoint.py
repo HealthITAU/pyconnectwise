@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsCountEndpoint import \
-    CompanyManageddevicesintegrationsIdNotificationsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsIdEndpoint import \
-    CompanyManageddevicesintegrationsIdNotificationsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsCountEndpoint import (
+    CompanyManageddevicesintegrationsIdNotificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsIdEndpoint import (
+    CompanyManageddevicesintegrationsIdNotificationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdNotificationsCountEndpoint(client, parent_endpoint=self)
+            CompanyManageddevicesintegrationsIdNotificationsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> CompanyManageddevicesintegrationsIdNotificationsIdEndpoint:
@@ -27,7 +31,9 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         Returns:
             CompanyManageddevicesintegrationsIdNotificationsIdEndpoint: The initialized CompanyManageddevicesintegrationsIdNotificationsIdEndpoint object.
         """
-        child = CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -67,7 +73,8 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
             list[ManagedDevicesIntegrationNotification]: The parsed response data.
         """
         return self._parse_many(
-            ManagedDevicesIntegrationNotification, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegrationNotification,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
@@ -83,5 +90,6 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
             ManagedDevicesIntegrationNotification: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationNotification, super()._make_request("POST", data=data, params=params).json()
+            ManagedDevicesIntegrationNotification,
+            super()._make_request("POST", data=data, params=params).json(),
         )

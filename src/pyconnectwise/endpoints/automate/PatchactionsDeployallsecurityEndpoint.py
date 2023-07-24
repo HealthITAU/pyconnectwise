@@ -9,7 +9,9 @@ class PatchactionsDeployallsecurityEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Deployallsecurity", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a POST request against the /Patchactions/Deployallsecurity endpoint.
 
@@ -19,4 +21,7 @@ class PatchactionsDeployallsecurityEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

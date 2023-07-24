@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanCountEndpoint import \
-    ProjectProjectsIdProjectworkplanCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanIdEndpoint import \
-    ProjectProjectsIdProjectworkplanIdEndpoint
+from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanCountEndpoint import (
+    ProjectProjectsIdProjectworkplanCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanIdEndpoint import (
+    ProjectProjectsIdProjectworkplanIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectWorkplan
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectProjectsIdProjectworkplanIdEndpoint: The initialized ProjectProjectsIdProjectworkplanIdEndpoint object.
         """
-        child = ProjectProjectsIdProjectworkplanIdEndpoint(self.client, parent_endpoint=self)
+        child = ProjectProjectsIdProjectworkplanIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectWorkplan]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProjectWorkplan]:
         """
         Performs a GET request against the /project/projects/{id}/projectWorkplan endpoint.
 
@@ -64,4 +70,7 @@ class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectWorkplan]: The parsed response data.
         """
-        return self._parse_many(ProjectWorkplan, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ProjectWorkplan,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

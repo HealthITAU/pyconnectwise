@@ -10,7 +10,9 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Company:
         """
         Performs a POST request against the /company/configurations/bulk endpoint.
 
@@ -20,9 +22,13 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             Company: The parsed response data.
         """
-        return self._parse_one(Company, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Company, super()._make_request("POST", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BulkResult:
         """
         Performs a DELETE request against the /company/configurations/bulk endpoint.
 
@@ -32,9 +38,13 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResult: The parsed response data.
         """
-        return self._parse_one(BulkResult, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            BulkResult, super()._make_request("DELETE", data=data, params=params).json()
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Company:
         """
         Performs a PUT request against the /company/configurations/bulk endpoint.
 
@@ -44,4 +54,6 @@ class CompanyConfigurationsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             Company: The parsed response data.
         """
-        return self._parse_one(Company, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Company, super()._make_request("PUT", data=data, params=params).json()
+        )

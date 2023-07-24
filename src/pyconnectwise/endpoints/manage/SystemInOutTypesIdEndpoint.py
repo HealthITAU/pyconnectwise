@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInouttypesIdInfoEndpoint import SystemInouttypesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.SystemInouttypesIdInfoEndpoint import (
+    SystemInouttypesIdInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InOutType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,9 +13,13 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemInouttypesIdInfoEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            SystemInouttypesIdInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutType]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[InOutType]:
         """
         Performs a GET request against the /system/inOutTypes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,7 +40,9 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutType:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InOutType:
         """
         Performs a GET request against the /system/inOutTypes/{id} endpoint.
 
@@ -44,9 +52,13 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutType: The parsed response data.
         """
-        return self._parse_one(InOutType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            InOutType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/inOutTypes/{id} endpoint.
 
@@ -56,9 +68,14 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutType:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InOutType:
         """
         Performs a PUT request against the /system/inOutTypes/{id} endpoint.
 
@@ -68,9 +85,13 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutType: The parsed response data.
         """
-        return self._parse_one(InOutType, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            InOutType, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutType:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InOutType:
         """
         Performs a PATCH request against the /system/inOutTypes/{id} endpoint.
 
@@ -80,4 +101,6 @@ class SystemInouttypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutType: The parsed response data.
         """
-        return self._parse_one(InOutType, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            InOutType, super()._make_request("PATCH", data=data, params=params).json()
+        )

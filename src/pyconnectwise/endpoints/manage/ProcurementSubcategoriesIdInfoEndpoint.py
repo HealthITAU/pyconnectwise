@@ -33,7 +33,9 @@ class ProcurementSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SubCategoryInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> SubCategoryInfo:
         """
         Performs a GET request against the /procurement/subcategories/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProcurementSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             SubCategoryInfo: The parsed response data.
         """
-        return self._parse_one(SubCategoryInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            SubCategoryInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

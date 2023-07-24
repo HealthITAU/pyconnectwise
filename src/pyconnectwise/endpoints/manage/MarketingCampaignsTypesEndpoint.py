@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesCountEndpoint import MarketingCampaignsTypesCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdEndpoint import MarketingCampaignsTypesIdEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesInfoEndpoint import MarketingCampaignsTypesInfoEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesCountEndpoint import (
+    MarketingCampaignsTypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdEndpoint import (
+    MarketingCampaignsTypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesInfoEndpoint import (
+    MarketingCampaignsTypesInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CampaignType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class MarketingCampaignsTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(MarketingCampaignsTypesInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(MarketingCampaignsTypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            MarketingCampaignsTypesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            MarketingCampaignsTypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> MarketingCampaignsTypesIdEndpoint:
         """
@@ -52,7 +62,9 @@ class MarketingCampaignsTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CampaignType]:
         """
         Performs a GET request against the /marketing/campaigns/types endpoint.
 
@@ -62,9 +74,13 @@ class MarketingCampaignsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignType]: The parsed response data.
         """
-        return self._parse_many(CampaignType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CampaignType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CampaignType:
         """
         Performs a POST request against the /marketing/campaigns/types endpoint.
 
@@ -74,4 +90,6 @@ class MarketingCampaignsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignType: The parsed response data.
         """
-        return self._parse_one(CampaignType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CampaignType, super()._make_request("POST", data=data, params=params).json()
+        )

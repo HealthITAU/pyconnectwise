@@ -1,10 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsCountEndpoint import \
-    ProcurementShipmentmethodsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdEndpoint import ProcurementShipmentmethodsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsInfoEndpoint import ProcurementShipmentmethodsInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsCountEndpoint import (
+    ProcurementShipmentmethodsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdEndpoint import (
+    ProcurementShipmentmethodsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsInfoEndpoint import (
+    ProcurementShipmentmethodsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ShipmentMethod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +19,11 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "shipmentmethods", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProcurementShipmentmethodsInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             ProcurementShipmentmethodsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementShipmentmethodsInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementShipmentmethodsIdEndpoint:
@@ -55,7 +62,9 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ShipmentMethod]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ShipmentMethod]:
         """
         Performs a GET request against the /procurement/shipmentmethods endpoint.
 
@@ -65,9 +74,14 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ShipmentMethod]: The parsed response data.
         """
-        return self._parse_many(ShipmentMethod, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ShipmentMethod,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethod:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ShipmentMethod:
         """
         Performs a POST request against the /procurement/shipmentmethods endpoint.
 
@@ -77,4 +91,7 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             ShipmentMethod: The parsed response data.
         """
-        return self._parse_one(ShipmentMethod, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ShipmentMethod,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

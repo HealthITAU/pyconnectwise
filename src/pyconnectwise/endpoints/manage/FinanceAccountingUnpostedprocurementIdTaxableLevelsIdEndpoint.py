@@ -6,7 +6,9 @@ from pyconnectwise.models.manage import UnpostedProcurementTaxableLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(ConnectWiseEndpoint):
+class FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -33,7 +35,9 @@ class FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(ConnectWiseE
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedProcurementTaxableLevel:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> UnpostedProcurementTaxableLevel:
         """
         Performs a GET request against the /finance/accounting/unpostedprocurement/{id}/taxableLevels/{id} endpoint.
 
@@ -44,5 +48,6 @@ class FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(ConnectWiseE
             UnpostedProcurementTaxableLevel: The parsed response data.
         """
         return self._parse_one(
-            UnpostedProcurementTaxableLevel, super()._make_request("GET", data=data, params=params).json()
+            UnpostedProcurementTaxableLevel,
+            super()._make_request("GET", data=data, params=params).json(),
         )

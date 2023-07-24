@@ -24,7 +24,9 @@ class CommandsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Command]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Command]:
         """
         Performs a GET request against the /Commands endpoint and returns an initialized PaginatedResponse object.
 
@@ -45,7 +47,9 @@ class CommandsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Command]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Command]:
         """
         Performs a GET request against the /Commands endpoint.
 
@@ -55,4 +59,6 @@ class CommandsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Command]: The parsed response data.
         """
-        return self._parse_many(Command, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Command, super()._make_request("GET", data=data, params=params).json()
+        )

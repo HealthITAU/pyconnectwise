@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdManageddeviceaccountsBulkEndpoint import \
-    SystemMembersIdManageddeviceaccountsBulkEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdManageddeviceaccountsBulkEndpoint import (
+    SystemMembersIdManageddeviceaccountsBulkEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDeviceAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -10,10 +11,14 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class SystemMembersIdManageddeviceaccountsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managedDeviceAccounts", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "managedDeviceAccounts", parent_endpoint=parent_endpoint
+        )
 
         self.bulk = self._register_child_endpoint(
-            SystemMembersIdManageddeviceaccountsBulkEndpoint(client, parent_endpoint=self)
+            SystemMembersIdManageddeviceaccountsBulkEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +44,9 @@ class SystemMembersIdManageddeviceaccountsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDeviceAccount]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ManagedDeviceAccount]:
         """
         Performs a GET request against the /system/members/{id}/managedDeviceAccounts endpoint.
 
@@ -49,4 +56,7 @@ class SystemMembersIdManageddeviceaccountsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagedDeviceAccount]: The parsed response data.
         """
-        return self._parse_many(ManagedDeviceAccount, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ManagedDeviceAccount,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

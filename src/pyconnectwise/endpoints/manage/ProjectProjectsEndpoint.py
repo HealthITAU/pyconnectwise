@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsCountEndpoint import ProjectProjectsCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsIdEndpoint import ProjectProjectsIdEndpoint
+from pyconnectwise.endpoints.manage.ProjectProjectsCountEndpoint import (
+    ProjectProjectsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectProjectsIdEndpoint import (
+    ProjectProjectsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Project
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ProjectProjectsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "projects", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ProjectProjectsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProjectProjectsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ProjectProjectsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class ProjectProjectsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Project]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Project]:
         """
         Performs a GET request against the /project/projects endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class ProjectProjectsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Project]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Project]:
         """
         Performs a GET request against the /project/projects endpoint.
 
@@ -58,9 +68,13 @@ class ProjectProjectsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Project]: The parsed response data.
         """
-        return self._parse_many(Project, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Project, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Project:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Project:
         """
         Performs a POST request against the /project/projects endpoint.
 
@@ -70,4 +84,6 @@ class ProjectProjectsEndpoint(ConnectWiseEndpoint):
         Returns:
             Project: The parsed response data.
         """
-        return self._parse_one(Project, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Project, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsIdInfoCountEndpoint import \
-    ProjectBoardsIdTeamsIdInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsIdInfoCountEndpoint import (
+    ProjectBoardsIdTeamsIdInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectBoardTeamInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class ProjectBoardsIdTeamsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBoardTeamInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectBoardTeamInfo:
         """
         Performs a GET request against the /project/boards/{id}/teams/{id}/info endpoint.
 
@@ -49,4 +52,7 @@ class ProjectBoardsIdTeamsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBoardTeamInfo: The parsed response data.
         """
-        return self._parse_one(ProjectBoardTeamInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectBoardTeamInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

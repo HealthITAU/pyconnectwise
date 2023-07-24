@@ -10,7 +10,9 @@ class ScheduleColorsIdClearEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "clear", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleColor:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleColor:
         """
         Performs a POST request against the /schedule/colors/{id}/clear endpoint.
 
@@ -20,4 +22,7 @@ class ScheduleColorsIdClearEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleColor: The parsed response data.
         """
-        return self._parse_one(ScheduleColor, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleColor,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

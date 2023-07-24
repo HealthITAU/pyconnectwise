@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInoutboardsCountEndpoint import SystemInoutboardsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemInoutboardsIdEndpoint import SystemInoutboardsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemInoutboardsCountEndpoint import (
+    SystemInoutboardsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemInoutboardsIdEndpoint import (
+    SystemInoutboardsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InOutBoard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "inOutBoards", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemInoutboardsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemInoutboardsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemInoutboardsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutBoard]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InOutBoard]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards endpoint.
 
@@ -58,9 +68,13 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InOutBoard]: The parsed response data.
         """
-        return self._parse_many(InOutBoard, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            InOutBoard, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InOutBoard:
         """
         Performs a POST request against the /system/inOutBoards endpoint.
 
@@ -70,4 +84,6 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutBoard: The parsed response data.
         """
-        return self._parse_one(InOutBoard, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            InOutBoard, super()._make_request("POST", data=data, params=params).json()
+        )

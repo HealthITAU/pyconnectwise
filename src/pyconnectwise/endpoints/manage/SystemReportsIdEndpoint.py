@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemReportsIdColumnsEndpoint import SystemReportsIdColumnsEndpoint
-from pyconnectwise.endpoints.manage.SystemReportsIdCountEndpoint import SystemReportsIdCountEndpoint
+from pyconnectwise.endpoints.manage.SystemReportsIdColumnsEndpoint import (
+    SystemReportsIdColumnsEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemReportsIdCountEndpoint import (
+    SystemReportsIdCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ReportDataResponse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,8 +16,12 @@ class SystemReportsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.columns = self._register_child_endpoint(SystemReportsIdColumnsEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(SystemReportsIdCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemReportsIdCountEndpoint(client, parent_endpoint=self)
+        )
+        self.columns = self._register_child_endpoint(
+            SystemReportsIdColumnsEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -38,7 +46,9 @@ class SystemReportsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportDataResponse:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ReportDataResponse:
         """
         Performs a GET request against the /system/reports/{id} endpoint.
 
@@ -48,4 +58,7 @@ class SystemReportsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportDataResponse: The parsed response data.
         """
-        return self._parse_one(ReportDataResponse, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ReportDataResponse,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

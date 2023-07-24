@@ -33,7 +33,9 @@ class ComputersChassisEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerChassis]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ComputerChassis]:
         """
         Performs a GET request against the /Computers/Chassis endpoint.
 
@@ -43,4 +45,7 @@ class ComputersChassisEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerChassis]: The parsed response data.
         """
-        return self._parse_many(ComputerChassis, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ComputerChassis,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

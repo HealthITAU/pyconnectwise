@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint import \
-    ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint import \
-    ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint import (
+    ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint import (
+    ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceSignoffCustomField
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "signoffcustomfields", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint(client, parent_endpoint=self)
+            ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint:
@@ -27,7 +31,9 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint: The initialized ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint object.
         """
-        child = ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceSignoffCustomField]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ServiceSignoffCustomField]:
         """
         Performs a GET request against the /service/serviceSignoff/{id}/signoffcustomfields endpoint.
 
@@ -65,10 +73,13 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(ConnectWiseEndpoint):
             list[ServiceSignoffCustomField]: The parsed response data.
         """
         return self._parse_many(
-            ServiceSignoffCustomField, super()._make_request("GET", data=data, params=params).json()
+            ServiceSignoffCustomField,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffCustomField:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceSignoffCustomField:
         """
         Performs a POST request against the /service/serviceSignoff/{id}/signoffcustomfields endpoint.
 
@@ -79,5 +90,6 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(ConnectWiseEndpoint):
             ServiceSignoffCustomField: The parsed response data.
         """
         return self._parse_one(
-            ServiceSignoffCustomField, super()._make_request("POST", data=data, params=params).json()
+            ServiceSignoffCustomField,
+            super()._make_request("POST", data=data, params=params).json(),
         )

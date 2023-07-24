@@ -33,7 +33,9 @@ class SystemLocationsIdWorkrolesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LocationWorkRole:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> LocationWorkRole:
         """
         Performs a GET request against the /system/locations/{id}/workRoles/{id} endpoint.
 
@@ -43,4 +45,7 @@ class SystemLocationsIdWorkrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             LocationWorkRole: The parsed response data.
         """
-        return self._parse_one(LocationWorkRole, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LocationWorkRole,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

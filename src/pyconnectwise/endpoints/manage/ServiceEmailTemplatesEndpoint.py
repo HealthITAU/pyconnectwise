@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceEmailtemplatesCountEndpoint import ServiceEmailtemplatesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceEmailtemplatesIdEndpoint import ServiceEmailtemplatesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceEmailtemplatesCountEndpoint import (
+    ServiceEmailtemplatesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceEmailtemplatesIdEndpoint import (
+    ServiceEmailtemplatesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceEmailTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ServiceEmailtemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "emailTemplates", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ServiceEmailtemplatesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceEmailtemplatesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ServiceEmailtemplatesIdEndpoint:
         """
@@ -50,7 +56,9 @@ class ServiceEmailtemplatesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceEmailTemplate]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ServiceEmailTemplate]:
         """
         Performs a GET request against the /service/emailTemplates endpoint.
 
@@ -60,9 +68,14 @@ class ServiceEmailtemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceEmailTemplate]: The parsed response data.
         """
-        return self._parse_many(ServiceEmailTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ServiceEmailTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceEmailTemplate:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceEmailTemplate:
         """
         Performs a POST request against the /service/emailTemplates endpoint.
 
@@ -72,4 +85,7 @@ class ServiceEmailtemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceEmailTemplate: The parsed response data.
         """
-        return self._parse_one(ServiceEmailTemplate, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ServiceEmailTemplate,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

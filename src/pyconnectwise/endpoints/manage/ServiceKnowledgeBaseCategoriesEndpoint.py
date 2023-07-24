@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesCountEndpoint import \
-    ServiceKnowledgebasecategoriesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesIdEndpoint import \
-    ServiceKnowledgebasecategoriesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesCountEndpoint import (
+    ServiceKnowledgebasecategoriesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesIdEndpoint import (
+    ServiceKnowledgebasecategoriesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import KnowledgeBaseCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +14,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgeBaseCategories", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "knowledgeBaseCategories", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
             ServiceKnowledgebasecategoriesCountEndpoint(client, parent_endpoint=self)
@@ -27,7 +31,9 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceKnowledgebasecategoriesIdEndpoint: The initialized ServiceKnowledgebasecategoriesIdEndpoint object.
         """
-        child = ServiceKnowledgebasecategoriesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceKnowledgebasecategoriesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[KnowledgeBaseCategory]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[KnowledgeBaseCategory]:
         """
         Performs a GET request against the /service/knowledgeBaseCategories endpoint.
 
@@ -64,9 +72,14 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[KnowledgeBaseCategory]: The parsed response data.
         """
-        return self._parse_many(KnowledgeBaseCategory, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            KnowledgeBaseCategory,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseCategory:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> KnowledgeBaseCategory:
         """
         Performs a POST request against the /service/knowledgeBaseCategories endpoint.
 
@@ -76,4 +89,7 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseCategory: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseCategory, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            KnowledgeBaseCategory,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

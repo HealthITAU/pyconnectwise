@@ -1,10 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementRmadispositionsCountEndpoint import \
-    ProcurementRmadispositionsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementRmadispositionsIdEndpoint import ProcurementRmadispositionsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementRmadispositionsInfoEndpoint import ProcurementRmadispositionsInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementRmadispositionsCountEndpoint import (
+    ProcurementRmadispositionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementRmadispositionsIdEndpoint import (
+    ProcurementRmadispositionsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementRmadispositionsInfoEndpoint import (
+    ProcurementRmadispositionsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaDisposition
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +19,11 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "RMADispositions", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProcurementRmadispositionsInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             ProcurementRmadispositionsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementRmadispositionsInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementRmadispositionsIdEndpoint:
@@ -55,7 +62,9 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RmaDisposition]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[RmaDisposition]:
         """
         Performs a GET request against the /procurement/RMADispositions endpoint.
 
@@ -65,9 +74,14 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaDisposition]: The parsed response data.
         """
-        return self._parse_many(RmaDisposition, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            RmaDisposition,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaDisposition:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> RmaDisposition:
         """
         Performs a POST request against the /procurement/RMADispositions endpoint.
 
@@ -77,4 +91,7 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaDisposition: The parsed response data.
         """
-        return self._parse_one(RmaDisposition, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            RmaDisposition,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

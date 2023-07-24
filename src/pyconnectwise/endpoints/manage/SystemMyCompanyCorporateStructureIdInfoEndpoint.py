@@ -33,7 +33,9 @@ class SystemMycompanyCorporatestructureIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CorporateStructureInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CorporateStructureInfo:
         """
         Performs a GET request against the /system/myCompany/corporateStructure/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SystemMycompanyCorporatestructureIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             CorporateStructureInfo: The parsed response data.
         """
-        return self._parse_one(CorporateStructureInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            CorporateStructureInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoCountEndpoint import \
-    ProcurementAdjustmentsTypesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoCountEndpoint import (
+    ProcurementAdjustmentsTypesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AdjustmentTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class ProcurementAdjustmentsTypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentTypeInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AdjustmentTypeInfo]:
         """
         Performs a GET request against the /procurement/adjustments/types/info endpoint.
 
@@ -49,4 +52,7 @@ class ProcurementAdjustmentsTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AdjustmentTypeInfo]: The parsed response data.
         """
-        return self._parse_many(AdjustmentTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AdjustmentTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -10,7 +10,9 @@ class ProcurementCatalogIdPricingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "pricing", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogPricing:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CatalogPricing:
         """
         Performs a POST request against the /procurement/catalog/{id}/pricing endpoint.
 
@@ -20,4 +22,7 @@ class ProcurementCatalogIdPricingEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogPricing: The parsed response data.
         """
-        return self._parse_one(CatalogPricing, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CatalogPricing,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

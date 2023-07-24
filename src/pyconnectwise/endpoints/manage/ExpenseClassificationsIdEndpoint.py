@@ -33,7 +33,9 @@ class ExpenseClassificationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Classification:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Classification:
         """
         Performs a GET request against the /expense/classifications/{id} endpoint.
 
@@ -43,4 +45,7 @@ class ExpenseClassificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Classification: The parsed response data.
         """
-        return self._parse_one(Classification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Classification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

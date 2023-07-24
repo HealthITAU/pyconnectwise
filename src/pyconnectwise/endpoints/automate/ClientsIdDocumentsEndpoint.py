@@ -10,7 +10,9 @@ class ClientsIdDocumentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Documents", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Document]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Document]:
         """
         Performs a GET request against the /Clients/{id}/Documents endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class ClientsIdDocumentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Document]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Document]:
         """
         Performs a GET request against the /Clients/{id}/Documents endpoint.
 
@@ -41,4 +45,6 @@ class ClientsIdDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Document]: The parsed response data.
         """
-        return self._parse_many(Document, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Document, super()._make_request("GET", data=data, params=params).json()
+        )

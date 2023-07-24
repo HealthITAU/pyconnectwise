@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsCountEndpoint import \
-    SystemWorkflowsIdEventsIdActionsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsIdEndpoint import \
-    SystemWorkflowsIdEventsIdActionsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsCountEndpoint import (
+    SystemWorkflowsIdEventsIdActionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsIdEndpoint import (
+    SystemWorkflowsIdEventsIdActionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemWorkflowsIdEventsIdActionsIdEndpoint: The initialized SystemWorkflowsIdEventsIdActionsIdEndpoint object.
         """
-        child = SystemWorkflowsIdEventsIdActionsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemWorkflowsIdEventsIdActionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowAction]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[WorkflowAction]:
         """
         Performs a GET request against the /system/workflows/{id}/events/{id}/actions endpoint.
 
@@ -64,9 +70,14 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowAction]: The parsed response data.
         """
-        return self._parse_many(WorkflowAction, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            WorkflowAction,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowAction:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkflowAction:
         """
         Performs a POST request against the /system/workflows/{id}/events/{id}/actions endpoint.
 
@@ -76,4 +87,7 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowAction: The parsed response data.
         """
-        return self._parse_one(WorkflowAction, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            WorkflowAction,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

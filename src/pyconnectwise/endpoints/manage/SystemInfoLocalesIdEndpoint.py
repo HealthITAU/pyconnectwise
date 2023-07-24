@@ -10,7 +10,9 @@ class SystemInfoLocalesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[LocaleInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LocaleInfo]:
         """
         Performs a GET request against the /system/info/locales/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SystemInfoLocalesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LocaleInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> LocaleInfo:
         """
         Performs a GET request against the /system/info/locales/{id} endpoint.
 
@@ -41,4 +45,6 @@ class SystemInfoLocalesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             LocaleInfo: The parsed response data.
         """
-        return self._parse_one(LocaleInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LocaleInfo, super()._make_request("GET", data=data, params=params).json()
+        )

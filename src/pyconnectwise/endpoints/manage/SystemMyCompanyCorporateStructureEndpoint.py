@@ -1,12 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureCountEndpoint import \
-    SystemMycompanyCorporatestructureCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint import \
-    SystemMycompanyCorporatestructureIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import \
-    SystemMycompanyCorporatestructureInfoEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureCountEndpoint import (
+    SystemMycompanyCorporatestructureCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint import (
+    SystemMycompanyCorporatestructureIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import (
+    SystemMycompanyCorporatestructureInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CorporateStructure
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,11 +19,11 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "corporateStructure", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemMycompanyCorporatestructureInfoEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(
             SystemMycompanyCorporatestructureCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            SystemMycompanyCorporatestructureInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemMycompanyCorporatestructureIdEndpoint:
@@ -32,7 +35,9 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemMycompanyCorporatestructureIdEndpoint: The initialized SystemMycompanyCorporatestructureIdEndpoint object.
         """
-        child = SystemMycompanyCorporatestructureIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMycompanyCorporatestructureIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -59,7 +64,9 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructure]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint.
 
@@ -69,4 +76,7 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CorporateStructure]: The parsed response data.
         """
-        return self._parse_many(CorporateStructure, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CorporateStructure,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

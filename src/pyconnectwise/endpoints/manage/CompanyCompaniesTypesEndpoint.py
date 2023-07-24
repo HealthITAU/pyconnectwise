@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesTypesCountEndpoint import CompanyCompaniesTypesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesTypesIdEndpoint import CompanyCompaniesTypesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesTypesCountEndpoint import (
+    CompanyCompaniesTypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCompaniesTypesIdEndpoint import (
+    CompanyCompaniesTypesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class CompanyCompaniesTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(CompanyCompaniesTypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyCompaniesTypesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyCompaniesTypesIdEndpoint:
         """
@@ -27,7 +33,9 @@ class CompanyCompaniesTypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanyType]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyType]:
         """
         Performs a GET request against the /company/companies/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class CompanyCompaniesTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CompanyType]:
         """
         Performs a GET request against the /company/companies/types endpoint.
 
@@ -58,9 +68,13 @@ class CompanyCompaniesTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyType]: The parsed response data.
         """
-        return self._parse_many(CompanyType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CompanyType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyType:
         """
         Performs a POST request against the /company/companies/types endpoint.
 
@@ -70,4 +84,6 @@ class CompanyCompaniesTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyType: The parsed response data.
         """
-        return self._parse_one(CompanyType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CompanyType, super()._make_request("POST", data=data, params=params).json()
+        )

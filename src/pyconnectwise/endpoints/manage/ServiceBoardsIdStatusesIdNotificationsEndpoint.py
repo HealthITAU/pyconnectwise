@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsCountEndpoint import \
-    ServiceBoardsIdStatusesIdNotificationsCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsIdEndpoint import \
-    ServiceBoardsIdStatusesIdNotificationsIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsCountEndpoint import (
+    ServiceBoardsIdStatusesIdNotificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsIdEndpoint import (
+    ServiceBoardsIdStatusesIdNotificationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ServiceBoardsIdStatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
+            ServiceBoardsIdStatusesIdNotificationsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ServiceBoardsIdStatusesIdNotificationsIdEndpoint:
@@ -27,7 +31,9 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdStatusesIdNotificationsIdEndpoint: The initialized ServiceBoardsIdStatusesIdNotificationsIdEndpoint object.
         """
-        child = ServiceBoardsIdStatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceBoardsIdStatusesIdNotificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardStatusNotification]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[BoardStatusNotification]:
         """
         Performs a GET request against the /service/boards/{id}/statuses/{id}/notifications endpoint.
 
@@ -64,9 +72,14 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardStatusNotification]: The parsed response data.
         """
-        return self._parse_many(BoardStatusNotification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardStatusNotification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardStatusNotification:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardStatusNotification:
         """
         Performs a POST request against the /service/boards/{id}/statuses/{id}/notifications endpoint.
 
@@ -76,4 +89,7 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardStatusNotification: The parsed response data.
         """
-        return self._parse_one(BoardStatusNotification, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BoardStatusNotification,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

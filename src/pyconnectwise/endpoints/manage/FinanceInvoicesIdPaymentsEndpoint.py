@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoicesIdPaymentsIdEndpoint import FinanceInvoicesIdPaymentsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceInvoicesIdPaymentsIdEndpoint import (
+    FinanceInvoicesIdPaymentsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InvoicePayment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -47,7 +49,9 @@ class FinanceInvoicesIdPaymentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InvoicePayment]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[InvoicePayment]:
         """
         Performs a GET request against the /finance/invoices/{id}/payments endpoint.
 
@@ -57,9 +61,14 @@ class FinanceInvoicesIdPaymentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InvoicePayment]: The parsed response data.
         """
-        return self._parse_many(InvoicePayment, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            InvoicePayment,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoicePayment:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InvoicePayment:
         """
         Performs a POST request against the /finance/invoices/{id}/payments endpoint.
 
@@ -69,4 +78,7 @@ class FinanceInvoicesIdPaymentsEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoicePayment: The parsed response data.
         """
-        return self._parse_one(InvoicePayment, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            InvoicePayment,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

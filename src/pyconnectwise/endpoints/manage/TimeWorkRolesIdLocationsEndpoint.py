@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsCountEndpoint import TimeWorkrolesIdLocationsCountEndpoint
-from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsIdEndpoint import TimeWorkrolesIdLocationsIdEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsCountEndpoint import (
+    TimeWorkrolesIdLocationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsIdEndpoint import (
+    TimeWorkrolesIdLocationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRoleLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class TimeWorkrolesIdLocationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locations", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(TimeWorkrolesIdLocationsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            TimeWorkrolesIdLocationsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> TimeWorkrolesIdLocationsIdEndpoint:
         """
@@ -50,7 +56,9 @@ class TimeWorkrolesIdLocationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkRoleLocation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[WorkRoleLocation]:
         """
         Performs a GET request against the /time/workRoles/{id}/locations endpoint.
 
@@ -60,9 +68,14 @@ class TimeWorkrolesIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkRoleLocation]: The parsed response data.
         """
-        return self._parse_many(WorkRoleLocation, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            WorkRoleLocation,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleLocation:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkRoleLocation:
         """
         Performs a POST request against the /time/workRoles/{id}/locations endpoint.
 
@@ -72,4 +85,7 @@ class TimeWorkrolesIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleLocation: The parsed response data.
         """
-        return self._parse_one(WorkRoleLocation, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            WorkRoleLocation,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

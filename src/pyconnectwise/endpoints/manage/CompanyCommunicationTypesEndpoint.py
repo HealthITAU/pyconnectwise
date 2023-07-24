@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesCountEndpoint import CompanyCommunicationtypesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesIdEndpoint import CompanyCommunicationtypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesInfoEndpoint import CompanyCommunicationtypesInfoEndpoint
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesCountEndpoint import (
+    CompanyCommunicationtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesIdEndpoint import (
+    CompanyCommunicationtypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesInfoEndpoint import (
+    CompanyCommunicationtypesInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CommunicationType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class CompanyCommunicationtypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "communicationTypes", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyCommunicationtypesIdEndpoint:
         """
@@ -52,7 +62,9 @@ class CompanyCommunicationtypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommunicationType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CommunicationType]:
         """
         Performs a GET request against the /company/communicationTypes endpoint.
 
@@ -62,9 +74,14 @@ class CompanyCommunicationtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CommunicationType]: The parsed response data.
         """
-        return self._parse_many(CommunicationType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CommunicationType,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommunicationType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CommunicationType:
         """
         Performs a POST request against the /company/communicationTypes endpoint.
 
@@ -74,4 +91,7 @@ class CompanyCommunicationtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             CommunicationType: The parsed response data.
         """
-        return self._parse_one(CommunicationType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CommunicationType,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

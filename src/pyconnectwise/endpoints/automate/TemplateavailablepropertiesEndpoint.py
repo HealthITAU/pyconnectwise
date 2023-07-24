@@ -8,7 +8,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Templateavailableproperties", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Templateavailableproperties", parent_endpoint=parent_endpoint
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -33,7 +35,9 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TemplateAvailableProperty]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[TemplateAvailableProperty]:
         """
         Performs a GET request against the /Templateavailableproperties endpoint.
 
@@ -44,10 +48,13 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             list[TemplateAvailableProperty]: The parsed response data.
         """
         return self._parse_many(
-            TemplateAvailableProperty, super()._make_request("GET", data=data, params=params).json()
+            TemplateAvailableProperty,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TemplateAvailableProperty:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TemplateAvailableProperty:
         """
         Performs a POST request against the /Templateavailableproperties endpoint.
 
@@ -58,5 +65,6 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             TemplateAvailableProperty: The parsed response data.
         """
         return self._parse_one(
-            TemplateAvailableProperty, super()._make_request("POST", data=data, params=params).json()
+            TemplateAvailableProperty,
+            super()._make_request("POST", data=data, params=params).json(),
         )

@@ -33,7 +33,9 @@ class ProjectProjecttypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectTypeInfo:
         """
         Performs a GET request against the /project/projectTypes/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProjectProjecttypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectTypeInfo: The parsed response data.
         """
-        return self._parse_one(ProjectTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

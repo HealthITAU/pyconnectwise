@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesCommissionsCountEndpoint import SalesCommissionsCountEndpoint
-from pyconnectwise.endpoints.manage.SalesCommissionsIdEndpoint import SalesCommissionsIdEndpoint
+from pyconnectwise.endpoints.manage.SalesCommissionsCountEndpoint import (
+    SalesCommissionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesCommissionsIdEndpoint import (
+    SalesCommissionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Commission
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "commissions", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SalesCommissionsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SalesCommissionsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SalesCommissionsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Commission]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Commission]:
         """
         Performs a GET request against the /sales/commissions endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Commission]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Commission]:
         """
         Performs a GET request against the /sales/commissions endpoint.
 
@@ -58,9 +68,13 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Commission]: The parsed response data.
         """
-        return self._parse_many(Commission, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Commission, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Commission:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Commission:
         """
         Performs a POST request against the /sales/commissions endpoint.
 
@@ -70,4 +84,6 @@ class SalesCommissionsEndpoint(ConnectWiseEndpoint):
         Returns:
             Commission: The parsed response data.
         """
-        return self._parse_one(Commission, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Commission, super()._make_request("POST", data=data, params=params).json()
+        )

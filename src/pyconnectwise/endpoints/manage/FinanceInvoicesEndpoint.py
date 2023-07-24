@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoicesCountEndpoint import FinanceInvoicesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoicesIdEndpoint import FinanceInvoicesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceInvoicesCountEndpoint import (
+    FinanceInvoicesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceInvoicesIdEndpoint import (
+    FinanceInvoicesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Invoice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class FinanceInvoicesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "invoices", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(FinanceInvoicesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceInvoicesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> FinanceInvoicesIdEndpoint:
         """
@@ -27,7 +33,9 @@ class FinanceInvoicesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Invoice]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Invoice]:
         """
         Performs a GET request against the /finance/invoices endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class FinanceInvoicesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Invoice]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Invoice]:
         """
         Performs a GET request against the /finance/invoices endpoint.
 
@@ -58,9 +68,13 @@ class FinanceInvoicesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Invoice]: The parsed response data.
         """
-        return self._parse_many(Invoice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Invoice, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Invoice:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Invoice:
         """
         Performs a POST request against the /finance/invoices endpoint.
 
@@ -70,4 +84,6 @@ class FinanceInvoicesEndpoint(ConnectWiseEndpoint):
         Returns:
             Invoice: The parsed response data.
         """
-        return self._parse_one(Invoice, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Invoice, super()._make_request("POST", data=data, params=params).json()
+        )

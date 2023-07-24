@@ -33,7 +33,9 @@ class SystemCallbacksIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CallbackEntry:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CallbackEntry:
         """
         Performs a GET request against the /system/callbacks/{id} endpoint.
 
@@ -43,9 +45,13 @@ class SystemCallbacksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CallbackEntry: The parsed response data.
         """
-        return self._parse_one(CallbackEntry, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            CallbackEntry, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/callbacks/{id} endpoint.
 
@@ -55,9 +61,14 @@ class SystemCallbacksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CallbackEntry:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CallbackEntry:
         """
         Performs a PUT request against the /system/callbacks/{id} endpoint.
 
@@ -67,9 +78,13 @@ class SystemCallbacksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CallbackEntry: The parsed response data.
         """
-        return self._parse_one(CallbackEntry, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            CallbackEntry, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CallbackEntry:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CallbackEntry:
         """
         Performs a PATCH request against the /system/callbacks/{id} endpoint.
 
@@ -79,4 +94,7 @@ class SystemCallbacksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CallbackEntry: The parsed response data.
         """
-        return self._parse_one(CallbackEntry, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            CallbackEntry,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

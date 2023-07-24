@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumenttypesInfoCountEndpoint import SystemDocumenttypesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.SystemDocumenttypesInfoCountEndpoint import (
+    SystemDocumenttypesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DocumentType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class SystemDocumenttypesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemDocumenttypesInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemDocumenttypesInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class SystemDocumenttypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DocumentType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[DocumentType]:
         """
         Performs a GET request against the /system/documentTypes/info endpoint.
 
@@ -46,4 +52,6 @@ class SystemDocumenttypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DocumentType]: The parsed response data.
         """
-        return self._parse_many(DocumentType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DocumentType, super()._make_request("GET", data=data, params=params).json()
+        )

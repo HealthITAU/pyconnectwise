@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsCountEndpoint import \
-    FinanceTaxcodesIdTaxcodexrefsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdEndpoint import \
-    FinanceTaxcodesIdTaxcodexrefsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsCountEndpoint import (
+    FinanceTaxcodesIdTaxcodexrefsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdEndpoint import (
+    FinanceTaxcodesIdTaxcodexrefsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxCodeXRef
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,11 +29,15 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceTaxcodesIdTaxcodexrefsIdEndpoint: The initialized FinanceTaxcodesIdTaxcodexrefsIdEndpoint object.
         """
-        child = FinanceTaxcodesIdTaxcodexrefsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceTaxcodesIdTaxcodexrefsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCodeXRef]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TaxCodeXRef]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs endpoint and returns an initialized PaginatedResponse object.
 
@@ -52,7 +58,9 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxCodeXRef]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[TaxCodeXRef]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs endpoint.
 
@@ -62,9 +70,13 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TaxCodeXRef]: The parsed response data.
         """
-        return self._parse_many(TaxCodeXRef, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TaxCodeXRef, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeXRef:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TaxCodeXRef:
         """
         Performs a POST request against the /finance/taxCodes/{id}/taxCodeXRefs endpoint.
 
@@ -74,4 +86,6 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeXRef: The parsed response data.
         """
-        return self._parse_one(TaxCodeXRef, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TaxCodeXRef, super()._make_request("POST", data=data, params=params).json()
+        )

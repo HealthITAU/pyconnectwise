@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeIdEndpoint import \
-    SystemContactsyncMonitoringTypeIdEndpoint
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeIdEndpoint import (
+    SystemContactsyncMonitoringTypeIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -20,6 +21,8 @@ class SystemContactsyncMonitoringTypeEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemContactsyncMonitoringTypeIdEndpoint: The initialized SystemContactsyncMonitoringTypeIdEndpoint object.
         """
-        child = SystemContactsyncMonitoringTypeIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemContactsyncMonitoringTypeIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

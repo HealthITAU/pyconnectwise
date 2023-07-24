@@ -10,7 +10,9 @@ class CompanyM365contactIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[M365Contact]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[M365Contact]:
         """
         Performs a GET request against the /company/m365contact/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class CompanyM365contactIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> M365Contact:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> M365Contact:
         """
         Performs a GET request against the /company/m365contact/{id} endpoint.
 
@@ -41,4 +45,6 @@ class CompanyM365contactIdEndpoint(ConnectWiseEndpoint):
         Returns:
             M365Contact: The parsed response data.
         """
-        return self._parse_one(M365Contact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            M365Contact, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsCountEndpoint import \
-    ProcurementProductsIdPickingshippingdetailsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsIdEndpoint import \
-    ProcurementProductsIdPickingshippingdetailsIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsCountEndpoint import (
+    ProcurementProductsIdPickingshippingdetailsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsIdEndpoint import (
+    ProcurementProductsIdPickingshippingdetailsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProductPickingShippingDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,10 +14,14 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ProcurementProductsIdPickingshippingdetailsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "pickingShippingDetails", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "pickingShippingDetails", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
-            ProcurementProductsIdPickingshippingdetailsCountEndpoint(client, parent_endpoint=self)
+            ProcurementProductsIdPickingshippingdetailsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ProcurementProductsIdPickingshippingdetailsIdEndpoint:
@@ -27,7 +33,9 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementProductsIdPickingshippingdetailsIdEndpoint: The initialized ProcurementProductsIdPickingshippingdetailsIdEndpoint object.
         """
-        child = ProcurementProductsIdPickingshippingdetailsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementProductsIdPickingshippingdetailsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +62,9 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductPickingShippingDetail]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProductPickingShippingDetail]:
         """
         Performs a GET request against the /procurement/products/{id}/pickingShippingDetails endpoint.
 
@@ -65,10 +75,13 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(ConnectWiseEndpoint):
             list[ProductPickingShippingDetail]: The parsed response data.
         """
         return self._parse_many(
-            ProductPickingShippingDetail, super()._make_request("GET", data=data, params=params).json()
+            ProductPickingShippingDetail,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductPickingShippingDetail]:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProductPickingShippingDetail]:
         """
         Performs a POST request against the /procurement/products/{id}/pickingShippingDetails endpoint.
 
@@ -79,5 +92,6 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(ConnectWiseEndpoint):
             list[ProductPickingShippingDetail]: The parsed response data.
         """
         return self._parse_many(
-            ProductPickingShippingDetail, super()._make_request("POST", data=data, params=params).json()
+            ProductPickingShippingDetail,
+            super()._make_request("POST", data=data, params=params).json(),
         )

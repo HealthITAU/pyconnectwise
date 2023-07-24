@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMysecurityCustomizeitemsEndpoint import SystemMysecurityCustomizeitemsEndpoint
+from pyconnectwise.endpoints.manage.SystemMysecurityCustomizeitemsEndpoint import (
+    SystemMysecurityCustomizeitemsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MySecurity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class SystemMysecurityEndpoint(ConnectWiseEndpoint):
             SystemMysecurityCustomizeitemsEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MySecurity]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MySecurity]:
         """
         Performs a GET request against the /system/mySecurity endpoint and returns an initialized PaginatedResponse object.
 
@@ -36,7 +40,9 @@ class SystemMysecurityEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MySecurity]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MySecurity]:
         """
         Performs a GET request against the /system/mySecurity endpoint.
 
@@ -46,4 +52,6 @@ class SystemMysecurityEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MySecurity]: The parsed response data.
         """
-        return self._parse_many(MySecurity, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MySecurity, super()._make_request("GET", data=data, params=params).json()
+        )

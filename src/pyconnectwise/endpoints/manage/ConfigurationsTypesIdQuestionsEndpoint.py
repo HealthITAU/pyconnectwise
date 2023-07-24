@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdEndpoint import \
-    ConfigurationsTypesIdQuestionsIdEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsInfoEndpoint import \
-    ConfigurationsTypesIdQuestionsInfoEndpoint
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdEndpoint import (
+    ConfigurationsTypesIdQuestionsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsInfoEndpoint import (
+    ConfigurationsTypesIdQuestionsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -26,6 +28,8 @@ class ConfigurationsTypesIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationsTypesIdQuestionsIdEndpoint: The initialized ConfigurationsTypesIdQuestionsIdEndpoint object.
         """
-        child = ConfigurationsTypesIdQuestionsIdEndpoint(self.client, parent_endpoint=self)
+        child = ConfigurationsTypesIdQuestionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

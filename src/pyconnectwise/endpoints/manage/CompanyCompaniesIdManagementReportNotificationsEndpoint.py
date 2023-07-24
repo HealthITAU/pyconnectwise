@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsCountEndpoint import \
-    CompanyCompaniesIdManagementreportnotificationsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsIdEndpoint import \
-    CompanyCompaniesIdManagementreportnotificationsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsCountEndpoint import (
+    CompanyCompaniesIdManagementreportnotificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsIdEndpoint import (
+    CompanyCompaniesIdManagementreportnotificationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementReportNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,10 +14,14 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementReportNotifications", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "managementReportNotifications", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
-            CompanyCompaniesIdManagementreportnotificationsCountEndpoint(client, parent_endpoint=self)
+            CompanyCompaniesIdManagementreportnotificationsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> CompanyCompaniesIdManagementreportnotificationsIdEndpoint:
@@ -27,7 +33,9 @@ class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoin
         Returns:
             CompanyCompaniesIdManagementreportnotificationsIdEndpoint: The initialized CompanyCompaniesIdManagementreportnotificationsIdEndpoint object.
         """
-        child = CompanyCompaniesIdManagementreportnotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCompaniesIdManagementreportnotificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +62,9 @@ class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoin
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportNotification]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ManagementReportNotification]:
         """
         Performs a GET request against the /company/companies/{id}/managementReportNotifications endpoint.
 
@@ -65,10 +75,13 @@ class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoin
             list[ManagementReportNotification]: The parsed response data.
         """
         return self._parse_many(
-            ManagementReportNotification, super()._make_request("GET", data=data, params=params).json()
+            ManagementReportNotification,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportNotification:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementReportNotification:
         """
         Performs a POST request against the /company/companies/{id}/managementReportNotifications endpoint.
 
@@ -79,5 +92,6 @@ class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoin
             ManagementReportNotification: The parsed response data.
         """
         return self._parse_one(
-            ManagementReportNotification, super()._make_request("POST", data=data, params=params).json()
+            ManagementReportNotification,
+            super()._make_request("POST", data=data, params=params).json(),
         )

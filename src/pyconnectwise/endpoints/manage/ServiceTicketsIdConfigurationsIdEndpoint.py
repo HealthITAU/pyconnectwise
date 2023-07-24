@@ -33,7 +33,9 @@ class ServiceTicketsIdConfigurationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationReference:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ConfigurationReference:
         """
         Performs a GET request against the /service/tickets/{id}/configurations/{id} endpoint.
 
@@ -43,9 +45,14 @@ class ServiceTicketsIdConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationReference: The parsed response data.
         """
-        return self._parse_one(ConfigurationReference, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ConfigurationReference,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/tickets/{id}/configurations/{id} endpoint.
 
@@ -55,4 +62,7 @@ class ServiceTicketsIdConfigurationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )

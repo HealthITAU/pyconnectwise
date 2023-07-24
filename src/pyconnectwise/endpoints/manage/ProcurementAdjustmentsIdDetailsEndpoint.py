@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsCountEndpoint import \
-    ProcurementAdjustmentsIdDetailsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsIdEndpoint import \
-    ProcurementAdjustmentsIdDetailsIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsCountEndpoint import (
+    ProcurementAdjustmentsIdDetailsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsIdEndpoint import (
+    ProcurementAdjustmentsIdDetailsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AdjustmentDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class ProcurementAdjustmentsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementAdjustmentsIdDetailsIdEndpoint: The initialized ProcurementAdjustmentsIdDetailsIdEndpoint object.
         """
-        child = ProcurementAdjustmentsIdDetailsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementAdjustmentsIdDetailsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class ProcurementAdjustmentsIdDetailsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentDetail]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AdjustmentDetail]:
         """
         Performs a GET request against the /procurement/adjustments/{id}/details endpoint.
 
@@ -64,9 +70,14 @@ class ProcurementAdjustmentsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AdjustmentDetail]: The parsed response data.
         """
-        return self._parse_many(AdjustmentDetail, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AdjustmentDetail,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentDetail:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AdjustmentDetail:
         """
         Performs a POST request against the /procurement/adjustments/{id}/details endpoint.
 
@@ -76,4 +87,7 @@ class ProcurementAdjustmentsIdDetailsEndpoint(ConnectWiseEndpoint):
         Returns:
             AdjustmentDetail: The parsed response data.
         """
-        return self._parse_one(AdjustmentDetail, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AdjustmentDetail,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsCountEndpoint import \
-    CompanyPortalsecuritylevelsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsIdEndpoint import CompanyPortalsecuritylevelsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsCountEndpoint import (
+    CompanyPortalsecuritylevelsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsIdEndpoint import (
+    CompanyPortalsecuritylevelsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalSecurityLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +14,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyPortalsecuritylevelsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "portalSecurityLevels", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "portalSecurityLevels", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
             CompanyPortalsecuritylevelsCountEndpoint(client, parent_endpoint=self)
@@ -53,7 +58,9 @@ class CompanyPortalsecuritylevelsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecurityLevel]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PortalSecurityLevel]:
         """
         Performs a GET request against the /company/portalSecurityLevels endpoint.
 
@@ -63,4 +70,7 @@ class CompanyPortalsecuritylevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalSecurityLevel]: The parsed response data.
         """
-        return self._parse_many(PortalSecurityLevel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            PortalSecurityLevel,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

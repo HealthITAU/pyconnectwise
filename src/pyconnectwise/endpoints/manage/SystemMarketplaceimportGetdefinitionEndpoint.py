@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMarketplaceimportGetdefinitionIdEndpoint import \
-    SystemMarketplaceimportGetdefinitionIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMarketplaceimportGetdefinitionIdEndpoint import (
+    SystemMarketplaceimportGetdefinitionIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -20,6 +21,8 @@ class SystemMarketplaceimportGetdefinitionEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemMarketplaceimportGetdefinitionIdEndpoint: The initialized SystemMarketplaceimportGetdefinitionIdEndpoint object.
         """
-        child = SystemMarketplaceimportGetdefinitionIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMarketplaceimportGetdefinitionIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

@@ -33,7 +33,9 @@ class ProcurementRmastatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatusInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> RmaStatusInfo:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/info endpoint.
 
@@ -43,4 +45,6 @@ class ProcurementRmastatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaStatusInfo: The parsed response data.
         """
-        return self._parse_one(RmaStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            RmaStatusInfo, super()._make_request("GET", data=data, params=params).json()
+        )

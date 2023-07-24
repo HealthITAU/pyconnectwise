@@ -33,7 +33,9 @@ class CompanyManageddevicesintegrationsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationInfo:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/info endpoint.
 
@@ -44,5 +46,6 @@ class CompanyManageddevicesintegrationsIdInfoEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationInfo: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationInfo, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegrationInfo,
+            super()._make_request("GET", data=data, params=params).json(),
         )

@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import SubmittableScriptFolder
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import (
+    SubmittableScriptFolder,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -10,7 +12,9 @@ class ScriptsScriptfoldersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SubmittableScriptFolder:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> SubmittableScriptFolder:
         """
         Performs a POST request against the /Scripts/Scriptfolders/{id} endpoint.
 
@@ -20,4 +24,7 @@ class ScriptsScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SubmittableScriptFolder: The parsed response data.
         """
-        return self._parse_one(SubmittableScriptFolder, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SubmittableScriptFolder,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -33,7 +33,9 @@ class FinanceBillingstatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatusInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingStatusInfo:
         """
         Performs a GET request against the /finance/billingStatuses/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class FinanceBillingstatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatusInfo: The parsed response data.
         """
-        return self._parse_one(BillingStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            BillingStatusInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

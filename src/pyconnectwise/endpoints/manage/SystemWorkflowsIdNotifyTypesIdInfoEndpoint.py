@@ -33,7 +33,9 @@ class SystemWorkflowsIdNotifytypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowNotifyTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkflowNotifyTypeInfo:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SystemWorkflowsIdNotifytypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowNotifyTypeInfo: The parsed response data.
         """
-        return self._parse_one(WorkflowNotifyTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            WorkflowNotifyTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint import \
-    CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint import \
-    CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint import (
+    CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint import (
+    CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationTypeQuestionValue
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
         super().__init__(client, "values", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint(client, parent_endpoint=self)
+            CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint:
@@ -27,7 +31,9 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
         Returns:
             CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint: The initialized CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint object.
         """
-        child = CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationTypeQuestionValue]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ConfigurationTypeQuestionValue]:
         """
         Performs a GET request against the /company/configurations/types/{id}/questions/{id}/values endpoint.
 
@@ -65,10 +73,13 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
             list[ConfigurationTypeQuestionValue]: The parsed response data.
         """
         return self._parse_many(
-            ConfigurationTypeQuestionValue, super()._make_request("GET", data=data, params=params).json()
+            ConfigurationTypeQuestionValue,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationTypeQuestionValue:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ConfigurationTypeQuestionValue:
         """
         Performs a POST request against the /company/configurations/types/{id}/questions/{id}/values endpoint.
 
@@ -79,5 +90,6 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
             ConfigurationTypeQuestionValue: The parsed response data.
         """
         return self._parse_one(
-            ConfigurationTypeQuestionValue, super()._make_request("POST", data=data, params=params).json()
+            ConfigurationTypeQuestionValue,
+            super()._make_request("POST", data=data, params=params).json(),
         )

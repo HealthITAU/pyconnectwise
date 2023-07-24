@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesCountEndpoint import \
-    ProcurementPricingschedulesCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdEndpoint import ProcurementPricingschedulesIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesCountEndpoint import (
+    ProcurementPricingschedulesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdEndpoint import (
+    ProcurementPricingschedulesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PricingSchedule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class ProcurementPricingschedulesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PricingSchedule]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PricingSchedule]:
         """
         Performs a GET request against the /procurement/pricingschedules endpoint.
 
@@ -63,9 +68,14 @@ class ProcurementPricingschedulesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PricingSchedule]: The parsed response data.
         """
-        return self._parse_many(PricingSchedule, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            PricingSchedule,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingSchedule:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> PricingSchedule:
         """
         Performs a POST request against the /procurement/pricingschedules endpoint.
 
@@ -75,4 +85,7 @@ class ProcurementPricingschedulesEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingSchedule: The parsed response data.
         """
-        return self._parse_one(PricingSchedule, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            PricingSchedule,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

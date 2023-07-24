@@ -1,6 +1,8 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ComputersIdSoftwareIdEndpoint import ComputersIdSoftwareIdEndpoint
+from pyconnectwise.endpoints.automate.ComputersIdSoftwareIdEndpoint import (
+    ComputersIdSoftwareIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import ComputerSoftware
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -47,7 +49,9 @@ class ComputersIdSoftwareEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerSoftware]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ComputerSoftware]:
         """
         Performs a GET request against the /Computers/{id}/Software endpoint.
 
@@ -57,4 +61,7 @@ class ComputersIdSoftwareEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerSoftware]: The parsed response data.
         """
-        return self._parse_many(ComputerSoftware, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ComputerSoftware,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

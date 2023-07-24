@@ -33,7 +33,9 @@ class ProcurementAdjustmentsTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AdjustmentTypeInfo:
         """
         Performs a GET request against the /procurement/adjustments/types/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProcurementAdjustmentsTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             AdjustmentTypeInfo: The parsed response data.
         """
-        return self._parse_one(AdjustmentTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            AdjustmentTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsInfoCountEndpoint import \
-    CompanyContactsDepartmentsInfoCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsInfoCountEndpoint import (
+    CompanyContactsDepartmentsInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactDepartmentInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class CompanyContactsDepartmentsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactDepartmentInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ContactDepartmentInfo]:
         """
         Performs a GET request against the /company/contacts/departments/info endpoint.
 
@@ -49,4 +52,7 @@ class CompanyContactsDepartmentsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactDepartmentInfo]: The parsed response data.
         """
-        return self._parse_many(ContactDepartmentInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ContactDepartmentInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

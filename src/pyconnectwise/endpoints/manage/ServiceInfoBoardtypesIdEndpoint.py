@@ -33,7 +33,9 @@ class ServiceInfoBoardtypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardTypeInfo:
         """
         Performs a GET request against the /service/info/boardtypes/{id} endpoint.
 
@@ -43,4 +45,6 @@ class ServiceInfoBoardtypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardTypeInfo: The parsed response data.
         """
-        return self._parse_one(BoardTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            BoardTypeInfo, super()._make_request("GET", data=data, params=params).json()
+        )

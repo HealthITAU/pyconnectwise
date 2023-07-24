@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint import \
-    SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint import (
+    SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailConnectorParsingStyle
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +14,9 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.parsing_rules = self._register_child_endpoint(
-            SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(client, parent_endpoint=self)
+            SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -39,7 +42,9 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -50,10 +55,13 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             EmailConnectorParsingStyle: The parsed response data.
         """
         return self._parse_one(
-            EmailConnectorParsingStyle, super()._make_request("GET", data=data, params=params).json()
+            EmailConnectorParsingStyle,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -63,9 +71,14 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a PUT request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -76,10 +89,13 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             EmailConnectorParsingStyle: The parsed response data.
         """
         return self._parse_one(
-            EmailConnectorParsingStyle, super()._make_request("PUT", data=data, params=params).json()
+            EmailConnectorParsingStyle,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a PATCH request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -90,5 +106,6 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             EmailConnectorParsingStyle: The parsed response data.
         """
         return self._parse_one(
-            EmailConnectorParsingStyle, super()._make_request("PATCH", data=data, params=params).json()
+            EmailConnectorParsingStyle,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

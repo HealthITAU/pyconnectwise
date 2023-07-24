@@ -10,7 +10,9 @@ class FinanceInfoInvoiceIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InvoiceInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[InvoiceInfo]:
         """
         Performs a GET request against the /finance/info/invoice/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class FinanceInfoInvoiceIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InvoiceInfo:
         """
         Performs a GET request against the /finance/info/invoice/{id} endpoint.
 
@@ -41,4 +45,6 @@ class FinanceInfoInvoiceIdEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceInfo: The parsed response data.
         """
-        return self._parse_one(InvoiceInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            InvoiceInfo, super()._make_request("GET", data=data, params=params).json()
+        )

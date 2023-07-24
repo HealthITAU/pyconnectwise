@@ -8,7 +8,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ComputersIdEffectivepatchingpolicyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Effectivepatchingpolicy", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Effectivepatchingpolicy", parent_endpoint=parent_endpoint
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -33,7 +35,9 @@ class ComputersIdEffectivepatchingpolicyEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerEffectivePatchingPolicy:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ComputerEffectivePatchingPolicy:
         """
         Performs a GET request against the /Computers/{id}/Effectivepatchingpolicy endpoint.
 
@@ -44,5 +48,6 @@ class ComputersIdEffectivepatchingpolicyEndpoint(ConnectWiseEndpoint):
             ComputerEffectivePatchingPolicy: The parsed response data.
         """
         return self._parse_one(
-            ComputerEffectivePatchingPolicy, super()._make_request("GET", data=data, params=params).json()
+            ComputerEffectivePatchingPolicy,
+            super()._make_request("GET", data=data, params=params).json(),
         )

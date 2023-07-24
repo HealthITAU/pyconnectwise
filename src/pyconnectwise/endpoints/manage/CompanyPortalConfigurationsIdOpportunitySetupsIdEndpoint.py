@@ -33,7 +33,9 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(ConnectWiseEndpoi
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationOpportunitySetup:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint.
 
@@ -44,10 +46,13 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(ConnectWiseEndpoi
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationOpportunitySetup:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint.
 
@@ -58,7 +63,8 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(ConnectWiseEndpoi
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("PUT", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
     def patch(
@@ -74,5 +80,6 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(ConnectWiseEndpoi
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("PATCH", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

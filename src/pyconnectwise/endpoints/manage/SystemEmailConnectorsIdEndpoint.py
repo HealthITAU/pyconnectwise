@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdInfoEndpoint import SystemEmailconnectorsIdInfoEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesEndpoint import \
-    SystemEmailconnectorsIdParsingstylesEndpoint
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdInfoEndpoint import (
+    SystemEmailconnectorsIdInfoEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesEndpoint import (
+    SystemEmailconnectorsIdParsingstylesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailConnector
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,7 +16,9 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemEmailconnectorsIdInfoEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            SystemEmailconnectorsIdInfoEndpoint(client, parent_endpoint=self)
+        )
         self.parsing_styles = self._register_child_endpoint(
             SystemEmailconnectorsIdParsingstylesEndpoint(client, parent_endpoint=self)
         )
@@ -41,7 +46,9 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnector:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnector:
         """
         Performs a GET request against the /system/emailConnectors/{id} endpoint.
 
@@ -51,9 +58,14 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailConnector: The parsed response data.
         """
-        return self._parse_one(EmailConnector, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            EmailConnector,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/emailConnectors/{id} endpoint.
 
@@ -63,9 +75,14 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnector:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnector:
         """
         Performs a PUT request against the /system/emailConnectors/{id} endpoint.
 
@@ -75,9 +92,14 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailConnector: The parsed response data.
         """
-        return self._parse_one(EmailConnector, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            EmailConnector,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnector:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnector:
         """
         Performs a PATCH request against the /system/emailConnectors/{id} endpoint.
 
@@ -87,4 +109,7 @@ class SystemEmailconnectorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailConnector: The parsed response data.
         """
-        return self._parse_one(EmailConnector, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            EmailConnector,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint import \
-    SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint import \
-    SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint import (
+    SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint import (
+    SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailConnectorParsingRule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,10 +17,14 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
         super().__init__(client, "parsingRules", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint(client, parent_endpoint=self)
+            SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint:
+    def id(
+        self, id: int
+    ) -> SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint object to move down the chain.
 
@@ -27,7 +33,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
         Returns:
             SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint: The initialized SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint object.
         """
-        child = SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +62,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailConnectorParsingRule]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[EmailConnectorParsingRule]:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules endpoint.
 
@@ -65,10 +75,13 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
             list[EmailConnectorParsingRule]: The parsed response data.
         """
         return self._parse_many(
-            EmailConnectorParsingRule, super()._make_request("GET", data=data, params=params).json()
+            EmailConnectorParsingRule,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingRule:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailConnectorParsingRule:
         """
         Performs a POST request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules endpoint.
 
@@ -79,5 +92,6 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
             EmailConnectorParsingRule: The parsed response data.
         """
         return self._parse_one(
-            EmailConnectorParsingRule, super()._make_request("POST", data=data, params=params).json()
+            EmailConnectorParsingRule,
+            super()._make_request("POST", data=data, params=params).json(),
         )

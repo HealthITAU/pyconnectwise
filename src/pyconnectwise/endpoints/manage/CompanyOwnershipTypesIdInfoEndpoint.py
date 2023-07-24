@@ -33,7 +33,9 @@ class CompanyOwnershiptypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OwnershipTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OwnershipTypeInfo:
         """
         Performs a GET request against the /company/ownershipTypes/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class CompanyOwnershiptypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             OwnershipTypeInfo: The parsed response data.
         """
-        return self._parse_one(OwnershipTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            OwnershipTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

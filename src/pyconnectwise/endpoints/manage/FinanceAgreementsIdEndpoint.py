@@ -1,25 +1,45 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdditionsEndpoint import FinanceAgreementsIdAdditionsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsEndpoint import FinanceAgreementsIdAdjustmentsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdApplicationparametersEndpoint import \
-    FinanceAgreementsIdApplicationparametersEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsEndpoint import \
-    FinanceAgreementsIdBoarddefaultsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsEndpoint import \
-    FinanceAgreementsIdConfigurationsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdCopyEndpoint import FinanceAgreementsIdCopyEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdInvoiceEndpoint import FinanceAgreementsIdInvoiceEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdRecurringparametersEndpoint import \
-    FinanceAgreementsIdRecurringparametersEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdSitesEndpoint import FinanceAgreementsIdSitesEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkroleexclusionsEndpoint import \
-    FinanceAgreementsIdWorkroleexclusionsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkrolesEndpoint import FinanceAgreementsIdWorkrolesEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsEndpoint import \
-    FinanceAgreementsIdWorktypeexclusionsEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypesEndpoint import FinanceAgreementsIdWorktypesEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdditionsEndpoint import (
+    FinanceAgreementsIdAdditionsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsEndpoint import (
+    FinanceAgreementsIdAdjustmentsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdApplicationparametersEndpoint import (
+    FinanceAgreementsIdApplicationparametersEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsEndpoint import (
+    FinanceAgreementsIdBoarddefaultsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdConfigurationsEndpoint import (
+    FinanceAgreementsIdConfigurationsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdCopyEndpoint import (
+    FinanceAgreementsIdCopyEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdInvoiceEndpoint import (
+    FinanceAgreementsIdInvoiceEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdRecurringparametersEndpoint import (
+    FinanceAgreementsIdRecurringparametersEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdSitesEndpoint import (
+    FinanceAgreementsIdSitesEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkroleexclusionsEndpoint import (
+    FinanceAgreementsIdWorkroleexclusionsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkrolesEndpoint import (
+    FinanceAgreementsIdWorkrolesEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsEndpoint import (
+    FinanceAgreementsIdWorktypeexclusionsEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypesEndpoint import (
+    FinanceAgreementsIdWorktypesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Agreement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,41 +49,51 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.invoice = self._register_child_endpoint(FinanceAgreementsIdInvoiceEndpoint(client, parent_endpoint=self))
-        self.work_type_exclusions = self._register_child_endpoint(
-            FinanceAgreementsIdWorktypeexclusionsEndpoint(client, parent_endpoint=self)
+        self.work_role_exclusions = self._register_child_endpoint(
+            FinanceAgreementsIdWorkroleexclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.application_parameters = self._register_child_endpoint(
-            FinanceAgreementsIdApplicationparametersEndpoint(client, parent_endpoint=self)
-        )
-        self.worktypes = self._register_child_endpoint(
-            FinanceAgreementsIdWorktypesEndpoint(client, parent_endpoint=self)
-        )
-        self.workroles = self._register_child_endpoint(
-            FinanceAgreementsIdWorkrolesEndpoint(client, parent_endpoint=self)
-        )
-        self.adjustments = self._register_child_endpoint(
-            FinanceAgreementsIdAdjustmentsEndpoint(client, parent_endpoint=self)
-        )
-        self.additions = self._register_child_endpoint(
-            FinanceAgreementsIdAdditionsEndpoint(client, parent_endpoint=self)
-        )
-        self.configurations = self._register_child_endpoint(
-            FinanceAgreementsIdConfigurationsEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(FinanceAgreementsIdCopyEndpoint(client, parent_endpoint=self))
         self.recurring_parameters = self._register_child_endpoint(
             FinanceAgreementsIdRecurringparametersEndpoint(client, parent_endpoint=self)
         )
         self.board_defaults = self._register_child_endpoint(
             FinanceAgreementsIdBoarddefaultsEndpoint(client, parent_endpoint=self)
         )
-        self.sites = self._register_child_endpoint(FinanceAgreementsIdSitesEndpoint(client, parent_endpoint=self))
-        self.work_role_exclusions = self._register_child_endpoint(
-            FinanceAgreementsIdWorkroleexclusionsEndpoint(client, parent_endpoint=self)
+        self.adjustments = self._register_child_endpoint(
+            FinanceAgreementsIdAdjustmentsEndpoint(client, parent_endpoint=self)
+        )
+        self.application_parameters = self._register_child_endpoint(
+            FinanceAgreementsIdApplicationparametersEndpoint(
+                client, parent_endpoint=self
+            )
+        )
+        self.workroles = self._register_child_endpoint(
+            FinanceAgreementsIdWorkrolesEndpoint(client, parent_endpoint=self)
+        )
+        self.sites = self._register_child_endpoint(
+            FinanceAgreementsIdSitesEndpoint(client, parent_endpoint=self)
+        )
+        self.copy = self._register_child_endpoint(
+            FinanceAgreementsIdCopyEndpoint(client, parent_endpoint=self)
+        )
+        self.worktypes = self._register_child_endpoint(
+            FinanceAgreementsIdWorktypesEndpoint(client, parent_endpoint=self)
+        )
+        self.additions = self._register_child_endpoint(
+            FinanceAgreementsIdAdditionsEndpoint(client, parent_endpoint=self)
+        )
+        self.work_type_exclusions = self._register_child_endpoint(
+            FinanceAgreementsIdWorktypeexclusionsEndpoint(client, parent_endpoint=self)
+        )
+        self.configurations = self._register_child_endpoint(
+            FinanceAgreementsIdConfigurationsEndpoint(client, parent_endpoint=self)
+        )
+        self.invoice = self._register_child_endpoint(
+            FinanceAgreementsIdInvoiceEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Agreement]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Agreement]:
         """
         Performs a GET request against the /finance/agreements/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -84,7 +114,9 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Agreement:
         """
         Performs a GET request against the /finance/agreements/{id} endpoint.
 
@@ -94,9 +126,13 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(Agreement, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Agreement, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/agreements/{id} endpoint.
 
@@ -106,9 +142,14 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Agreement:
         """
         Performs a PUT request against the /finance/agreements/{id} endpoint.
 
@@ -118,9 +159,13 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(Agreement, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Agreement, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Agreement:
         """
         Performs a PATCH request against the /finance/agreements/{id} endpoint.
 
@@ -130,4 +175,6 @@ class FinanceAgreementsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(Agreement, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            Agreement, super()._make_request("PATCH", data=data, params=params).json()
+        )

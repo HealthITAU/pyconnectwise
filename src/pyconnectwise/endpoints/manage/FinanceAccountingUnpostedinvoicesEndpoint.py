@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesCountEndpoint import \
-    FinanceAccountingUnpostedinvoicesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdEndpoint import \
-    FinanceAccountingUnpostedinvoicesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesCountEndpoint import (
+    FinanceAccountingUnpostedinvoicesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdEndpoint import (
+    FinanceAccountingUnpostedinvoicesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedInvoice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class FinanceAccountingUnpostedinvoicesEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAccountingUnpostedinvoicesIdEndpoint: The initialized FinanceAccountingUnpostedinvoicesIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedinvoicesIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAccountingUnpostedinvoicesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class FinanceAccountingUnpostedinvoicesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UnpostedInvoice]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[UnpostedInvoice]:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices endpoint.
 
@@ -64,4 +70,7 @@ class FinanceAccountingUnpostedinvoicesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UnpostedInvoice]: The parsed response data.
         """
-        return self._parse_many(UnpostedInvoice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            UnpostedInvoice,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

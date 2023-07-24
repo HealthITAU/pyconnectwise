@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsCountEndpoint import MarketingGroupsCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsIdEndpoint import MarketingGroupsIdEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsInfoEndpoint import MarketingGroupsInfoEndpoint
+from pyconnectwise.endpoints.manage.MarketingGroupsCountEndpoint import (
+    MarketingGroupsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingGroupsIdEndpoint import (
+    MarketingGroupsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingGroupsInfoEndpoint import (
+    MarketingGroupsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Group
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "groups", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(MarketingGroupsInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(MarketingGroupsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            MarketingGroupsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            MarketingGroupsInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> MarketingGroupsIdEndpoint:
         """
@@ -29,7 +39,9 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Group]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Group]:
         """
         Performs a GET request against the /marketing/groups endpoint and returns an initialized PaginatedResponse object.
 
@@ -50,7 +62,9 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Group]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Group]:
         """
         Performs a GET request against the /marketing/groups endpoint.
 
@@ -60,9 +74,13 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Group]: The parsed response data.
         """
-        return self._parse_many(Group, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Group, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Group:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Group:
         """
         Performs a POST request against the /marketing/groups endpoint.
 
@@ -72,4 +90,6 @@ class MarketingGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             Group: The parsed response data.
         """
-        return self._parse_one(Group, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Group, super()._make_request("POST", data=data, params=params).json()
+        )

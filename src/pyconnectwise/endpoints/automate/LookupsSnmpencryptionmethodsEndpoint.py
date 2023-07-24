@@ -1,14 +1,18 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models.NetworkProbe import EncryptionMethod
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models.NetworkProbe import (
+    EncryptionMethod,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
 class LookupsSnmpencryptionmethodsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Snmpencryptionmethods", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Snmpencryptionmethods", parent_endpoint=parent_endpoint
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -33,7 +37,9 @@ class LookupsSnmpencryptionmethodsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EncryptionMethod]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[EncryptionMethod]:
         """
         Performs a GET request against the /Lookups/Snmpencryptionmethods endpoint.
 
@@ -43,4 +49,7 @@ class LookupsSnmpencryptionmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EncryptionMethod]: The parsed response data.
         """
-        return self._parse_many(EncryptionMethod, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            EncryptionMethod,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

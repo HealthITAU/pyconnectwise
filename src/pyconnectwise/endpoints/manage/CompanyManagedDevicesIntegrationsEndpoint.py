@@ -1,12 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsCountEndpoint import \
-    CompanyManageddevicesintegrationsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdEndpoint import \
-    CompanyManageddevicesintegrationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsInfoEndpoint import \
-    CompanyManageddevicesintegrationsInfoEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsCountEndpoint import (
+    CompanyManageddevicesintegrationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdEndpoint import (
+    CompanyManageddevicesintegrationsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsInfoEndpoint import (
+    CompanyManageddevicesintegrationsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,13 +17,15 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managedDevicesIntegrations", parent_endpoint=parent_endpoint)
-
-        self.info = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsInfoEndpoint(client, parent_endpoint=self)
+        super().__init__(
+            client, "managedDevicesIntegrations", parent_endpoint=parent_endpoint
         )
+
         self.count = self._register_child_endpoint(
             CompanyManageddevicesintegrationsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyManageddevicesintegrationsIdEndpoint:
@@ -32,7 +37,9 @@ class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyManageddevicesintegrationsIdEndpoint: The initialized CompanyManageddevicesintegrationsIdEndpoint object.
         """
-        child = CompanyManageddevicesintegrationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -59,7 +66,9 @@ class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegration]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ManagedDevicesIntegration]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations endpoint.
 
@@ -70,10 +79,13 @@ class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
             list[ManagedDevicesIntegration]: The parsed response data.
         """
         return self._parse_many(
-            ManagedDevicesIntegration, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegration,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegration:
         """
         Performs a POST request against the /company/managedDevicesIntegrations endpoint.
 
@@ -84,5 +96,6 @@ class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegration: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegration, super()._make_request("POST", data=data, params=params).json()
+            ManagedDevicesIntegration,
+            super()._make_request("POST", data=data, params=params).json(),
         )

@@ -10,7 +10,9 @@ class FinanceClosedinvoicesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClosedInvoice:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ClosedInvoice:
         """
         Performs a PUT request against the /finance/closedInvoices/{id} endpoint.
 
@@ -20,9 +22,13 @@ class FinanceClosedinvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ClosedInvoice: The parsed response data.
         """
-        return self._parse_one(ClosedInvoice, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ClosedInvoice, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClosedInvoice:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ClosedInvoice:
         """
         Performs a PATCH request against the /finance/closedInvoices/{id} endpoint.
 
@@ -32,4 +38,7 @@ class FinanceClosedinvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ClosedInvoice: The parsed response data.
         """
-        return self._parse_one(ClosedInvoice, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ClosedInvoice,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

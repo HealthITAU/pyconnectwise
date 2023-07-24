@@ -33,7 +33,9 @@ class TimeSheetsIdAuditsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeSheetAudit:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimeSheetAudit:
         """
         Performs a GET request against the /time/sheets/{id}/audits/{id} endpoint.
 
@@ -43,4 +45,7 @@ class TimeSheetsIdAuditsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeSheetAudit: The parsed response data.
         """
-        return self._parse_one(TimeSheetAudit, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TimeSheetAudit,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsEndpoint import \
-    ServiceBoardsIdItemsIdAssociationsEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdUsagesEndpoint import ServiceBoardsIdItemsIdUsagesEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdAssociationsEndpoint import (
+    ServiceBoardsIdItemsIdAssociationsEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdUsagesEndpoint import (
+    ServiceBoardsIdItemsIdUsagesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +19,13 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         self.associations = self._register_child_endpoint(
             ServiceBoardsIdItemsIdAssociationsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(ServiceBoardsIdItemsIdUsagesEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(
+            ServiceBoardsIdItemsIdUsagesEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardItem]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BoardItem]:
         """
         Performs a GET request against the /service/boards/{id}/items/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,7 +46,9 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItem:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardItem:
         """
         Performs a GET request against the /service/boards/{id}/items/{id} endpoint.
 
@@ -49,9 +58,13 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItem: The parsed response data.
         """
-        return self._parse_one(BoardItem, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            BoardItem, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/boards/{id}/items/{id} endpoint.
 
@@ -61,9 +74,14 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItem:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardItem:
         """
         Performs a PUT request against the /service/boards/{id}/items/{id} endpoint.
 
@@ -73,9 +91,13 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItem: The parsed response data.
         """
-        return self._parse_one(BoardItem, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            BoardItem, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItem:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardItem:
         """
         Performs a PATCH request against the /service/boards/{id}/items/{id} endpoint.
 
@@ -85,4 +107,6 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItem: The parsed response data.
         """
-        return self._parse_one(BoardItem, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            BoardItem, super()._make_request("PATCH", data=data, params=params).json()
+        )

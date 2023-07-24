@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Patching import ComputerPatchingStats
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Patching import (
+    ComputerPatchingStats,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -33,7 +35,9 @@ class ComputersIdPatchingstatsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerPatchingStats:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ComputerPatchingStats:
         """
         Performs a GET request against the /Computers/{id}/Patchingstats endpoint.
 
@@ -43,4 +47,7 @@ class ComputersIdPatchingstatsEndpoint(ConnectWiseEndpoint):
         Returns:
             ComputerPatchingStats: The parsed response data.
         """
-        return self._parse_one(ComputerPatchingStats, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ComputerPatchingStats,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

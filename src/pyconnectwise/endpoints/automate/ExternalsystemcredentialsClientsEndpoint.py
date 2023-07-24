@@ -1,7 +1,8 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ExternalsystemcredentialsClientsIdEndpoint import \
-    ExternalsystemcredentialsClientsIdEndpoint
+from pyconnectwise.endpoints.automate.ExternalsystemcredentialsClientsIdEndpoint import (
+    ExternalsystemcredentialsClientsIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -20,6 +21,8 @@ class ExternalsystemcredentialsClientsEndpoint(ConnectWiseEndpoint):
         Returns:
             ExternalsystemcredentialsClientsIdEndpoint: The initialized ExternalsystemcredentialsClientsIdEndpoint object.
         """
-        child = ExternalsystemcredentialsClientsIdEndpoint(self.client, parent_endpoint=self)
+        child = ExternalsystemcredentialsClientsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

@@ -10,7 +10,9 @@ class SystemMycompanyTimeexpenseIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeExpense]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SystemMycompanyTimeexpenseIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeExpense:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimeExpense:
         """
         Performs a GET request against the /system/myCompany/timeExpense/{id} endpoint.
 
@@ -41,9 +45,13 @@ class SystemMycompanyTimeexpenseIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeExpense: The parsed response data.
         """
-        return self._parse_one(TimeExpense, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TimeExpense, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeExpense:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimeExpense:
         """
         Performs a PUT request against the /system/myCompany/timeExpense/{id} endpoint.
 
@@ -53,9 +61,13 @@ class SystemMycompanyTimeexpenseIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeExpense: The parsed response data.
         """
-        return self._parse_one(TimeExpense, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            TimeExpense, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeExpense:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimeExpense:
         """
         Performs a PATCH request against the /system/myCompany/timeExpense/{id} endpoint.
 
@@ -65,4 +77,6 @@ class SystemMycompanyTimeexpenseIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeExpense: The parsed response data.
         """
-        return self._parse_one(TimeExpense, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            TimeExpense, super()._make_request("PATCH", data=data, params=params).json()
+        )

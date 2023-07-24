@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceSeveritiesCountEndpoint import ServiceSeveritiesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceSeveritiesIdEndpoint import ServiceSeveritiesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceSeveritiesCountEndpoint import (
+    ServiceSeveritiesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceSeveritiesIdEndpoint import (
+    ServiceSeveritiesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Severity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ServiceSeveritiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "severities", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ServiceSeveritiesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceSeveritiesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ServiceSeveritiesIdEndpoint:
         """
@@ -27,7 +33,9 @@ class ServiceSeveritiesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Severity]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Severity]:
         """
         Performs a GET request against the /service/severities endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class ServiceSeveritiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Severity]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Severity]:
         """
         Performs a GET request against the /service/severities endpoint.
 
@@ -58,4 +68,6 @@ class ServiceSeveritiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Severity]: The parsed response data.
         """
-        return self._parse_many(Severity, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Severity, super()._make_request("GET", data=data, params=params).json()
+        )

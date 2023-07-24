@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsCountEndpoint import \
-    SystemSecurityrolesIdSettingsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsIdEndpoint import \
-    SystemSecurityrolesIdSettingsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsCountEndpoint import (
+    SystemSecurityrolesIdSettingsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsIdEndpoint import (
+    SystemSecurityrolesIdSettingsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class SystemSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemSecurityrolesIdSettingsIdEndpoint: The initialized SystemSecurityrolesIdSettingsIdEndpoint object.
         """
-        child = SystemSecurityrolesIdSettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemSecurityrolesIdSettingsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class SystemSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SecurityRoleSetting]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[SecurityRoleSetting]:
         """
         Performs a GET request against the /system/securityRoles/{id}/settings endpoint.
 
@@ -64,4 +70,7 @@ class SystemSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SecurityRoleSetting]: The parsed response data.
         """
-        return self._parse_many(SecurityRoleSetting, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SecurityRoleSetting,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesTypesIdUsagesEndpoint import CompanyCompaniesTypesIdUsagesEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesTypesIdUsagesEndpoint import (
+    CompanyCompaniesTypesIdUsagesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,9 +13,13 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(CompanyCompaniesTypesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(
+            CompanyCompaniesTypesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanyType]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyType]:
         """
         Performs a GET request against the /company/companies/types/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,7 +40,9 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyType:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyType:
         """
         Performs a GET request against the /company/companies/types/{id} endpoint.
 
@@ -44,9 +52,13 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyType: The parsed response data.
         """
-        return self._parse_one(CompanyType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            CompanyType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/companies/types/{id} endpoint.
 
@@ -56,9 +68,14 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyType:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyType:
         """
         Performs a PUT request against the /company/companies/types/{id} endpoint.
 
@@ -68,9 +85,13 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyType: The parsed response data.
         """
-        return self._parse_one(CompanyType, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            CompanyType, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyType:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyType:
         """
         Performs a PATCH request against the /company/companies/types/{id} endpoint.
 
@@ -80,4 +101,6 @@ class CompanyCompaniesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyType: The parsed response data.
         """
-        return self._parse_one(CompanyType, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            CompanyType, super()._make_request("PATCH", data=data, params=params).json()
+        )

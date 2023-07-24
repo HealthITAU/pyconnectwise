@@ -33,7 +33,9 @@ class ScheduleStatusesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleStatus:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleStatus:
         """
         Performs a GET request against the /schedule/statuses/{id} endpoint.
 
@@ -43,9 +45,14 @@ class ScheduleStatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleStatus: The parsed response data.
         """
-        return self._parse_one(ScheduleStatus, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleStatus,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /schedule/statuses/{id} endpoint.
 
@@ -55,9 +62,14 @@ class ScheduleStatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleStatus:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleStatus:
         """
         Performs a PUT request against the /schedule/statuses/{id} endpoint.
 
@@ -67,9 +79,14 @@ class ScheduleStatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleStatus: The parsed response data.
         """
-        return self._parse_one(ScheduleStatus, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleStatus,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleStatus:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleStatus:
         """
         Performs a PATCH request against the /schedule/statuses/{id} endpoint.
 
@@ -79,4 +96,7 @@ class ScheduleStatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleStatus: The parsed response data.
         """
-        return self._parse_one(ScheduleStatus, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleStatus,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

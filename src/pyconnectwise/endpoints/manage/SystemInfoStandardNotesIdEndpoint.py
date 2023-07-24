@@ -33,7 +33,9 @@ class SystemInfoStandardnotesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> StandardNoteInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> StandardNoteInfo:
         """
         Performs a GET request against the /system/info/standardNotes/{id} endpoint.
 
@@ -43,4 +45,7 @@ class SystemInfoStandardnotesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             StandardNoteInfo: The parsed response data.
         """
-        return self._parse_one(StandardNoteInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            StandardNoteInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,12 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesCountEndpoint import \
-    FinanceAgreementtypesIdWorkrolesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesIdEndpoint import \
-    FinanceAgreementtypesIdWorkrolesIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoEndpoint import \
-    FinanceAgreementtypesIdWorkrolesInfoEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesCountEndpoint import (
+    FinanceAgreementtypesIdWorkrolesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesIdEndpoint import (
+    FinanceAgreementtypesIdWorkrolesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoEndpoint import (
+    FinanceAgreementtypesIdWorkrolesInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,11 +19,11 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workroles", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            FinanceAgreementtypesIdWorkrolesInfoEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(
             FinanceAgreementtypesIdWorkrolesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            FinanceAgreementtypesIdWorkrolesInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> FinanceAgreementtypesIdWorkrolesIdEndpoint:
@@ -32,7 +35,9 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementtypesIdWorkrolesIdEndpoint: The initialized FinanceAgreementtypesIdWorkrolesIdEndpoint object.
         """
-        child = FinanceAgreementtypesIdWorkrolesIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementtypesIdWorkrolesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -59,7 +64,9 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkRole]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AgreementTypeWorkRole]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workroles endpoint.
 
@@ -69,9 +76,14 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeWorkRole]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkRole, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AgreementTypeWorkRole,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkRole:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementTypeWorkRole:
         """
         Performs a POST request against the /finance/agreementTypes/{id}/workroles endpoint.
 
@@ -81,4 +93,7 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeWorkRole: The parsed response data.
         """
-        return self._parse_one(AgreementTypeWorkRole, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AgreementTypeWorkRole,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

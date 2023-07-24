@@ -1,13 +1,18 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringCountEndpoint import \
-    SystemContactsyncMonitoringCountEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringIdEndpoint import SystemContactsyncMonitoringIdEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringNotificationtypeEndpoint import \
-    SystemContactsyncMonitoringNotificationtypeEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeEndpoint import \
-    SystemContactsyncMonitoringTypeEndpoint
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringCountEndpoint import (
+    SystemContactsyncMonitoringCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringIdEndpoint import (
+    SystemContactsyncMonitoringIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringNotificationtypeEndpoint import (
+    SystemContactsyncMonitoringNotificationtypeEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeEndpoint import (
+    SystemContactsyncMonitoringTypeEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import M365ContactSyncMonitoring
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -18,12 +23,16 @@ class SystemContactsyncMonitoringEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "monitoring", parent_endpoint=parent_endpoint)
 
         self.notificationtype = self._register_child_endpoint(
-            SystemContactsyncMonitoringNotificationtypeEndpoint(client, parent_endpoint=self)
+            SystemContactsyncMonitoringNotificationtypeEndpoint(
+                client, parent_endpoint=self
+            )
+        )
+        self.type = self._register_child_endpoint(
+            SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self)
         )
         self.count = self._register_child_endpoint(
             SystemContactsyncMonitoringCountEndpoint(client, parent_endpoint=self)
         )
-        self.type = self._register_child_endpoint(SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemContactsyncMonitoringIdEndpoint:
         """
@@ -61,7 +70,9 @@ class SystemContactsyncMonitoringEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[M365ContactSyncMonitoring]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[M365ContactSyncMonitoring]:
         """
         Performs a GET request against the /system/contactsync/monitoring endpoint.
 
@@ -72,5 +83,6 @@ class SystemContactsyncMonitoringEndpoint(ConnectWiseEndpoint):
             list[M365ContactSyncMonitoring]: The parsed response data.
         """
         return self._parse_many(
-            M365ContactSyncMonitoring, super()._make_request("GET", data=data, params=params).json()
+            M365ContactSyncMonitoring,
+            super()._make_request("GET", data=data, params=params).json(),
         )

@@ -33,7 +33,9 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommandExecute]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CommandExecute]:
         """
         Performs a GET request against the /Computers/{id}/Commandexecute endpoint.
 
@@ -43,9 +45,14 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CommandExecute]: The parsed response data.
         """
-        return self._parse_many(CommandExecute, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CommandExecute,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommandExecute:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CommandExecute:
         """
         Performs a POST request against the /Computers/{id}/Commandexecute endpoint.
 
@@ -55,4 +62,7 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
         Returns:
             CommandExecute: The parsed response data.
         """
-        return self._parse_one(CommandExecute, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CommandExecute,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -10,7 +10,9 @@ class ServiceTicketsIdMergeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "merge", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SuccessResponse:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> SuccessResponse:
         """
         Performs a POST request against the /service/tickets/{id}/merge endpoint.
 
@@ -20,4 +22,7 @@ class ServiceTicketsIdMergeEndpoint(ConnectWiseEndpoint):
         Returns:
             SuccessResponse: The parsed response data.
         """
-        return self._parse_one(SuccessResponse, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SuccessResponse,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

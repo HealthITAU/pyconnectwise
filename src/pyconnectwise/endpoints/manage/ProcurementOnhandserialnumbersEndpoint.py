@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersCountEndpoint import \
-    ProcurementOnhandserialnumbersCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersIdEndpoint import \
-    ProcurementOnhandserialnumbersIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersCountEndpoint import (
+    ProcurementOnhandserialnumbersCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersIdEndpoint import (
+    ProcurementOnhandserialnumbersIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OnHandSerialNumber
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementOnhandserialnumbersIdEndpoint: The initialized ProcurementOnhandserialnumbersIdEndpoint object.
         """
-        child = ProcurementOnhandserialnumbersIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementOnhandserialnumbersIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OnHandSerialNumber]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[OnHandSerialNumber]:
         """
         Performs a GET request against the /procurement/onhandserialnumbers endpoint.
 
@@ -64,4 +70,7 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OnHandSerialNumber]: The parsed response data.
         """
-        return self._parse_many(OnHandSerialNumber, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            OnHandSerialNumber,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

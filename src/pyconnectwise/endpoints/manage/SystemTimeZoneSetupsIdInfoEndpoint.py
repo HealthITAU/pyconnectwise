@@ -33,7 +33,9 @@ class SystemTimezonesetupsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetupInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimeZoneSetupInfo:
         """
         Performs a GET request against the /system/timeZoneSetups/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SystemTimezonesetupsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeZoneSetupInfo: The parsed response data.
         """
-        return self._parse_one(TimeZoneSetupInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TimeZoneSetupInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

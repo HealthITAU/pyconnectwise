@@ -1,11 +1,18 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsCountEndpoint import SystemWorkflowsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEndpoint import SystemWorkflowsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesEndpoint import SystemWorkflowsTabletypesEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEndpoint import \
-    SystemWorkflowsUserdefinedfieldsEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsCountEndpoint import (
+    SystemWorkflowsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEndpoint import (
+    SystemWorkflowsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesEndpoint import (
+    SystemWorkflowsTabletypesEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEndpoint import (
+    SystemWorkflowsUserdefinedfieldsEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Workflow
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -18,9 +25,11 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         self.userdefinedfields = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.table_types = self._register_child_endpoint(
             SystemWorkflowsTabletypesEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(
+            SystemWorkflowsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemWorkflowsIdEndpoint:
@@ -36,7 +45,9 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Workflow]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Workflow]:
         """
         Performs a GET request against the /system/workflows endpoint and returns an initialized PaginatedResponse object.
 
@@ -57,7 +68,9 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Workflow]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Workflow]:
         """
         Performs a GET request against the /system/workflows endpoint.
 
@@ -67,9 +80,13 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Workflow]: The parsed response data.
         """
-        return self._parse_many(Workflow, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Workflow, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Workflow:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Workflow:
         """
         Performs a POST request against the /system/workflows endpoint.
 
@@ -79,4 +96,6 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         Returns:
             Workflow: The parsed response data.
         """
-        return self._parse_one(Workflow, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Workflow, super()._make_request("POST", data=data, params=params).json()
+        )

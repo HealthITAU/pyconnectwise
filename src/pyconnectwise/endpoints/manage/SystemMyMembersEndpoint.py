@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMymembersInfoEndpoint import SystemMymembersInfoEndpoint
+from pyconnectwise.endpoints.manage.SystemMymembersInfoEndpoint import (
+    SystemMymembersInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MyMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,9 +13,13 @@ class SystemMymembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "myMembers", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemMymembersInfoEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            SystemMymembersInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MyMember]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MyMember]:
         """
         Performs a GET request against the /system/myMembers endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,7 +40,9 @@ class SystemMymembersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MyMember:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MyMember:
         """
         Performs a GET request against the /system/myMembers endpoint.
 
@@ -44,4 +52,6 @@ class SystemMymembersEndpoint(ConnectWiseEndpoint):
         Returns:
             MyMember: The parsed response data.
         """
-        return self._parse_one(MyMember, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            MyMember, super()._make_request("GET", data=data, params=params).json()
+        )

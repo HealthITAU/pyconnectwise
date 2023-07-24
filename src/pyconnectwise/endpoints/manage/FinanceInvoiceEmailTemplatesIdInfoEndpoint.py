@@ -33,7 +33,9 @@ class FinanceInvoiceemailtemplatesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceEmailTemplateInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> InvoiceEmailTemplateInfo:
         """
         Performs a GET request against the /finance/invoiceEmailTemplates/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class FinanceInvoiceemailtemplatesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             InvoiceEmailTemplateInfo: The parsed response data.
         """
-        return self._parse_one(InvoiceEmailTemplateInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            InvoiceEmailTemplateInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

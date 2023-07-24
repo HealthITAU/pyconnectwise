@@ -33,7 +33,9 @@ class CompanyMarketdescriptionsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketDescriptionInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MarketDescriptionInfo:
         """
         Performs a GET request against the /company/marketDescriptions/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class CompanyMarketdescriptionsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketDescriptionInfo: The parsed response data.
         """
-        return self._parse_one(MarketDescriptionInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            MarketDescriptionInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

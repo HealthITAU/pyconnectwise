@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdInfoEndpoint import FinanceBillingstatusesIdInfoEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdUsagesEndpoint import FinanceBillingstatusesIdUsagesEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdInfoEndpoint import (
+    FinanceBillingstatusesIdInfoEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdUsagesEndpoint import (
+    FinanceBillingstatusesIdUsagesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,9 +16,11 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(FinanceBillingstatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(
             FinanceBillingstatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            FinanceBillingstatusesIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -40,7 +46,9 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatus:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingStatus:
         """
         Performs a GET request against the /finance/billingStatuses/{id} endpoint.
 
@@ -50,9 +58,13 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatus: The parsed response data.
         """
-        return self._parse_one(BillingStatus, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            BillingStatus, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/billingStatuses/{id} endpoint.
 
@@ -62,9 +74,14 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatus:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingStatus:
         """
         Performs a PUT request against the /finance/billingStatuses/{id} endpoint.
 
@@ -74,9 +91,13 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatus: The parsed response data.
         """
-        return self._parse_one(BillingStatus, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            BillingStatus, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatus:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BillingStatus:
         """
         Performs a PATCH request against the /finance/billingStatuses/{id} endpoint.
 
@@ -86,4 +107,7 @@ class FinanceBillingstatusesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatus: The parsed response data.
         """
-        return self._parse_one(BillingStatus, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            BillingStatus,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

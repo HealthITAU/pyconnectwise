@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdTracksCountEndpoint import CompanyContactsIdTracksCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdTracksIdEndpoint import CompanyContactsIdTracksIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdTracksCountEndpoint import (
+    CompanyContactsIdTracksCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsIdTracksIdEndpoint import (
+    CompanyContactsIdTracksIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactTrack
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class CompanyContactsIdTracksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tracks", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(CompanyContactsIdTracksCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyContactsIdTracksCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyContactsIdTracksIdEndpoint:
         """
@@ -50,7 +56,9 @@ class CompanyContactsIdTracksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactTrack]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ContactTrack]:
         """
         Performs a GET request against the /company/contacts/{id}/tracks endpoint.
 
@@ -60,9 +68,13 @@ class CompanyContactsIdTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactTrack]: The parsed response data.
         """
-        return self._parse_many(ContactTrack, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ContactTrack, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactTrack:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ContactTrack:
         """
         Performs a POST request against the /company/contacts/{id}/tracks endpoint.
 
@@ -72,4 +84,6 @@ class CompanyContactsIdTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactTrack: The parsed response data.
         """
-        return self._parse_one(ContactTrack, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ContactTrack, super()._make_request("POST", data=data, params=params).json()
+        )

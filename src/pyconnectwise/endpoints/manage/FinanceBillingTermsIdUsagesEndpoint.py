@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingtermsIdUsagesListEndpoint import \
-    FinanceBillingtermsIdUsagesListEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingtermsIdUsagesListEndpoint import (
+    FinanceBillingtermsIdUsagesListEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Usage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,9 +13,13 @@ class FinanceBillingtermsIdUsagesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "usages", parent_endpoint=parent_endpoint)
 
-        self.list = self._register_child_endpoint(FinanceBillingtermsIdUsagesListEndpoint(client, parent_endpoint=self))
+        self.list = self._register_child_endpoint(
+            FinanceBillingtermsIdUsagesListEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Usage]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Usage]:
         """
         Performs a GET request against the /finance/billingTerms/{id}/usages endpoint and returns an initialized PaginatedResponse object.
 
@@ -35,7 +40,9 @@ class FinanceBillingtermsIdUsagesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Usage]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Usage]:
         """
         Performs a GET request against the /finance/billingTerms/{id}/usages endpoint.
 
@@ -45,4 +52,6 @@ class FinanceBillingtermsIdUsagesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Usage]: The parsed response data.
         """
-        return self._parse_many(Usage, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Usage, super()._make_request("GET", data=data, params=params).json()
+        )

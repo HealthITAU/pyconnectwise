@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersCountEndpoint import \
-    SystemCustomreportsIdParametersCountEndpoint
-from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersIdEndpoint import \
-    SystemCustomreportsIdParametersIdEndpoint
+from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersCountEndpoint import (
+    SystemCustomreportsIdParametersCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersIdEndpoint import (
+    SystemCustomreportsIdParametersIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CustomReportParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class SystemCustomreportsIdParametersEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemCustomreportsIdParametersIdEndpoint: The initialized SystemCustomreportsIdParametersIdEndpoint object.
         """
-        child = SystemCustomreportsIdParametersIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemCustomreportsIdParametersIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class SystemCustomreportsIdParametersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CustomReportParameter]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CustomReportParameter]:
         """
         Performs a GET request against the /system/customReports/{id}/parameters endpoint.
 
@@ -64,9 +70,14 @@ class SystemCustomreportsIdParametersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CustomReportParameter]: The parsed response data.
         """
-        return self._parse_many(CustomReportParameter, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CustomReportParameter,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CustomReportParameter:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CustomReportParameter:
         """
         Performs a POST request against the /system/customReports/{id}/parameters endpoint.
 
@@ -76,4 +87,7 @@ class SystemCustomreportsIdParametersEndpoint(ConnectWiseEndpoint):
         Returns:
             CustomReportParameter: The parsed response data.
         """
-        return self._parse_one(CustomReportParameter, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CustomReportParameter,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

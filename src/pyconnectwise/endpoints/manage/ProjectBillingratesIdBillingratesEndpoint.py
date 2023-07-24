@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectBillingratesIdBillingratesIdEndpoint import \
-    ProjectBillingratesIdBillingratesIdEndpoint
+from pyconnectwise.endpoints.manage.ProjectBillingratesIdBillingratesIdEndpoint import (
+    ProjectBillingratesIdBillingratesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -20,6 +21,8 @@ class ProjectBillingratesIdBillingratesEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBillingratesIdBillingratesIdEndpoint: The initialized ProjectBillingratesIdBillingratesIdEndpoint object.
         """
-        child = ProjectBillingratesIdBillingratesIdEndpoint(self.client, parent_endpoint=self)
+        child = ProjectBillingratesIdBillingratesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemAutosynctimeCountEndpoint import SystemAutosynctimeCountEndpoint
-from pyconnectwise.endpoints.manage.SystemAutosynctimeIdEndpoint import SystemAutosynctimeIdEndpoint
+from pyconnectwise.endpoints.manage.SystemAutosynctimeCountEndpoint import (
+    SystemAutosynctimeCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemAutosynctimeIdEndpoint import (
+    SystemAutosynctimeIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AutoSyncTime
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemAutosynctimeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "autoSyncTime", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemAutosynctimeCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemAutosynctimeCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemAutosynctimeIdEndpoint:
         """
@@ -50,7 +56,9 @@ class SystemAutosynctimeEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AutoSyncTime]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AutoSyncTime]:
         """
         Performs a GET request against the /system/autoSyncTime endpoint.
 
@@ -60,9 +68,13 @@ class SystemAutosynctimeEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AutoSyncTime]: The parsed response data.
         """
-        return self._parse_many(AutoSyncTime, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AutoSyncTime, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutoSyncTime:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AutoSyncTime:
         """
         Performs a POST request against the /system/autoSyncTime endpoint.
 
@@ -72,4 +84,6 @@ class SystemAutosynctimeEndpoint(ConnectWiseEndpoint):
         Returns:
             AutoSyncTime: The parsed response data.
         """
-        return self._parse_one(AutoSyncTime, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AutoSyncTime, super()._make_request("POST", data=data, params=params).json()
+        )

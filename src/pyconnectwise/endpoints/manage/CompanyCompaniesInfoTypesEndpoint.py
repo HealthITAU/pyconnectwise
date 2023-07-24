@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesInfoTypesCountEndpoint import CompanyCompaniesInfoTypesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesInfoTypesIdEndpoint import CompanyCompaniesInfoTypesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesInfoTypesCountEndpoint import (
+    CompanyCompaniesInfoTypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCompaniesInfoTypesIdEndpoint import (
+    CompanyCompaniesInfoTypesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class CompanyCompaniesInfoTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(CompanyCompaniesInfoTypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyCompaniesInfoTypesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyCompaniesInfoTypesIdEndpoint:
         """
@@ -50,7 +56,9 @@ class CompanyCompaniesInfoTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyTypeInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CompanyTypeInfo]:
         """
         Performs a GET request against the /company/companies/info/types endpoint.
 
@@ -60,4 +68,7 @@ class CompanyCompaniesInfoTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyTypeInfo]: The parsed response data.
         """
-        return self._parse_many(CompanyTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CompanyTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

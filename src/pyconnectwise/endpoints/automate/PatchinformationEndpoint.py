@@ -33,7 +33,9 @@ class PatchinformationEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PatchInformation:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> PatchInformation:
         """
         Performs a GET request against the /Patchinformation endpoint.
 
@@ -43,4 +45,7 @@ class PatchinformationEndpoint(ConnectWiseEndpoint):
         Returns:
             PatchInformation: The parsed response data.
         """
-        return self._parse_one(PatchInformation, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            PatchInformation,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

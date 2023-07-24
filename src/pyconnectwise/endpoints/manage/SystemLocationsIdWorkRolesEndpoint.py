@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesCountEndpoint import \
-    SystemLocationsIdWorkrolesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesIdEndpoint import SystemLocationsIdWorkrolesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesCountEndpoint import (
+    SystemLocationsIdWorkrolesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesIdEndpoint import (
+    SystemLocationsIdWorkrolesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LocationWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -53,7 +56,9 @@ class SystemLocationsIdWorkrolesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocationWorkRole]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[LocationWorkRole]:
         """
         Performs a GET request against the /system/locations/{id}/workRoles endpoint.
 
@@ -63,4 +68,7 @@ class SystemLocationsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LocationWorkRole]: The parsed response data.
         """
-        return self._parse_many(LocationWorkRole, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LocationWorkRole,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

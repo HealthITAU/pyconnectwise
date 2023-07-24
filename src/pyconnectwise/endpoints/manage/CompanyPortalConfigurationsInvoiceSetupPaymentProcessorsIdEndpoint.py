@@ -6,7 +6,9 @@ from pyconnectwise.models.manage import PortalConfigurationPaymentProcessor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(ConnectWiseEndpoint):
+class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -33,7 +35,9 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(Connect
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationPaymentProcessor:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> PortalConfigurationPaymentProcessor:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors/{id} endpoint.
 
@@ -44,5 +48,6 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(Connect
             PortalConfigurationPaymentProcessor: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationPaymentProcessor, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationPaymentProcessor,
+            super()._make_request("GET", data=data, params=params).json(),
         )

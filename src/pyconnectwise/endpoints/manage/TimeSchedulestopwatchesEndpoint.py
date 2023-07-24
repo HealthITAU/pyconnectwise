@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesCountEndpoint import TimeSchedulestopwatchesCountEndpoint
-from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesIdEndpoint import TimeSchedulestopwatchesIdEndpoint
+from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesCountEndpoint import (
+    TimeSchedulestopwatchesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesIdEndpoint import (
+    TimeSchedulestopwatchesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ScheduleStopwatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class TimeSchedulestopwatchesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "schedulestopwatches", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(TimeSchedulestopwatchesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            TimeSchedulestopwatchesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> TimeSchedulestopwatchesIdEndpoint:
         """
@@ -50,7 +56,9 @@ class TimeSchedulestopwatchesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleStopwatch]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScheduleStopwatch]:
         """
         Performs a GET request against the /time/schedulestopwatches endpoint.
 
@@ -60,9 +68,14 @@ class TimeSchedulestopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleStopwatch]: The parsed response data.
         """
-        return self._parse_many(ScheduleStopwatch, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduleStopwatch,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleStopwatch:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduleStopwatch:
         """
         Performs a POST request against the /time/schedulestopwatches endpoint.
 
@@ -72,4 +85,7 @@ class TimeSchedulestopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleStopwatch: The parsed response data.
         """
-        return self._parse_one(ScheduleStopwatch, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleStopwatch,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

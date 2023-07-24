@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesCountEndpoint import FinanceAccountingBatchesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEndpoint import FinanceAccountingBatchesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesCountEndpoint import (
+    FinanceAccountingBatchesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEndpoint import (
+    FinanceAccountingBatchesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AccountingBatch, GLExport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "batches", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(FinanceAccountingBatchesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceAccountingBatchesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> FinanceAccountingBatchesIdEndpoint:
         """
@@ -50,7 +56,9 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AccountingBatch]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[AccountingBatch]:
         """
         Performs a GET request against the /finance/accounting/batches endpoint.
 
@@ -60,9 +68,14 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AccountingBatch]: The parsed response data.
         """
-        return self._parse_many(AccountingBatch, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AccountingBatch,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLExport:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLExport:
         """
         Performs a POST request against the /finance/accounting/batches endpoint.
 
@@ -72,4 +85,6 @@ class FinanceAccountingBatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             GLExport: The parsed response data.
         """
-        return self._parse_one(GLExport, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            GLExport, super()._make_request("POST", data=data, params=params).json()
+        )

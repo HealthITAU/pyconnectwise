@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresCountEndpoint import ProcurementUnitofmeasuresCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdEndpoint import ProcurementUnitofmeasuresIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresCountEndpoint import (
+    ProcurementUnitofmeasuresCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdEndpoint import (
+    ProcurementUnitofmeasuresIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnitOfMeasure
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ProcurementUnitofmeasuresEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "unitOfMeasures", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ProcurementUnitofmeasuresCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProcurementUnitofmeasuresCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ProcurementUnitofmeasuresIdEndpoint:
         """
@@ -50,7 +56,9 @@ class ProcurementUnitofmeasuresEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UnitOfMeasure]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[UnitOfMeasure]:
         """
         Performs a GET request against the /procurement/unitOfMeasures endpoint.
 
@@ -60,9 +68,13 @@ class ProcurementUnitofmeasuresEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UnitOfMeasure]: The parsed response data.
         """
-        return self._parse_many(UnitOfMeasure, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            UnitOfMeasure, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnitOfMeasure:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> UnitOfMeasure:
         """
         Performs a POST request against the /procurement/unitOfMeasures endpoint.
 
@@ -72,4 +84,7 @@ class ProcurementUnitofmeasuresEndpoint(ConnectWiseEndpoint):
         Returns:
             UnitOfMeasure: The parsed response data.
         """
-        return self._parse_one(UnitOfMeasure, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            UnitOfMeasure,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import ProbeEventLevel
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import (
+    ProbeEventLevel,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -33,7 +35,9 @@ class LookupsProbeeventlevelsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProbeEventLevel]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProbeEventLevel]:
         """
         Performs a GET request against the /Lookups/Probeeventlevels endpoint.
 
@@ -43,4 +47,7 @@ class LookupsProbeeventlevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProbeEventLevel]: The parsed response data.
         """
-        return self._parse_many(ProbeEventLevel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ProbeEventLevel,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -1,7 +1,11 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ScriptfoldersHierarchyEndpoint import ScriptfoldersHierarchyEndpoint
-from pyconnectwise.endpoints.automate.ScriptfoldersIdEndpoint import ScriptfoldersIdEndpoint
+from pyconnectwise.endpoints.automate.ScriptfoldersHierarchyEndpoint import (
+    ScriptfoldersHierarchyEndpoint,
+)
+from pyconnectwise.endpoints.automate.ScriptfoldersIdEndpoint import (
+    ScriptfoldersIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import ScriptFolder
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -12,7 +16,9 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Scriptfolders", parent_endpoint=parent_endpoint)
 
-        self.hierarchy = self._register_child_endpoint(ScriptfoldersHierarchyEndpoint(client, parent_endpoint=self))
+        self.hierarchy = self._register_child_endpoint(
+            ScriptfoldersHierarchyEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ScriptfoldersIdEndpoint:
         """
@@ -50,7 +56,9 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScriptFolder]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScriptFolder]:
         """
         Performs a GET request against the /Scriptfolders endpoint.
 
@@ -60,9 +68,13 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScriptFolder]: The parsed response data.
         """
-        return self._parse_many(ScriptFolder, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScriptFolder, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScriptFolder:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScriptFolder:
         """
         Performs a POST request against the /Scriptfolders endpoint.
 
@@ -72,4 +84,6 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             ScriptFolder: The parsed response data.
         """
-        return self._parse_one(ScriptFolder, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ScriptFolder, super()._make_request("POST", data=data, params=params).json()
+        )

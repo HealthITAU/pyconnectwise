@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsCountEndpoint import ScheduleColorsCountEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsIdEndpoint import ScheduleColorsIdEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsResetEndpoint import ScheduleColorsResetEndpoint
+from pyconnectwise.endpoints.manage.ScheduleColorsCountEndpoint import (
+    ScheduleColorsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleColorsIdEndpoint import (
+    ScheduleColorsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleColorsResetEndpoint import (
+    ScheduleColorsResetEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ScheduleColor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class ScheduleColorsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "colors", parent_endpoint=parent_endpoint)
 
-        self.reset = self._register_child_endpoint(ScheduleColorsResetEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(ScheduleColorsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ScheduleColorsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.reset = self._register_child_endpoint(
+            ScheduleColorsResetEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ScheduleColorsIdEndpoint:
         """
@@ -52,7 +62,9 @@ class ScheduleColorsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleColor]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ScheduleColor]:
         """
         Performs a GET request against the /schedule/colors endpoint.
 
@@ -62,4 +74,6 @@ class ScheduleColorsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleColor]: The parsed response data.
         """
-        return self._parse_many(ScheduleColor, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduleColor, super()._make_request("GET", data=data, params=params).json()
+        )

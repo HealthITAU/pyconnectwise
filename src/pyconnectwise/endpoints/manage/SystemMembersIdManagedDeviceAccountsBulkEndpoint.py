@@ -10,7 +10,9 @@ class SystemMembersIdManageddeviceaccountsBulkEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BulkResult:
         """
         Performs a DELETE request against the /system/members/{id}/managedDeviceAccounts/bulk endpoint.
 
@@ -20,9 +22,13 @@ class SystemMembersIdManageddeviceaccountsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResult: The parsed response data.
         """
-        return self._parse_one(BulkResult, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            BulkResult, super()._make_request("DELETE", data=data, params=params).json()
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BulkResult:
         """
         Performs a PUT request against the /system/members/{id}/managedDeviceAccounts/bulk endpoint.
 
@@ -32,4 +38,6 @@ class SystemMembersIdManageddeviceaccountsBulkEndpoint(ConnectWiseEndpoint):
         Returns:
             BulkResult: The parsed response data.
         """
-        return self._parse_one(BulkResult, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            BulkResult, super()._make_request("PUT", data=data, params=params).json()
+        )

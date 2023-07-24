@@ -33,7 +33,9 @@ class FinanceAgreementsIdRecurringparametersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementRecurringParameters:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementRecurringParameters:
         """
         Performs a GET request against the /finance/agreements/{id}/recurringParameters/{id} endpoint.
 
@@ -44,5 +46,6 @@ class FinanceAgreementsIdRecurringparametersIdEndpoint(ConnectWiseEndpoint):
             AgreementRecurringParameters: The parsed response data.
         """
         return self._parse_one(
-            AgreementRecurringParameters, super()._make_request("GET", data=data, params=params).json()
+            AgreementRecurringParameters,
+            super()._make_request("GET", data=data, params=params).json(),
         )

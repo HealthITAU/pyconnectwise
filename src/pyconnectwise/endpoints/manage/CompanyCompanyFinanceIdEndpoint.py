@@ -10,7 +10,9 @@ class CompanyCompanyfinanceIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyFinance:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyFinance:
         """
         Performs a PUT request against the /company/companyFinance/{id} endpoint.
 
@@ -20,4 +22,7 @@ class CompanyCompanyfinanceIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyFinance: The parsed response data.
         """
-        return self._parse_one(CompanyFinance, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            CompanyFinance,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )

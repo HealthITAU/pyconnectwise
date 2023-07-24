@@ -33,7 +33,9 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusNotification:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -43,9 +45,14 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusNotification: The parsed response data.
         """
-        return self._parse_one(OrderStatusNotification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusNotification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -55,9 +62,14 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusNotification:
         """
         Performs a PUT request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -67,9 +79,14 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusNotification: The parsed response data.
         """
-        return self._parse_one(OrderStatusNotification, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusNotification,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusNotification:
         """
         Performs a PATCH request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -79,4 +96,7 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusNotification: The parsed response data.
         """
-        return self._parse_one(OrderStatusNotification, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusNotification,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

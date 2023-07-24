@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsTypesCountInfoEndpoint import CompanyContactsTypesCountInfoEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsTypesCountInfoEndpoint import (
+    CompanyContactsTypesCountInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Count
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,9 +13,13 @@ class CompanyContactsTypesCountEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "count", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(CompanyContactsTypesCountInfoEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            CompanyContactsTypesCountInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Count]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Count]:
         """
         Performs a GET request against the /company/contacts/types/count endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,7 +40,9 @@ class CompanyContactsTypesCountEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Count:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Count:
         """
         Performs a GET request against the /company/contacts/types/count endpoint.
 
@@ -44,4 +52,6 @@ class CompanyContactsTypesCountEndpoint(ConnectWiseEndpoint):
         Returns:
             Count: The parsed response data.
         """
-        return self._parse_one(Count, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Count, super()._make_request("GET", data=data, params=params).json()
+        )

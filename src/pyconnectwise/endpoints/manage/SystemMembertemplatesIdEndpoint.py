@@ -33,7 +33,9 @@ class SystemMembertemplatesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberTemplate:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberTemplate:
         """
         Performs a GET request against the /system/membertemplates/{id} endpoint.
 
@@ -43,9 +45,14 @@ class SystemMembertemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberTemplate: The parsed response data.
         """
-        return self._parse_one(MemberTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            MemberTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberTemplate:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberTemplate:
         """
         Performs a PATCH request against the /system/membertemplates/{id} endpoint.
 
@@ -55,4 +62,7 @@ class SystemMembertemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberTemplate: The parsed response data.
         """
-        return self._parse_one(MemberTemplate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            MemberTemplate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

@@ -1,11 +1,21 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdApproveEndpoint import ExpenseReportsIdApproveEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsEndpoint import ExpenseReportsIdAuditsEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdRejectEndpoint import ExpenseReportsIdRejectEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdReverseEndpoint import ExpenseReportsIdReverseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdSubmitEndpoint import ExpenseReportsIdSubmitEndpoint
+from pyconnectwise.endpoints.manage.ExpenseReportsIdApproveEndpoint import (
+    ExpenseReportsIdApproveEndpoint,
+)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsEndpoint import (
+    ExpenseReportsIdAuditsEndpoint,
+)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdRejectEndpoint import (
+    ExpenseReportsIdRejectEndpoint,
+)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdReverseEndpoint import (
+    ExpenseReportsIdReverseEndpoint,
+)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdSubmitEndpoint import (
+    ExpenseReportsIdSubmitEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,11 +25,21 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
-        self.audits = self._register_child_endpoint(ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self))
-        self.reject = self._register_child_endpoint(ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self))
-        self.submit = self._register_child_endpoint(ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self))
-        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
+        self.reject = self._register_child_endpoint(
+            ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self)
+        )
+        self.submit = self._register_child_endpoint(
+            ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self)
+        )
+        self.approve = self._register_child_endpoint(
+            ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self)
+        )
+        self.audits = self._register_child_endpoint(
+            ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self)
+        )
+        self.reverse = self._register_child_endpoint(
+            ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -44,7 +64,9 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseReport:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ExpenseReport:
         """
         Performs a GET request against the /expense/reports/{id} endpoint.
 
@@ -54,4 +76,6 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseReport: The parsed response data.
         """
-        return self._parse_one(ExpenseReport, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ExpenseReport, super()._make_request("GET", data=data, params=params).json()
+        )

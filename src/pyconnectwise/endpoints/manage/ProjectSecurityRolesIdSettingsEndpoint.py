@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint import \
-    ProjectSecurityrolesIdSettingsCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import \
-    ProjectSecurityrolesIdSettingsIdEndpoint
+from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint import (
+    ProjectSecurityrolesIdSettingsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import (
+    ProjectSecurityrolesIdSettingsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectSecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectSecurityrolesIdSettingsIdEndpoint: The initialized ProjectSecurityrolesIdSettingsIdEndpoint object.
         """
-        child = ProjectSecurityrolesIdSettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProjectSecurityrolesIdSettingsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectSecurityRoleSetting]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProjectSecurityRoleSetting]:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings endpoint.
 
@@ -65,5 +71,6 @@ class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
             list[ProjectSecurityRoleSetting]: The parsed response data.
         """
         return self._parse_many(
-            ProjectSecurityRoleSetting, super()._make_request("GET", data=data, params=params).json()
+            ProjectSecurityRoleSetting,
+            super()._make_request("GET", data=data, params=params).json(),
         )

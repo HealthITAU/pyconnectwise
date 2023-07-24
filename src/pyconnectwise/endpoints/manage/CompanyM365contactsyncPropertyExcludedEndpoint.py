@@ -33,7 +33,9 @@ class CompanyM365contactsyncPropertyExcludedEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[M365ContactSyncProperty]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[M365ContactSyncProperty]:
         """
         Performs a GET request against the /company/m365contactsync/property/excluded endpoint.
 
@@ -43,4 +45,7 @@ class CompanyM365contactsyncPropertyExcludedEndpoint(ConnectWiseEndpoint):
         Returns:
             list[M365ContactSyncProperty]: The parsed response data.
         """
-        return self._parse_many(M365ContactSyncProperty, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            M365ContactSyncProperty,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -10,7 +10,9 @@ class FinanceGlcaptionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GLCaption]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[GLCaption]:
         """
         Performs a GET request against the /finance/glCaptions/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class FinanceGlcaptionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLCaption:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLCaption:
         """
         Performs a GET request against the /finance/glCaptions/{id} endpoint.
 
@@ -41,9 +45,13 @@ class FinanceGlcaptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLCaption: The parsed response data.
         """
-        return self._parse_one(GLCaption, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            GLCaption, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLCaption:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLCaption:
         """
         Performs a PUT request against the /finance/glCaptions/{id} endpoint.
 
@@ -53,9 +61,13 @@ class FinanceGlcaptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLCaption: The parsed response data.
         """
-        return self._parse_one(GLCaption, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            GLCaption, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GLCaption:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GLCaption:
         """
         Performs a PATCH request against the /finance/glCaptions/{id} endpoint.
 
@@ -65,4 +77,6 @@ class FinanceGlcaptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GLCaption: The parsed response data.
         """
-        return self._parse_one(GLCaption, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            GLCaption, super()._make_request("PATCH", data=data, params=params).json()
+        )

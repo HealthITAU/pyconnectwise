@@ -33,7 +33,9 @@ class SalesOrdersStatusesIdEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusEmailTemplate:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusEmailTemplate:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/emailtemplates/{id} endpoint.
 
@@ -43,9 +45,14 @@ class SalesOrdersStatusesIdEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusEmailTemplate: The parsed response data.
         """
-        return self._parse_one(OrderStatusEmailTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusEmailTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/orders/statuses/{id}/emailtemplates/{id} endpoint.
 
@@ -55,9 +62,14 @@ class SalesOrdersStatusesIdEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusEmailTemplate:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusEmailTemplate:
         """
         Performs a PUT request against the /sales/orders/statuses/{id}/emailtemplates/{id} endpoint.
 
@@ -67,9 +79,14 @@ class SalesOrdersStatusesIdEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusEmailTemplate: The parsed response data.
         """
-        return self._parse_one(OrderStatusEmailTemplate, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusEmailTemplate,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusEmailTemplate:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusEmailTemplate:
         """
         Performs a PATCH request against the /sales/orders/statuses/{id}/emailtemplates/{id} endpoint.
 
@@ -80,5 +97,6 @@ class SalesOrdersStatusesIdEmailtemplatesIdEndpoint(ConnectWiseEndpoint):
             OrderStatusEmailTemplate: The parsed response data.
         """
         return self._parse_one(
-            OrderStatusEmailTemplate, super()._make_request("PATCH", data=data, params=params).json()
+            OrderStatusEmailTemplate,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

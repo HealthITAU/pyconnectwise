@@ -33,7 +33,9 @@ class ServiceTicketsIdAllnotesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceTicketNote]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ServiceTicketNote]:
         """
         Performs a GET request against the /service/tickets/{id}/allNotes endpoint.
 
@@ -43,4 +45,7 @@ class ServiceTicketsIdAllnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceTicketNote]: The parsed response data.
         """
-        return self._parse_many(ServiceTicketNote, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ServiceTicketNote,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

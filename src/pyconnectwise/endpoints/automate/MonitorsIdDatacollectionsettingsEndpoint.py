@@ -1,14 +1,18 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import MonitorDataCollectionSettings
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import (
+    MonitorDataCollectionSettings,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
 class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Datacollectionsettings", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "Datacollectionsettings", parent_endpoint=parent_endpoint
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -33,7 +37,9 @@ class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MonitorDataCollectionSettings:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MonitorDataCollectionSettings:
         """
         Performs a GET request against the /Monitors/{id}/Datacollectionsettings endpoint.
 
@@ -44,5 +50,6 @@ class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
             MonitorDataCollectionSettings: The parsed response data.
         """
         return self._parse_one(
-            MonitorDataCollectionSettings, super()._make_request("GET", data=data, params=params).json()
+            MonitorDataCollectionSettings,
+            super()._make_request("GET", data=data, params=params).json(),
         )

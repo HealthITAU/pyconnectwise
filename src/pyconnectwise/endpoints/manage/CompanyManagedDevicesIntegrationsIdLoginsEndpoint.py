@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsCountEndpoint import \
-    CompanyManageddevicesintegrationsIdLoginsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsIdEndpoint import \
-    CompanyManageddevicesintegrationsIdLoginsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsCountEndpoint import (
+    CompanyManageddevicesintegrationsIdLoginsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsIdEndpoint import (
+    CompanyManageddevicesintegrationsIdLoginsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationLogin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "logins", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdLoginsCountEndpoint(client, parent_endpoint=self)
+            CompanyManageddevicesintegrationsIdLoginsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> CompanyManageddevicesintegrationsIdLoginsIdEndpoint:
@@ -27,7 +31,9 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyManageddevicesintegrationsIdLoginsIdEndpoint: The initialized CompanyManageddevicesintegrationsIdLoginsIdEndpoint object.
         """
-        child = CompanyManageddevicesintegrationsIdLoginsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdLoginsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +60,9 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegrationLogin]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ManagedDevicesIntegrationLogin]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins endpoint.
 
@@ -65,10 +73,13 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
             list[ManagedDevicesIntegrationLogin]: The parsed response data.
         """
         return self._parse_many(
-            ManagedDevicesIntegrationLogin, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a POST request against the /company/managedDevicesIntegrations/{id}/logins endpoint.
 
@@ -79,5 +90,6 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationLogin, super()._make_request("POST", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("POST", data=data, params=params).json(),
         )

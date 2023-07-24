@@ -33,7 +33,9 @@ class SystemWorkflowsTabletypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowTableTypeInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WorkflowTableTypeInfo:
         """
         Performs a GET request against the /system/workflows/tableTypes/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SystemWorkflowsTabletypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowTableTypeInfo: The parsed response data.
         """
-        return self._parse_one(WorkflowTableTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            WorkflowTableTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

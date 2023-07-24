@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemLinksCountEndpoint import SystemLinksCountEndpoint
+from pyconnectwise.endpoints.manage.SystemLinksCountEndpoint import (
+    SystemLinksCountEndpoint,
+)
 from pyconnectwise.endpoints.manage.SystemLinksIdEndpoint import SystemLinksIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Link
@@ -12,7 +14,9 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "links", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemLinksCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemLinksCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemLinksIdEndpoint:
         """
@@ -27,7 +31,9 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Link]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Link]:
         """
         Performs a GET request against the /system/links endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +54,9 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Link]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Link]:
         """
         Performs a GET request against the /system/links endpoint.
 
@@ -58,9 +66,13 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Link]: The parsed response data.
         """
-        return self._parse_many(Link, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Link, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Link:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Link:
         """
         Performs a POST request against the /system/links endpoint.
 
@@ -70,4 +82,6 @@ class SystemLinksEndpoint(ConnectWiseEndpoint):
         Returns:
             Link: The parsed response data.
         """
-        return self._parse_one(Link, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Link, super()._make_request("POST", data=data, params=params).json()
+        )

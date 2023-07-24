@@ -10,7 +10,9 @@ class ServiceSurveysIdQuestionsIdCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurveyQuestion:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceSurveyQuestion:
         """
         Performs a POST request against the /service/surveys/{id}/questions/{id}/copy endpoint.
 
@@ -20,4 +22,7 @@ class ServiceSurveysIdQuestionsIdCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSurveyQuestion: The parsed response data.
         """
-        return self._parse_one(ServiceSurveyQuestion, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ServiceSurveyQuestion,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

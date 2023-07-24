@@ -33,7 +33,9 @@ class ProcurementCategoriesIdSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LegacySubCategoryInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> LegacySubCategoryInfo:
         """
         Performs a GET request against the /procurement/categories/{id}/subcategories/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProcurementCategoriesIdSubcategoriesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             LegacySubCategoryInfo: The parsed response data.
         """
-        return self._parse_one(LegacySubCategoryInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LegacySubCategoryInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

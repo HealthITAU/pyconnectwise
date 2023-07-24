@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCopyIdEndpoint import \
-    SalesOpportunitiesIdForecastCopyIdEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCopyIdEndpoint import (
+    SalesOpportunitiesIdForecastCopyIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -20,6 +21,8 @@ class SalesOpportunitiesIdForecastCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesOpportunitiesIdForecastCopyIdEndpoint: The initialized SalesOpportunitiesIdForecastCopyIdEndpoint object.
         """
-        child = SalesOpportunitiesIdForecastCopyIdEndpoint(self.client, parent_endpoint=self)
+        child = SalesOpportunitiesIdForecastCopyIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

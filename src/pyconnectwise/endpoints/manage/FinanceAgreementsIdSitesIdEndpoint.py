@@ -33,7 +33,9 @@ class FinanceAgreementsIdSitesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementSite:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementSite:
         """
         Performs a GET request against the /finance/agreements/{id}/sites/{id} endpoint.
 
@@ -43,9 +45,13 @@ class FinanceAgreementsIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementSite: The parsed response data.
         """
-        return self._parse_one(AgreementSite, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            AgreementSite, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/agreements/{id}/sites/{id} endpoint.
 
@@ -55,9 +61,14 @@ class FinanceAgreementsIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementSite:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementSite:
         """
         Performs a PUT request against the /finance/agreements/{id}/sites/{id} endpoint.
 
@@ -67,9 +78,13 @@ class FinanceAgreementsIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementSite: The parsed response data.
         """
-        return self._parse_one(AgreementSite, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            AgreementSite, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementSite:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> AgreementSite:
         """
         Performs a PATCH request against the /finance/agreements/{id}/sites/{id} endpoint.
 
@@ -79,4 +94,7 @@ class FinanceAgreementsIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementSite: The parsed response data.
         """
-        return self._parse_one(AgreementSite, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            AgreementSite,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

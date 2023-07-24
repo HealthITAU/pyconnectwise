@@ -33,7 +33,9 @@ class ComputersIdScheduledscriptsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduledScript:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ScheduledScript:
         """
         Performs a GET request against the /Computers/{id}/Scheduledscripts/{id} endpoint.
 
@@ -43,4 +45,7 @@ class ComputersIdScheduledscriptsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduledScript: The parsed response data.
         """
-        return self._parse_one(ScheduledScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ScheduledScript,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

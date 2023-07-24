@@ -33,7 +33,9 @@ class TimeTimeperiodsetupsDefaultEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetupDefaults:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> TimePeriodSetupDefaults:
         """
         Performs a GET request against the /time/timePeriodSetups/default endpoint.
 
@@ -43,4 +45,7 @@ class TimeTimeperiodsetupsDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             TimePeriodSetupDefaults: The parsed response data.
         """
-        return self._parse_one(TimePeriodSetupDefaults, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TimePeriodSetupDefaults,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

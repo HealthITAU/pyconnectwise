@@ -25,7 +25,9 @@ class LocationsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Location]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Location]:
         """
         Performs a GET request against the /Locations endpoint and returns an initialized PaginatedResponse object.
 
@@ -46,7 +48,9 @@ class LocationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Location]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Location]:
         """
         Performs a GET request against the /Locations endpoint.
 
@@ -56,9 +60,13 @@ class LocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Location]: The parsed response data.
         """
-        return self._parse_many(Location, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Location, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Location:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Location:
         """
         Performs a POST request against the /Locations endpoint.
 
@@ -68,4 +76,6 @@ class LocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             Location: The parsed response data.
         """
-        return self._parse_one(Location, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Location, super()._make_request("POST", data=data, params=params).json()
+        )

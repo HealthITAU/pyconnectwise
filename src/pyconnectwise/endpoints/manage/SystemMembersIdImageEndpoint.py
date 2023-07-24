@@ -9,7 +9,9 @@ class SystemMembersIdImageEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "image", parent_endpoint=parent_endpoint)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a GET request against the /system/members/{id}/image endpoint.
 
@@ -19,4 +21,7 @@ class SystemMembersIdImageEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

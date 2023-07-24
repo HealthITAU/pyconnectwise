@@ -33,7 +33,9 @@ class DataviewfoldersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DataViewFolder:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> DataViewFolder:
         """
         Performs a GET request against the /Dataviewfolders/{id} endpoint.
 
@@ -43,4 +45,7 @@ class DataviewfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DataViewFolder: The parsed response data.
         """
-        return self._parse_one(DataViewFolder, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            DataViewFolder,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

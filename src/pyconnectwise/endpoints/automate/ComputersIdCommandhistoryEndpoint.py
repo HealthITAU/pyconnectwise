@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Compatibility import CommandHistory
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Compatibility import (
+    CommandHistory,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -33,7 +35,9 @@ class ComputersIdCommandhistoryEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommandHistory]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CommandHistory]:
         """
         Performs a GET request against the /Computers/{id}/Commandhistory endpoint.
 
@@ -43,4 +47,7 @@ class ComputersIdCommandhistoryEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CommandHistory]: The parsed response data.
         """
-        return self._parse_many(CommandHistory, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CommandHistory,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

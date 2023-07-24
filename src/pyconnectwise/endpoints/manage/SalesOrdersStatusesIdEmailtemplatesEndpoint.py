@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesCountEndpoint import \
-    SalesOrdersStatusesIdEmailtemplatesCountEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesIdEndpoint import \
-    SalesOrdersStatusesIdEmailtemplatesIdEndpoint
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesCountEndpoint import (
+    SalesOrdersStatusesIdEmailtemplatesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesIdEndpoint import (
+    SalesOrdersStatusesIdEmailtemplatesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -14,7 +16,9 @@ class SalesOrdersStatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "emailtemplates", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            SalesOrdersStatusesIdEmailtemplatesCountEndpoint(client, parent_endpoint=self)
+            SalesOrdersStatusesIdEmailtemplatesCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> SalesOrdersStatusesIdEmailtemplatesIdEndpoint:
@@ -26,6 +30,8 @@ class SalesOrdersStatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesOrdersStatusesIdEmailtemplatesIdEndpoint: The initialized SalesOrdersStatusesIdEmailtemplatesIdEndpoint object.
         """
-        child = SalesOrdersStatusesIdEmailtemplatesIdEndpoint(self.client, parent_endpoint=self)
+        child = SalesOrdersStatusesIdEmailtemplatesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

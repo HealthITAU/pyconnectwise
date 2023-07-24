@@ -24,7 +24,9 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Contact]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Contact]:
         """
         Performs a GET request against the /Contacts endpoint and returns an initialized PaginatedResponse object.
 
@@ -45,7 +47,9 @@ class ContactsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Contact]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Contact]:
         """
         Performs a GET request against the /Contacts endpoint.
 
@@ -55,9 +59,13 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Contact]: The parsed response data.
         """
-        return self._parse_many(Contact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Contact, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Contact:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Contact:
         """
         Performs a POST request against the /Contacts endpoint.
 
@@ -67,4 +75,6 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             Contact: The parsed response data.
         """
-        return self._parse_one(Contact, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Contact, super()._make_request("POST", data=data, params=params).json()
+        )

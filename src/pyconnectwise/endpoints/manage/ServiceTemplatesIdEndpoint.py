@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTemplatesIdGenerateEndpoint import ServiceTemplatesIdGenerateEndpoint
-from pyconnectwise.endpoints.manage.ServiceTemplatesIdInfoEndpoint import ServiceTemplatesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ServiceTemplatesIdGenerateEndpoint import (
+    ServiceTemplatesIdGenerateEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceTemplatesIdInfoEndpoint import (
+    ServiceTemplatesIdInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,8 +16,12 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ServiceTemplatesIdInfoEndpoint(client, parent_endpoint=self))
-        self.generate = self._register_child_endpoint(ServiceTemplatesIdGenerateEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            ServiceTemplatesIdInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.generate = self._register_child_endpoint(
+            ServiceTemplatesIdGenerateEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -38,7 +46,9 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTemplate:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceTemplate:
         """
         Performs a GET request against the /service/templates/{id} endpoint.
 
@@ -48,4 +58,7 @@ class ServiceTemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTemplate: The parsed response data.
         """
-        return self._parse_one(ServiceTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ServiceTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

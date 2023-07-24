@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersTypesCountEndpoint import SystemMembersTypesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersTypesIdEndpoint import SystemMembersTypesIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersTypesInfoEndpoint import SystemMembersTypesInfoEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersTypesCountEndpoint import (
+    SystemMembersTypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersTypesIdEndpoint import (
+    SystemMembersTypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersTypesInfoEndpoint import (
+    SystemMembersTypesInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class SystemMembersTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemMembersTypesInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(SystemMembersTypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemMembersTypesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            SystemMembersTypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemMembersTypesIdEndpoint:
         """
@@ -29,7 +39,9 @@ class SystemMembersTypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberType]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MemberType]:
         """
         Performs a GET request against the /system/members/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -50,7 +62,9 @@ class SystemMembersTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberType]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MemberType]:
         """
         Performs a GET request against the /system/members/types endpoint.
 
@@ -60,9 +74,13 @@ class SystemMembersTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberType]: The parsed response data.
         """
-        return self._parse_many(MemberType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MemberType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberType:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberType:
         """
         Performs a POST request against the /system/members/types endpoint.
 
@@ -72,4 +90,6 @@ class SystemMembersTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberType: The parsed response data.
         """
-        return self._parse_one(MemberType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberType, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -33,7 +33,9 @@ class CompanyContactsIdPortalsecurityEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecurity]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[PortalSecurity]:
         """
         Performs a GET request against the /company/contacts/{id}/portalSecurity endpoint.
 
@@ -43,4 +45,7 @@ class CompanyContactsIdPortalsecurityEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalSecurity]: The parsed response data.
         """
-        return self._parse_many(PortalSecurity, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            PortalSecurity,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

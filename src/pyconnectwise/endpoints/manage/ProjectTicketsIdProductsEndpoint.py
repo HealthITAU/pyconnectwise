@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketsIdProductsCountEndpoint import ProjectTicketsIdProductsCountEndpoint
+from pyconnectwise.endpoints.manage.ProjectTicketsIdProductsCountEndpoint import (
+    ProjectTicketsIdProductsCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProductReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ProjectTicketsIdProductsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "products", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ProjectTicketsIdProductsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProjectTicketsIdProductsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ProjectTicketsIdProductsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductReference]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ProductReference]:
         """
         Performs a GET request against the /project/tickets/{id}/products endpoint.
 
@@ -46,4 +52,7 @@ class ProjectTicketsIdProductsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductReference]: The parsed response data.
         """
-        return self._parse_many(ProductReference, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ProductReference,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

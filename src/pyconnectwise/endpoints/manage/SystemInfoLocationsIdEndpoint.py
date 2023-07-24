@@ -33,7 +33,9 @@ class SystemInfoLocationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LocationInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> LocationInfo:
         """
         Performs a GET request against the /system/info/locations/{id} endpoint.
 
@@ -43,4 +45,6 @@ class SystemInfoLocationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             LocationInfo: The parsed response data.
         """
-        return self._parse_one(LocationInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LocationInfo, super()._make_request("GET", data=data, params=params).json()
+        )

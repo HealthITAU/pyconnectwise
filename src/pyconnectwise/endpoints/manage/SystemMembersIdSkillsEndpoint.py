@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdSkillsCountEndpoint import SystemMembersIdSkillsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdSkillsIdEndpoint import SystemMembersIdSkillsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdSkillsCountEndpoint import (
+    SystemMembersIdSkillsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersIdSkillsIdEndpoint import (
+    SystemMembersIdSkillsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberSkill
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemMembersIdSkillsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "skills", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemMembersIdSkillsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemMembersIdSkillsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemMembersIdSkillsIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SystemMembersIdSkillsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberSkill]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MemberSkill]:
         """
         Performs a GET request against the /system/members/{id}/skills endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SystemMembersIdSkillsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberSkill]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MemberSkill]:
         """
         Performs a GET request against the /system/members/{id}/skills endpoint.
 
@@ -58,9 +68,13 @@ class SystemMembersIdSkillsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberSkill]: The parsed response data.
         """
-        return self._parse_many(MemberSkill, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MemberSkill, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberSkill:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberSkill:
         """
         Performs a POST request against the /system/members/{id}/skills endpoint.
 
@@ -70,4 +84,6 @@ class SystemMembersIdSkillsEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberSkill: The parsed response data.
         """
-        return self._parse_one(MemberSkill, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberSkill, super()._make_request("POST", data=data, params=params).json()
+        )

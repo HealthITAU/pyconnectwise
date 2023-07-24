@@ -33,7 +33,9 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NetworkDevice:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> NetworkDevice:
         """
         Performs a GET request against the /Networkdevices/{id} endpoint.
 
@@ -43,9 +45,13 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             NetworkDevice: The parsed response data.
         """
-        return self._parse_one(NetworkDevice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            NetworkDevice, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NetworkDevice:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> NetworkDevice:
         """
         Performs a PATCH request against the /Networkdevices/{id} endpoint.
 
@@ -55,4 +61,7 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             NetworkDevice: The parsed response data.
         """
-        return self._parse_one(NetworkDevice, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            NetworkDevice,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

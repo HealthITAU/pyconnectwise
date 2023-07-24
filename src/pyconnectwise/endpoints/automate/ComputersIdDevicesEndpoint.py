@@ -33,7 +33,9 @@ class ComputersIdDevicesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerDevice]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ComputerDevice]:
         """
         Performs a GET request against the /Computers/{id}/Devices endpoint.
 
@@ -43,4 +45,7 @@ class ComputersIdDevicesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerDevice]: The parsed response data.
         """
-        return self._parse_many(ComputerDevice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ComputerDevice,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

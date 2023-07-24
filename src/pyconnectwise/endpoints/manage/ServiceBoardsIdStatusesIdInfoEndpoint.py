@@ -33,7 +33,9 @@ class ServiceBoardsIdStatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardStatusInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardStatusInfo:
         """
         Performs a GET request against the /service/boards/{id}/statuses/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ServiceBoardsIdStatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardStatusInfo: The parsed response data.
         """
-        return self._parse_one(BoardStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            BoardStatusInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

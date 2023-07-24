@@ -33,7 +33,9 @@ class ProcurementManufacturersIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManufacturerInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManufacturerInfo:
         """
         Performs a GET request against the /procurement/manufacturers/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProcurementManufacturersIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ManufacturerInfo: The parsed response data.
         """
-        return self._parse_one(ManufacturerInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ManufacturerInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

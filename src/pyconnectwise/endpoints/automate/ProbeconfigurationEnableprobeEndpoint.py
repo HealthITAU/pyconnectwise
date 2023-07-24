@@ -1,7 +1,8 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ProbeconfigurationEnableprobeIdEndpoint import \
-    ProbeconfigurationEnableprobeIdEndpoint
+from pyconnectwise.endpoints.automate.ProbeconfigurationEnableprobeIdEndpoint import (
+    ProbeconfigurationEnableprobeIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -20,6 +21,8 @@ class ProbeconfigurationEnableprobeEndpoint(ConnectWiseEndpoint):
         Returns:
             ProbeconfigurationEnableprobeIdEndpoint: The initialized ProbeconfigurationEnableprobeIdEndpoint object.
         """
-        child = ProbeconfigurationEnableprobeIdEndpoint(self.client, parent_endpoint=self)
+        child = ProbeconfigurationEnableprobeIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

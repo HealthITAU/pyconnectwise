@@ -33,7 +33,9 @@ class ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTypeSubTypeItemAssociation:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> BoardTypeSubTypeItemAssociation:
         """
         Performs a GET request against the /service/boards/{id}/typeSubTypeItemAssociations/{id} endpoint.
 
@@ -44,5 +46,6 @@ class ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint(ConnectWiseEndpoint):
             BoardTypeSubTypeItemAssociation: The parsed response data.
         """
         return self._parse_one(
-            BoardTypeSubTypeItemAssociation, super()._make_request("GET", data=data, params=params).json()
+            BoardTypeSubTypeItemAssociation,
+            super()._make_request("GET", data=data, params=params).json(),
         )

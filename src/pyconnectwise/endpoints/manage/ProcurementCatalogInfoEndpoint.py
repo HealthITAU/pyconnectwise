@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogInfoCountEndpoint import ProcurementCatalogInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementCatalogInfoCountEndpoint import (
+    ProcurementCatalogInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CatalogItemInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ProcurementCatalogInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ProcurementCatalogInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProcurementCatalogInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ProcurementCatalogInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CatalogItemInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CatalogItemInfo]:
         """
         Performs a GET request against the /procurement/catalog/info endpoint.
 
@@ -46,4 +52,7 @@ class ProcurementCatalogInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CatalogItemInfo]: The parsed response data.
         """
-        return self._parse_many(CatalogItemInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CatalogItemInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

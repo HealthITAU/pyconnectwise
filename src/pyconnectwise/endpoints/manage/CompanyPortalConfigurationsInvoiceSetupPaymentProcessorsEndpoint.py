@@ -1,24 +1,32 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint import \
-    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import \
-    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint import (
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import (
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationPaymentProcessor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWiseEndpoint):
+class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
+    ConnectWiseEndpoint
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "paymentProcessors", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
+    def id(
+        self, id: int
+    ) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object to move down the chain.
 
@@ -27,7 +35,9 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
         Returns:
             CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint: The initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -67,5 +77,6 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
             list[PortalConfigurationPaymentProcessor]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationPaymentProcessor, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationPaymentProcessor,
+            super()._make_request("GET", data=data, params=params).json(),
         )

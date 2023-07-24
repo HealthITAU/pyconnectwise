@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedCountEndpoint import \
-    MarketingCampaignsIdEmailsopenedCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedIdEndpoint import \
-    MarketingCampaignsIdEmailsopenedIdEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedCountEndpoint import (
+    MarketingCampaignsIdEmailsopenedCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedIdEndpoint import (
+    MarketingCampaignsIdEmailsopenedIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailOpened
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,11 +29,15 @@ class MarketingCampaignsIdEmailsopenedEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketingCampaignsIdEmailsopenedIdEndpoint: The initialized MarketingCampaignsIdEmailsopenedIdEndpoint object.
         """
-        child = MarketingCampaignsIdEmailsopenedIdEndpoint(self.client, parent_endpoint=self)
+        child = MarketingCampaignsIdEmailsopenedIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailOpened]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[EmailOpened]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/emailsOpened endpoint and returns an initialized PaginatedResponse object.
 
@@ -52,7 +58,9 @@ class MarketingCampaignsIdEmailsopenedEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailOpened]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[EmailOpened]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/emailsOpened endpoint.
 
@@ -62,9 +70,13 @@ class MarketingCampaignsIdEmailsopenedEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EmailOpened]: The parsed response data.
         """
-        return self._parse_many(EmailOpened, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            EmailOpened, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailOpened:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> EmailOpened:
         """
         Performs a POST request against the /marketing/campaigns/{id}/emailsOpened endpoint.
 
@@ -74,4 +86,6 @@ class MarketingCampaignsIdEmailsopenedEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailOpened: The parsed response data.
         """
-        return self._parse_one(EmailOpened, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            EmailOpened, super()._make_request("POST", data=data, params=params).json()
+        )

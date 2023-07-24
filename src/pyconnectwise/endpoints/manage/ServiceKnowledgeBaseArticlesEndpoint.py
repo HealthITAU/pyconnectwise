@@ -1,9 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceKnowledgebasearticlesCountEndpoint import \
-    ServiceKnowledgebasearticlesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceKnowledgebasearticlesIdEndpoint import ServiceKnowledgebasearticlesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasearticlesCountEndpoint import (
+    ServiceKnowledgebasearticlesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasearticlesIdEndpoint import (
+    ServiceKnowledgebasearticlesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import KnowledgeBaseArticle
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +14,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ServiceKnowledgebasearticlesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgeBaseArticles", parent_endpoint=parent_endpoint)
+        super().__init__(
+            client, "knowledgeBaseArticles", parent_endpoint=parent_endpoint
+        )
 
         self.count = self._register_child_endpoint(
             ServiceKnowledgebasearticlesCountEndpoint(client, parent_endpoint=self)
@@ -26,7 +31,9 @@ class ServiceKnowledgebasearticlesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceKnowledgebasearticlesIdEndpoint: The initialized ServiceKnowledgebasearticlesIdEndpoint object.
         """
-        child = ServiceKnowledgebasearticlesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceKnowledgebasearticlesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -53,7 +60,9 @@ class ServiceKnowledgebasearticlesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[KnowledgeBaseArticle]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[KnowledgeBaseArticle]:
         """
         Performs a GET request against the /service/knowledgeBaseArticles endpoint.
 
@@ -63,9 +72,14 @@ class ServiceKnowledgebasearticlesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[KnowledgeBaseArticle]: The parsed response data.
         """
-        return self._parse_many(KnowledgeBaseArticle, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            KnowledgeBaseArticle,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseArticle:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> KnowledgeBaseArticle:
         """
         Performs a POST request against the /service/knowledgeBaseArticles endpoint.
 
@@ -75,4 +89,7 @@ class ServiceKnowledgebasearticlesEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseArticle: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseArticle, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            KnowledgeBaseArticle,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

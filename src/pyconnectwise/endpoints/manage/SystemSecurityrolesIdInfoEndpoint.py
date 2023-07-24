@@ -33,7 +33,9 @@ class SystemSecurityrolesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SecurityRoleInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> SecurityRoleInfo:
         """
         Performs a GET request against the /system/securityroles/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SystemSecurityrolesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             SecurityRoleInfo: The parsed response data.
         """
-        return self._parse_one(SecurityRoleInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            SecurityRoleInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

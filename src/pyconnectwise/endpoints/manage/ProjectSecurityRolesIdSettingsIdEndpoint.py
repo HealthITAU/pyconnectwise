@@ -33,7 +33,9 @@ class ProjectSecurityrolesIdSettingsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRoleSetting:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectSecurityRoleSetting:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings/{id} endpoint.
 
@@ -44,10 +46,13 @@ class ProjectSecurityrolesIdSettingsIdEndpoint(ConnectWiseEndpoint):
             ProjectSecurityRoleSetting: The parsed response data.
         """
         return self._parse_one(
-            ProjectSecurityRoleSetting, super()._make_request("GET", data=data, params=params).json()
+            ProjectSecurityRoleSetting,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRoleSetting:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectSecurityRoleSetting:
         """
         Performs a PUT request against the /project/securityRoles/{id}/settings/{id} endpoint.
 
@@ -58,10 +63,13 @@ class ProjectSecurityrolesIdSettingsIdEndpoint(ConnectWiseEndpoint):
             ProjectSecurityRoleSetting: The parsed response data.
         """
         return self._parse_one(
-            ProjectSecurityRoleSetting, super()._make_request("PUT", data=data, params=params).json()
+            ProjectSecurityRoleSetting,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRoleSetting:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ProjectSecurityRoleSetting:
         """
         Performs a PATCH request against the /project/securityRoles/{id}/settings/{id} endpoint.
 
@@ -72,5 +80,6 @@ class ProjectSecurityrolesIdSettingsIdEndpoint(ConnectWiseEndpoint):
             ProjectSecurityRoleSetting: The parsed response data.
         """
         return self._parse_one(
-            ProjectSecurityRoleSetting, super()._make_request("PATCH", data=data, params=params).json()
+            ProjectSecurityRoleSetting,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

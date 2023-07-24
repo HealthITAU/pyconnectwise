@@ -10,7 +10,9 @@ class SalesOpportunitiesIdConverttoagreementEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "convertToAgreement", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Agreement:
         """
         Performs a POST request against the /sales/opportunities/{id}/convertToAgreement endpoint.
 
@@ -20,4 +22,6 @@ class SalesOpportunitiesIdConverttoagreementEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Agreement, super()._make_request("POST", data=data, params=params).json()
+        )

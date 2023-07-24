@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint import \
-    CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint import \
-    CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint import (
+    CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint import (
+    CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationCrossReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,10 +17,14 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         super().__init__(client, "crossReferences", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint(client, parent_endpoint=self)
+            CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint:
+    def id(
+        self, id: int
+    ) -> CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint object to move down the chain.
 
@@ -27,7 +33,9 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         Returns:
             CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint: The initialized CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint object.
         """
-        child = CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -67,7 +75,8 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
             list[ManagedDevicesIntegrationCrossReference]: The parsed response data.
         """
         return self._parse_many(
-            ManagedDevicesIntegrationCrossReference, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegrationCrossReference,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
@@ -83,5 +92,6 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
             ManagedDevicesIntegrationCrossReference: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationCrossReference, super()._make_request("POST", data=data, params=params).json()
+            ManagedDevicesIntegrationCrossReference,
+            super()._make_request("POST", data=data, params=params).json(),
         )

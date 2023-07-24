@@ -33,7 +33,9 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerMenu]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ComputerMenu]:
         """
         Performs a GET request against the /Computermenus endpoint.
 
@@ -43,9 +45,13 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerMenu]: The parsed response data.
         """
-        return self._parse_many(ComputerMenu, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ComputerMenu, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerMenu:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ComputerMenu:
         """
         Performs a POST request against the /Computermenus endpoint.
 
@@ -55,4 +61,6 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
         Returns:
             ComputerMenu: The parsed response data.
         """
-        return self._parse_one(ComputerMenu, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ComputerMenu, super()._make_request("POST", data=data, params=params).json()
+        )

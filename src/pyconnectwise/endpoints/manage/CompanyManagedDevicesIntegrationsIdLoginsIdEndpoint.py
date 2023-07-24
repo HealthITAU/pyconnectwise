@@ -33,7 +33,9 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -44,10 +46,13 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationLogin, super()._make_request("GET", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a PUT request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -58,10 +63,13 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationLogin, super()._make_request("PUT", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a PATCH request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -72,10 +80,13 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationLogin, super()._make_request("PATCH", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a DELETE request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -86,5 +97,6 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationLogin, super()._make_request("DELETE", data=data, params=params).json()
+            ManagedDevicesIntegrationLogin,
+            super()._make_request("DELETE", data=data, params=params).json(),
         )

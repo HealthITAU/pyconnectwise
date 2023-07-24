@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdTestconnectionEndpoint import \
-    SystemGoogleemailsetupIdTestconnectionEndpoint
+from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdTestconnectionEndpoint import (
+    SystemGoogleemailsetupIdTestconnectionEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import GoogleEmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GoogleEmailSetup:
         """
         Performs a GET request against the /system/googleemailsetup/{id} endpoint.
 
@@ -49,9 +52,14 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            GoogleEmailSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/googleemailsetup/{id} endpoint.
 
@@ -61,9 +69,14 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GoogleEmailSetup:
         """
         Performs a PUT request against the /system/googleemailsetup/{id} endpoint.
 
@@ -73,9 +86,14 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetup, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            GoogleEmailSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GoogleEmailSetup:
         """
         Performs a PATCH request against the /system/googleemailsetup/{id} endpoint.
 
@@ -85,4 +103,7 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetup, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            GoogleEmailSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

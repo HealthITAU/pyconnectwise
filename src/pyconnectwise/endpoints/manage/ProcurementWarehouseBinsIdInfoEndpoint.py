@@ -33,7 +33,9 @@ class ProcurementWarehousebinsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBinInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WarehouseBinInfo:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ProcurementWarehousebinsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBinInfo: The parsed response data.
         """
-        return self._parse_one(WarehouseBinInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            WarehouseBinInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

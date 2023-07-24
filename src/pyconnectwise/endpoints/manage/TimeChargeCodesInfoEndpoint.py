@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeChargecodesInfoCountEndpoint import TimeChargecodesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.TimeChargecodesInfoCountEndpoint import (
+    TimeChargecodesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ChargeCodeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class TimeChargecodesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(TimeChargecodesInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            TimeChargecodesInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class TimeChargecodesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ChargeCodeInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ChargeCodeInfo]:
         """
         Performs a GET request against the /time/chargeCodes/info endpoint.
 
@@ -46,4 +52,7 @@ class TimeChargecodesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ChargeCodeInfo]: The parsed response data.
         """
-        return self._parse_many(ChargeCodeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ChargeCodeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

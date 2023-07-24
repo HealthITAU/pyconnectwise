@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsCountEndpoint import \
-    ProcurementUnitofmeasuresIdConversionsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsIdEndpoint import \
-    ProcurementUnitofmeasuresIdConversionsIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsCountEndpoint import (
+    ProcurementUnitofmeasuresIdConversionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsIdEndpoint import (
+    ProcurementUnitofmeasuresIdConversionsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Conversion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -15,7 +17,9 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "conversions", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementUnitofmeasuresIdConversionsCountEndpoint(client, parent_endpoint=self)
+            ProcurementUnitofmeasuresIdConversionsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ProcurementUnitofmeasuresIdConversionsIdEndpoint:
@@ -27,11 +31,15 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementUnitofmeasuresIdConversionsIdEndpoint: The initialized ProcurementUnitofmeasuresIdConversionsIdEndpoint object.
         """
-        child = ProcurementUnitofmeasuresIdConversionsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementUnitofmeasuresIdConversionsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Conversion]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Conversion]:
         """
         Performs a GET request against the /procurement/unitOfMeasures/{id}/conversions endpoint and returns an initialized PaginatedResponse object.
 
@@ -52,7 +60,9 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Conversion]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Conversion]:
         """
         Performs a GET request against the /procurement/unitOfMeasures/{id}/conversions endpoint.
 
@@ -62,9 +72,13 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Conversion]: The parsed response data.
         """
-        return self._parse_many(Conversion, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Conversion, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Conversion:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Conversion:
         """
         Performs a POST request against the /procurement/unitOfMeasures/{id}/conversions endpoint.
 
@@ -74,4 +88,6 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             Conversion: The parsed response data.
         """
-        return self._parse_one(Conversion, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Conversion, super()._make_request("POST", data=data, params=params).json()
+        )

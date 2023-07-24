@@ -10,7 +10,9 @@ class LinksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Links", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Link]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Link]:
         """
         Performs a GET request against the /Links endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class LinksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Link]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Link]:
         """
         Performs a GET request against the /Links endpoint.
 
@@ -41,4 +45,6 @@ class LinksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Link]: The parsed response data.
         """
-        return self._parse_many(Link, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Link, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -33,7 +33,9 @@ class ServiceTicketlinksIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTicketLinkInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ServiceTicketLinkInfo:
         """
         Performs a GET request against the /service/ticketLinks/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class ServiceTicketlinksIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTicketLinkInfo: The parsed response data.
         """
-        return self._parse_one(ServiceTicketLinkInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ServiceTicketLinkInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

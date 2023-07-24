@@ -1,9 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsCountEndpoint import ProcurementWarehousebinsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdEndpoint import ProcurementWarehousebinsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoEndpoint import ProcurementWarehousebinsInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsCountEndpoint import (
+    ProcurementWarehousebinsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdEndpoint import (
+    ProcurementWarehousebinsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoEndpoint import (
+    ProcurementWarehousebinsInfoEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WarehouseBin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,8 +19,12 @@ class ProcurementWarehousebinsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "warehouseBins", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProcurementWarehousebinsInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(ProcurementWarehousebinsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProcurementWarehousebinsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementWarehousebinsInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ProcurementWarehousebinsIdEndpoint:
         """
@@ -52,7 +62,9 @@ class ProcurementWarehousebinsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WarehouseBin]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[WarehouseBin]:
         """
         Performs a GET request against the /procurement/warehouseBins endpoint.
 
@@ -62,9 +74,13 @@ class ProcurementWarehousebinsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WarehouseBin]: The parsed response data.
         """
-        return self._parse_many(WarehouseBin, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            WarehouseBin, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBin:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> WarehouseBin:
         """
         Performs a POST request against the /procurement/warehouseBins endpoint.
 
@@ -74,4 +90,6 @@ class ProcurementWarehousebinsEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBin: The parsed response data.
         """
-        return self._parse_one(WarehouseBin, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            WarehouseBin, super()._make_request("POST", data=data, params=params).json()
+        )

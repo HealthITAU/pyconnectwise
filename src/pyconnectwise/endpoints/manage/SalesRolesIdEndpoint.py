@@ -10,7 +10,9 @@ class SalesRolesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Role]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Role]:
         """
         Performs a GET request against the /sales/roles/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,9 +43,13 @@ class SalesRolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Role: The parsed response data.
         """
-        return self._parse_one(Role, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Role, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/roles/{id} endpoint.
 
@@ -53,7 +59,10 @@ class SalesRolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Role:
         """
@@ -65,9 +74,13 @@ class SalesRolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Role: The parsed response data.
         """
-        return self._parse_one(Role, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Role, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Role:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Role:
         """
         Performs a PATCH request against the /sales/roles/{id} endpoint.
 
@@ -77,4 +90,6 @@ class SalesRolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Role: The parsed response data.
         """
-        return self._parse_one(Role, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            Role, super()._make_request("PATCH", data=data, params=params).json()
+        )

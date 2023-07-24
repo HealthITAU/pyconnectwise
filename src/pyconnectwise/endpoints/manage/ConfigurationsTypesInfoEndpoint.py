@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesInfoCountEndpoint import ConfigurationsTypesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ConfigurationsTypesInfoCountEndpoint import (
+    ConfigurationsTypesInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ConfigurationsTypesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ConfigurationsTypesInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ConfigurationsTypesInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ConfigurationsTypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationTypeInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ConfigurationTypeInfo]:
         """
         Performs a GET request against the /configurations/types/info endpoint.
 
@@ -46,4 +52,7 @@ class ConfigurationsTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationTypeInfo]: The parsed response data.
         """
-        return self._parse_many(ConfigurationTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ConfigurationTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

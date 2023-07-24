@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketsIdDocumentsCountEndpoint import ServiceTicketsIdDocumentsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketsIdDocumentsCountEndpoint import (
+    ServiceTicketsIdDocumentsCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DocumentReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -11,7 +13,9 @@ class ServiceTicketsIdDocumentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "documents", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ServiceTicketsIdDocumentsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceTicketsIdDocumentsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -36,7 +40,9 @@ class ServiceTicketsIdDocumentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DocumentReference]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[DocumentReference]:
         """
         Performs a GET request against the /service/tickets/{id}/documents endpoint.
 
@@ -46,4 +52,7 @@ class ServiceTicketsIdDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DocumentReference]: The parsed response data.
         """
-        return self._parse_many(DocumentReference, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DocumentReference,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

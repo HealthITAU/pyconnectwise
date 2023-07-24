@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdManagementproductsEndpoint import \
-    CompanyManagementitsolutionsIdManagementproductsEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdUsagesEndpoint import \
-    CompanyManagementitsolutionsIdUsagesEndpoint
+from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdManagementproductsEndpoint import (
+    CompanyManagementitsolutionsIdManagementproductsEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdUsagesEndpoint import (
+    CompanyManagementitsolutionsIdUsagesEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementItSolution
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -18,7 +20,9 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
             CompanyManagementitsolutionsIdUsagesEndpoint(client, parent_endpoint=self)
         )
         self.management_products = self._register_child_endpoint(
-            CompanyManagementitsolutionsIdManagementproductsEndpoint(client, parent_endpoint=self)
+            CompanyManagementitsolutionsIdManagementproductsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
@@ -44,7 +48,9 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolution:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementItSolution:
         """
         Performs a GET request against the /company/managementItSolutions/{id} endpoint.
 
@@ -54,9 +60,14 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementItSolution: The parsed response data.
         """
-        return self._parse_one(ManagementItSolution, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ManagementItSolution,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/managementItSolutions/{id} endpoint.
 
@@ -66,9 +77,14 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolution:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementItSolution:
         """
         Performs a PUT request against the /company/managementItSolutions/{id} endpoint.
 
@@ -78,9 +94,14 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementItSolution: The parsed response data.
         """
-        return self._parse_one(ManagementItSolution, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ManagementItSolution,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolution:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagementItSolution:
         """
         Performs a PATCH request against the /company/managementItSolutions/{id} endpoint.
 
@@ -90,4 +111,7 @@ class CompanyManagementitsolutionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementItSolution: The parsed response data.
         """
-        return self._parse_one(ManagementItSolution, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ManagementItSolution,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

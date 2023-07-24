@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesRolesCountEndpoint import SalesRolesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesRolesCountEndpoint import (
+    SalesRolesCountEndpoint,
+)
 from pyconnectwise.endpoints.manage.SalesRolesIdEndpoint import SalesRolesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Role
@@ -12,7 +14,9 @@ class SalesRolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "roles", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SalesRolesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SalesRolesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SalesRolesIdEndpoint:
         """
@@ -27,7 +31,9 @@ class SalesRolesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Role]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Role]:
         """
         Performs a GET request against the /sales/roles endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +54,9 @@ class SalesRolesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Role]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[Role]:
         """
         Performs a GET request against the /sales/roles endpoint.
 
@@ -58,9 +66,13 @@ class SalesRolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Role]: The parsed response data.
         """
-        return self._parse_many(Role, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Role, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Role:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Role:
         """
         Performs a POST request against the /sales/roles endpoint.
 
@@ -70,4 +82,6 @@ class SalesRolesEndpoint(ConnectWiseEndpoint):
         Returns:
             Role: The parsed response data.
         """
-        return self._parse_one(Role, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Role, super()._make_request("POST", data=data, params=params).json()
+        )

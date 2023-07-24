@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsCountEndpoint import ExpenseReportsCountEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdEndpoint import ExpenseReportsIdEndpoint
+from pyconnectwise.endpoints.manage.ExpenseReportsCountEndpoint import (
+    ExpenseReportsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdEndpoint import (
+    ExpenseReportsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class ExpenseReportsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "reports", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(ExpenseReportsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ExpenseReportsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ExpenseReportsIdEndpoint:
         """
@@ -50,7 +56,9 @@ class ExpenseReportsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseReport]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ExpenseReport]:
         """
         Performs a GET request against the /expense/reports endpoint.
 
@@ -60,4 +68,6 @@ class ExpenseReportsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseReport]: The parsed response data.
         """
-        return self._parse_many(ExpenseReport, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ExpenseReport, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -33,7 +33,9 @@ class SalesOrdersStatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusInfo:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> OrderStatusInfo:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/info endpoint.
 
@@ -43,4 +45,7 @@ class SalesOrdersStatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             OrderStatusInfo: The parsed response data.
         """
-        return self._parse_one(OrderStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

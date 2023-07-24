@@ -10,7 +10,9 @@ class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Experiment]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Experiment]:
         """
         Performs a GET request against the /system/experiments/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -31,7 +33,9 @@ class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Experiment:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Experiment:
         """
         Performs a GET request against the /system/experiments/{id} endpoint.
 
@@ -41,4 +45,6 @@ class SystemExperimentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Experiment: The parsed response data.
         """
-        return self._parse_one(Experiment, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Experiment, super()._make_request("GET", data=data, params=params).json()
+        )

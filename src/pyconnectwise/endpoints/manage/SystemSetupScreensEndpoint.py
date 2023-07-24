@@ -1,8 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSetupscreensCountEndpoint import SystemSetupscreensCountEndpoint
-from pyconnectwise.endpoints.manage.SystemSetupscreensIdEndpoint import SystemSetupscreensIdEndpoint
+from pyconnectwise.endpoints.manage.SystemSetupscreensCountEndpoint import (
+    SystemSetupscreensCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemSetupscreensIdEndpoint import (
+    SystemSetupscreensIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SetupScreen
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -12,7 +16,9 @@ class SystemSetupscreensEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "setupScreens", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemSetupscreensCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemSetupscreensCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemSetupscreensIdEndpoint:
         """
@@ -27,7 +33,9 @@ class SystemSetupscreensEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SetupScreen]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SetupScreen]:
         """
         Performs a GET request against the /system/setupScreens endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,7 +56,9 @@ class SystemSetupscreensEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SetupScreen]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[SetupScreen]:
         """
         Performs a GET request against the /system/setupScreens endpoint.
 
@@ -58,4 +68,6 @@ class SystemSetupscreensEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SetupScreen]: The parsed response data.
         """
-        return self._parse_many(SetupScreen, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SetupScreen, super()._make_request("GET", data=data, params=params).json()
+        )

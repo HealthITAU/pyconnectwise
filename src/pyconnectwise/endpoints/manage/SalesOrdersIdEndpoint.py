@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersIdConverttoserviceticketEndpoint import \
-    SalesOrdersIdConverttoserviceticketEndpoint
+from pyconnectwise.endpoints.manage.SalesOrdersIdConverttoserviceticketEndpoint import (
+    SalesOrdersIdConverttoserviceticketEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Order
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,7 +17,9 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
             SalesOrdersIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Order]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[Order]:
         """
         Performs a GET request against the /sales/orders/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,7 +40,9 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Order:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Order:
         """
         Performs a GET request against the /sales/orders/{id} endpoint.
 
@@ -47,9 +52,13 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Order: The parsed response data.
         """
-        return self._parse_one(Order, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Order, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/orders/{id} endpoint.
 
@@ -59,9 +68,14 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Order:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Order:
         """
         Performs a PUT request against the /sales/orders/{id} endpoint.
 
@@ -71,9 +85,13 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Order: The parsed response data.
         """
-        return self._parse_one(Order, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            Order, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Order:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> Order:
         """
         Performs a PATCH request against the /sales/orders/{id} endpoint.
 
@@ -83,4 +101,6 @@ class SalesOrdersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Order: The parsed response data.
         """
-        return self._parse_one(Order, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            Order, super()._make_request("PATCH", data=data, params=params).json()
+        )

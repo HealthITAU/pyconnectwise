@@ -33,7 +33,9 @@ class CompanyCompanypickeritemsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyPickerItem:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyPickerItem:
         """
         Performs a GET request against the /company/companyPickerItems/{id} endpoint.
 
@@ -43,9 +45,14 @@ class CompanyCompanypickeritemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyPickerItem: The parsed response data.
         """
-        return self._parse_one(CompanyPickerItem, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            CompanyPickerItem,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/companyPickerItems/{id} endpoint.
 
@@ -55,4 +62,7 @@ class CompanyCompanypickeritemsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        return self._parse_one(
+            GenericMessageModel,
+            super()._make_request("DELETE", data=data, params=params).json(),
+        )

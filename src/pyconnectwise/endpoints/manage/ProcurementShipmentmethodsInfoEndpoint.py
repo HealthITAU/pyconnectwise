@@ -1,8 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsInfoCountEndpoint import \
-    ProcurementShipmentmethodsInfoCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsInfoCountEndpoint import (
+    ProcurementShipmentmethodsInfoCountEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ShipmentMethodInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -39,7 +40,9 @@ class ProcurementShipmentmethodsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ShipmentMethodInfo]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ShipmentMethodInfo]:
         """
         Performs a GET request against the /procurement/shipmentmethods/info endpoint.
 
@@ -49,4 +52,7 @@ class ProcurementShipmentmethodsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ShipmentMethodInfo]: The parsed response data.
         """
-        return self._parse_many(ShipmentMethodInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ShipmentMethodInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

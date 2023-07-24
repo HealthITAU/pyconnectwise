@@ -1,10 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsCountEndpoint import \
-    SystemMembersIdCertificationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsIdEndpoint import \
-    SystemMembersIdCertificationsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsCountEndpoint import (
+    SystemMembersIdCertificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsIdEndpoint import (
+    SystemMembersIdCertificationsIdEndpoint,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberCertification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -27,7 +29,9 @@ class SystemMembersIdCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemMembersIdCertificationsIdEndpoint: The initialized SystemMembersIdCertificationsIdEndpoint object.
         """
-        child = SystemMembersIdCertificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMembersIdCertificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
@@ -54,7 +58,9 @@ class SystemMembersIdCertificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberCertification]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[MemberCertification]:
         """
         Performs a GET request against the /system/members/{id}/certifications endpoint.
 
@@ -64,9 +70,14 @@ class SystemMembersIdCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberCertification]: The parsed response data.
         """
-        return self._parse_many(MemberCertification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MemberCertification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberCertification:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> MemberCertification:
         """
         Performs a POST request against the /system/members/{id}/certifications endpoint.
 
@@ -76,4 +87,7 @@ class SystemMembersIdCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberCertification: The parsed response data.
         """
-        return self._parse_one(MemberCertification, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberCertification,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

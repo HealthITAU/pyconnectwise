@@ -1,7 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.System import ServerInformation
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.System import (
+    ServerInformation,
+)
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -33,7 +35,9 @@ class SystemServerinformationEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServerInformation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ServerInformation]:
         """
         Performs a GET request against the /System/Serverinformation endpoint.
 
@@ -43,4 +47,7 @@ class SystemServerinformationEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServerInformation]: The parsed response data.
         """
-        return self._parse_many(ServerInformation, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ServerInformation,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

@@ -10,7 +10,9 @@ class SystemKpisIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KPI]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[KPI]:
         """
         Performs a GET request against the /system/kpis/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,4 +43,6 @@ class SystemKpisIdEndpoint(ConnectWiseEndpoint):
         Returns:
             KPI: The parsed response data.
         """
-        return self._parse_one(KPI, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            KPI, super()._make_request("GET", data=data, params=params).json()
+        )
