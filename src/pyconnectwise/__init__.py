@@ -1,1 +1,2 @@
 from pyconnectwise.clients.manage_client import ConnectWiseManageAPIClient
+from pyconnectwise.clients.automate_client import ConnectWiseAutomateAPIClient
