@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseClassificationsCountEndpoint import (
-    ExpenseClassificationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ExpenseClassificationsIdEndpoint import (
-    ExpenseClassificationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseClassificationsCountEndpoint import ExpenseClassificationsCountEndpoint
+from pyconnectwise.endpoints.manage.ExpenseClassificationsIdEndpoint import ExpenseClassificationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Classification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ExpenseClassificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "classifications", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ExpenseClassificationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ExpenseClassificationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ExpenseClassificationsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ExpenseClassificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Classification]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Classification]:
         """
         Performs a GET request against the /expense/classifications endpoint.
 
@@ -68,7 +60,4 @@ class ExpenseClassificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Classification]: The parsed response data.
         """
-        return self._parse_many(
-            Classification,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(Classification, super()._make_request("GET", data=data, params=params).json())

@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsCountEndpoint import (
-    ProcurementRmastatusesIdNotificationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsIdEndpoint import (
-    ProcurementRmastatusesIdNotificationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsCountEndpoint import \
+    ProcurementRmastatusesIdNotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsIdEndpoint import \
+    ProcurementRmastatusesIdNotificationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class ProcurementRmastatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementRmastatusesIdNotificationsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementRmastatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementRmastatusesIdNotificationsIdEndpoint:
@@ -31,9 +27,7 @@ class ProcurementRmastatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementRmastatusesIdNotificationsIdEndpoint: The initialized ProcurementRmastatusesIdNotificationsIdEndpoint object.
         """
-        child = ProcurementRmastatusesIdNotificationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProcurementRmastatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class ProcurementRmastatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[RmaStatusNotification]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RmaStatusNotification]:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/notifications endpoint.
 
@@ -72,14 +64,9 @@ class ProcurementRmastatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaStatusNotification]: The parsed response data.
         """
-        return self._parse_many(
-            RmaStatusNotification,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(RmaStatusNotification, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> RmaStatusNotification:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatusNotification:
         """
         Performs a POST request against the /procurement/rmaStatuses/{id}/notifications endpoint.
 
@@ -89,7 +76,4 @@ class ProcurementRmastatusesIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             RmaStatusNotification: The parsed response data.
         """
-        return self._parse_one(
-            RmaStatusNotification,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(RmaStatusNotification, super()._make_request("POST", data=data, params=params).json())

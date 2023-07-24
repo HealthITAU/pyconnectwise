@@ -33,9 +33,7 @@ class ConfigurationsTypesIdQuestionsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationTypeQuestionInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationTypeQuestionInfo:
         """
         Performs a GET request against the /configurations/types/{id}/questions/{id}/info endpoint.
 
@@ -46,6 +44,5 @@ class ConfigurationsTypesIdQuestionsIdInfoEndpoint(ConnectWiseEndpoint):
             ConfigurationTypeQuestionInfo: The parsed response data.
         """
         return self._parse_one(
-            ConfigurationTypeQuestionInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            ConfigurationTypeQuestionInfo, super()._make_request("GET", data=data, params=params).json()
         )

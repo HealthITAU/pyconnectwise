@@ -33,9 +33,7 @@ class SystemEmailconnectorsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> EmailConnectorInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorInfo:
         """
         Performs a GET request against the /system/emailConnectors/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class SystemEmailconnectorsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             EmailConnectorInfo: The parsed response data.
         """
-        return self._parse_one(
-            EmailConnectorInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(EmailConnectorInfo, super()._make_request("GET", data=data, params=params).json())

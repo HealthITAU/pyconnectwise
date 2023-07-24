@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsCountEndpoint import (
-    FinanceInvoicetemplatesetupsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsIdEndpoint import (
-    FinanceInvoicetemplatesetupsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsCountEndpoint import \
+    FinanceInvoicetemplatesetupsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsIdEndpoint import FinanceInvoicetemplatesetupsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InvoiceTemplateSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +11,7 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "invoiceTemplateSetups", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "invoiceTemplateSetups", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
             FinanceInvoicetemplatesetupsCountEndpoint(client, parent_endpoint=self)
@@ -31,9 +26,7 @@ class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceInvoicetemplatesetupsIdEndpoint: The initialized FinanceInvoicetemplatesetupsIdEndpoint object.
         """
-        child = FinanceInvoicetemplatesetupsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceInvoicetemplatesetupsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +53,7 @@ class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[InvoiceTemplateSetup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InvoiceTemplateSetup]:
         """
         Performs a GET request against the /finance/invoiceTemplateSetups endpoint.
 
@@ -72,7 +63,4 @@ class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InvoiceTemplateSetup]: The parsed response data.
         """
-        return self._parse_many(
-            InvoiceTemplateSetup,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(InvoiceTemplateSetup, super()._make_request("GET", data=data, params=params).json())

@@ -33,9 +33,7 @@ class ProjectProjectsIdContactsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectContact:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectContact:
         """
         Performs a GET request against the /project/projects/{id}/contacts/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ProjectProjectsIdContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectContact: The parsed response data.
         """
-        return self._parse_one(
-            ProjectContact,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectContact, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /project/projects/{id}/contacts/{id} endpoint.
 
@@ -62,7 +55,4 @@ class ProjectProjectsIdContactsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

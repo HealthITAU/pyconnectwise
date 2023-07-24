@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint import (
-    CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint import \
+    CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationInvoiceSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.test_transaction = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyPortalconfigurationsIdInvoicesetupsIdTesttransactionEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationInvoiceSetup:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationInvoiceSetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/invoiceSetups/{id} endpoint.
 
@@ -55,13 +50,10 @@ class CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationInvoiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationInvoiceSetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationInvoiceSetup, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationInvoiceSetup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationInvoiceSetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/invoiceSetups/{id} endpoint.
 
@@ -72,13 +64,10 @@ class CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationInvoiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationInvoiceSetup,
-            super()._make_request("PUT", data=data, params=params).json(),
+            PortalConfigurationInvoiceSetup, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationInvoiceSetup:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationInvoiceSetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/invoiceSetups/{id} endpoint.
 
@@ -89,6 +78,5 @@ class CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationInvoiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationInvoiceSetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            PortalConfigurationInvoiceSetup, super()._make_request("PATCH", data=data, params=params).json()
         )

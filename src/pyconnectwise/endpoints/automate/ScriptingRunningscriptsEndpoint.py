@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts.RunningScripts import (
-    RunningScript,
-)
+from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts.RunningScripts import RunningScript
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -35,9 +33,7 @@ class ScriptingRunningscriptsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[RunningScript]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RunningScript]:
         """
         Performs a GET request against the /Scripting/Runningscripts endpoint.
 
@@ -47,6 +43,4 @@ class ScriptingRunningscriptsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RunningScript]: The parsed response data.
         """
-        return self._parse_many(
-            RunningScript, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(RunningScript, super()._make_request("GET", data=data, params=params).json())

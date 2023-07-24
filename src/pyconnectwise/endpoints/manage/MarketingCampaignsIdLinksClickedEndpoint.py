@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedCountEndpoint import (
-    MarketingCampaignsIdLinksclickedCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedIdEndpoint import (
-    MarketingCampaignsIdLinksclickedIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedCountEndpoint import \
+    MarketingCampaignsIdLinksclickedCountEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedIdEndpoint import \
+    MarketingCampaignsIdLinksclickedIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LinkClicked
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,15 +27,11 @@ class MarketingCampaignsIdLinksclickedEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketingCampaignsIdLinksclickedIdEndpoint: The initialized MarketingCampaignsIdLinksclickedIdEndpoint object.
         """
-        child = MarketingCampaignsIdLinksclickedIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = MarketingCampaignsIdLinksclickedIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[LinkClicked]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[LinkClicked]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/linksClicked endpoint and returns an initialized PaginatedResponse object.
 
@@ -58,9 +52,7 @@ class MarketingCampaignsIdLinksclickedEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[LinkClicked]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LinkClicked]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/linksClicked endpoint.
 
@@ -70,13 +62,9 @@ class MarketingCampaignsIdLinksclickedEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LinkClicked]: The parsed response data.
         """
-        return self._parse_many(
-            LinkClicked, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LinkClicked, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> LinkClicked:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LinkClicked:
         """
         Performs a POST request against the /marketing/campaigns/{id}/linksClicked endpoint.
 
@@ -86,6 +74,4 @@ class MarketingCampaignsIdLinksclickedEndpoint(ConnectWiseEndpoint):
         Returns:
             LinkClicked: The parsed response data.
         """
-        return self._parse_one(
-            LinkClicked, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(LinkClicked, super()._make_request("POST", data=data, params=params).json())

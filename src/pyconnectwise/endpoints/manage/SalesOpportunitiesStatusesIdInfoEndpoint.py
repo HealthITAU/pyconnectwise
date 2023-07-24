@@ -33,9 +33,7 @@ class SalesOpportunitiesStatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityStatusInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStatusInfo:
         """
         Performs a GET request against the /sales/opportunities/statuses/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class SalesOpportunitiesStatusesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStatusInfo: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityStatusInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityStatusInfo, super()._make_request("GET", data=data, params=params).json())

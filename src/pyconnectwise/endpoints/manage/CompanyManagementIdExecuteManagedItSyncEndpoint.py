@@ -8,13 +8,9 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyManagementIdExecutemanageditsyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "executeManagedItSync", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "executeManagedItSync", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SuccessResponse:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SuccessResponse:
         """
         Performs a POST request against the /company/management/{id}/executeManagedItSync endpoint.
 
@@ -24,7 +20,4 @@ class CompanyManagementIdExecutemanageditsyncEndpoint(ConnectWiseEndpoint):
         Returns:
             SuccessResponse: The parsed response data.
         """
-        return self._parse_one(
-            SuccessResponse,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(SuccessResponse, super()._make_request("POST", data=data, params=params).json())

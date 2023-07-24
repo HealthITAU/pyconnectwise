@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint import (
-    FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint import (
-    FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint import \
+    FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint import \
+    FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxableXRefLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsEndpoint(ConnectWiseEndpoi
         super().__init__(client, "taxableXRefLevels", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint:
@@ -31,9 +27,7 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsEndpoint(ConnectWiseEndpoi
         Returns:
             FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint: The initialized FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint object.
         """
-        child = FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsEndpoint(ConnectWiseEndpoi
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TaxableXRefLevel]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxableXRefLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels endpoint.
 
@@ -72,14 +64,9 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsEndpoint(ConnectWiseEndpoi
         Returns:
             list[TaxableXRefLevel]: The parsed response data.
         """
-        return self._parse_many(
-            TaxableXRefLevel,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(TaxableXRefLevel, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxableXRefLevel:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableXRefLevel:
         """
         Performs a POST request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels endpoint.
 
@@ -89,7 +76,4 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsEndpoint(ConnectWiseEndpoi
         Returns:
             TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(
-            TaxableXRefLevel,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(TaxableXRefLevel, super()._make_request("POST", data=data, params=params).json())

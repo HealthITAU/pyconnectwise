@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemCallbacksCountEndpoint import (
-    SystemCallbacksCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemCallbacksIdEndpoint import (
-    SystemCallbacksIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemCallbacksCountEndpoint import SystemCallbacksCountEndpoint
+from pyconnectwise.endpoints.manage.SystemCallbacksIdEndpoint import SystemCallbacksIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CallbackEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemCallbacksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "callbacks", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemCallbacksCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemCallbacksCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemCallbacksIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemCallbacksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CallbackEntry]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CallbackEntry]:
         """
         Performs a GET request against the /system/callbacks endpoint.
 
@@ -68,13 +60,9 @@ class SystemCallbacksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CallbackEntry]: The parsed response data.
         """
-        return self._parse_many(
-            CallbackEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(CallbackEntry, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CallbackEntry:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CallbackEntry:
         """
         Performs a POST request against the /system/callbacks endpoint.
 
@@ -84,7 +72,4 @@ class SystemCallbacksEndpoint(ConnectWiseEndpoint):
         Returns:
             CallbackEntry: The parsed response data.
         """
-        return self._parse_one(
-            CallbackEntry,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CallbackEntry, super()._make_request("POST", data=data, params=params).json())

@@ -10,9 +10,7 @@ class FinanceTaxcodesIdCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxCode:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
         """
         Performs a POST request against the /finance/taxCodes/{id}/copy endpoint.
 
@@ -22,6 +20,4 @@ class FinanceTaxcodesIdCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCode: The parsed response data.
         """
-        return self._parse_one(
-            TaxCode, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(TaxCode, super()._make_request("POST", data=data, params=params).json())

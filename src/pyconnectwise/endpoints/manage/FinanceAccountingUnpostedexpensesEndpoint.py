@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesCountEndpoint import (
-    FinanceAccountingUnpostedexpensesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdEndpoint import (
-    FinanceAccountingUnpostedexpensesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesCountEndpoint import \
+    FinanceAccountingUnpostedexpensesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdEndpoint import \
+    FinanceAccountingUnpostedexpensesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class FinanceAccountingUnpostedexpensesEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAccountingUnpostedexpensesIdEndpoint: The initialized FinanceAccountingUnpostedexpensesIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedexpensesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAccountingUnpostedexpensesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class FinanceAccountingUnpostedexpensesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[UnpostedExpense]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UnpostedExpense]:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses endpoint.
 
@@ -70,7 +64,4 @@ class FinanceAccountingUnpostedexpensesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UnpostedExpense]: The parsed response data.
         """
-        return self._parse_many(
-            UnpostedExpense,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(UnpostedExpense, super()._make_request("GET", data=data, params=params).json())

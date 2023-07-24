@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyTracksCountEndpoint import (
-    CompanyTracksCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyTracksIdEndpoint import (
-    CompanyTracksIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyTracksCountEndpoint import CompanyTracksCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyTracksIdEndpoint import CompanyTracksIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Track
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tracks", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyTracksCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyTracksCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyTracksIdEndpoint:
         """
@@ -33,9 +27,7 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Track]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Track]:
         """
         Performs a GET request against the /company/tracks endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Track]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Track]:
         """
         Performs a GET request against the /company/tracks endpoint.
 
@@ -68,13 +58,9 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Track]: The parsed response data.
         """
-        return self._parse_many(
-            Track, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Track, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Track:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Track:
         """
         Performs a POST request against the /company/tracks endpoint.
 
@@ -84,6 +70,4 @@ class CompanyTracksEndpoint(ConnectWiseEndpoint):
         Returns:
             Track: The parsed response data.
         """
-        return self._parse_one(
-            Track, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Track, super()._make_request("POST", data=data, params=params).json())

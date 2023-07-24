@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsInfoCountEndpoint import (
-    SystemUserdefinedfieldsInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsInfoCountEndpoint import \
+    SystemUserdefinedfieldsInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UserDefinedFieldInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class SystemUserdefinedfieldsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[UserDefinedFieldInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserDefinedFieldInfo]:
         """
         Performs a GET request against the /system/userDefinedFields/info endpoint.
 
@@ -52,7 +49,4 @@ class SystemUserdefinedfieldsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UserDefinedFieldInfo]: The parsed response data.
         """
-        return self._parse_many(
-            UserDefinedFieldInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(UserDefinedFieldInfo, super()._make_request("GET", data=data, params=params).json())

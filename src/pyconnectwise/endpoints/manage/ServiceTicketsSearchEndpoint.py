@@ -10,9 +10,7 @@ class ServiceTicketsSearchEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "search", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Ticket]:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Ticket]:
         """
         Performs a POST request against the /service/tickets/search endpoint.
 
@@ -22,6 +20,4 @@ class ServiceTicketsSearchEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Ticket]: The parsed response data.
         """
-        return self._parse_many(
-            Ticket, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_many(Ticket, super()._make_request("POST", data=data, params=params).json())

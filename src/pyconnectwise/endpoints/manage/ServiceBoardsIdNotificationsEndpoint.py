@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdNotificationsCountEndpoint import (
-    ServiceBoardsIdNotificationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceBoardsIdNotificationsIdEndpoint import (
-    ServiceBoardsIdNotificationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdNotificationsCountEndpoint import \
+    ServiceBoardsIdNotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdNotificationsIdEndpoint import ServiceBoardsIdNotificationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +26,7 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdNotificationsIdEndpoint: The initialized ServiceBoardsIdNotificationsIdEndpoint object.
         """
-        child = ServiceBoardsIdNotificationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ServiceBoardsIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +53,7 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BoardNotification]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardNotification]:
         """
         Performs a GET request against the /service/boards/{id}/notifications endpoint.
 
@@ -70,14 +63,9 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardNotification]: The parsed response data.
         """
-        return self._parse_many(
-            BoardNotification,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(BoardNotification, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardNotification:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardNotification:
         """
         Performs a POST request against the /service/boards/{id}/notifications endpoint.
 
@@ -87,7 +75,4 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardNotification: The parsed response data.
         """
-        return self._parse_one(
-            BoardNotification,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(BoardNotification, super()._make_request("POST", data=data, params=params).json())

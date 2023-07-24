@@ -33,9 +33,7 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ScriptFolder:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScriptFolder:
         """
         Performs a GET request against the /Scriptfolders/{id} endpoint.
 
@@ -45,13 +43,9 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScriptFolder: The parsed response data.
         """
-        return self._parse_one(
-            ScriptFolder, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ScriptFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /Scriptfolders/{id} endpoint.
 
@@ -61,14 +55,9 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ScriptFolder:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScriptFolder:
         """
         Performs a PATCH request against the /Scriptfolders/{id} endpoint.
 
@@ -78,7 +67,4 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScriptFolder: The parsed response data.
         """
-        return self._parse_one(
-            ScriptFolder,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ScriptFolder, super()._make_request("PATCH", data=data, params=params).json())

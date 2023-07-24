@@ -33,9 +33,7 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactContactTypeAssociation:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -46,13 +44,10 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             ContactContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation,
-            super()._make_request("GET", data=data, params=params).json(),
+            ContactContactTypeAssociation, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -62,14 +57,9 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactContactTypeAssociation:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
         """
         Performs a PUT request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -80,13 +70,10 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             ContactContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation,
-            super()._make_request("PUT", data=data, params=params).json(),
+            ContactContactTypeAssociation, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactContactTypeAssociation:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
         """
         Performs a PATCH request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -97,6 +84,5 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             ContactContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            ContactContactTypeAssociation, super()._make_request("PATCH", data=data, params=params).json()
         )

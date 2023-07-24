@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoStandardnotesCountEndpoint import (
-    SystemInfoStandardnotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInfoStandardnotesIdEndpoint import (
-    SystemInfoStandardnotesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInfoStandardnotesCountEndpoint import SystemInfoStandardnotesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInfoStandardnotesIdEndpoint import SystemInfoStandardnotesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import StandardNoteInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "standardNotes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemInfoStandardnotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemInfoStandardnotesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemInfoStandardnotesIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[StandardNoteInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[StandardNoteInfo]:
         """
         Performs a GET request against the /system/info/standardNotes endpoint.
 
@@ -68,7 +60,4 @@ class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[StandardNoteInfo]: The parsed response data.
         """
-        return self._parse_many(
-            StandardNoteInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(StandardNoteInfo, super()._make_request("GET", data=data, params=params).json())

@@ -10,9 +10,7 @@ class EventlogsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Eventlogs", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[EventLog]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EventLog]:
         """
         Performs a GET request against the /Eventlogs endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class EventlogsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[EventLog]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EventLog]:
         """
         Performs a GET request against the /Eventlogs endpoint.
 
@@ -45,6 +41,4 @@ class EventlogsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EventLog]: The parsed response data.
         """
-        return self._parse_many(
-            EventLog, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(EventLog, super()._make_request("GET", data=data, params=params).json())

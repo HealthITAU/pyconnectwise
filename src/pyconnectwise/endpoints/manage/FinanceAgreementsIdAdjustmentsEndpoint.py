@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsCountEndpoint import (
-    FinanceAgreementsIdAdjustmentsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsIdEndpoint import (
-    FinanceAgreementsIdAdjustmentsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsCountEndpoint import \
+    FinanceAgreementsIdAdjustmentsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdAdjustmentsIdEndpoint import \
+    FinanceAgreementsIdAdjustmentsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Agreement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,15 +27,11 @@ class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementsIdAdjustmentsIdEndpoint: The initialized FinanceAgreementsIdAdjustmentsIdEndpoint object.
         """
-        child = FinanceAgreementsIdAdjustmentsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAgreementsIdAdjustmentsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Agreement]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Agreement]:
         """
         Performs a GET request against the /finance/agreements/{id}/adjustments endpoint and returns an initialized PaginatedResponse object.
 
@@ -58,9 +52,7 @@ class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Agreement]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Agreement]:
         """
         Performs a GET request against the /finance/agreements/{id}/adjustments endpoint.
 
@@ -70,13 +62,9 @@ class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Agreement]: The parsed response data.
         """
-        return self._parse_many(
-            Agreement, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Agreement, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Agreement:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
         """
         Performs a POST request against the /finance/agreements/{id}/adjustments endpoint.
 
@@ -86,6 +74,4 @@ class FinanceAgreementsIdAdjustmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(
-            Agreement, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())

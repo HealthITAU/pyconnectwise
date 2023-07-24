@@ -1,32 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint import (
-    ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint import (
-    ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint import \
+    ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint
+from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint import \
+    ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectTemplateTask
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
-class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
-    ConnectWiseEndpoint
-):
+class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tasks", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProjectProjecttemplatesIdProjecttemplateticketsIdTasksCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int
-    ) -> ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint:
+    def id(self, id: int) -> ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint object to move down the chain.
 
@@ -35,9 +27,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
         Returns:
             ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint: The initialized ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint object.
         """
-        child = ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -64,9 +54,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProjectTemplateTask]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectTemplateTask]:
         """
         Performs a GET request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks endpoint.
 
@@ -76,14 +64,9 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
         Returns:
             list[ProjectTemplateTask]: The parsed response data.
         """
-        return self._parse_many(
-            ProjectTemplateTask,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProjectTemplateTask, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectTemplateTask:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTemplateTask:
         """
         Performs a POST request against the /project/projectTemplates/{id}/projectTemplateTickets/{id}/tasks endpoint.
 
@@ -93,7 +76,4 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
         Returns:
             ProjectTemplateTask: The parsed response data.
         """
-        return self._parse_one(
-            ProjectTemplateTask,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectTemplateTask, super()._make_request("POST", data=data, params=params).json())

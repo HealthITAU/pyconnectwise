@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesInfoCountEndpoint import (
-    ProcurementCategoriesIdSubcategoriesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesInfoCountEndpoint import \
+    ProcurementCategoriesIdSubcategoriesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LegacySubCategoryInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class ProcurementCategoriesIdSubcategoriesInfoEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementCategoriesIdSubcategoriesInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementCategoriesIdSubcategoriesInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class ProcurementCategoriesIdSubcategoriesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[LegacySubCategoryInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LegacySubCategoryInfo]:
         """
         Performs a GET request against the /procurement/categories/{id}/subcategories/info endpoint.
 
@@ -54,7 +49,4 @@ class ProcurementCategoriesIdSubcategoriesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LegacySubCategoryInfo]: The parsed response data.
         """
-        return self._parse_many(
-            LegacySubCategoryInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(LegacySubCategoryInfo, super()._make_request("GET", data=data, params=params).json())

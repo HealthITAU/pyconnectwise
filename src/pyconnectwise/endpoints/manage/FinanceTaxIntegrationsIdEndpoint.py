@@ -33,9 +33,7 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxIntegration:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
         """
         Performs a GET request against the /finance/taxIntegrations/{id} endpoint.
 
@@ -45,14 +43,9 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxIntegration: The parsed response data.
         """
-        return self._parse_one(
-            TaxIntegration,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(TaxIntegration, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxIntegration:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
         """
         Performs a PUT request against the /finance/taxIntegrations/{id} endpoint.
 
@@ -62,14 +55,9 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxIntegration: The parsed response data.
         """
-        return self._parse_one(
-            TaxIntegration,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(TaxIntegration, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxIntegration:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
         """
         Performs a PATCH request against the /finance/taxIntegrations/{id} endpoint.
 
@@ -79,7 +67,4 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxIntegration: The parsed response data.
         """
-        return self._parse_one(
-            TaxIntegration,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(TaxIntegration, super()._make_request("PATCH", data=data, params=params).json())

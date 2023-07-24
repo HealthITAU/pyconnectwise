@@ -10,9 +10,7 @@ class SalesOpportunitiesDefaultEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "default", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Opportunity]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Opportunity]:
         """
         Performs a GET request against the /sales/opportunities/default endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SalesOpportunitiesDefaultEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Opportunity:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Opportunity:
         """
         Performs a GET request against the /sales/opportunities/default endpoint.
 
@@ -45,6 +41,4 @@ class SalesOpportunitiesDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             Opportunity: The parsed response data.
         """
-        return self._parse_one(
-            Opportunity, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Opportunity, super()._make_request("GET", data=data, params=params).json())

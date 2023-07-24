@@ -33,9 +33,7 @@ class SystemWorkflowsUserdefinedfieldsEventsIdActionsIdEndpoint(ConnectWiseEndpo
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkflowActionUserDefinedField]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowActionUserDefinedField]:
         """
         Performs a GET request against the /system/workflows/userdefinedfields/events/{id}/actions/{id} endpoint.
 
@@ -46,6 +44,5 @@ class SystemWorkflowsUserdefinedfieldsEventsIdActionsIdEndpoint(ConnectWiseEndpo
             list[WorkflowActionUserDefinedField]: The parsed response data.
         """
         return self._parse_many(
-            WorkflowActionUserDefinedField,
-            super()._make_request("GET", data=data, params=params).json(),
+            WorkflowActionUserDefinedField, super()._make_request("GET", data=data, params=params).json()
         )

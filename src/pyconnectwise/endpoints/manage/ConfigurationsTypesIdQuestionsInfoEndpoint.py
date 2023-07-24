@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsInfoCountEndpoint import (
-    ConfigurationsTypesIdQuestionsInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsInfoCountEndpoint import \
+    ConfigurationsTypesIdQuestionsInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationTypeQuestionInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class ConfigurationsTypesIdQuestionsInfoEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ConfigurationsTypesIdQuestionsInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ConfigurationsTypesIdQuestionsInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class ConfigurationsTypesIdQuestionsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ConfigurationTypeQuestionInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationTypeQuestionInfo]:
         """
         Performs a GET request against the /configurations/types/{id}/questions/info endpoint.
 
@@ -55,6 +50,5 @@ class ConfigurationsTypesIdQuestionsInfoEndpoint(ConnectWiseEndpoint):
             list[ConfigurationTypeQuestionInfo]: The parsed response data.
         """
         return self._parse_many(
-            ConfigurationTypeQuestionInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            ConfigurationTypeQuestionInfo, super()._make_request("GET", data=data, params=params).json()
         )

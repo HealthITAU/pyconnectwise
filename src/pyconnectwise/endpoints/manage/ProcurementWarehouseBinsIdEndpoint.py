@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInfoEndpoint import (
-    ProcurementWarehousebinsIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandEndpoint import (
-    ProcurementWarehousebinsIdInventoryonhandEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInfoEndpoint import ProcurementWarehousebinsIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandEndpoint import \
+    ProcurementWarehousebinsIdInventoryonhandEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WarehouseBin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,13 +13,9 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            ProcurementWarehousebinsIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(ProcurementWarehousebinsIdInfoEndpoint(client, parent_endpoint=self))
         self.inventory_on_hand = self._register_child_endpoint(
-            ProcurementWarehousebinsIdInventoryonhandEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementWarehousebinsIdInventoryonhandEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -48,9 +41,7 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WarehouseBin:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBin:
         """
         Performs a GET request against the /procurement/warehouseBins/{id} endpoint.
 
@@ -60,13 +51,9 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBin: The parsed response data.
         """
-        return self._parse_one(
-            WarehouseBin, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(WarehouseBin, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/warehouseBins/{id} endpoint.
 
@@ -76,14 +63,9 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WarehouseBin:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBin:
         """
         Performs a PUT request against the /procurement/warehouseBins/{id} endpoint.
 
@@ -93,13 +75,9 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBin: The parsed response data.
         """
-        return self._parse_one(
-            WarehouseBin, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(WarehouseBin, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WarehouseBin:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseBin:
         """
         Performs a PATCH request against the /procurement/warehouseBins/{id} endpoint.
 
@@ -109,7 +87,4 @@ class ProcurementWarehousebinsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WarehouseBin: The parsed response data.
         """
-        return self._parse_one(
-            WarehouseBin,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(WarehouseBin, super()._make_request("PATCH", data=data, params=params).json())

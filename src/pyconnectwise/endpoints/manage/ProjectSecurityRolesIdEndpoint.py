@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsEndpoint import (
-    ProjectSecurityrolesIdSettingsEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsEndpoint import ProjectSecurityrolesIdSettingsEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectSecurityRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +38,7 @@ class ProjectSecurityrolesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectSecurityRole:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRole:
         """
         Performs a GET request against the /project/securityRoles/{id} endpoint.
 
@@ -52,14 +48,9 @@ class ProjectSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectSecurityRole: The parsed response data.
         """
-        return self._parse_one(
-            ProjectSecurityRole,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectSecurityRole, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /project/securityRoles/{id} endpoint.
 
@@ -69,14 +60,9 @@ class ProjectSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectSecurityRole:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRole:
         """
         Performs a PUT request against the /project/securityRoles/{id} endpoint.
 
@@ -86,14 +72,9 @@ class ProjectSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectSecurityRole: The parsed response data.
         """
-        return self._parse_one(
-            ProjectSecurityRole,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectSecurityRole, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectSecurityRole:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectSecurityRole:
         """
         Performs a PATCH request against the /project/securityRoles/{id} endpoint.
 
@@ -103,7 +84,4 @@ class ProjectSecurityrolesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectSecurityRole: The parsed response data.
         """
-        return self._parse_one(
-            ProjectSecurityRole,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectSecurityRole, super()._make_request("PATCH", data=data, params=params).json())

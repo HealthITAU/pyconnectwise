@@ -10,9 +10,7 @@ class SystemBundlesCountEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "count", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BundleResultsCollection:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BundleResultsCollection:
         """
         Performs a POST request against the /system/bundles/count endpoint.
 
@@ -22,7 +20,4 @@ class SystemBundlesCountEndpoint(ConnectWiseEndpoint):
         Returns:
             BundleResultsCollection: The parsed response data.
         """
-        return self._parse_one(
-            BundleResultsCollection,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(BundleResultsCollection, super()._make_request("POST", data=data, params=params).json())

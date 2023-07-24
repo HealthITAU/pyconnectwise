@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeEntriesCountEndpoint import (
-    TimeEntriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeEntriesDefaultsEndpoint import (
-    TimeEntriesDefaultsEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeEntriesCountEndpoint import TimeEntriesCountEndpoint
+from pyconnectwise.endpoints.manage.TimeEntriesDefaultsEndpoint import TimeEntriesDefaultsEndpoint
 from pyconnectwise.endpoints.manage.TimeEntriesIdEndpoint import TimeEntriesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeEntry
@@ -17,12 +13,8 @@ class TimeEntriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "entries", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            TimeEntriesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.defaults = self._register_child_endpoint(
-            TimeEntriesDefaultsEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(TimeEntriesCountEndpoint(client, parent_endpoint=self))
+        self.defaults = self._register_child_endpoint(TimeEntriesDefaultsEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeEntriesIdEndpoint:
         """
@@ -37,9 +29,7 @@ class TimeEntriesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[TimeEntry]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeEntry]:
         """
         Performs a GET request against the /time/entries endpoint and returns an initialized PaginatedResponse object.
 
@@ -60,9 +50,7 @@ class TimeEntriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TimeEntry]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeEntry]:
         """
         Performs a GET request against the /time/entries endpoint.
 
@@ -72,13 +60,9 @@ class TimeEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeEntry]: The parsed response data.
         """
-        return self._parse_many(
-            TimeEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(TimeEntry, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimeEntry:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeEntry:
         """
         Performs a POST request against the /time/entries endpoint.
 
@@ -88,6 +72,4 @@ class TimeEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeEntry: The parsed response data.
         """
-        return self._parse_one(
-            TimeEntry, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(TimeEntry, super()._make_request("POST", data=data, params=params).json())

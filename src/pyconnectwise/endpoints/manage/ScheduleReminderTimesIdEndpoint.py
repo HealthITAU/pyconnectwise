@@ -33,9 +33,7 @@ class ScheduleRemindertimesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ScheduleReminderTime:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleReminderTime:
         """
         Performs a GET request against the /schedule/reminderTimes/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ScheduleRemindertimesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleReminderTime: The parsed response data.
         """
-        return self._parse_one(
-            ScheduleReminderTime,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ScheduleReminderTime, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ScheduleReminderTime:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleReminderTime:
         """
         Performs a PUT request against the /schedule/reminderTimes/{id} endpoint.
 
@@ -62,14 +55,9 @@ class ScheduleRemindertimesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleReminderTime: The parsed response data.
         """
-        return self._parse_one(
-            ScheduleReminderTime,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ScheduleReminderTime, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ScheduleReminderTime:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleReminderTime:
         """
         Performs a PATCH request against the /schedule/reminderTimes/{id} endpoint.
 
@@ -79,7 +67,4 @@ class ScheduleRemindertimesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ScheduleReminderTime: The parsed response data.
         """
-        return self._parse_one(
-            ScheduleReminderTime,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ScheduleReminderTime, super()._make_request("PATCH", data=data, params=params).json())

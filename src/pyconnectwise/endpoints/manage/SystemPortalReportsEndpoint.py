@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import (
-    SystemPortalreportsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import (
-    SystemPortalreportsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import SystemPortalreportsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import SystemPortalreportsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalReports", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemPortalreportsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemPortalreportsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemPortalreportsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[PortalReport]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint.
 
@@ -68,13 +60,9 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PortalReport]: The parsed response data.
         """
-        return self._parse_many(
-            PortalReport, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(PortalReport, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalReport:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalReport:
         """
         Performs a POST request against the /system/portalReports endpoint.
 
@@ -84,6 +72,4 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalReport: The parsed response data.
         """
-        return self._parse_one(
-            PortalReport, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(PortalReport, super()._make_request("POST", data=data, params=params).json())

@@ -33,9 +33,7 @@ class FinanceAccountingpackagesetupIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AccountingPackageSetup:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingPackageSetup:
         """
         Performs a GET request against the /finance/accountingPackageSetup/{id} endpoint.
 
@@ -45,14 +43,9 @@ class FinanceAccountingpackagesetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(
-            AccountingPackageSetup,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(AccountingPackageSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AccountingPackageSetup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingPackageSetup:
         """
         Performs a PUT request against the /finance/accountingPackageSetup/{id} endpoint.
 
@@ -62,14 +55,9 @@ class FinanceAccountingpackagesetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(
-            AccountingPackageSetup,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(AccountingPackageSetup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AccountingPackageSetup:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingPackageSetup:
         """
         Performs a PATCH request against the /finance/accountingPackageSetup/{id} endpoint.
 
@@ -79,7 +67,4 @@ class FinanceAccountingpackagesetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(
-            AccountingPackageSetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(AccountingPackageSetup, super()._make_request("PATCH", data=data, params=params).json())

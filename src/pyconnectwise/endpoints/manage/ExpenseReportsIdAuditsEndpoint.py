@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsCountEndpoint import (
-    ExpenseReportsIdAuditsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsIdEndpoint import (
-    ExpenseReportsIdAuditsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsCountEndpoint import ExpenseReportsIdAuditsCountEndpoint
+from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsIdEndpoint import ExpenseReportsIdAuditsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseReportAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ExpenseReportsIdAuditsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "audits", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ExpenseReportsIdAuditsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ExpenseReportsIdAuditsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ExpenseReportsIdAuditsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ExpenseReportsIdAuditsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ExpenseReportAudit]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseReportAudit]:
         """
         Performs a GET request against the /expense/reports/{id}/audits endpoint.
 
@@ -68,7 +60,4 @@ class ExpenseReportsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseReportAudit]: The parsed response data.
         """
-        return self._parse_many(
-            ExpenseReportAudit,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ExpenseReportAudit, super()._make_request("GET", data=data, params=params).json())

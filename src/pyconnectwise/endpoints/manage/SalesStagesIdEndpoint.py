@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesStagesIdInfoEndpoint import (
-    SalesStagesIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesStagesIdUsagesEndpoint import (
-    SalesStagesIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesStagesIdInfoEndpoint import SalesStagesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.SalesStagesIdUsagesEndpoint import SalesStagesIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityStage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,12 +12,8 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(
-            SalesStagesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SalesStagesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.usages = self._register_child_endpoint(SalesStagesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(SalesStagesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -46,9 +38,7 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityStage:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStage:
         """
         Performs a GET request against the /sales/stages/{id} endpoint.
 
@@ -58,14 +48,9 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStage: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityStage,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityStage, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/stages/{id} endpoint.
 
@@ -75,14 +60,9 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityStage:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStage:
         """
         Performs a PUT request against the /sales/stages/{id} endpoint.
 
@@ -92,14 +72,9 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStage: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityStage,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityStage, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityStage:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStage:
         """
         Performs a PATCH request against the /sales/stages/{id} endpoint.
 
@@ -109,7 +84,4 @@ class SalesStagesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStage: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityStage,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityStage, super()._make_request("PATCH", data=data, params=params).json())

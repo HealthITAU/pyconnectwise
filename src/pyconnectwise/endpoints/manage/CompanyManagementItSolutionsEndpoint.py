@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsCountEndpoint import (
-    CompanyManagementitsolutionsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdEndpoint import (
-    CompanyManagementitsolutionsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsCountEndpoint import \
+    CompanyManagementitsolutionsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdEndpoint import CompanyManagementitsolutionsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementItSolution
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +11,7 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyManagementitsolutionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "managementItSolutions", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "managementItSolutions", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
             CompanyManagementitsolutionsCountEndpoint(client, parent_endpoint=self)
@@ -31,9 +26,7 @@ class CompanyManagementitsolutionsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyManagementitsolutionsIdEndpoint: The initialized CompanyManagementitsolutionsIdEndpoint object.
         """
-        child = CompanyManagementitsolutionsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyManagementitsolutionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +53,7 @@ class CompanyManagementitsolutionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ManagementItSolution]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementItSolution]:
         """
         Performs a GET request against the /company/managementItSolutions endpoint.
 
@@ -72,14 +63,9 @@ class CompanyManagementitsolutionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagementItSolution]: The parsed response data.
         """
-        return self._parse_many(
-            ManagementItSolution,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ManagementItSolution, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ManagementItSolution:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementItSolution:
         """
         Performs a POST request against the /company/managementItSolutions endpoint.
 
@@ -89,7 +75,4 @@ class CompanyManagementitsolutionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagementItSolution: The parsed response data.
         """
-        return self._parse_one(
-            ManagementItSolution,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ManagementItSolution, super()._make_request("POST", data=data, params=params).json())

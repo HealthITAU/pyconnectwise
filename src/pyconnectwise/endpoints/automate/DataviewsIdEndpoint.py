@@ -10,9 +10,7 @@ class DataviewsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[DataView]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[DataView]:
         """
         Performs a GET request against the /Dataviews/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class DataviewsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DataView:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DataView:
         """
         Performs a GET request against the /Dataviews/{id} endpoint.
 
@@ -45,6 +41,4 @@ class DataviewsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DataView: The parsed response data.
         """
-        return self._parse_one(
-            DataView, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(DataView, super()._make_request("GET", data=data, params=params).json())

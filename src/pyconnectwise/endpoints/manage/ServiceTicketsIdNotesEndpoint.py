@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesCountEndpoint import (
-    ServiceTicketsIdNotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesIdEndpoint import (
-    ServiceTicketsIdNotesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesCountEndpoint import ServiceTicketsIdNotesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesIdEndpoint import ServiceTicketsIdNotesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServiceTicketsIdNotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServiceTicketsIdNotesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceTicketsIdNotesIdEndpoint:
         """
@@ -33,9 +27,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ServiceNote]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceNote]:
         """
         Performs a GET request against the /service/tickets/{id}/notes endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ServiceNote]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceNote]:
         """
         Performs a GET request against the /service/tickets/{id}/notes endpoint.
 
@@ -68,13 +58,9 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceNote]: The parsed response data.
         """
-        return self._parse_many(
-            ServiceNote, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ServiceNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceNote:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceNote:
         """
         Performs a POST request against the /service/tickets/{id}/notes endpoint.
 
@@ -84,6 +70,4 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceNote: The parsed response data.
         """
-        return self._parse_one(
-            ServiceNote, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ServiceNote, super()._make_request("POST", data=data, params=params).json())

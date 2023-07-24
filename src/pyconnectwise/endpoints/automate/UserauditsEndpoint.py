@@ -10,9 +10,7 @@ class UserauditsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Useraudits", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[UserAudit]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserAudit]:
         """
         Performs a GET request against the /Useraudits endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class UserauditsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[UserAudit]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserAudit]:
         """
         Performs a GET request against the /Useraudits endpoint.
 
@@ -45,13 +41,9 @@ class UserauditsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UserAudit]: The parsed response data.
         """
-        return self._parse_many(
-            UserAudit, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(UserAudit, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserAudit:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserAudit:
         """
         Performs a POST request against the /Useraudits endpoint.
 
@@ -61,6 +53,4 @@ class UserauditsEndpoint(ConnectWiseEndpoint):
         Returns:
             UserAudit: The parsed response data.
         """
-        return self._parse_one(
-            UserAudit, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(UserAudit, super()._make_request("POST", data=data, params=params).json())

@@ -10,9 +10,7 @@ class SystemMarketplaceimportImportEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "import", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MarketplaceImport:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketplaceImport:
         """
         Performs a POST request against the /system/marketplaceimport/import endpoint.
 
@@ -22,7 +20,4 @@ class SystemMarketplaceimportImportEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketplaceImport: The parsed response data.
         """
-        return self._parse_one(
-            MarketplaceImport,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MarketplaceImport, super()._make_request("POST", data=data, params=params).json())

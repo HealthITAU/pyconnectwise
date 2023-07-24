@@ -1,15 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsEndpoint import (
-    SystemWorkflowsIdEventsIdActionsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdCopyEndpoint import (
-    SystemWorkflowsIdEventsIdCopyEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdTestEndpoint import (
-    SystemWorkflowsIdEventsIdTestEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsEndpoint import \
+    SystemWorkflowsIdEventsIdActionsEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdCopyEndpoint import SystemWorkflowsIdEventsIdCopyEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdTestEndpoint import SystemWorkflowsIdEventsIdTestEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowEvent
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,15 +14,11 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.test = self._register_child_endpoint(SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self))
         self.actions = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdActionsEndpoint(client, parent_endpoint=self)
         )
-        self.test = self._register_child_endpoint(
-            SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(
-            SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self)
-        )
+        self.copy = self._register_child_endpoint(SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -52,9 +43,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowEvent:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEvent:
         """
         Performs a GET request against the /system/workflows/{id}/events/{id} endpoint.
 
@@ -64,13 +53,9 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEvent: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowEvent, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(WorkflowEvent, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/workflows/{id}/events/{id} endpoint.
 
@@ -80,14 +65,9 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowEvent:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEvent:
         """
         Performs a PUT request against the /system/workflows/{id}/events/{id} endpoint.
 
@@ -97,13 +77,9 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEvent: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowEvent, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(WorkflowEvent, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowEvent:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEvent:
         """
         Performs a PATCH request against the /system/workflows/{id}/events/{id} endpoint.
 
@@ -113,7 +89,4 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowEvent: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowEvent,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkflowEvent, super()._make_request("PATCH", data=data, params=params).json())

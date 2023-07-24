@@ -1,15 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdInfoEndpoint import (
-    CompanyConfigurationsTypesIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsEndpoint import (
-    CompanyConfigurationsTypesIdQuestionsEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdUsagesEndpoint import (
-    CompanyConfigurationsTypesIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdInfoEndpoint import \
+    CompanyConfigurationsTypesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsEndpoint import \
+    CompanyConfigurationsTypesIdQuestionsEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdUsagesEndpoint import \
+    CompanyConfigurationsTypesIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -22,11 +19,11 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
         self.usages = self._register_child_endpoint(
             CompanyConfigurationsTypesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.questions = self._register_child_endpoint(
-            CompanyConfigurationsTypesIdQuestionsEndpoint(client, parent_endpoint=self)
-        )
         self.info = self._register_child_endpoint(
             CompanyConfigurationsTypesIdInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.questions = self._register_child_endpoint(
+            CompanyConfigurationsTypesIdQuestionsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -52,9 +49,7 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
         """
         Performs a GET request against the /company/configurations/types/{id} endpoint.
 
@@ -64,14 +59,9 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationType: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/configurations/types/{id} endpoint.
 
@@ -81,14 +71,9 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationType:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
         """
         Performs a PUT request against the /company/configurations/types/{id} endpoint.
 
@@ -98,14 +83,9 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationType: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationType,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationType:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
         """
         Performs a PATCH request against the /company/configurations/types/{id} endpoint.
 
@@ -115,7 +95,4 @@ class CompanyConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationType: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationType,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationType, super()._make_request("PATCH", data=data, params=params).json())

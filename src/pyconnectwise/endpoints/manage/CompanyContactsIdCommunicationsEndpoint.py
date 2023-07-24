@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint import (
-    CompanyContactsIdCommunicationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import (
-    CompanyContactsIdCommunicationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint import \
+    CompanyContactsIdCommunicationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import \
+    CompanyContactsIdCommunicationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactCommunication
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyContactsIdCommunicationsIdEndpoint: The initialized CompanyContactsIdCommunicationsIdEndpoint object.
         """
-        child = CompanyContactsIdCommunicationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyContactsIdCommunicationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ContactCommunication]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactCommunication]:
         """
         Performs a GET request against the /company/contacts/{id}/communications endpoint.
 
@@ -70,14 +64,9 @@ class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactCommunication]: The parsed response data.
         """
-        return self._parse_many(
-            ContactCommunication,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ContactCommunication, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactCommunication:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactCommunication:
         """
         Performs a POST request against the /company/contacts/{id}/communications endpoint.
 
@@ -87,7 +76,4 @@ class CompanyContactsIdCommunicationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactCommunication: The parsed response data.
         """
-        return self._parse_one(
-            ContactCommunication,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactCommunication, super()._make_request("POST", data=data, params=params).json())

@@ -46,8 +46,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(ConnectWiseEn
             ManagedDevicesIntegrationCrossReference: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationCrossReference,
-            super()._make_request("GET", data=data, params=params).json(),
+            ManagedDevicesIntegrationCrossReference, super()._make_request("GET", data=data, params=params).json()
         )
 
     def put(
@@ -63,8 +62,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(ConnectWiseEn
             ManagedDevicesIntegrationCrossReference: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationCrossReference,
-            super()._make_request("PUT", data=data, params=params).json(),
+            ManagedDevicesIntegrationCrossReference, super()._make_request("PUT", data=data, params=params).json()
         )
 
     def patch(
@@ -80,8 +78,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(ConnectWiseEn
             ManagedDevicesIntegrationCrossReference: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationCrossReference,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            ManagedDevicesIntegrationCrossReference, super()._make_request("PATCH", data=data, params=params).json()
         )
 
     def delete(
@@ -97,6 +94,5 @@ class CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(ConnectWiseEn
             ManagedDevicesIntegrationCrossReference: The parsed response data.
         """
         return self._parse_one(
-            ManagedDevicesIntegrationCrossReference,
-            super()._make_request("DELETE", data=data, params=params).json(),
+            ManagedDevicesIntegrationCrossReference, super()._make_request("DELETE", data=data, params=params).json()
         )

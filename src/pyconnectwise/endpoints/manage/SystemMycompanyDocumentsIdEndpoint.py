@@ -33,9 +33,7 @@ class SystemMycompanyDocumentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentSetup:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentSetup:
         """
         Performs a GET request against the /system/mycompany/documents/{id} endpoint.
 
@@ -45,13 +43,9 @@ class SystemMycompanyDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentSetup: The parsed response data.
         """
-        return self._parse_one(
-            DocumentSetup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(DocumentSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentSetup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentSetup:
         """
         Performs a PUT request against the /system/mycompany/documents/{id} endpoint.
 
@@ -61,13 +55,9 @@ class SystemMycompanyDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentSetup: The parsed response data.
         """
-        return self._parse_one(
-            DocumentSetup, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(DocumentSetup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentSetup:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentSetup:
         """
         Performs a PATCH request against the /system/mycompany/documents/{id} endpoint.
 
@@ -77,7 +67,4 @@ class SystemMycompanyDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentSetup: The parsed response data.
         """
-        return self._parse_one(
-            DocumentSetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(DocumentSetup, super()._make_request("PATCH", data=data, params=params).json())

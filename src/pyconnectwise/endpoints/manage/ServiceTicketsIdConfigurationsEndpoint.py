@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketsIdConfigurationsCountEndpoint import (
-    ServiceTicketsIdConfigurationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTicketsIdConfigurationsIdEndpoint import (
-    ServiceTicketsIdConfigurationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceTicketsIdConfigurationsCountEndpoint import \
+    ServiceTicketsIdConfigurationsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTicketsIdConfigurationsIdEndpoint import \
+    ServiceTicketsIdConfigurationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTicketsIdConfigurationsIdEndpoint: The initialized ServiceTicketsIdConfigurationsIdEndpoint object.
         """
-        child = ServiceTicketsIdConfigurationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ServiceTicketsIdConfigurationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ConfigurationReference]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationReference]:
         """
         Performs a GET request against the /service/tickets/{id}/configurations endpoint.
 
@@ -70,14 +64,9 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationReference]: The parsed response data.
         """
-        return self._parse_many(
-            ConfigurationReference,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ConfigurationReference, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationReference:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationReference:
         """
         Performs a POST request against the /service/tickets/{id}/configurations endpoint.
 
@@ -87,7 +76,4 @@ class ServiceTicketsIdConfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationReference: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationReference,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationReference, super()._make_request("POST", data=data, params=params).json())

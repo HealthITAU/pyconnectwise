@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsCountEndpoint import (
-    TimeTimeperiodsetupsIdPeriodsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsIdEndpoint import (
-    TimeTimeperiodsetupsIdPeriodsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsCountEndpoint import \
+    TimeTimeperiodsetupsIdPeriodsCountEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsIdEndpoint import \
+    TimeTimeperiodsetupsIdPeriodsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimePeriod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,15 +27,11 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeTimeperiodsetupsIdPeriodsIdEndpoint: The initialized TimeTimeperiodsetupsIdPeriodsIdEndpoint object.
         """
-        child = TimeTimeperiodsetupsIdPeriodsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = TimeTimeperiodsetupsIdPeriodsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[TimePeriod]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods endpoint and returns an initialized PaginatedResponse object.
 
@@ -58,9 +52,7 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TimePeriod]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods endpoint.
 
@@ -70,6 +62,4 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimePeriod]: The parsed response data.
         """
-        return self._parse_many(
-            TimePeriod, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(TimePeriod, super()._make_request("GET", data=data, params=params).json())

@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemEpayconfigurationsCountEndpoint import (
-    SystemEpayconfigurationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemEpayconfigurationsIdEndpoint import (
-    SystemEpayconfigurationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemEpayconfigurationsCountEndpoint import SystemEpayconfigurationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemEpayconfigurationsIdEndpoint import SystemEpayconfigurationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EPayConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemEpayconfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ePayConfigurations", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemEpayconfigurationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemEpayconfigurationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemEpayconfigurationsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemEpayconfigurationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[EPayConfiguration]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EPayConfiguration]:
         """
         Performs a GET request against the /system/ePayConfigurations endpoint.
 
@@ -68,14 +60,9 @@ class SystemEpayconfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EPayConfiguration]: The parsed response data.
         """
-        return self._parse_many(
-            EPayConfiguration,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(EPayConfiguration, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> EPayConfiguration:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EPayConfiguration:
         """
         Performs a POST request against the /system/ePayConfigurations endpoint.
 
@@ -85,7 +72,4 @@ class SystemEpayconfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             EPayConfiguration: The parsed response data.
         """
-        return self._parse_one(
-            EPayConfiguration,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(EPayConfiguration, super()._make_request("POST", data=data, params=params).json())

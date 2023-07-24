@@ -10,9 +10,7 @@ class UsersFoldersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[UserFolder]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserFolder]:
         """
         Performs a GET request against the /Users/Folders/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class UsersFoldersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserFolder:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserFolder:
         """
         Performs a GET request against the /Users/Folders/{id} endpoint.
 
@@ -45,13 +41,9 @@ class UsersFoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UserFolder: The parsed response data.
         """
-        return self._parse_one(
-            UserFolder, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(UserFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /Users/Folders/{id} endpoint.
 
@@ -61,14 +53,9 @@ class UsersFoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserFolder:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserFolder:
         """
         Performs a PATCH request against the /Users/Folders/{id} endpoint.
 
@@ -78,6 +65,4 @@ class UsersFoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UserFolder: The parsed response data.
         """
-        return self._parse_one(
-            UserFolder, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(UserFolder, super()._make_request("PATCH", data=data, params=params).json())

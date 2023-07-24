@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import (
-    CompanyCompanypickeritemsClearEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import (
-    CompanyCompanypickeritemsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import (
-    CompanyCompanypickeritemsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import CompanyCompanypickeritemsClearEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import CompanyCompanypickeritemsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import CompanyCompanypickeritemsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyPickerItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companyPickerItems", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.clear = self._register_child_endpoint(
-            CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
+        self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:
         """
@@ -62,9 +52,7 @@ class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyPickerItem]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyPickerItem]:
         """
         Performs a GET request against the /company/companyPickerItems endpoint.
 
@@ -74,14 +62,9 @@ class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyPickerItem]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyPickerItem,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CompanyPickerItem, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyPickerItem:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyPickerItem:
         """
         Performs a POST request against the /company/companyPickerItems endpoint.
 
@@ -91,7 +74,4 @@ class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyPickerItem: The parsed response data.
         """
-        return self._parse_one(
-            CompanyPickerItem,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyPickerItem, super()._make_request("POST", data=data, params=params).json())

@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint import (
-    ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint import (
-    ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint import \
+    ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint import \
+    ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MinimumStockByWarehouse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,14 +12,10 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint:
@@ -33,9 +27,7 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint: The initialized ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint object.
         """
-        child = ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -62,9 +54,7 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MinimumStockByWarehouse]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MinimumStockByWarehouse]:
         """
         Performs a GET request against the /procurement/catalog/{id}/minimumStockByWarehouse endpoint.
 
@@ -74,14 +64,9 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MinimumStockByWarehouse]: The parsed response data.
         """
-        return self._parse_many(
-            MinimumStockByWarehouse,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(MinimumStockByWarehouse, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MinimumStockByWarehouse:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MinimumStockByWarehouse:
         """
         Performs a POST request against the /procurement/catalog/{id}/minimumStockByWarehouse endpoint.
 
@@ -91,7 +76,4 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(ConnectWiseEndpoint):
         Returns:
             MinimumStockByWarehouse: The parsed response data.
         """
-        return self._parse_one(
-            MinimumStockByWarehouse,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MinimumStockByWarehouse, super()._make_request("POST", data=data, params=params).json())

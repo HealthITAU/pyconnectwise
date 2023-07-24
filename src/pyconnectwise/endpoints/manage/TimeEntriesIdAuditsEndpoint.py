@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeEntriesIdAuditsCountEndpoint import (
-    TimeEntriesIdAuditsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeEntriesIdAuditsIdEndpoint import (
-    TimeEntriesIdAuditsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeEntriesIdAuditsCountEndpoint import TimeEntriesIdAuditsCountEndpoint
+from pyconnectwise.endpoints.manage.TimeEntriesIdAuditsIdEndpoint import TimeEntriesIdAuditsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeEntryAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class TimeEntriesIdAuditsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "audits", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            TimeEntriesIdAuditsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(TimeEntriesIdAuditsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeEntriesIdAuditsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class TimeEntriesIdAuditsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TimeEntryAudit]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeEntryAudit]:
         """
         Performs a GET request against the /time/entries/{id}/audits endpoint.
 
@@ -68,7 +60,4 @@ class TimeEntriesIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeEntryAudit]: The parsed response data.
         """
-        return self._parse_many(
-            TimeEntryAudit,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(TimeEntryAudit, super()._make_request("GET", data=data, params=params).json())

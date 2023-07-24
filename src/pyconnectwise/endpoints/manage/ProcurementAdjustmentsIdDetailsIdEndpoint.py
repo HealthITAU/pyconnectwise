@@ -33,9 +33,7 @@ class ProcurementAdjustmentsIdDetailsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AdjustmentDetail:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentDetail:
         """
         Performs a GET request against the /procurement/adjustments/{id}/details/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ProcurementAdjustmentsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AdjustmentDetail: The parsed response data.
         """
-        return self._parse_one(
-            AdjustmentDetail,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(AdjustmentDetail, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/adjustments/{id}/details/{id} endpoint.
 
@@ -62,7 +55,4 @@ class ProcurementAdjustmentsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

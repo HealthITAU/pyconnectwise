@@ -12,9 +12,7 @@ class UsersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Users", parent_endpoint=parent_endpoint)
 
-        self.folders = self._register_child_endpoint(
-            UsersFoldersEndpoint(client, parent_endpoint=self)
-        )
+        self.folders = self._register_child_endpoint(UsersFoldersEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> UsersIdEndpoint:
         """
@@ -29,9 +27,7 @@ class UsersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> User:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> User:
         """
         Performs a POST request against the /Users endpoint.
 
@@ -41,6 +37,4 @@ class UsersEndpoint(ConnectWiseEndpoint):
         Returns:
             User: The parsed response data.
         """
-        return self._parse_one(
-            User, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(User, super()._make_request("POST", data=data, params=params).json())

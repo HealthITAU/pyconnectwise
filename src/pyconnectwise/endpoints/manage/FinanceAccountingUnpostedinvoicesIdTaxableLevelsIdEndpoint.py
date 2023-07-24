@@ -33,9 +33,7 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint(ConnectWiseEndp
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UnpostedInvoiceTaxableLevel:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedInvoiceTaxableLevel:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices/{id}/taxableLevels/{id} endpoint.
 
@@ -46,6 +44,5 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint(ConnectWiseEndp
             UnpostedInvoiceTaxableLevel: The parsed response data.
         """
         return self._parse_one(
-            UnpostedInvoiceTaxableLevel,
-            super()._make_request("GET", data=data, params=params).json(),
+            UnpostedInvoiceTaxableLevel, super()._make_request("GET", data=data, params=params).json()
         )

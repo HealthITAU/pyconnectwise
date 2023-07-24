@@ -33,9 +33,7 @@ class SystemMycompanyCorporatestructurelevelsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CorporateStructureLevel:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CorporateStructureLevel:
         """
         Performs a GET request against the /system/myCompany/corporateStructureLevels/{id} endpoint.
 
@@ -45,7 +43,4 @@ class SystemMycompanyCorporatestructurelevelsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CorporateStructureLevel: The parsed response data.
         """
-        return self._parse_one(
-            CorporateStructureLevel,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(CorporateStructureLevel, super()._make_request("GET", data=data, params=params).json())

@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyOwnershiptypesIdInfoEndpoint import (
-    CompanyOwnershiptypesIdInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyOwnershiptypesIdInfoEndpoint import CompanyOwnershiptypesIdInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OwnershipType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,9 +11,7 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            CompanyOwnershiptypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(CompanyOwnershiptypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -40,9 +36,7 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OwnershipType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OwnershipType:
         """
         Performs a GET request against the /company/ownershipTypes/{id} endpoint.
 
@@ -52,13 +46,9 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OwnershipType: The parsed response data.
         """
-        return self._parse_one(
-            OwnershipType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(OwnershipType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/ownershipTypes/{id} endpoint.
 
@@ -68,14 +58,9 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OwnershipType:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OwnershipType:
         """
         Performs a PUT request against the /company/ownershipTypes/{id} endpoint.
 
@@ -85,13 +70,9 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OwnershipType: The parsed response data.
         """
-        return self._parse_one(
-            OwnershipType, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(OwnershipType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OwnershipType:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OwnershipType:
         """
         Performs a PATCH request against the /company/ownershipTypes/{id} endpoint.
 
@@ -101,7 +82,4 @@ class CompanyOwnershiptypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OwnershipType: The parsed response data.
         """
-        return self._parse_one(
-            OwnershipType,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(OwnershipType, super()._make_request("PATCH", data=data, params=params).json())

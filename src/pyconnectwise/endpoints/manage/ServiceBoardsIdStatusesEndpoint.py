@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesCountEndpoint import (
-    ServiceBoardsIdStatusesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdEndpoint import (
-    ServiceBoardsIdStatusesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoEndpoint import (
-    ServiceBoardsIdStatusesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesCountEndpoint import ServiceBoardsIdStatusesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdEndpoint import ServiceBoardsIdStatusesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesInfoEndpoint import ServiceBoardsIdStatusesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class ServiceBoardsIdStatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServiceBoardsIdStatusesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ServiceBoardsIdStatusesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(ServiceBoardsIdStatusesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ServiceBoardsIdStatusesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceBoardsIdStatusesIdEndpoint:
         """
@@ -39,9 +29,7 @@ class ServiceBoardsIdStatusesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[BoardStatus]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardStatus]:
         """
         Performs a GET request against the /service/boards/{id}/statuses endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class ServiceBoardsIdStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BoardStatus]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardStatus]:
         """
         Performs a GET request against the /service/boards/{id}/statuses endpoint.
 
@@ -74,13 +60,9 @@ class ServiceBoardsIdStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardStatus]: The parsed response data.
         """
-        return self._parse_many(
-            BoardStatus, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(BoardStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardStatus:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardStatus:
         """
         Performs a POST request against the /service/boards/{id}/statuses endpoint.
 
@@ -90,6 +72,4 @@ class ServiceBoardsIdStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardStatus: The parsed response data.
         """
-        return self._parse_one(
-            BoardStatus, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(BoardStatus, super()._make_request("POST", data=data, params=params).json())

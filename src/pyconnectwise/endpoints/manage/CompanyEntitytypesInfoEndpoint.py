@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyEntitytypesInfoCountEndpoint import (
-    CompanyEntitytypesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyEntitytypesInfoCountEndpoint import CompanyEntitytypesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EntityTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,9 +11,7 @@ class CompanyEntitytypesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyEntitytypesInfoCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyEntitytypesInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -40,9 +36,7 @@ class CompanyEntitytypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[EntityTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EntityTypeInfo]:
         """
         Performs a GET request against the /company/entityTypes/info endpoint.
 
@@ -52,7 +46,4 @@ class CompanyEntitytypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[EntityTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            EntityTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(EntityTypeInfo, super()._make_request("GET", data=data, params=params).json())

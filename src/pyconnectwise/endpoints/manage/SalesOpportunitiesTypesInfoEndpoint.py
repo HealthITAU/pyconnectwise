@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesInfoCountEndpoint import (
-    SalesOpportunitiesTypesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesInfoCountEndpoint import \
+    SalesOpportunitiesTypesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class SalesOpportunitiesTypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OpportunityTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityTypeInfo]:
         """
         Performs a GET request against the /sales/opportunities/types/info endpoint.
 
@@ -52,7 +49,4 @@ class SalesOpportunitiesTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            OpportunityTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(OpportunityTypeInfo, super()._make_request("GET", data=data, params=params).json())

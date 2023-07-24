@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCountriesCountEndpoint import (
-    CompanyCountriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCountriesIdEndpoint import (
-    CompanyCountriesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCountriesInfoEndpoint import (
-    CompanyCountriesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCountriesCountEndpoint import CompanyCountriesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCountriesIdEndpoint import CompanyCountriesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyCountriesInfoEndpoint import CompanyCountriesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Country
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "countries", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyCountriesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyCountriesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(CompanyCountriesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCountriesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCountriesIdEndpoint:
         """
@@ -39,9 +29,7 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Country]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Country]:
         """
         Performs a GET request against the /company/countries endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Country]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Country]:
         """
         Performs a GET request against the /company/countries endpoint.
 
@@ -74,13 +60,9 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Country]: The parsed response data.
         """
-        return self._parse_many(
-            Country, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Country, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Country:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Country:
         """
         Performs a POST request against the /company/countries endpoint.
 
@@ -90,6 +72,4 @@ class CompanyCountriesEndpoint(ConnectWiseEndpoint):
         Returns:
             Country: The parsed response data.
         """
-        return self._parse_one(
-            Country, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Country, super()._make_request("POST", data=data, params=params).json())

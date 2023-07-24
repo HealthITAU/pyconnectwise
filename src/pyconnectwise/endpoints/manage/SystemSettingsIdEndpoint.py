@@ -33,9 +33,7 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SystemSetting:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
         """
         Performs a GET request against the /system/settings/{id} endpoint.
 
@@ -45,13 +43,9 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemSetting: The parsed response data.
         """
-        return self._parse_one(
-            SystemSetting, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(SystemSetting, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SystemSetting:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
         """
         Performs a PUT request against the /system/settings/{id} endpoint.
 
@@ -61,13 +55,9 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemSetting: The parsed response data.
         """
-        return self._parse_one(
-            SystemSetting, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(SystemSetting, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SystemSetting:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
         """
         Performs a PATCH request against the /system/settings/{id} endpoint.
 
@@ -77,7 +67,4 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemSetting: The parsed response data.
         """
-        return self._parse_one(
-            SystemSetting,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(SystemSetting, super()._make_request("PATCH", data=data, params=params).json())

@@ -10,9 +10,7 @@ class CompanyContactsDefaultEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "default", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Contact]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Contact]:
         """
         Performs a GET request against the /company/contacts/default endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class CompanyContactsDefaultEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Contact:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Contact:
         """
         Performs a GET request against the /company/contacts/default endpoint.
 
@@ -45,6 +41,4 @@ class CompanyContactsDefaultEndpoint(ConnectWiseEndpoint):
         Returns:
             Contact: The parsed response data.
         """
-        return self._parse_one(
-            Contact, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Contact, super()._make_request("GET", data=data, params=params).json())

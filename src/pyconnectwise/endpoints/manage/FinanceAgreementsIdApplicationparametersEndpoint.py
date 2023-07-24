@@ -1,18 +1,15 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdApplicationparametersIdEndpoint import (
-    FinanceAgreementsIdApplicationparametersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdApplicationparametersIdEndpoint import \
+    FinanceAgreementsIdApplicationparametersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
 class FinanceAgreementsIdApplicationparametersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "applicationParameters", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "applicationParameters", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> FinanceAgreementsIdApplicationparametersIdEndpoint:
         """
@@ -23,8 +20,6 @@ class FinanceAgreementsIdApplicationparametersEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementsIdApplicationparametersIdEndpoint: The initialized FinanceAgreementsIdApplicationparametersIdEndpoint object.
         """
-        child = FinanceAgreementsIdApplicationparametersIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAgreementsIdApplicationparametersIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child

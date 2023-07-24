@@ -10,9 +10,7 @@ class SystemWorkflowsUserdefinedfieldsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowActionUserDefinedField:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowActionUserDefinedField:
         """
         Performs a PUT request against the /system/workflows/userdefinedfields/{id} endpoint.
 
@@ -23,13 +21,10 @@ class SystemWorkflowsUserdefinedfieldsIdEndpoint(ConnectWiseEndpoint):
             WorkflowActionUserDefinedField: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionUserDefinedField,
-            super()._make_request("PUT", data=data, params=params).json(),
+            WorkflowActionUserDefinedField, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowActionUserDefinedField:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowActionUserDefinedField:
         """
         Performs a PATCH request against the /system/workflows/userdefinedfields/{id} endpoint.
 
@@ -40,6 +35,5 @@ class SystemWorkflowsUserdefinedfieldsIdEndpoint(ConnectWiseEndpoint):
             WorkflowActionUserDefinedField: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionUserDefinedField,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            WorkflowActionUserDefinedField, super()._make_request("PATCH", data=data, params=params).json()
         )

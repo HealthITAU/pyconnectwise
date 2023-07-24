@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoDepartmentlocationsCountEndpoint import (
-    SystemInfoDepartmentlocationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInfoDepartmentlocationsIdEndpoint import (
-    SystemInfoDepartmentlocationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInfoDepartmentlocationsCountEndpoint import \
+    SystemInfoDepartmentlocationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInfoDepartmentlocationsIdEndpoint import \
+    SystemInfoDepartmentlocationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DepartmentLocationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class SystemInfoDepartmentlocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemInfoDepartmentlocationsIdEndpoint: The initialized SystemInfoDepartmentlocationsIdEndpoint object.
         """
-        child = SystemInfoDepartmentlocationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemInfoDepartmentlocationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class SystemInfoDepartmentlocationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[DepartmentLocationInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DepartmentLocationInfo]:
         """
         Performs a GET request against the /system/info/departmentlocations endpoint.
 
@@ -70,7 +64,4 @@ class SystemInfoDepartmentlocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DepartmentLocationInfo]: The parsed response data.
         """
-        return self._parse_many(
-            DepartmentLocationInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(DepartmentLocationInfo, super()._make_request("GET", data=data, params=params).json())

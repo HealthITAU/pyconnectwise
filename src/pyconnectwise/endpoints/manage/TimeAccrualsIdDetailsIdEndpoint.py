@@ -33,9 +33,7 @@ class TimeAccrualsIdDetailsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimeAccrualDetail:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrualDetail:
         """
         Performs a GET request against the /time/accruals/{id}/details/{id} endpoint.
 
@@ -45,14 +43,9 @@ class TimeAccrualsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeAccrualDetail: The parsed response data.
         """
-        return self._parse_one(
-            TimeAccrualDetail,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(TimeAccrualDetail, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /time/accruals/{id}/details/{id} endpoint.
 
@@ -62,14 +55,9 @@ class TimeAccrualsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimeAccrualDetail:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrualDetail:
         """
         Performs a PUT request against the /time/accruals/{id}/details/{id} endpoint.
 
@@ -79,14 +67,9 @@ class TimeAccrualsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeAccrualDetail: The parsed response data.
         """
-        return self._parse_one(
-            TimeAccrualDetail,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(TimeAccrualDetail, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimeAccrualDetail:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrualDetail:
         """
         Performs a PATCH request against the /time/accruals/{id}/details/{id} endpoint.
 
@@ -96,7 +79,4 @@ class TimeAccrualsIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeAccrualDetail: The parsed response data.
         """
-        return self._parse_one(
-            TimeAccrualDetail,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(TimeAccrualDetail, super()._make_request("PATCH", data=data, params=params).json())

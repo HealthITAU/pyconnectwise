@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesActivitiesStatusesInfoCountEndpoint import (
-    SalesActivitiesStatusesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesActivitiesStatusesInfoCountEndpoint import \
+    SalesActivitiesStatusesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ActivityStatusInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class SalesActivitiesStatusesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ActivityStatusInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityStatusInfo]:
         """
         Performs a GET request against the /sales/activities/statuses/info endpoint.
 
@@ -52,7 +49,4 @@ class SalesActivitiesStatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ActivityStatusInfo]: The parsed response data.
         """
-        return self._parse_many(
-            ActivityStatusInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ActivityStatusInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint import (
-    FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint import \
+    FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedInvoice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class FinanceAccountingUnpostedinvoicesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.taxable_levels = self._register_child_endpoint(
-            FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class FinanceAccountingUnpostedinvoicesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UnpostedInvoice:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedInvoice:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices/{id} endpoint.
 
@@ -54,7 +49,4 @@ class FinanceAccountingUnpostedinvoicesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UnpostedInvoice: The parsed response data.
         """
-        return self._parse_one(
-            UnpostedInvoice,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(UnpostedInvoice, super()._make_request("GET", data=data, params=params).json())

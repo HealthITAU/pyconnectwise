@@ -10,9 +10,7 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[QuoteLink]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[QuoteLink]:
         """
         Performs a GET request against the /system/quoteLinkSetup/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> QuoteLink:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> QuoteLink:
         """
         Performs a GET request against the /system/quoteLinkSetup/{id} endpoint.
 
@@ -45,13 +41,9 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             QuoteLink: The parsed response data.
         """
-        return self._parse_one(
-            QuoteLink, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(QuoteLink, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/quoteLinkSetup/{id} endpoint.
 
@@ -61,14 +53,9 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> QuoteLink:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> QuoteLink:
         """
         Performs a PUT request against the /system/quoteLinkSetup/{id} endpoint.
 
@@ -78,13 +65,9 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             QuoteLink: The parsed response data.
         """
-        return self._parse_one(
-            QuoteLink, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(QuoteLink, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> QuoteLink:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> QuoteLink:
         """
         Performs a PATCH request against the /system/quoteLinkSetup/{id} endpoint.
 
@@ -94,6 +77,4 @@ class SystemQuotelinksetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             QuoteLink: The parsed response data.
         """
-        return self._parse_one(
-            QuoteLink, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(QuoteLink, super()._make_request("PATCH", data=data, params=params).json())

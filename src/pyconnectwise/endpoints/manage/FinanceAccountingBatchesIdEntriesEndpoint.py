@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesCountEndpoint import (
-    FinanceAccountingBatchesIdEntriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesIdEndpoint import (
-    FinanceAccountingBatchesIdEntriesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesCountEndpoint import \
+    FinanceAccountingBatchesIdEntriesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesIdEndpoint import \
+    FinanceAccountingBatchesIdEntriesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BatchEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,15 +27,11 @@ class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAccountingBatchesIdEntriesIdEndpoint: The initialized FinanceAccountingBatchesIdEntriesIdEndpoint object.
         """
-        child = FinanceAccountingBatchesIdEntriesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAccountingBatchesIdEntriesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[BatchEntry]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BatchEntry]:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries endpoint and returns an initialized PaginatedResponse object.
 
@@ -58,9 +52,7 @@ class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BatchEntry]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BatchEntry]:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries endpoint.
 
@@ -70,6 +62,4 @@ class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BatchEntry]: The parsed response data.
         """
-        return self._parse_many(
-            BatchEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(BatchEntry, super()._make_request("GET", data=data, params=params).json())

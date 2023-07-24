@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyDocumentsIdEndpoint import (
-    SystemMycompanyDocumentsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMycompanyDocumentsIdEndpoint import SystemMycompanyDocumentsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DocumentSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -49,9 +47,7 @@ class SystemMycompanyDocumentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[DocumentSetup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DocumentSetup]:
         """
         Performs a GET request against the /system/mycompany/documents endpoint.
 
@@ -61,6 +57,4 @@ class SystemMycompanyDocumentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DocumentSetup]: The parsed response data.
         """
-        return self._parse_many(
-            DocumentSetup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(DocumentSetup, super()._make_request("GET", data=data, params=params).json())

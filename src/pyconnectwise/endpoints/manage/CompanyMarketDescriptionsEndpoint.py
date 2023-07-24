@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsCountEndpoint import (
-    CompanyMarketdescriptionsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsIdEndpoint import (
-    CompanyMarketdescriptionsIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoEndpoint import (
-    CompanyMarketdescriptionsInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsCountEndpoint import CompanyMarketdescriptionsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsIdEndpoint import CompanyMarketdescriptionsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoEndpoint import CompanyMarketdescriptionsInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MarketDescription
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class CompanyMarketdescriptionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "marketDescriptions", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyMarketdescriptionsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyMarketdescriptionsInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(CompanyMarketdescriptionsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyMarketdescriptionsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyMarketdescriptionsIdEndpoint:
         """
@@ -62,9 +52,7 @@ class CompanyMarketdescriptionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MarketDescription]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescription]:
         """
         Performs a GET request against the /company/marketDescriptions endpoint.
 
@@ -74,14 +62,9 @@ class CompanyMarketdescriptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MarketDescription]: The parsed response data.
         """
-        return self._parse_many(
-            MarketDescription,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(MarketDescription, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MarketDescription:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MarketDescription:
         """
         Performs a POST request against the /company/marketDescriptions endpoint.
 
@@ -91,7 +74,4 @@ class CompanyMarketdescriptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketDescription: The parsed response data.
         """
-        return self._parse_one(
-            MarketDescription,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MarketDescription, super()._make_request("POST", data=data, params=params).json())

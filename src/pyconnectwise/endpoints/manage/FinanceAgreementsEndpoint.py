@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsCountEndpoint import (
-    FinanceAgreementsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdEndpoint import (
-    FinanceAgreementsIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementsTypesEndpoint import (
-    FinanceAgreementsTypesEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementsCountEndpoint import FinanceAgreementsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdEndpoint import FinanceAgreementsIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsTypesEndpoint import FinanceAgreementsTypesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Agreement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "agreements", parent_endpoint=parent_endpoint)
 
-        self.types = self._register_child_endpoint(
-            FinanceAgreementsTypesEndpoint(client, parent_endpoint=self)
-        )
-        self.count = self._register_child_endpoint(
-            FinanceAgreementsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.types = self._register_child_endpoint(FinanceAgreementsTypesEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(FinanceAgreementsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> FinanceAgreementsIdEndpoint:
         """
@@ -39,9 +29,7 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Agreement]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Agreement]:
         """
         Performs a GET request against the /finance/agreements endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Agreement]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Agreement]:
         """
         Performs a GET request against the /finance/agreements endpoint.
 
@@ -74,13 +60,9 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Agreement]: The parsed response data.
         """
-        return self._parse_many(
-            Agreement, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Agreement, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Agreement:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
         """
         Performs a POST request against the /finance/agreements endpoint.
 
@@ -90,6 +72,4 @@ class FinanceAgreementsEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(
-            Agreement, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())

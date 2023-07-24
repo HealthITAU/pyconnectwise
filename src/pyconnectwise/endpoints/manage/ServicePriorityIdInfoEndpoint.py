@@ -33,9 +33,7 @@ class ServicePriorityIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PriorityInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PriorityInfo:
         """
         Performs a GET request against the /service/priority/{id}/info endpoint.
 
@@ -45,6 +43,4 @@ class ServicePriorityIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PriorityInfo: The parsed response data.
         """
-        return self._parse_one(
-            PriorityInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(PriorityInfo, super()._make_request("GET", data=data, params=params).json())

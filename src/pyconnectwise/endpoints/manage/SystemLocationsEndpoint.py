@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemLocationsCountEndpoint import (
-    SystemLocationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemLocationsIdEndpoint import (
-    SystemLocationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemLocationsCountEndpoint import SystemLocationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemLocationsIdEndpoint import SystemLocationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Location
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemLocationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locations", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemLocationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemLocationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemLocationsIdEndpoint:
         """
@@ -33,9 +27,7 @@ class SystemLocationsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Location]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Location]:
         """
         Performs a GET request against the /system/locations endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class SystemLocationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Location]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Location]:
         """
         Performs a GET request against the /system/locations endpoint.
 
@@ -68,13 +58,9 @@ class SystemLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Location]: The parsed response data.
         """
-        return self._parse_many(
-            Location, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Location, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Location:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Location:
         """
         Performs a POST request against the /system/locations endpoint.
 
@@ -84,6 +70,4 @@ class SystemLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             Location: The parsed response data.
         """
-        return self._parse_one(
-            Location, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Location, super()._make_request("POST", data=data, params=params).json())

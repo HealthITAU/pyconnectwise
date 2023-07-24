@@ -33,9 +33,7 @@ class CompanyContactsyncCompanysyncIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> M365ContactSyncCompany:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> M365ContactSyncCompany:
         """
         Performs a GET request against the /company/contactsync/companysync/{id} endpoint.
 
@@ -45,7 +43,4 @@ class CompanyContactsyncCompanysyncIdEndpoint(ConnectWiseEndpoint):
         Returns:
             M365ContactSyncCompany: The parsed response data.
         """
-        return self._parse_one(
-            M365ContactSyncCompany,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(M365ContactSyncCompany, super()._make_request("GET", data=data, params=params).json())

@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoMembersCountEndpoint import (
-    SystemInfoMembersCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInfoMembersIdEndpoint import (
-    SystemInfoMembersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInfoMembersCountEndpoint import SystemInfoMembersCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInfoMembersIdEndpoint import SystemInfoMembersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemInfoMembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "members", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemInfoMembersCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemInfoMembersCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemInfoMembersIdEndpoint:
         """
@@ -33,9 +27,7 @@ class SystemInfoMembersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[MemberInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberInfo]:
         """
         Performs a GET request against the /system/info/members endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class SystemInfoMembersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MemberInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberInfo]:
         """
         Performs a GET request against the /system/info/members endpoint.
 
@@ -68,6 +58,4 @@ class SystemInfoMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberInfo]: The parsed response data.
         """
-        return self._parse_many(
-            MemberInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(MemberInfo, super()._make_request("GET", data=data, params=params).json())

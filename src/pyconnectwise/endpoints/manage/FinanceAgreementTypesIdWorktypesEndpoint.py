@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesCountEndpoint import (
-    FinanceAgreementtypesIdWorktypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesIdEndpoint import (
-    FinanceAgreementtypesIdWorktypesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesCountEndpoint import \
+    FinanceAgreementtypesIdWorktypesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesIdEndpoint import \
+    FinanceAgreementtypesIdWorktypesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeWorkType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class FinanceAgreementtypesIdWorktypesEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementtypesIdWorktypesIdEndpoint: The initialized FinanceAgreementtypesIdWorktypesIdEndpoint object.
         """
-        child = FinanceAgreementtypesIdWorktypesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAgreementtypesIdWorktypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class FinanceAgreementtypesIdWorktypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[AgreementTypeWorkType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkType]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/worktypes endpoint.
 
@@ -70,14 +64,9 @@ class FinanceAgreementtypesIdWorktypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeWorkType]: The parsed response data.
         """
-        return self._parse_many(
-            AgreementTypeWorkType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AgreementTypeWorkType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AgreementTypeWorkType:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkType:
         """
         Performs a POST request against the /finance/agreementTypes/{id}/worktypes endpoint.
 
@@ -87,7 +76,4 @@ class FinanceAgreementtypesIdWorktypesEndpoint(ConnectWiseEndpoint):
         Returns:
             AgreementTypeWorkType: The parsed response data.
         """
-        return self._parse_one(
-            AgreementTypeWorkType,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AgreementTypeWorkType, super()._make_request("POST", data=data, params=params).json())

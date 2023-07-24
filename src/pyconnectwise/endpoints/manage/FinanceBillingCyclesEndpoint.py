@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingcyclesCountEndpoint import (
-    FinanceBillingcyclesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceBillingcyclesIdEndpoint import (
-    FinanceBillingcyclesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceBillingcyclesInfoEndpoint import (
-    FinanceBillingcyclesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceBillingcyclesCountEndpoint import FinanceBillingcyclesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingcyclesIdEndpoint import FinanceBillingcyclesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingcyclesInfoEndpoint import FinanceBillingcyclesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingCycle
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class FinanceBillingcyclesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "billingCycles", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            FinanceBillingcyclesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceBillingcyclesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(FinanceBillingcyclesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(FinanceBillingcyclesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> FinanceBillingcyclesIdEndpoint:
         """
@@ -62,9 +52,7 @@ class FinanceBillingcyclesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BillingCycle]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingCycle]:
         """
         Performs a GET request against the /finance/billingCycles endpoint.
 
@@ -74,13 +62,9 @@ class FinanceBillingcyclesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingCycle]: The parsed response data.
         """
-        return self._parse_many(
-            BillingCycle, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(BillingCycle, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BillingCycle:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycle:
         """
         Performs a POST request against the /finance/billingCycles endpoint.
 
@@ -90,6 +74,4 @@ class FinanceBillingcyclesEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingCycle: The parsed response data.
         """
-        return self._parse_one(
-            BillingCycle, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(BillingCycle, super()._make_request("POST", data=data, params=params).json())

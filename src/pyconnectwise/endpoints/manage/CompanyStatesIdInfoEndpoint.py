@@ -10,9 +10,7 @@ class CompanyStatesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[StateInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[StateInfo]:
         """
         Performs a GET request against the /company/states/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class CompanyStatesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> StateInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> StateInfo:
         """
         Performs a GET request against the /company/states/{id}/info endpoint.
 
@@ -45,6 +41,4 @@ class CompanyStatesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             StateInfo: The parsed response data.
         """
-        return self._parse_one(
-            StateInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(StateInfo, super()._make_request("GET", data=data, params=params).json())

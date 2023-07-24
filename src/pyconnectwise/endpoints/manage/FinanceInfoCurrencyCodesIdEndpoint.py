@@ -33,9 +33,7 @@ class FinanceInfoCurrencycodesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CurrencyCode:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CurrencyCode:
         """
         Performs a GET request against the /finance/info/currencyCodes/{id} endpoint.
 
@@ -45,6 +43,4 @@ class FinanceInfoCurrencycodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CurrencyCode: The parsed response data.
         """
-        return self._parse_one(
-            CurrencyCode, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(CurrencyCode, super()._make_request("GET", data=data, params=params).json())

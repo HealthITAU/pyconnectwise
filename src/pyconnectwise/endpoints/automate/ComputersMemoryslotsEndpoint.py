@@ -33,9 +33,7 @@ class ComputersMemoryslotsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ComputerMemorySlot]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerMemorySlot]:
         """
         Performs a GET request against the /Computers/Memoryslots endpoint.
 
@@ -45,7 +43,4 @@ class ComputersMemoryslotsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerMemorySlot]: The parsed response data.
         """
-        return self._parse_many(
-            ComputerMemorySlot,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ComputerMemorySlot, super()._make_request("GET", data=data, params=params).json())

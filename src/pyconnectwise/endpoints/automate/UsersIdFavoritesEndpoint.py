@@ -10,9 +10,7 @@ class UsersIdFavoritesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Favorites", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserFavorite:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserFavorite:
         """
         Performs a POST request against the /Users/{id}/Favorites endpoint.
 
@@ -22,6 +20,4 @@ class UsersIdFavoritesEndpoint(ConnectWiseEndpoint):
         Returns:
             UserFavorite: The parsed response data.
         """
-        return self._parse_one(
-            UserFavorite, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(UserFavorite, super()._make_request("POST", data=data, params=params).json())

@@ -33,9 +33,7 @@ class ComputersIdScripthistoryEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ComputerScriptHistory]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerScriptHistory]:
         """
         Performs a GET request against the /Computers/{id}/Scripthistory endpoint.
 
@@ -45,7 +43,4 @@ class ComputersIdScripthistoryEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerScriptHistory]: The parsed response data.
         """
-        return self._parse_many(
-            ComputerScriptHistory,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ComputerScriptHistory, super()._make_request("GET", data=data, params=params).json())

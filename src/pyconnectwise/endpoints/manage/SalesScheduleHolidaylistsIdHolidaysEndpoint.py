@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesScheduleHolidaylistsIdHolidaysInfoEndpoint import (
-    SalesScheduleHolidaylistsIdHolidaysInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesScheduleHolidaylistsIdHolidaysInfoEndpoint import \
+    SalesScheduleHolidaylistsIdHolidaysInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,7 +12,5 @@ class SalesScheduleHolidaylistsIdHolidaysEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "holidays", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(
-            SalesScheduleHolidaylistsIdHolidaysInfoEndpoint(
-                client, parent_endpoint=self
-            )
+            SalesScheduleHolidaylistsIdHolidaysInfoEndpoint(client, parent_endpoint=self)
         )

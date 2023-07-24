@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemApimembersCountEndpoint import (
-    SystemApimembersCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemApimembersDefaultEndpoint import (
-    SystemApimembersDefaultEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemApimembersIdEndpoint import (
-    SystemApimembersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemApimembersCountEndpoint import SystemApimembersCountEndpoint
+from pyconnectwise.endpoints.manage.SystemApimembersDefaultEndpoint import SystemApimembersDefaultEndpoint
+from pyconnectwise.endpoints.manage.SystemApimembersIdEndpoint import SystemApimembersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ApiMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class SystemApimembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "apiMembers", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemApimembersCountEndpoint(client, parent_endpoint=self)
-        )
-        self.default = self._register_child_endpoint(
-            SystemApimembersDefaultEndpoint(client, parent_endpoint=self)
-        )
+        self.default = self._register_child_endpoint(SystemApimembersDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemApimembersCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemApimembersIdEndpoint:
         """
@@ -39,9 +29,7 @@ class SystemApimembersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ApiMember]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ApiMember]:
         """
         Performs a GET request against the /system/apiMembers endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class SystemApimembersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ApiMember]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ApiMember]:
         """
         Performs a GET request against the /system/apiMembers endpoint.
 
@@ -74,13 +60,9 @@ class SystemApimembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ApiMember]: The parsed response data.
         """
-        return self._parse_many(
-            ApiMember, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ApiMember, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ApiMember:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
         """
         Performs a POST request against the /system/apiMembers endpoint.
 
@@ -90,6 +72,4 @@ class SystemApimembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ApiMember: The parsed response data.
         """
-        return self._parse_one(
-            ApiMember, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ApiMember, super()._make_request("POST", data=data, params=params).json())

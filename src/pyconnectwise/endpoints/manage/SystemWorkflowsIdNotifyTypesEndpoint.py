@@ -1,15 +1,11 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint import (
-    SystemWorkflowsIdNotifytypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import (
-    SystemWorkflowsIdNotifytypesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import (
-    SystemWorkflowsIdNotifytypesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint import \
+    SystemWorkflowsIdNotifytypesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import SystemWorkflowsIdNotifytypesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import \
+    SystemWorkflowsIdNotifytypesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowNotifyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,11 +15,11 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notifyTypes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemWorkflowsIdNotifytypesCountEndpoint(client, parent_endpoint=self)
-        )
         self.info = self._register_child_endpoint(
             SystemWorkflowsIdNotifytypesInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(
+            SystemWorkflowsIdNotifytypesCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemWorkflowsIdNotifytypesIdEndpoint:
@@ -35,9 +31,7 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemWorkflowsIdNotifytypesIdEndpoint: The initialized SystemWorkflowsIdNotifytypesIdEndpoint object.
         """
-        child = SystemWorkflowsIdNotifytypesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemWorkflowsIdNotifytypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -64,9 +58,7 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkflowNotifyType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowNotifyType]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes endpoint.
 
@@ -76,7 +68,4 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowNotifyType]: The parsed response data.
         """
-        return self._parse_many(
-            WorkflowNotifyType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WorkflowNotifyType, super()._make_request("GET", data=data, params=params).json())

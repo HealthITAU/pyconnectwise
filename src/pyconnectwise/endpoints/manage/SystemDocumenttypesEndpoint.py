@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumenttypesIdEndpoint import (
-    SystemDocumenttypesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemDocumenttypesInfoEndpoint import (
-    SystemDocumenttypesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemDocumenttypesIdEndpoint import SystemDocumenttypesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemDocumenttypesInfoEndpoint import SystemDocumenttypesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -15,9 +11,7 @@ class SystemDocumenttypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "documentTypes", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemDocumenttypesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemDocumenttypesInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemDocumenttypesIdEndpoint:
         """

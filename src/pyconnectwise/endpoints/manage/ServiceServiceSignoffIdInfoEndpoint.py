@@ -33,9 +33,7 @@ class ServiceServicesignoffIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceSignoffInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoffInfo:
         """
         Performs a GET request against the /service/serviceSignoff/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class ServiceServicesignoffIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSignoffInfo: The parsed response data.
         """
-        return self._parse_one(
-            ServiceSignoffInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ServiceSignoffInfo, super()._make_request("GET", data=data, params=params).json())

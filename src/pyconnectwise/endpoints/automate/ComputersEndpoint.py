@@ -1,21 +1,11 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ComputersChassisEndpoint import (
-    ComputersChassisEndpoint,
-)
-from pyconnectwise.endpoints.automate.ComputersDrivesEndpoint import (
-    ComputersDrivesEndpoint,
-)
+from pyconnectwise.endpoints.automate.ComputersChassisEndpoint import ComputersChassisEndpoint
+from pyconnectwise.endpoints.automate.ComputersDrivesEndpoint import ComputersDrivesEndpoint
 from pyconnectwise.endpoints.automate.ComputersIdEndpoint import ComputersIdEndpoint
-from pyconnectwise.endpoints.automate.ComputersMaintenancemodesEndpoint import (
-    ComputersMaintenancemodesEndpoint,
-)
-from pyconnectwise.endpoints.automate.ComputersMemoryslotsEndpoint import (
-    ComputersMemoryslotsEndpoint,
-)
-from pyconnectwise.endpoints.automate.ComputersSoftwareEndpoint import (
-    ComputersSoftwareEndpoint,
-)
+from pyconnectwise.endpoints.automate.ComputersMaintenancemodesEndpoint import ComputersMaintenancemodesEndpoint
+from pyconnectwise.endpoints.automate.ComputersMemoryslotsEndpoint import ComputersMemoryslotsEndpoint
+from pyconnectwise.endpoints.automate.ComputersSoftwareEndpoint import ComputersSoftwareEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import Computer
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -26,21 +16,13 @@ class ComputersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Computers", parent_endpoint=parent_endpoint)
 
+        self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
         self.maintenancemodes = self._register_child_endpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )
-        self.software = self._register_child_endpoint(
-            ComputersSoftwareEndpoint(client, parent_endpoint=self)
-        )
-        self.chassis = self._register_child_endpoint(
-            ComputersChassisEndpoint(client, parent_endpoint=self)
-        )
-        self.memoryslots = self._register_child_endpoint(
-            ComputersMemoryslotsEndpoint(client, parent_endpoint=self)
-        )
-        self.drives = self._register_child_endpoint(
-            ComputersDrivesEndpoint(client, parent_endpoint=self)
-        )
+        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
+        self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
+        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ComputersIdEndpoint:
         """
@@ -55,9 +37,7 @@ class ComputersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Computer]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Computer]:
         """
         Performs a GET request against the /Computers endpoint and returns an initialized PaginatedResponse object.
 
@@ -78,9 +58,7 @@ class ComputersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Computer]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Computer]:
         """
         Performs a GET request against the /Computers endpoint.
 
@@ -90,6 +68,4 @@ class ComputersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Computer]: The parsed response data.
         """
-        return self._parse_many(
-            Computer, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Computer, super()._make_request("GET", data=data, params=params).json())

@@ -10,9 +10,7 @@ class ClientsIdProductkeysEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Productkeys", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ProductKey]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductKey]:
         """
         Performs a GET request against the /Clients/{id}/Productkeys endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class ClientsIdProductkeysEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProductKey]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductKey]:
         """
         Performs a GET request against the /Clients/{id}/Productkeys endpoint.
 
@@ -45,13 +41,9 @@ class ClientsIdProductkeysEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductKey]: The parsed response data.
         """
-        return self._parse_many(
-            ProductKey, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ProductKey, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductKey:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductKey:
         """
         Performs a POST request against the /Clients/{id}/Productkeys endpoint.
 
@@ -61,6 +53,4 @@ class ClientsIdProductkeysEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductKey: The parsed response data.
         """
-        return self._parse_one(
-            ProductKey, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ProductKey, super()._make_request("POST", data=data, params=params).json())

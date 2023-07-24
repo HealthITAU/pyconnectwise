@@ -33,9 +33,7 @@ class ProcurementTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductTypeInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeInfo:
         """
         Performs a GET request against the /procurement/types/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class ProcurementTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductTypeInfo: The parsed response data.
         """
-        return self._parse_one(
-            ProductTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ProductTypeInfo, super()._make_request("GET", data=data, params=params).json())

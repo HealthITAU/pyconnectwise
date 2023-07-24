@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksEndpoint import (
-    ProcurementPricingschedulesIdDetailsIdBreaksEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksEndpoint import \
+    ProcurementPricingschedulesIdDetailsIdBreaksEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PricingDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.breaks = self._register_child_endpoint(
-            ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PricingDetail:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -54,13 +49,9 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingDetail: The parsed response data.
         """
-        return self._parse_one(
-            PricingDetail, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(PricingDetail, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -70,14 +61,9 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PricingDetail:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
         """
         Performs a PUT request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -87,13 +73,9 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingDetail: The parsed response data.
         """
-        return self._parse_one(
-            PricingDetail, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(PricingDetail, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PricingDetail:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
         """
         Performs a PATCH request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -103,7 +85,4 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PricingDetail: The parsed response data.
         """
-        return self._parse_one(
-            PricingDetail,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(PricingDetail, super()._make_request("PATCH", data=data, params=params).json())

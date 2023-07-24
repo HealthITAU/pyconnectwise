@@ -10,9 +10,7 @@ class SensorchecksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Sensorchecks", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[SensorCheck]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SensorCheck]:
         """
         Performs a GET request against the /Sensorchecks endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SensorchecksEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SensorCheck]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SensorCheck]:
         """
         Performs a GET request against the /Sensorchecks endpoint.
 
@@ -45,6 +41,4 @@ class SensorchecksEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SensorCheck]: The parsed response data.
         """
-        return self._parse_many(
-            SensorCheck, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(SensorCheck, super()._make_request("GET", data=data, params=params).json())

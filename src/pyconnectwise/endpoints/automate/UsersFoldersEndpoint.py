@@ -1,8 +1,6 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.UsersFoldersIdEndpoint import (
-    UsersFoldersIdEndpoint,
-)
+from pyconnectwise.endpoints.automate.UsersFoldersIdEndpoint import UsersFoldersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Users import UserFolder
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -26,9 +24,7 @@ class UsersFoldersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserFolder:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserFolder:
         """
         Performs a POST request against the /Users/Folders endpoint.
 
@@ -38,6 +34,4 @@ class UsersFoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             UserFolder: The parsed response data.
         """
-        return self._parse_one(
-            UserFolder, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(UserFolder, super()._make_request("POST", data=data, params=params).json())

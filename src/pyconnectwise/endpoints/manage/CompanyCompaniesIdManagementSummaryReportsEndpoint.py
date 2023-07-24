@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsCountEndpoint import (
-    CompanyCompaniesIdManagementsummaryreportsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsIdEndpoint import (
-    CompanyCompaniesIdManagementsummaryreportsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsCountEndpoint import \
+    CompanyCompaniesIdManagementsummaryreportsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsIdEndpoint import \
+    CompanyCompaniesIdManagementsummaryreportsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyManagementSummary
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,14 +12,10 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class CompanyCompaniesIdManagementsummaryreportsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "managementSummaryReports", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "managementSummaryReports", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyCompaniesIdManagementsummaryreportsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyCompaniesIdManagementsummaryreportsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyCompaniesIdManagementsummaryreportsIdEndpoint:
@@ -33,9 +27,7 @@ class CompanyCompaniesIdManagementsummaryreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyCompaniesIdManagementsummaryreportsIdEndpoint: The initialized CompanyCompaniesIdManagementsummaryreportsIdEndpoint object.
         """
-        child = CompanyCompaniesIdManagementsummaryreportsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyCompaniesIdManagementsummaryreportsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -62,9 +54,7 @@ class CompanyCompaniesIdManagementsummaryreportsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyManagementSummary]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyManagementSummary]:
         """
         Performs a GET request against the /company/companies/{id}/managementSummaryReports endpoint.
 
@@ -74,14 +64,9 @@ class CompanyCompaniesIdManagementsummaryreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyManagementSummary]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyManagementSummary,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CompanyManagementSummary, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyManagementSummary:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyManagementSummary:
         """
         Performs a POST request against the /company/companies/{id}/managementSummaryReports endpoint.
 
@@ -91,7 +76,4 @@ class CompanyCompaniesIdManagementsummaryreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyManagementSummary: The parsed response data.
         """
-        return self._parse_one(
-            CompanyManagementSummary,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyManagementSummary, super()._make_request("POST", data=data, params=params).json())

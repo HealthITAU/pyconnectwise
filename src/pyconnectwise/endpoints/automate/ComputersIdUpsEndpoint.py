@@ -10,9 +10,7 @@ class ComputersIdUpsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Ups", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerUps]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ComputerUps]:
         """
         Performs a GET request against the /Computers/{id}/Ups endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class ComputersIdUpsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ComputerUps]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerUps]:
         """
         Performs a GET request against the /Computers/{id}/Ups endpoint.
 
@@ -45,6 +41,4 @@ class ComputersIdUpsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerUps]: The parsed response data.
         """
-        return self._parse_many(
-            ComputerUps, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ComputerUps, super()._make_request("GET", data=data, params=params).json())

@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemLdapconfigurationsInfoCountEndpoint import (
-    SystemLdapconfigurationsInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemLdapconfigurationsInfoCountEndpoint import \
+    SystemLdapconfigurationsInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LdapConfigurationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class SystemLdapconfigurationsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[LdapConfigurationInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LdapConfigurationInfo]:
         """
         Performs a GET request against the /system/ldapConfigurations/info endpoint.
 
@@ -52,7 +49,4 @@ class SystemLdapconfigurationsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LdapConfigurationInfo]: The parsed response data.
         """
-        return self._parse_many(
-            LdapConfigurationInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(LdapConfigurationInfo, super()._make_request("GET", data=data, params=params).json())

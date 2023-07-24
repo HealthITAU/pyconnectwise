@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint import (
-    ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint import (
-    ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint import \
+    ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint import \
+    ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrderStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoin
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint:
@@ -31,9 +27,7 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoin
         Returns:
             ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint: The initialized ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint object.
         """
-        child = ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -73,13 +67,10 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoin
             list[PurchaseOrderStatusNotification]: The parsed response data.
         """
         return self._parse_many(
-            PurchaseOrderStatusNotification,
-            super()._make_request("GET", data=data, params=params).json(),
+            PurchaseOrderStatusNotification, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PurchaseOrderStatusNotification:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatusNotification:
         """
         Performs a POST request against the /procurement/purchaseorderstatuses/{id}/notifications endpoint.
 
@@ -90,6 +81,5 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(ConnectWiseEndpoin
             PurchaseOrderStatusNotification: The parsed response data.
         """
         return self._parse_one(
-            PurchaseOrderStatusNotification,
-            super()._make_request("POST", data=data, params=params).json(),
+            PurchaseOrderStatusNotification, super()._make_request("POST", data=data, params=params).json()
         )

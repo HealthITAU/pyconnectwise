@@ -33,9 +33,7 @@ class ServiceKnowledgebasesettingsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> KnowledgeBaseSettings:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:
         """
         Performs a GET request against the /service/knowledgebasesettings/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ServiceKnowledgebasesettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseSettings: The parsed response data.
         """
-        return self._parse_one(
-            KnowledgeBaseSettings,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(KnowledgeBaseSettings, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> KnowledgeBaseSettings:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:
         """
         Performs a PUT request against the /service/knowledgebasesettings/{id} endpoint.
 
@@ -62,14 +55,9 @@ class ServiceKnowledgebasesettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseSettings: The parsed response data.
         """
-        return self._parse_one(
-            KnowledgeBaseSettings,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(KnowledgeBaseSettings, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> KnowledgeBaseSettings:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:
         """
         Performs a PATCH request against the /service/knowledgebasesettings/{id} endpoint.
 
@@ -79,7 +67,4 @@ class ServiceKnowledgebasesettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             KnowledgeBaseSettings: The parsed response data.
         """
-        return self._parse_one(
-            KnowledgeBaseSettings,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(KnowledgeBaseSettings, super()._make_request("PATCH", data=data, params=params).json())

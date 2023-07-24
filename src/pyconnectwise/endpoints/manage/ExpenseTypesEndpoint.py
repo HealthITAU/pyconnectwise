@@ -1,13 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseTypesCountEndpoint import (
-    ExpenseTypesCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseTypesCountEndpoint import ExpenseTypesCountEndpoint
 from pyconnectwise.endpoints.manage.ExpenseTypesIdEndpoint import ExpenseTypesIdEndpoint
-from pyconnectwise.endpoints.manage.ExpenseTypesInfoEndpoint import (
-    ExpenseTypesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseTypesInfoEndpoint import ExpenseTypesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,12 +13,8 @@ class ExpenseTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ExpenseTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ExpenseTypesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(ExpenseTypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ExpenseTypesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ExpenseTypesIdEndpoint:
         """
@@ -37,9 +29,7 @@ class ExpenseTypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ExpenseType]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ExpenseType]:
         """
         Performs a GET request against the /expense/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -60,9 +50,7 @@ class ExpenseTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ExpenseType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseType]:
         """
         Performs a GET request against the /expense/types endpoint.
 
@@ -72,13 +60,9 @@ class ExpenseTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseType]: The parsed response data.
         """
-        return self._parse_many(
-            ExpenseType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ExpenseType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ExpenseType:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseType:
         """
         Performs a POST request against the /expense/types endpoint.
 
@@ -88,6 +72,4 @@ class ExpenseTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseType: The parsed response data.
         """
-        return self._parse_one(
-            ExpenseType, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ExpenseType, super()._make_request("POST", data=data, params=params).json())

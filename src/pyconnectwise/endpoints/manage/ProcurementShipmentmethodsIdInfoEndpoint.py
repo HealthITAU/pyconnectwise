@@ -33,9 +33,7 @@ class ProcurementShipmentmethodsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ShipmentMethodInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ShipmentMethodInfo:
         """
         Performs a GET request against the /procurement/shipmentmethods/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class ProcurementShipmentmethodsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ShipmentMethodInfo: The parsed response data.
         """
-        return self._parse_one(
-            ShipmentMethodInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ShipmentMethodInfo, super()._make_request("GET", data=data, params=params).json())

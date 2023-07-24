@@ -10,9 +10,7 @@ class SystemSetupscreensIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[SetupScreen]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SetupScreen]:
         """
         Performs a GET request against the /system/setupScreens/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemSetupscreensIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SetupScreen:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SetupScreen:
         """
         Performs a GET request against the /system/setupScreens/{id} endpoint.
 
@@ -45,6 +41,4 @@ class SystemSetupscreensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SetupScreen: The parsed response data.
         """
-        return self._parse_one(
-            SetupScreen, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(SetupScreen, super()._make_request("GET", data=data, params=params).json())

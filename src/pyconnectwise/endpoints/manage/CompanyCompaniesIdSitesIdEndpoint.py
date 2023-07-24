@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdSitesIdUsagesEndpoint import (
-    CompanyCompaniesIdSitesIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdSitesIdUsagesEndpoint import \
+    CompanyCompaniesIdSitesIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanySite
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +16,7 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
             CompanyCompaniesIdSitesIdUsagesEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[CompanySite]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CompanySite]:
         """
         Performs a GET request against the /company/companies/{id}/sites/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +37,7 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanySite:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanySite:
         """
         Performs a GET request against the /company/companies/{id}/sites/{id} endpoint.
 
@@ -52,13 +47,9 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanySite: The parsed response data.
         """
-        return self._parse_one(
-            CompanySite, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(CompanySite, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/companies/{id}/sites/{id} endpoint.
 
@@ -68,14 +59,9 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanySite:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanySite:
         """
         Performs a PUT request against the /company/companies/{id}/sites/{id} endpoint.
 
@@ -85,13 +71,9 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanySite: The parsed response data.
         """
-        return self._parse_one(
-            CompanySite, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(CompanySite, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanySite:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanySite:
         """
         Performs a PATCH request against the /company/companies/{id}/sites/{id} endpoint.
 
@@ -101,6 +83,4 @@ class CompanyCompaniesIdSitesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanySite: The parsed response data.
         """
-        return self._parse_one(
-            CompanySite, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(CompanySite, super()._make_request("PATCH", data=data, params=params).json())

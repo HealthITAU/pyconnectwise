@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCrmIdInfoEndpoint import (
-    SystemMycompanyCrmIdInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMycompanyCrmIdInfoEndpoint import SystemMycompanyCrmIdInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Crm
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,13 +11,9 @@ class SystemMycompanyCrmIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemMycompanyCrmIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemMycompanyCrmIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Crm]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Crm]:
         """
         Performs a GET request against the /system/myCompany/crm/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -50,9 +44,7 @@ class SystemMycompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Crm: The parsed response data.
         """
-        return self._parse_one(
-            Crm, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Crm, super()._make_request("GET", data=data, params=params).json())
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Crm:
         """
@@ -64,13 +56,9 @@ class SystemMycompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Crm: The parsed response data.
         """
-        return self._parse_one(
-            Crm, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(Crm, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Crm:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Crm:
         """
         Performs a PATCH request against the /system/myCompany/crm/{id} endpoint.
 
@@ -80,6 +68,4 @@ class SystemMycompanyCrmIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Crm: The parsed response data.
         """
-        return self._parse_one(
-            Crm, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(Crm, super()._make_request("PATCH", data=data, params=params).json())

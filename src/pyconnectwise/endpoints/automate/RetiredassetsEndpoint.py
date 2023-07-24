@@ -33,9 +33,7 @@ class RetiredassetsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[RetiredAsset]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RetiredAsset]:
         """
         Performs a GET request against the /Retiredassets endpoint.
 
@@ -45,6 +43,4 @@ class RetiredassetsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RetiredAsset]: The parsed response data.
         """
-        return self._parse_many(
-            RetiredAsset, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(RetiredAsset, super()._make_request("GET", data=data, params=params).json())

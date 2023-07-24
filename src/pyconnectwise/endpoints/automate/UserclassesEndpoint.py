@@ -24,9 +24,7 @@ class UserclassesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[UserClass]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserClass]:
         """
         Performs a GET request against the /Userclasses endpoint and returns an initialized PaginatedResponse object.
 
@@ -47,9 +45,7 @@ class UserclassesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[UserClass]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserClass]:
         """
         Performs a GET request against the /Userclasses endpoint.
 
@@ -59,6 +55,4 @@ class UserclassesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[UserClass]: The parsed response data.
         """
-        return self._parse_many(
-            UserClass, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(UserClass, super()._make_request("GET", data=data, params=params).json())

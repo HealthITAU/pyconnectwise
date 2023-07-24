@@ -93,8 +93,6 @@ class PaginatedResponse(Generic[TModel]):
             PaginatedResponse[TModel]: The updated PaginatedResponse instance
             with the data from the next page or None if there is no next page.
         """
-        print(f'has next page? {self.has_next_page}')
-        print(f'next_page: {self.next_page}')
         if not self.has_next_page or not self.next_page:
             self.has_data = False
             return self

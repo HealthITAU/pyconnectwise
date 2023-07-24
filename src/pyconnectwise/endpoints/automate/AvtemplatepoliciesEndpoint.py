@@ -10,9 +10,7 @@ class AvtemplatepoliciesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Avtemplatepolicies", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AVTemplatePolicy:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AVTemplatePolicy:
         """
         Performs a POST request against the /Avtemplatepolicies endpoint.
 
@@ -22,7 +20,4 @@ class AvtemplatepoliciesEndpoint(ConnectWiseEndpoint):
         Returns:
             AVTemplatePolicy: The parsed response data.
         """
-        return self._parse_one(
-            AVTemplatePolicy,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AVTemplatePolicy, super()._make_request("POST", data=data, params=params).json())

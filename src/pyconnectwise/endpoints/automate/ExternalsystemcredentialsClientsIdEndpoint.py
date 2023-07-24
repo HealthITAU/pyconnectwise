@@ -33,9 +33,7 @@ class ExternalsystemcredentialsClientsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ExternalSystemCredentials]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExternalSystemCredentials]:
         """
         Performs a GET request against the /Externalsystemcredentials/Clients/{id} endpoint.
 
@@ -46,6 +44,5 @@ class ExternalsystemcredentialsClientsIdEndpoint(ConnectWiseEndpoint):
             list[ExternalSystemCredentials]: The parsed response data.
         """
         return self._parse_many(
-            ExternalSystemCredentials,
-            super()._make_request("GET", data=data, params=params).json(),
+            ExternalSystemCredentials, super()._make_request("GET", data=data, params=params).json()
         )

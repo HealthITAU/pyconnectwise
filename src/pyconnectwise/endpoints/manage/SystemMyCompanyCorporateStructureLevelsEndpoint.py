@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructurelevelsCountEndpoint import (
-    SystemMycompanyCorporatestructurelevelsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructurelevelsIdEndpoint import (
-    SystemMycompanyCorporatestructurelevelsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructurelevelsCountEndpoint import \
+    SystemMycompanyCorporatestructurelevelsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructurelevelsIdEndpoint import \
+    SystemMycompanyCorporatestructurelevelsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CorporateStructureLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,14 +12,10 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class SystemMycompanyCorporatestructurelevelsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "corporateStructureLevels", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "corporateStructureLevels", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            SystemMycompanyCorporatestructurelevelsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            SystemMycompanyCorporatestructurelevelsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemMycompanyCorporatestructurelevelsIdEndpoint:
@@ -33,9 +27,7 @@ class SystemMycompanyCorporatestructurelevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemMycompanyCorporatestructurelevelsIdEndpoint: The initialized SystemMycompanyCorporatestructurelevelsIdEndpoint object.
         """
-        child = SystemMycompanyCorporatestructurelevelsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemMycompanyCorporatestructurelevelsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -62,9 +54,7 @@ class SystemMycompanyCorporatestructurelevelsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CorporateStructureLevel]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructureLevel]:
         """
         Performs a GET request against the /system/myCompany/corporateStructureLevels endpoint.
 
@@ -74,7 +64,4 @@ class SystemMycompanyCorporatestructurelevelsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CorporateStructureLevel]: The parsed response data.
         """
-        return self._parse_many(
-            CorporateStructureLevel,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CorporateStructureLevel, super()._make_request("GET", data=data, params=params).json())

@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesCountEndpoint import (
-    MarketingCampaignsTypesIdSubtypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesIdEndpoint import (
-    MarketingCampaignsTypesIdSubtypesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesCountEndpoint import \
+    MarketingCampaignsTypesIdSubtypesCountEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesIdEndpoint import \
+    MarketingCampaignsTypesIdSubtypesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage.Type.SubType import CampaignSubType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class MarketingCampaignsTypesIdSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             MarketingCampaignsTypesIdSubtypesIdEndpoint: The initialized MarketingCampaignsTypesIdSubtypesIdEndpoint object.
         """
-        child = MarketingCampaignsTypesIdSubtypesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = MarketingCampaignsTypesIdSubtypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class MarketingCampaignsTypesIdSubtypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CampaignSubType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/types/{id}/subTypes endpoint.
 
@@ -70,7 +64,4 @@ class MarketingCampaignsTypesIdSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignSubType]: The parsed response data.
         """
-        return self._parse_many(
-            CampaignSubType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CampaignSubType, super()._make_request("GET", data=data, params=params).json())

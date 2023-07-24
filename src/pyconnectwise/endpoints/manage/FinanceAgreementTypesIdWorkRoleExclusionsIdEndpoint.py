@@ -33,9 +33,7 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AgreementTypeWorkRoleExclusion:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkRoleExclusion:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint.
 
@@ -46,13 +44,10 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(ConnectWiseEndpoint):
             AgreementTypeWorkRoleExclusion: The parsed response data.
         """
         return self._parse_one(
-            AgreementTypeWorkRoleExclusion,
-            super()._make_request("GET", data=data, params=params).json(),
+            AgreementTypeWorkRoleExclusion, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint.
 
@@ -62,7 +57,4 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

@@ -10,9 +10,7 @@ class ComputersIdDrivesIdSmartdataEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Smartdata", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[SmartData]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SmartData]:
         """
         Performs a GET request against the /Computers/{id}/Drives/{id}/Smartdata endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class ComputersIdDrivesIdSmartdataEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SmartData]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SmartData]:
         """
         Performs a GET request against the /Computers/{id}/Drives/{id}/Smartdata endpoint.
 
@@ -45,6 +41,4 @@ class ComputersIdDrivesIdSmartdataEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SmartData]: The parsed response data.
         """
-        return self._parse_many(
-            SmartData, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(SmartData, super()._make_request("GET", data=data, params=params).json())

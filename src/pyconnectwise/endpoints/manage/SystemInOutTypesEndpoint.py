@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInouttypesCountEndpoint import (
-    SystemInouttypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInouttypesIdEndpoint import (
-    SystemInouttypesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInouttypesInfoEndpoint import (
-    SystemInouttypesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInouttypesCountEndpoint import SystemInouttypesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInouttypesIdEndpoint import SystemInouttypesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemInouttypesInfoEndpoint import SystemInouttypesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InOutType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class SystemInouttypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "inOutTypes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemInouttypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SystemInouttypesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemInouttypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemInouttypesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemInouttypesIdEndpoint:
         """
@@ -39,9 +29,7 @@ class SystemInouttypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[InOutType]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutType]:
         """
         Performs a GET request against the /system/inOutTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class SystemInouttypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[InOutType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InOutType]:
         """
         Performs a GET request against the /system/inOutTypes endpoint.
 
@@ -74,13 +60,9 @@ class SystemInouttypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InOutType]: The parsed response data.
         """
-        return self._parse_many(
-            InOutType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(InOutType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> InOutType:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutType:
         """
         Performs a POST request against the /system/inOutTypes endpoint.
 
@@ -90,6 +72,4 @@ class SystemInouttypesEndpoint(ConnectWiseEndpoint):
         Returns:
             InOutType: The parsed response data.
         """
-        return self._parse_one(
-            InOutType, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(InOutType, super()._make_request("POST", data=data, params=params).json())

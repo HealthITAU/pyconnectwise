@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxintegrationsCountEndpoint import (
-    FinanceTaxintegrationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceTaxintegrationsIdEndpoint import (
-    FinanceTaxintegrationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceTaxintegrationsCountEndpoint import FinanceTaxintegrationsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxintegrationsIdEndpoint import FinanceTaxintegrationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxIntegration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class FinanceTaxintegrationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "taxIntegrations", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            FinanceTaxintegrationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceTaxintegrationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> FinanceTaxintegrationsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class FinanceTaxintegrationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TaxIntegration]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxIntegration]:
         """
         Performs a GET request against the /finance/taxIntegrations endpoint.
 
@@ -68,7 +60,4 @@ class FinanceTaxintegrationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TaxIntegration]: The parsed response data.
         """
-        return self._parse_many(
-            TaxIntegration,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(TaxIntegration, super()._make_request("GET", data=data, params=params).json())

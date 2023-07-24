@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesInfoCountEndpoint import (
-    FinanceBillingstatusesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesInfoCountEndpoint import \
+    FinanceBillingstatusesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingStatusInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class FinanceBillingstatusesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BillingStatusInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingStatusInfo]:
         """
         Performs a GET request against the /finance/billingStatuses/info endpoint.
 
@@ -52,7 +49,4 @@ class FinanceBillingstatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingStatusInfo]: The parsed response data.
         """
-        return self._parse_many(
-            BillingStatusInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(BillingStatusInfo, super()._make_request("GET", data=data, params=params).json())

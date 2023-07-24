@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdInfoEndpoint import (
-    MarketingCampaignsTypesIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesEndpoint import (
-    MarketingCampaignsTypesIdSubtypesEndpoint,
-)
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdInfoEndpoint import MarketingCampaignsTypesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdSubtypesEndpoint import \
+    MarketingCampaignsTypesIdSubtypesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CampaignType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,11 +13,9 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.info = self._register_child_endpoint(MarketingCampaignsTypesIdInfoEndpoint(client, parent_endpoint=self))
         self.sub_types = self._register_child_endpoint(
             MarketingCampaignsTypesIdSubtypesEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            MarketingCampaignsTypesIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -46,9 +41,7 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CampaignType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignType:
         """
         Performs a GET request against the /marketing/campaigns/types/{id} endpoint.
 
@@ -58,13 +51,9 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignType: The parsed response data.
         """
-        return self._parse_one(
-            CampaignType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(CampaignType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /marketing/campaigns/types/{id} endpoint.
 
@@ -74,14 +63,9 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CampaignType:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignType:
         """
         Performs a PUT request against the /marketing/campaigns/types/{id} endpoint.
 
@@ -91,13 +75,9 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignType: The parsed response data.
         """
-        return self._parse_one(
-            CampaignType, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(CampaignType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CampaignType:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignType:
         """
         Performs a PATCH request against the /marketing/campaigns/types/{id} endpoint.
 
@@ -107,7 +87,4 @@ class MarketingCampaignsTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignType: The parsed response data.
         """
-        return self._parse_one(
-            CampaignType,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(CampaignType, super()._make_request("PATCH", data=data, params=params).json())

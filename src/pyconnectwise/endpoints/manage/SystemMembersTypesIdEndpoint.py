@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersTypesIdInfoEndpoint import (
-    SystemMembersTypesIdInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMembersTypesIdInfoEndpoint import SystemMembersTypesIdInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,13 +11,9 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemMembersTypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemMembersTypesIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[MemberType]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberType]:
         """
         Performs a GET request against the /system/members/types/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +34,7 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberType:
         """
         Performs a GET request against the /system/members/types/{id} endpoint.
 
@@ -52,13 +44,9 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberType: The parsed response data.
         """
-        return self._parse_one(
-            MemberType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(MemberType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/members/types/{id} endpoint.
 
@@ -68,14 +56,9 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberType:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberType:
         """
         Performs a PUT request against the /system/members/types/{id} endpoint.
 
@@ -85,13 +68,9 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberType: The parsed response data.
         """
-        return self._parse_one(
-            MemberType, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(MemberType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberType:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberType:
         """
         Performs a PATCH request against the /system/members/types/{id} endpoint.
 
@@ -101,6 +80,4 @@ class SystemMembersTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberType: The parsed response data.
         """
-        return self._parse_one(
-            MemberType, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(MemberType, super()._make_request("PATCH", data=data, params=params).json())

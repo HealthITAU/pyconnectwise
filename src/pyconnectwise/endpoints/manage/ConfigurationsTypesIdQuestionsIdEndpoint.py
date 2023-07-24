@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdInfoEndpoint import (
-    ConfigurationsTypesIdQuestionsIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesEndpoint import (
-    ConfigurationsTypesIdQuestionsIdValuesEndpoint,
-)
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdInfoEndpoint import \
+    ConfigurationsTypesIdQuestionsIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesEndpoint import \
+    ConfigurationsTypesIdQuestionsIdValuesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

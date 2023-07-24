@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsCountEndpoint import (
-    SystemDepartmentsIdLocationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsIdEndpoint import (
-    SystemDepartmentsIdLocationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsCountEndpoint import \
+    SystemDepartmentsIdLocationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsIdEndpoint import SystemDepartmentsIdLocationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DepartmentLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +26,7 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemDepartmentsIdLocationsIdEndpoint: The initialized SystemDepartmentsIdLocationsIdEndpoint object.
         """
-        child = SystemDepartmentsIdLocationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemDepartmentsIdLocationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +53,7 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[DepartmentLocation]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DepartmentLocation]:
         """
         Performs a GET request against the /system/departments/{id}/locations endpoint.
 
@@ -70,14 +63,9 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DepartmentLocation]: The parsed response data.
         """
-        return self._parse_many(
-            DepartmentLocation,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(DepartmentLocation, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DepartmentLocation:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DepartmentLocation:
         """
         Performs a POST request against the /system/departments/{id}/locations endpoint.
 
@@ -87,7 +75,4 @@ class SystemDepartmentsIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             DepartmentLocation: The parsed response data.
         """
-        return self._parse_one(
-            DepartmentLocation,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(DepartmentLocation, super()._make_request("POST", data=data, params=params).json())

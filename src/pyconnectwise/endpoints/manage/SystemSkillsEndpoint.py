@@ -1,13 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillsCountEndpoint import (
-    SystemSkillsCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemSkillsCountEndpoint import SystemSkillsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemSkillsIdEndpoint import SystemSkillsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillsInfoEndpoint import (
-    SystemSkillsInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemSkillsInfoEndpoint import SystemSkillsInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Skill
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,12 +13,8 @@ class SystemSkillsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "skills", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemSkillsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SystemSkillsInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemSkillsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemSkillsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemSkillsIdEndpoint:
         """
@@ -37,9 +29,7 @@ class SystemSkillsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Skill]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Skill]:
         """
         Performs a GET request against the /system/skills endpoint and returns an initialized PaginatedResponse object.
 
@@ -60,9 +50,7 @@ class SystemSkillsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Skill]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Skill]:
         """
         Performs a GET request against the /system/skills endpoint.
 
@@ -72,13 +60,9 @@ class SystemSkillsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Skill]: The parsed response data.
         """
-        return self._parse_many(
-            Skill, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Skill, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Skill:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Skill:
         """
         Performs a POST request against the /system/skills endpoint.
 
@@ -88,6 +72,4 @@ class SystemSkillsEndpoint(ConnectWiseEndpoint):
         Returns:
             Skill: The parsed response data.
         """
-        return self._parse_one(
-            Skill, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Skill, super()._make_request("POST", data=data, params=params).json())

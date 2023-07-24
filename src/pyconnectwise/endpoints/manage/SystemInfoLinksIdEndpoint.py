@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoLinksIdResolveurlEndpoint import (
-    SystemInfoLinksIdResolveurlEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInfoLinksIdResolveurlEndpoint import SystemInfoLinksIdResolveurlEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LinkInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
             SystemInfoLinksIdResolveurlEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[LinkInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[LinkInfo]:
         """
         Performs a GET request against the /system/info/links/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +36,7 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> LinkInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LinkInfo:
         """
         Performs a GET request against the /system/info/links/{id} endpoint.
 
@@ -52,6 +46,4 @@ class SystemInfoLinksIdEndpoint(ConnectWiseEndpoint):
         Returns:
             LinkInfo: The parsed response data.
         """
-        return self._parse_one(
-            LinkInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(LinkInfo, super()._make_request("GET", data=data, params=params).json())

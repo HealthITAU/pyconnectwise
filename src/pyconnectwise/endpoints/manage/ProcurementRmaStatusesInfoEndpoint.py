@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementRmastatusesInfoCountEndpoint import (
-    ProcurementRmastatusesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementRmastatusesInfoCountEndpoint import \
+    ProcurementRmastatusesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaStatusInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class ProcurementRmastatusesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[RmaStatusInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RmaStatusInfo]:
         """
         Performs a GET request against the /procurement/rmaStatuses/info endpoint.
 
@@ -52,6 +49,4 @@ class ProcurementRmastatusesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RmaStatusInfo]: The parsed response data.
         """
-        return self._parse_many(
-            RmaStatusInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(RmaStatusInfo, super()._make_request("GET", data=data, params=params).json())

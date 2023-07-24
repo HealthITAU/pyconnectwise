@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint import (
-    FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint import (
-    FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint import \
+    FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint import \
+    FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedProcurementTaxableLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,14 +15,10 @@ class FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint(ConnectWiseEnd
         super().__init__(client, "taxableLevels", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceAccountingUnpostedprocurementIdTaxablelevelsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int
-    ) -> FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint:
+    def id(self, id: int) -> FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint object to move down the chain.
 
@@ -33,9 +27,7 @@ class FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint(ConnectWiseEnd
         Returns:
             FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint: The initialized FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -75,6 +67,5 @@ class FinanceAccountingUnpostedprocurementIdTaxablelevelsEndpoint(ConnectWiseEnd
             list[UnpostedProcurementTaxableLevel]: The parsed response data.
         """
         return self._parse_many(
-            UnpostedProcurementTaxableLevel,
-            super()._make_request("GET", data=data, params=params).json(),
+            UnpostedProcurementTaxableLevel, super()._make_request("GET", data=data, params=params).json()
         )

@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdInfoEndpoint import (
-    SalesOpportunitiesTypesIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdUsagesEndpoint import (
-    SalesOpportunitiesTypesIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdInfoEndpoint import SalesOpportunitiesTypesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdUsagesEndpoint import \
+    SalesOpportunitiesTypesIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,9 +16,7 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         self.usages = self._register_child_endpoint(
             SalesOpportunitiesTypesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(
-            SalesOpportunitiesTypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SalesOpportunitiesTypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -46,9 +41,7 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityType:
         """
         Performs a GET request against the /sales/opportunities/types/{id} endpoint.
 
@@ -58,14 +51,9 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityType: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/opportunities/types/{id} endpoint.
 
@@ -75,14 +63,9 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityType:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityType:
         """
         Performs a PUT request against the /sales/opportunities/types/{id} endpoint.
 
@@ -92,14 +75,9 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityType: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityType,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityType:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityType:
         """
         Performs a PATCH request against the /sales/opportunities/types/{id} endpoint.
 
@@ -109,7 +87,4 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityType: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityType,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityType, super()._make_request("PATCH", data=data, params=params).json())

@@ -33,9 +33,7 @@ class ExpensePaymenttypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[PaymentTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PaymentTypeInfo]:
         """
         Performs a GET request against the /expense/paymentTypes/info endpoint.
 
@@ -45,7 +43,4 @@ class ExpensePaymenttypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PaymentTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            PaymentTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(PaymentTypeInfo, super()._make_request("GET", data=data, params=params).json())

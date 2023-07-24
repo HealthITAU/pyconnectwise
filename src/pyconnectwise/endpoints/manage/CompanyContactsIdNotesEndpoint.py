@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdNotesCountEndpoint import (
-    CompanyContactsIdNotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyContactsIdNotesIdEndpoint import (
-    CompanyContactsIdNotesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyContactsIdNotesCountEndpoint import CompanyContactsIdNotesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdNotesIdEndpoint import CompanyContactsIdNotesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class CompanyContactsIdNotesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyContactsIdNotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyContactsIdNotesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyContactsIdNotesIdEndpoint:
         """
@@ -33,9 +27,7 @@ class CompanyContactsIdNotesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ContactNote]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ContactNote]:
         """
         Performs a GET request against the /company/contacts/{id}/notes endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class CompanyContactsIdNotesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ContactNote]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactNote]:
         """
         Performs a GET request against the /company/contacts/{id}/notes endpoint.
 
@@ -68,13 +58,9 @@ class CompanyContactsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ContactNote]: The parsed response data.
         """
-        return self._parse_many(
-            ContactNote, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ContactNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactNote:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactNote:
         """
         Performs a POST request against the /company/contacts/{id}/notes endpoint.
 
@@ -84,6 +70,4 @@ class CompanyContactsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactNote: The parsed response data.
         """
-        return self._parse_one(
-            ContactNote, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ContactNote, super()._make_request("POST", data=data, params=params).json())

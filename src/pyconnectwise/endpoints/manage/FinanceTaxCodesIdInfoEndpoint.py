@@ -10,9 +10,7 @@ class FinanceTaxcodesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[TaxCodeInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCodeInfo]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class FinanceTaxcodesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TaxCodeInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeInfo:
         """
         Performs a GET request against the /finance/taxCodes/{id}/info endpoint.
 
@@ -45,6 +41,4 @@ class FinanceTaxcodesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             TaxCodeInfo: The parsed response data.
         """
-        return self._parse_one(
-            TaxCodeInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(TaxCodeInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesCountEndpoint import (
-    CompanyCompaniesIdCustomstatusnotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesIdEndpoint import (
-    CompanyCompaniesIdCustomstatusnotesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesCountEndpoint import \
+    CompanyCompaniesIdCustomstatusnotesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesIdEndpoint import \
+    CompanyCompaniesIdCustomstatusnotesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyCustomNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class CompanyCompaniesIdCustomstatusnotesEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "customStatusNotes", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyCompaniesIdCustomstatusnotesCountEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyCompaniesIdCustomstatusnotesCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyCompaniesIdCustomstatusnotesIdEndpoint:
@@ -31,9 +27,7 @@ class CompanyCompaniesIdCustomstatusnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyCompaniesIdCustomstatusnotesIdEndpoint: The initialized CompanyCompaniesIdCustomstatusnotesIdEndpoint object.
         """
-        child = CompanyCompaniesIdCustomstatusnotesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyCompaniesIdCustomstatusnotesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class CompanyCompaniesIdCustomstatusnotesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyCustomNote]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyCustomNote]:
         """
         Performs a GET request against the /company/companies/{id}/customStatusNotes endpoint.
 
@@ -72,14 +64,9 @@ class CompanyCompaniesIdCustomstatusnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyCustomNote]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyCustomNote,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CompanyCustomNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyCustomNote:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyCustomNote:
         """
         Performs a POST request against the /company/companies/{id}/customStatusNotes endpoint.
 
@@ -89,7 +76,4 @@ class CompanyCompaniesIdCustomstatusnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyCustomNote: The parsed response data.
         """
-        return self._parse_one(
-            CompanyCustomNote,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyCustomNote, super()._make_request("POST", data=data, params=params).json())

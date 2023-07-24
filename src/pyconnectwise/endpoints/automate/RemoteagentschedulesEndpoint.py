@@ -8,9 +8,7 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class RemoteagentschedulesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "Remoteagentschedules", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "Remoteagentschedules", parent_endpoint=parent_endpoint)
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -35,9 +33,7 @@ class RemoteagentschedulesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[RemoteAgentSchedule]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RemoteAgentSchedule]:
         """
         Performs a GET request against the /Remoteagentschedules endpoint.
 
@@ -47,14 +43,9 @@ class RemoteagentschedulesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[RemoteAgentSchedule]: The parsed response data.
         """
-        return self._parse_many(
-            RemoteAgentSchedule,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(RemoteAgentSchedule, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> RemoteAgentSchedule:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RemoteAgentSchedule:
         """
         Performs a POST request against the /Remoteagentschedules endpoint.
 
@@ -64,7 +55,4 @@ class RemoteagentschedulesEndpoint(ConnectWiseEndpoint):
         Returns:
             RemoteAgentSchedule: The parsed response data.
         """
-        return self._parse_one(
-            RemoteAgentSchedule,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(RemoteAgentSchedule, super()._make_request("POST", data=data, params=params).json())

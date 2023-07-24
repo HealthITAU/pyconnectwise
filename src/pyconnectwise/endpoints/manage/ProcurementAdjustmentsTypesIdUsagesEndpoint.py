@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdUsagesListEndpoint import (
-    ProcurementAdjustmentsTypesIdUsagesListEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdUsagesListEndpoint import \
+    ProcurementAdjustmentsTypesIdUsagesListEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Usage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,14 +13,10 @@ class ProcurementAdjustmentsTypesIdUsagesEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "usages", parent_endpoint=parent_endpoint)
 
         self.list = self._register_child_endpoint(
-            ProcurementAdjustmentsTypesIdUsagesListEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementAdjustmentsTypesIdUsagesListEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Usage]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Usage]:
         """
         Performs a GET request against the /procurement/adjustments/types/{id}/usages endpoint and returns an initialized PaginatedResponse object.
 
@@ -42,9 +37,7 @@ class ProcurementAdjustmentsTypesIdUsagesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Usage]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Usage]:
         """
         Performs a GET request against the /procurement/adjustments/types/{id}/usages endpoint.
 
@@ -54,6 +47,4 @@ class ProcurementAdjustmentsTypesIdUsagesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Usage]: The parsed response data.
         """
-        return self._parse_many(
-            Usage, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Usage, super()._make_request("GET", data=data, params=params).json())

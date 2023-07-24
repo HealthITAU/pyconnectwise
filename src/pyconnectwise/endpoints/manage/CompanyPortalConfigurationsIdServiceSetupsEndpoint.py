@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsCountEndpoint import (
-    CompanyPortalconfigurationsIdServicesetupsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsIdEndpoint import (
-    CompanyPortalconfigurationsIdServicesetupsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsCountEndpoint import \
+    CompanyPortalconfigurationsIdServicesetupsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsIdEndpoint import \
+    CompanyPortalconfigurationsIdServicesetupsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationServiceSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "serviceSetups", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdServicesetupsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyPortalconfigurationsIdServicesetupsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyPortalconfigurationsIdServicesetupsIdEndpoint:
@@ -31,9 +27,7 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyPortalconfigurationsIdServicesetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdServicesetupsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyPortalconfigurationsIdServicesetupsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -73,6 +67,5 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(ConnectWiseEndpoint):
             list[PortalConfigurationServiceSetup]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationServiceSetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationServiceSetup, super()._make_request("GET", data=data, params=params).json()
         )

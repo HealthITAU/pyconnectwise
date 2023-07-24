@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersCountEndpoint import (
-    SystemWorkflowsIdTriggersCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersIdEndpoint import (
-    SystemWorkflowsIdTriggersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersCountEndpoint import SystemWorkflowsIdTriggersCountEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersIdEndpoint import SystemWorkflowsIdTriggersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowTrigger
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemWorkflowsIdTriggersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "triggers", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemWorkflowsIdTriggersCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemWorkflowsIdTriggersCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemWorkflowsIdTriggersIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemWorkflowsIdTriggersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkflowTrigger]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowTrigger]:
         """
         Performs a GET request against the /system/workflows/{id}/triggers endpoint.
 
@@ -68,7 +60,4 @@ class SystemWorkflowsIdTriggersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowTrigger]: The parsed response data.
         """
-        return self._parse_many(
-            WorkflowTrigger,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WorkflowTrigger, super()._make_request("GET", data=data, params=params).json())

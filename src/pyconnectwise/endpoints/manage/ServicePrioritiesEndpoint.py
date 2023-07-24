@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServicePrioritiesCountEndpoint import (
-    ServicePrioritiesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServicePrioritiesIdEndpoint import (
-    ServicePrioritiesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServicePrioritiesCountEndpoint import ServicePrioritiesCountEndpoint
+from pyconnectwise.endpoints.manage.ServicePrioritiesIdEndpoint import ServicePrioritiesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Priority
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "priorities", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServicePrioritiesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServicePrioritiesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServicePrioritiesIdEndpoint:
         """
@@ -33,9 +27,7 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Priority]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Priority]:
         """
         Performs a GET request against the /service/priorities endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Priority]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Priority]:
         """
         Performs a GET request against the /service/priorities endpoint.
 
@@ -68,13 +58,9 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Priority]: The parsed response data.
         """
-        return self._parse_many(
-            Priority, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Priority, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Priority:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Priority:
         """
         Performs a POST request against the /service/priorities endpoint.
 
@@ -84,6 +70,4 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         Returns:
             Priority: The parsed response data.
         """
-        return self._parse_one(
-            Priority, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Priority, super()._make_request("POST", data=data, params=params).json())

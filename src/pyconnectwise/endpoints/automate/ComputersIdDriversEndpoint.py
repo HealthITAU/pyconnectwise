@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import (
-    ComputerDriver,
-)
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import ComputerDriver
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -35,9 +33,7 @@ class ComputersIdDriversEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ComputerDriver]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerDriver]:
         """
         Performs a GET request against the /Computers/{id}/Drivers endpoint.
 
@@ -47,7 +43,4 @@ class ComputersIdDriversEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerDriver]: The parsed response data.
         """
-        return self._parse_many(
-            ComputerDriver,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ComputerDriver, super()._make_request("GET", data=data, params=params).json())

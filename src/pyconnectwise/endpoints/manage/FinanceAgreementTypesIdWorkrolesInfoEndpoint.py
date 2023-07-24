@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoCountEndpoint import (
-    FinanceAgreementtypesIdWorkrolesInfoCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoIdEndpoint import (
-    FinanceAgreementtypesIdWorkrolesInfoIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoCountEndpoint import \
+    FinanceAgreementtypesIdWorkrolesInfoCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoIdEndpoint import \
+    FinanceAgreementtypesIdWorkrolesInfoIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeWorkRoleInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceAgreementtypesIdWorkrolesInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceAgreementtypesIdWorkrolesInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> FinanceAgreementtypesIdWorkrolesInfoIdEndpoint:
@@ -31,9 +27,7 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAgreementtypesIdWorkrolesInfoIdEndpoint: The initialized FinanceAgreementtypesIdWorkrolesInfoIdEndpoint object.
         """
-        child = FinanceAgreementtypesIdWorkrolesInfoIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAgreementtypesIdWorkrolesInfoIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[AgreementTypeWorkRoleInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkRoleInfo]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workroles/info endpoint.
 
@@ -73,6 +65,5 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(ConnectWiseEndpoint):
             list[AgreementTypeWorkRoleInfo]: The parsed response data.
         """
         return self._parse_many(
-            AgreementTypeWorkRoleInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            AgreementTypeWorkRoleInfo, super()._make_request("GET", data=data, params=params).json()
         )

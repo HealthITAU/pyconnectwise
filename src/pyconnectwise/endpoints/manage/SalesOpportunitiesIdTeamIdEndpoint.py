@@ -10,9 +10,7 @@ class SalesOpportunitiesIdTeamIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Team]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Team]:
         """
         Performs a GET request against the /sales/opportunities/{id}/team/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -43,13 +41,9 @@ class SalesOpportunitiesIdTeamIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Team: The parsed response data.
         """
-        return self._parse_one(
-            Team, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Team, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /sales/opportunities/{id}/team/{id} endpoint.
 
@@ -59,10 +53,7 @@ class SalesOpportunitiesIdTeamIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Team:
         """
@@ -74,13 +65,9 @@ class SalesOpportunitiesIdTeamIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Team: The parsed response data.
         """
-        return self._parse_one(
-            Team, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(Team, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Team:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Team:
         """
         Performs a PATCH request against the /sales/opportunities/{id}/team/{id} endpoint.
 
@@ -90,6 +77,4 @@ class SalesOpportunitiesIdTeamIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Team: The parsed response data.
         """
-        return self._parse_one(
-            Team, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(Team, super()._make_request("PATCH", data=data, params=params).json())

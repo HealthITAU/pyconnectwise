@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint import (
-    FinanceAccountingpackagesetupCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupIdEndpoint import (
-    FinanceAccountingpackagesetupIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint import \
+    FinanceAccountingpackagesetupCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupIdEndpoint import \
+    FinanceAccountingpackagesetupIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AccountingPackageSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +12,7 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "accountingPackageSetup", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "accountingPackageSetup", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
             FinanceAccountingpackagesetupCountEndpoint(client, parent_endpoint=self)
@@ -31,9 +27,7 @@ class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
         Returns:
             FinanceAccountingpackagesetupIdEndpoint: The initialized FinanceAccountingpackagesetupIdEndpoint object.
         """
-        child = FinanceAccountingpackagesetupIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAccountingpackagesetupIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[AccountingPackageSetup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup endpoint.
 
@@ -72,7 +64,4 @@ class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AccountingPackageSetup]: The parsed response data.
         """
-        return self._parse_many(
-            AccountingPackageSetup,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AccountingPackageSetup, super()._make_request("GET", data=data, params=params).json())

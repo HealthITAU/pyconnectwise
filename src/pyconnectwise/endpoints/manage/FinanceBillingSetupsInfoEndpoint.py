@@ -33,9 +33,7 @@ class FinanceBillingsetupsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BillingSetupInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingSetupInfo]:
         """
         Performs a GET request against the /finance/billingSetups/info endpoint.
 
@@ -45,7 +43,4 @@ class FinanceBillingsetupsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingSetupInfo]: The parsed response data.
         """
-        return self._parse_many(
-            BillingSetupInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(BillingSetupInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesCountEndpoint import (
-    FinanceBillingstatusesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdEndpoint import (
-    FinanceBillingstatusesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceBillingstatusesInfoEndpoint import (
-    FinanceBillingstatusesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesCountEndpoint import FinanceBillingstatusesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdEndpoint import FinanceBillingstatusesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingstatusesInfoEndpoint import FinanceBillingstatusesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "billingStatuses", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            FinanceBillingstatusesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceBillingstatusesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(FinanceBillingstatusesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(FinanceBillingstatusesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> FinanceBillingstatusesIdEndpoint:
         """
@@ -62,9 +52,7 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BillingStatus]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingStatus]:
         """
         Performs a GET request against the /finance/billingStatuses endpoint.
 
@@ -74,13 +62,9 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BillingStatus]: The parsed response data.
         """
-        return self._parse_many(
-            BillingStatus, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(BillingStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BillingStatus:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatus:
         """
         Performs a POST request against the /finance/billingStatuses endpoint.
 
@@ -90,7 +74,4 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             BillingStatus: The parsed response data.
         """
-        return self._parse_one(
-            BillingStatus,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(BillingStatus, super()._make_request("POST", data=data, params=params).json())

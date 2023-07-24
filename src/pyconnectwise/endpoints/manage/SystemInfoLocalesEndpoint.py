@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoLocalesCountEndpoint import (
-    SystemInfoLocalesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInfoLocalesIdEndpoint import (
-    SystemInfoLocalesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemInfoLocalesCountEndpoint import SystemInfoLocalesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInfoLocalesIdEndpoint import SystemInfoLocalesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LocaleInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemInfoLocalesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locales", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemInfoLocalesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemInfoLocalesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemInfoLocalesIdEndpoint:
         """
@@ -33,9 +27,7 @@ class SystemInfoLocalesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[LocaleInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[LocaleInfo]:
         """
         Performs a GET request against the /system/info/locales endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class SystemInfoLocalesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[LocaleInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocaleInfo]:
         """
         Performs a GET request against the /system/info/locales endpoint.
 
@@ -68,6 +58,4 @@ class SystemInfoLocalesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LocaleInfo]: The parsed response data.
         """
-        return self._parse_many(
-            LocaleInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LocaleInfo, super()._make_request("GET", data=data, params=params).json())

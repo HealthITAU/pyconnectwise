@@ -33,9 +33,7 @@ class TemplatepropertiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TemplateProperty]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TemplateProperty]:
         """
         Performs a GET request against the /Templateproperties endpoint.
 
@@ -45,14 +43,9 @@ class TemplatepropertiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TemplateProperty]: The parsed response data.
         """
-        return self._parse_many(
-            TemplateProperty,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(TemplateProperty, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TemplateProperty:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TemplateProperty:
         """
         Performs a POST request against the /Templateproperties endpoint.
 
@@ -62,7 +55,4 @@ class TemplatepropertiesEndpoint(ConnectWiseEndpoint):
         Returns:
             TemplateProperty: The parsed response data.
         """
-        return self._parse_one(
-            TemplateProperty,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(TemplateProperty, super()._make_request("POST", data=data, params=params).json())

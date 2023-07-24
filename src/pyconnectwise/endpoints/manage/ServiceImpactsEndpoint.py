@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceImpactsCountEndpoint import (
-    ServiceImpactsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceImpactsIdEndpoint import (
-    ServiceImpactsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceImpactsCountEndpoint import ServiceImpactsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceImpactsIdEndpoint import ServiceImpactsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Impact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ServiceImpactsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "impacts", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServiceImpactsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServiceImpactsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceImpactsIdEndpoint:
         """
@@ -33,9 +27,7 @@ class ServiceImpactsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Impact]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Impact]:
         """
         Performs a GET request against the /service/impacts endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class ServiceImpactsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Impact]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Impact]:
         """
         Performs a GET request against the /service/impacts endpoint.
 
@@ -68,6 +58,4 @@ class ServiceImpactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Impact]: The parsed response data.
         """
-        return self._parse_many(
-            Impact, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Impact, super()._make_request("GET", data=data, params=params).json())

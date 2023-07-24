@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsActionsIdEndpoint import (
-    SystemWorkflowsUserdefinedfieldsActionsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsActionsIdEndpoint import \
+    SystemWorkflowsUserdefinedfieldsActionsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -21,8 +20,6 @@ class SystemWorkflowsUserdefinedfieldsActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemWorkflowsUserdefinedfieldsActionsIdEndpoint: The initialized SystemWorkflowsUserdefinedfieldsActionsIdEndpoint object.
         """
-        child = SystemWorkflowsUserdefinedfieldsActionsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemWorkflowsUserdefinedfieldsActionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child

@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesActivitiesStatusesCountEndpoint import (
-    SalesActivitiesStatusesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesActivitiesStatusesIdEndpoint import (
-    SalesActivitiesStatusesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesActivitiesStatusesInfoEndpoint import (
-    SalesActivitiesStatusesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesActivitiesStatusesCountEndpoint import SalesActivitiesStatusesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesStatusesIdEndpoint import SalesActivitiesStatusesIdEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesStatusesInfoEndpoint import SalesActivitiesStatusesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ActivityStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class SalesActivitiesStatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SalesActivitiesStatusesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SalesActivitiesStatusesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SalesActivitiesStatusesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesActivitiesStatusesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesActivitiesStatusesIdEndpoint:
         """
@@ -62,9 +52,7 @@ class SalesActivitiesStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ActivityStatus]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityStatus]:
         """
         Performs a GET request against the /sales/activities/statuses endpoint.
 
@@ -74,14 +62,9 @@ class SalesActivitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ActivityStatus]: The parsed response data.
         """
-        return self._parse_many(
-            ActivityStatus,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ActivityStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ActivityStatus:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ActivityStatus:
         """
         Performs a POST request against the /sales/activities/statuses endpoint.
 
@@ -91,7 +74,4 @@ class SalesActivitiesStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             ActivityStatus: The parsed response data.
         """
-        return self._parse_one(
-            ActivityStatus,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ActivityStatus, super()._make_request("POST", data=data, params=params).json())

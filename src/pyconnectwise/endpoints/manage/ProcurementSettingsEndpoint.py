@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementSettingsCountEndpoint import (
-    ProcurementSettingsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementSettingsIdEndpoint import (
-    ProcurementSettingsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementSettingsCountEndpoint import ProcurementSettingsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementSettingsIdEndpoint import ProcurementSettingsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProcurementSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "settings", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ProcurementSettingsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProcurementSettingsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProcurementSettingsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProcurementSetting]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProcurementSetting]:
         """
         Performs a GET request against the /procurement/settings endpoint.
 
@@ -68,7 +60,4 @@ class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProcurementSetting]: The parsed response data.
         """
-        return self._parse_many(
-            ProcurementSetting,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProcurementSetting, super()._make_request("GET", data=data, params=params).json())

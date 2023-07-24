@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesStagesInfoCountEndpoint import (
-    SalesStagesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesStagesInfoCountEndpoint import SalesStagesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityStageInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,9 +11,7 @@ class SalesStagesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SalesStagesInfoCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SalesStagesInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -40,9 +36,7 @@ class SalesStagesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OpportunityStageInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityStageInfo]:
         """
         Performs a GET request against the /sales/stages/info endpoint.
 
@@ -52,7 +46,4 @@ class SalesStagesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityStageInfo]: The parsed response data.
         """
-        return self._parse_many(
-            OpportunityStageInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(OpportunityStageInfo, super()._make_request("GET", data=data, params=params).json())

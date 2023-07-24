@@ -1,8 +1,6 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.DataviewfoldersIdEndpoint import (
-    DataviewfoldersIdEndpoint,
-)
+from pyconnectwise.endpoints.automate.DataviewfoldersIdEndpoint import DataviewfoldersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.LabTech.Models import DataViewFolder
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -49,9 +47,7 @@ class DataviewfoldersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[DataViewFolder]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DataViewFolder]:
         """
         Performs a GET request against the /Dataviewfolders endpoint.
 
@@ -61,7 +57,4 @@ class DataviewfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[DataViewFolder]: The parsed response data.
         """
-        return self._parse_many(
-            DataViewFolder,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(DataViewFolder, super()._make_request("GET", data=data, params=params).json())

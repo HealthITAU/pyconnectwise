@@ -33,9 +33,7 @@ class ServiceSurveysIdQuestionsIdOptionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SurveyOption:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyOption:
         """
         Performs a GET request against the /service/surveys/{id}/questions/{id}/options/{id} endpoint.
 
@@ -45,13 +43,9 @@ class ServiceSurveysIdQuestionsIdOptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyOption: The parsed response data.
         """
-        return self._parse_one(
-            SurveyOption, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(SurveyOption, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/surveys/{id}/questions/{id}/options/{id} endpoint.
 
@@ -61,14 +55,9 @@ class ServiceSurveysIdQuestionsIdOptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SurveyOption:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyOption:
         """
         Performs a PUT request against the /service/surveys/{id}/questions/{id}/options/{id} endpoint.
 
@@ -78,13 +67,9 @@ class ServiceSurveysIdQuestionsIdOptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyOption: The parsed response data.
         """
-        return self._parse_one(
-            SurveyOption, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(SurveyOption, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SurveyOption:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyOption:
         """
         Performs a PATCH request against the /service/surveys/{id}/questions/{id}/options/{id} endpoint.
 
@@ -94,7 +79,4 @@ class ServiceSurveysIdQuestionsIdOptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyOption: The parsed response data.
         """
-        return self._parse_one(
-            SurveyOption,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(SurveyOption, super()._make_request("PATCH", data=data, params=params).json())

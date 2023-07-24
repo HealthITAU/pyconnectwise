@@ -10,9 +10,7 @@ class ScheduleColorsResetEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "reset", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ScheduleColor]:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleColor]:
         """
         Performs a POST request against the /schedule/colors/reset endpoint.
 
@@ -22,7 +20,4 @@ class ScheduleColorsResetEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScheduleColor]: The parsed response data.
         """
-        return self._parse_many(
-            ScheduleColor,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_many(ScheduleColor, super()._make_request("POST", data=data, params=params).json())

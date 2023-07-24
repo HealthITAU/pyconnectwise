@@ -33,9 +33,7 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SearchFolder]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SearchFolder]:
         """
         Performs a GET request against the /Searchfolders endpoint.
 
@@ -45,13 +43,9 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SearchFolder]: The parsed response data.
         """
-        return self._parse_many(
-            SearchFolder, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(SearchFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SearchFolder:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SearchFolder:
         """
         Performs a POST request against the /Searchfolders endpoint.
 
@@ -61,6 +55,4 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             SearchFolder: The parsed response data.
         """
-        return self._parse_one(
-            SearchFolder, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(SearchFolder, super()._make_request("POST", data=data, params=params).json())

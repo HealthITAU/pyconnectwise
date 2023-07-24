@@ -10,9 +10,7 @@ class SystemSsoconfigurationsIdSubmitmembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "submitmembers", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SsoConfiguration:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SsoConfiguration:
         """
         Performs a POST request against the /system/ssoConfigurations/{id}/submitmembers endpoint.
 
@@ -22,7 +20,4 @@ class SystemSsoconfigurationsIdSubmitmembersEndpoint(ConnectWiseEndpoint):
         Returns:
             SsoConfiguration: The parsed response data.
         """
-        return self._parse_one(
-            SsoConfiguration,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(SsoConfiguration, super()._make_request("POST", data=data, params=params).json())

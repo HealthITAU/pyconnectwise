@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsCountEndpoint import (
-    ProcurementProductsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementProductsIdEndpoint import (
-    ProcurementProductsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementProductsCountEndpoint import ProcurementProductsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementProductsIdEndpoint import ProcurementProductsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProductItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "products", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ProcurementProductsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProcurementProductsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProcurementProductsIdEndpoint:
         """
@@ -33,9 +27,7 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ProductItem]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductItem]:
         """
         Performs a GET request against the /procurement/products endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProductItem]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductItem]:
         """
         Performs a GET request against the /procurement/products endpoint.
 
@@ -68,13 +58,9 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductItem]: The parsed response data.
         """
-        return self._parse_many(
-            ProductItem, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ProductItem, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductItem:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
         """
         Performs a POST request against the /procurement/products endpoint.
 
@@ -84,6 +70,4 @@ class ProcurementProductsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductItem: The parsed response data.
         """
-        return self._parse_one(
-            ProductItem, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ProductItem, super()._make_request("POST", data=data, params=params).json())

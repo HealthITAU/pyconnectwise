@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesIdInfoEndpoint import (
-    SystemWorkflowsTabletypesIdInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesIdInfoEndpoint import \
+    SystemWorkflowsTabletypesIdInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowTableType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,9 +12,7 @@ class SystemWorkflowsTabletypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemWorkflowsTabletypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemWorkflowsTabletypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -40,9 +37,7 @@ class SystemWorkflowsTabletypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowTableType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowTableType:
         """
         Performs a GET request against the /system/workflows/tableTypes/{id} endpoint.
 
@@ -52,7 +47,4 @@ class SystemWorkflowsTabletypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowTableType: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowTableType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkflowTableType, super()._make_request("GET", data=data, params=params).json())

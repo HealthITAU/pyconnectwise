@@ -33,9 +33,7 @@ class CompanyCompaniesIdGroupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyGroup:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyGroup:
         """
         Performs a GET request against the /company/companies/{id}/groups/{id} endpoint.
 
@@ -45,13 +43,9 @@ class CompanyCompaniesIdGroupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyGroup: The parsed response data.
         """
-        return self._parse_one(
-            CompanyGroup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(CompanyGroup, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/companies/{id}/groups/{id} endpoint.
 
@@ -61,14 +55,9 @@ class CompanyCompaniesIdGroupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyGroup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyGroup:
         """
         Performs a PUT request against the /company/companies/{id}/groups/{id} endpoint.
 
@@ -78,13 +67,9 @@ class CompanyCompaniesIdGroupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyGroup: The parsed response data.
         """
-        return self._parse_one(
-            CompanyGroup, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(CompanyGroup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyGroup:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyGroup:
         """
         Performs a PATCH request against the /company/companies/{id}/groups/{id} endpoint.
 
@@ -94,7 +79,4 @@ class CompanyCompaniesIdGroupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyGroup: The parsed response data.
         """
-        return self._parse_one(
-            CompanyGroup,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyGroup, super()._make_request("PATCH", data=data, params=params).json())

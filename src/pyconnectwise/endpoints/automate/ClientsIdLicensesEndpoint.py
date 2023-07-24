@@ -33,9 +33,7 @@ class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ManagedLicense]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedLicense]:
         """
         Performs a GET request against the /Clients/{id}/Licenses endpoint.
 
@@ -45,14 +43,9 @@ class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ManagedLicense]: The parsed response data.
         """
-        return self._parse_many(
-            ManagedLicense,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ManagedLicense, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ManagedLicense:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedLicense:
         """
         Performs a POST request against the /Clients/{id}/Licenses endpoint.
 
@@ -62,7 +55,4 @@ class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
         Returns:
             ManagedLicense: The parsed response data.
         """
-        return self._parse_one(
-            ManagedLicense,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ManagedLicense, super()._make_request("POST", data=data, params=params).json())

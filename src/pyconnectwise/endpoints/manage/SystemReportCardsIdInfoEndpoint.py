@@ -33,9 +33,7 @@ class SystemReportcardsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ReportCardInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportCardInfo:
         """
         Performs a GET request against the /system/reportCards/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class SystemReportcardsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ReportCardInfo: The parsed response data.
         """
-        return self._parse_one(
-            ReportCardInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ReportCardInfo, super()._make_request("GET", data=data, params=params).json())

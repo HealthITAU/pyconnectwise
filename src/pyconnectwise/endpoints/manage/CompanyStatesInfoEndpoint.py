@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyStatesInfoCountEndpoint import (
-    CompanyStatesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyStatesInfoCountEndpoint import CompanyStatesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import StateInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -13,13 +11,9 @@ class CompanyStatesInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyStatesInfoCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyStatesInfoCountEndpoint(client, parent_endpoint=self))
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[StateInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[StateInfo]:
         """
         Performs a GET request against the /company/states/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +34,7 @@ class CompanyStatesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[StateInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[StateInfo]:
         """
         Performs a GET request against the /company/states/info endpoint.
 
@@ -52,6 +44,4 @@ class CompanyStatesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[StateInfo]: The parsed response data.
         """
-        return self._parse_many(
-            StateInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(StateInfo, super()._make_request("GET", data=data, params=params).json())

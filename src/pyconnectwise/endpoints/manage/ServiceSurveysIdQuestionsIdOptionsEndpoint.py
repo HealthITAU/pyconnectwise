@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsCountEndpoint import (
-    ServiceSurveysIdQuestionsIdOptionsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsIdEndpoint import (
-    ServiceSurveysIdQuestionsIdOptionsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsCountEndpoint import \
+    ServiceSurveysIdQuestionsIdOptionsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsIdEndpoint import \
+    ServiceSurveysIdQuestionsIdOptionsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SurveyOption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "options", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ServiceSurveysIdQuestionsIdOptionsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ServiceSurveysIdQuestionsIdOptionsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ServiceSurveysIdQuestionsIdOptionsIdEndpoint:
@@ -31,9 +27,7 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSurveysIdQuestionsIdOptionsIdEndpoint: The initialized ServiceSurveysIdQuestionsIdOptionsIdEndpoint object.
         """
-        child = ServiceSurveysIdQuestionsIdOptionsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ServiceSurveysIdQuestionsIdOptionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SurveyOption]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SurveyOption]:
         """
         Performs a GET request against the /service/surveys/{id}/questions/{id}/options endpoint.
 
@@ -72,13 +64,9 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyOption]: The parsed response data.
         """
-        return self._parse_many(
-            SurveyOption, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(SurveyOption, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SurveyOption:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyOption:
         """
         Performs a POST request against the /service/surveys/{id}/questions/{id}/options endpoint.
 
@@ -88,6 +76,4 @@ class ServiceSurveysIdQuestionsIdOptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyOption: The parsed response data.
         """
-        return self._parse_one(
-            SurveyOption, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(SurveyOption, super()._make_request("POST", data=data, params=params).json())

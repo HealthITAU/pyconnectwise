@@ -10,9 +10,7 @@ class FinanceAccountingBatchesIdEntriesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[BatchEntry]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BatchEntry]:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class FinanceAccountingBatchesIdEntriesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BatchEntry:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BatchEntry:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries/{id} endpoint.
 
@@ -45,6 +41,4 @@ class FinanceAccountingBatchesIdEntriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BatchEntry: The parsed response data.
         """
-        return self._parse_one(
-            BatchEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(BatchEntry, super()._make_request("GET", data=data, params=params).json())

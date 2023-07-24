@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoCountEndpoint import (
-    SystemWorkflowsIdNotifytypesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoCountEndpoint import \
+    SystemWorkflowsIdNotifytypesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowNotifyTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class SystemWorkflowsIdNotifytypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkflowNotifyTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowNotifyTypeInfo]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes/info endpoint.
 
@@ -52,7 +49,4 @@ class SystemWorkflowsIdNotifytypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowNotifyTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            WorkflowNotifyTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WorkflowNotifyTypeInfo, super()._make_request("GET", data=data, params=params).json())

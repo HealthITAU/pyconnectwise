@@ -33,9 +33,7 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationServiceSetup:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationServiceSetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
 
@@ -46,13 +44,10 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationServiceSetup, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationServiceSetup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationServiceSetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
 
@@ -63,13 +58,10 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup,
-            super()._make_request("PUT", data=data, params=params).json(),
+            PortalConfigurationServiceSetup, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationServiceSetup:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationServiceSetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
 
@@ -80,6 +72,5 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(ConnectWiseEndpoint):
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            PortalConfigurationServiceSetup, super()._make_request("PATCH", data=data, params=params).json()
         )

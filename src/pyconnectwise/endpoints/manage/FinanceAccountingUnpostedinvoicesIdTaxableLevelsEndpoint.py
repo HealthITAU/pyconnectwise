@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint import (
-    FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint import (
-    FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint import \
+    FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint import \
+    FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedInvoiceTaxableLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(ConnectWiseEndpoi
         super().__init__(client, "taxableLevels", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint:
@@ -31,9 +27,7 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(ConnectWiseEndpoi
         Returns:
             FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint: The initialized FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(ConnectWiseEndpoi
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[UnpostedInvoiceTaxableLevel]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UnpostedInvoiceTaxableLevel]:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices/{id}/taxableLevels endpoint.
 
@@ -73,6 +65,5 @@ class FinanceAccountingUnpostedinvoicesIdTaxablelevelsEndpoint(ConnectWiseEndpoi
             list[UnpostedInvoiceTaxableLevel]: The parsed response data.
         """
         return self._parse_many(
-            UnpostedInvoiceTaxableLevel,
-            super()._make_request("GET", data=data, params=params).json(),
+            UnpostedInvoiceTaxableLevel, super()._make_request("GET", data=data, params=params).json()
         )

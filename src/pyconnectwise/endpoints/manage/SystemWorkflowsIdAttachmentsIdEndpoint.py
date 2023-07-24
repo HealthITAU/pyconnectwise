@@ -33,9 +33,7 @@ class SystemWorkflowsIdAttachmentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkflowAttachment:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowAttachment:
         """
         Performs a GET request against the /system/workflows/{id}/attachments/{id} endpoint.
 
@@ -45,7 +43,4 @@ class SystemWorkflowsIdAttachmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkflowAttachment: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowAttachment,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkflowAttachment, super()._make_request("GET", data=data, params=params).json())

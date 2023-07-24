@@ -33,9 +33,7 @@ class ExpenseTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ExpenseTypeInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseTypeInfo:
         """
         Performs a GET request against the /expense/types/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class ExpenseTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseTypeInfo: The parsed response data.
         """
-        return self._parse_one(
-            ExpenseTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ExpenseTypeInfo, super()._make_request("GET", data=data, params=params).json())

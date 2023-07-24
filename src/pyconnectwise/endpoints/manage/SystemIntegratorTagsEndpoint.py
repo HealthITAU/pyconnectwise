@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemIntegratortagsCountEndpoint import (
-    SystemIntegratortagsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemIntegratortagsIdEndpoint import (
-    SystemIntegratortagsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemIntegratortagsCountEndpoint import SystemIntegratortagsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemIntegratortagsIdEndpoint import SystemIntegratortagsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import IntegratorTag
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemIntegratortagsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "integratorTags", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemIntegratortagsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemIntegratortagsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemIntegratortagsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemIntegratortagsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[IntegratorTag]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[IntegratorTag]:
         """
         Performs a GET request against the /system/integratorTags endpoint.
 
@@ -68,13 +60,9 @@ class SystemIntegratortagsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[IntegratorTag]: The parsed response data.
         """
-        return self._parse_many(
-            IntegratorTag, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(IntegratorTag, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> IntegratorTag:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorTag:
         """
         Performs a POST request against the /system/integratorTags endpoint.
 
@@ -84,7 +72,4 @@ class SystemIntegratortagsEndpoint(ConnectWiseEndpoint):
         Returns:
             IntegratorTag: The parsed response data.
         """
-        return self._parse_one(
-            IntegratorTag,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(IntegratorTag, super()._make_request("POST", data=data, params=params).json())

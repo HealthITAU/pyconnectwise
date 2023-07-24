@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsCountEndpoint import (
-    CompanyCompaniesIdTypeassociationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsIdEndpoint import (
-    CompanyCompaniesIdTypeassociationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsCountEndpoint import \
+    CompanyCompaniesIdTypeassociationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsIdEndpoint import \
+    CompanyCompaniesIdTypeassociationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyCompanyTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +15,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "typeAssociations", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            CompanyCompaniesIdTypeassociationsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyCompaniesIdTypeassociationsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyCompaniesIdTypeassociationsIdEndpoint:
@@ -31,9 +27,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyCompaniesIdTypeassociationsIdEndpoint: The initialized CompanyCompaniesIdTypeassociationsIdEndpoint object.
         """
-        child = CompanyCompaniesIdTypeassociationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyCompaniesIdTypeassociationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -60,9 +54,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyCompanyTypeAssociation]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyCompanyTypeAssociation]:
         """
         Performs a GET request against the /company/companies/{id}/typeAssociations endpoint.
 
@@ -73,13 +65,10 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             list[CompanyCompanyTypeAssociation]: The parsed response data.
         """
         return self._parse_many(
-            CompanyCompanyTypeAssociation,
-            super()._make_request("GET", data=data, params=params).json(),
+            CompanyCompanyTypeAssociation, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyCompanyTypeAssociation:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyCompanyTypeAssociation:
         """
         Performs a POST request against the /company/companies/{id}/typeAssociations endpoint.
 
@@ -90,6 +79,5 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             CompanyCompanyTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            CompanyCompanyTypeAssociation,
-            super()._make_request("POST", data=data, params=params).json(),
+            CompanyCompanyTypeAssociation, super()._make_request("POST", data=data, params=params).json()
         )

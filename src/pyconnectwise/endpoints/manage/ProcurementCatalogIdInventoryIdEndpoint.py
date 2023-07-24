@@ -33,9 +33,7 @@ class ProcurementCatalogIdInventoryIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CatalogInventory:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogInventory:
         """
         Performs a GET request against the /procurement/catalog/{id}/inventory/{id} endpoint.
 
@@ -45,7 +43,4 @@ class ProcurementCatalogIdInventoryIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CatalogInventory: The parsed response data.
         """
-        return self._parse_one(
-            CatalogInventory,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(CatalogInventory, super()._make_request("GET", data=data, params=params).json())

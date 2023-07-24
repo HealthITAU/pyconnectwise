@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesCountEndpoint import (
-    FinanceGlaccountsMappedtypesCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesCountEndpoint import \
+    FinanceGlaccountsMappedtypesCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MappedType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,9 +16,7 @@ class FinanceGlaccountsMappedtypesEndpoint(ConnectWiseEndpoint):
             FinanceGlaccountsMappedtypesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[MappedType]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MappedType]:
         """
         Performs a GET request against the /finance/glAccounts/mappedTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +37,7 @@ class FinanceGlaccountsMappedtypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MappedType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MappedType]:
         """
         Performs a GET request against the /finance/glAccounts/mappedTypes endpoint.
 
@@ -52,6 +47,4 @@ class FinanceGlaccountsMappedtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MappedType]: The parsed response data.
         """
-        return self._parse_many(
-            MappedType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(MappedType, super()._make_request("GET", data=data, params=params).json())

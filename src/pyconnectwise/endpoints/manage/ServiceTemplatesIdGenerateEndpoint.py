@@ -10,9 +10,7 @@ class ServiceTemplatesIdGenerateEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "generate", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TemplateGeneratedCountsModel:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TemplateGeneratedCountsModel:
         """
         Performs a POST request against the /service/templates/{id}/generate endpoint.
 
@@ -23,6 +21,5 @@ class ServiceTemplatesIdGenerateEndpoint(ConnectWiseEndpoint):
             TemplateGeneratedCountsModel: The parsed response data.
         """
         return self._parse_one(
-            TemplateGeneratedCountsModel,
-            super()._make_request("POST", data=data, params=params).json(),
+            TemplateGeneratedCountsModel, super()._make_request("POST", data=data, params=params).json()
         )

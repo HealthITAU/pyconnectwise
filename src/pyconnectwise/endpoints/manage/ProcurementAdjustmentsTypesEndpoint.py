@@ -1,15 +1,11 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesCountEndpoint import (
-    ProcurementAdjustmentsTypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdEndpoint import (
-    ProcurementAdjustmentsTypesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoEndpoint import (
-    ProcurementAdjustmentsTypesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesCountEndpoint import \
+    ProcurementAdjustmentsTypesCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdEndpoint import ProcurementAdjustmentsTypesIdEndpoint
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoEndpoint import \
+    ProcurementAdjustmentsTypesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AdjustmentType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,11 +15,9 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
+        self.info = self._register_child_endpoint(ProcurementAdjustmentsTypesInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             ProcurementAdjustmentsTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ProcurementAdjustmentsTypesInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementAdjustmentsTypesIdEndpoint:
@@ -62,9 +56,7 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[AdjustmentType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentType]:
         """
         Performs a GET request against the /procurement/adjustments/types endpoint.
 
@@ -74,14 +66,9 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AdjustmentType]: The parsed response data.
         """
-        return self._parse_many(
-            AdjustmentType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AdjustmentType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AdjustmentType:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentType:
         """
         Performs a POST request against the /procurement/adjustments/types endpoint.
 
@@ -91,7 +78,4 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             AdjustmentType: The parsed response data.
         """
-        return self._parse_one(
-            AdjustmentType,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AdjustmentType, super()._make_request("POST", data=data, params=params).json())

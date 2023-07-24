@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint import (
-    FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint import \
+    FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProductTypeExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.taxable_product_type_levels = self._register_child_endpoint(
-            FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductTypeExemption:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
@@ -54,14 +49,9 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(
-            ProductTypeExemption,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ProductTypeExemption, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
@@ -71,14 +61,9 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductTypeExemption:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
         Performs a PUT request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
@@ -88,14 +73,9 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(
-            ProductTypeExemption,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ProductTypeExemption, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProductTypeExemption:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
         Performs a PATCH request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
@@ -105,7 +85,4 @@ class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(
-            ProductTypeExemption,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ProductTypeExemption, super()._make_request("PATCH", data=data, params=params).json())

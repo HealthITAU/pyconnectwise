@@ -33,9 +33,7 @@ class SalesProbabilitiesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SalesProbabilityInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesProbabilityInfo:
         """
         Performs a GET request against the /sales/probabilities/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class SalesProbabilitiesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             SalesProbabilityInfo: The parsed response data.
         """
-        return self._parse_one(
-            SalesProbabilityInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(SalesProbabilityInfo, super()._make_request("GET", data=data, params=params).json())

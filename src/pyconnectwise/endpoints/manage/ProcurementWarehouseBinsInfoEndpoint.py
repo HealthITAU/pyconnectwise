@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoCountEndpoint import (
-    ProcurementWarehousebinsInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoCountEndpoint import \
+    ProcurementWarehousebinsInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WarehouseBinInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class ProcurementWarehousebinsInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WarehouseBinInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WarehouseBinInfo]:
         """
         Performs a GET request against the /procurement/warehouseBins/info endpoint.
 
@@ -52,7 +49,4 @@ class ProcurementWarehousebinsInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WarehouseBinInfo]: The parsed response data.
         """
-        return self._parse_many(
-            WarehouseBinInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WarehouseBinInfo, super()._make_request("GET", data=data, params=params).json())

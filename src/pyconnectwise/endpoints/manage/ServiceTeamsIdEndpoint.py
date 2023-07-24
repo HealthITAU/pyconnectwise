@@ -10,9 +10,7 @@ class ServiceTeamsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ServiceTeam]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceTeam]:
         """
         Performs a GET request against the /service/teams/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class ServiceTeamsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceTeam:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTeam:
         """
         Performs a GET request against the /service/teams/{id} endpoint.
 
@@ -45,6 +41,4 @@ class ServiceTeamsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTeam: The parsed response data.
         """
-        return self._parse_one(
-            ServiceTeam, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ServiceTeam, super()._make_request("GET", data=data, params=params).json())

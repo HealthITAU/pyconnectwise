@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsTypesInfoCountEndpoint import (
-    FinanceAgreementsTypesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementsTypesInfoCountEndpoint import \
+    FinanceAgreementsTypesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class FinanceAgreementsTypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[AgreementTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeInfo]:
         """
         Performs a GET request against the /finance/agreements/types/info endpoint.
 
@@ -52,7 +49,4 @@ class FinanceAgreementsTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[AgreementTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            AgreementTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AgreementTypeInfo, super()._make_request("GET", data=data, params=params).json())

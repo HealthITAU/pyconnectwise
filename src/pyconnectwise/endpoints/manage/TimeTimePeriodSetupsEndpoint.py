@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsCountEndpoint import (
-    TimeTimeperiodsetupsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsDefaultEndpoint import (
-    TimeTimeperiodsetupsDefaultEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdEndpoint import (
-    TimeTimeperiodsetupsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsCountEndpoint import TimeTimeperiodsetupsCountEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsDefaultEndpoint import TimeTimeperiodsetupsDefaultEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdEndpoint import TimeTimeperiodsetupsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimePeriodSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timePeriodSetups", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.default = self._register_child_endpoint(
-            TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self)
-        )
+        self.default = self._register_child_endpoint(TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:
         """
@@ -62,9 +52,7 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TimePeriodSetup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriodSetup]:
         """
         Performs a GET request against the /time/timePeriodSetups endpoint.
 
@@ -74,14 +62,9 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimePeriodSetup]: The parsed response data.
         """
-        return self._parse_many(
-            TimePeriodSetup,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(TimePeriodSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimePeriodSetup:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetup:
         """
         Performs a POST request against the /time/timePeriodSetups endpoint.
 
@@ -91,7 +74,4 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             TimePeriodSetup: The parsed response data.
         """
-        return self._parse_one(
-            TimePeriodSetup,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(TimePeriodSetup, super()._make_request("POST", data=data, params=params).json())

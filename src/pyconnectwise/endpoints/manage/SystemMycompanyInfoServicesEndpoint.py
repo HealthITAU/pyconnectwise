@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyInfoServicesIdEndpoint import (
-    SystemMycompanyInfoServicesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMycompanyInfoServicesIdEndpoint import SystemMycompanyInfoServicesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -26,9 +24,7 @@ class SystemMycompanyInfoServicesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ServiceInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceInfo]:
         """
         Performs a GET request against the /system/mycompany/info/services endpoint and returns an initialized PaginatedResponse object.
 
@@ -49,9 +45,7 @@ class SystemMycompanyInfoServicesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ServiceInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceInfo]:
         """
         Performs a GET request against the /system/mycompany/info/services endpoint.
 
@@ -61,6 +55,4 @@ class SystemMycompanyInfoServicesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceInfo]: The parsed response data.
         """
-        return self._parse_many(
-            ServiceInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ServiceInfo, super()._make_request("GET", data=data, params=params).json())

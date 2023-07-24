@@ -46,8 +46,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
             PortalConfigurationPasswordEmailSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationPasswordEmailSetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationPasswordEmailSetup, super()._make_request("GET", data=data, params=params).json()
         )
 
     def put(
@@ -63,8 +62,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
             PortalConfigurationPasswordEmailSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationPasswordEmailSetup,
-            super()._make_request("PUT", data=data, params=params).json(),
+            PortalConfigurationPasswordEmailSetup, super()._make_request("PUT", data=data, params=params).json()
         )
 
     def patch(
@@ -80,6 +78,5 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
             PortalConfigurationPasswordEmailSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationPasswordEmailSetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            PortalConfigurationPasswordEmailSetup, super()._make_request("PATCH", data=data, params=params).json()
         )

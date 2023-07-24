@@ -33,9 +33,7 @@ class CompanyNotetypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyNoteTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyNoteTypeInfo]:
         """
         Performs a GET request against the /company/noteTypes/info endpoint.
 
@@ -45,7 +43,4 @@ class CompanyNotetypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyNoteTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyNoteTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CompanyNoteTypeInfo, super()._make_request("GET", data=data, params=params).json())

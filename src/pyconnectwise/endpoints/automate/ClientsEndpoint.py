@@ -24,9 +24,7 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Client]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Client]:
         """
         Performs a GET request against the /Clients endpoint and returns an initialized PaginatedResponse object.
 
@@ -47,9 +45,7 @@ class ClientsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Client]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Client]:
         """
         Performs a GET request against the /Clients endpoint.
 
@@ -59,13 +55,9 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Client]: The parsed response data.
         """
-        return self._parse_many(
-            Client, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Client, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Client:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Client:
         """
         Performs a POST request against the /Clients endpoint.
 
@@ -75,6 +67,4 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         Returns:
             Client: The parsed response data.
         """
-        return self._parse_one(
-            Client, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Client, super()._make_request("POST", data=data, params=params).json())

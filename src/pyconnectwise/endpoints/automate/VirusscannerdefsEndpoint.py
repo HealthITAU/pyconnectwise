@@ -33,9 +33,7 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[VirusScannerDef]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[VirusScannerDef]:
         """
         Performs a GET request against the /Virusscannerdefs endpoint.
 
@@ -45,14 +43,9 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[VirusScannerDef]: The parsed response data.
         """
-        return self._parse_many(
-            VirusScannerDef,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(VirusScannerDef, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> VirusScannerDef:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> VirusScannerDef:
         """
         Performs a POST request against the /Virusscannerdefs endpoint.
 
@@ -62,7 +55,4 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
         Returns:
             VirusScannerDef: The parsed response data.
         """
-        return self._parse_one(
-            VirusScannerDef,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(VirusScannerDef, super()._make_request("POST", data=data, params=params).json())

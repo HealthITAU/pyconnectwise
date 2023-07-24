@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeWorkrolesCountEndpoint import (
-    TimeWorkrolesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeWorkrolesIdEndpoint import (
-    TimeWorkrolesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeWorkrolesInfoEndpoint import (
-    TimeWorkrolesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeWorkrolesCountEndpoint import TimeWorkrolesCountEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesIdEndpoint import TimeWorkrolesIdEndpoint
+from pyconnectwise.endpoints.manage.TimeWorkrolesInfoEndpoint import TimeWorkrolesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workRoles", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            TimeWorkrolesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            TimeWorkrolesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(TimeWorkrolesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(TimeWorkrolesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeWorkrolesIdEndpoint:
         """
@@ -39,9 +29,7 @@ class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[WorkRole]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkRole]:
         """
         Performs a GET request against the /time/workRoles endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkRole]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkRole]:
         """
         Performs a GET request against the /time/workRoles endpoint.
 
@@ -74,13 +60,9 @@ class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkRole]: The parsed response data.
         """
-        return self._parse_many(
-            WorkRole, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(WorkRole, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkRole:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRole:
         """
         Performs a POST request against the /time/workRoles endpoint.
 
@@ -90,6 +72,4 @@ class TimeWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRole: The parsed response data.
         """
-        return self._parse_one(
-            WorkRole, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(WorkRole, super()._make_request("POST", data=data, params=params).json())

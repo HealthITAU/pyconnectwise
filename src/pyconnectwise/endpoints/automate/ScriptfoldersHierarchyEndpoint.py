@@ -10,9 +10,7 @@ class ScriptfoldersHierarchyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Hierarchy", parent_endpoint=parent_endpoint)
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ScriptFolder]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScriptFolder]:
         """
         Performs a GET request against the /Scriptfolders/Hierarchy endpoint.
 
@@ -22,6 +20,4 @@ class ScriptfoldersHierarchyEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ScriptFolder]: The parsed response data.
         """
-        return self._parse_many(
-            ScriptFolder, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ScriptFolder, super()._make_request("GET", data=data, params=params).json())

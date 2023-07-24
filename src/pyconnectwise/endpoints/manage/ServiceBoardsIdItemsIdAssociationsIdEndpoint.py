@@ -33,9 +33,7 @@ class ServiceBoardsIdItemsIdAssociationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardItemAssociation:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItemAssociation:
         """
         Performs a GET request against the /service/boards/{id}/items/{id}/associations/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ServiceBoardsIdItemsIdAssociationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItemAssociation: The parsed response data.
         """
-        return self._parse_one(
-            BoardItemAssociation,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(BoardItemAssociation, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardItemAssociation:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItemAssociation:
         """
         Performs a PUT request against the /service/boards/{id}/items/{id}/associations/{id} endpoint.
 
@@ -62,14 +55,9 @@ class ServiceBoardsIdItemsIdAssociationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItemAssociation: The parsed response data.
         """
-        return self._parse_one(
-            BoardItemAssociation,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(BoardItemAssociation, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardItemAssociation:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItemAssociation:
         """
         Performs a PATCH request against the /service/boards/{id}/items/{id}/associations/{id} endpoint.
 
@@ -79,7 +67,4 @@ class ServiceBoardsIdItemsIdAssociationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardItemAssociation: The parsed response data.
         """
-        return self._parse_one(
-            BoardItemAssociation,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(BoardItemAssociation, super()._make_request("PATCH", data=data, params=params).json())

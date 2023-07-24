@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemTimezonesetupsCountEndpoint import (
-    SystemTimezonesetupsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdEndpoint import (
-    SystemTimezonesetupsIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemTimezonesetupsInfoEndpoint import (
-    SystemTimezonesetupsInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemTimezonesetupsCountEndpoint import SystemTimezonesetupsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdEndpoint import SystemTimezonesetupsIdEndpoint
+from pyconnectwise.endpoints.manage.SystemTimezonesetupsInfoEndpoint import SystemTimezonesetupsInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeZoneSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class SystemTimezonesetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timeZoneSetups", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemTimezonesetupsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SystemTimezonesetupsInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemTimezonesetupsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemTimezonesetupsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemTimezonesetupsIdEndpoint:
         """
@@ -62,9 +52,7 @@ class SystemTimezonesetupsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[TimeZoneSetup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeZoneSetup]:
         """
         Performs a GET request against the /system/timeZoneSetups endpoint.
 
@@ -74,13 +62,9 @@ class SystemTimezonesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[TimeZoneSetup]: The parsed response data.
         """
-        return self._parse_many(
-            TimeZoneSetup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(TimeZoneSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TimeZoneSetup:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
         """
         Performs a POST request against the /system/timeZoneSetups endpoint.
 
@@ -90,7 +74,4 @@ class SystemTimezonesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeZoneSetup: The parsed response data.
         """
-        return self._parse_one(
-            TimeZoneSetup,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(TimeZoneSetup, super()._make_request("POST", data=data, params=params).json())

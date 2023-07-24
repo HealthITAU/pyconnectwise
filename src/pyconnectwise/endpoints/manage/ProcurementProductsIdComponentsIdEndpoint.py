@@ -33,9 +33,7 @@ class ProcurementProductsIdComponentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProductComponent]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductComponent]:
         """
         Performs a GET request against the /procurement/products/{id}/components/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ProcurementProductsIdComponentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductComponent]: The parsed response data.
         """
-        return self._parse_many(
-            ProductComponent,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProductComponent, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/products/{id}/components/{id} endpoint.
 
@@ -62,14 +55,9 @@ class ProcurementProductsIdComponentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProductComponent]:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductComponent]:
         """
         Performs a PUT request against the /procurement/products/{id}/components/{id} endpoint.
 
@@ -79,14 +67,9 @@ class ProcurementProductsIdComponentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductComponent]: The parsed response data.
         """
-        return self._parse_many(
-            ProductComponent,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_many(ProductComponent, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProductComponent]:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductComponent]:
         """
         Performs a PATCH request against the /procurement/products/{id}/components/{id} endpoint.
 
@@ -96,7 +79,4 @@ class ProcurementProductsIdComponentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProductComponent]: The parsed response data.
         """
-        return self._parse_many(
-            ProductComponent,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_many(ProductComponent, super()._make_request("PATCH", data=data, params=params).json())

@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsCountEndpoint import (
-    ServiceSurveysIdResultsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsIdEndpoint import (
-    ServiceSurveysIdResultsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsCountEndpoint import ServiceSurveysIdResultsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsIdEndpoint import ServiceSurveysIdResultsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SurveyResult
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ServiceSurveysIdResultsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "results", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServiceSurveysIdResultsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServiceSurveysIdResultsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceSurveysIdResultsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ServiceSurveysIdResultsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SurveyResult]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SurveyResult]:
         """
         Performs a GET request against the /service/surveys/{id}/results endpoint.
 
@@ -68,13 +60,9 @@ class ServiceSurveysIdResultsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SurveyResult]: The parsed response data.
         """
-        return self._parse_many(
-            SurveyResult, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(SurveyResult, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> SurveyResult:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyResult:
         """
         Performs a POST request against the /service/surveys/{id}/results endpoint.
 
@@ -84,6 +72,4 @@ class ServiceSurveysIdResultsEndpoint(ConnectWiseEndpoint):
         Returns:
             SurveyResult: The parsed response data.
         """
-        return self._parse_one(
-            SurveyResult, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(SurveyResult, super()._make_request("POST", data=data, params=params).json())

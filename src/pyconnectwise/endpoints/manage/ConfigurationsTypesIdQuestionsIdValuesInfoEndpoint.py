@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint import (
-    ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint import \
+    ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationTypeQuestionValueInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -55,6 +52,5 @@ class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(ConnectWiseEndpoint):
             list[ConfigurationTypeQuestionValueInfo]: The parsed response data.
         """
         return self._parse_many(
-            ConfigurationTypeQuestionValueInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            ConfigurationTypeQuestionValueInfo, super()._make_request("GET", data=data, params=params).json()
         )

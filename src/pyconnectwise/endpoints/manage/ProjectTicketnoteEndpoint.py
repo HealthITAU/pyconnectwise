@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketnoteIdEndpoint import (
-    ProjectTicketnoteIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectTicketnoteIdEndpoint import ProjectTicketnoteIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

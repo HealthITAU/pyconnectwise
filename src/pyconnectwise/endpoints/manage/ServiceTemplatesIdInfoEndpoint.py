@@ -33,9 +33,7 @@ class ServiceTemplatesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceTemplateInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceTemplateInfo:
         """
         Performs a GET request against the /service/templates/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class ServiceTemplatesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceTemplateInfo: The parsed response data.
         """
-        return self._parse_one(
-            ServiceTemplateInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ServiceTemplateInfo, super()._make_request("GET", data=data, params=params).json())

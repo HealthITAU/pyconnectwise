@@ -33,9 +33,7 @@ class ExpenseReportsIdAuditsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ExpenseReportAudit:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseReportAudit:
         """
         Performs a GET request against the /expense/reports/{id}/audits/{id} endpoint.
 
@@ -45,7 +43,4 @@ class ExpenseReportsIdAuditsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseReportAudit: The parsed response data.
         """
-        return self._parse_one(
-            ExpenseReportAudit,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ExpenseReportAudit, super()._make_request("GET", data=data, params=params).json())

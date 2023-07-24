@@ -7,6 +7,4 @@ from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 class InternalmonitorresultsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(
-            client, "Internalmonitorresults", parent_endpoint=parent_endpoint
-        )
+        super().__init__(client, "Internalmonitorresults", parent_endpoint=parent_endpoint)

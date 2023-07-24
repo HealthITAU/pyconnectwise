@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoint import (
-    CompanyContactsIdTypeassociationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsIdEndpoint import (
-    CompanyContactsIdTypeassociationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoint import \
+    CompanyContactsIdTypeassociationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsIdEndpoint import \
+    CompanyContactsIdTypeassociationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactContactTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyContactsIdTypeassociationsIdEndpoint: The initialized CompanyContactsIdTypeassociationsIdEndpoint object.
         """
-        child = CompanyContactsIdTypeassociationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyContactsIdTypeassociationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ContactContactTypeAssociation]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint.
 
@@ -71,13 +65,10 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             list[ContactContactTypeAssociation]: The parsed response data.
         """
         return self._parse_many(
-            ContactContactTypeAssociation,
-            super()._make_request("GET", data=data, params=params).json(),
+            ContactContactTypeAssociation, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactContactTypeAssociation:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
         """
         Performs a POST request against the /company/contacts/{id}/typeAssociations endpoint.
 
@@ -88,6 +79,5 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             ContactContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation,
-            super()._make_request("POST", data=data, params=params).json(),
+            ContactContactTypeAssociation, super()._make_request("POST", data=data, params=params).json()
         )

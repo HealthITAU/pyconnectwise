@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseEntriesCountEndpoint import (
-    ExpenseEntriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ExpenseEntriesIdEndpoint import (
-    ExpenseEntriesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseEntriesCountEndpoint import ExpenseEntriesCountEndpoint
+from pyconnectwise.endpoints.manage.ExpenseEntriesIdEndpoint import ExpenseEntriesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ExpenseEntriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "entries", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ExpenseEntriesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ExpenseEntriesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ExpenseEntriesIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ExpenseEntriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ExpenseEntry]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseEntry]:
         """
         Performs a GET request against the /expense/entries endpoint.
 
@@ -68,13 +60,9 @@ class ExpenseEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseEntry]: The parsed response data.
         """
-        return self._parse_many(
-            ExpenseEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ExpenseEntry, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ExpenseEntry:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseEntry:
         """
         Performs a POST request against the /expense/entries endpoint.
 
@@ -84,6 +72,4 @@ class ExpenseEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             ExpenseEntry: The parsed response data.
         """
-        return self._parse_one(
-            ExpenseEntry, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ExpenseEntry, super()._make_request("POST", data=data, params=params).json())

@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemIntegratorloginsCountEndpoint import (
-    SystemIntegratorloginsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemIntegratorloginsIdEndpoint import (
-    SystemIntegratorloginsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemIntegratorloginsCountEndpoint import SystemIntegratorloginsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemIntegratorloginsIdEndpoint import SystemIntegratorloginsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import IntegratorLogin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemIntegratorloginsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "integratorlogins", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemIntegratorloginsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemIntegratorloginsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemIntegratorloginsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemIntegratorloginsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[IntegratorLogin]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[IntegratorLogin]:
         """
         Performs a GET request against the /system/integratorlogins endpoint.
 
@@ -68,14 +60,9 @@ class SystemIntegratorloginsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[IntegratorLogin]: The parsed response data.
         """
-        return self._parse_many(
-            IntegratorLogin,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(IntegratorLogin, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> IntegratorLogin:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> IntegratorLogin:
         """
         Performs a POST request against the /system/integratorlogins endpoint.
 
@@ -85,7 +72,4 @@ class SystemIntegratorloginsEndpoint(ConnectWiseEndpoint):
         Returns:
             IntegratorLogin: The parsed response data.
         """
-        return self._parse_one(
-            IntegratorLogin,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(IntegratorLogin, super()._make_request("POST", data=data, params=params).json())

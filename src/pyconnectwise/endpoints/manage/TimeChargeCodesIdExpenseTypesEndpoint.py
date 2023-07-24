@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesCountEndpoint import (
-    TimeChargecodesIdExpensetypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesIdEndpoint import (
-    TimeChargecodesIdExpensetypesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesCountEndpoint import \
+    TimeChargecodesIdExpensetypesCountEndpoint
+from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesIdEndpoint import \
+    TimeChargecodesIdExpensetypesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ChargeCodeExpenseType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         Returns:
             TimeChargecodesIdExpensetypesIdEndpoint: The initialized TimeChargecodesIdExpensetypesIdEndpoint object.
         """
-        child = TimeChargecodesIdExpensetypesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = TimeChargecodesIdExpensetypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ChargeCodeExpenseType]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ChargeCodeExpenseType]:
         """
         Performs a GET request against the /time/chargeCodes/{id}/expenseTypes endpoint.
 
@@ -70,14 +64,9 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ChargeCodeExpenseType]: The parsed response data.
         """
-        return self._parse_many(
-            ChargeCodeExpenseType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ChargeCodeExpenseType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ChargeCodeExpenseType:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeExpenseType:
         """
         Performs a POST request against the /time/chargeCodes/{id}/expenseTypes endpoint.
 
@@ -87,7 +76,4 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         Returns:
             ChargeCodeExpenseType: The parsed response data.
         """
-        return self._parse_one(
-            ChargeCodeExpenseType,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ChargeCodeExpenseType, super()._make_request("POST", data=data, params=params).json())

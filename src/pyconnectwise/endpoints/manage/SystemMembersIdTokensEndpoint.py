@@ -10,9 +10,7 @@ class SystemMembersIdTokensEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tokens", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Token:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Token:
         """
         Performs a POST request against the /system/members/{id}/tokens endpoint.
 
@@ -22,6 +20,4 @@ class SystemMembersIdTokensEndpoint(ConnectWiseEndpoint):
         Returns:
             Token: The parsed response data.
         """
-        return self._parse_one(
-            Token, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Token, super()._make_request("POST", data=data, params=params).json())

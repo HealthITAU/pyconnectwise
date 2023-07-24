@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import (
-    CompanyManagementCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import (
-    CompanyManagementIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import CompanyManagementCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import CompanyManagementIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Management
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "management", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyManagementCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyManagementCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyManagementIdEndpoint:
         """
@@ -33,9 +27,7 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Management]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Management]:
         """
         Performs a GET request against the /company/management endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Management]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Management]:
         """
         Performs a GET request against the /company/management endpoint.
 
@@ -68,6 +58,4 @@ class CompanyManagementEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Management]: The parsed response data.
         """
-        return self._parse_many(
-            Management, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Management, super()._make_request("GET", data=data, params=params).json())

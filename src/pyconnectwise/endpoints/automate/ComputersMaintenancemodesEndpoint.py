@@ -33,9 +33,7 @@ class ComputersMaintenancemodesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MaintenanceMode]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MaintenanceMode]:
         """
         Performs a GET request against the /Computers/Maintenancemodes endpoint.
 
@@ -45,7 +43,4 @@ class ComputersMaintenancemodesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MaintenanceMode]: The parsed response data.
         """
-        return self._parse_many(
-            MaintenanceMode,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(MaintenanceMode, super()._make_request("GET", data=data, params=params).json())

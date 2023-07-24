@@ -10,9 +10,7 @@ class SystemParsingtypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ParsingType]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ParsingType]:
         """
         Performs a GET request against the /system/parsingTypes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemParsingtypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ParsingType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ParsingType:
         """
         Performs a GET request against the /system/parsingTypes/{id} endpoint.
 
@@ -45,6 +41,4 @@ class SystemParsingtypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ParsingType: The parsed response data.
         """
-        return self._parse_one(
-            ParsingType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ParsingType, super()._make_request("GET", data=data, params=params).json())

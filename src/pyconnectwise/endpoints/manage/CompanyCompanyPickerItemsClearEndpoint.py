@@ -10,9 +10,7 @@ class CompanyCompanypickeritemsClearEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "clear", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ClearPickerRequest:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClearPickerRequest:
         """
         Performs a POST request against the /company/companyPickerItems/clear endpoint.
 
@@ -22,7 +20,4 @@ class CompanyCompanypickeritemsClearEndpoint(ConnectWiseEndpoint):
         Returns:
             ClearPickerRequest: The parsed response data.
         """
-        return self._parse_one(
-            ClearPickerRequest,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ClearPickerRequest, super()._make_request("POST", data=data, params=params).json())

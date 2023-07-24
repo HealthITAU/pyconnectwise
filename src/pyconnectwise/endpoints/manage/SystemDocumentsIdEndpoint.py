@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumentsIdDownloadEndpoint import (
-    SystemDocumentsIdDownloadEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemDocumentsIdThumbnailEndpoint import (
-    SystemDocumentsIdThumbnailEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemDocumentsIdDownloadEndpoint import SystemDocumentsIdDownloadEndpoint
+from pyconnectwise.endpoints.manage.SystemDocumentsIdThumbnailEndpoint import SystemDocumentsIdThumbnailEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DocumentInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,12 +12,8 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.thumbnail = self._register_child_endpoint(
-            SystemDocumentsIdThumbnailEndpoint(client, parent_endpoint=self)
-        )
-        self.download = self._register_child_endpoint(
-            SystemDocumentsIdDownloadEndpoint(client, parent_endpoint=self)
-        )
+        self.thumbnail = self._register_child_endpoint(SystemDocumentsIdThumbnailEndpoint(client, parent_endpoint=self))
+        self.download = self._register_child_endpoint(SystemDocumentsIdDownloadEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -46,9 +38,7 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentInfo:
         """
         Performs a GET request against the /system/documents/{id} endpoint.
 
@@ -58,13 +48,9 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfo: The parsed response data.
         """
-        return self._parse_one(
-            DocumentInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(DocumentInfo, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/documents/{id} endpoint.
 
@@ -74,14 +60,9 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentInfo:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentInfo:
         """
         Performs a POST request against the /system/documents/{id} endpoint.
 
@@ -91,6 +72,4 @@ class SystemDocumentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentInfo: The parsed response data.
         """
-        return self._parse_one(
-            DocumentInfo, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(DocumentInfo, super()._make_request("POST", data=data, params=params).json())

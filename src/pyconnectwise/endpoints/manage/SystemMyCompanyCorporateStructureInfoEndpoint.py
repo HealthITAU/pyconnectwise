@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoCountEndpoint import (
-    SystemMycompanyCorporatestructureInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoCountEndpoint import \
+    SystemMycompanyCorporatestructureInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CorporateStructureInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class SystemMycompanyCorporatestructureInfoEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            SystemMycompanyCorporatestructureInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            SystemMycompanyCorporatestructureInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class SystemMycompanyCorporatestructureInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CorporateStructureInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructureInfo]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure/info endpoint.
 
@@ -54,7 +49,4 @@ class SystemMycompanyCorporatestructureInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CorporateStructureInfo]: The parsed response data.
         """
-        return self._parse_many(
-            CorporateStructureInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CorporateStructureInfo, super()._make_request("GET", data=data, params=params).json())

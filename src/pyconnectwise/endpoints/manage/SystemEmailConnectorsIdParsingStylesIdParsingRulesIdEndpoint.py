@@ -33,9 +33,7 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(ConnectWiseEn
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> EmailConnectorParsingRule:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingRule:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules/{id} endpoint.
 
@@ -45,14 +43,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(ConnectWiseEn
         Returns:
             EmailConnectorParsingRule: The parsed response data.
         """
-        return self._parse_one(
-            EmailConnectorParsingRule,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(EmailConnectorParsingRule, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules/{id} endpoint.
 
@@ -62,14 +55,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(ConnectWiseEn
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> EmailConnectorParsingRule:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingRule:
         """
         Performs a PUT request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules/{id} endpoint.
 
@@ -79,14 +67,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(ConnectWiseEn
         Returns:
             EmailConnectorParsingRule: The parsed response data.
         """
-        return self._parse_one(
-            EmailConnectorParsingRule,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(EmailConnectorParsingRule, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> EmailConnectorParsingRule:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingRule:
         """
         Performs a PATCH request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules/{id} endpoint.
 
@@ -97,6 +80,5 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint(ConnectWiseEn
             EmailConnectorParsingRule: The parsed response data.
         """
         return self._parse_one(
-            EmailConnectorParsingRule,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            EmailConnectorParsingRule, super()._make_request("PATCH", data=data, params=params).json()
         )

@@ -10,9 +10,7 @@ class CompanyConfigurationsIdChangetypeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "changeType", parent_endpoint=parent_endpoint)
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Company:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
         """
         Performs a PATCH request against the /company/configurations/{id}/changeType endpoint.
 
@@ -22,6 +20,4 @@ class CompanyConfigurationsIdChangetypeEndpoint(ConnectWiseEndpoint):
         Returns:
             Company: The parsed response data.
         """
-        return self._parse_one(
-            Company, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(Company, super()._make_request("PATCH", data=data, params=params).json())

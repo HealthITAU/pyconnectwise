@@ -33,9 +33,7 @@ class CompanyContactsDepartmentsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactDepartmentInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartmentInfo:
         """
         Performs a GET request against the /company/contacts/departments/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class CompanyContactsDepartmentsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactDepartmentInfo: The parsed response data.
         """
-        return self._parse_one(
-            ContactDepartmentInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactDepartmentInfo, super()._make_request("GET", data=data, params=params).json())

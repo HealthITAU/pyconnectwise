@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsIdMembersIdEndpoint import (
-    ProjectBoardsIdTeamsIdMembersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsIdMembersIdEndpoint import \
+    ProjectBoardsIdTeamsIdMembersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectBoardTeamMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -22,9 +21,7 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBoardsIdTeamsIdMembersIdEndpoint: The initialized ProjectBoardsIdTeamsIdMembersIdEndpoint object.
         """
-        child = ProjectBoardsIdTeamsIdMembersIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProjectBoardsIdTeamsIdMembersIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -51,9 +48,7 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProjectBoardTeamMember]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectBoardTeamMember]:
         """
         Performs a GET request against the /project/boards/{id}/teams/{id}/members endpoint.
 
@@ -63,14 +58,9 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectBoardTeamMember]: The parsed response data.
         """
-        return self._parse_many(
-            ProjectBoardTeamMember,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProjectBoardTeamMember, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectBoardTeamMember:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBoardTeamMember:
         """
         Performs a POST request against the /project/boards/{id}/teams/{id}/members endpoint.
 
@@ -80,7 +70,4 @@ class ProjectBoardsIdTeamsIdMembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBoardTeamMember: The parsed response data.
         """
-        return self._parse_one(
-            ProjectBoardTeamMember,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectBoardTeamMember, super()._make_request("POST", data=data, params=params).json())

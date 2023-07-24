@@ -33,9 +33,7 @@ class ComputersIdPrintersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ComputerPrinter]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerPrinter]:
         """
         Performs a GET request against the /Computers/{id}/Printers endpoint.
 
@@ -45,7 +43,4 @@ class ComputersIdPrintersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ComputerPrinter]: The parsed response data.
         """
-        return self._parse_many(
-            ComputerPrinter,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ComputerPrinter, super()._make_request("GET", data=data, params=params).json())

@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import (
-    ProbeEvent,
-)
+from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import ProbeEvent
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -12,9 +10,7 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Probeevents", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ProbeEvent]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProbeEvent]:
         """
         Performs a GET request against the /Probeevents endpoint and returns an initialized PaginatedResponse object.
 
@@ -35,9 +31,7 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProbeEvent]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProbeEvent]:
         """
         Performs a GET request against the /Probeevents endpoint.
 
@@ -47,6 +41,4 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProbeEvent]: The parsed response data.
         """
-        return self._parse_many(
-            ProbeEvent, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ProbeEvent, super()._make_request("GET", data=data, params=params).json())

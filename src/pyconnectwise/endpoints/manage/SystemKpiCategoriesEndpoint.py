@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemKpicategoriesCountEndpoint import (
-    SystemKpicategoriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemKpicategoriesIdEndpoint import (
-    SystemKpicategoriesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemKpicategoriesCountEndpoint import SystemKpicategoriesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemKpicategoriesIdEndpoint import SystemKpicategoriesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import KPICategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemKpicategoriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "kpiCategories", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemKpicategoriesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemKpicategoriesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemKpicategoriesIdEndpoint:
         """
@@ -33,9 +27,7 @@ class SystemKpicategoriesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[KPICategory]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KPICategory]:
         """
         Performs a GET request against the /system/kpiCategories endpoint and returns an initialized PaginatedResponse object.
 
@@ -56,9 +48,7 @@ class SystemKpicategoriesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[KPICategory]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[KPICategory]:
         """
         Performs a GET request against the /system/kpiCategories endpoint.
 
@@ -68,6 +58,4 @@ class SystemKpicategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[KPICategory]: The parsed response data.
         """
-        return self._parse_many(
-            KPICategory, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(KPICategory, super()._make_request("GET", data=data, params=params).json())

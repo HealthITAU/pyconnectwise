@@ -33,9 +33,7 @@ class ComputersIdBiosEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ComputerBios:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerBios:
         """
         Performs a GET request against the /Computers/{id}/Bios endpoint.
 
@@ -45,6 +43,4 @@ class ComputersIdBiosEndpoint(ConnectWiseEndpoint):
         Returns:
             ComputerBios: The parsed response data.
         """
-        return self._parse_one(
-            ComputerBios, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ComputerBios, super()._make_request("GET", data=data, params=params).json())

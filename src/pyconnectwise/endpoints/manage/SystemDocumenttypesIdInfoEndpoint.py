@@ -33,9 +33,7 @@ class SystemDocumenttypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> DocumentType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DocumentType:
         """
         Performs a GET request against the /system/documentTypes/{id}/info endpoint.
 
@@ -45,6 +43,4 @@ class SystemDocumenttypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             DocumentType: The parsed response data.
         """
-        return self._parse_one(
-            DocumentType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(DocumentType, super()._make_request("GET", data=data, params=params).json())

@@ -33,9 +33,7 @@ class SystemMembersTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberTypeInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberTypeInfo:
         """
         Performs a GET request against the /system/members/types/{id}/info endpoint.
 
@@ -45,7 +43,4 @@ class SystemMembersTypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberTypeInfo: The parsed response data.
         """
-        return self._parse_one(
-            MemberTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(MemberTypeInfo, super()._make_request("GET", data=data, params=params).json())

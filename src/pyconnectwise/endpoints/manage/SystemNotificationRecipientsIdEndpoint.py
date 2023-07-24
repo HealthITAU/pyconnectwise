@@ -33,9 +33,7 @@ class SystemNotificationrecipientsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> NotificationRecipient:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NotificationRecipient:
         """
         Performs a GET request against the /system/notificationRecipients/{id} endpoint.
 
@@ -45,7 +43,4 @@ class SystemNotificationrecipientsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             NotificationRecipient: The parsed response data.
         """
-        return self._parse_one(
-            NotificationRecipient,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(NotificationRecipient, super()._make_request("GET", data=data, params=params).json())

@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint import (
-    FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint import \
+    FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRoleExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -14,9 +13,7 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.taxable_work_role_levels = self._register_child_endpoint(
-            FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -42,9 +39,7 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkRoleExemption:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
         Performs a GET request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
@@ -54,14 +49,9 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(
-            WorkRoleExemption,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkRoleExemption, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
@@ -71,14 +61,9 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkRoleExemption:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
         Performs a PUT request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
@@ -88,14 +73,9 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(
-            WorkRoleExemption,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkRoleExemption, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkRoleExemption:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkRoleExemption:
         """
         Performs a PATCH request against the /finance/taxCodes/{id}/workRoleExemptions/{id} endpoint.
 
@@ -105,7 +85,4 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkRoleExemption: The parsed response data.
         """
-        return self._parse_one(
-            WorkRoleExemption,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkRoleExemption, super()._make_request("PATCH", data=data, params=params).json())

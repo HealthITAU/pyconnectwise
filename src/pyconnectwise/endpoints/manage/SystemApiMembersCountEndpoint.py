@@ -10,9 +10,7 @@ class SystemApimembersCountEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "count", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Count]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Count]:
         """
         Performs a GET request against the /system/apiMembers/count endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemApimembersCountEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Count:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Count:
         """
         Performs a GET request against the /system/apiMembers/count endpoint.
 
@@ -45,6 +41,4 @@ class SystemApimembersCountEndpoint(ConnectWiseEndpoint):
         Returns:
             Count: The parsed response data.
         """
-        return self._parse_one(
-            Count, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Count, super()._make_request("GET", data=data, params=params).json())

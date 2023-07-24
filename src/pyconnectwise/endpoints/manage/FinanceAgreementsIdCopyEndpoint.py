@@ -10,9 +10,7 @@ class FinanceAgreementsIdCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Agreement:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
         """
         Performs a POST request against the /finance/agreements/{id}/copy endpoint.
 
@@ -22,6 +20,4 @@ class FinanceAgreementsIdCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(
-            Agreement, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())

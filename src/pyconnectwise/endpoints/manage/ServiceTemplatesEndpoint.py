@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTemplatesCountEndpoint import (
-    ServiceTemplatesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTemplatesIdEndpoint import (
-    ServiceTemplatesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTemplatesInfoEndpoint import (
-    ServiceTemplatesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceTemplatesCountEndpoint import ServiceTemplatesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTemplatesIdEndpoint import ServiceTemplatesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceTemplatesInfoEndpoint import ServiceTemplatesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class ServiceTemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "templates", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ServiceTemplatesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ServiceTemplatesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(ServiceTemplatesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ServiceTemplatesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceTemplatesIdEndpoint:
         """
@@ -62,9 +52,7 @@ class ServiceTemplatesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ServiceTemplate]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceTemplate]:
         """
         Performs a GET request against the /service/templates endpoint.
 
@@ -74,7 +62,4 @@ class ServiceTemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ServiceTemplate]: The parsed response data.
         """
-        return self._parse_many(
-            ServiceTemplate,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ServiceTemplate, super()._make_request("GET", data=data, params=params).json())

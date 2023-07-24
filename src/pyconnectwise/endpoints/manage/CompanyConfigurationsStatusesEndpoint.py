@@ -1,15 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesCountEndpoint import (
-    CompanyConfigurationsStatusesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesIdEndpoint import (
-    CompanyConfigurationsStatusesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesInfoEndpoint import (
-    CompanyConfigurationsStatusesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesCountEndpoint import \
+    CompanyConfigurationsStatusesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesIdEndpoint import \
+    CompanyConfigurationsStatusesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesInfoEndpoint import \
+    CompanyConfigurationsStatusesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,11 +16,11 @@ class CompanyConfigurationsStatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyConfigurationsStatusesCountEndpoint(client, parent_endpoint=self)
-        )
         self.info = self._register_child_endpoint(
             CompanyConfigurationsStatusesInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(
+            CompanyConfigurationsStatusesCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyConfigurationsStatusesIdEndpoint:
@@ -35,9 +32,7 @@ class CompanyConfigurationsStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyConfigurationsStatusesIdEndpoint: The initialized CompanyConfigurationsStatusesIdEndpoint object.
         """
-        child = CompanyConfigurationsStatusesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyConfigurationsStatusesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -64,9 +59,7 @@ class CompanyConfigurationsStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ConfigurationStatus]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationStatus]:
         """
         Performs a GET request against the /company/configurations/statuses endpoint.
 
@@ -76,14 +69,9 @@ class CompanyConfigurationsStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ConfigurationStatus]: The parsed response data.
         """
-        return self._parse_many(
-            ConfigurationStatus,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ConfigurationStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ConfigurationStatus:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationStatus:
         """
         Performs a POST request against the /company/configurations/statuses endpoint.
 
@@ -93,7 +81,4 @@ class CompanyConfigurationsStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             ConfigurationStatus: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationStatus,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationStatus, super()._make_request("POST", data=data, params=params).json())

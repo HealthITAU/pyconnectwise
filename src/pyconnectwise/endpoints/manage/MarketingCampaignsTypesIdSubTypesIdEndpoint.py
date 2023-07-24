@@ -33,9 +33,7 @@ class MarketingCampaignsTypesIdSubtypesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CampaignSubType:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignSubType:
         """
         Performs a GET request against the /marketing/campaigns/types/{id}/subTypes/{id} endpoint.
 
@@ -45,7 +43,4 @@ class MarketingCampaignsTypesIdSubtypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignSubType: The parsed response data.
         """
-        return self._parse_one(
-            CampaignSubType,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(CampaignSubType, super()._make_request("GET", data=data, params=params).json())

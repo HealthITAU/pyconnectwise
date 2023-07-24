@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdAttachmentsCountEndpoint import (
-    SystemWorkflowsIdAttachmentsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdAttachmentsIdEndpoint import (
-    SystemWorkflowsIdAttachmentsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdAttachmentsCountEndpoint import \
+    SystemWorkflowsIdAttachmentsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdAttachmentsIdEndpoint import SystemWorkflowsIdAttachmentsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowAttachment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +26,7 @@ class SystemWorkflowsIdAttachmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemWorkflowsIdAttachmentsIdEndpoint: The initialized SystemWorkflowsIdAttachmentsIdEndpoint object.
         """
-        child = SystemWorkflowsIdAttachmentsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemWorkflowsIdAttachmentsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +53,7 @@ class SystemWorkflowsIdAttachmentsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[WorkflowAttachment]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowAttachment]:
         """
         Performs a GET request against the /system/workflows/{id}/attachments endpoint.
 
@@ -70,7 +63,4 @@ class SystemWorkflowsIdAttachmentsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[WorkflowAttachment]: The parsed response data.
         """
-        return self._parse_many(
-            WorkflowAttachment,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WorkflowAttachment, super()._make_request("GET", data=data, params=params).json())

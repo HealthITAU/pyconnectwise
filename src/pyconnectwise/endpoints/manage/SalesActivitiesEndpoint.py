@@ -1,18 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesActivitiesCountEndpoint import (
-    SalesActivitiesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesActivitiesIdEndpoint import (
-    SalesActivitiesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesActivitiesStatusesEndpoint import (
-    SalesActivitiesStatusesEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesActivitiesTypesEndpoint import (
-    SalesActivitiesTypesEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesActivitiesCountEndpoint import SalesActivitiesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesIdEndpoint import SalesActivitiesIdEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesStatusesEndpoint import SalesActivitiesStatusesEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesTypesEndpoint import SalesActivitiesTypesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Activity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -22,15 +14,9 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "activities", parent_endpoint=parent_endpoint)
 
-        self.types = self._register_child_endpoint(
-            SalesActivitiesTypesEndpoint(client, parent_endpoint=self)
-        )
-        self.count = self._register_child_endpoint(
-            SalesActivitiesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.statuses = self._register_child_endpoint(
-            SalesActivitiesStatusesEndpoint(client, parent_endpoint=self)
-        )
+        self.types = self._register_child_endpoint(SalesActivitiesTypesEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesActivitiesStatusesEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesActivitiesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesActivitiesIdEndpoint:
         """
@@ -45,9 +31,7 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Activity]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Activity]:
         """
         Performs a GET request against the /sales/activities endpoint and returns an initialized PaginatedResponse object.
 
@@ -68,9 +52,7 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Activity]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Activity]:
         """
         Performs a GET request against the /sales/activities endpoint.
 
@@ -80,13 +62,9 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Activity]: The parsed response data.
         """
-        return self._parse_many(
-            Activity, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Activity, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Activity:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Activity:
         """
         Performs a POST request against the /sales/activities endpoint.
 
@@ -96,6 +74,4 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             Activity: The parsed response data.
         """
-        return self._parse_one(
-            Activity, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Activity, super()._make_request("POST", data=data, params=params).json())

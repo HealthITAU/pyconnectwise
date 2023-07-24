@@ -33,9 +33,7 @@ class SystemMenuentriesIdLocationsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MenuEntryLocation:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MenuEntryLocation:
         """
         Performs a GET request against the /system/menuEntries/{id}/locations/{id} endpoint.
 
@@ -45,14 +43,9 @@ class SystemMenuentriesIdLocationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             MenuEntryLocation: The parsed response data.
         """
-        return self._parse_one(
-            MenuEntryLocation,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(MenuEntryLocation, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/menuEntries/{id}/locations/{id} endpoint.
 
@@ -62,7 +55,4 @@ class SystemMenuentriesIdLocationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

@@ -33,9 +33,7 @@ class TimeWorktypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> WorkTypeInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkTypeInfo:
         """
         Performs a GET request against the /time/workTypes/{id}/info endpoint.
 
@@ -45,6 +43,4 @@ class TimeWorktypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             WorkTypeInfo: The parsed response data.
         """
-        return self._parse_one(
-            WorkTypeInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(WorkTypeInfo, super()._make_request("GET", data=data, params=params).json())

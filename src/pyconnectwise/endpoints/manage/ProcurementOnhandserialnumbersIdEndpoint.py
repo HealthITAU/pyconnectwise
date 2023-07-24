@@ -33,9 +33,7 @@ class ProcurementOnhandserialnumbersIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OnHandSerialNumber:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OnHandSerialNumber:
         """
         Performs a GET request against the /procurement/onhandserialnumbers/{id} endpoint.
 
@@ -45,7 +43,4 @@ class ProcurementOnhandserialnumbersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             OnHandSerialNumber: The parsed response data.
         """
-        return self._parse_one(
-            OnHandSerialNumber,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(OnHandSerialNumber, super()._make_request("GET", data=data, params=params).json())

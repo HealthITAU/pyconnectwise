@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdOpportunitiesCountEndpoint import (
-    MarketingCampaignsIdOpportunitiesCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdOpportunitiesCountEndpoint import \
+    MarketingCampaignsIdOpportunitiesCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class MarketingCampaignsIdOpportunitiesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OpportunityReference]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityReference]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/opportunities endpoint.
 
@@ -52,7 +49,4 @@ class MarketingCampaignsIdOpportunitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityReference]: The parsed response data.
         """
-        return self._parse_many(
-            OpportunityReference,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(OpportunityReference, super()._make_request("GET", data=data, params=params).json())

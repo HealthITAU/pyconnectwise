@@ -33,9 +33,7 @@ class ProcurementSettingsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProcurementSetting:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProcurementSetting:
         """
         Performs a GET request against the /procurement/settings/{id} endpoint.
 
@@ -45,14 +43,9 @@ class ProcurementSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementSetting: The parsed response data.
         """
-        return self._parse_one(
-            ProcurementSetting,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ProcurementSetting, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProcurementSetting:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProcurementSetting:
         """
         Performs a PUT request against the /procurement/settings/{id} endpoint.
 
@@ -62,14 +55,9 @@ class ProcurementSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementSetting: The parsed response data.
         """
-        return self._parse_one(
-            ProcurementSetting,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ProcurementSetting, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProcurementSetting:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProcurementSetting:
         """
         Performs a PATCH request against the /procurement/settings/{id} endpoint.
 
@@ -79,7 +67,4 @@ class ProcurementSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementSetting: The parsed response data.
         """
-        return self._parse_one(
-            ProcurementSetting,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ProcurementSetting, super()._make_request("PATCH", data=data, params=params).json())

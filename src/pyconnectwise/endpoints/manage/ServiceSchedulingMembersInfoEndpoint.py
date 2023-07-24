@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceSchedulingMembersInfoCountEndpoint import (
-    ServiceSchedulingMembersInfoCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceSchedulingMembersInfoCountEndpoint import \
+    ServiceSchedulingMembersInfoCountEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SchedulingMemberInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -40,9 +39,7 @@ class ServiceSchedulingMembersInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[SchedulingMemberInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SchedulingMemberInfo]:
         """
         Performs a GET request against the /service/scheduling/members/info endpoint.
 
@@ -52,7 +49,4 @@ class ServiceSchedulingMembersInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[SchedulingMemberInfo]: The parsed response data.
         """
-        return self._parse_many(
-            SchedulingMemberInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(SchedulingMemberInfo, super()._make_request("GET", data=data, params=params).json())

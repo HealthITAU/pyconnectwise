@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint import (
-    CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint import \
+    CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationOpportunitySetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -22,9 +21,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
         Returns:
             CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -64,13 +61,10 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
             list[PortalConfigurationOpportunitySetup]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationOpportunitySetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationOpportunitySetup, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalConfigurationOpportunitySetup:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/opportunitySetups endpoint.
 
@@ -81,8 +75,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup,
-            super()._make_request("PUT", data=data, params=params).json(),
+            PortalConfigurationOpportunitySetup, super()._make_request("PUT", data=data, params=params).json()
         )
 
     def patch(
@@ -98,6 +91,5 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            PortalConfigurationOpportunitySetup, super()._make_request("PATCH", data=data, params=params).json()
         )

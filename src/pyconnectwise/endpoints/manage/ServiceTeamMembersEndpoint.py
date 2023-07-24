@@ -10,9 +10,7 @@ class ServiceTeammembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "teamMembers", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> TeamMember:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TeamMember:
         """
         Performs a POST request against the /service/teamMembers endpoint.
 
@@ -22,6 +20,4 @@ class ServiceTeammembersEndpoint(ConnectWiseEndpoint):
         Returns:
             TeamMember: The parsed response data.
         """
-        return self._parse_one(
-            TeamMember, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(TeamMember, super()._make_request("POST", data=data, params=params).json())

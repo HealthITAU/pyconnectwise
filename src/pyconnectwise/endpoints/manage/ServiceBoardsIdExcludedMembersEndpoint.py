@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersCountEndpoint import (
-    ServiceBoardsIdExcludedmembersCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersIdEndpoint import (
-    ServiceBoardsIdExcludedmembersIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersCountEndpoint import \
+    ServiceBoardsIdExcludedmembersCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersIdEndpoint import \
+    ServiceBoardsIdExcludedmembersIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardExcludedMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +27,7 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceBoardsIdExcludedmembersIdEndpoint: The initialized ServiceBoardsIdExcludedmembersIdEndpoint object.
         """
-        child = ServiceBoardsIdExcludedmembersIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ServiceBoardsIdExcludedmembersIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +54,7 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[BoardExcludedMember]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardExcludedMember]:
         """
         Performs a GET request against the /service/boards/{id}/excludedMembers endpoint.
 
@@ -70,14 +64,9 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         Returns:
             list[BoardExcludedMember]: The parsed response data.
         """
-        return self._parse_many(
-            BoardExcludedMember,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(BoardExcludedMember, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> BoardExcludedMember:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardExcludedMember:
         """
         Performs a POST request against the /service/boards/{id}/excludedMembers endpoint.
 
@@ -87,7 +76,4 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         Returns:
             BoardExcludedMember: The parsed response data.
         """
-        return self._parse_one(
-            BoardExcludedMember,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(BoardExcludedMember, super()._make_request("POST", data=data, params=params).json())

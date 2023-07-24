@@ -1,13 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesStagesCountEndpoint import (
-    SalesStagesCountEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesStagesCountEndpoint import SalesStagesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesStagesIdEndpoint import SalesStagesIdEndpoint
-from pyconnectwise.endpoints.manage.SalesStagesInfoEndpoint import (
-    SalesStagesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesStagesInfoEndpoint import SalesStagesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityStage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -17,12 +13,8 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "stages", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SalesStagesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SalesStagesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SalesStagesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesStagesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesStagesIdEndpoint:
         """
@@ -60,9 +52,7 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OpportunityStage]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityStage]:
         """
         Performs a GET request against the /sales/stages endpoint.
 
@@ -72,14 +62,9 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OpportunityStage]: The parsed response data.
         """
-        return self._parse_many(
-            OpportunityStage,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(OpportunityStage, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> OpportunityStage:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStage:
         """
         Performs a POST request against the /sales/stages endpoint.
 
@@ -89,7 +74,4 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
         Returns:
             OpportunityStage: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityStage,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityStage, super()._make_request("POST", data=data, params=params).json())

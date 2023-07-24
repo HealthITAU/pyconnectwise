@@ -10,9 +10,7 @@ class SystemWorkflowsIdCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Workflow:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Workflow:
         """
         Performs a POST request against the /system/workflows/{id}/copy endpoint.
 
@@ -22,6 +20,4 @@ class SystemWorkflowsIdCopyEndpoint(ConnectWiseEndpoint):
         Returns:
             Workflow: The parsed response data.
         """
-        return self._parse_one(
-            Workflow, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Workflow, super()._make_request("POST", data=data, params=params).json())

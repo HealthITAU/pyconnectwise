@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesEndpoint import (
-    FinanceAccountingBatchesIdEntriesEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdExportEndpoint import (
-    FinanceAccountingBatchesIdExportEndpoint,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesEndpoint import \
+    FinanceAccountingBatchesIdEntriesEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdExportEndpoint import \
+    FinanceAccountingBatchesIdExportEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AccountingBatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,11 +14,11 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.export = self._register_child_endpoint(
-            FinanceAccountingBatchesIdExportEndpoint(client, parent_endpoint=self)
-        )
         self.entries = self._register_child_endpoint(
             FinanceAccountingBatchesIdEntriesEndpoint(client, parent_endpoint=self)
+        )
+        self.export = self._register_child_endpoint(
+            FinanceAccountingBatchesIdExportEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -46,9 +44,7 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> AccountingBatch:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingBatch:
         """
         Performs a GET request against the /finance/accounting/batches/{id} endpoint.
 
@@ -58,14 +54,9 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             AccountingBatch: The parsed response data.
         """
-        return self._parse_one(
-            AccountingBatch,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(AccountingBatch, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/accounting/batches/{id} endpoint.
 
@@ -75,7 +66,4 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

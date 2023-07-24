@@ -33,9 +33,7 @@ class CompanyManagementIdLogsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ManagementLogDocumentInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementLogDocumentInfo]:
         """
         Performs a GET request against the /company/management/{id}/logs endpoint.
 
@@ -46,6 +44,5 @@ class CompanyManagementIdLogsEndpoint(ConnectWiseEndpoint):
             list[ManagementLogDocumentInfo]: The parsed response data.
         """
         return self._parse_many(
-            ManagementLogDocumentInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            ManagementLogDocumentInfo, super()._make_request("GET", data=data, params=params).json()
         )

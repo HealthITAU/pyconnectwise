@@ -10,9 +10,7 @@ class SystemMycompanyOtherIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[Other]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Other]:
         """
         Performs a GET request against the /system/myCompany/other/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemMycompanyOtherIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Other:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Other:
         """
         Performs a GET request against the /system/myCompany/other/{id} endpoint.
 
@@ -45,13 +41,9 @@ class SystemMycompanyOtherIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Other: The parsed response data.
         """
-        return self._parse_one(
-            Other, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Other, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Other:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Other:
         """
         Performs a PUT request against the /system/myCompany/other/{id} endpoint.
 
@@ -61,13 +53,9 @@ class SystemMycompanyOtherIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Other: The parsed response data.
         """
-        return self._parse_one(
-            Other, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(Other, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Other:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Other:
         """
         Performs a PATCH request against the /system/myCompany/other/{id} endpoint.
 
@@ -77,6 +65,4 @@ class SystemMycompanyOtherIdEndpoint(ConnectWiseEndpoint):
         Returns:
             Other: The parsed response data.
         """
-        return self._parse_one(
-            Other, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(Other, super()._make_request("PATCH", data=data, params=params).json())

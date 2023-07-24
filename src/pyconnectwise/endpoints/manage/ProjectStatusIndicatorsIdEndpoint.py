@@ -33,9 +33,7 @@ class ProjectStatusindicatorsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> StatusIndicator:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> StatusIndicator:
         """
         Performs a GET request against the /project/statusIndicators/{id} endpoint.
 
@@ -45,7 +43,4 @@ class ProjectStatusindicatorsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             StatusIndicator: The parsed response data.
         """
-        return self._parse_one(
-            StatusIndicator,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(StatusIndicator, super()._make_request("GET", data=data, params=params).json())

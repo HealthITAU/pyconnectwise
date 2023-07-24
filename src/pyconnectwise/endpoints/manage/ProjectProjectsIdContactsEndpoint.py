@@ -1,9 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsIdContactsIdEndpoint import (
-    ProjectProjectsIdContactsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectProjectsIdContactsIdEndpoint import ProjectProjectsIdContactsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectContact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -49,9 +47,7 @@ class ProjectProjectsIdContactsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProjectContact]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectContact]:
         """
         Performs a GET request against the /project/projects/{id}/contacts endpoint.
 
@@ -61,14 +57,9 @@ class ProjectProjectsIdContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectContact]: The parsed response data.
         """
-        return self._parse_many(
-            ProjectContact,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProjectContact, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectContact:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectContact:
         """
         Performs a POST request against the /project/projects/{id}/contacts endpoint.
 
@@ -78,7 +69,4 @@ class ProjectProjectsIdContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectContact: The parsed response data.
         """
-        return self._parse_one(
-            ProjectContact,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectContact, super()._make_request("POST", data=data, params=params).json())

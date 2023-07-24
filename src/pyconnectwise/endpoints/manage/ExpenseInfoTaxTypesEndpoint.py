@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesCountEndpoint import (
-    ExpenseInfoTaxtypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesIdEndpoint import (
-    ExpenseInfoTaxtypesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesCountEndpoint import ExpenseInfoTaxtypesCountEndpoint
+from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesIdEndpoint import ExpenseInfoTaxtypesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseTaxTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "taxTypes", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ExpenseInfoTaxtypesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ExpenseInfoTaxtypesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ExpenseInfoTaxtypesIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ExpenseTaxTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseTaxTypeInfo]:
         """
         Performs a GET request against the /expense/info/taxTypes endpoint.
 
@@ -68,7 +60,4 @@ class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ExpenseTaxTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            ExpenseTaxTypeInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ExpenseTaxTypeInfo, super()._make_request("GET", data=data, params=params).json())

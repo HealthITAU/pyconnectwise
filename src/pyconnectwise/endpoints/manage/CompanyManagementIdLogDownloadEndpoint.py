@@ -9,9 +9,7 @@ class CompanyManagementIdLogDownloadEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "download", parent_endpoint=parent_endpoint)
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a GET request against the /company/management/{id}/log/download endpoint.
 
@@ -21,7 +19,4 @@ class CompanyManagementIdLogDownloadEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("GET", data=data, params=params).json())

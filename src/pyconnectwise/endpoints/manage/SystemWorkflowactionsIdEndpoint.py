@@ -1,9 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersEndpoint import (
-    SystemWorkflowactionsIdAutomateparametersEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersEndpoint import \
+    SystemWorkflowactionsIdAutomateparametersEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,7 +12,5 @@ class SystemWorkflowactionsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.automate_parameters = self._register_child_endpoint(
-            SystemWorkflowactionsIdAutomateparametersEndpoint(
-                client, parent_endpoint=self
-            )
+            SystemWorkflowactionsIdAutomateparametersEndpoint(client, parent_endpoint=self)
         )

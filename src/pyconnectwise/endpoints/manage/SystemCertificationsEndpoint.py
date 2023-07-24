@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemCertificationsCountEndpoint import (
-    SystemCertificationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemCertificationsIdEndpoint import (
-    SystemCertificationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemCertificationsCountEndpoint import SystemCertificationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemCertificationsIdEndpoint import SystemCertificationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Certification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "certifications", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SystemCertificationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemCertificationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemCertificationsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[Certification]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Certification]:
         """
         Performs a GET request against the /system/certifications endpoint.
 
@@ -68,13 +60,9 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[Certification]: The parsed response data.
         """
-        return self._parse_many(
-            Certification, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Certification, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> Certification:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Certification:
         """
         Performs a POST request against the /system/certifications endpoint.
 
@@ -84,7 +72,4 @@ class SystemCertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             Certification: The parsed response data.
         """
-        return self._parse_one(
-            Certification,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(Certification, super()._make_request("POST", data=data, params=params).json())

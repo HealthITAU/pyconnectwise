@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdGroupsCountEndpoint import (
-    CompanyCompaniesIdGroupsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdGroupsIdEndpoint import (
-    CompanyCompaniesIdGroupsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdGroupsCountEndpoint import CompanyCompaniesIdGroupsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdGroupsIdEndpoint import CompanyCompaniesIdGroupsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyGroup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class CompanyCompaniesIdGroupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "groups", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            CompanyCompaniesIdGroupsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyCompaniesIdGroupsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompaniesIdGroupsIdEndpoint:
         """
@@ -56,9 +50,7 @@ class CompanyCompaniesIdGroupsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CompanyGroup]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyGroup]:
         """
         Performs a GET request against the /company/companies/{id}/groups endpoint.
 
@@ -68,13 +60,9 @@ class CompanyCompaniesIdGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CompanyGroup]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyGroup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(CompanyGroup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CompanyGroup:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyGroup:
         """
         Performs a POST request against the /company/companies/{id}/groups endpoint.
 
@@ -84,6 +72,4 @@ class CompanyCompaniesIdGroupsEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyGroup: The parsed response data.
         """
-        return self._parse_one(
-            CompanyGroup, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(CompanyGroup, super()._make_request("POST", data=data, params=params).json())

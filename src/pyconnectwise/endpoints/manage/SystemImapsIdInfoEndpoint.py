@@ -10,9 +10,7 @@ class SystemImapsIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ImapInfo]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ImapInfo]:
         """
         Performs a GET request against the /system/imaps/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,9 +31,7 @@ class SystemImapsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ImapInfo:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ImapInfo:
         """
         Performs a GET request against the /system/imaps/{id}/info endpoint.
 
@@ -45,6 +41,4 @@ class SystemImapsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             ImapInfo: The parsed response data.
         """
-        return self._parse_one(
-            ImapInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ImapInfo, super()._make_request("GET", data=data, params=params).json())

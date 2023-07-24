@@ -33,9 +33,7 @@ class SystemInouttypesInfoEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[InOutTypeInfo]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InOutTypeInfo]:
         """
         Performs a GET request against the /system/inOutTypes/info endpoint.
 
@@ -45,6 +43,4 @@ class SystemInouttypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             list[InOutTypeInfo]: The parsed response data.
         """
-        return self._parse_many(
-            InOutTypeInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(InOutTypeInfo, super()._make_request("GET", data=data, params=params).json())

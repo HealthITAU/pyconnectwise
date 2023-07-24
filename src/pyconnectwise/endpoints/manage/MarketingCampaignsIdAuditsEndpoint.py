@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsCountEndpoint import (
-    MarketingCampaignsIdAuditsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsIdEndpoint import (
-    MarketingCampaignsIdAuditsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsCountEndpoint import \
+    MarketingCampaignsIdAuditsCountEndpoint
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsIdEndpoint import MarketingCampaignsIdAuditsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CampaignAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -56,9 +53,7 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[CampaignAudit]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignAudit]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/audits endpoint.
 
@@ -68,13 +63,9 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[CampaignAudit]: The parsed response data.
         """
-        return self._parse_many(
-            CampaignAudit, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(CampaignAudit, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> CampaignAudit:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignAudit:
         """
         Performs a POST request against the /marketing/campaigns/{id}/audits endpoint.
 
@@ -84,7 +75,4 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             CampaignAudit: The parsed response data.
         """
-        return self._parse_one(
-            CampaignAudit,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CampaignAudit, super()._make_request("POST", data=data, params=params).json())

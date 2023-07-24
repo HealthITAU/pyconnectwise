@@ -33,9 +33,7 @@ class LicensedproductsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[LicensedProduct]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LicensedProduct]:
         """
         Performs a GET request against the /Licensedproducts endpoint.
 
@@ -45,7 +43,4 @@ class LicensedproductsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[LicensedProduct]: The parsed response data.
         """
-        return self._parse_many(
-            LicensedProduct,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(LicensedProduct, super()._make_request("GET", data=data, params=params).json())

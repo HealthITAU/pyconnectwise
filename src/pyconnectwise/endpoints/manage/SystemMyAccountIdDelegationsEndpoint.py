@@ -1,12 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsCountEndpoint import (
-    SystemMyaccountIdDelegationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsIdEndpoint import (
-    SystemMyaccountIdDelegationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsCountEndpoint import \
+    SystemMyaccountIdDelegationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsIdEndpoint import SystemMyaccountIdDelegationsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberDelegation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -29,9 +26,7 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             SystemMyaccountIdDelegationsIdEndpoint: The initialized SystemMyaccountIdDelegationsIdEndpoint object.
         """
-        child = SystemMyaccountIdDelegationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = SystemMyaccountIdDelegationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -58,9 +53,7 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[MemberDelegation]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberDelegation]:
         """
         Performs a GET request against the /system/myAccount/{id}/delegations endpoint.
 
@@ -70,14 +63,9 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[MemberDelegation]: The parsed response data.
         """
-        return self._parse_many(
-            MemberDelegation,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(MemberDelegation, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberDelegation:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberDelegation:
         """
         Performs a POST request against the /system/myAccount/{id}/delegations endpoint.
 
@@ -87,7 +75,4 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberDelegation: The parsed response data.
         """
-        return self._parse_one(
-            MemberDelegation,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MemberDelegation, super()._make_request("POST", data=data, params=params).json())

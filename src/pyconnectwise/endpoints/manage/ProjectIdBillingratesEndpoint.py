@@ -1,12 +1,8 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectIdBillingratesCountEndpoint import (
-    ProjectIdBillingratesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProjectIdBillingratesIdEndpoint import (
-    ProjectIdBillingratesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProjectIdBillingratesCountEndpoint import ProjectIdBillingratesCountEndpoint
+from pyconnectwise.endpoints.manage.ProjectIdBillingratesIdEndpoint import ProjectIdBillingratesIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectBillingRate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -16,9 +12,7 @@ class ProjectIdBillingratesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "billingRates", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ProjectIdBillingratesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProjectIdBillingratesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProjectIdBillingratesIdEndpoint:
         """
@@ -56,9 +50,7 @@ class ProjectIdBillingratesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[ProjectBillingRate]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectBillingRate]:
         """
         Performs a GET request against the /project/{id}/billingRates endpoint.
 
@@ -68,14 +60,9 @@ class ProjectIdBillingratesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[ProjectBillingRate]: The parsed response data.
         """
-        return self._parse_many(
-            ProjectBillingRate,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ProjectBillingRate, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ProjectBillingRate:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBillingRate:
         """
         Performs a POST request against the /project/{id}/billingRates endpoint.
 
@@ -85,7 +72,4 @@ class ProjectIdBillingratesEndpoint(ConnectWiseEndpoint):
         Returns:
             ProjectBillingRate: The parsed response data.
         """
-        return self._parse_one(
-            ProjectBillingRate,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ProjectBillingRate, super()._make_request("POST", data=data, params=params).json())

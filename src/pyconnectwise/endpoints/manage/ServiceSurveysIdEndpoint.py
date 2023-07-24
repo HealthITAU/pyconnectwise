@@ -1,18 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceSurveysIdCopyEndpoint import (
-    ServiceSurveysIdCopyEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsEndpoint import (
-    ServiceSurveysIdQuestionsEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsEndpoint import (
-    ServiceSurveysIdResultsEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceSurveysIdUsagesEndpoint import (
-    ServiceSurveysIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.ServiceSurveysIdCopyEndpoint import ServiceSurveysIdCopyEndpoint
+from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsEndpoint import ServiceSurveysIdQuestionsEndpoint
+from pyconnectwise.endpoints.manage.ServiceSurveysIdResultsEndpoint import ServiceSurveysIdResultsEndpoint
+from pyconnectwise.endpoints.manage.ServiceSurveysIdUsagesEndpoint import ServiceSurveysIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceSurvey
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -22,18 +14,10 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(
-            ServiceSurveysIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.results = self._register_child_endpoint(
-            ServiceSurveysIdResultsEndpoint(client, parent_endpoint=self)
-        )
-        self.questions = self._register_child_endpoint(
-            ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(
-            ServiceSurveysIdCopyEndpoint(client, parent_endpoint=self)
-        )
+        self.usages = self._register_child_endpoint(ServiceSurveysIdUsagesEndpoint(client, parent_endpoint=self))
+        self.questions = self._register_child_endpoint(ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
+        self.copy = self._register_child_endpoint(ServiceSurveysIdCopyEndpoint(client, parent_endpoint=self))
+        self.results = self._register_child_endpoint(ServiceSurveysIdResultsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -58,9 +42,7 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceSurvey:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurvey:
         """
         Performs a GET request against the /service/surveys/{id} endpoint.
 
@@ -70,13 +52,9 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSurvey: The parsed response data.
         """
-        return self._parse_one(
-            ServiceSurvey, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(ServiceSurvey, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/surveys/{id} endpoint.
 
@@ -86,14 +64,9 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceSurvey:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurvey:
         """
         Performs a PUT request against the /service/surveys/{id} endpoint.
 
@@ -103,13 +76,9 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSurvey: The parsed response data.
         """
-        return self._parse_one(
-            ServiceSurvey, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(ServiceSurvey, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ServiceSurvey:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurvey:
         """
         Performs a PATCH request against the /service/surveys/{id} endpoint.
 
@@ -119,7 +88,4 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ServiceSurvey: The parsed response data.
         """
-        return self._parse_one(
-            ServiceSurvey,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ServiceSurvey, super()._make_request("PATCH", data=data, params=params).json())

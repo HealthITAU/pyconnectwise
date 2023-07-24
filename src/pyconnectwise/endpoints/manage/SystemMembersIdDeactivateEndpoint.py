@@ -10,9 +10,7 @@ class SystemMembersIdDeactivateEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "deactivate", parent_endpoint=parent_endpoint)
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> MemberDeactivation:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberDeactivation:
         """
         Performs a POST request against the /system/members/{id}/deactivate endpoint.
 
@@ -22,7 +20,4 @@ class SystemMembersIdDeactivateEndpoint(ConnectWiseEndpoint):
         Returns:
             MemberDeactivation: The parsed response data.
         """
-        return self._parse_one(
-            MemberDeactivation,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MemberDeactivation, super()._make_request("POST", data=data, params=params).json())

@@ -1,15 +1,9 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesCountEndpoint import (
-    SalesOrdersStatusesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEndpoint import (
-    SalesOrdersStatusesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesInfoEndpoint import (
-    SalesOrdersStatusesInfoEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesCountEndpoint import SalesOrdersStatusesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEndpoint import SalesOrdersStatusesIdEndpoint
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesInfoEndpoint import SalesOrdersStatusesInfoEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OrderStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -19,12 +13,8 @@ class SalesOrdersStatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            SalesOrdersStatusesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SalesOrdersStatusesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SalesOrdersStatusesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesOrdersStatusesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesOrdersStatusesIdEndpoint:
         """
@@ -39,9 +29,7 @@ class SalesOrdersStatusesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[OrderStatus]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[OrderStatus]:
         """
         Performs a GET request against the /sales/orders/statuses endpoint and returns an initialized PaginatedResponse object.
 
@@ -62,9 +50,7 @@ class SalesOrdersStatusesEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OrderStatus]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OrderStatus]:
         """
         Performs a GET request against the /sales/orders/statuses endpoint.
 
@@ -74,13 +60,9 @@ class SalesOrdersStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderStatus]: The parsed response data.
         """
-        return self._parse_many(
-            OrderStatus, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(OrderStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[OrderStatus]:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OrderStatus]:
         """
         Performs a POST request against the /sales/orders/statuses endpoint.
 
@@ -90,6 +72,4 @@ class SalesOrdersStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             list[OrderStatus]: The parsed response data.
         """
-        return self._parse_many(
-            OrderStatus, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_many(OrderStatus, super()._make_request("POST", data=data, params=params).json())

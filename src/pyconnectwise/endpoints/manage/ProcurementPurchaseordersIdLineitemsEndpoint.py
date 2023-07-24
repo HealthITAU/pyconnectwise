@@ -1,15 +1,12 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsBulkEndpoint import (
-    ProcurementPurchaseordersIdLineitemsBulkEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsCountEndpoint import (
-    ProcurementPurchaseordersIdLineitemsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsIdEndpoint import (
-    ProcurementPurchaseordersIdLineitemsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsBulkEndpoint import \
+    ProcurementPurchaseordersIdLineitemsBulkEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsCountEndpoint import \
+    ProcurementPurchaseordersIdLineitemsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsIdEndpoint import \
+    ProcurementPurchaseordersIdLineitemsIdEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrderLineItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -20,14 +17,10 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "lineitems", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementPurchaseordersIdLineitemsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementPurchaseordersIdLineitemsCountEndpoint(client, parent_endpoint=self)
         )
         self.bulk = self._register_child_endpoint(
-            ProcurementPurchaseordersIdLineitemsBulkEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementPurchaseordersIdLineitemsBulkEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementPurchaseordersIdLineitemsIdEndpoint:
@@ -39,9 +32,7 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         Returns:
             ProcurementPurchaseordersIdLineitemsIdEndpoint: The initialized ProcurementPurchaseordersIdLineitemsIdEndpoint object.
         """
-        child = ProcurementPurchaseordersIdLineitemsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProcurementPurchaseordersIdLineitemsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 
@@ -68,9 +59,7 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> list[PurchaseOrderLineItem]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PurchaseOrderLineItem]:
         """
         Performs a GET request against the /procurement/purchaseorders/{id}/lineitems endpoint.
 
@@ -80,14 +69,9 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         Returns:
             list[PurchaseOrderLineItem]: The parsed response data.
         """
-        return self._parse_many(
-            PurchaseOrderLineItem,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(PurchaseOrderLineItem, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PurchaseOrderLineItem:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderLineItem:
         """
         Performs a POST request against the /procurement/purchaseorders/{id}/lineitems endpoint.
 
@@ -97,14 +81,9 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         Returns:
             PurchaseOrderLineItem: The parsed response data.
         """
-        return self._parse_one(
-            PurchaseOrderLineItem,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(PurchaseOrderLineItem, super()._make_request("POST", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/purchaseorders/{id}/lineitems endpoint.
 
@@ -114,7 +93,4 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())

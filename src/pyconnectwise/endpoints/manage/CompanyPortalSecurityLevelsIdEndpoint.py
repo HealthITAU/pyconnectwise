@@ -33,9 +33,7 @@ class CompanyPortalsecuritylevelsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalSecurityLevel:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalSecurityLevel:
         """
         Performs a GET request against the /company/portalSecurityLevels/{id} endpoint.
 
@@ -45,14 +43,9 @@ class CompanyPortalsecuritylevelsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalSecurityLevel: The parsed response data.
         """
-        return self._parse_one(
-            PortalSecurityLevel,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(PortalSecurityLevel, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalSecurityLevel:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalSecurityLevel:
         """
         Performs a PUT request against the /company/portalSecurityLevels/{id} endpoint.
 
@@ -62,14 +55,9 @@ class CompanyPortalsecuritylevelsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalSecurityLevel: The parsed response data.
         """
-        return self._parse_one(
-            PortalSecurityLevel,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(PortalSecurityLevel, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> PortalSecurityLevel:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalSecurityLevel:
         """
         Performs a PATCH request against the /company/portalSecurityLevels/{id} endpoint.
 
@@ -79,7 +67,4 @@ class CompanyPortalsecuritylevelsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PortalSecurityLevel: The parsed response data.
         """
-        return self._parse_one(
-            PortalSecurityLevel,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(PortalSecurityLevel, super()._make_request("PATCH", data=data, params=params).json())

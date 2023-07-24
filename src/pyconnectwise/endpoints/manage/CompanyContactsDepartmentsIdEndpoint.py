@@ -1,12 +1,10 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdInfoEndpoint import (
-    CompanyContactsDepartmentsIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdUsagesEndpoint import (
-    CompanyContactsDepartmentsIdUsagesEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdInfoEndpoint import \
+    CompanyContactsDepartmentsIdInfoEndpoint
+from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdUsagesEndpoint import \
+    CompanyContactsDepartmentsIdUsagesEndpoint
 from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactDepartment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -46,9 +44,7 @@ class CompanyContactsDepartmentsIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactDepartment:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartment:
         """
         Performs a GET request against the /company/contacts/departments/{id} endpoint.
 
@@ -58,14 +54,9 @@ class CompanyContactsDepartmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactDepartment: The parsed response data.
         """
-        return self._parse_one(
-            ContactDepartment,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactDepartment, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /company/contacts/departments/{id} endpoint.
 
@@ -75,14 +66,9 @@ class CompanyContactsDepartmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(
-            GenericMessageModel,
-            super()._make_request("DELETE", data=data, params=params).json(),
-        )
+        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactDepartment:
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartment:
         """
         Performs a PUT request against the /company/contacts/departments/{id} endpoint.
 
@@ -92,14 +78,9 @@ class CompanyContactsDepartmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactDepartment: The parsed response data.
         """
-        return self._parse_one(
-            ContactDepartment,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactDepartment, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> ContactDepartment:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartment:
         """
         Performs a PATCH request against the /company/contacts/departments/{id} endpoint.
 
@@ -109,7 +90,4 @@ class CompanyContactsDepartmentsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             ContactDepartment: The parsed response data.
         """
-        return self._parse_one(
-            ContactDepartment,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactDepartment, super()._make_request("PATCH", data=data, params=params).json())

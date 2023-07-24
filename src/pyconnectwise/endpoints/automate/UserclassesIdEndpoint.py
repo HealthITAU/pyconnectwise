@@ -1,8 +1,6 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.UserclassesIdWebextensionsEndpoint import (
-    UserclassesIdWebextensionsEndpoint,
-)
+from pyconnectwise.endpoints.automate.UserclassesIdWebextensionsEndpoint import UserclassesIdWebextensionsEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Users import UserClass
 from pyconnectwise.models.base.message_model import GenericMessageModel
@@ -17,9 +15,7 @@ class UserclassesIdEndpoint(ConnectWiseEndpoint):
             UserclassesIdWebextensionsEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[UserClass]:
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserClass]:
         """
         Performs a GET request against the /Userclasses/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,9 +36,7 @@ class UserclassesIdEndpoint(ConnectWiseEndpoint):
             page_size,
         )
 
-    def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
-    ) -> UserClass:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UserClass:
         """
         Performs a GET request against the /Userclasses/{id} endpoint.
 
@@ -52,6 +46,4 @@ class UserclassesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             UserClass: The parsed response data.
         """
-        return self._parse_one(
-            UserClass, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(UserClass, super()._make_request("GET", data=data, params=params).json())
