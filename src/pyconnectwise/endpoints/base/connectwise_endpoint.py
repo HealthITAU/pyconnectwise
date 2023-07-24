@@ -1,8 +1,7 @@
 from __future__ import annotations
 import requests
 from requests import Response
-from pydantic import BaseModel
-from typing import Any, TypeVar
+from typing import Any
 from typing import TypeVar, Type
 
 TChildEndpoint = TypeVar("TChildEndpoint", bound="ConnectWiseEndpoint")
@@ -51,7 +50,12 @@ class ConnectWiseEndpoint:
         TModel: The model class for the endpoint.
     """
 
-    def __init__(self, client, endpoint_url: str, parent_endpoint: ConnectWiseEndpoint | None = None):
+    def __init__(
+        self,
+        client,
+        endpoint_url: str,
+        parent_endpoint: ConnectWiseEndpoint | None = None,
+    ):
         """
         Initialize a ConnectWiseEndpoint instance with the client and endpoint base.
 
@@ -65,7 +69,9 @@ class ConnectWiseEndpoint:
         self._id = None
         self._child_endpoints: list[ConnectWiseEndpoint] = []
 
-    def _register_child_endpoint(self, child_endpoint: TChildEndpoint) -> TChildEndpoint:
+    def _register_child_endpoint(
+        self, child_endpoint: TChildEndpoint
+    ) -> TChildEndpoint:
         """
         Register a child endpoint to the current endpoint.
 
@@ -95,12 +101,21 @@ class ConnectWiseEndpoint:
         if self._id is None:
             return self.endpoint_base
         return self.endpoint_base.replace("{id}", str(self._id))
-    
-    def _make_request_and_get_json(self, endpoint=None, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> dict[str, Any]:
+
+    def _make_request_and_get_json(
+        self,
+        endpoint=None,
+        data: dict[str, Any] = {},
+        params: dict[str, int | str] = {},
+    ) -> dict[str, Any]:
         return self._make_request("GET", endpoint, data, params).json()
 
     def _make_request(
-        self, method: str, endpoint=None, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self,
+        method: str,
+        endpoint=None,
+        data: dict[str, Any] = {},
+        params: dict[str, int | str] = {},
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -137,7 +152,7 @@ class ConnectWiseEndpoint:
                     return self._url_join(parent_url, endpoint._get_replaced_url())
             else:
                 return self._url_join(
-                    self.client.get_url(), endpoint._get_replaced_url()
+                    self.client._get_url(), endpoint._get_replaced_url()
                 )
 
         url = build_url(self)
@@ -145,7 +160,7 @@ class ConnectWiseEndpoint:
             url = self._url_join(url, endpoint)
 
         response = requests.request(
-            method, url, headers=self.client.get_headers(), json=data, params=params
+            method, url, headers=self.client._get_headers(), json=data, params=params
         )
 
         if response.status_code >= 400:
@@ -156,18 +171,10 @@ class ConnectWiseEndpoint:
         return response
 
     def _parse_many(self, model_type: Type[T], data: list[dict[str, Any]]) -> list[T]:
-        # use the model's construct method to create instances from the data
-        # ideally, we'd use the model's parse method, but
-        # due to issues validating optional fields in the ConnectWise Manage schema
-        # we have to use the construct method instead until a better solution is found
-        return [model_type.model_construct(**d) for d in data]
+        return [model_type.model_validate(d) for d in data]
 
     def _parse_one(self, model_type: Type[T], data: dict[str, Any]) -> T:
-        # use the model's construct method to create instances from the data
-        # ideally, we'd use the model's parse method, but
-        # due to issues validating optional fields in the ConnectWise Manage schema
-        # we have to use the construct method instead until a better solution is found
-        return model_type.model_construct(**data)
+        return model_type.model_validate(data)
 
     def id(self: TSelf, id: int) -> TSelf:
         """
