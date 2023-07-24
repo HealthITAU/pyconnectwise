@@ -1,57 +1,59 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceTaxCodesIdProductTypeExemptionsIdTaxableProductTypeLevelsEndpoint import FinanceTaxCodesIdProductTypeExemptionsIdTaxableProductTypeLevelsEndpoint
-from pyconnectwise.models.manage.ProductTypeExemptionModel import ProductTypeExemptionModel
 
-class FinanceTaxCodesIdProductTypeExemptionsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint import \
+    FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ProductTypeExemption
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceTaxcodesIdProducttypeexemptionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.taxableProductTypeLevels = self._register_child_endpoint(
-            FinanceTaxCodesIdProductTypeExemptionsIdTaxableProductTypeLevelsEndpoint(client, parent_endpoint=self)
+
+        self.taxable_product_type_levels = self._register_child_endpoint(
+            FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductTypeExemptionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ProductTypeExemption]:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/productTypeExemptions/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ProductTypeExemptionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ProductTypeExemption]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ProductTypeExemptionModel,
+            super()._make_request("GET", params=params),
+            ProductTypeExemption,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemptionModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/productTypeExemptions/{id} endpoint.
+        Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductTypeExemptionModel: The parsed response data.
+            ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(ProductTypeExemptionModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ProductTypeExemption, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
-        Performs a DELETE request against the /finance/taxCodes/{parentId}/productTypeExemptions/{id} endpoint.
+        Performs a DELETE request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -60,28 +62,27 @@ class FinanceTaxCodesIdProductTypeExemptionsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemptionModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
-        Performs a PUT request against the /finance/taxCodes/{parentId}/productTypeExemptions/{id} endpoint.
+        Performs a PUT request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductTypeExemptionModel: The parsed response data.
+            ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(ProductTypeExemptionModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemptionModel:
+        return self._parse_one(ProductTypeExemption, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
         """
-        Performs a PATCH request against the /finance/taxCodes/{parentId}/productTypeExemptions/{id} endpoint.
+        Performs a PATCH request against the /finance/taxCodes/{id}/productTypeExemptions/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProductTypeExemptionModel: The parsed response data.
+            ProductTypeExemption: The parsed response data.
         """
-        return self._parse_one(ProductTypeExemptionModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(ProductTypeExemption, super()._make_request("PATCH", data=data, params=params).json())

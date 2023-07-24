@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemInfoLocationsIdEndpoint import SystemInfoLocationsIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLocationsCountEndpoint import SystemInfoLocationsCountEndpoint
-from pyconnectwise.models.manage.LocationInfoModel import LocationInfoModel
+from pyconnectwise.endpoints.manage.SystemInfoLocationsIdEndpoint import SystemInfoLocationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import LocationInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locations", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemInfoLocationsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(SystemInfoLocationsCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> SystemInfoLocationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemInfoLocationsIdEndpoint object to move down the chain.
@@ -27,8 +26,10 @@ class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
         child = SystemInfoLocationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[LocationInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[LocationInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[LocationInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            LocationInfoModel,
+            super()._make_request("GET", params=params),
+            LocationInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocationInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint.
 
@@ -59,7 +58,6 @@ class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[LocationInfoModel]: The parsed response data.
+            list[LocationInfo]: The parsed response data.
         """
-        return self._parse_many(LocationInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(LocationInfo, super()._make_request("GET", data=data, params=params).json())

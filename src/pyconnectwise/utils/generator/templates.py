@@ -1,7 +1,7 @@
 from jinja2 import Template
 
 endpoint_template = Template(
-"""from pyconnectwise.models.base.message_model import GenericMessageModel
+    """from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
@@ -16,7 +16,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
         super().__init__(client, "{{ endpoint_path }}", parent_endpoint=parent_endpoint)
         {% if child_endpoints is defined %}
         {%- for child_endpoint in child_endpoints %}
-        self.{{ child_endpoint.field_name }} = self.register_child_endpoint(
+        self.{{ child_endpoint.field_name }} = self._register_child_endpoint(
             {{ child_endpoint.class_name }}(client, parent_endpoint=self)
         )
         {%- endfor %}
@@ -58,6 +58,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
             ),
             {{ pagination_model_class }},
             self,
+            page,
             page_size,
         )
     {% endif %}
@@ -82,63 +83,8 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
 """
 )
 
-top_level_endpoint_template = Template(
-"""from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-{%- if additional_imports is defined %}
-{%- for additional_import in additional_imports %}
-{{ additional_import }}
-{%- endfor %}
-{%- endif %}
-
-class {{ endpoint_class }}(ConnectWiseEndpoint):
-    def __init__(self, client):
-        super().__init__(client, "{{ endpoint_path }}")
-        {% if child_endpoints is defined %}
-        {%- for child_endpoint in child_endpoints %}
-        self.{{ child_endpoint.field_name }} = self.register_child_endpoint(
-            {{ child_endpoint.class_name }}(client, parent_endpoint=self)
-        )
-        {%- endfor %}
-        {%- endif %}
-"""
-)
-
-model_template = Template(
-"""from __future__ import annotations
-from typing import Any
-from datetime import datetime
-from pyconnectwise.utils.naming import to_camel_case
-from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
-
-{%- if imports is defined %}
-{%- for import in imports %}
-{{ import }}
-{%- endfor %}
-{%- endif %}
-
-{%- if mod_enums is defined %}
-{%- for mod_enum in mod_enums %}
-class {{ mod_enum.e_name }}(str, Enum):
-    {%- for enum_value in mod_enum.fields %}
-    {{ enum_value.v_name }} = '{{ enum_value.v_value }}'
-    {%- endfor %}
-
-{%- endfor %}
-{%- endif %}
-
-class {{ model_class }}(ConnectWiseModel):
-    {%- for field in fields %}
-    {{ field.name }}: {{ field.type }}
-    {%- endfor %}
-
-    {%- if empty_model == True %}
-    pass
-    {%- endif %}
-"""
-)
-
 manage_client_template = Template(
-"""import base64
+    """import base64
 import requests
 {%- if imports is defined %}
 {%- for import in imports %}
@@ -260,7 +206,7 @@ class ConnectWiseManageAPIClient:
 )
 
 automate_client_template = Template(
-"""import base64
+    """import base64
 import requests
 from datetime import datetime
 {%- if imports is defined %}
@@ -295,10 +241,10 @@ class ConnectWiseAutomateAPIClient:
         self.automate_url = automate_url
         self.username = username
         self.password = password
-        self.token_expiry_time: datetime = datetime.now().isoformat()
+        self.token_expiry_time: datetime = datetime.utcnow()
 
         # Grab first access token
-        self.access_token: str = _get_access_token()
+        self.access_token: str = self._get_access_token()
                 
         # Initializing endpoints
         {%- for endpoint in endpoints %}
@@ -312,20 +258,37 @@ class ConnectWiseAutomateAPIClient:
         Returns:
             str: API URL.
         \"""
-        return f"https://{self.automate_url}/cwa"
+        return f"https://{self.automate_url}/cwa/api/v1"
 
-    def _get_access_token() -> str:
-        token = ""
+    def _get_access_token(self) -> str:
+        \"""
+        Performs a request to the ConnectWise Automate API to obtain an access token.
+        \"""
+        token: str = ""
         try:
-            result
+            auth_response = requests.post(f'{self._get_url()}/apitoken', json={
+                "UserName": self.username,
+                "Password": self.password
+            }, headers={'Content-Type': 'application/json', 'ClientId': self.client_id}).json()
+            token = auth_response['AccessToken']
+            self.token_expiry_time = datetime.fromisoformat(auth_response['ExpirationDate'])
+        except Exception as e:
+            print(e)
+            return token
+        return token
+    
+    def _refresh_access_token_if_necessary(self):
+        if datetime.utcnow() > self.token_expiry_time:
+            self.access_token = self._get_access_token()
 
     def _get_headers(self) -> dict[str, str]:
         \"""
-        Generates and returns the headers required for making API requests.
+        Generates and returns the headers required for making API requests. The access token is refreshed if necessary before returning.
 
         Returns:
             dict[str, str]: Dictionary of headers including Content-Type, Client ID, and Authorization.
         \"""
+        self._refresh_access_token_if_necessary()
         headers = {
             "Content-Type": "application/json",
             "clientId": self.client_id,

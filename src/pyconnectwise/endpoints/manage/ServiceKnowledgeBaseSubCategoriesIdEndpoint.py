@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceKnowledgeBaseSubCategoriesIdUsagesEndpoint import ServiceKnowledgeBaseSubCategoriesIdUsagesEndpoint
-from pyconnectwise.models.manage.KnowledgeBaseSubCategoryModel import KnowledgeBaseSubCategoryModel
 
-class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceKnowledgebasesubcategoriesIdUsagesEndpoint import \
+    ServiceKnowledgebasesubcategoriesIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import KnowledgeBaseSubCategory
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceKnowledgebasesubcategoriesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
+
         self.usages = self._register_child_endpoint(
-            ServiceKnowledgeBaseSubCategoriesIdUsagesEndpoint(client, parent_endpoint=self)
+            ServiceKnowledgebasesubcategoriesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KnowledgeBaseSubCategoryModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[KnowledgeBaseSubCategory]:
         """
         Performs a GET request against the /service/knowledgeBaseSubCategories/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[KnowledgeBaseSubCategoryModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[KnowledgeBaseSubCategory]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            KnowledgeBaseSubCategoryModel,
+            super()._make_request("GET", params=params),
+            KnowledgeBaseSubCategory,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategoryModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategory:
         """
         Performs a GET request against the /service/knowledgeBaseSubCategories/{id} endpoint.
 
@@ -45,10 +47,10 @@ class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            KnowledgeBaseSubCategoryModel: The parsed response data.
+            KnowledgeBaseSubCategory: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseSubCategoryModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(KnowledgeBaseSubCategory, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/knowledgeBaseSubCategories/{id} endpoint.
@@ -60,8 +62,8 @@ class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategoryModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategory:
         """
         Performs a PUT request against the /service/knowledgeBaseSubCategories/{id} endpoint.
 
@@ -69,11 +71,11 @@ class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            KnowledgeBaseSubCategoryModel: The parsed response data.
+            KnowledgeBaseSubCategory: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseSubCategoryModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategoryModel:
+        return self._parse_one(KnowledgeBaseSubCategory, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSubCategory:
         """
         Performs a PATCH request against the /service/knowledgeBaseSubCategories/{id} endpoint.
 
@@ -81,7 +83,8 @@ class ServiceKnowledgeBaseSubCategoriesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            KnowledgeBaseSubCategoryModel: The parsed response data.
+            KnowledgeBaseSubCategory: The parsed response data.
         """
-        return self._parse_one(KnowledgeBaseSubCategoryModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(
+            KnowledgeBaseSubCategory, super()._make_request("PATCH", data=data, params=params).json()
+        )

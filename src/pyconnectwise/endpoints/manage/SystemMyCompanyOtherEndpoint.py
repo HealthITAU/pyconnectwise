@@ -1,34 +1,33 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMyCompanyOtherIdEndpoint import SystemMyCompanyOtherIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMyCompanyOtherCountEndpoint import SystemMyCompanyOtherCountEndpoint
-from pyconnectwise.models.manage.OtherModel import OtherModel
 
-class SystemMyCompanyOtherEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyOtherCountEndpoint import SystemMycompanyOtherCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyOtherIdEndpoint import SystemMycompanyOtherIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Other
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMycompanyOtherEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "other", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemMyCompanyOtherCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemMyCompanyOtherIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemMycompanyOtherCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemMycompanyOtherIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemMyCompanyOtherIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemMycompanyOtherIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemMyCompanyOtherIdEndpoint: The initialized SystemMyCompanyOtherIdEndpoint object.
+            SystemMycompanyOtherIdEndpoint: The initialized SystemMycompanyOtherIdEndpoint object.
         """
-        child = SystemMyCompanyOtherIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMycompanyOtherIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[OtherModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Other]:
         """
         Performs a GET request against the /system/myCompany/other endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class SystemMyCompanyOtherEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[OtherModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Other]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            OtherModel,
+            super()._make_request("GET", params=params),
+            Other,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OtherModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Other]:
         """
         Performs a GET request against the /system/myCompany/other endpoint.
 
@@ -59,7 +56,6 @@ class SystemMyCompanyOtherEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[OtherModel]: The parsed response data.
+            list[Other]: The parsed response data.
         """
-        return self._parse_many(OtherModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(Other, super()._make_request("GET", data=data, params=params).json())

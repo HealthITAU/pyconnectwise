@@ -1,20 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdEndpoint import ProcurementPricingschedulesIdDetailsIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsCountEndpoint import ProcurementPricingschedulesIdDetailsCountEndpoint
-from pyconnectwise.models.manage.PricingDetailModel import PricingDetailModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsCountEndpoint import \
+    ProcurementPricingschedulesIdDetailsCountEndpoint
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdEndpoint import \
+    ProcurementPricingschedulesIdDetailsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PricingDetail
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementPricingschedulesIdDetailsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "details", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             ProcurementPricingschedulesIdDetailsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
+
     def id(self, id: int) -> ProcurementPricingschedulesIdDetailsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPricingschedulesIdDetailsIdEndpoint object to move down the chain.
@@ -27,51 +30,50 @@ class ProcurementPricingschedulesIdDetailsEndpoint(ConnectWiseEndpoint):
         child = ProcurementPricingschedulesIdDetailsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PricingDetailModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PricingDetail]:
         """
-        Performs a GET request against the /procurement/pricingschedules/{parentId}/details endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /procurement/pricingschedules/{id}/details endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PricingDetailModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PricingDetail]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PricingDetailModel,
+            super()._make_request("GET", params=params),
+            PricingDetail,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PricingDetailModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PricingDetail]:
         """
-        Performs a GET request against the /procurement/pricingschedules/{parentId}/details endpoint.
+        Performs a GET request against the /procurement/pricingschedules/{id}/details endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PricingDetailModel]: The parsed response data.
+            list[PricingDetail]: The parsed response data.
         """
-        return self._parse_many(PricingDetailModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetailModel:
+        return self._parse_many(PricingDetail, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
         """
-        Performs a POST request against the /procurement/pricingschedules/{parentId}/details endpoint.
+        Performs a POST request against the /procurement/pricingschedules/{id}/details endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PricingDetailModel: The parsed response data.
+            PricingDetail: The parsed response data.
         """
-        return self._parse_one(PricingDetailModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(PricingDetail, super()._make_request("POST", data=data, params=params).json())

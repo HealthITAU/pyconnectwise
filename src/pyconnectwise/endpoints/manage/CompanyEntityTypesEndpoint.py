@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyEntityTypesIdEndpoint import CompanyEntityTypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyEntityTypesCountEndpoint import CompanyEntityTypesCountEndpoint
-from pyconnectwise.models.manage.EntityTypeModel import EntityTypeModel
 
-class CompanyEntityTypesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyEntitytypesCountEndpoint import CompanyEntitytypesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyEntitytypesIdEndpoint import CompanyEntitytypesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyEntitytypesInfoEndpoint import CompanyEntitytypesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import EntityType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyEntitytypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "entityTypes", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyEntityTypesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyEntityTypesIdEndpoint:
+
+        self.info = self._register_child_endpoint(CompanyEntitytypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyEntitytypesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyEntitytypesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyEntityTypesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyEntitytypesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyEntityTypesIdEndpoint: The initialized CompanyEntityTypesIdEndpoint object.
+            CompanyEntitytypesIdEndpoint: The initialized CompanyEntitytypesIdEndpoint object.
         """
-        child = CompanyEntityTypesIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyEntitytypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EntityTypeModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EntityType]:
         """
         Performs a GET request against the /company/entityTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class CompanyEntityTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[EntityTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[EntityType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            EntityTypeModel,
+            super()._make_request("GET", params=params),
+            EntityType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EntityTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EntityType]:
         """
         Performs a GET request against the /company/entityTypes endpoint.
 
@@ -59,7 +58,6 @@ class CompanyEntityTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[EntityTypeModel]: The parsed response data.
+            list[EntityType]: The parsed response data.
         """
-        return self._parse_many(EntityTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(EntityType, super()._make_request("GET", data=data, params=params).json())

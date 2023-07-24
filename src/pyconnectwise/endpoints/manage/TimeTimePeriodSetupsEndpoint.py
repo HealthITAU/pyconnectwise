@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.TimeTimePeriodSetupsIdEndpoint import TimeTimePeriodSetupsIdEndpoint
-from pyconnectwise.endpoints.manage.TimeTimePeriodSetupsCountEndpoint import TimeTimePeriodSetupsCountEndpoint
-from pyconnectwise.endpoints.manage.TimeTimePeriodSetupsDefaultEndpoint import TimeTimePeriodSetupsDefaultEndpoint
-from pyconnectwise.models.manage.TimePeriodSetupModel import TimePeriodSetupModel
 
-class TimeTimePeriodSetupsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsCountEndpoint import TimeTimeperiodsetupsCountEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsDefaultEndpoint import TimeTimeperiodsetupsDefaultEndpoint
+from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdEndpoint import TimeTimeperiodsetupsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TimePeriodSetup
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timePeriodSetups", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            TimeTimePeriodSetupsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.default = self._register_child_endpoint(
-            TimeTimePeriodSetupsDefaultEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> TimeTimePeriodSetupsIdEndpoint:
+
+        self.default = self._register_child_endpoint(TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized TimeTimePeriodSetupsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized TimeTimeperiodsetupsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            TimeTimePeriodSetupsIdEndpoint: The initialized TimeTimePeriodSetupsIdEndpoint object.
+            TimeTimeperiodsetupsIdEndpoint: The initialized TimeTimeperiodsetupsIdEndpoint object.
         """
-        child = TimeTimePeriodSetupsIdEndpoint(self.client, parent_endpoint=self)
+        child = TimeTimeperiodsetupsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimePeriodSetupModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TimePeriodSetup]:
         """
         Performs a GET request against the /time/timePeriodSetups endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class TimeTimePeriodSetupsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TimePeriodSetupModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TimePeriodSetup]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TimePeriodSetupModel,
+            super()._make_request("GET", params=params),
+            TimePeriodSetup,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriodSetupModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriodSetup]:
         """
         Performs a GET request against the /time/timePeriodSetups endpoint.
 
@@ -63,11 +60,11 @@ class TimeTimePeriodSetupsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TimePeriodSetupModel]: The parsed response data.
+            list[TimePeriodSetup]: The parsed response data.
         """
-        return self._parse_many(TimePeriodSetupModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetupModel:
+        return self._parse_many(TimePeriodSetup, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetup:
         """
         Performs a POST request against the /time/timePeriodSetups endpoint.
 
@@ -75,7 +72,6 @@ class TimeTimePeriodSetupsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TimePeriodSetupModel: The parsed response data.
+            TimePeriodSetup: The parsed response data.
         """
-        return self._parse_one(TimePeriodSetupModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(TimePeriodSetup, super()._make_request("POST", data=data, params=params).json())

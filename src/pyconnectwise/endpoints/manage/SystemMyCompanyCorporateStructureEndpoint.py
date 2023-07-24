@@ -1,38 +1,44 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMyCompanyCorporateStructureIdEndpoint import SystemMyCompanyCorporateStructureIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMyCompanyCorporateStructureCountEndpoint import SystemMyCompanyCorporateStructureCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMyCompanyCorporateStructureInfoEndpoint import SystemMyCompanyCorporateStructureInfoEndpoint
-from pyconnectwise.models.manage.CorporateStructureModel import CorporateStructureModel
 
-class SystemMyCompanyCorporateStructureEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureCountEndpoint import \
+    SystemMycompanyCorporatestructureCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint import \
+    SystemMycompanyCorporatestructureIdEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import \
+    SystemMycompanyCorporatestructureInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import CorporateStructure
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "corporateStructure", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemMyCompanyCorporateStructureCountEndpoint(client, parent_endpoint=self)
-        )
+
         self.info = self._register_child_endpoint(
-            SystemMyCompanyCorporateStructureInfoEndpoint(client, parent_endpoint=self)
+            SystemMycompanyCorporatestructureInfoEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> SystemMyCompanyCorporateStructureIdEndpoint:
+        self.count = self._register_child_endpoint(
+            SystemMycompanyCorporatestructureCountEndpoint(client, parent_endpoint=self)
+        )
+
+    def id(self, id: int) -> SystemMycompanyCorporatestructureIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemMyCompanyCorporateStructureIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemMycompanyCorporatestructureIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemMyCompanyCorporateStructureIdEndpoint: The initialized SystemMyCompanyCorporateStructureIdEndpoint object.
+            SystemMycompanyCorporatestructureIdEndpoint: The initialized SystemMycompanyCorporatestructureIdEndpoint object.
         """
-        child = SystemMyCompanyCorporateStructureIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMycompanyCorporatestructureIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CorporateStructureModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +47,19 @@ class SystemMyCompanyCorporateStructureEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CorporateStructureModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[CorporateStructure]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            CorporateStructureModel,
+            super()._make_request("GET", params=params),
+            CorporateStructure,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructureModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint.
 
@@ -63,7 +67,6 @@ class SystemMyCompanyCorporateStructureEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CorporateStructureModel]: The parsed response data.
+            list[CorporateStructure]: The parsed response data.
         """
-        return self._parse_many(CorporateStructureModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(CorporateStructure, super()._make_request("GET", data=data, params=params).json())

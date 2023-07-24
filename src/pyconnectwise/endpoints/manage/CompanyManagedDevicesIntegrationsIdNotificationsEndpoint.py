@@ -1,77 +1,87 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint import CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagedDevicesIntegrationsIdNotificationsCountEndpoint import CompanyManagedDevicesIntegrationsIdNotificationsCountEndpoint
-from pyconnectwise.models.manage.ManagedDevicesIntegrationNotificationModel import ManagedDevicesIntegrationNotificationModel
 
-class CompanyManagedDevicesIntegrationsIdNotificationsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsCountEndpoint import \
+    CompanyManageddevicesintegrationsIdNotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsIdEndpoint import \
+    CompanyManageddevicesintegrationsIdNotificationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ManagedDevicesIntegrationNotification
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyManagedDevicesIntegrationsIdNotificationsCountEndpoint(client, parent_endpoint=self)
+            CompanyManageddevicesintegrationsIdNotificationsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint:
+
+    def id(self, id: int) -> CompanyManageddevicesintegrationsIdNotificationsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyManageddevicesintegrationsIdNotificationsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint: The initialized CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint object.
+            CompanyManageddevicesintegrationsIdNotificationsIdEndpoint: The initialized CompanyManageddevicesintegrationsIdNotificationsIdEndpoint object.
         """
-        child = CompanyManagedDevicesIntegrationsIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagedDevicesIntegrationNotificationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ManagedDevicesIntegrationNotification]:
         """
-        Performs a GET request against the /company/managedDevicesIntegrations/{parentId}/notifications endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagedDevicesIntegrationNotificationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ManagedDevicesIntegrationNotification]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagedDevicesIntegrationNotificationModel,
+            super()._make_request("GET", params=params),
+            ManagedDevicesIntegrationNotification,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegrationNotificationModel]:
+
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ManagedDevicesIntegrationNotification]:
         """
-        Performs a GET request against the /company/managedDevicesIntegrations/{parentId}/notifications endpoint.
+        Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagedDevicesIntegrationNotificationModel]: The parsed response data.
+            list[ManagedDevicesIntegrationNotification]: The parsed response data.
         """
-        return self._parse_many(ManagedDevicesIntegrationNotificationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationNotificationModel:
+        return self._parse_many(
+            ManagedDevicesIntegrationNotification, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ManagedDevicesIntegrationNotification:
         """
-        Performs a POST request against the /company/managedDevicesIntegrations/{parentId}/notifications endpoint.
+        Performs a POST request against the /company/managedDevicesIntegrations/{id}/notifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ManagedDevicesIntegrationNotificationModel: The parsed response data.
+            ManagedDevicesIntegrationNotification: The parsed response data.
         """
-        return self._parse_one(ManagedDevicesIntegrationNotificationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            ManagedDevicesIntegrationNotification, super()._make_request("POST", data=data, params=params).json()
+        )

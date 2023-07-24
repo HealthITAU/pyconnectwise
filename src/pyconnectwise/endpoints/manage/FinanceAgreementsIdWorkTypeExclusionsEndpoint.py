@@ -1,77 +1,83 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkTypeExclusionsIdEndpoint import FinanceAgreementsIdWorkTypeExclusionsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkTypeExclusionsCountEndpoint import FinanceAgreementsIdWorkTypeExclusionsCountEndpoint
-from pyconnectwise.models.manage.AgreementWorkTypeExclusionModel import AgreementWorkTypeExclusionModel
 
-class FinanceAgreementsIdWorkTypeExclusionsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsCountEndpoint import \
+    FinanceAgreementsIdWorktypeexclusionsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsIdEndpoint import \
+    FinanceAgreementsIdWorktypeexclusionsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AgreementWorkTypeExclusion
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceAgreementsIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workTypeExclusions", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            FinanceAgreementsIdWorkTypeExclusionsCountEndpoint(client, parent_endpoint=self)
+            FinanceAgreementsIdWorktypeexclusionsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> FinanceAgreementsIdWorkTypeExclusionsIdEndpoint:
+
+    def id(self, id: int) -> FinanceAgreementsIdWorktypeexclusionsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdWorkTypeExclusionsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdWorktypeexclusionsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceAgreementsIdWorkTypeExclusionsIdEndpoint: The initialized FinanceAgreementsIdWorkTypeExclusionsIdEndpoint object.
+            FinanceAgreementsIdWorktypeexclusionsIdEndpoint: The initialized FinanceAgreementsIdWorktypeexclusionsIdEndpoint object.
         """
-        child = FinanceAgreementsIdWorkTypeExclusionsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementsIdWorktypeexclusionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AgreementWorkTypeExclusionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AgreementWorkTypeExclusion]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/workTypeExclusions endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/agreements/{id}/workTypeExclusions endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AgreementWorkTypeExclusionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AgreementWorkTypeExclusion]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AgreementWorkTypeExclusionModel,
+            super()._make_request("GET", params=params),
+            AgreementWorkTypeExclusion,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementWorkTypeExclusionModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementWorkTypeExclusion]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/workTypeExclusions endpoint.
+        Performs a GET request against the /finance/agreements/{id}/workTypeExclusions endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AgreementWorkTypeExclusionModel]: The parsed response data.
+            list[AgreementWorkTypeExclusion]: The parsed response data.
         """
-        return self._parse_many(AgreementWorkTypeExclusionModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkTypeExclusionModel:
+        return self._parse_many(
+            AgreementWorkTypeExclusion, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkTypeExclusion:
         """
-        Performs a POST request against the /finance/agreements/{parentId}/workTypeExclusions endpoint.
+        Performs a POST request against the /finance/agreements/{id}/workTypeExclusions endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AgreementWorkTypeExclusionModel: The parsed response data.
+            AgreementWorkTypeExclusion: The parsed response data.
         """
-        return self._parse_one(AgreementWorkTypeExclusionModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            AgreementWorkTypeExclusion, super()._make_request("POST", data=data, params=params).json()
+        )

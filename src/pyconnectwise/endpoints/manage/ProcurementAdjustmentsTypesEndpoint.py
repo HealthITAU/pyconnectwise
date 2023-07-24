@@ -1,24 +1,25 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesCountEndpoint import \
+    ProcurementAdjustmentsTypesCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdEndpoint import ProcurementAdjustmentsTypesIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesCountEndpoint import ProcurementAdjustmentsTypesCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoEndpoint import ProcurementAdjustmentsTypesInfoEndpoint
-from pyconnectwise.models.manage.AdjustmentTypeModel import AdjustmentTypeModel
+from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoEndpoint import \
+    ProcurementAdjustmentsTypesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AdjustmentType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
-        
+
+        self.info = self._register_child_endpoint(ProcurementAdjustmentsTypesInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             ProcurementAdjustmentsTypesCountEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(
-            ProcurementAdjustmentsTypesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
     def id(self, id: int) -> ProcurementAdjustmentsTypesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementAdjustmentsTypesIdEndpoint object to move down the chain.
@@ -31,8 +32,10 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         child = ProcurementAdjustmentsTypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AdjustmentTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AdjustmentType]:
         """
         Performs a GET request against the /procurement/adjustments/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +44,19 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AdjustmentTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AdjustmentType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AdjustmentTypeModel,
+            super()._make_request("GET", params=params),
+            AdjustmentType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentType]:
         """
         Performs a GET request against the /procurement/adjustments/types endpoint.
 
@@ -63,11 +64,11 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AdjustmentTypeModel]: The parsed response data.
+            list[AdjustmentType]: The parsed response data.
         """
-        return self._parse_many(AdjustmentTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentTypeModel:
+        return self._parse_many(AdjustmentType, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentType:
         """
         Performs a POST request against the /procurement/adjustments/types endpoint.
 
@@ -75,7 +76,6 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AdjustmentTypeModel: The parsed response data.
+            AdjustmentType: The parsed response data.
         """
-        return self._parse_one(AdjustmentTypeModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(AdjustmentType, super()._make_request("POST", data=data, params=params).json())

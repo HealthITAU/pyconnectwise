@@ -1,24 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ScheduleTypesIdEndpoint import ScheduleTypesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ScheduleTypesCountEndpoint import ScheduleTypesCountEndpoint
+from pyconnectwise.endpoints.manage.ScheduleTypesIdEndpoint import ScheduleTypesIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleTypesInfoEndpoint import ScheduleTypesInfoEndpoint
-from pyconnectwise.models.manage.ScheduleTypeModel import ScheduleTypeModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ScheduleType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ScheduleTypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ScheduleTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ScheduleTypesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.info = self._register_child_endpoint(ScheduleTypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ScheduleTypesCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> ScheduleTypesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ScheduleTypesIdEndpoint object to move down the chain.
@@ -31,8 +28,10 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
         child = ScheduleTypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ScheduleTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ScheduleType]:
         """
         Performs a GET request against the /schedule/types endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ScheduleTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ScheduleType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ScheduleTypeModel,
+            super()._make_request("GET", params=params),
+            ScheduleType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleType]:
         """
         Performs a GET request against the /schedule/types endpoint.
 
@@ -63,11 +60,11 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ScheduleTypeModel]: The parsed response data.
+            list[ScheduleType]: The parsed response data.
         """
-        return self._parse_many(ScheduleTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleTypeModel:
+        return self._parse_many(ScheduleType, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleType:
         """
         Performs a POST request against the /schedule/types endpoint.
 
@@ -75,7 +72,6 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ScheduleTypeModel: The parsed response data.
+            ScheduleType: The parsed response data.
         """
-        return self._parse_one(ScheduleTypeModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ScheduleType, super()._make_request("POST", data=data, params=params).json())

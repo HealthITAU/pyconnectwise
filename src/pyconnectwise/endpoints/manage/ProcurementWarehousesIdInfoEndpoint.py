@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.WarehouseInfoModel import WarehouseInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WarehouseInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ProcurementWarehousesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WarehouseInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WarehouseInfo]:
         """
         Performs a GET request against the /procurement/warehouses/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class ProcurementWarehousesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WarehouseInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WarehouseInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WarehouseInfoModel,
+            super()._make_request("GET", params=params),
+            WarehouseInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WarehouseInfo:
         """
         Performs a GET request against the /procurement/warehouses/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class ProcurementWarehousesIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            WarehouseInfoModel: The parsed response data.
+            WarehouseInfo: The parsed response data.
         """
-        return self._parse_one(WarehouseInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(WarehouseInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceInvoiceTemplatesIdUsagesEndpoint import FinanceInvoiceTemplatesIdUsagesEndpoint
-from pyconnectwise.models.manage.InvoiceTemplateModel import InvoiceTemplateModel
 
-class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesIdUsagesEndpoint import \
+    FinanceInvoicetemplatesIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import InvoiceTemplate
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceInvoicetemplatesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
+
         self.usages = self._register_child_endpoint(
-            FinanceInvoiceTemplatesIdUsagesEndpoint(client, parent_endpoint=self)
+            FinanceInvoicetemplatesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InvoiceTemplateModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[InvoiceTemplate]:
         """
         Performs a GET request against the /finance/invoiceTemplates/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[InvoiceTemplateModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[InvoiceTemplate]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            InvoiceTemplateModel,
+            super()._make_request("GET", params=params),
+            InvoiceTemplate,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplateModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplate:
         """
         Performs a GET request against the /finance/invoiceTemplates/{id} endpoint.
 
@@ -45,11 +47,11 @@ class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InvoiceTemplateModel: The parsed response data.
+            InvoiceTemplate: The parsed response data.
         """
-        return self._parse_one(InvoiceTemplateModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplateModel:
+        return self._parse_one(InvoiceTemplate, super()._make_request("GET", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplate:
         """
         Performs a PATCH request against the /finance/invoiceTemplates/{id} endpoint.
 
@@ -57,11 +59,11 @@ class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InvoiceTemplateModel: The parsed response data.
+            InvoiceTemplate: The parsed response data.
         """
-        return self._parse_one(InvoiceTemplateModel, super()._make_request("PATCH", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplateModel:
+        return self._parse_one(InvoiceTemplate, super()._make_request("PATCH", data=data, params=params).json())
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceTemplate:
         """
         Performs a PUT request against the /finance/invoiceTemplates/{id} endpoint.
 
@@ -69,10 +71,10 @@ class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            InvoiceTemplateModel: The parsed response data.
+            InvoiceTemplate: The parsed response data.
         """
-        return self._parse_one(InvoiceTemplateModel, super()._make_request("PUT", data=data, params=params).json())
-        
+        return self._parse_one(InvoiceTemplate, super()._make_request("PUT", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/invoiceTemplates/{id} endpoint.
@@ -84,4 +86,3 @@ class FinanceInvoiceTemplatesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        

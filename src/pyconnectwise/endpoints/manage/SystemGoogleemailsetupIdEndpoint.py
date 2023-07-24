@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdTestConnectionEndpoint import SystemGoogleemailsetupIdTestConnectionEndpoint
-from pyconnectwise.models.manage.GoogleEmailSetupModel import GoogleEmailSetupModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdTestconnectionEndpoint import \
+    SystemGoogleemailsetupIdTestconnectionEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import GoogleEmailSetup
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.testConnection = self._register_child_endpoint(
-            SystemGoogleemailsetupIdTestConnectionEndpoint(client, parent_endpoint=self)
+
+        self.test_connection = self._register_child_endpoint(
+            SystemGoogleemailsetupIdTestconnectionEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[GoogleEmailSetupModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[GoogleEmailSetup]:
         """
         Performs a GET request against the /system/googleemailsetup/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[GoogleEmailSetupModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[GoogleEmailSetup]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            GoogleEmailSetupModel,
+            super()._make_request("GET", params=params),
+            GoogleEmailSetup,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetupModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
         """
         Performs a GET request against the /system/googleemailsetup/{id} endpoint.
 
@@ -45,10 +47,10 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GoogleEmailSetupModel: The parsed response data.
+            GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetupModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(GoogleEmailSetup, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/googleemailsetup/{id} endpoint.
@@ -60,8 +62,8 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetupModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
         """
         Performs a PUT request against the /system/googleemailsetup/{id} endpoint.
 
@@ -69,11 +71,11 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GoogleEmailSetupModel: The parsed response data.
+            GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetupModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetupModel:
+        return self._parse_one(GoogleEmailSetup, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
         """
         Performs a PATCH request against the /system/googleemailsetup/{id} endpoint.
 
@@ -81,7 +83,6 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            GoogleEmailSetupModel: The parsed response data.
+            GoogleEmailSetup: The parsed response data.
         """
-        return self._parse_one(GoogleEmailSetupModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(GoogleEmailSetup, super()._make_request("PATCH", data=data, params=params).json())

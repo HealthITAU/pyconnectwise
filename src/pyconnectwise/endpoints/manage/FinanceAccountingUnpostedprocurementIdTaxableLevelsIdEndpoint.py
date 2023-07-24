@@ -1,47 +1,48 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.UnpostedProcurementTaxableLevelModel import UnpostedProcurementTaxableLevelModel
 
-class FinanceAccountingUnpostedprocurementIdTaxableLevelsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import UnpostedProcurementTaxableLevel
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceAccountingUnpostedprocurementIdTaxablelevelsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UnpostedProcurementTaxableLevelModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[UnpostedProcurementTaxableLevel]:
         """
-        Performs a GET request against the /finance/accounting/unpostedprocurement/{parentId}/taxableLevels/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/accounting/unpostedprocurement/{id}/taxableLevels/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[UnpostedProcurementTaxableLevelModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[UnpostedProcurementTaxableLevel]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            UnpostedProcurementTaxableLevelModel,
+            super()._make_request("GET", params=params),
+            UnpostedProcurementTaxableLevel,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedProcurementTaxableLevelModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedProcurementTaxableLevel:
         """
-        Performs a GET request against the /finance/accounting/unpostedprocurement/{parentId}/taxableLevels/{id} endpoint.
+        Performs a GET request against the /finance/accounting/unpostedprocurement/{id}/taxableLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            UnpostedProcurementTaxableLevelModel: The parsed response data.
+            UnpostedProcurementTaxableLevel: The parsed response data.
         """
-        return self._parse_one(UnpostedProcurementTaxableLevelModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(
+            UnpostedProcurementTaxableLevel, super()._make_request("GET", data=data, params=params).json()
+        )

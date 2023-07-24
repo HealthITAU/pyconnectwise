@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ContactDepartmentInfoModel import ContactDepartmentInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ContactDepartmentInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class CompanyContactsDepartmentsIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ContactDepartmentInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ContactDepartmentInfo]:
         """
         Performs a GET request against the /company/contacts/departments/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class CompanyContactsDepartmentsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ContactDepartmentInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ContactDepartmentInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ContactDepartmentInfoModel,
+            super()._make_request("GET", params=params),
+            ContactDepartmentInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartmentInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactDepartmentInfo:
         """
         Performs a GET request against the /company/contacts/departments/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class CompanyContactsDepartmentsIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactDepartmentInfoModel: The parsed response data.
+            ContactDepartmentInfo: The parsed response data.
         """
-        return self._parse_one(ContactDepartmentInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ContactDepartmentInfo, super()._make_request("GET", data=data, params=params).json())

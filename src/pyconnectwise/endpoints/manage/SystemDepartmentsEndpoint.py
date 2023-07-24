@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemDepartmentsIdEndpoint import SystemDepartmentsIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemDepartmentsCountEndpoint import SystemDepartmentsCountEndpoint
-from pyconnectwise.models.manage.DepartmentModel import DepartmentModel
+from pyconnectwise.endpoints.manage.SystemDepartmentsIdEndpoint import SystemDepartmentsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Department
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemDepartmentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "departments", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemDepartmentsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(SystemDepartmentsCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> SystemDepartmentsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemDepartmentsIdEndpoint object to move down the chain.
@@ -27,8 +26,8 @@ class SystemDepartmentsEndpoint(ConnectWiseEndpoint):
         child = SystemDepartmentsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[DepartmentModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Department]:
         """
         Performs a GET request against the /system/departments endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class SystemDepartmentsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[DepartmentModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Department]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            DepartmentModel,
+            super()._make_request("GET", params=params),
+            Department,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DepartmentModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Department]:
         """
         Performs a GET request against the /system/departments endpoint.
 
@@ -59,11 +56,11 @@ class SystemDepartmentsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[DepartmentModel]: The parsed response data.
+            list[Department]: The parsed response data.
         """
-        return self._parse_many(DepartmentModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DepartmentModel:
+        return self._parse_many(Department, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Department:
         """
         Performs a POST request against the /system/departments endpoint.
 
@@ -71,7 +68,6 @@ class SystemDepartmentsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            DepartmentModel: The parsed response data.
+            Department: The parsed response data.
         """
-        return self._parse_one(DepartmentModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Department, super()._make_request("POST", data=data, params=params).json())

@@ -1,53 +1,53 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.TaxCodeLevelModel import TaxCodeLevelModel
 
-class FinanceTaxCodesIdTaxCodeLevelsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TaxCodeLevel
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceTaxcodesIdTaxcodelevelsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCodeLevelModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TaxCodeLevel]:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/taxCodeLevels/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/taxCodes/{id}/taxCodeLevels/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TaxCodeLevelModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TaxCodeLevel]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TaxCodeLevelModel,
+            super()._make_request("GET", params=params),
+            TaxCodeLevel,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevelModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevel:
         """
-        Performs a GET request against the /finance/taxCodes/{parentId}/taxCodeLevels/{id} endpoint.
+        Performs a GET request against the /finance/taxCodes/{id}/taxCodeLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxCodeLevelModel: The parsed response data.
+            TaxCodeLevel: The parsed response data.
         """
-        return self._parse_one(TaxCodeLevelModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(TaxCodeLevel, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
-        Performs a DELETE request against the /finance/taxCodes/{parentId}/taxCodeLevels/{id} endpoint.
+        Performs a DELETE request against the /finance/taxCodes/{id}/taxCodeLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -56,28 +56,27 @@ class FinanceTaxCodesIdTaxCodeLevelsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevelModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevel:
         """
-        Performs a PUT request against the /finance/taxCodes/{parentId}/taxCodeLevels/{id} endpoint.
+        Performs a PUT request against the /finance/taxCodes/{id}/taxCodeLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxCodeLevelModel: The parsed response data.
+            TaxCodeLevel: The parsed response data.
         """
-        return self._parse_one(TaxCodeLevelModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevelModel:
+        return self._parse_one(TaxCodeLevel, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCodeLevel:
         """
-        Performs a PATCH request against the /finance/taxCodes/{parentId}/taxCodeLevels/{id} endpoint.
+        Performs a PATCH request against the /finance/taxCodes/{id}/taxCodeLevels/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaxCodeLevelModel: The parsed response data.
+            TaxCodeLevel: The parsed response data.
         """
-        return self._parse_one(TaxCodeLevelModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(TaxCodeLevel, super()._make_request("PATCH", data=data, params=params).json())

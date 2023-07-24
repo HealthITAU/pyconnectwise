@@ -1,38 +1,37 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemWorkflowsTableTypesIdEndpoint import SystemWorkflowsTableTypesIdEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsTableTypesCountEndpoint import SystemWorkflowsTableTypesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsTableTypesInfoEndpoint import SystemWorkflowsTableTypesInfoEndpoint
-from pyconnectwise.models.manage.WorkflowTableTypeModel import WorkflowTableTypeModel
 
-class SystemWorkflowsTableTypesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesCountEndpoint import SystemWorkflowsTabletypesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesIdEndpoint import SystemWorkflowsTabletypesIdEndpoint
+from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesInfoEndpoint import SystemWorkflowsTabletypesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import WorkflowTableType
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemWorkflowsTabletypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tableTypes", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemWorkflowsTableTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            SystemWorkflowsTableTypesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemWorkflowsTableTypesIdEndpoint:
+
+        self.info = self._register_child_endpoint(SystemWorkflowsTabletypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemWorkflowsTabletypesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemWorkflowsTabletypesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemWorkflowsTableTypesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemWorkflowsTabletypesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemWorkflowsTableTypesIdEndpoint: The initialized SystemWorkflowsTableTypesIdEndpoint object.
+            SystemWorkflowsTabletypesIdEndpoint: The initialized SystemWorkflowsTabletypesIdEndpoint object.
         """
-        child = SystemWorkflowsTableTypesIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemWorkflowsTabletypesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkflowTableTypeModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[WorkflowTableType]:
         """
         Performs a GET request against the /system/workflows/tableTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +40,19 @@ class SystemWorkflowsTableTypesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[WorkflowTableTypeModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[WorkflowTableType]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            WorkflowTableTypeModel,
+            super()._make_request("GET", params=params),
+            WorkflowTableType,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowTableTypeModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowTableType]:
         """
         Performs a GET request against the /system/workflows/tableTypes endpoint.
 
@@ -63,7 +60,6 @@ class SystemWorkflowsTableTypesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[WorkflowTableTypeModel]: The parsed response data.
+            list[WorkflowTableType]: The parsed response data.
         """
-        return self._parse_many(WorkflowTableTypeModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(WorkflowTableType, super()._make_request("GET", data=data, params=params).json())

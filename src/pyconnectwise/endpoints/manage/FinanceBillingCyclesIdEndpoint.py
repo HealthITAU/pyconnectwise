@@ -1,24 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceBillingCyclesIdInfoEndpoint import FinanceBillingCyclesIdInfoEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingCyclesIdUsagesEndpoint import FinanceBillingCyclesIdUsagesEndpoint
-from pyconnectwise.models.manage.BillingCycleModel import BillingCycleModel
 
-class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingcyclesIdInfoEndpoint import FinanceBillingcyclesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingcyclesIdUsagesEndpoint import FinanceBillingcyclesIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BillingCycle
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceBillingcyclesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            FinanceBillingCyclesIdInfoEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            FinanceBillingCyclesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BillingCycleModel]:
+
+        self.info = self._register_child_endpoint(FinanceBillingcyclesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(FinanceBillingcyclesIdUsagesEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BillingCycle]:
         """
         Performs a GET request against the /finance/billingCycles/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -27,21 +26,19 @@ class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BillingCycleModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BillingCycle]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BillingCycleModel,
+            super()._make_request("GET", params=params),
+            BillingCycle,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycleModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycle:
         """
         Performs a GET request against the /finance/billingCycles/{id} endpoint.
 
@@ -49,10 +46,10 @@ class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BillingCycleModel: The parsed response data.
+            BillingCycle: The parsed response data.
         """
-        return self._parse_one(BillingCycleModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(BillingCycle, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /finance/billingCycles/{id} endpoint.
@@ -64,8 +61,8 @@ class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycleModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycle:
         """
         Performs a PUT request against the /finance/billingCycles/{id} endpoint.
 
@@ -73,11 +70,11 @@ class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BillingCycleModel: The parsed response data.
+            BillingCycle: The parsed response data.
         """
-        return self._parse_one(BillingCycleModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycleModel:
+        return self._parse_one(BillingCycle, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingCycle:
         """
         Performs a PATCH request against the /finance/billingCycles/{id} endpoint.
 
@@ -85,7 +82,6 @@ class FinanceBillingCyclesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BillingCycleModel: The parsed response data.
+            BillingCycle: The parsed response data.
         """
-        return self._parse_one(BillingCycleModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(BillingCycle, super()._make_request("PATCH", data=data, params=params).json())

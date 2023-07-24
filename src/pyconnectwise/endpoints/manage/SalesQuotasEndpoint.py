@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SalesQuotasIdEndpoint import SalesQuotasIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SalesQuotasCountEndpoint import SalesQuotasCountEndpoint
-from pyconnectwise.models.manage.SalesQuotaModel import SalesQuotaModel
+from pyconnectwise.endpoints.manage.SalesQuotasIdEndpoint import SalesQuotasIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SalesQuota
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SalesQuotasEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "quotas", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SalesQuotasCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(SalesQuotasCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> SalesQuotasIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SalesQuotasIdEndpoint object to move down the chain.
@@ -27,8 +26,8 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
         child = SalesQuotasIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SalesQuotaModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SalesQuota]:
         """
         Performs a GET request against the /sales/quotas endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +36,19 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SalesQuotaModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SalesQuota]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SalesQuotaModel,
+            super()._make_request("GET", params=params),
+            SalesQuota,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SalesQuotaModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SalesQuota]:
         """
         Performs a GET request against the /sales/quotas endpoint.
 
@@ -59,11 +56,11 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SalesQuotaModel]: The parsed response data.
+            list[SalesQuota]: The parsed response data.
         """
-        return self._parse_many(SalesQuotaModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesQuotaModel:
+        return self._parse_many(SalesQuota, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SalesQuota:
         """
         Performs a POST request against the /sales/quotas endpoint.
 
@@ -71,7 +68,6 @@ class SalesQuotasEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SalesQuotaModel: The parsed response data.
+            SalesQuota: The parsed response data.
         """
-        return self._parse_one(SalesQuotaModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(SalesQuota, super()._make_request("POST", data=data, params=params).json())

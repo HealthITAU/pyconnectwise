@@ -1,34 +1,36 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemMyCompanyTimeExpenseIdEndpoint import SystemMyCompanyTimeExpenseIdEndpoint
-from pyconnectwise.endpoints.manage.SystemMyCompanyTimeExpenseCountEndpoint import SystemMyCompanyTimeExpenseCountEndpoint
-from pyconnectwise.models.manage.TimeExpenseModel import TimeExpenseModel
 
-class SystemMyCompanyTimeExpenseEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseCountEndpoint import \
+    SystemMycompanyTimeexpenseCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseIdEndpoint import SystemMycompanyTimeexpenseIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TimeExpense
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timeExpense", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemMyCompanyTimeExpenseCountEndpoint(client, parent_endpoint=self)
+            SystemMycompanyTimeexpenseCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> SystemMyCompanyTimeExpenseIdEndpoint:
+
+    def id(self, id: int) -> SystemMycompanyTimeexpenseIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemMyCompanyTimeExpenseIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemMycompanyTimeexpenseIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemMyCompanyTimeExpenseIdEndpoint: The initialized SystemMyCompanyTimeExpenseIdEndpoint object.
+            SystemMycompanyTimeexpenseIdEndpoint: The initialized SystemMycompanyTimeexpenseIdEndpoint object.
         """
-        child = SystemMyCompanyTimeExpenseIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMycompanyTimeexpenseIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeExpenseModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +39,19 @@ class SystemMyCompanyTimeExpenseEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TimeExpenseModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TimeExpense]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TimeExpenseModel,
+            super()._make_request("GET", params=params),
+            TimeExpense,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeExpenseModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint.
 
@@ -59,7 +59,6 @@ class SystemMyCompanyTimeExpenseEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TimeExpenseModel]: The parsed response data.
+            list[TimeExpense]: The parsed response data.
         """
-        return self._parse_many(TimeExpenseModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(TimeExpense, super()._make_request("GET", data=data, params=params).json())

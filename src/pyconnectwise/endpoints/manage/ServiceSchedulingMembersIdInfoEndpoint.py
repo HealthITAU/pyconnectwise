@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.SchedulingMemberInfoModel import SchedulingMemberInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SchedulingMemberInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceSchedulingMembersIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SchedulingMemberInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SchedulingMemberInfo]:
         """
         Performs a GET request against the /service/scheduling/members/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class ServiceSchedulingMembersIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SchedulingMemberInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SchedulingMemberInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SchedulingMemberInfoModel,
+            super()._make_request("GET", params=params),
+            SchedulingMemberInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SchedulingMemberInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SchedulingMemberInfo:
         """
         Performs a GET request against the /service/scheduling/members/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class ServiceSchedulingMembersIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SchedulingMemberInfoModel: The parsed response data.
+            SchedulingMemberInfo: The parsed response data.
         """
-        return self._parse_one(SchedulingMemberInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(SchedulingMemberInfo, super()._make_request("GET", data=data, params=params).json())

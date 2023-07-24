@@ -30,6 +30,7 @@ class PaginatedResponse(Generic[TModel]):
         response,
         response_model: Type[TModel],
         endpoint: ConnectWiseEndpoint,
+        page,
         page_size,
     ):
         """
@@ -45,10 +46,10 @@ class PaginatedResponse(Generic[TModel]):
         expected model type for the response data. This allows for type-safe handling
         of model instances throughout the class.
         """
-        self._initialize(response, response_model, endpoint, page_size)
+        self._initialize(response, response_model, endpoint, page, page_size)
 
     def _initialize(
-        self, response, response_model, endpoint: ConnectWiseEndpoint, page_size
+        self, response, response_model, endpoint: ConnectWiseEndpoint, page, page_size
     ):
         """
         Initialize the instance variables using the provided response, endpoint, and page size.
@@ -61,14 +62,25 @@ class PaginatedResponse(Generic[TModel]):
         self.response = response
         self.response_model = response_model
         self.endpoint = endpoint
-        self._page_size = page_size
+        self.page_size = page_size
         self.parsed_link_headers = parse_link_headers(response.headers)
-        self.has_next_page: bool = self.parsed_link_headers.get("has_next_page", False)
-        self.has_prev_page: bool = self.parsed_link_headers.get("has_prev_page", False)
-        self.first_page: int = self.parsed_link_headers.get("first_page", None)
-        self.prev_page: int = self.parsed_link_headers.get("prev_page", None)
-        self.next_page: int = self.parsed_link_headers.get("next_page", None)
-        self.last_page: int = self.parsed_link_headers.get("last_page", None)
+        if self.parsed_link_headers is not None:
+            # ConnectWise Manage API gives us handy headers to parse for Pagination
+            self.has_next_page: bool = self.parsed_link_headers.get("has_next_page", False)
+            self.has_prev_page: bool = self.parsed_link_headers.get("has_prev_page", False)
+            self.first_page: int = self.parsed_link_headers.get("first_page", None)
+            self.prev_page: int = self.parsed_link_headers.get("prev_page", None)
+            self.next_page: int = self.parsed_link_headers.get("next_page", None)
+            self.last_page: int = self.parsed_link_headers.get("last_page", None)
+        else:
+            # ConnectWise Automate doesn't...
+            # So, we'll brute force it, with some guesses.
+            self.has_next_page: bool = True
+            self.has_prev_page: bool = page > 1
+            self.first_page: int = 1
+            self.prev_page = page - 1 if page > 1 else 1
+            self.next_page = page + 1
+            self.last_page = 999999
         self.data: list[TModel] = endpoint._parse_many(response_model, response.json())
         self.has_data = self.data and len(self.data) > 0
         self.index = 0
@@ -81,16 +93,19 @@ class PaginatedResponse(Generic[TModel]):
             PaginatedResponse[TModel]: The updated PaginatedResponse instance
             with the data from the next page or None if there is no next page.
         """
+        print(f'has next page? {self.has_next_page}')
+        print(f'next_page: {self.next_page}')
         if not self.has_next_page or not self.next_page:
             self.has_data = False
             return self
 
-        next_response = self.endpoint.paginated(self.next_page, self._page_size)
+        next_response = self.endpoint.paginated(self.next_page, self.page_size)
         self._initialize(
             next_response.response,
             next_response.response_model,
             next_response.endpoint,
-            next_response._page_size,
+            self.next_page,
+            next_response.page_size,
         )
         return self
 
@@ -106,12 +121,13 @@ class PaginatedResponse(Generic[TModel]):
             self.has_data = False
             return self
 
-        prev_response = self.endpoint.paginated(self.prev_page, self._page_size)
+        prev_response = self.endpoint.paginated(self.prev_page, self.page_size)
         self._initialize(
             prev_response.response,
             prev_response.response_model,
             prev_response.endpoint,
-            prev_response._page_size,
+            self.prev_page,
+            prev_response.page_size,
         )
         return self
 

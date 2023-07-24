@@ -1,28 +1,23 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SalesActivitiesIdEndpoint import SalesActivitiesIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesCountEndpoint import SalesActivitiesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesActivitiesIdEndpoint import SalesActivitiesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesStatusesEndpoint import SalesActivitiesStatusesEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesTypesEndpoint import SalesActivitiesTypesEndpoint
-from pyconnectwise.models.manage.ActivityModel import ActivityModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Activity
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SalesActivitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "activities", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SalesActivitiesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.statuses = self._register_child_endpoint(
-            SalesActivitiesStatusesEndpoint(client, parent_endpoint=self)
-        )
-        self.types = self._register_child_endpoint(
-            SalesActivitiesTypesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.types = self._register_child_endpoint(SalesActivitiesTypesEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesActivitiesCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesActivitiesStatusesEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> SalesActivitiesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SalesActivitiesIdEndpoint object to move down the chain.
@@ -35,8 +30,8 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         child = SalesActivitiesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ActivityModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Activity]:
         """
         Performs a GET request against the /sales/activities endpoint and returns an initialized PaginatedResponse object.
 
@@ -45,21 +40,19 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ActivityModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Activity]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ActivityModel,
+            super()._make_request("GET", params=params),
+            Activity,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Activity]:
         """
         Performs a GET request against the /sales/activities endpoint.
 
@@ -67,11 +60,11 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ActivityModel]: The parsed response data.
+            list[Activity]: The parsed response data.
         """
-        return self._parse_many(ActivityModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ActivityModel:
+        return self._parse_many(Activity, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Activity:
         """
         Performs a POST request against the /sales/activities endpoint.
 
@@ -79,7 +72,6 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ActivityModel: The parsed response data.
+            Activity: The parsed response data.
         """
-        return self._parse_one(ActivityModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Activity, super()._make_request("POST", data=data, params=params).json())

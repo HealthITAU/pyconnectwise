@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.ProjectTypeInfoModel import ProjectTypeInfoModel
 
-class ProjectProjectTypesIdInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ProjectTypeInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ProjectProjecttypesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProjectTypeInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ProjectTypeInfo]:
         """
         Performs a GET request against the /project/projectTypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class ProjectProjectTypesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ProjectTypeInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ProjectTypeInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ProjectTypeInfoModel,
+            super()._make_request("GET", params=params),
+            ProjectTypeInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTypeInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectTypeInfo:
         """
         Performs a GET request against the /project/projectTypes/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class ProjectProjectTypesIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ProjectTypeInfoModel: The parsed response data.
+            ProjectTypeInfo: The parsed response data.
         """
-        return self._parse_one(ProjectTypeInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(ProjectTypeInfo, super()._make_request("GET", data=data, params=params).json())

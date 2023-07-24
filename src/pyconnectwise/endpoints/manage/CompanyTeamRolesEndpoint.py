@@ -1,38 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyTeamRolesIdEndpoint import CompanyTeamRolesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyTeamRolesCountEndpoint import CompanyTeamRolesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyTeamRolesInfoEndpoint import CompanyTeamRolesInfoEndpoint
-from pyconnectwise.models.manage.TeamRoleModel import TeamRoleModel
 
-class CompanyTeamRolesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyTeamrolesCountEndpoint import CompanyTeamrolesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyTeamrolesIdEndpoint import CompanyTeamrolesIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyTeamrolesInfoEndpoint import CompanyTeamrolesInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TeamRole
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyTeamrolesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "teamRoles", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyTeamRolesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyTeamRolesInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> CompanyTeamRolesIdEndpoint:
+
+        self.info = self._register_child_endpoint(CompanyTeamrolesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyTeamrolesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> CompanyTeamrolesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyTeamRolesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyTeamrolesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyTeamRolesIdEndpoint: The initialized CompanyTeamRolesIdEndpoint object.
+            CompanyTeamrolesIdEndpoint: The initialized CompanyTeamrolesIdEndpoint object.
         """
-        child = CompanyTeamRolesIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyTeamrolesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TeamRoleModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TeamRole]:
         """
         Performs a GET request against the /company/teamRoles endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +38,19 @@ class CompanyTeamRolesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TeamRoleModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TeamRole]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TeamRoleModel,
+            super()._make_request("GET", params=params),
+            TeamRole,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TeamRoleModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TeamRole]:
         """
         Performs a GET request against the /company/teamRoles endpoint.
 
@@ -63,11 +58,11 @@ class CompanyTeamRolesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TeamRoleModel]: The parsed response data.
+            list[TeamRole]: The parsed response data.
         """
-        return self._parse_many(TeamRoleModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TeamRoleModel:
+        return self._parse_many(TeamRole, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TeamRole:
         """
         Performs a POST request against the /company/teamRoles endpoint.
 
@@ -75,7 +70,6 @@ class CompanyTeamRolesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TeamRoleModel: The parsed response data.
+            TeamRole: The parsed response data.
         """
-        return self._parse_one(TeamRoleModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(TeamRole, super()._make_request("POST", data=data, params=params).json())

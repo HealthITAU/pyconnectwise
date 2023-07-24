@@ -1,47 +1,48 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.BoardTypeSubTypeItemAssociationModel import BoardTypeSubTypeItemAssociationModel
 
-class ServiceBoardsIdTypeSubTypeItemAssociationsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BoardTypeSubTypeItemAssociation
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardTypeSubTypeItemAssociationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BoardTypeSubTypeItemAssociation]:
         """
-        Performs a GET request against the /service/boards/{parentId}/typeSubTypeItemAssociations/{id} endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /service/boards/{id}/typeSubTypeItemAssociations/{id} endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BoardTypeSubTypeItemAssociationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BoardTypeSubTypeItemAssociation]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BoardTypeSubTypeItemAssociationModel,
+            super()._make_request("GET", params=params),
+            BoardTypeSubTypeItemAssociation,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTypeSubTypeItemAssociationModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardTypeSubTypeItemAssociation:
         """
-        Performs a GET request against the /service/boards/{parentId}/typeSubTypeItemAssociations/{id} endpoint.
+        Performs a GET request against the /service/boards/{id}/typeSubTypeItemAssociations/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BoardTypeSubTypeItemAssociationModel: The parsed response data.
+            BoardTypeSubTypeItemAssociation: The parsed response data.
         """
-        return self._parse_one(BoardTypeSubTypeItemAssociationModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(
+            BoardTypeSubTypeItemAssociation, super()._make_request("GET", data=data, params=params).json()
+        )

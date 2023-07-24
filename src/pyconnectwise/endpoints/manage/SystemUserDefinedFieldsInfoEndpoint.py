@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemUserDefinedFieldsInfoCountEndpoint import SystemUserDefinedFieldsInfoCountEndpoint
-from pyconnectwise.models.manage.UserDefinedFieldInfoModel import UserDefinedFieldInfoModel
 
-class SystemUserDefinedFieldsInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemUserdefinedfieldsInfoCountEndpoint import \
+    SystemUserdefinedfieldsInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import UserDefinedFieldInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemUserdefinedfieldsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemUserDefinedFieldsInfoCountEndpoint(client, parent_endpoint=self)
+            SystemUserdefinedfieldsInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UserDefinedFieldInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[UserDefinedFieldInfo]:
         """
         Performs a GET request against the /system/userDefinedFields/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class SystemUserDefinedFieldsInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[UserDefinedFieldInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[UserDefinedFieldInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            UserDefinedFieldInfoModel,
+            super()._make_request("GET", params=params),
+            UserDefinedFieldInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserDefinedFieldInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[UserDefinedFieldInfo]:
         """
         Performs a GET request against the /system/userDefinedFields/info endpoint.
 
@@ -45,7 +47,6 @@ class SystemUserDefinedFieldsInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[UserDefinedFieldInfoModel]: The parsed response data.
+            list[UserDefinedFieldInfo]: The parsed response data.
         """
-        return self._parse_many(UserDefinedFieldInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(UserDefinedFieldInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,38 +1,44 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyManagedDevicesIntegrationsIdEndpoint import CompanyManagedDevicesIntegrationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagedDevicesIntegrationsCountEndpoint import CompanyManagedDevicesIntegrationsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagedDevicesIntegrationsInfoEndpoint import CompanyManagedDevicesIntegrationsInfoEndpoint
-from pyconnectwise.models.manage.ManagedDevicesIntegrationModel import ManagedDevicesIntegrationModel
 
-class CompanyManagedDevicesIntegrationsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsCountEndpoint import \
+    CompanyManageddevicesintegrationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdEndpoint import \
+    CompanyManageddevicesintegrationsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsInfoEndpoint import \
+    CompanyManageddevicesintegrationsInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ManagedDevicesIntegration
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyManageddevicesintegrationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managedDevicesIntegrations", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            CompanyManagedDevicesIntegrationsCountEndpoint(client, parent_endpoint=self)
-        )
+
         self.info = self._register_child_endpoint(
-            CompanyManagedDevicesIntegrationsInfoEndpoint(client, parent_endpoint=self)
+            CompanyManageddevicesintegrationsInfoEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyManagedDevicesIntegrationsIdEndpoint:
+        self.count = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsCountEndpoint(client, parent_endpoint=self)
+        )
+
+    def id(self, id: int) -> CompanyManageddevicesintegrationsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyManagedDevicesIntegrationsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyManageddevicesintegrationsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyManagedDevicesIntegrationsIdEndpoint: The initialized CompanyManagedDevicesIntegrationsIdEndpoint object.
+            CompanyManageddevicesintegrationsIdEndpoint: The initialized CompanyManageddevicesintegrationsIdEndpoint object.
         """
-        child = CompanyManagedDevicesIntegrationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyManageddevicesintegrationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagedDevicesIntegrationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ManagedDevicesIntegration]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,21 +47,19 @@ class CompanyManagedDevicesIntegrationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagedDevicesIntegrationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ManagedDevicesIntegration]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagedDevicesIntegrationModel,
+            super()._make_request("GET", params=params),
+            ManagedDevicesIntegration,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegrationModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegration]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations endpoint.
 
@@ -63,11 +67,13 @@ class CompanyManagedDevicesIntegrationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagedDevicesIntegrationModel]: The parsed response data.
+            list[ManagedDevicesIntegration]: The parsed response data.
         """
-        return self._parse_many(ManagedDevicesIntegrationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationModel:
+        return self._parse_many(
+            ManagedDevicesIntegration, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
         """
         Performs a POST request against the /company/managedDevicesIntegrations endpoint.
 
@@ -75,7 +81,8 @@ class CompanyManagedDevicesIntegrationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ManagedDevicesIntegrationModel: The parsed response data.
+            ManagedDevicesIntegration: The parsed response data.
         """
-        return self._parse_one(ManagedDevicesIntegrationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            ManagedDevicesIntegration, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -1,77 +1,79 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoardDefaultsIdEndpoint import FinanceAgreementsIdBoardDefaultsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoardDefaultsCountEndpoint import FinanceAgreementsIdBoardDefaultsCountEndpoint
-from pyconnectwise.models.manage.BoardDefaultModel import BoardDefaultModel
 
-class FinanceAgreementsIdBoardDefaultsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsCountEndpoint import \
+    FinanceAgreementsIdBoarddefaultsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsIdEndpoint import \
+    FinanceAgreementsIdBoarddefaultsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BoardDefault
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceAgreementsIdBoarddefaultsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "boardDefaults", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            FinanceAgreementsIdBoardDefaultsCountEndpoint(client, parent_endpoint=self)
+            FinanceAgreementsIdBoarddefaultsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> FinanceAgreementsIdBoardDefaultsIdEndpoint:
+
+    def id(self, id: int) -> FinanceAgreementsIdBoarddefaultsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdBoardDefaultsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdBoarddefaultsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceAgreementsIdBoardDefaultsIdEndpoint: The initialized FinanceAgreementsIdBoardDefaultsIdEndpoint object.
+            FinanceAgreementsIdBoarddefaultsIdEndpoint: The initialized FinanceAgreementsIdBoarddefaultsIdEndpoint object.
         """
-        child = FinanceAgreementsIdBoardDefaultsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementsIdBoarddefaultsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardDefaultModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BoardDefault]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/boardDefaults endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/agreements/{id}/boardDefaults endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BoardDefaultModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BoardDefault]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BoardDefaultModel,
+            super()._make_request("GET", params=params),
+            BoardDefault,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardDefaultModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardDefault]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/boardDefaults endpoint.
+        Performs a GET request against the /finance/agreements/{id}/boardDefaults endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[BoardDefaultModel]: The parsed response data.
+            list[BoardDefault]: The parsed response data.
         """
-        return self._parse_many(BoardDefaultModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardDefaultModel:
+        return self._parse_many(BoardDefault, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardDefault:
         """
-        Performs a POST request against the /finance/agreements/{parentId}/boardDefaults endpoint.
+        Performs a POST request against the /finance/agreements/{id}/boardDefaults endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BoardDefaultModel: The parsed response data.
+            BoardDefault: The parsed response data.
         """
-        return self._parse_one(BoardDefaultModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(BoardDefault, super()._make_request("POST", data=data, params=params).json())

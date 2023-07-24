@@ -1,24 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServicePrioritiesIdImageEndpoint import ServicePrioritiesIdImageEndpoint
 from pyconnectwise.endpoints.manage.ServicePrioritiesIdUsagesEndpoint import ServicePrioritiesIdUsagesEndpoint
-from pyconnectwise.models.manage.PriorityModel import PriorityModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Priority
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.image = self._register_child_endpoint(
-            ServicePrioritiesIdImageEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            ServicePrioritiesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PriorityModel]:
+
+        self.usages = self._register_child_endpoint(ServicePrioritiesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.image = self._register_child_endpoint(ServicePrioritiesIdImageEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Priority]:
         """
         Performs a GET request against the /service/priorities/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -27,21 +24,19 @@ class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PriorityModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Priority]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PriorityModel,
+            super()._make_request("GET", params=params),
+            Priority,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PriorityModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Priority:
         """
         Performs a GET request against the /service/priorities/{id} endpoint.
 
@@ -49,10 +44,10 @@ class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PriorityModel: The parsed response data.
+            Priority: The parsed response data.
         """
-        return self._parse_one(PriorityModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(Priority, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /service/priorities/{id} endpoint.
@@ -64,8 +59,8 @@ class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PriorityModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Priority:
         """
         Performs a PUT request against the /service/priorities/{id} endpoint.
 
@@ -73,11 +68,11 @@ class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PriorityModel: The parsed response data.
+            Priority: The parsed response data.
         """
-        return self._parse_one(PriorityModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PriorityModel:
+        return self._parse_one(Priority, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Priority:
         """
         Performs a PATCH request against the /service/priorities/{id} endpoint.
 
@@ -85,7 +80,6 @@ class ServicePrioritiesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PriorityModel: The parsed response data.
+            Priority: The parsed response data.
         """
-        return self._parse_one(PriorityModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(Priority, super()._make_request("PATCH", data=data, params=params).json())

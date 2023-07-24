@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemPortalReportsIdEndpoint import SystemPortalReportsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemPortalReportsCountEndpoint import SystemPortalReportsCountEndpoint
-from pyconnectwise.models.manage.PortalReportModel import PortalReportModel
 
-class SystemPortalReportsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import SystemPortalreportsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import SystemPortalreportsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PortalReport
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalReports", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemPortalReportsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemPortalReportsIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemPortalreportsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemPortalreportsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemPortalReportsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemPortalreportsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemPortalReportsIdEndpoint: The initialized SystemPortalReportsIdEndpoint object.
+            SystemPortalreportsIdEndpoint: The initialized SystemPortalreportsIdEndpoint object.
         """
-        child = SystemPortalReportsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemPortalreportsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PortalReportModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class SystemPortalReportsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PortalReportModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PortalReport]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PortalReportModel,
+            super()._make_request("GET", params=params),
+            PortalReport,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalReportModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint.
 
@@ -59,11 +58,11 @@ class SystemPortalReportsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PortalReportModel]: The parsed response data.
+            list[PortalReport]: The parsed response data.
         """
-        return self._parse_many(PortalReportModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalReportModel:
+        return self._parse_many(PortalReport, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalReport:
         """
         Performs a POST request against the /system/portalReports endpoint.
 
@@ -71,7 +70,6 @@ class SystemPortalReportsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PortalReportModel: The parsed response data.
+            PortalReport: The parsed response data.
         """
-        return self._parse_one(PortalReportModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(PortalReport, super()._make_request("POST", data=data, params=params).json())

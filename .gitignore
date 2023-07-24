@@ -178,3 +178,26 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 ConnectWiseManage.json
+automate_json/automate_commands.json
+automate_json/automate_companies.json
+automate_json/automate_computers.json
+automate_json/automate_contacts.json
+automate_json/automate_dataviews.json
+automate_json/automate_eventlogs.json
+automate_json/automate_groups.json
+automate_json/automate_maintenancewindows.json
+automate_json/automate_monitors.json
+automate_json/automate_networkdevices.json
+automate_json/automate_patching.json
+automate_json/automate_presentationlayer.json
+automate_json/automate_probes.json
+automate_json/automate_remoteagents.json
+automate_json/automate_scripts.json
+automate_json/automate_searches.json
+automate_json/automate_statistics.json
+automate_json/automate_systems.json
+automate_json/automate_tickets.json
+/All.json
+/automate_json/
+/Out/
+/merged_spec.json

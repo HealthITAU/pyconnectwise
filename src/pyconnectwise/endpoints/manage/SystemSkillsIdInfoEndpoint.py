@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.SkillInfoModel import SkillInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SkillInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemSkillsIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SkillInfoModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SkillInfo]:
         """
         Performs a GET request against the /system/skills/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class SystemSkillsIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SkillInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SkillInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SkillInfoModel,
+            super()._make_request("GET", params=params),
+            SkillInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SkillInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SkillInfo:
         """
         Performs a GET request against the /system/skills/{id}/info endpoint.
 
@@ -41,7 +39,6 @@ class SystemSkillsIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SkillInfoModel: The parsed response data.
+            SkillInfo: The parsed response data.
         """
-        return self._parse_one(SkillInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(SkillInfo, super()._make_request("GET", data=data, params=params).json())

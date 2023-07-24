@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxableLevelsEndpoint import FinanceAccountingUnpostedexpensesIdTaxableLevelsEndpoint
-from pyconnectwise.models.manage.UnpostedExpenseModel import UnpostedExpenseModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint import \
+    FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import UnpostedExpense
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.taxableLevels = self._register_child_endpoint(
-            FinanceAccountingUnpostedexpensesIdTaxableLevelsEndpoint(client, parent_endpoint=self)
+
+        self.taxable_levels = self._register_child_endpoint(
+            FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[UnpostedExpenseModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[UnpostedExpense]:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[UnpostedExpenseModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[UnpostedExpense]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            UnpostedExpenseModel,
+            super()._make_request("GET", params=params),
+            UnpostedExpense,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedExpenseModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> UnpostedExpense:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses/{id} endpoint.
 
@@ -45,7 +47,6 @@ class FinanceAccountingUnpostedexpensesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            UnpostedExpenseModel: The parsed response data.
+            UnpostedExpense: The parsed response data.
         """
-        return self._parse_one(UnpostedExpenseModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(UnpostedExpense, super()._make_request("GET", data=data, params=params).json())

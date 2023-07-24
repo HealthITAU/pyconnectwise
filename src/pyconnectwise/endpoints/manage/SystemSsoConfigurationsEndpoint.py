@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemSsoConfigurationsIdEndpoint import SystemSsoConfigurationsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemSsoConfigurationsCountEndpoint import SystemSsoConfigurationsCountEndpoint
-from pyconnectwise.models.manage.SsoConfigurationModel import SsoConfigurationModel
 
-class SystemSsoConfigurationsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemSsoconfigurationsCountEndpoint import SystemSsoconfigurationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemSsoconfigurationsIdEndpoint import SystemSsoconfigurationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SsoConfiguration
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemSsoconfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ssoConfigurations", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemSsoConfigurationsCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemSsoConfigurationsIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemSsoconfigurationsCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemSsoconfigurationsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemSsoConfigurationsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemSsoconfigurationsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemSsoConfigurationsIdEndpoint: The initialized SystemSsoConfigurationsIdEndpoint object.
+            SystemSsoconfigurationsIdEndpoint: The initialized SystemSsoconfigurationsIdEndpoint object.
         """
-        child = SystemSsoConfigurationsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemSsoconfigurationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SsoConfigurationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SsoConfiguration]:
         """
         Performs a GET request against the /system/ssoConfigurations endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class SystemSsoConfigurationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SsoConfigurationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SsoConfiguration]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SsoConfigurationModel,
+            super()._make_request("GET", params=params),
+            SsoConfiguration,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SsoConfigurationModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SsoConfiguration]:
         """
         Performs a GET request against the /system/ssoConfigurations endpoint.
 
@@ -59,11 +58,11 @@ class SystemSsoConfigurationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SsoConfigurationModel]: The parsed response data.
+            list[SsoConfiguration]: The parsed response data.
         """
-        return self._parse_many(SsoConfigurationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SsoConfigurationModel:
+        return self._parse_many(SsoConfiguration, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SsoConfiguration:
         """
         Performs a POST request against the /system/ssoConfigurations endpoint.
 
@@ -71,7 +70,6 @@ class SystemSsoConfigurationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SsoConfigurationModel: The parsed response data.
+            SsoConfiguration: The parsed response data.
         """
-        return self._parse_one(SsoConfigurationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(SsoConfiguration, super()._make_request("POST", data=data, params=params).json())

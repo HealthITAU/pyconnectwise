@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ProjectPhaseStatusesIdUsagesEndpoint import ProjectPhaseStatusesIdUsagesEndpoint
-from pyconnectwise.models.manage.PhaseStatusModel import PhaseStatusModel
 
-class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ProjectPhasestatusesIdUsagesEndpoint import ProjectPhasestatusesIdUsagesEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PhaseStatus
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ProjectPhasestatusesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.usages = self._register_child_endpoint(
-            ProjectPhaseStatusesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PhaseStatusModel]:
+
+        self.usages = self._register_child_endpoint(ProjectPhasestatusesIdUsagesEndpoint(client, parent_endpoint=self))
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PhaseStatus]:
         """
         Performs a GET request against the /project/phaseStatuses/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +22,19 @@ class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PhaseStatusModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PhaseStatus]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PhaseStatusModel,
+            super()._make_request("GET", params=params),
+            PhaseStatus,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatusModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatus:
         """
         Performs a GET request against the /project/phaseStatuses/{id} endpoint.
 
@@ -45,10 +42,10 @@ class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PhaseStatusModel: The parsed response data.
+            PhaseStatus: The parsed response data.
         """
-        return self._parse_one(PhaseStatusModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(PhaseStatus, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /project/phaseStatuses/{id} endpoint.
@@ -60,8 +57,8 @@ class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatusModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatus:
         """
         Performs a PUT request against the /project/phaseStatuses/{id} endpoint.
 
@@ -69,11 +66,11 @@ class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PhaseStatusModel: The parsed response data.
+            PhaseStatus: The parsed response data.
         """
-        return self._parse_one(PhaseStatusModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatusModel:
+        return self._parse_one(PhaseStatus, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PhaseStatus:
         """
         Performs a PATCH request against the /project/phaseStatuses/{id} endpoint.
 
@@ -81,7 +78,6 @@ class ProjectPhaseStatusesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PhaseStatusModel: The parsed response data.
+            PhaseStatus: The parsed response data.
         """
-        return self._parse_one(PhaseStatusModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(PhaseStatus, super()._make_request("PATCH", data=data, params=params).json())

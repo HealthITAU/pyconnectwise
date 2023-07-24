@@ -1,77 +1,83 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementReportNotificationsIdEndpoint import CompanyCompaniesIdManagementReportNotificationsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementReportNotificationsCountEndpoint import CompanyCompaniesIdManagementReportNotificationsCountEndpoint
-from pyconnectwise.models.manage.ManagementReportNotificationModel import ManagementReportNotificationModel
 
-class CompanyCompaniesIdManagementReportNotificationsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsCountEndpoint import \
+    CompanyCompaniesIdManagementreportnotificationsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportnotificationsIdEndpoint import \
+    CompanyCompaniesIdManagementreportnotificationsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ManagementReportNotification
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyCompaniesIdManagementreportnotificationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementReportNotifications", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyCompaniesIdManagementReportNotificationsCountEndpoint(client, parent_endpoint=self)
+            CompanyCompaniesIdManagementreportnotificationsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyCompaniesIdManagementReportNotificationsIdEndpoint:
+
+    def id(self, id: int) -> CompanyCompaniesIdManagementreportnotificationsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdManagementReportNotificationsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdManagementreportnotificationsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyCompaniesIdManagementReportNotificationsIdEndpoint: The initialized CompanyCompaniesIdManagementReportNotificationsIdEndpoint object.
+            CompanyCompaniesIdManagementreportnotificationsIdEndpoint: The initialized CompanyCompaniesIdManagementreportnotificationsIdEndpoint object.
         """
-        child = CompanyCompaniesIdManagementReportNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCompaniesIdManagementreportnotificationsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagementReportNotificationModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ManagementReportNotification]:
         """
-        Performs a GET request against the /company/companies/{parentId}/managementReportNotifications endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/companies/{id}/managementReportNotifications endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagementReportNotificationModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ManagementReportNotification]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagementReportNotificationModel,
+            super()._make_request("GET", params=params),
+            ManagementReportNotification,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportNotificationModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportNotification]:
         """
-        Performs a GET request against the /company/companies/{parentId}/managementReportNotifications endpoint.
+        Performs a GET request against the /company/companies/{id}/managementReportNotifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagementReportNotificationModel]: The parsed response data.
+            list[ManagementReportNotification]: The parsed response data.
         """
-        return self._parse_many(ManagementReportNotificationModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportNotificationModel:
+        return self._parse_many(
+            ManagementReportNotification, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportNotification:
         """
-        Performs a POST request against the /company/companies/{parentId}/managementReportNotifications endpoint.
+        Performs a POST request against the /company/companies/{id}/managementReportNotifications endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ManagementReportNotificationModel: The parsed response data.
+            ManagementReportNotification: The parsed response data.
         """
-        return self._parse_one(ManagementReportNotificationModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            ManagementReportNotification, super()._make_request("POST", data=data, params=params).json()
+        )

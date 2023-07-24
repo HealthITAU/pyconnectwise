@@ -1,77 +1,73 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceSLAsIdPrioritiesIdEndpoint import ServiceSLAsIdPrioritiesIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceSLAsIdPrioritiesCountEndpoint import ServiceSLAsIdPrioritiesCountEndpoint
-from pyconnectwise.models.manage.SLAPriorityModel import SLAPriorityModel
 
-class ServiceSLAsIdPrioritiesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceSlasIdPrioritiesCountEndpoint import ServiceSlasIdPrioritiesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceSlasIdPrioritiesIdEndpoint import ServiceSlasIdPrioritiesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SLAPriority
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceSlasIdPrioritiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "priorities", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceSLAsIdPrioritiesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> ServiceSLAsIdPrioritiesIdEndpoint:
+
+        self.count = self._register_child_endpoint(ServiceSlasIdPrioritiesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> ServiceSlasIdPrioritiesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ServiceSLAsIdPrioritiesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ServiceSlasIdPrioritiesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            ServiceSLAsIdPrioritiesIdEndpoint: The initialized ServiceSLAsIdPrioritiesIdEndpoint object.
+            ServiceSlasIdPrioritiesIdEndpoint: The initialized ServiceSlasIdPrioritiesIdEndpoint object.
         """
-        child = ServiceSLAsIdPrioritiesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceSlasIdPrioritiesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SLAPriorityModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SLAPriority]:
         """
-        Performs a GET request against the /service/SLAs/{parentId}/priorities endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /service/SLAs/{id}/priorities endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SLAPriorityModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SLAPriority]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SLAPriorityModel,
+            super()._make_request("GET", params=params),
+            SLAPriority,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SLAPriorityModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SLAPriority]:
         """
-        Performs a GET request against the /service/SLAs/{parentId}/priorities endpoint.
+        Performs a GET request against the /service/SLAs/{id}/priorities endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SLAPriorityModel]: The parsed response data.
+            list[SLAPriority]: The parsed response data.
         """
-        return self._parse_many(SLAPriorityModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SLAPriorityModel:
+        return self._parse_many(SLAPriority, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SLAPriority:
         """
-        Performs a POST request against the /service/SLAs/{parentId}/priorities endpoint.
+        Performs a POST request against the /service/SLAs/{id}/priorities endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SLAPriorityModel: The parsed response data.
+            SLAPriority: The parsed response data.
         """
-        return self._parse_one(SLAPriorityModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(SLAPriority, super()._make_request("POST", data=data, params=params).json())

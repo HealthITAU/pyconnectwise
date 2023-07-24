@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SalesOpportunitiesRatingsInfoCountEndpoint import SalesOpportunitiesRatingsInfoCountEndpoint
-from pyconnectwise.models.manage.OpportunityRatingInfoModel import OpportunityRatingInfoModel
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesRatingsInfoCountEndpoint import \
+    SalesOpportunitiesRatingsInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import OpportunityRatingInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SalesOpportunitiesRatingsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
             SalesOpportunitiesRatingsInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[OpportunityRatingInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[OpportunityRatingInfo]:
         """
         Performs a GET request against the /sales/opportunities/ratings/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class SalesOpportunitiesRatingsInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[OpportunityRatingInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[OpportunityRatingInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            OpportunityRatingInfoModel,
+            super()._make_request("GET", params=params),
+            OpportunityRatingInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityRatingInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityRatingInfo]:
         """
         Performs a GET request against the /sales/opportunities/ratings/info endpoint.
 
@@ -45,7 +47,6 @@ class SalesOpportunitiesRatingsInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[OpportunityRatingInfoModel]: The parsed response data.
+            list[OpportunityRatingInfo]: The parsed response data.
         """
-        return self._parse_many(OpportunityRatingInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(OpportunityRatingInfo, super()._make_request("GET", data=data, params=params).json())

@@ -1,77 +1,83 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkRoleExclusionsIdEndpoint import FinanceAgreementsIdWorkRoleExclusionsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkRoleExclusionsCountEndpoint import FinanceAgreementsIdWorkRoleExclusionsCountEndpoint
-from pyconnectwise.models.manage.AgreementWorkRoleExclusionModel import AgreementWorkRoleExclusionModel
 
-class FinanceAgreementsIdWorkRoleExclusionsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkroleexclusionsCountEndpoint import \
+    FinanceAgreementsIdWorkroleexclusionsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkroleexclusionsIdEndpoint import \
+    FinanceAgreementsIdWorkroleexclusionsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import AgreementWorkRoleExclusion
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class FinanceAgreementsIdWorkroleexclusionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workRoleExclusions", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            FinanceAgreementsIdWorkRoleExclusionsCountEndpoint(client, parent_endpoint=self)
+            FinanceAgreementsIdWorkroleexclusionsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> FinanceAgreementsIdWorkRoleExclusionsIdEndpoint:
+
+    def id(self, id: int) -> FinanceAgreementsIdWorkroleexclusionsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdWorkRoleExclusionsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdWorkroleexclusionsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            FinanceAgreementsIdWorkRoleExclusionsIdEndpoint: The initialized FinanceAgreementsIdWorkRoleExclusionsIdEndpoint object.
+            FinanceAgreementsIdWorkroleexclusionsIdEndpoint: The initialized FinanceAgreementsIdWorkroleexclusionsIdEndpoint object.
         """
-        child = FinanceAgreementsIdWorkRoleExclusionsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementsIdWorkroleexclusionsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AgreementWorkRoleExclusionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AgreementWorkRoleExclusion]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/workRoleExclusions endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /finance/agreements/{id}/workRoleExclusions endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[AgreementWorkRoleExclusionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[AgreementWorkRoleExclusion]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            AgreementWorkRoleExclusionModel,
+            super()._make_request("GET", params=params),
+            AgreementWorkRoleExclusion,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementWorkRoleExclusionModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementWorkRoleExclusion]:
         """
-        Performs a GET request against the /finance/agreements/{parentId}/workRoleExclusions endpoint.
+        Performs a GET request against the /finance/agreements/{id}/workRoleExclusions endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[AgreementWorkRoleExclusionModel]: The parsed response data.
+            list[AgreementWorkRoleExclusion]: The parsed response data.
         """
-        return self._parse_many(AgreementWorkRoleExclusionModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkRoleExclusionModel:
+        return self._parse_many(
+            AgreementWorkRoleExclusion, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementWorkRoleExclusion:
         """
-        Performs a POST request against the /finance/agreements/{parentId}/workRoleExclusions endpoint.
+        Performs a POST request against the /finance/agreements/{id}/workRoleExclusions endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            AgreementWorkRoleExclusionModel: The parsed response data.
+            AgreementWorkRoleExclusion: The parsed response data.
         """
-        return self._parse_one(AgreementWorkRoleExclusionModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            AgreementWorkRoleExclusion, super()._make_request("POST", data=data, params=params).json()
+        )

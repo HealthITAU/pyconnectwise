@@ -1,34 +1,35 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemSkillCategoriesIdEndpoint import SystemSkillCategoriesIdEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillCategoriesCountEndpoint import SystemSkillCategoriesCountEndpoint
-from pyconnectwise.models.manage.SkillCategoryModel import SkillCategoryModel
 
-class SystemSkillCategoriesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemSkillcategoriesCountEndpoint import SystemSkillcategoriesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemSkillcategoriesIdEndpoint import SystemSkillcategoriesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import SkillCategory
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemSkillcategoriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "skillCategories", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            SystemSkillCategoriesCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def id(self, id: int) -> SystemSkillCategoriesIdEndpoint:
+
+        self.count = self._register_child_endpoint(SystemSkillcategoriesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, id: int) -> SystemSkillcategoriesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemSkillCategoriesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemSkillcategoriesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemSkillCategoriesIdEndpoint: The initialized SystemSkillCategoriesIdEndpoint object.
+            SystemSkillcategoriesIdEndpoint: The initialized SystemSkillcategoriesIdEndpoint object.
         """
-        child = SystemSkillCategoriesIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemSkillcategoriesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[SkillCategoryModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[SkillCategory]:
         """
         Performs a GET request against the /system/skillCategories endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +38,19 @@ class SystemSkillCategoriesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SkillCategoryModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[SkillCategory]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            SkillCategoryModel,
+            super()._make_request("GET", params=params),
+            SkillCategory,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SkillCategoryModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SkillCategory]:
         """
         Performs a GET request against the /system/skillCategories endpoint.
 
@@ -59,11 +58,11 @@ class SystemSkillCategoriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SkillCategoryModel]: The parsed response data.
+            list[SkillCategory]: The parsed response data.
         """
-        return self._parse_many(SkillCategoryModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SkillCategoryModel:
+        return self._parse_many(SkillCategory, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SkillCategory:
         """
         Performs a POST request against the /system/skillCategories endpoint.
 
@@ -71,7 +70,6 @@ class SystemSkillCategoriesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SkillCategoryModel: The parsed response data.
+            SkillCategory: The parsed response data.
         """
-        return self._parse_one(SkillCategoryModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(SkillCategory, super()._make_request("POST", data=data, params=params).json())

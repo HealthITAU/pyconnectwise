@@ -1,34 +1,39 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemManagementNetworkSecuritiesIdEndpoint import SystemManagementNetworkSecuritiesIdEndpoint
-from pyconnectwise.endpoints.manage.SystemManagementNetworkSecuritiesCountEndpoint import SystemManagementNetworkSecuritiesCountEndpoint
-from pyconnectwise.models.manage.ManagementNetworkSecurityModel import ManagementNetworkSecurityModel
 
-class SystemManagementNetworkSecuritiesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesCountEndpoint import \
+    SystemManagementnetworksecuritiesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesIdEndpoint import \
+    SystemManagementnetworksecuritiesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ManagementNetworkSecurity
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemManagementnetworksecuritiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementNetworkSecurities", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            SystemManagementNetworkSecuritiesCountEndpoint(client, parent_endpoint=self)
+            SystemManagementnetworksecuritiesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> SystemManagementNetworkSecuritiesIdEndpoint:
+
+    def id(self, id: int) -> SystemManagementnetworksecuritiesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized SystemManagementNetworkSecuritiesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized SystemManagementnetworksecuritiesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            SystemManagementNetworkSecuritiesIdEndpoint: The initialized SystemManagementNetworkSecuritiesIdEndpoint object.
+            SystemManagementnetworksecuritiesIdEndpoint: The initialized SystemManagementnetworksecuritiesIdEndpoint object.
         """
-        child = SystemManagementNetworkSecuritiesIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemManagementnetworksecuritiesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagementNetworkSecurityModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ManagementNetworkSecurity]:
         """
         Performs a GET request against the /system/managementNetworkSecurities endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +42,19 @@ class SystemManagementNetworkSecuritiesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagementNetworkSecurityModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ManagementNetworkSecurity]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagementNetworkSecurityModel,
+            super()._make_request("GET", params=params),
+            ManagementNetworkSecurity,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementNetworkSecurityModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementNetworkSecurity]:
         """
         Performs a GET request against the /system/managementNetworkSecurities endpoint.
 
@@ -59,11 +62,13 @@ class SystemManagementNetworkSecuritiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagementNetworkSecurityModel]: The parsed response data.
+            list[ManagementNetworkSecurity]: The parsed response data.
         """
-        return self._parse_many(ManagementNetworkSecurityModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementNetworkSecurityModel:
+        return self._parse_many(
+            ManagementNetworkSecurity, super()._make_request("GET", data=data, params=params).json()
+        )
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementNetworkSecurity:
         """
         Performs a POST request against the /system/managementNetworkSecurities endpoint.
 
@@ -71,7 +76,8 @@ class SystemManagementNetworkSecuritiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ManagementNetworkSecurityModel: The parsed response data.
+            ManagementNetworkSecurity: The parsed response data.
         """
-        return self._parse_one(ManagementNetworkSecurityModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(
+            ManagementNetworkSecurity, super()._make_request("POST", data=data, params=params).json()
+        )

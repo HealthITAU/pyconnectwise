@@ -1,20 +1,19 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksIdEndpoint import ServiceTicketsIdTasksIdEndpoint
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksCountEndpoint import ServiceTicketsIdTasksCountEndpoint
-from pyconnectwise.models.manage.TaskModel import TaskModel
+from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksIdEndpoint import ServiceTicketsIdTasksIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Task
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tasks", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceTicketsIdTasksCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
+
+        self.count = self._register_child_endpoint(ServiceTicketsIdTasksCountEndpoint(client, parent_endpoint=self))
+
     def id(self, id: int) -> ServiceTicketsIdTasksIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceTicketsIdTasksIdEndpoint object to move down the chain.
@@ -27,51 +26,48 @@ class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         child = ServiceTicketsIdTasksIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaskModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Task]:
         """
-        Performs a GET request against the /service/tickets/{parentId}/tasks endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /service/tickets/{id}/tasks endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TaskModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Task]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TaskModel,
+            super()._make_request("GET", params=params),
+            Task,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaskModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Task]:
         """
-        Performs a GET request against the /service/tickets/{parentId}/tasks endpoint.
+        Performs a GET request against the /service/tickets/{id}/tasks endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TaskModel]: The parsed response data.
+            list[Task]: The parsed response data.
         """
-        return self._parse_many(TaskModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaskModel:
+        return self._parse_many(Task, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Task:
         """
-        Performs a POST request against the /service/tickets/{parentId}/tasks endpoint.
+        Performs a POST request against the /service/tickets/{id}/tasks endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TaskModel: The parsed response data.
+            Task: The parsed response data.
         """
-        return self._parse_one(TaskModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(Task, super()._make_request("POST", data=data, params=params).json())

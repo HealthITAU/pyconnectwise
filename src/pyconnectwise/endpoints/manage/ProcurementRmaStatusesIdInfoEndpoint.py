@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.RmaStatusInfoModel import RmaStatusInfoModel
 
-class ProcurementRmaStatusesIdInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import RmaStatusInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ProcurementRmastatusesIdInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[RmaStatusInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[RmaStatusInfo]:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class ProcurementRmaStatusesIdInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[RmaStatusInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[RmaStatusInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            RmaStatusInfoModel,
+            super()._make_request("GET", params=params),
+            RmaStatusInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatusInfoModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatusInfo:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/info endpoint.
 
@@ -41,7 +41,6 @@ class ProcurementRmaStatusesIdInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            RmaStatusInfoModel: The parsed response data.
+            RmaStatusInfo: The parsed response data.
         """
-        return self._parse_one(RmaStatusInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(RmaStatusInfo, super()._make_request("GET", data=data, params=params).json())

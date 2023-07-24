@@ -1,77 +1,79 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoAssignResourcesIdEndpoint import ServiceBoardsIdAutoAssignResourcesIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoAssignResourcesCountEndpoint import ServiceBoardsIdAutoAssignResourcesCountEndpoint
-from pyconnectwise.models.manage.BoardAutoAssignResourceModel import BoardAutoAssignResourceModel
 
-class ServiceBoardsIdAutoAssignResourcesEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesCountEndpoint import \
+    ServiceBoardsIdAutoassignresourcesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesIdEndpoint import \
+    ServiceBoardsIdAutoassignresourcesIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import BoardAutoAssignResource
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "autoAssignResources", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            ServiceBoardsIdAutoAssignResourcesCountEndpoint(client, parent_endpoint=self)
+            ServiceBoardsIdAutoassignresourcesCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> ServiceBoardsIdAutoAssignResourcesIdEndpoint:
+
+    def id(self, id: int) -> ServiceBoardsIdAutoassignresourcesIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ServiceBoardsIdAutoAssignResourcesIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ServiceBoardsIdAutoassignresourcesIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            ServiceBoardsIdAutoAssignResourcesIdEndpoint: The initialized ServiceBoardsIdAutoAssignResourcesIdEndpoint object.
+            ServiceBoardsIdAutoassignresourcesIdEndpoint: The initialized ServiceBoardsIdAutoassignresourcesIdEndpoint object.
         """
-        child = ServiceBoardsIdAutoAssignResourcesIdEndpoint(self.client, parent_endpoint=self)
+        child = ServiceBoardsIdAutoassignresourcesIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardAutoAssignResourceModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[BoardAutoAssignResource]:
         """
-        Performs a GET request against the /service/boards/{parentId}/autoAssignResources endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /service/boards/{id}/autoAssignResources endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[BoardAutoAssignResourceModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[BoardAutoAssignResource]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            BoardAutoAssignResourceModel,
+            super()._make_request("GET", params=params),
+            BoardAutoAssignResource,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoAssignResourceModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoAssignResource]:
         """
-        Performs a GET request against the /service/boards/{parentId}/autoAssignResources endpoint.
+        Performs a GET request against the /service/boards/{id}/autoAssignResources endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[BoardAutoAssignResourceModel]: The parsed response data.
+            list[BoardAutoAssignResource]: The parsed response data.
         """
-        return self._parse_many(BoardAutoAssignResourceModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoAssignResourceModel:
+        return self._parse_many(BoardAutoAssignResource, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoAssignResource:
         """
-        Performs a POST request against the /service/boards/{parentId}/autoAssignResources endpoint.
+        Performs a POST request against the /service/boards/{id}/autoAssignResources endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            BoardAutoAssignResourceModel: The parsed response data.
+            BoardAutoAssignResource: The parsed response data.
         """
-        return self._parse_one(BoardAutoAssignResourceModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(BoardAutoAssignResource, super()._make_request("POST", data=data, params=params).json())

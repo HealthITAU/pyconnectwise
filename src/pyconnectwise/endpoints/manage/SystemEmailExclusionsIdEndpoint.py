@@ -1,16 +1,18 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.EmailExclusionModel import EmailExclusionModel
 
-class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import EmailExclusion
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemEmailexclusionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailExclusionModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[EmailExclusion]:
         """
         Performs a GET request against the /system/emailExclusions/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +21,19 @@ class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[EmailExclusionModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[EmailExclusion]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            EmailExclusionModel,
+            super()._make_request("GET", params=params),
+            EmailExclusion,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusionModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusion:
         """
         Performs a GET request against the /system/emailExclusions/{id} endpoint.
 
@@ -41,10 +41,10 @@ class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            EmailExclusionModel: The parsed response data.
+            EmailExclusion: The parsed response data.
         """
-        return self._parse_one(EmailExclusionModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(EmailExclusion, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/emailExclusions/{id} endpoint.
@@ -56,8 +56,8 @@ class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusionModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusion:
         """
         Performs a PUT request against the /system/emailExclusions/{id} endpoint.
 
@@ -65,11 +65,11 @@ class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            EmailExclusionModel: The parsed response data.
+            EmailExclusion: The parsed response data.
         """
-        return self._parse_one(EmailExclusionModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusionModel:
+        return self._parse_one(EmailExclusion, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusion:
         """
         Performs a PATCH request against the /system/emailExclusions/{id} endpoint.
 
@@ -77,7 +77,6 @@ class SystemEmailExclusionsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            EmailExclusionModel: The parsed response data.
+            EmailExclusion: The parsed response data.
         """
-        return self._parse_one(EmailExclusionModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(EmailExclusion, super()._make_request("PATCH", data=data, params=params).json())

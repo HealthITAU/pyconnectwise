@@ -1,20 +1,24 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyMarketDescriptionsInfoCountEndpoint import CompanyMarketDescriptionsInfoCountEndpoint
-from pyconnectwise.models.manage.MarketDescriptionInfoModel import MarketDescriptionInfoModel
 
-class CompanyMarketDescriptionsInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoCountEndpoint import \
+    CompanyMarketdescriptionsInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import MarketDescriptionInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyMarketdescriptionsInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyMarketDescriptionsInfoCountEndpoint(client, parent_endpoint=self)
+            CompanyMarketdescriptionsInfoCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MarketDescriptionInfoModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[MarketDescriptionInfo]:
         """
         Performs a GET request against the /company/marketDescriptions/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +27,19 @@ class CompanyMarketDescriptionsInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MarketDescriptionInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[MarketDescriptionInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            MarketDescriptionInfoModel,
+            super()._make_request("GET", params=params),
+            MarketDescriptionInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescriptionInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MarketDescriptionInfo]:
         """
         Performs a GET request against the /company/marketDescriptions/info endpoint.
 
@@ -45,7 +47,6 @@ class CompanyMarketDescriptionsInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[MarketDescriptionInfoModel]: The parsed response data.
+            list[MarketDescriptionInfo]: The parsed response data.
         """
-        return self._parse_many(MarketDescriptionInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(MarketDescriptionInfo, super()._make_request("GET", data=data, params=params).json())

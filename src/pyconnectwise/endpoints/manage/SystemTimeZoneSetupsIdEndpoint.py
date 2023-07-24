@@ -1,20 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.SystemTimeZoneSetupsIdInfoEndpoint import SystemTimeZoneSetupsIdInfoEndpoint
-from pyconnectwise.models.manage.TimeZoneSetupModel import TimeZoneSetupModel
 
-class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdInfoEndpoint import SystemTimezonesetupsIdInfoEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import TimeZoneSetup
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-        self.info = self._register_child_endpoint(
-            SystemTimeZoneSetupsIdInfoEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeZoneSetupModel]:
+
+        self.info = self._register_child_endpoint(SystemTimezonesetupsIdInfoEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[TimeZoneSetup]:
         """
         Performs a GET request against the /system/timeZoneSetups/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +24,19 @@ class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TimeZoneSetupModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[TimeZoneSetup]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            TimeZoneSetupModel,
+            super()._make_request("GET", params=params),
+            TimeZoneSetup,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetupModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
         """
         Performs a GET request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -45,11 +44,11 @@ class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TimeZoneSetupModel: The parsed response data.
+            TimeZoneSetup: The parsed response data.
         """
-        return self._parse_one(TimeZoneSetupModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetupModel:
+        return self._parse_one(TimeZoneSetup, super()._make_request("GET", data=data, params=params).json())
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
         """
         Performs a PUT request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -57,11 +56,11 @@ class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TimeZoneSetupModel: The parsed response data.
+            TimeZoneSetup: The parsed response data.
         """
-        return self._parse_one(TimeZoneSetupModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetupModel:
+        return self._parse_one(TimeZoneSetup, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
         """
         Performs a PATCH request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -69,10 +68,10 @@ class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TimeZoneSetupModel: The parsed response data.
+            TimeZoneSetup: The parsed response data.
         """
-        return self._parse_one(TimeZoneSetupModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(TimeZoneSetup, super()._make_request("PATCH", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /system/timeZoneSetups/{id} endpoint.
@@ -84,4 +83,3 @@ class SystemTimeZoneSetupsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        

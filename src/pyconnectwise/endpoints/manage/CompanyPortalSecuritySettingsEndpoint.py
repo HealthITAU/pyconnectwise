@@ -1,34 +1,39 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyPortalSecuritySettingsIdEndpoint import CompanyPortalSecuritySettingsIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalSecuritySettingsCountEndpoint import CompanyPortalSecuritySettingsCountEndpoint
-from pyconnectwise.models.manage.PortalSecuritySettingModel import PortalSecuritySettingModel
 
-class CompanyPortalSecuritySettingsEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritysettingsCountEndpoint import \
+    CompanyPortalsecuritysettingsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyPortalsecuritysettingsIdEndpoint import \
+    CompanyPortalsecuritysettingsIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import PortalSecuritySetting
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyPortalsecuritysettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalSecuritySettings", parent_endpoint=parent_endpoint)
-        
+
         self.count = self._register_child_endpoint(
-            CompanyPortalSecuritySettingsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalsecuritysettingsCountEndpoint(client, parent_endpoint=self)
         )
-    
-    
-    def id(self, id: int) -> CompanyPortalSecuritySettingsIdEndpoint:
+
+    def id(self, id: int) -> CompanyPortalsecuritysettingsIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyPortalSecuritySettingsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyPortalsecuritysettingsIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyPortalSecuritySettingsIdEndpoint: The initialized CompanyPortalSecuritySettingsIdEndpoint object.
+            CompanyPortalsecuritysettingsIdEndpoint: The initialized CompanyPortalsecuritysettingsIdEndpoint object.
         """
-        child = CompanyPortalSecuritySettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalsecuritysettingsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PortalSecuritySettingModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[PortalSecuritySetting]:
         """
         Performs a GET request against the /company/portalSecuritySettings endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,21 +42,19 @@ class CompanyPortalSecuritySettingsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[PortalSecuritySettingModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[PortalSecuritySetting]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            PortalSecuritySettingModel,
+            super()._make_request("GET", params=params),
+            PortalSecuritySetting,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecuritySettingModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalSecuritySetting]:
         """
         Performs a GET request against the /company/portalSecuritySettings endpoint.
 
@@ -59,7 +62,6 @@ class CompanyPortalSecuritySettingsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[PortalSecuritySettingModel]: The parsed response data.
+            list[PortalSecuritySetting]: The parsed response data.
         """
-        return self._parse_many(PortalSecuritySettingModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(PortalSecuritySetting, super()._make_request("GET", data=data, params=params).json())

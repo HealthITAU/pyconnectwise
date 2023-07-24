@@ -1,73 +1,73 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementReportSetupIdEndpoint import CompanyCompaniesIdManagementReportSetupIdEndpoint
-from pyconnectwise.models.manage.ManagementReportSetupModel import ManagementReportSetupModel
 
-class CompanyCompaniesIdManagementReportSetupEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportsetupIdEndpoint import \
+    CompanyCompaniesIdManagementreportsetupIdEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ManagementReportSetup
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class CompanyCompaniesIdManagementreportsetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementReportSetup", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def id(self, id: int) -> CompanyCompaniesIdManagementReportSetupIdEndpoint:
+
+    def id(self, id: int) -> CompanyCompaniesIdManagementreportsetupIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdManagementReportSetupIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdManagementreportsetupIdEndpoint object to move down the chain.
 
         Parameters:
             id (int): The ID to set.
         Returns:
-            CompanyCompaniesIdManagementReportSetupIdEndpoint: The initialized CompanyCompaniesIdManagementReportSetupIdEndpoint object.
+            CompanyCompaniesIdManagementreportsetupIdEndpoint: The initialized CompanyCompaniesIdManagementreportsetupIdEndpoint object.
         """
-        child = CompanyCompaniesIdManagementReportSetupIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCompaniesIdManagementreportsetupIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ManagementReportSetupModel]:
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ManagementReportSetup]:
         """
-        Performs a GET request against the /company/companies/{parentId}/managementReportSetup endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/companies/{id}/managementReportSetup endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ManagementReportSetupModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ManagementReportSetup]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ManagementReportSetupModel,
+            super()._make_request("GET", params=params),
+            ManagementReportSetup,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportSetupModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportSetup]:
         """
-        Performs a GET request against the /company/companies/{parentId}/managementReportSetup endpoint.
+        Performs a GET request against the /company/companies/{id}/managementReportSetup endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ManagementReportSetupModel]: The parsed response data.
+            list[ManagementReportSetup]: The parsed response data.
         """
-        return self._parse_many(ManagementReportSetupModel, super()._make_request("GET", data=data, params=params).json())
-        
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportSetupModel:
+        return self._parse_many(ManagementReportSetup, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportSetup:
         """
-        Performs a POST request against the /company/companies/{parentId}/managementReportSetup endpoint.
+        Performs a POST request against the /company/companies/{id}/managementReportSetup endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ManagementReportSetupModel: The parsed response data.
+            ManagementReportSetup: The parsed response data.
         """
-        return self._parse_one(ManagementReportSetupModel, super()._make_request("POST", data=data, params=params).json())
-        
+        return self._parse_one(ManagementReportSetup, super()._make_request("POST", data=data, params=params).json())

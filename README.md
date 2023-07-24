@@ -1,52 +1,50 @@
 [![Health IT Logo](https://healthit.com.au/wp-content/uploads/2019/06/HIT-proper-logo.png)](https://healthit.com.au)
 
-# pyConnectWise - a library for simplifying interactions with the ConnectWise Manage API in Python
+# pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python
 
-pyConnectWise is a full featured, type annotated API client written in Python for the ConnectWise APIs. 
+pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based off their OpenAPI schemas. 
 
 This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
-pyConnectWise currently only supports ConnectWise Manage, but more is planned.
+pyConnectWise currently supports both ConnectWise Manage and ConnectWise Automate.
 
 Features:
 =========
-- 100% API Coverage. All endpoints and response models have had their code generated from the ConnectWise Manage OpenAPI spec.
-- Non-coder friendly
-- Focus on type annotations and DX (Developer Experience). Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
+- **100% API Coverage.** All endpoints and response models have had their code generated from the ConnectWise Manage and ConnectWise Automate OpenAPI schemas.
+- **Non-coder friendly.** 100% annotated for full IDE auto-completion. Clients handle requests and authentication - just plug the right details in and go!
+- **Fully annotated.** This library has a strong focus on type safety and type hinting. Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
 
 pyConnectWise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies. 
 
 As all Endpoint and Model code has been generated, not all of it has been tested. YMMV.
 
+Endpoint generation is custom-built, but Pydantic models have been generated using a customised fork of [datamodel-code-generator](https://github.com/koxudaxi/datamodel-code-generator)
+
 Known Issues:
 =============
-- The ConnectWise API spec doesn't label optional fields correctly - for example, the mergedParentTicket field on a service ticket is only included in an API response if the ticket has a parent.
-  - Because these aren't labelled, the models generated can't correctly identify what exactly an optional field is. There's 3 potential solutions for this, all with caveats:
-    - Manually edit the schema or models
-      - This isn't maintainable - if a new version comes out, it'll need to be re-done. It's also very manual labour intensive.
-    - Annotate every field in a model as ```<type> | None```
-      - This negatively impacts DX (Developer Experience). Every field would need to be checked for None manually otherwise the type checker would yell at you.
-    - Opt out of Pydantic validation altogether.
-      - We miss out on the best part of Pydantic this way, and it also introduces the risk of accessing fields (such as ```TicketModel.mergedParentTicket```) without being notified of it potentially being None.
-      - This is the option I've opted for for the time being. I'd like to find a better solution to this.
 - Currently only parses **Response** models. No input models yet.
 - As this project is still a WIP, documentation or code commentary may not always align. 
 - Little to no error handling just yet
 
 Roadmap:
 =============
-- Automate API Support - :construction: In Progress
-- Robust error handling - :construction: In Progress
-- Input model validation - :chart_with_upwards_trend: Planned
-- ScreenConnect (Control) API Support - :chart_with_upwards_trend: Planned
-- Batch requests - :chart_with_upwards_trend: Planned
+- **Automate API Support** - Done :white_check_mark:
+- **Robust error handling** - In Progress :construction: 
+- **Input model validation** - Planned :chart_with_upwards_trend: 
+- **ScreenConnect (Control) API Support** - Planned :chart_with_upwards_trend:
+- **Batch requests** - Planned :chart_with_upwards_trend:
 
 How-to:
 =============
 - [Install](#install)
-- [Initialize API client](#initialize-api-client)
+- [Initializing the API Clients](#initialize-api-client)
+  - [ConnectWise Manage](#connectwise-manage)
+  - [ConnectWise Automate](#connectwise-automate)
 - [Working with Endpoints](#working-with-endpoints)
-  - [Child Endpoints](#child-endpoints)
+  - [Get Many](#get-many)
+  - [Get One](#get-one)
+  - [Get With Params](#get-with-params)
+  - [Path Parameters](#child-endpoints)
 - [Pagination](#pagination)
 - [Examples](#examples)
 - [Contributing](#contributing)
@@ -55,12 +53,14 @@ How-to:
 # Install
 Open a terminal and run ```pip install pyconnectwise```
 
-# Initialize API client
+# Initializing the API Clients
+
+### ConnectWise Manage
 ```python
 from pyconnectwise import ConnectWiseManageAPIClient
 
 # init client
-api = ConnectWiseManageAPIClient(
+manage_api_client = ConnectWiseManageAPIClient(
   # your company name,
   # manage instance url,
   # your api client id,
@@ -69,50 +69,90 @@ api = ConnectWiseManageAPIClient(
 )
 ```
 
-# Working with Endpoints
-Endpoints are 1:1 to what's available with ConnectWise Manage as code is generated from their OpenAPI spec.
-
-For more information, check out the [ConnectWise Manage REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_PSA/REST)
-
-### Get
+### ConnectWise Automate
 ```python
-# sends get request to /company/companies endpoint
-companies = api.company.companies.get()
+from pyconnectwise import ConnectWiseAutomateAPIClient
+
+# init client
+automate_api_client = ConnectWiseAutomateAPIClient(
+  # your automate url
+  # your client id
+  # automate api username
+  # automate api password
+)
+```
+
+
+# Working with Endpoints
+Endpoints are 1:1 to what's available for both the ConnectWise Manage and ConnectWise Automate as code is generated from their OpenAPI spec.
+
+For more information, check out the following resources:
+- [ConnectWise Manage REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_PSA/REST)
+- [ConnectWise Automate REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_Automate/Integrating_with_Automate/API/REST)
+
+### Get many
+```python
+### Manage ###
+
+# sends GET request to /company/companies endpoint
+companies = manage_api_client.company.companies.get()
+
+### Automate ###
+
+# sends GET request to /clients endpoint
+clients = automate_api_client.clients.get()
 ```
 
 ### Get one
 ```python
-# sends get request to /company/companies/{id} endpoint
-companies = api.company.companies.id(250).get()
+### Manage ###
+
+# sends GET request to /company/companies/{id} endpoint
+company = manage_api_client.company.companies.id(250).get()
+
+### Automate ###
+
+# sends GET request to /clients/{id} endpoint
+client = automate_api_client.clients.id(250).get()
 ```
 
 ### Get with params
 ```python
-# sends get request to /company/companies with a condition query string
-conditional_get = api.company.companies.get(params={
+### Manage ###
+
+# sends GET request to /company/companies with a conditions query string
+conditional_company = manage_api_client.company.companies.get(params={
   'conditions': 'company/id=250'
+})
+
+### Automate ###
+# sends GET request to /clients endpoint with a condition query string
+# note that the Automate API expects the string 'condition' where-as the Manage API expects the string 'conditions'
+conditional_client = automate_api_client.clients.get(params={
+  'condition': 'company/id=250'
 })
 ```
 
 # Child Endpoints
-The ConnectWise API has many instances of nested endpoints - for example, ```/company/companies/{company_id}/sites```
+The ConnectWise APIs have many instances of endpoints with path parameters - for example, ```/company/companies/{company_id}/sites```
 
-This is replicated in the library. Endpoints provide an ```id``` method for setting the ID and traversing down the path.
+This also exists in the library. Endpoints provide an ```id``` method for setting the ID and traversing down the path.
 
 ##### Example using ```/company/companies/{company_id}/sites```
 ```python
-sites = api.company.companies.id(250).sites.get()
+# equivalent to GET /company/companies/250/sites  
+sites = manage_api_client.company.companies.id(250).sites.get()
 ```
 
 # Pagination
-The ConnectWise API paginates data for performance reasons through the ```page``` and ```pageSize``` query parameters. ```pageSize``` is limited to a maximum of 1000.
+The ConnectWise Manage API paginates data for performance reasons through the ```page``` and ```pageSize``` query parameters. ```pageSize``` is limited to a maximum of 1000.
 
 To make working with paginated data easy, Endpoints that implement a GET response with an array also supply a ```paginated()``` method. Under the hood this wraps a GET request, but does a lot of neat stuff to make working with pages easier.
 
 Working with pagination
 ```python
 # initialize a PaginatedResponse instance for /company/companies, starting on page 1 with a pageSize of 100
-paginated_companies = api.company.companies.paginated(1,100)
+paginated_companies = manage_api_client.company.companies.paginated(1,100)
 
 # access the data from the current page using the .data field
 page_one_data = paginated_companies.data

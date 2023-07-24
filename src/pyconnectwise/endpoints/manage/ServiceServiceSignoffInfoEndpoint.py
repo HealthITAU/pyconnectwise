@@ -1,20 +1,21 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.endpoints.manage.ServiceServiceSignoffInfoCountEndpoint import ServiceServiceSignoffInfoCountEndpoint
-from pyconnectwise.models.manage.ServiceSignoffInfoModel import ServiceSignoffInfoModel
 
-class ServiceServiceSignoffInfoEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.endpoints.manage.ServiceServicesignoffInfoCountEndpoint import ServiceServicesignoffInfoCountEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import ServiceSignoffInfo
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ServiceServicesignoffInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
-        
-        self.count = self._register_child_endpoint(
-            ServiceServiceSignoffInfoCountEndpoint(client, parent_endpoint=self)
-        )
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceSignoffInfoModel]:
+
+        self.count = self._register_child_endpoint(ServiceServicesignoffInfoCountEndpoint(client, parent_endpoint=self))
+
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[ServiceSignoffInfo]:
         """
         Performs a GET request against the /service/serviceSignoff/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,21 +24,19 @@ class ServiceServiceSignoffInfoEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ServiceSignoffInfoModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[ServiceSignoffInfo]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ServiceSignoffInfoModel,
+            super()._make_request("GET", params=params),
+            ServiceSignoffInfo,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceSignoffInfoModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceSignoffInfo]:
         """
         Performs a GET request against the /service/serviceSignoff/info endpoint.
 
@@ -45,7 +44,6 @@ class ServiceServiceSignoffInfoEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ServiceSignoffInfoModel]: The parsed response data.
+            list[ServiceSignoffInfo]: The parsed response data.
         """
-        return self._parse_many(ServiceSignoffInfoModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(ServiceSignoffInfo, super()._make_request("GET", data=data, params=params).json())

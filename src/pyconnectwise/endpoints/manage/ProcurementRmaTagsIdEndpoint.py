@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
-from pyconnectwise.models.manage.RmaTagModel import RmaTagModel
 
-class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import RmaTag
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
+
+class ProcurementRmatagsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
-        
-    
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[RmaTagModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[RmaTag]:
         """
         Performs a GET request against the /procurement/rmaTags/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,21 +19,19 @@ class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[RmaTagModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[RmaTag]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            RmaTagModel,
+            super()._make_request("GET", params=params),
+            RmaTag,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTagModel:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTag:
         """
         Performs a GET request against the /procurement/rmaTags/{id} endpoint.
 
@@ -41,10 +39,10 @@ class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            RmaTagModel: The parsed response data.
+            RmaTag: The parsed response data.
         """
-        return self._parse_one(RmaTagModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_one(RmaTag, super()._make_request("GET", data=data, params=params).json())
+
     def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
         """
         Performs a DELETE request against the /procurement/rmaTags/{id} endpoint.
@@ -56,8 +54,8 @@ class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
             GenericMessageModel: The parsed response data.
         """
         return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
-        
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTagModel:
+
+    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTag:
         """
         Performs a PUT request against the /procurement/rmaTags/{id} endpoint.
 
@@ -65,11 +63,11 @@ class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            RmaTagModel: The parsed response data.
+            RmaTag: The parsed response data.
         """
-        return self._parse_one(RmaTagModel, super()._make_request("PUT", data=data, params=params).json())
-        
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTagModel:
+        return self._parse_one(RmaTag, super()._make_request("PUT", data=data, params=params).json())
+
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaTag:
         """
         Performs a PATCH request against the /procurement/rmaTags/{id} endpoint.
 
@@ -77,7 +75,6 @@ class ProcurementRmaTagsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            RmaTagModel: The parsed response data.
+            RmaTag: The parsed response data.
         """
-        return self._parse_one(RmaTagModel, super()._make_request("PATCH", data=data, params=params).json())
-        
+        return self._parse_one(RmaTag, super()._make_request("PATCH", data=data, params=params).json())

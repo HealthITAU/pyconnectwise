@@ -1,16 +1,16 @@
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemReportsIdEndpoint import SystemReportsIdEndpoint
-from pyconnectwise.models.manage.ReportModel import ReportModel
+from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.manage import Report
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+
 
 class SystemReportsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "reports", parent_endpoint=parent_endpoint)
-        
-    
-    
+
     def id(self, id: int) -> SystemReportsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemReportsIdEndpoint object to move down the chain.
@@ -23,8 +23,8 @@ class SystemReportsEndpoint(ConnectWiseEndpoint):
         child = SystemReportsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
-    
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ReportModel]:
+
+    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Report]:
         """
         Performs a GET request against the /system/reports endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,21 +33,19 @@ class SystemReportsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ReportModel]: The initialized PaginatedResponse object.
+            PaginatedResponse[Report]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request(
-                "GET",
-                params=params
-            ),
-            ReportModel,
+            super()._make_request("GET", params=params),
+            Report,
             self,
+            page,
             page_size,
         )
-    
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ReportModel]:
+
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Report]:
         """
         Performs a GET request against the /system/reports endpoint.
 
@@ -55,7 +53,6 @@ class SystemReportsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ReportModel]: The parsed response data.
+            list[Report]: The parsed response data.
         """
-        return self._parse_many(ReportModel, super()._make_request("GET", data=data, params=params).json())
-        
+        return self._parse_many(Report, super()._make_request("GET", data=data, params=params).json())
