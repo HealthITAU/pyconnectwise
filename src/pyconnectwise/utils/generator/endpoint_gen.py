@@ -1,20 +1,16 @@
-### THIS CODE IS NOT INTENDED FOR REGULAR USE
-### It's used to generate Endpoints from the schema
-### It's messy and not very readable
-### Works as is but proceed at your own risk.
-
+# endpoint_gen.py in src/pyconnectwise/utils/generator
+import os
+from pyconnectwise.utils.fs import save_py_file
 from pyconnectwise.utils.generator.templates import (
     endpoint_template,
-    top_level_endpoint_template,
 )
-from pyconnectwise.utils.fs import save_py_file
-from pyconnectwise.utils.naming import to_title_case_preserve_case
-from pyconnectwise.utils.generator.model_gen import generate_model
-import os
-import re
+from pyconnectwise.utils.generator.path_formatting import (
+    format_endpoint_path,
+    get_endpoint_class_name_from_path,
+    normalize_path_parameters,
+)
+from pyconnectwise.utils.naming import to_snake_case, ensure_not_reserved
 
-def format_endpoint_path(path: str) -> str:
-    return re.sub("{id}|{parentId}|{grandparentId}|{reportName}|{externalId}", "Id", path).rstrip("/")
 
 def generate_endpoint(
     endpoint_output_directory: str,
@@ -22,21 +18,20 @@ def generate_endpoint(
     path: str,
     path_info: dict,
     relationships: dict,
-    models: dict,
 ):
+    print(path)
     formatted_path = format_endpoint_path(path)
-    endpoint_class_name = "".join(to_title_case_preserve_case(word) for word in formatted_path.split("/")) + "Endpoint"
+    endpoint_class_name = get_endpoint_class_name_from_path(formatted_path)
     model_class_name = endpoint_class_name.replace("Endpoint", "Model")
     model_module_name = model_class_name.lower()
-    is_top_level_endpoint = False
-
-    top_level_check = formatted_path.lstrip("/").split("/")
-    if len(top_level_check) == 1:
-        is_top_level_endpoint = True
+    endpoint_import_directory = endpoint_output_directory.split("/")[-1]
+    model_import_directory = model_output_directory.split("/")[-1]
 
     operations = list(path_info.keys())
 
-    child_endpoints = relationships.get(formatted_path, [])
+    child_endpoints = list(
+        set(format_endpoint_path(child) for child in relationships.get(path, []))
+    )
 
     print(f"Generating {endpoint_class_name}")
 
@@ -49,38 +44,49 @@ def generate_endpoint(
             continue
 
         if "Id" in child_endpoint:
-            id_child_endpoint_class_name = endpoint_class_name.replace("Endpoint", f"IdEndpoint")
+            id_child_endpoint_class_name = endpoint_class_name.replace(
+                "Endpoint", f"IdEndpoint"
+            )
             if endpoint_class_name == id_child_endpoint_class_name:
                 continue
 
-            additional_imports.append(f"from pyconnectwise.endpoints.manage.{id_child_endpoint_class_name} import {id_child_endpoint_class_name}")
+            additional_imports.append(
+                f"from pyconnectwise.endpoints.{endpoint_import_directory}.{id_child_endpoint_class_name} import {id_child_endpoint_class_name}"
+            )
             has_id_child = True
         else:
             child_endpoint_path = child_endpoint
-            child_endpoint_class_name = "".join(to_title_case_preserve_case(word) for word in child_endpoint.split("/")) + "Endpoint"
+            child_endpoint_class_name = get_endpoint_class_name_from_path(
+                child_endpoint
+            )
             if endpoint_class_name == child_endpoint_class_name:
                 continue
 
-            field_name = None
-            name_segments = child_endpoint.split("/")
-            if len(name_segments) == 1:
-                field_name = name_segments[0]
-            else:
-                field_name = name_segments[-1]
             child_endpoint_definitions.append(
                 {
-                    "field_name": field_name,
-                    "class_name": endpoint_class_name.replace("Endpoint", child_endpoint_class_name),
+                    "field_name": ensure_not_reserved(
+                        to_snake_case(child_endpoint.split("/")[-1])
+                    ),
+                    "class_name": endpoint_class_name.replace(
+                        "Endpoint", child_endpoint_class_name
+                    ),
                     "path": child_endpoint_path.split("/")[-1],
                 }
             )
-            additional_imports.append(f"from pyconnectwise.endpoints.manage.{endpoint_class_name.replace('Endpoint', child_endpoint_class_name)} import {endpoint_class_name.replace('Endpoint', child_endpoint_class_name)}")
+            additional_imports.append(
+                f"from pyconnectwise.endpoints.{endpoint_import_directory}.{endpoint_class_name.replace('Endpoint', child_endpoint_class_name)} import {endpoint_class_name.replace('Endpoint', child_endpoint_class_name)}"
+            )
 
     imported_models = []
     op_definitions = []
     pagination_model_class = None
     for operation in operations:
         print(f"        Processing OP: {operation}")
+        if (
+            path_info.get(operation) is None
+            or path_info[operation].get("responses") is None
+        ):
+            continue
         operation_responses = path_info[operation]["responses"]
         operation_params = []
 
@@ -106,34 +112,52 @@ def generate_endpoint(
                 if schema_object.get("type") == "array":
                     is_array = True
                     schema_ref = schema_object.get("items").get("$ref")
-                elif schema_object.get("type") == "object" and schema_object.get("additionalProperties") is not None and schema_object.get("$ref") is not None:
+                elif (
+                    schema_object.get("type") == "object"
+                    and schema_object.get("additionalProperties") is not None
+                    and schema_object.get("$ref") is not None
+                ):
                     schema_ref = schema_object.get("additionalProperties").get("$ref")
                 else:
                     schema_ref = schema_object.get("$ref")
-                    
+
                 if schema_ref:
                     model_name = schema_ref.split("/")[-1]
-                    model_schema = models[model_name]
-                    generated_class_name = generate_model(
-                        model_output_directory, model_name, model_schema, models
-                    )
-                    return_type = generated_class_name
+                    absolute_model_name = ".".join(model_name.split(".")[:-1])
+                    if not absolute_model_name:
+                        absolute_model_name = model_name
+
+                    nested_import = False
+                    if len(absolute_model_name.split(".")) > 1:
+                        nested_import = True
+
+                    if nested_import:
+                        model_name = model_name.split(".")[-1]
+                    else:
+                        model_name = absolute_model_name
+
+                    return_type = model_name
                     return_class = return_type
 
                     for param in operation_params:
-                        param_name = param.get('name')
+                        param_name = param.get("name")
                         if param_name is not None:
                             if "page" in param_name:
-                                pagination_model_class = generated_class_name
+                                pagination_model_class = model_name
 
                     if is_array:
                         return_type = f"list[{return_type}]"
 
-                    if generated_class_name not in imported_models:
-                        additional_imports.append(
-                            f"from pyconnectwise.models.manage.{generated_class_name} import {generated_class_name}"
-                        )
-                        imported_models.append(generated_class_name)
+                    if absolute_model_name not in imported_models:
+                        if nested_import:
+                            additional_imports.append(
+                                f"from pyconnectwise.models.{model_import_directory}.{absolute_model_name} import {model_name}"
+                            )
+                        else:
+                            additional_imports.append(
+                                f"from pyconnectwise.models.{model_import_directory} import {model_name}"
+                            )
+                        imported_models.append(absolute_model_name)
 
                     op_definitions.append(
                         {
@@ -149,7 +173,7 @@ def generate_endpoint(
         model_class=model_class_name,
         model_module=model_module_name,
         pagination_model_class=pagination_model_class,
-        endpoint_path=path.split("/")[-1],
+        endpoint_path=normalize_path_parameters(path.split("/")[-1]).rstrip("/"),
         operations=op_definitions,
         child_endpoints=child_endpoint_definitions,
         additional_imports=additional_imports,
@@ -161,48 +185,4 @@ def generate_endpoint(
     save_py_file(
         os.path.join(endpoint_output_directory, endpoint_class_name), endpoint_code
     )
-    return is_top_level_endpoint, endpoint_class_name
-
-
-
-def generate_top_level_endpoint(
-    endpoint_output_directory: str, path: str, path_info: dict, relationships: dict
-):
-    formatted_path = format_endpoint_path(path)
-    endpoint_class_name = "".join(to_title_case_preserve_case(word) for word in formatted_path.split("/")) + "Endpoint"
-    child_endpoints = relationships.get(formatted_path, [])
-
-    print(f"Generating {endpoint_class_name}")
-
-    additional_imports = []
-    for child_endpoint in child_endpoints:
-        child_endpoint_path = child_endpoint
-        child_endpoint_class = "".join(to_title_case_preserve_case(word) for word in child_endpoint.split("/")) + "Endpoint"
-        additional_imports.append(
-            f"from pyconnectwise.endpoints.manage.{endpoint_class_name.replace('Endpoint', child_endpoint_class)} import {endpoint_class_name.replace('Endpoint', child_endpoint_class)}"
-        )
-
-    child_endpoint_definitions = []
-    for child_endpoint in child_endpoints:
-        child_endpoint_path = child_endpoint
-        child_endpoint_class = "".join(to_title_case_preserve_case(word) for word in child_endpoint.split("/")) + "Endpoint"
-        child_endpoint_definitions.append(
-            {
-                "field_name": child_endpoint.split("/")[-1],
-                "class_name": endpoint_class_name.replace("Endpoint", child_endpoint_class),
-                "path": child_endpoint_path,
-            }
-        )
-
-    endpoint_code = top_level_endpoint_template.render(
-        endpoint_class=endpoint_class_name,
-        child_endpoints=child_endpoint_definitions,
-        additional_imports=additional_imports,
-        endpoint_path=path.split("/")[-1],
-    )
-
-    save_py_file(
-        os.path.join(endpoint_output_directory, endpoint_class_name), endpoint_code
-    )
-
     return endpoint_class_name
