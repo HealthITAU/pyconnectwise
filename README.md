@@ -1,16 +1,16 @@
 [![Health IT Logo](https://healthit.com.au/wp-content/uploads/2019/06/HIT-proper-logo.png)](https://healthit.com.au)
 
-# pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python
+# pyConnectWise - An API library for ConnectWise Manage and Labtech (ConnectWise Automate), written in Python
 
-pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based off their OpenAPI schemas. 
+pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based on their OpenAPI schemas. 
 
 This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
-pyConnectWise currently supports both ConnectWise Manage and ConnectWise Automate.
+pyConnectWise currently supports both ConnectWise Manage and Labtech (ConnectWise Automate).
 
 Features:
 =========
-- **100% API Coverage.** All endpoints and response models have had their code generated from the ConnectWise Manage and ConnectWise Automate OpenAPI schemas.
+- **100% API Coverage.** All endpoints and response models have had their code generated from the Manage and Labtech OpenAPI schemas.
 - **Non-coder friendly.** 100% annotated for full IDE auto-completion. Clients handle requests and authentication - just plug the right details in and go!
 - **Fully annotated.** This library has a strong focus on type safety and type hinting. Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
 
@@ -28,10 +28,10 @@ Known Issues:
 
 Roadmap:
 =============
-- **Automate API Support** - Done :white_check_mark:
+- **Labtech API Support** - Done :white_check_mark:
 - **Robust error handling** - In Progress :construction: 
 - **Input model validation** - Planned :chart_with_upwards_trend: 
-- **ScreenConnect (Control) API Support** - Planned :chart_with_upwards_trend:
+- **ScreenConnect (ConnectWise Control) API Support** - Planned :chart_with_upwards_trend:
 - **Batch requests** - Planned :chart_with_upwards_trend:
 
 How-to:
@@ -39,7 +39,7 @@ How-to:
 - [Install](#install)
 - [Initializing the API Clients](#initialize-api-client)
   - [ConnectWise Manage](#connectwise-manage)
-  - [ConnectWise Automate](#connectwise-automate)
+  - [ConnectWise ](#connectwise-)
 - [Working with Endpoints](#working-with-endpoints)
   - [Get Many](#get-many)
   - [Get One](#get-one)
@@ -69,22 +69,22 @@ manage_api_client = ConnectWiseManageAPIClient(
 )
 ```
 
-### ConnectWise Automate
+### Labtech
 ```python
-from pyconnectwise import ConnectWiseAutomateAPIClient
+from pyconnectwise import ConnectWiseAPIClient
 
 # init client
-automate_api_client = ConnectWiseAutomateAPIClient(
-  # your automate url
+_api_client = ConnectWiseAPIClient(
+  # your Labtech url
   # your client id
-  # automate api username
-  # automate api password
+  # Labtech api username
+  # Labtech api password
 )
 ```
 
 
 # Working with Endpoints
-Endpoints are 1:1 to what's available for both the ConnectWise Manage and ConnectWise Automate as code is generated from their OpenAPI spec.
+Endpoints are 1:1 to what's available for both Manage and Labtech as code is generated from their OpenAPI spec.
 
 For more information, check out the following resources:
 - [ConnectWise Manage REST API Docs (requires ConnectWise Developer account)](https://developer.connectwise.com/Products/ConnectWise_PSA/REST)
@@ -97,7 +97,7 @@ For more information, check out the following resources:
 # sends GET request to /company/companies endpoint
 companies = manage_api_client.company.companies.get()
 
-### Automate ###
+### Labtech ###
 
 # sends GET request to /clients endpoint
 clients = automate_api_client.clients.get()
@@ -110,7 +110,7 @@ clients = automate_api_client.clients.get()
 # sends GET request to /company/companies/{id} endpoint
 company = manage_api_client.company.companies.id(250).get()
 
-### Automate ###
+### Labtech ###
 
 # sends GET request to /clients/{id} endpoint
 client = automate_api_client.clients.id(250).get()
@@ -125,9 +125,9 @@ conditional_company = manage_api_client.company.companies.get(params={
   'conditions': 'company/id=250'
 })
 
-### Automate ###
+### Labtech ###
 # sends GET request to /clients endpoint with a condition query string
-# note that the Automate API expects the string 'condition' where-as the Manage API expects the string 'conditions'
+# note that the Labtech API expects the string 'condition' where-as the Manage API expects the string 'conditions'
 conditional_client = automate_api_client.clients.get(params={
   'condition': 'company/id=250'
 })
