@@ -127,10 +127,9 @@ class ConnectWiseEndpoint:
             endpoint (str, optional): The endpoint to make the request to.
             data (dict, optional): The request data to send.
             params (dict, optional): The query parameters to include in the request.
-            as_json (bool, optional): Whether to return the JSON response or the Response object. Defaults to True.
 
         Returns:
-            The JSON response or the Response object, depending on the 'as_json' parameter.
+            The Response object (see requests.Response).
 
         Raises:
             Exception: If the request returns a status code >= 400.
