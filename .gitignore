@@ -201,3 +201,5 @@ automate_json/automate_tickets.json
 /automate_json/
 /Out/
 /merged_spec.json
+merged_spec1.json
+postprocess.py
