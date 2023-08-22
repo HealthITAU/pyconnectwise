@@ -30,7 +30,8 @@ def generate_endpoint(
     operations = list(path_info.keys())
 
     child_endpoints = list(
-        set(format_endpoint_path(child) for child in relationships.get(path, []))
+        set(format_endpoint_path(child)
+            for child in relationships.get(path, []))
     )
 
     print(f"Generating {endpoint_class_name}")
@@ -95,17 +96,24 @@ def generate_endpoint(
 
         for response in operation_responses.values():
             if response.get("content") is None:
+                # op_definitions.append(
+                #     {
+                #         "name": operation,
+                #         "return_type": "GenericMessageModel",
+                #         "return_class": "GenericMessageModel",
+                #         "returns_single": True,
+                #     }
+                # )
                 op_definitions.append(
                     {
                         "name": operation,
-                        "return_type": "GenericMessageModel",
-                        "return_class": "GenericMessageModel",
-                        "returns_single": True,
+                        "void": True
                     }
                 )
             else:
                 resp_content = response.get("content")
-                schema_object = resp_content.get(list(resp_content)[0]).get("schema")
+                schema_object = resp_content.get(
+                    list(resp_content)[0]).get("schema")
                 schema_ref = None
                 is_array = False
 
@@ -117,27 +125,19 @@ def generate_endpoint(
                     and schema_object.get("additionalProperties") is not None
                     and schema_object.get("$ref") is not None
                 ):
-                    schema_ref = schema_object.get("additionalProperties").get("$ref")
+                    schema_ref = schema_object.get(
+                        "additionalProperties").get("$ref")
                 else:
                     schema_ref = schema_object.get("$ref")
 
                 if schema_ref:
                     model_name = schema_ref.split("/")[-1]
-                    absolute_model_name = ".".join(model_name.split(".")[:-1])
-                    if not absolute_model_name:
-                        absolute_model_name = model_name
-
-                    nested_import = False
-                    if len(absolute_model_name.split(".")) > 1:
-                        nested_import = True
-
-                    if nested_import:
-                        model_name = model_name.split(".")[-1]
+                    split = model_name.split(".")
+                    if len(split) >= 2:
+                        model_name = split[0] + split[-1]
                     else:
-                        model_name = absolute_model_name
-
+                        model_name = "".join(model_name.split("."))
                     return_type = model_name
-                    return_class = return_type
 
                     for param in operation_params:
                         param_name = param.get("name")
@@ -146,24 +146,19 @@ def generate_endpoint(
                                 pagination_model_class = model_name
 
                     if is_array:
-                        return_type = f"list[{return_type}]"
+                        return_type = f"list[{model_name}]"
 
-                    if absolute_model_name not in imported_models:
-                        if nested_import:
-                            additional_imports.append(
-                                f"from pyconnectwise.models.{model_import_directory}.{absolute_model_name} import {model_name}"
-                            )
-                        else:
-                            additional_imports.append(
-                                f"from pyconnectwise.models.{model_import_directory} import {model_name}"
-                            )
-                        imported_models.append(absolute_model_name)
+                    if model_name not in imported_models:
+                        additional_imports.append(
+                            f"from pyconnectwise.models.{model_import_directory} import {model_name}"
+                        )
+                        imported_models.append(model_name)
 
                     op_definitions.append(
                         {
                             "name": operation,
                             "return_type": return_type,
-                            "return_class": return_class,
+                            "return_class": model_name,
                             "returns_single": not is_array,
                         }
                     )
@@ -173,7 +168,8 @@ def generate_endpoint(
         model_class=model_class_name,
         model_module=model_module_name,
         pagination_model_class=pagination_model_class,
-        endpoint_path=normalize_path_parameters(path.split("/")[-1]).rstrip("/"),
+        endpoint_path=normalize_path_parameters(
+            path.split("/")[-1]).rstrip("/"),
         operations=op_definitions,
         child_endpoints=child_endpoint_definitions,
         additional_imports=additional_imports,
@@ -183,6 +179,7 @@ def generate_endpoint(
     )
 
     save_py_file(
-        os.path.join(endpoint_output_directory, endpoint_class_name), endpoint_code
+        os.path.join(endpoint_output_directory,
+                     endpoint_class_name), endpoint_code
     )
     return endpoint_class_name
