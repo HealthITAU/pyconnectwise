@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.MarketingGroupsCountEndpoint import MarketingGroupsCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingGroupsIdEndpoint import MarketingGroupsIdEndpoint
 from pyconnectwise.endpoints.manage.MarketingGroupsInfoEndpoint import MarketingGroupsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Group
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

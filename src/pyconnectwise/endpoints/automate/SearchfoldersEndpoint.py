@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import SearchFolder
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechSearchFolder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[SearchFolder]:
+    ) -> PaginatedResponse[LabTechSearchFolder]:
         """
         Performs a GET request against the /Searchfolders endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[SearchFolder]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechSearchFolder]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            SearchFolder,
+            LabTechSearchFolder,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SearchFolder]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechSearchFolder]:
         """
         Performs a GET request against the /Searchfolders endpoint.
 
@@ -41,11 +40,11 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[SearchFolder]: The parsed response data.
+            list[LabTechSearchFolder]: The parsed response data.
         """
-        return self._parse_many(SearchFolder, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechSearchFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SearchFolder:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechSearchFolder:
         """
         Performs a POST request against the /Searchfolders endpoint.
 
@@ -53,6 +52,6 @@ class SearchfoldersEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            SearchFolder: The parsed response data.
+            LabTechSearchFolder: The parsed response data.
         """
-        return self._parse_one(SearchFolder, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechSearchFolder, super()._make_request("POST", data=data, params=params).json())

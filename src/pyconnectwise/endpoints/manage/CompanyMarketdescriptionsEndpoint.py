@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsCountEndpoint import CompanyMarketdescriptionsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsIdEndpoint import CompanyMarketdescriptionsIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyMarketdescriptionsInfoEndpoint import CompanyMarketdescriptionsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MarketDescription
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

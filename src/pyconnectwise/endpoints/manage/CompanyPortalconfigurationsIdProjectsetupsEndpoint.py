@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdProjectsetupsCo
     CompanyPortalconfigurationsIdProjectsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdProjectsetupsIdEndpoint import \
     CompanyPortalconfigurationsIdProjectsetupsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfigurationProjectSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

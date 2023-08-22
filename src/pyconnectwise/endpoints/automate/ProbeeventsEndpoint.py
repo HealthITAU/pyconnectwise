@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import ProbeEvent
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechProbeEvent
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -10,7 +9,9 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Probeevents", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProbeEvent]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LabTechProbeEvent]:
         """
         Performs a GET request against the /Probeevents endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,19 +20,19 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ProbeEvent]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechProbeEvent]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ProbeEvent,
+            LabTechProbeEvent,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProbeEvent]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechProbeEvent]:
         """
         Performs a GET request against the /Probeevents endpoint.
 
@@ -39,6 +40,6 @@ class ProbeeventsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ProbeEvent]: The parsed response data.
+            list[LabTechProbeEvent]: The parsed response data.
         """
-        return self._parse_many(ProbeEvent, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechProbeEvent, super()._make_request("GET", data=data, params=params).json())

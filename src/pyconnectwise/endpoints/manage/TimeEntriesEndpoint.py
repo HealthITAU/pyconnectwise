@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.TimeEntriesCountEndpoint import TimeEntriesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeEntriesDefaultsEndpoint import TimeEntriesDefaultsEndpoint
 from pyconnectwise.endpoints.manage.TimeEntriesIdEndpoint import TimeEntriesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

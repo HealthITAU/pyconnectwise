@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsCountEndpoint import ProcurementAdjustmentsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdEndpoint import ProcurementAdjustmentsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesEndpoint import ProcurementAdjustmentsTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProcurementAdjustment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

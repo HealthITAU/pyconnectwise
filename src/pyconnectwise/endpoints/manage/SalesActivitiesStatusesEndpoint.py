@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesActivitiesStatusesCountEndpoint import SalesActivitiesStatusesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesStatusesIdEndpoint import SalesActivitiesStatusesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesStatusesInfoEndpoint import SalesActivitiesStatusesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ActivityStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

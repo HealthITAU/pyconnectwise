@@ -10,7 +10,6 @@ from pyconnectwise.endpoints.manage.CompanyContactsRequestpasswordEndpoint impor
 from pyconnectwise.endpoints.manage.CompanyContactsTypesEndpoint import CompanyContactsTypesEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsValidateportalcredentialsEndpoint import \
     CompanyContactsValidateportalcredentialsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Contact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -19,7 +18,6 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "contacts", parent_endpoint=parent_endpoint)
 
-        self.default = self._register_child_endpoint(CompanyContactsDefaultEndpoint(client, parent_endpoint=self))
         self.request_password = self._register_child_endpoint(
             CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
         )
@@ -27,13 +25,14 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
             CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
         )
         self.types = self._register_child_endpoint(CompanyContactsTypesEndpoint(client, parent_endpoint=self))
-        self.validate_portal_credentials = self._register_child_endpoint(
-            CompanyContactsValidateportalcredentialsEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
         self.departments = self._register_child_endpoint(
             CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
+        self.validate_portal_credentials = self._register_child_endpoint(
+            CompanyContactsValidateportalcredentialsEndpoint(client, parent_endpoint=self)
+        )
+        self.default = self._register_child_endpoint(CompanyContactsDefaultEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyContactsIdEndpoint:
         """

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersCountEndpoint
     SystemCustomreportsIdParametersCountEndpoint
 from pyconnectwise.endpoints.manage.SystemCustomreportsIdParametersIdEndpoint import \
     SystemCustomreportsIdParametersIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CustomReportParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

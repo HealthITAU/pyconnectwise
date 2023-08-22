@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsCountEndpoint import \
     SystemMyaccountIdDelegationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsIdEndpoint import SystemMyaccountIdDelegationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberDelegation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

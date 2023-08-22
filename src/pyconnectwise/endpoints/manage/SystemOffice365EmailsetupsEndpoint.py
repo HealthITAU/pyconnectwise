@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsCountEndpoint import \
     SystemOffice365EmailsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdEndpoint import SystemOffice365EmailsetupsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Office365EmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

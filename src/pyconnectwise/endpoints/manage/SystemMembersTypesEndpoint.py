@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMembersTypesCountEndpoint import SystemMembersTypesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersTypesIdEndpoint import SystemMembersTypesIdEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersTypesInfoEndpoint import SystemMembersTypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

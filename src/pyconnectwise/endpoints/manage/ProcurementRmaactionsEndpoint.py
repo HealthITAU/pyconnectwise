@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementRmaactionsCountEndpoint import ProcurementRmaactionsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmaactionsIdEndpoint import ProcurementRmaactionsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmaactionsInfoEndpoint import ProcurementRmaactionsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

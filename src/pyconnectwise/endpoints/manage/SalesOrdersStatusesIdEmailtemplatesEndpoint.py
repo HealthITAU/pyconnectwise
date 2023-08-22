@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesCountEndp
     SalesOrdersStatusesIdEmailtemplatesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdEmailtemplatesIdEndpoint import \
     SalesOrdersStatusesIdEmailtemplatesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemTimezonesetupsCountEndpoint import SystemTimezonesetupsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdEndpoint import SystemTimezonesetupsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemTimezonesetupsInfoEndpoint import SystemTimezonesetupsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeZoneSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

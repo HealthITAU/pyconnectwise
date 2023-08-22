@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceBatchsetupsCountEndpoint import FinanceBatchsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceBatchsetupsIdEndpoint import FinanceBatchsetupsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementBatchSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemSkillsCountEndpoint import SystemSkillsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemSkillsIdEndpoint import SystemSkillsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemSkillsInfoEndpoint import SystemSkillsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Skill
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

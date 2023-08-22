@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint 
     ProjectSecurityrolesIdSettingsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import \
     ProjectSecurityrolesIdSettingsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectSecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectIdBillingratesCountEndpoint import ProjectIdBillingratesCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectIdBillingratesIdEndpoint import ProjectIdBillingratesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectBillingRate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

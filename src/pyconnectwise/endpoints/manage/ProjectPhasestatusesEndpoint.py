@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectPhasestatusesCountEndpoint import ProjectPhasestatusesCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectPhasestatusesIdEndpoint import ProjectPhasestatusesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PhaseStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

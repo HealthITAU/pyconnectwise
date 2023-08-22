@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedCountEndpoin
     MarketingCampaignsIdEmailsopenedCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdEmailsopenedIdEndpoint import \
     MarketingCampaignsIdEmailsopenedIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailOpened
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

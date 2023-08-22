@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.CompanyCompaniesIdEndpoint import CompanyCom
 from pyconnectwise.endpoints.manage.CompanyCompaniesInfoEndpoint import CompanyCompaniesInfoEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesStatusesEndpoint import CompanyCompaniesStatusesEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesTypesEndpoint import CompanyCompaniesTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Company
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,11 +15,11 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companies", parent_endpoint=parent_endpoint)
 
-        self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(CompanyCompaniesCountEndpoint(client, parent_endpoint=self))
+        self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompaniesIdEndpoint:
         """

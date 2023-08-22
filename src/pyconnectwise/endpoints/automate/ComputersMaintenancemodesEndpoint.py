@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import MaintenanceMode
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechMaintenanceMode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersMaintenancemodesEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[MaintenanceMode]:
+    ) -> PaginatedResponse[LabTechMaintenanceMode]:
         """
         Performs a GET request against the /Computers/Maintenancemodes endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersMaintenancemodesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MaintenanceMode]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechMaintenanceMode]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            MaintenanceMode,
+            LabTechMaintenanceMode,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MaintenanceMode]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechMaintenanceMode]:
         """
         Performs a GET request against the /Computers/Maintenancemodes endpoint.
 
@@ -41,6 +40,6 @@ class ComputersMaintenancemodesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[MaintenanceMode]: The parsed response data.
+            list[LabTechMaintenanceMode]: The parsed response data.
         """
-        return self._parse_many(MaintenanceMode, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechMaintenanceMode, super()._make_request("GET", data=data, params=params).json())

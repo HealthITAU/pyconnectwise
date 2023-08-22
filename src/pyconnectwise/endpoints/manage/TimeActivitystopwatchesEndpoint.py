@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeActivitystopwatchesCountEndpoint import TimeActivitystopwatchesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeActivitystopwatchesIdEndpoint import TimeActivitystopwatchesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ActivityStopwatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

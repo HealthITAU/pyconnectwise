@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsCountEndpoint i
     FinanceTaxcodesIdTaxcodexrefsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsIdEndpoint import \
     FinanceTaxcodesIdTaxcodexrefsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxCodeXRef
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

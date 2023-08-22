@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesIdEndpoint i
     FinanceAgreementtypesIdWorkrolesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoEndpoint import \
     FinanceAgreementtypesIdWorkrolesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

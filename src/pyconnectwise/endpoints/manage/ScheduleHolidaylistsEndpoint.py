@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ScheduleHolidaylistsIdEndpoint import ScheduleHolidaylistsIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleHolidaylistsInfoEndpoint import ScheduleHolidaylistsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

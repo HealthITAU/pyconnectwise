@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanCountEndpoin
     ProjectProjectsIdProjectworkplanCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanIdEndpoint import \
     ProjectProjectsIdProjectworkplanIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectWorkplan
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

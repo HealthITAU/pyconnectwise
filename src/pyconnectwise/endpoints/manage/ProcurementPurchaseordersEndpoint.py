@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseordersCountEndpoint import ProcurementPurchaseordersCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdEndpoint import ProcurementPurchaseordersIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

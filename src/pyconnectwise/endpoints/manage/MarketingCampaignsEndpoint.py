@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdEndpoint import Marketin
 from pyconnectwise.endpoints.manage.MarketingCampaignsStatusesEndpoint import MarketingCampaignsStatusesEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesEndpoint import MarketingCampaignsSubtypesEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsTypesEndpoint import MarketingCampaignsTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Campaign
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -15,10 +14,10 @@ class MarketingCampaignsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "campaigns", parent_endpoint=parent_endpoint)
 
-        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(MarketingCampaignsCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
+        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> MarketingCampaignsIdEndpoint:
         """

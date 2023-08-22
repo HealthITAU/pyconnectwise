@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint im
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import SystemWorkflowsIdNotifytypesIdEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import \
     SystemWorkflowsIdNotifytypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowNotifyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

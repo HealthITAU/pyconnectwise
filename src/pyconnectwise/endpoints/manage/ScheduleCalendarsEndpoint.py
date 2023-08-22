@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ScheduleCalendarsCountEndpoint import ScheduleCalendarsCountEndpoint
 from pyconnectwise.endpoints.manage.ScheduleCalendarsIdEndpoint import ScheduleCalendarsIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleCalendarsInfoEndpoint import ScheduleCalendarsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Calendar
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

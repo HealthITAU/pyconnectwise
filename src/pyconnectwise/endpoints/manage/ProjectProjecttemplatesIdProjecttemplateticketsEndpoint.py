@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplatetick
     ProjectProjecttemplatesIdProjecttemplateticketsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint import \
     ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectTemplateTicket
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

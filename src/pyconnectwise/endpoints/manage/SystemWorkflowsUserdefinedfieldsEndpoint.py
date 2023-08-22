@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsEndpoi
     SystemWorkflowsUserdefinedfieldsEventsEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsIdEndpoint import \
     SystemWorkflowsUserdefinedfieldsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -15,11 +14,11 @@ class SystemWorkflowsUserdefinedfieldsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "userdefinedfields", parent_endpoint=parent_endpoint)
 
-        self.events = self._register_child_endpoint(
-            SystemWorkflowsUserdefinedfieldsEventsEndpoint(client, parent_endpoint=self)
-        )
         self.actions = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsActionsEndpoint(client, parent_endpoint=self)
+        )
+        self.events = self._register_child_endpoint(
+            SystemWorkflowsUserdefinedfieldsEventsEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemWorkflowsUserdefinedfieldsIdEndpoint:

@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsEndpoint import SystemMyaccountIdDelegationsEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsEndpoint import SystemMyaccountIdSkillsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MyAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -12,10 +11,10 @@ class SystemMyaccountIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMyaccountIdDelegationsEndpoint(client, parent_endpoint=self)
         )
-        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MyAccount]:
         """

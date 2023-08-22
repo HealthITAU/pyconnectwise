@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import RemoteAgentTemplate
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechRemoteAgentTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[RemoteAgentTemplate]:
+    ) -> PaginatedResponse[LabTechRemoteAgentTemplate]:
         """
         Performs a GET request against the /Remoteagenttemplates endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[RemoteAgentTemplate]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechRemoteAgentTemplate]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            RemoteAgentTemplate,
+            LabTechRemoteAgentTemplate,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RemoteAgentTemplate]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechRemoteAgentTemplate]:
         """
         Performs a GET request against the /Remoteagenttemplates endpoint.
 
@@ -41,11 +40,13 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[RemoteAgentTemplate]: The parsed response data.
+            list[LabTechRemoteAgentTemplate]: The parsed response data.
         """
-        return self._parse_many(RemoteAgentTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechRemoteAgentTemplate, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RemoteAgentTemplate:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechRemoteAgentTemplate:
         """
         Performs a POST request against the /Remoteagenttemplates endpoint.
 
@@ -53,6 +54,8 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            RemoteAgentTemplate: The parsed response data.
+            LabTechRemoteAgentTemplate: The parsed response data.
         """
-        return self._parse_one(RemoteAgentTemplate, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            LabTechRemoteAgentTemplate, super()._make_request("POST", data=data, params=params).json()
+        )

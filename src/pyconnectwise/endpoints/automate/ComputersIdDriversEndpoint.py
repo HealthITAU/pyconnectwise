@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import ComputerDriver
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerDriver
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersIdDriversEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerDriver]:
+    ) -> PaginatedResponse[LabTechComputerDriver]:
         """
         Performs a GET request against the /Computers/{id}/Drivers endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersIdDriversEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerDriver]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerDriver]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerDriver,
+            LabTechComputerDriver,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerDriver]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerDriver]:
         """
         Performs a GET request against the /Computers/{id}/Drivers endpoint.
 
@@ -41,6 +40,6 @@ class ComputersIdDriversEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ComputerDriver]: The parsed response data.
+            list[LabTechComputerDriver]: The parsed response data.
         """
-        return self._parse_many(ComputerDriver, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechComputerDriver, super()._make_request("GET", data=data, params=params).json())

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsCountE
     ProcurementUnitofmeasuresIdConversionsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsIdEndpoint import \
     ProcurementUnitofmeasuresIdConversionsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Conversion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

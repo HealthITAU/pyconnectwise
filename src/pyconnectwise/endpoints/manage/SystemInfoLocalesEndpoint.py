@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLocalesCountEndpoint import SystemInfoLocalesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLocalesIdEndpoint import SystemInfoLocalesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LocaleInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

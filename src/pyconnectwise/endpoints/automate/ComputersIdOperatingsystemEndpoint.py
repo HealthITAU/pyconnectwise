@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ComputerOperatingSystem
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerOperatingSystem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersIdOperatingsystemEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerOperatingSystem]:
+    ) -> PaginatedResponse[LabTechComputerOperatingSystem]:
         """
         Performs a GET request against the /Computers/{id}/Operatingsystem endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersIdOperatingsystemEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerOperatingSystem]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerOperatingSystem]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerOperatingSystem,
+            LabTechComputerOperatingSystem,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerOperatingSystem:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechComputerOperatingSystem:
         """
         Performs a GET request against the /Computers/{id}/Operatingsystem endpoint.
 
@@ -41,6 +40,8 @@ class ComputersIdOperatingsystemEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ComputerOperatingSystem: The parsed response data.
+            LabTechComputerOperatingSystem: The parsed response data.
         """
-        return self._parse_one(ComputerOperatingSystem, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LabTechComputerOperatingSystem, super()._make_request("GET", data=data, params=params).json()
+        )

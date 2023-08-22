@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsCou
     CompanyManageddevicesintegrationsIdLoginsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsIdEndpoint import \
     CompanyManageddevicesintegrationsIdLoginsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationLogin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

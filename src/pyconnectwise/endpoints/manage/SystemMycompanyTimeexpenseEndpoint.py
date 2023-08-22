@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseCountEndpoint import \
     SystemMycompanyTimeexpenseCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseIdEndpoint import SystemMycompanyTimeexpenseIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

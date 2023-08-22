@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesCountEndpoint import SystemWorkflowsTabletypesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesIdEndpoint import SystemWorkflowsTabletypesIdEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesInfoEndpoint import SystemWorkflowsTabletypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowTableType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

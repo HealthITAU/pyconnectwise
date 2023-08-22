@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsCountE
     ServiceBoardsIdStatusesIdNotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsIdEndpoint import \
     ServiceBoardsIdStatusesIdNotificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

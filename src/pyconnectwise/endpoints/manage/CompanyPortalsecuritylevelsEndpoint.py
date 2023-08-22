@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsCountEndpoint import \
     CompanyPortalsecuritylevelsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalsecuritylevelsIdEndpoint import CompanyPortalsecuritylevelsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalSecurityLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

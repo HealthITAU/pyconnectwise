@@ -8,7 +8,6 @@ from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringNotificationtypeE
     SystemContactsyncMonitoringNotificationtypeEndpoint
 from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeEndpoint import \
     SystemContactsyncMonitoringTypeEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import M365ContactSyncMonitoring
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -17,10 +16,10 @@ class SystemContactsyncMonitoringEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "monitoring", parent_endpoint=parent_endpoint)
 
+        self.type = self._register_child_endpoint(SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self))
         self.notificationtype = self._register_child_endpoint(
             SystemContactsyncMonitoringNotificationtypeEndpoint(client, parent_endpoint=self)
         )
-        self.type = self._register_child_endpoint(SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             SystemContactsyncMonitoringCountEndpoint(client, parent_endpoint=self)
         )

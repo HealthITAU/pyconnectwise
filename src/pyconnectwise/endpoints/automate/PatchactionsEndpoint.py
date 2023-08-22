@@ -8,7 +8,6 @@ from pyconnectwise.endpoints.automate.PatchactionsSettoproductionstageEndpoint i
     PatchactionsSettoproductionstageEndpoint
 from pyconnectwise.endpoints.automate.PatchactionsSettoteststageEndpoint import PatchactionsSettoteststageEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -19,6 +18,9 @@ class PatchactionsEndpoint(ConnectWiseEndpoint):
         self.deployallapproved = self._register_child_endpoint(
             PatchactionsDeployallapprovedEndpoint(client, parent_endpoint=self)
         )
+        self.settoteststage = self._register_child_endpoint(
+            PatchactionsSettoteststageEndpoint(client, parent_endpoint=self)
+        )
         self.settoproductionstage = self._register_child_endpoint(
             PatchactionsSettoproductionstageEndpoint(client, parent_endpoint=self)
         )
@@ -27,9 +29,6 @@ class PatchactionsEndpoint(ConnectWiseEndpoint):
         )
         self.settopilotstage = self._register_child_endpoint(
             PatchactionsSettopilotstageEndpoint(client, parent_endpoint=self)
-        )
-        self.settoteststage = self._register_child_endpoint(
-            PatchactionsSettoteststageEndpoint(client, parent_endpoint=self)
         )
         self.reattemptfailed = self._register_child_endpoint(
             PatchactionsReattemptfailedEndpoint(client, parent_endpoint=self)

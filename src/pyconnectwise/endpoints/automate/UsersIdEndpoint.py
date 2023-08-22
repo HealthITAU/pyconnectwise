@@ -6,8 +6,7 @@ from pyconnectwise.endpoints.automate.UsersIdFavoritesEndpoint import UsersIdFav
 from pyconnectwise.endpoints.automate.UsersIdSettingsEndpoint import UsersIdSettingsEndpoint
 from pyconnectwise.endpoints.automate.UsersIdUseraccessEndpoint import UsersIdUseraccessEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Users import User
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateUser
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -16,12 +15,14 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.settings = self._register_child_endpoint(UsersIdSettingsEndpoint(client, parent_endpoint=self))
-        self.favorites = self._register_child_endpoint(UsersIdFavoritesEndpoint(client, parent_endpoint=self))
-        self.authlink = self._register_child_endpoint(UsersIdAuthlinkEndpoint(client, parent_endpoint=self))
         self.useraccess = self._register_child_endpoint(UsersIdUseraccessEndpoint(client, parent_endpoint=self))
+        self.authlink = self._register_child_endpoint(UsersIdAuthlinkEndpoint(client, parent_endpoint=self))
+        self.favorites = self._register_child_endpoint(UsersIdFavoritesEndpoint(client, parent_endpoint=self))
         self.changepassword = self._register_child_endpoint(UsersIdChangepasswordEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[User]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[AutomateUser]:
         """
         Performs a GET request against the /Users/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -30,19 +31,19 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[User]: The initialized PaginatedResponse object.
+            PaginatedResponse[AutomateUser]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            User,
+            AutomateUser,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> User:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateUser:
         """
         Performs a GET request against the /Users/{id} endpoint.
 
@@ -50,23 +51,21 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            User: The parsed response data.
+            AutomateUser: The parsed response data.
         """
-        return self._parse_one(User, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(AutomateUser, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /Users/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> User:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateUser:
         """
         Performs a PATCH request against the /Users/{id} endpoint.
 
@@ -74,6 +73,6 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            User: The parsed response data.
+            AutomateUser: The parsed response data.
         """
-        return self._parse_one(User, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(AutomateUser, super()._make_request("PATCH", data=data, params=params).json())

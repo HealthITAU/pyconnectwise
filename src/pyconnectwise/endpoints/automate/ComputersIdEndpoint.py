@@ -33,8 +33,7 @@ from pyconnectwise.endpoints.automate.ComputersIdThirdpartypatchesEndpoint impor
 from pyconnectwise.endpoints.automate.ComputersIdUpsEndpoint import ComputersIdUpsEndpoint
 from pyconnectwise.endpoints.automate.ComputersIdVideocardsEndpoint import ComputersIdVideocardsEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import Computer
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputer
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -42,65 +41,67 @@ class ComputersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.videocards = self._register_child_endpoint(ComputersIdVideocardsEndpoint(client, parent_endpoint=self))
-        self.software = self._register_child_endpoint(ComputersIdSoftwareEndpoint(client, parent_endpoint=self))
-        self.monitors = self._register_child_endpoint(ComputersIdMonitorsEndpoint(client, parent_endpoint=self))
+        self.drivers = self._register_child_endpoint(ComputersIdDriversEndpoint(client, parent_endpoint=self))
+        self.patchjobs = self._register_child_endpoint(ComputersIdPatchjobsEndpoint(client, parent_endpoint=self))
+        self.printers = self._register_child_endpoint(ComputersIdPrintersEndpoint(client, parent_endpoint=self))
+        self.services = self._register_child_endpoint(ComputersIdServicesEndpoint(client, parent_endpoint=self))
+        self.sensors = self._register_child_endpoint(ComputersIdSensorsEndpoint(client, parent_endpoint=self))
+        self.scheduledtasks = self._register_child_endpoint(
+            ComputersIdScheduledtasksEndpoint(client, parent_endpoint=self)
+        )
         self.scripthistory = self._register_child_endpoint(
             ComputersIdScripthistoryEndpoint(client, parent_endpoint=self)
         )
+        self.patchingstats = self._register_child_endpoint(
+            ComputersIdPatchingstatsEndpoint(client, parent_endpoint=self)
+        )
+        self.drives = self._register_child_endpoint(ComputersIdDrivesEndpoint(client, parent_endpoint=self))
+        self.systemslots = self._register_child_endpoint(ComputersIdSystemslotsEndpoint(client, parent_endpoint=self))
+        self.ups = self._register_child_endpoint(ComputersIdUpsEndpoint(client, parent_endpoint=self))
+        self.monitors = self._register_child_endpoint(ComputersIdMonitorsEndpoint(client, parent_endpoint=self))
+        self.microsoftupdates = self._register_child_endpoint(
+            ComputersIdMicrosoftupdatesEndpoint(client, parent_endpoint=self)
+        )
+        self.effectivepatchingpolicy = self._register_child_endpoint(
+            ComputersIdEffectivepatchingpolicyEndpoint(client, parent_endpoint=self)
+        )
+        self.alerts = self._register_child_endpoint(ComputersIdAlertsEndpoint(client, parent_endpoint=self))
         self.thirdpartypatches = self._register_child_endpoint(
             ComputersIdThirdpartypatchesEndpoint(client, parent_endpoint=self)
         )
-        self.printers = self._register_child_endpoint(ComputersIdPrintersEndpoint(client, parent_endpoint=self))
+        self.videocards = self._register_child_endpoint(ComputersIdVideocardsEndpoint(client, parent_endpoint=self))
+        self.runningscripts = self._register_child_endpoint(
+            ComputersIdRunningscriptsEndpoint(client, parent_endpoint=self)
+        )
         self.alertsuspensions = self._register_child_endpoint(
             ComputersIdAlertsuspensionsEndpoint(client, parent_endpoint=self)
         )
-        self.bios = self._register_child_endpoint(ComputersIdBiosEndpoint(client, parent_endpoint=self))
-        self.drives = self._register_child_endpoint(ComputersIdDrivesEndpoint(client, parent_endpoint=self))
-        self.operatingsystem = self._register_child_endpoint(
-            ComputersIdOperatingsystemEndpoint(client, parent_endpoint=self)
-        )
-        self.scheduledscripts = self._register_child_endpoint(
-            ComputersIdScheduledscriptsEndpoint(client, parent_endpoint=self)
-        )
-        self.systemslots = self._register_child_endpoint(ComputersIdSystemslotsEndpoint(client, parent_endpoint=self))
         self.commandhistory = self._register_child_endpoint(
             ComputersIdCommandhistoryEndpoint(client, parent_endpoint=self)
-        )
-        self.monitoralertsuspensions = self._register_child_endpoint(
-            ComputersIdMonitoralertsuspensionsEndpoint(client, parent_endpoint=self)
         )
         self.commandexecute = self._register_child_endpoint(
             ComputersIdCommandexecuteEndpoint(client, parent_endpoint=self)
         )
-        self.processors = self._register_child_endpoint(ComputersIdProcessorsEndpoint(client, parent_endpoint=self))
-        self.microsoftupdates = self._register_child_endpoint(
-            ComputersIdMicrosoftupdatesEndpoint(client, parent_endpoint=self)
+        self.monitoralertsuspensions = self._register_child_endpoint(
+            ComputersIdMonitoralertsuspensionsEndpoint(client, parent_endpoint=self)
         )
+        self.operatingsystem = self._register_child_endpoint(
+            ComputersIdOperatingsystemEndpoint(client, parent_endpoint=self)
+        )
+        self.software = self._register_child_endpoint(ComputersIdSoftwareEndpoint(client, parent_endpoint=self))
+        self.devices = self._register_child_endpoint(ComputersIdDevicesEndpoint(client, parent_endpoint=self))
         self.computerpatchingpolicies = self._register_child_endpoint(
             ComputersIdComputerpatchingpoliciesEndpoint(client, parent_endpoint=self)
         )
-        self.devices = self._register_child_endpoint(ComputersIdDevicesEndpoint(client, parent_endpoint=self))
-        self.patchingstats = self._register_child_endpoint(
-            ComputersIdPatchingstatsEndpoint(client, parent_endpoint=self)
+        self.scheduledscripts = self._register_child_endpoint(
+            ComputersIdScheduledscriptsEndpoint(client, parent_endpoint=self)
         )
-        self.sensors = self._register_child_endpoint(ComputersIdSensorsEndpoint(client, parent_endpoint=self))
-        self.patchjobs = self._register_child_endpoint(ComputersIdPatchjobsEndpoint(client, parent_endpoint=self))
-        self.services = self._register_child_endpoint(ComputersIdServicesEndpoint(client, parent_endpoint=self))
-        self.alerts = self._register_child_endpoint(ComputersIdAlertsEndpoint(client, parent_endpoint=self))
-        self.effectivepatchingpolicy = self._register_child_endpoint(
-            ComputersIdEffectivepatchingpolicyEndpoint(client, parent_endpoint=self)
-        )
-        self.ups = self._register_child_endpoint(ComputersIdUpsEndpoint(client, parent_endpoint=self))
-        self.runningscripts = self._register_child_endpoint(
-            ComputersIdRunningscriptsEndpoint(client, parent_endpoint=self)
-        )
-        self.scheduledtasks = self._register_child_endpoint(
-            ComputersIdScheduledtasksEndpoint(client, parent_endpoint=self)
-        )
-        self.drivers = self._register_child_endpoint(ComputersIdDriversEndpoint(client, parent_endpoint=self))
+        self.processors = self._register_child_endpoint(ComputersIdProcessorsEndpoint(client, parent_endpoint=self))
+        self.bios = self._register_child_endpoint(ComputersIdBiosEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Computer]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LabTechComputer]:
         """
         Performs a GET request against the /Computers/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -109,19 +110,19 @@ class ComputersIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[Computer]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputer]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            Computer,
+            LabTechComputer,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Computer:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechComputer:
         """
         Performs a GET request against the /Computers/{id} endpoint.
 
@@ -129,6 +130,6 @@ class ComputersIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            Computer: The parsed response data.
+            LabTechComputer: The parsed response data.
         """
-        return self._parse_one(Computer, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(LabTechComputer, super()._make_request("GET", data=data, params=params).json())

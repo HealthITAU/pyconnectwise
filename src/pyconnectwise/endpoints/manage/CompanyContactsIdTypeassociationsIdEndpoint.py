@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.models.manage import ContactContactTypeAssociation
+from pyconnectwise.models.manage import ContactContactTypeAssociationContactTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ContactContactTypeAssociation]:
+    ) -> PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,21 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ContactContactTypeAssociation]: The initialized PaginatedResponse object.
+            PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ContactContactTypeAssociation,
+            ContactContactTypeAssociationContactTypeAssociation,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -41,25 +42,26 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactContactTypeAssociation: The parsed response data.
+            ContactContactTypeAssociationContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation, super()._make_request("GET", data=data, params=params).json()
+            ContactContactTypeAssociationContactTypeAssociation,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
+    def put(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a PUT request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -67,13 +69,16 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactContactTypeAssociation: The parsed response data.
+            ContactContactTypeAssociationContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation, super()._make_request("PUT", data=data, params=params).json()
+            ContactContactTypeAssociationContactTypeAssociation,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
+    def patch(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a PATCH request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -81,8 +86,9 @@ class CompanyContactsIdTypeassociationsIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactContactTypeAssociation: The parsed response data.
+            ContactContactTypeAssociationContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation, super()._make_request("PATCH", data=data, params=params).json()
+            ContactContactTypeAssociationContactTypeAssociation,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

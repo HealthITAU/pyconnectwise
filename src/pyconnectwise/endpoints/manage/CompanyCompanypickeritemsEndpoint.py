@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import CompanyCompanypickeritemsClearEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import CompanyCompanypickeritemsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import CompanyCompanypickeritemsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyPickerItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,8 +12,8 @@ class CompanyCompanypickeritemsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companyPickerItems", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
         self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:
         """

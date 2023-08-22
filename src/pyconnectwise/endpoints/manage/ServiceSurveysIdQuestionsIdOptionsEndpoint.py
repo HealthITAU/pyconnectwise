@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsCountEndpo
     ServiceSurveysIdQuestionsIdOptionsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsIdEndpoint import \
     ServiceSurveysIdQuestionsIdOptionsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SurveyOption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

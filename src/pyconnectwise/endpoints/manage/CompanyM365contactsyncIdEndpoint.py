@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyM365contactsyncIdPropertyEndpoint import \
     CompanyM365contactsyncIdPropertyEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

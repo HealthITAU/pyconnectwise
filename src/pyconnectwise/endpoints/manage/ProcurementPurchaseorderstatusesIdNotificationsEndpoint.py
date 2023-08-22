@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificati
     ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint import \
     ProcurementPurchaseorderstatusesIdNotificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrderStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

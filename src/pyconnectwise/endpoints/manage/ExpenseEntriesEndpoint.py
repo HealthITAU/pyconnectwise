@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ExpenseEntriesCountEndpoint import ExpenseEntriesCountEndpoint
 from pyconnectwise.endpoints.manage.ExpenseEntriesIdEndpoint import ExpenseEntriesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

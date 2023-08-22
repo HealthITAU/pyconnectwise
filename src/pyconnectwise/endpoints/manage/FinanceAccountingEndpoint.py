@@ -9,7 +9,6 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesEndpoint im
     FinanceAccountingUnpostedinvoicesEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementEndpoint import \
     FinanceAccountingUnpostedprocurementEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -17,14 +16,14 @@ class FinanceAccountingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "accounting", parent_endpoint=parent_endpoint)
 
-        self.unpostedinvoices = self._register_child_endpoint(
-            FinanceAccountingUnpostedinvoicesEndpoint(client, parent_endpoint=self)
-        )
-        self.export = self._register_child_endpoint(FinanceAccountingExportEndpoint(client, parent_endpoint=self))
-        self.unpostedprocurement = self._register_child_endpoint(
-            FinanceAccountingUnpostedprocurementEndpoint(client, parent_endpoint=self)
-        )
-        self.batches = self._register_child_endpoint(FinanceAccountingBatchesEndpoint(client, parent_endpoint=self))
         self.unpostedexpenses = self._register_child_endpoint(
             FinanceAccountingUnpostedexpensesEndpoint(client, parent_endpoint=self)
         )
+        self.unpostedinvoices = self._register_child_endpoint(
+            FinanceAccountingUnpostedinvoicesEndpoint(client, parent_endpoint=self)
+        )
+        self.batches = self._register_child_endpoint(FinanceAccountingBatchesEndpoint(client, parent_endpoint=self))
+        self.unpostedprocurement = self._register_child_endpoint(
+            FinanceAccountingUnpostedprocurementEndpoint(client, parent_endpoint=self)
+        )
+        self.export = self._register_child_endpoint(FinanceAccountingExportEndpoint(client, parent_endpoint=self))

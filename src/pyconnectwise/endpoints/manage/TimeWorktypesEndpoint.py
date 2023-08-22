@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.TimeWorktypesCountEndpoint import TimeWorktypesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesIdEndpoint import TimeWorktypesIdEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesInfoEndpoint import TimeWorktypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsCountEndpoint i
     TimeTimeperiodsetupsIdPeriodsCountEndpoint
 from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsIdEndpoint import \
     TimeTimeperiodsetupsIdPeriodsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimePeriod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

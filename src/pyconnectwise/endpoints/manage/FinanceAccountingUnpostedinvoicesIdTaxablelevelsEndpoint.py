@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablele
     FinanceAccountingUnpostedinvoicesIdTaxablelevelsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint import \
     FinanceAccountingUnpostedinvoicesIdTaxablelevelsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedInvoiceTaxableLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

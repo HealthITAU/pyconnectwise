@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceImpactsCountEndpoint import ServiceImpactsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceImpactsIdEndpoint import ServiceImpactsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Impact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

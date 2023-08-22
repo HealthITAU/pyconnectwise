@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SalesActivitiesCountEndpoint import SalesAct
 from pyconnectwise.endpoints.manage.SalesActivitiesIdEndpoint import SalesActivitiesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesStatusesEndpoint import SalesActivitiesStatusesEndpoint
 from pyconnectwise.endpoints.manage.SalesActivitiesTypesEndpoint import SalesActivitiesTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Activity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -15,8 +14,8 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "activities", parent_endpoint=parent_endpoint)
 
         self.types = self._register_child_endpoint(SalesActivitiesTypesEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(SalesActivitiesStatusesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesActivitiesCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesActivitiesStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesActivitiesIdEndpoint:
         """

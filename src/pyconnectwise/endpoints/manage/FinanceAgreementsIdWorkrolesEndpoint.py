@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkrolesCountEndpoint import \
     FinanceAgreementsIdWorkrolesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorkrolesIdEndpoint import FinanceAgreementsIdWorkrolesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdRebatchEndpoint i
     ProcurementPurchaseordersIdRebatchEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdUnbatchEndpoint import \
     ProcurementPurchaseordersIdUnbatchEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -19,11 +18,11 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         self.lineitems = self._register_child_endpoint(
             ProcurementPurchaseordersIdLineitemsEndpoint(client, parent_endpoint=self)
         )
-        self.rebatch = self._register_child_endpoint(
-            ProcurementPurchaseordersIdRebatchEndpoint(client, parent_endpoint=self)
-        )
         self.unbatch = self._register_child_endpoint(
             ProcurementPurchaseordersIdUnbatchEndpoint(client, parent_endpoint=self)
+        )
+        self.rebatch = self._register_child_endpoint(
+            ProcurementPurchaseordersIdRebatchEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -61,17 +60,15 @@ class ProcurementPurchaseordersIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PurchaseOrder, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /procurement/purchaseorders/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrder:
         """

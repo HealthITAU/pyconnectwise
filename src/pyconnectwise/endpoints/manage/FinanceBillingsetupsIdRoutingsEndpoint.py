@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsCountEndpoint 
     FinanceBillingsetupsIdRoutingsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceBillingsetupsIdRoutingsIdEndpoint import \
     FinanceBillingsetupsIdRoutingsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingSetupRouting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

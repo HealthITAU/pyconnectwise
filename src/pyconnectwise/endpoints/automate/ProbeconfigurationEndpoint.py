@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.automate.ProbeconfigurationEnableprobeEndpoint import ProbeconfigurationEnableprobeEndpoint
 from pyconnectwise.endpoints.automate.ProbeconfigurationIdEndpoint import ProbeconfigurationIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

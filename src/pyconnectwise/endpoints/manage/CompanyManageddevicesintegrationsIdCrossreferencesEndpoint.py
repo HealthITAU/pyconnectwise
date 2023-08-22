@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossrefe
     CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint import \
     CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationCrossReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

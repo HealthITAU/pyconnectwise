@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificat
     CompanyManageddevicesintegrationsIdNotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsIdEndpoint import \
     CompanyManageddevicesintegrationsIdNotificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegrationNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

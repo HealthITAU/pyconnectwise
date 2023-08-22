@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCopyEndpoint imp
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCountEndpoint import \
     SalesOpportunitiesIdForecastCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastIdEndpoint import SalesOpportunitiesIdForecastIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Forecast
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

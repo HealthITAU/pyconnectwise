@@ -11,7 +11,6 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedEndpoint imp
     MarketingCampaignsIdLinksclickedEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdOpportunitiesEndpoint import \
     MarketingCampaignsIdOpportunitiesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Campaign
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -23,18 +22,18 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         self.forms_submitted = self._register_child_endpoint(
             MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
         )
+        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
         self.emails_opened = self._register_child_endpoint(
             MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
         )
-        self.opportunities = self._register_child_endpoint(
-            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
+        self.links_clicked = self._register_child_endpoint(
+            MarketingCampaignsIdLinksclickedEndpoint(client, parent_endpoint=self)
         )
         self.activities = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
-        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
-        self.links_clicked = self._register_child_endpoint(
-            MarketingCampaignsIdLinksclickedEndpoint(client, parent_endpoint=self)
+        self.opportunities = self._register_child_endpoint(
+            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Campaign]:
@@ -70,17 +69,15 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Campaign, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /marketing/campaigns/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Campaign:
         """

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandCou
     ProcurementWarehousebinsIdInventoryonhandCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandIdEndpoint import \
     ProcurementWarehousebinsIdInventoryonhandIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InventoryOnHand
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

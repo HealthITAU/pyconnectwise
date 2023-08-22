@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProjectProjecttypesCountEndpoint import ProjectProjecttypesCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjecttypesIdEndpoint import ProjectProjecttypesIdEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjecttypesInfoEndpoint import ProjectProjecttypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

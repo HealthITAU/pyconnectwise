@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ComputerSystemSlot
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerSystemSlot
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersIdSystemslotsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerSystemSlot]:
+    ) -> PaginatedResponse[LabTechComputerSystemSlot]:
         """
         Performs a GET request against the /Computers/{id}/Systemslots endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersIdSystemslotsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerSystemSlot]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerSystemSlot]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerSystemSlot,
+            LabTechComputerSystemSlot,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerSystemSlot]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerSystemSlot]:
         """
         Performs a GET request against the /Computers/{id}/Systemslots endpoint.
 
@@ -41,6 +40,8 @@ class ComputersIdSystemslotsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ComputerSystemSlot]: The parsed response data.
+            list[LabTechComputerSystemSlot]: The parsed response data.
         """
-        return self._parse_many(ComputerSystemSlot, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechComputerSystemSlot, super()._make_request("GET", data=data, params=params).json()
+        )

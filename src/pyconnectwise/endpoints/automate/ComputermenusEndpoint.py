@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ComputerMenu
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerMenu
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerMenu]:
+    ) -> PaginatedResponse[LabTechComputerMenu]:
         """
         Performs a GET request against the /Computermenus endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerMenu]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerMenu]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerMenu,
+            LabTechComputerMenu,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerMenu]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerMenu]:
         """
         Performs a GET request against the /Computermenus endpoint.
 
@@ -41,11 +40,11 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ComputerMenu]: The parsed response data.
+            list[LabTechComputerMenu]: The parsed response data.
         """
-        return self._parse_many(ComputerMenu, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechComputerMenu, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ComputerMenu:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechComputerMenu:
         """
         Performs a POST request against the /Computermenus endpoint.
 
@@ -53,6 +52,6 @@ class ComputermenusEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ComputerMenu: The parsed response data.
+            LabTechComputerMenu: The parsed response data.
         """
-        return self._parse_one(ComputerMenu, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechComputerMenu, super()._make_request("POST", data=data, params=params).json())

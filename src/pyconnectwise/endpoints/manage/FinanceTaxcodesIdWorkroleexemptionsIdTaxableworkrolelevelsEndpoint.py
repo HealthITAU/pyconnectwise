@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdTaxable
     FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsIdEndpoint import \
     FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxableWorkRoleLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

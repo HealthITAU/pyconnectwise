@@ -2,7 +2,6 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLinksIdResolveurlEndpoint import SystemInfoLinksIdResolveurlEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LinkInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

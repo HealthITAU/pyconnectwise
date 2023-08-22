@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint
     CompanyContactsIdCommunicationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import \
     CompanyContactsIdCommunicationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ContactCommunication
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

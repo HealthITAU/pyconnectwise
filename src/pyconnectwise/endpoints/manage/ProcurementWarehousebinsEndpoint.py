@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementWarehousebinsCountEndpoint import ProcurementWarehousebinsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdEndpoint import ProcurementWarehousebinsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementWarehousebinsInfoEndpoint import ProcurementWarehousebinsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WarehouseBin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

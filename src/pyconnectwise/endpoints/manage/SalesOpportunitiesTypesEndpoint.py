@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesCountEndpoint import SalesOpportunitiesTypesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdEndpoint import SalesOpportunitiesTypesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesInfoEndpoint import SalesOpportunitiesTypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

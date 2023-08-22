@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ComputerMemorySlot
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerMemorySlot
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersMemoryslotsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerMemorySlot]:
+    ) -> PaginatedResponse[LabTechComputerMemorySlot]:
         """
         Performs a GET request against the /Computers/Memoryslots endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersMemoryslotsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerMemorySlot]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerMemorySlot]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerMemorySlot,
+            LabTechComputerMemorySlot,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerMemorySlot]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerMemorySlot]:
         """
         Performs a GET request against the /Computers/Memoryslots endpoint.
 
@@ -41,6 +40,8 @@ class ComputersMemoryslotsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ComputerMemorySlot]: The parsed response data.
+            list[LabTechComputerMemorySlot]: The parsed response data.
         """
-        return self._parse_many(ComputerMemorySlot, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechComputerMemorySlot, super()._make_request("GET", data=data, params=params).json()
+        )

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesubtypeitemassociationsCo
     ServiceBoardsIdTypesubtypeitemassociationsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint import \
     ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardTypeSubTypeItemAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

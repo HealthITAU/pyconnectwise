@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValue
     CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint import \
     CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationTypeQuestionValue
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

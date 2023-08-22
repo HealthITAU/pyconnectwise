@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Repositories.MySQL.Domain.Models import MonitorDataCollectionSettings
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechMonitorDataCollectionSettings
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[MonitorDataCollectionSettings]:
+    ) -> PaginatedResponse[LabTechMonitorDataCollectionSettings]:
         """
         Performs a GET request against the /Monitors/{id}/Datacollectionsettings endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[MonitorDataCollectionSettings]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechMonitorDataCollectionSettings]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            MonitorDataCollectionSettings,
+            LabTechMonitorDataCollectionSettings,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MonitorDataCollectionSettings:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechMonitorDataCollectionSettings:
         """
         Performs a GET request against the /Monitors/{id}/Datacollectionsettings endpoint.
 
@@ -41,8 +40,8 @@ class MonitorsIdDatacollectionsettingsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            MonitorDataCollectionSettings: The parsed response data.
+            LabTechMonitorDataCollectionSettings: The parsed response data.
         """
         return self._parse_one(
-            MonitorDataCollectionSettings, super()._make_request("GET", data=data, params=params).json()
+            LabTechMonitorDataCollectionSettings, super()._make_request("GET", data=data, params=params).json()
         )

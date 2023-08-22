@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedCountEndpo
     MarketingCampaignsIdFormssubmittedCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedIdEndpoint import \
     MarketingCampaignsIdFormssubmittedIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import FormSubmitted
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

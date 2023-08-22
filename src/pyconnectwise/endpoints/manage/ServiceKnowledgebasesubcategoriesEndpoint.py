@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceKnowledgebasesubcategoriesCountEndpoi
     ServiceKnowledgebasesubcategoriesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceKnowledgebasesubcategoriesIdEndpoint import \
     ServiceKnowledgebasesubcategoriesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import KnowledgeBaseSubCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

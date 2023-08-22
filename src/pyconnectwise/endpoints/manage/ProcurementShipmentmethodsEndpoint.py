@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsCountEndpoint impo
     ProcurementShipmentmethodsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsIdEndpoint import ProcurementShipmentmethodsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementShipmentmethodsInfoEndpoint import ProcurementShipmentmethodsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ShipmentMethod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

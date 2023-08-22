@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemQuotelinksetupCountEndpoint import Sys
 from pyconnectwise.endpoints.manage.SystemQuotelinksetupIdEndpoint import SystemQuotelinksetupIdEndpoint
 from pyconnectwise.endpoints.manage.SystemQuotelinksetupTestconnectionEndpoint import \
     SystemQuotelinksetupTestconnectionEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import QuoteLink
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -14,10 +13,10 @@ class SystemQuotelinksetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "quoteLinkSetup", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SystemQuotelinksetupCountEndpoint(client, parent_endpoint=self))
         self.test_connection = self._register_child_endpoint(
             SystemQuotelinksetupTestconnectionEndpoint(client, parent_endpoint=self)
         )
+        self.count = self._register_child_endpoint(SystemQuotelinksetupCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemQuotelinksetupIdEndpoint:
         """

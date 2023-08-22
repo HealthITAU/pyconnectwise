@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemDocumentsCountEndpoint import SystemDocumentsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemDocumentsIdEndpoint import SystemDocumentsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemDocumentsUploadsampleEndpoint import SystemDocumentsUploadsampleEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DocumentInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,10 +12,10 @@ class SystemDocumentsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "documents", parent_endpoint=parent_endpoint)
 
+        self.count = self._register_child_endpoint(SystemDocumentsCountEndpoint(client, parent_endpoint=self))
         self.uploadsample = self._register_child_endpoint(
             SystemDocumentsUploadsampleEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(SystemDocumentsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemDocumentsIdEndpoint:
         """

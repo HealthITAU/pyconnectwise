@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.MarketingCampaignsTypesCountEndpoint import MarketingCampaignsTypesCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsTypesIdEndpoint import MarketingCampaignsTypesIdEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsTypesInfoEndpoint import MarketingCampaignsTypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CampaignType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

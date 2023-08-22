@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesCountEndpoint import ServiceTicketsIdNotesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesIdEndpoint import ServiceTicketsIdNotesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMycompanyCrmCountEndpoint import SystemMycompanyCrmCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyCrmIdEndpoint import SystemMycompanyCrmIdEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyCrmInfoEndpoint import SystemMycompanyCrmInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Crm
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

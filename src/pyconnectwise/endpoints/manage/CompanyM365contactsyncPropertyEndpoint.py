@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.CompanyM365contactsyncPropertyExcludedEndpoi
     CompanyM365contactsyncPropertyExcludedEndpoint
 from pyconnectwise.endpoints.manage.CompanyM365contactsyncPropertyIncludedEndpoint import \
     CompanyM365contactsyncPropertyIncludedEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import M365ContactSyncProperty
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,14 +15,14 @@ class CompanyM365contactsyncPropertyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "property", parent_endpoint=parent_endpoint)
 
-        self.included = self._register_child_endpoint(
-            CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)
+        self.excluded = self._register_child_endpoint(
+            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
         )
         self.count = self._register_child_endpoint(
             CompanyM365contactsyncPropertyCountEndpoint(client, parent_endpoint=self)
         )
-        self.excluded = self._register_child_endpoint(
-            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
+        self.included = self._register_child_endpoint(
+            CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)
         )
 
     def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> M365ContactSyncProperty:

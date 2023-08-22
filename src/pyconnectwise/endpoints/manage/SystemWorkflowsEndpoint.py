@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdEndpoint import SystemWorkf
 from pyconnectwise.endpoints.manage.SystemWorkflowsTabletypesEndpoint import SystemWorkflowsTabletypesEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEndpoint import \
     SystemWorkflowsUserdefinedfieldsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Workflow
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -18,10 +17,10 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         self.userdefinedfields = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )
+        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.table_types = self._register_child_endpoint(
             SystemWorkflowsTabletypesEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemWorkflowsIdEndpoint:
         """

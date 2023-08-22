@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesCountEndpoin
     FinanceAgreementtypesIdWorktypesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesIdEndpoint import \
     FinanceAgreementtypesIdWorktypesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementTypeWorkType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

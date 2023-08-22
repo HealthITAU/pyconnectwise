@@ -14,7 +14,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesEndpoint import ServiceB
 from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesubtypeitemassociationsEndpoint import \
     ServiceBoardsIdTypesubtypeitemassociationsEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdUsagesEndpoint import ServiceBoardsIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Board
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -23,27 +22,27 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.auto_templates = self._register_child_endpoint(
-            ServiceBoardsIdAutotemplatesEndpoint(client, parent_endpoint=self)
-        )
         self.auto_assign_resources = self._register_child_endpoint(
             ServiceBoardsIdAutoassignresourcesEndpoint(client, parent_endpoint=self)
         )
-        self.type_sub_type_item_associations = self._register_child_endpoint(
-            ServiceBoardsIdTypesubtypeitemassociationsEndpoint(client, parent_endpoint=self)
+        self.excluded_members = self._register_child_endpoint(
+            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
         )
         self.notifications = self._register_child_endpoint(
             ServiceBoardsIdNotificationsEndpoint(client, parent_endpoint=self)
         )
         self.types = self._register_child_endpoint(ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self))
-        self.excluded_members = self._register_child_endpoint(
-            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
+        self.type_sub_type_item_associations = self._register_child_endpoint(
+            ServiceBoardsIdTypesubtypeitemassociationsEndpoint(client, parent_endpoint=self)
         )
+        self.teams = self._register_child_endpoint(ServiceBoardsIdTeamsEndpoint(client, parent_endpoint=self))
+        self.auto_templates = self._register_child_endpoint(
+            ServiceBoardsIdAutotemplatesEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
+        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self))
         self.items = self._register_child_endpoint(ServiceBoardsIdItemsEndpoint(client, parent_endpoint=self))
-        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
-        self.teams = self._register_child_endpoint(ServiceBoardsIdTeamsEndpoint(client, parent_endpoint=self))
-        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Board]:
         """
@@ -78,17 +77,15 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Board, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /service/boards/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Board:
         """

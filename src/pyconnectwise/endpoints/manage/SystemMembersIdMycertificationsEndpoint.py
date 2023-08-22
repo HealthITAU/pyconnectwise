@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsCountEndpoint
     SystemMembersIdMycertificationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsIdEndpoint import \
     SystemMembersIdMycertificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MemberCertification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

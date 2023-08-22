@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsCo
     CompanyCompaniesIdManagementsummaryreportsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementsummaryreportsIdEndpoint import \
     CompanyCompaniesIdManagementsummaryreportsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyManagementSummary
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

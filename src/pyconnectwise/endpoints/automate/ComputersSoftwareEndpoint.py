@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ComputerSoftware
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechComputerSoftware
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersSoftwareEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ComputerSoftware]:
+    ) -> PaginatedResponse[LabTechComputerSoftware]:
         """
         Performs a GET request against the /Computers/Software endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersSoftwareEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ComputerSoftware]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechComputerSoftware]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ComputerSoftware,
+            LabTechComputerSoftware,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ComputerSoftware]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerSoftware]:
         """
         Performs a GET request against the /Computers/Software endpoint.
 
@@ -41,6 +40,6 @@ class ComputersSoftwareEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ComputerSoftware]: The parsed response data.
+            list[LabTechComputerSoftware]: The parsed response data.
         """
-        return self._parse_many(ComputerSoftware, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechComputerSoftware, super()._make_request("GET", data=data, params=params).json())

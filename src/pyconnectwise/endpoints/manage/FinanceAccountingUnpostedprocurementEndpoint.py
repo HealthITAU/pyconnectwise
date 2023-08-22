@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementCountEnd
     FinanceAccountingUnpostedprocurementCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedprocurementIdEndpoint import \
     FinanceAccountingUnpostedprocurementIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import UnpostedProcurement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

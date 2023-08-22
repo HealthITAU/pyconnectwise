@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdInfoEndpoint import SalesOpportunitiesTypesIdInfoEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesIdUsagesEndpoint import \
     SalesOpportunitiesTypesIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -53,17 +52,15 @@ class SalesOpportunitiesTypesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(OpportunityType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /sales/opportunities/types/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityType:
         """

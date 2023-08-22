@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesIdEndpoint import SalesOpp
 from pyconnectwise.endpoints.manage.SalesOpportunitiesRatingsEndpoint import SalesOpportunitiesRatingsEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesEndpoint import SalesOpportunitiesStatusesEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesEndpoint import SalesOpportunitiesTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Opportunity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,11 +15,11 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
 
-        self.default = self._register_child_endpoint(SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
         self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOpportunitiesCountEndpoint(client, parent_endpoint=self))
+        self.default = self._register_child_endpoint(SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesOpportunitiesIdEndpoint:
         """

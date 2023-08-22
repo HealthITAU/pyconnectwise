@@ -6,8 +6,7 @@ from pyconnectwise.endpoints.manage.CompanyConfigurationsCountEndpoint import Co
 from pyconnectwise.endpoints.manage.CompanyConfigurationsIdEndpoint import CompanyConfigurationsIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesEndpoint import CompanyConfigurationsStatusesEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesEndpoint import CompanyConfigurationsTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.models.manage import Company
+from pyconnectwise.models.manage import CompanyConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -17,10 +16,10 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
 
         self.bulk = self._register_child_endpoint(CompanyConfigurationsBulkEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(CompanyConfigurationsTypesEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyConfigurationsCountEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(
             CompanyConfigurationsStatusesEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(CompanyConfigurationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyConfigurationsIdEndpoint:
         """
@@ -35,7 +34,9 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Company]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[CompanyConfiguration]:
         """
         Performs a GET request against the /company/configurations endpoint and returns an initialized PaginatedResponse object.
 
@@ -44,19 +45,19 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[Company]: The initialized PaginatedResponse object.
+            PaginatedResponse[CompanyConfiguration]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            Company,
+            CompanyConfiguration,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Company]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyConfiguration]:
         """
         Performs a GET request against the /company/configurations endpoint.
 
@@ -64,11 +65,11 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[Company]: The parsed response data.
+            list[CompanyConfiguration]: The parsed response data.
         """
-        return self._parse_many(Company, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(CompanyConfiguration, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyConfiguration:
         """
         Performs a POST request against the /company/configurations endpoint.
 
@@ -76,6 +77,6 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            Company: The parsed response data.
+            CompanyConfiguration: The parsed response data.
         """
-        return self._parse_one(Company, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(CompanyConfiguration, super()._make_request("POST", data=data, params=params).json())

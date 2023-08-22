@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsC
     ProcurementProductsIdPickingshippingdetailsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsIdEndpoint import \
     ProcurementProductsIdPickingshippingdetailsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProductPickingShippingDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

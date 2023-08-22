@@ -11,7 +11,6 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificat
     CompanyManageddevicesintegrationsIdNotificationsEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdUsagesEndpoint import \
     CompanyManageddevicesintegrationsIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagedDevicesIntegration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -20,11 +19,8 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.notifications = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
+        self.logins = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
@@ -32,8 +28,11 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         self.cross_references = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
         )
-        self.logins = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
+        self.notifications = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -71,17 +70,15 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ManagedDevicesIntegration, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /company/managedDevicesIntegrations/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
         """

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceBillingcyclesCountEndpoint import FinanceBillingcyclesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceBillingcyclesIdEndpoint import FinanceBillingcyclesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceBillingcyclesInfoEndpoint import FinanceBillingcyclesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BillingCycle
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

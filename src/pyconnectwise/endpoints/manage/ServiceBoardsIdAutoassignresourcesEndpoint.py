@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesCountEndpo
     ServiceBoardsIdAutoassignresourcesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesIdEndpoint import \
     ServiceBoardsIdAutoassignresourcesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardAutoAssignResource
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsCountEndpoint import SystemEmailconnectorsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdEndpoint import SystemEmailconnectorsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsInfoEndpoint import SystemEmailconnectorsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailConnector
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

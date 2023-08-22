@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsin
     SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint import \
     SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EmailConnectorParsingRule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

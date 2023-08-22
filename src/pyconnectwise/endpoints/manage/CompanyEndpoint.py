@@ -33,7 +33,6 @@ from pyconnectwise.endpoints.manage.CompanyPortalsecuritysettingsEndpoint import
 from pyconnectwise.endpoints.manage.CompanyStatesEndpoint import CompanyStatesEndpoint
 from pyconnectwise.endpoints.manage.CompanyTeamrolesEndpoint import CompanyTeamrolesEndpoint
 from pyconnectwise.endpoints.manage.CompanyTracksEndpoint import CompanyTracksEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -44,61 +43,62 @@ class CompanyEndpoint(ConnectWiseEndpoint):
         self.portal_configurations = self._register_child_endpoint(
             CompanyPortalconfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.expense_types = self._register_child_endpoint(CompanyExpensetypesEndpoint(client, parent_endpoint=self))
-        self.management = self._register_child_endpoint(CompanyManagementEndpoint(client, parent_endpoint=self))
-        self.management_backups = self._register_child_endpoint(
-            CompanyManagementbackupsEndpoint(client, parent_endpoint=self)
+        self.managed_devices_integrations = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsEndpoint(client, parent_endpoint=self)
         )
-        self.m365contactsync = self._register_child_endpoint(
-            CompanyM365contactsyncEndpoint(client, parent_endpoint=self)
-        )
-        self.entity_types = self._register_child_endpoint(CompanyEntitytypesEndpoint(client, parent_endpoint=self))
+        self.team_roles = self._register_child_endpoint(CompanyTeamrolesEndpoint(client, parent_endpoint=self))
+        self.billing_setups = self._register_child_endpoint(CompanyBillingsetupsEndpoint(client, parent_endpoint=self))
         self.note_types = self._register_child_endpoint(CompanyNotetypesEndpoint(client, parent_endpoint=self))
+        self.contactsync = self._register_child_endpoint(CompanyContactsyncEndpoint(client, parent_endpoint=self))
+        self.entity_types = self._register_child_endpoint(CompanyEntitytypesEndpoint(client, parent_endpoint=self))
+        self.management_it_solutions = self._register_child_endpoint(
+            CompanyManagementitsolutionsEndpoint(client, parent_endpoint=self)
+        )
+        self.expense_types = self._register_child_endpoint(CompanyExpensetypesEndpoint(client, parent_endpoint=self))
+        self.contacts = self._register_child_endpoint(CompanyContactsEndpoint(client, parent_endpoint=self))
         self.portal_security_levels = self._register_child_endpoint(
             CompanyPortalsecuritylevelsEndpoint(client, parent_endpoint=self)
         )
-        self.market_descriptions = self._register_child_endpoint(
-            CompanyMarketdescriptionsEndpoint(client, parent_endpoint=self)
+        self.company_picker_items = self._register_child_endpoint(
+            CompanyCompanypickeritemsEndpoint(client, parent_endpoint=self)
         )
-        self.team_roles = self._register_child_endpoint(CompanyTeamrolesEndpoint(client, parent_endpoint=self))
-        self.address_formats = self._register_child_endpoint(
-            CompanyAddressformatsEndpoint(client, parent_endpoint=self)
+        self.tracks = self._register_child_endpoint(CompanyTracksEndpoint(client, parent_endpoint=self))
+        self.company_finance = self._register_child_endpoint(
+            CompanyCompanyfinanceEndpoint(client, parent_endpoint=self)
         )
-        self.companies = self._register_child_endpoint(CompanyCompaniesEndpoint(client, parent_endpoint=self))
-        self.portal_security_settings = self._register_child_endpoint(
-            CompanyPortalsecuritysettingsEndpoint(client, parent_endpoint=self)
-        )
-        self.contactsync = self._register_child_endpoint(CompanyContactsyncEndpoint(client, parent_endpoint=self))
-        self.billing_setups = self._register_child_endpoint(CompanyBillingsetupsEndpoint(client, parent_endpoint=self))
         self.company_type_associations = self._register_child_endpoint(
             CompanyCompanytypeassociationsEndpoint(client, parent_endpoint=self)
         )
         self.contact_type_associations = self._register_child_endpoint(
             CompanyContacttypeassociationsEndpoint(client, parent_endpoint=self)
         )
+        self.states = self._register_child_endpoint(CompanyStatesEndpoint(client, parent_endpoint=self))
+        self.companies = self._register_child_endpoint(CompanyCompaniesEndpoint(client, parent_endpoint=self))
+        self.payment_types = self._register_child_endpoint(CompanyPaymenttypesEndpoint(client, parent_endpoint=self))
+        self.management_backups = self._register_child_endpoint(
+            CompanyManagementbackupsEndpoint(client, parent_endpoint=self)
+        )
         self.ownership_types = self._register_child_endpoint(
             CompanyOwnershiptypesEndpoint(client, parent_endpoint=self)
         )
-        self.countries = self._register_child_endpoint(CompanyCountriesEndpoint(client, parent_endpoint=self))
-        self.management_it_solutions = self._register_child_endpoint(
-            CompanyManagementitsolutionsEndpoint(client, parent_endpoint=self)
+        self.entitytypes = self._register_child_endpoint(CompanyEntitytypesEndpoint(client, parent_endpoint=self))
+        self.market_descriptions = self._register_child_endpoint(
+            CompanyMarketdescriptionsEndpoint(client, parent_endpoint=self)
         )
-        self.contact = self._register_child_endpoint(CompanyContactEndpoint(client, parent_endpoint=self))
-        self.managed_devices_integrations = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsEndpoint(client, parent_endpoint=self)
+        self.portal_security_settings = self._register_child_endpoint(
+            CompanyPortalsecuritysettingsEndpoint(client, parent_endpoint=self)
         )
-        self.contacts = self._register_child_endpoint(CompanyContactsEndpoint(client, parent_endpoint=self))
-        self.states = self._register_child_endpoint(CompanyStatesEndpoint(client, parent_endpoint=self))
-        self.tracks = self._register_child_endpoint(CompanyTracksEndpoint(client, parent_endpoint=self))
         self.configurations = self._register_child_endpoint(CompanyConfigurationsEndpoint(client, parent_endpoint=self))
-        self.company_finance = self._register_child_endpoint(
-            CompanyCompanyfinanceEndpoint(client, parent_endpoint=self)
-        )
-        self.payment_types = self._register_child_endpoint(CompanyPaymenttypesEndpoint(client, parent_endpoint=self))
-        self.m365contact = self._register_child_endpoint(CompanyM365contactEndpoint(client, parent_endpoint=self))
-        self.company_picker_items = self._register_child_endpoint(
-            CompanyCompanypickeritemsEndpoint(client, parent_endpoint=self)
+        self.address_formats = self._register_child_endpoint(
+            CompanyAddressformatsEndpoint(client, parent_endpoint=self)
         )
         self.communication_types = self._register_child_endpoint(
             CompanyCommunicationtypesEndpoint(client, parent_endpoint=self)
+        )
+        self.contact = self._register_child_endpoint(CompanyContactEndpoint(client, parent_endpoint=self))
+        self.countries = self._register_child_endpoint(CompanyCountriesEndpoint(client, parent_endpoint=self))
+        self.m365contact = self._register_child_endpoint(CompanyM365contactEndpoint(client, parent_endpoint=self))
+        self.management = self._register_child_endpoint(CompanyManagementEndpoint(client, parent_endpoint=self))
+        self.m365contactsync = self._register_child_endpoint(
+            CompanyM365contactsyncEndpoint(client, parent_endpoint=self)
         )

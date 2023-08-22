@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemNotificationrecipientsCountEndpoint import \
     SystemNotificationrecipientsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemNotificationrecipientsIdEndpoint import SystemNotificationrecipientsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import NotificationRecipient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

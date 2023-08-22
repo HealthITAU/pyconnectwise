@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Patching import GroupPatchingPolicy
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateGroupPatchingPolicy
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class GrouppatchingpoliciesEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[GroupPatchingPolicy]:
+    ) -> PaginatedResponse[AutomateGroupPatchingPolicy]:
         """
         Performs a GET request against the /Grouppatchingpolicies endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class GrouppatchingpoliciesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[GroupPatchingPolicy]: The initialized PaginatedResponse object.
+            PaginatedResponse[AutomateGroupPatchingPolicy]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            GroupPatchingPolicy,
+            AutomateGroupPatchingPolicy,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[GroupPatchingPolicy]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AutomateGroupPatchingPolicy]:
         """
         Performs a GET request against the /Grouppatchingpolicies endpoint.
 
@@ -41,6 +40,8 @@ class GrouppatchingpoliciesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[GroupPatchingPolicy]: The parsed response data.
+            list[AutomateGroupPatchingPolicy]: The parsed response data.
         """
-        return self._parse_many(GroupPatchingPolicy, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AutomateGroupPatchingPolicy, super()._make_request("GET", data=data, params=params).json()
+        )
