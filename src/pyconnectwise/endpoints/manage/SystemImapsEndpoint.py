@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemImapsCountEndpoint import SystemImapsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemImapsIdEndpoint import SystemImapsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemImapsInfoEndpoint import SystemImapsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Imap
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

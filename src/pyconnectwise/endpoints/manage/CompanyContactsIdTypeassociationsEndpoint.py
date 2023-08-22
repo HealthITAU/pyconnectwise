@@ -5,8 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoi
     CompanyContactsIdTypeassociationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsIdEndpoint import \
     CompanyContactsIdTypeassociationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.models.manage import ContactContactTypeAssociation
+from pyconnectwise.models.manage import ContactContactTypeAssociationContactTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -33,7 +32,7 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ContactContactTypeAssociation]:
+    ) -> PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint and returns an initialized PaginatedResponse object.
 
@@ -42,19 +41,21 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ContactContactTypeAssociation]: The initialized PaginatedResponse object.
+            PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ContactContactTypeAssociation,
+            ContactContactTypeAssociationContactTypeAssociation,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ContactContactTypeAssociation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint.
 
@@ -62,13 +63,16 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ContactContactTypeAssociation]: The parsed response data.
+            list[ContactContactTypeAssociationContactTypeAssociation]: The parsed response data.
         """
         return self._parse_many(
-            ContactContactTypeAssociation, super()._make_request("GET", data=data, params=params).json()
+            ContactContactTypeAssociationContactTypeAssociation,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ContactContactTypeAssociation:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a POST request against the /company/contacts/{id}/typeAssociations endpoint.
 
@@ -76,8 +80,9 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ContactContactTypeAssociation: The parsed response data.
+            ContactContactTypeAssociationContactTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            ContactContactTypeAssociation, super()._make_request("POST", data=data, params=params).json()
+            ContactContactTypeAssociationContactTypeAssociation,
+            super()._make_request("POST", data=data, params=params).json(),
         )

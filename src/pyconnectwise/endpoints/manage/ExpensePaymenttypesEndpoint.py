@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesCountEndpoint import ExpensePaymenttypesCountEndpoint
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesIdEndpoint import ExpensePaymenttypesIdEndpoint
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesInfoEndpoint import ExpensePaymenttypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PaymentType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

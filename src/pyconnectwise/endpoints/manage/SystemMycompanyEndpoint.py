@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SystemMycompanyInfoEndpoint import SystemMyc
 from pyconnectwise.endpoints.manage.SystemMycompanyReportingservicesEndpoint import \
     SystemMycompanyReportingservicesEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyServicesEndpoint import SystemMycompanyServicesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdTaxa
     FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsIdEndpoint import \
     FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxableExpenseTypeLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

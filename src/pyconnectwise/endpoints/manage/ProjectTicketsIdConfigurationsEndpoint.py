@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsCountEndpoint 
     ProjectTicketsIdConfigurationsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsIdEndpoint import \
     ProjectTicketsIdConfigurationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

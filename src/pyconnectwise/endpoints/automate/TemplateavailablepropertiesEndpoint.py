@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import TemplateAvailableProperty
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechTemplateAvailableProperty
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[TemplateAvailableProperty]:
+    ) -> PaginatedResponse[LabTechTemplateAvailableProperty]:
         """
         Performs a GET request against the /Templateavailableproperties endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,21 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[TemplateAvailableProperty]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechTemplateAvailableProperty]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            TemplateAvailableProperty,
+            LabTechTemplateAvailableProperty,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TemplateAvailableProperty]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[LabTechTemplateAvailableProperty]:
         """
         Performs a GET request against the /Templateavailableproperties endpoint.
 
@@ -41,13 +42,13 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[TemplateAvailableProperty]: The parsed response data.
+            list[LabTechTemplateAvailableProperty]: The parsed response data.
         """
         return self._parse_many(
-            TemplateAvailableProperty, super()._make_request("GET", data=data, params=params).json()
+            LabTechTemplateAvailableProperty, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TemplateAvailableProperty:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechTemplateAvailableProperty:
         """
         Performs a POST request against the /Templateavailableproperties endpoint.
 
@@ -55,8 +56,8 @@ class TemplateavailablepropertiesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            TemplateAvailableProperty: The parsed response data.
+            LabTechTemplateAvailableProperty: The parsed response data.
         """
         return self._parse_one(
-            TemplateAvailableProperty, super()._make_request("POST", data=data, params=params).json()
+            LabTechTemplateAvailableProperty, super()._make_request("POST", data=data, params=params).json()
         )

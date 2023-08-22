@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import CommandExecute
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechCommandExecute
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[CommandExecute]:
+    ) -> PaginatedResponse[LabTechCommandExecute]:
         """
         Performs a GET request against the /Computers/{id}/Commandexecute endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CommandExecute]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechCommandExecute]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            CommandExecute,
+            LabTechCommandExecute,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CommandExecute]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechCommandExecute]:
         """
         Performs a GET request against the /Computers/{id}/Commandexecute endpoint.
 
@@ -41,11 +40,11 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CommandExecute]: The parsed response data.
+            list[LabTechCommandExecute]: The parsed response data.
         """
-        return self._parse_many(CommandExecute, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechCommandExecute, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommandExecute:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechCommandExecute:
         """
         Performs a POST request against the /Computers/{id}/Commandexecute endpoint.
 
@@ -53,6 +52,6 @@ class ComputersIdCommandexecuteEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CommandExecute: The parsed response data.
+            LabTechCommandExecute: The parsed response data.
         """
-        return self._parse_one(CommandExecute, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechCommandExecute, super()._make_request("POST", data=data, params=params).json())

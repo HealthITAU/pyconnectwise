@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.ExpenseReportsIdAuditsEndpoint import Expens
 from pyconnectwise.endpoints.manage.ExpenseReportsIdRejectEndpoint import ExpenseReportsIdRejectEndpoint
 from pyconnectwise.endpoints.manage.ExpenseReportsIdReverseEndpoint import ExpenseReportsIdReverseEndpoint
 from pyconnectwise.endpoints.manage.ExpenseReportsIdSubmitEndpoint import ExpenseReportsIdSubmitEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ExpenseReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -17,9 +16,9 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
 
         self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self))
-        self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
         self.reject = self._register_child_endpoint(ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}

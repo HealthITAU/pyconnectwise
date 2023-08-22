@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesProbabilitiesCountEndpoint import SalesProbabilitiesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesProbabilitiesIdEndpoint import SalesProbabilitiesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesProbabilitiesInfoEndpoint import SalesProbabilitiesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SalesProbability
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

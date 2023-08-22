@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsCo
     ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint import \
     ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceSignoffCustomField
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import VirusScannerDef
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechVirusScannerDef
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[VirusScannerDef]:
+    ) -> PaginatedResponse[LabTechVirusScannerDef]:
         """
         Performs a GET request against the /Virusscannerdefs endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[VirusScannerDef]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechVirusScannerDef]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            VirusScannerDef,
+            LabTechVirusScannerDef,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[VirusScannerDef]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechVirusScannerDef]:
         """
         Performs a GET request against the /Virusscannerdefs endpoint.
 
@@ -41,11 +40,11 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[VirusScannerDef]: The parsed response data.
+            list[LabTechVirusScannerDef]: The parsed response data.
         """
-        return self._parse_many(VirusScannerDef, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechVirusScannerDef, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> VirusScannerDef:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechVirusScannerDef:
         """
         Performs a POST request against the /Virusscannerdefs endpoint.
 
@@ -53,6 +52,6 @@ class VirusscannerdefsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            VirusScannerDef: The parsed response data.
+            LabTechVirusScannerDef: The parsed response data.
         """
-        return self._parse_one(VirusScannerDef, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechVirusScannerDef, super()._make_request("POST", data=data, params=params).json())

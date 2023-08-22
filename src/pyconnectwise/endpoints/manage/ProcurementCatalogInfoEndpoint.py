@@ -2,7 +2,6 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogInfoCountEndpoint import ProcurementCatalogInfoCountEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CatalogItemInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

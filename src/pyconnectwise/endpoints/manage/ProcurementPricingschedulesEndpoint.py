@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementPricingschedulesCountEndpoint import \
     ProcurementPricingschedulesCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdEndpoint import ProcurementPricingschedulesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PricingSchedule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -3,8 +3,7 @@ from typing import Any
 from pyconnectwise.endpoints.automate.UsersFoldersEndpoint import UsersFoldersEndpoint
 from pyconnectwise.endpoints.automate.UsersIdEndpoint import UsersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Users import User
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateUser
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -27,7 +26,7 @@ class UsersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> User:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateUser:
         """
         Performs a POST request against the /Users endpoint.
 
@@ -35,6 +34,6 @@ class UsersEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            User: The parsed response data.
+            AutomateUser: The parsed response data.
         """
-        return self._parse_one(User, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(AutomateUser, super()._make_request("POST", data=data, params=params).json())

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedCountEndpoin
     MarketingCampaignsIdLinksclickedCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedIdEndpoint import \
     MarketingCampaignsIdLinksclickedIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LinkClicked
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

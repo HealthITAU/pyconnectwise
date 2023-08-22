@@ -3,8 +3,7 @@ from typing import Any
 from pyconnectwise.endpoints.automate.ScriptsIdEndpoint import ScriptsIdEndpoint
 from pyconnectwise.endpoints.automate.ScriptsScriptfoldersEndpoint import ScriptsScriptfoldersEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import Script
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -27,7 +26,7 @@ class ScriptsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Script:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateScript:
         """
         Performs a POST request against the /Scripts endpoint.
 
@@ -35,6 +34,6 @@ class ScriptsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            Script: The parsed response data.
+            AutomateScript: The parsed response data.
         """
-        return self._parse_one(Script, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(AutomateScript, super()._make_request("POST", data=data, params=params).json())

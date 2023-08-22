@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsCountEndpoint 
     ProcurementCatalogIdComponentsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsIdEndpoint import \
     ProcurementCatalogIdComponentsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CatalogComponent
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

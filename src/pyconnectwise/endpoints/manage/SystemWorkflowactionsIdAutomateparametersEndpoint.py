@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersCou
     SystemWorkflowactionsIdAutomateparametersCountEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowactionsIdAutomateparametersIdEndpoint import \
     SystemWorkflowactionsIdAutomateparametersIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowActionAutomateParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

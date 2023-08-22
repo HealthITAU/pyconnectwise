@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeAccrualsIdDetailsCountEndpoint import TimeAccrualsIdDetailsCountEndpoint
 from pyconnectwise.endpoints.manage.TimeAccrualsIdDetailsIdEndpoint import TimeAccrualsIdDetailsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeAccrualDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

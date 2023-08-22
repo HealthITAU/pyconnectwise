@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceTemplatesCountEndpoint import ServiceTemplatesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceTemplatesIdEndpoint import ServiceTemplatesIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceTemplatesInfoEndpoint import ServiceTemplatesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

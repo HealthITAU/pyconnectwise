@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersCountEndpoint 
     ProcurementOnhandserialnumbersCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersIdEndpoint import \
     ProcurementOnhandserialnumbersIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OnHandSerialNumber
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

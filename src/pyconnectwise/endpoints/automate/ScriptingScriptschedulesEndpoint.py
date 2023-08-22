@@ -2,8 +2,7 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ScriptingScriptschedulesIdEndpoint import ScriptingScriptschedulesIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts import ScheduledScript
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateScheduledScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -26,7 +25,7 @@ class ScriptingScriptschedulesEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ScheduledScript]:
+    ) -> PaginatedResponse[AutomateScheduledScript]:
         """
         Performs a GET request against the /Scripting/Scriptschedules endpoint and returns an initialized PaginatedResponse object.
 
@@ -35,19 +34,19 @@ class ScriptingScriptschedulesEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ScheduledScript]: The initialized PaginatedResponse object.
+            PaginatedResponse[AutomateScheduledScript]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ScheduledScript,
+            AutomateScheduledScript,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduledScript]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AutomateScheduledScript]:
         """
         Performs a GET request against the /Scripting/Scriptschedules endpoint.
 
@@ -55,6 +54,6 @@ class ScriptingScriptschedulesEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ScheduledScript]: The parsed response data.
+            list[AutomateScheduledScript]: The parsed response data.
         """
-        return self._parse_many(ScheduledScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(AutomateScheduledScript, super()._make_request("GET", data=data, params=params).json())

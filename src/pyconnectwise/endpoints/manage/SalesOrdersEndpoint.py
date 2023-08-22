@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesOrdersCountEndpoint import SalesOrdersCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOrdersIdEndpoint import SalesOrdersIdEndpoint
 from pyconnectwise.endpoints.manage.SalesOrdersStatusesEndpoint import SalesOrdersStatusesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Order
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,8 +12,8 @@ class SalesOrdersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "orders", parent_endpoint=parent_endpoint)
 
-        self.statuses = self._register_child_endpoint(SalesOrdersStatusesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOrdersCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesOrdersStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesOrdersIdEndpoint:
         """

@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import Router
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechRouter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -10,7 +9,9 @@ class RoutersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Routers", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Router]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LabTechRouter]:
         """
         Performs a GET request against the /Routers endpoint and returns an initialized PaginatedResponse object.
 
@@ -19,19 +20,19 @@ class RoutersEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[Router]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechRouter]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            Router,
+            LabTechRouter,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Router]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechRouter]:
         """
         Performs a GET request against the /Routers endpoint.
 
@@ -39,6 +40,6 @@ class RoutersEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[Router]: The parsed response data.
+            list[LabTechRouter]: The parsed response data.
         """
-        return self._parse_many(Router, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechRouter, super()._make_request("GET", data=data, params=params).json())

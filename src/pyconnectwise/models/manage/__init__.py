@@ -4,54 +4,40 @@
 from __future__ import annotations
 
 from datetime import date, datetime
-from enum import Enum
-from typing import Any
+from typing import Any, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
+
+from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 
 
-class AccountNumber(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class AccountingBatch(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AccountingBatch(ConnectWiseModel):
     id: int | None = None
     batch_identifier: str | None = Field(default=None, alias='batchIdentifier')
     export_invoices_flag: bool | None = Field(default=None, alias='exportInvoicesFlag')
     export_expenses_flag: bool | None = Field(default=None, alias='exportExpensesFlag')
     export_products_flag: bool | None = Field(default=None, alias='exportProductsFlag')
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AccountingPackage(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AccountingPackage(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     name: str | None = None
 
 
-class AccountingPackageReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AccountingPackageReference(ConnectWiseModel):
     id: int | None = None
-    identifier: Identifier | None = None
+    identifier: Literal[
+        'QB99', 'Mas200', 'GPlains', 'SBA', 'Mas200v4', 'Other'
+    ] | None = None
     name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AccountingPackageSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AccountingPackageSetup(ConnectWiseModel):
     id: int | None = None
     accounting_package: AccountingPackageReference | None = Field(
         default=None, alias='accountingPackage'
@@ -60,14 +46,18 @@ class AccountingPackageSetup(BaseModel):
     include_invoices_flag: bool | None = Field(
         default=None, alias='includeInvoicesFlag'
     )
-    invoice_format: InvoiceFormat | None = Field(default=None, alias='invoiceFormat')
+    invoice_format: Literal['Default', 'Condensed', 'Detailed'] | None = Field(
+        default=None, alias='invoiceFormat'
+    )
     include_expenses_flag: bool | None = Field(
         default=None, alias='includeExpensesFlag'
     )
     transfer_expenses_as_bill_flag: bool | None = Field(
         default=None, alias='transferExpensesAsBillFlag'
     )
-    expense_format: ExpenseFormat | None = Field(default=None, alias='expenseFormat')
+    expense_format: Literal['Default', 'Condensed'] | None = Field(
+        default=None, alias='expenseFormat'
+    )
     suppress_memo_flag: bool | None = Field(default=None, alias='suppressMemoFlag')
     sync_payment_info_flag: bool | None = Field(
         default=None, alias='syncPaymentInfoFlag'
@@ -99,93 +89,13 @@ class AccountingPackageSetup(BaseModel):
     )
 
 
-class AccrualType(Enum):
-    HOLIDAY = 'Holiday'
-    PTO = 'PTO'
-    SICK = 'Sick'
-    VACATION = 'Vacation'
-
-
-class AccrualType1(Enum):
-    """
-    Available types are: Holiday, PTO, Sick and Vacation.
-    """
-
-    HOLIDAY = 'Holiday'
-    PTO = 'PTO'
-    SICK = 'Sick'
-    VACATION = 'Vacation'
-
-
-class AccrualType2(Enum):
-    HOLIDAY = 'Holiday'
-    PTO = 'PTO'
-    SICK = 'Sick'
-    VACATION = 'Vacation'
-
-
-class Activities(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class Activity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 100;
-    """
-    type: ActivityTypeReference | None = None
-    company: CompanyReference | None = None
-    contact: ContactReference | None = None
-    phone_number: str | None = Field(default=None, alias='phoneNumber')
-    """
-     Max length: 30;
-    """
-    email: str | None = None
-    """
-     Max length: 250;
-    """
-    status: ActivityStatusReference | None = None
-    opportunity: OpportunityReference | None = None
-    ticket: TicketReference | None = None
-    agreement: AgreementReference | None = None
-    campaign: CampaignReference | None = None
-    notes: str | None = None
-    date_start: datetime | None = Field(default=None, alias='dateStart')
-    date_end: datetime | None = Field(default=None, alias='dateEnd')
-    assigned_by: MemberReference | None = Field(default=None, alias='assignedBy')
-    assign_to: MemberReference | None = Field(default=None, alias='assignTo')
-    schedule_status: ScheduleStatusReference | None = Field(
-        default=None, alias='scheduleStatus'
-    )
-    reminder: ReminderReference | None = None
-    where: ServiceLocationReference | None = None
-    notify_flag: bool | None = Field(default=None, alias='notifyFlag')
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class ActivityReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ActivityReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ActivityStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ActivityStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -195,62 +105,23 @@ class ActivityStatus(BaseModel):
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     spawn_followup_flag: bool | None = Field(default=None, alias='spawnFollowupFlag')
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ActivityStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ActivityStatusInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ActivityStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ActivityStatusReference(ActivityReference):
+    pass
 
 
-class ActivityStopwatch(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    activity_id: int = Field(..., alias='activityId')
-    activity_mobile_guid: UUID | None = Field(default=None, alias='activityMobileGuid')
-    agreement: AgreementReference | None = None
-    billable_option: BillableOption | None = Field(default=None, alias='billableOption')
-    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
-    date_entered: datetime | None = Field(default=None, alias='dateEntered')
-    end_time: datetime | None = Field(default=None, alias='endTime')
-    id: int | None = None
-    internal_notes: str | None = Field(default=None, alias='internalNotes')
-    location_id: int | None = Field(default=None, alias='locationId')
-    member: MemberReference | None = None
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    notes: str | None = None
-    """
-     Max length: 4000;
-    """
-    start_time: datetime | None = Field(default=None, alias='startTime')
-    status: Status
-    total_pause_time: int | None = Field(default=None, alias='totalPauseTime')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ActivityType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ActivityType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -262,84 +133,14 @@ class ActivityType(BaseModel):
     email_flag: bool | None = Field(default=None, alias='emailFlag')
     memo_flag: bool | None = Field(default=None, alias='memoFlag')
     history_flag: bool | None = Field(default=None, alias='historyFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ActivityTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ActivityTypeReference(ActivityReference):
+    pass
 
 
-class AddLevel(Enum):
-    NONE = 'None'
-    MY = 'My'
-    ALL = 'All'
-
-
-class Addition(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    product: IvItemReference | None = None
-    quantity: float | None = None
-    less_included: float | None = Field(default=None, alias='lessIncluded')
-    unit_price: float | None = Field(default=None, alias='unitPrice')
-    unit_cost: float | None = Field(default=None, alias='unitCost')
-    bill_customer: BillCustomer = Field(..., alias='billCustomer')
-    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
-    cancelled_date: datetime | None = Field(default=None, alias='cancelledDate')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    serial_number: str | None = Field(default=None, alias='serialNumber')
-    """
-     Max length: 50;
-    """
-    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
-    """
-     Max length: 6000;
-    """
-    purchase_item_flag: bool | None = Field(default=None, alias='purchaseItemFlag')
-    special_order_flag: bool | None = Field(default=None, alias='specialOrderFlag')
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    description: str | None = None
-    billed_quantity: float | None = Field(default=None, alias='billedQuantity')
-    uom: str | None = None
-    ext_price: float | None = Field(default=None, alias='extPrice')
-    ext_cost: float | None = Field(default=None, alias='extCost')
-    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
-    margin: float | None = None
-    prorate_cost: float | None = Field(default=None, alias='prorateCost')
-    prorate_price: float | None = Field(default=None, alias='proratePrice')
-    extended_prorate_cost: float | None = Field(
-        default=None, alias='extendedProrateCost'
-    )
-    extended_prorate_price: float | None = Field(
-        default=None, alias='extendedProratePrice'
-    )
-    prorate_current_period_flag: bool | None = Field(
-        default=None, alias='prorateCurrentPeriodFlag'
-    )
-    opportunity: OpportunityReference | None = None
-    agreement_status: AgreementStatus | None = Field(
-        default=None, alias='agreementStatus'
-    )
-    invoice_grouping: InvoiceGroupingReference | None = Field(
-        default=None, alias='invoiceGrouping'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class AddressFormat(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AddressFormat(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -353,75 +154,29 @@ class AddressFormat(BaseModel):
     country_ids: list[int] | None = Field(default=None, alias='countryIds')
     add_all_countries: bool | None = Field(default=None, alias='addAllCountries')
     remove_all_countries: bool | None = Field(default=None, alias='removeAllCountries')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AddressFormatInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AddressFormatInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AddressFormatReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class AddressFormatReference(ActivityReference):
+    pass
 
 
-class AdjustmentDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
-    description: str | None = None
-    """
-     Max length: 50;
-    """
-    quantity_on_hand: float | None = Field(default=None, alias='quantityOnHand')
-    unit_cost: float | None = Field(default=None, alias='unitCost')
-    warehouse: WarehouseReference | None = None
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    quantity_adjusted: int = Field(..., alias='quantityAdjusted')
-    serial_number: str | None = Field(default=None, alias='serialNumber')
-    """
-     Max length: 1000;
-    """
-    adjustment: AdjustmentReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class AdjustmentDetailReference(ActivityReference):
+    pass
 
 
-class AdjustmentDetailReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class AdjustmentReference(ActivityReference):
+    pass
 
 
-class AdjustmentReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AdjustmentType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AdjustmentType(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -434,287 +189,45 @@ class AdjustmentType(BaseModel):
     audit_trail_flag: bool | None = Field(default=None, alias='auditTrailFlag')
     date_created: datetime | None = Field(default=None, alias='dateCreated')
     created_by: str | None = Field(default=None, alias='createdBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AdjustmentTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class AdjustmentTypeInfo(ActivityReference):
+    pass
 
 
-class AdjustmentTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AdjustmentTypeReference(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Agreement(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 100;
-    """
-    type: AgreementTypeReference | None = None
-    company: CompanyReference | None = None
-    contact: ContactReference | None = None
-    site: SiteReference | None = None
-    sub_contract_company: CompanyReference | None = Field(
-        default=None, alias='subContractCompany'
-    )
-    sub_contract_contact: ContactReference | None = Field(
-        default=None, alias='subContractContact'
-    )
-    parent_agreement: AgreementReference | None = Field(
-        default=None, alias='parentAgreement'
-    )
-    customer_po: str | None = Field(default=None, alias='customerPO')
-    """
-     Max length: 50;
-    """
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    restrict_location_flag: bool | None = Field(
-        default=None, alias='restrictLocationFlag'
-    )
-    restrict_department_flag: bool | None = Field(
-        default=None, alias='restrictDepartmentFlag'
-    )
-    start_date: datetime | None = Field(default=None, alias='startDate')
-    end_date: datetime | None = Field(default=None, alias='endDate')
-    no_ending_date_flag: bool | None = Field(default=None, alias='noEndingDateFlag')
-    opportunity: OpportunityReference | None = None
-    cancelled_flag: bool | None = Field(default=None, alias='cancelledFlag')
-    date_cancelled: datetime | None = Field(default=None, alias='dateCancelled')
-    reason_cancelled: str | None = Field(default=None, alias='reasonCancelled')
-    """
-     Max length: 100;
-    """
-    sla: SLAReference | None = None
-    work_order: str | None = Field(default=None, alias='workOrder')
-    """
-     Max length: 20;
-    """
-    internal_notes: str | None = Field(default=None, alias='internalNotes')
-    application_units: ApplicationUnits | None = Field(
-        default=None, alias='applicationUnits'
-    )
-    application_limit: float | None = Field(default=None, alias='applicationLimit')
-    application_cycle: ApplicationCycle | None = Field(
-        default=None, alias='applicationCycle'
-    )
-    application_unlimited_flag: bool | None = Field(
-        default=None, alias='applicationUnlimitedFlag'
-    )
-    one_time_flag: bool | None = Field(default=None, alias='oneTimeFlag')
-    cover_agreement_time: bool | None = Field(default=None, alias='coverAgreementTime')
-    cover_agreement_product: bool | None = Field(
-        default=None, alias='coverAgreementProduct'
-    )
-    cover_agreement_expense: bool | None = Field(
-        default=None, alias='coverAgreementExpense'
-    )
-    cover_sales_tax: bool | None = Field(default=None, alias='coverSalesTax')
-    carry_over_unused: bool | None = Field(default=None, alias='carryOverUnused')
-    allow_overruns: bool | None = Field(default=None, alias='allowOverruns')
-    expired_days: int | None = Field(default=None, alias='expiredDays')
-    limit: int | None = None
-    expire_when_zero: bool | None = Field(default=None, alias='expireWhenZero')
-    charge_to_firm: bool | None = Field(default=None, alias='chargeToFirm')
-    employee_comp_rate: EmployeeCompRate | None = Field(
-        default=None, alias='employeeCompRate'
-    )
-    """
-     Required On Updates;
-    """
-    employee_comp_not_exceed: EmployeeCompNotExceed | None = Field(
-        default=None, alias='employeeCompNotExceed'
-    )
-    comp_hourly_rate: float | None = Field(default=None, alias='compHourlyRate')
-    comp_limit_amount: float | None = Field(default=None, alias='compLimitAmount')
-    billing_cycle: BillingCycleReference | None = Field(
-        default=None, alias='billingCycle'
-    )
-    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    invoicing_cycle: InvoicingCycle | None = Field(default=None, alias='invoicingCycle')
-    """
-     Required On Updates;
-    """
-    bill_to_company: CompanyReference | None = Field(
-        default=None, alias='billToCompany'
-    )
-    bill_to_contact: ContactReference | None = Field(
-        default=None, alias='billToContact'
-    )
-    bill_to_site: SiteReference | None = Field(default=None, alias='billToSite')
-    bill_amount: float | None = Field(default=None, alias='billAmount')
-    taxable: bool | None = None
-    prorate_first_bill: float | None = Field(default=None, alias='prorateFirstBill')
-    bill_start_date: datetime | None = Field(default=None, alias='billStartDate')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    restrict_down_payment: bool | None = Field(
-        default=None, alias='restrictDownPayment'
-    )
-    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
-    invoice_prorated_additions_flag: bool | None = Field(
-        default=None, alias='invoiceProratedAdditionsFlag'
-    )
-    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
-    top_comment: bool | None = Field(default=None, alias='topComment')
-    bottom_comment: bool | None = Field(default=None, alias='bottomComment')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
-    invoice_template: InvoiceTemplateReference | None = Field(
-        default=None, alias='invoiceTemplate'
-    )
-    bill_time: BillTime | None = Field(default=None, alias='billTime')
-    """
-     Required On Updates;
-    """
-    bill_expenses: BillExpenses | None = Field(default=None, alias='billExpenses')
-    """
-     Required On Updates;
-    """
-    bill_products: BillProducts | None = Field(default=None, alias='billProducts')
-    """
-     Required On Updates;
-    """
-    billable_time_invoice: bool | None = Field(
-        default=None, alias='billableTimeInvoice'
-    )
-    billable_expense_invoice: bool | None = Field(
-        default=None, alias='billableExpenseInvoice'
-    )
-    billable_product_invoice: bool | None = Field(
-        default=None, alias='billableProductInvoice'
-    )
-    currency: CurrencyReference | None = None
-    period_type: PeriodType | None = Field(default=None, alias='periodType')
-    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
-    next_invoice_date: str | None = Field(default=None, alias='nextInvoiceDate')
-    company_location: SystemLocationReference | None = Field(
-        default=None, alias='companyLocation'
-    )
-    ship_to_company: CompanyReference | None = Field(
-        default=None, alias='shipToCompany'
-    )
-    ship_to_contact: ContactReference | None = Field(
-        default=None, alias='shipToContact'
-    )
-    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
-    agreement_status: AgreementStatus | None = Field(
-        default=None, alias='agreementStatus'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class AgreementApplicationAviablePer(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementApplicationAviablePer(ConnectWiseModel):
     id: int | None = None
     tag: str | None = None
     name: str | None = None
 
 
-class AgreementApplicationBillingCycle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tag: str | None = None
-    name: str | None = None
+class AgreementApplicationBillingCycle(AgreementApplicationAviablePer):
+    pass
 
 
-class AgreementApplicationLimit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tag: str | None = None
-    name: str | None = None
+class AgreementApplicationLimit(AgreementApplicationAviablePer):
+    pass
 
 
-class AgreementApplicationParameters(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    application_unit: AgreementApplicationUnit | None = Field(
-        default=None, alias='applicationUnit'
-    )
-    application_limit: AgreementApplicationLimit | None = Field(
-        default=None, alias='applicationLimit'
-    )
-    application_limit_amount: float | None = Field(
-        default=None, alias='applicationLimitAmount'
-    )
-    available_per: AgreementApplicationAviablePer | None = Field(
-        default=None, alias='availablePer'
-    )
-    covers_time_flag: bool | None = Field(default=None, alias='coversTimeFlag')
-    covers_expenses_flag: bool | None = Field(default=None, alias='coversExpensesFlag')
-    covers_products_flag: bool | None = Field(default=None, alias='coversProductsFlag')
-    covers_tax_flag: bool | None = Field(default=None, alias='coversTaxFlag')
-    carryover_unused_flag: bool | None = Field(
-        default=None, alias='carryoverUnusedFlag'
-    )
-    carry_over_days: int | None = Field(default=None, alias='carryOverDays')
-    allow_overruns_flag: bool | None = Field(default=None, alias='allowOverrunsFlag')
-    overrun_limit: int | None = Field(default=None, alias='overrunLimit')
-    agreement_expires_flag: bool | None = Field(
-        default=None, alias='agreementExpiresFlag'
-    )
-    charge_adjustments_flag: bool | None = Field(
-        default=None, alias='chargeAdjustmentsFlag'
-    )
-    prepay_flag: bool | None = Field(default=None, alias='prepayFlag')
-    agr_billing_cycle: AgreementApplicationBillingCycle | None = Field(
-        default=None, alias='agrBillingCycle'
-    )
-    user_defined_field_values: list[UserDefinedFieldValueModel] | None = Field(
-        default=None, alias='userDefinedFieldValues'
-    )
+class AgreementApplicationUnit(AgreementApplicationAviablePer):
+    pass
 
 
-class AgreementApplicationUnit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tag: str | None = None
-    name: str | None = None
-
-
-class AgreementBatchSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementBatchSetup(ConnectWiseModel):
     id: int | None = None
     next_run_date: datetime = Field(..., alias='nextRunDate')
     days_in_advance: int = Field(..., alias='daysInAdvance')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AgreementBillingInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementBillingInfo(ConnectWiseModel):
     agreement_name: str | None = Field(default=None, alias='agreementName')
     agreement_type: str | None = Field(default=None, alias='agreementType')
     agreement_amount: float | None = Field(default=None, alias='agreementAmount')
@@ -722,15 +235,7 @@ class AgreementBillingInfo(BaseModel):
     parent_rec_id: int | None = Field(default=None, alias='parentRecId')
 
 
-class AgreementInvoicingDisplayOptions(Enum):
-    REMAIN_ON_INVOICING_SCREEN = 'RemainOnInvoicingScreen'
-    SHOW_RECENT_INVOICES = 'ShowRecentInvoices'
-
-
-class AgreementRecap(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementRecap(ConnectWiseModel):
     id: int | None = None
     adjustment_amount: float | None = Field(default=None, alias='adjustmentAmount')
     agreement_status: str | None = Field(default=None, alias='agreementStatus')
@@ -753,396 +258,44 @@ class AgreementRecap(BaseModel):
     used_amount: float | None = Field(default=None, alias='usedAmount')
 
 
-class AgreementRecurringParameters(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    billing_cycle: GenericNameIdDTO | None = Field(default=None, alias='billingCycle')
-    cycle_base: GenericNameIdDTO | None = Field(default=None, alias='cycleBase')
-    a_gr_amount: float | None = Field(default=None, alias='aGRAmount')
-    taxable: bool | None = None
-    children_amount: float | None = Field(default=None, alias='childrenAmount')
-    additions_amount: float | None = Field(default=None, alias='additionsAmount')
-    total_amount: float | None = Field(default=None, alias='totalAmount')
-    a_gr_prorate: float | None = Field(default=None, alias='aGRProrate')
-    bill_start_date: str | None = Field(default=None, alias='billStartDate')
-    tax_code: GenericNameIdDTO | None = Field(default=None, alias='taxCode')
-    terms: GenericNameIdDTO | None = None
-    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
-    invoice_prorated_additions_flag: bool | None = Field(
-        default=None, alias='invoiceProratedAdditionsFlag'
-    )
-    restrict_downpayment: bool | None = Field(default=None, alias='restrictDownpayment')
-    currency: GenericNameIdDTO | None = None
-    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
-    user_defined_field_values: list[UserDefinedFieldValueModel] | None = Field(
-        default=None, alias='userDefinedFieldValues'
-    )
-
-
-class AgreementReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     type: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AgreementRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementRevenueReference(ConnectWiseModel):
     id: int | None = None
     revenue: float | None = None
     cost: float | None = None
     margin: float | None = None
     percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AgreementSite(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    company: CompanyReference | None = None
-    site: SiteReference | None = None
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class AgreementStatus(Enum):
-    ACTIVE = 'Active'
-    CANCELLED = 'Cancelled'
-    EXPIRED = 'Expired'
-    INACTIVE = 'Inactive'
-
-
-class AgreementType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    prefix_suffix_option: PrefixSuffixOption | None = Field(
-        default=None, alias='prefixSuffixOption'
-    )
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    pre_payment_flag: bool | None = Field(default=None, alias='prePaymentFlag')
-    invoice_pre_suffix: str | None = Field(default=None, alias='invoicePreSuffix')
-    """
-     Max length: 5;
-    """
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    restrict_location_flag: bool | None = Field(
-        default=None, alias='restrictLocationFlag'
-    )
-    restrict_department_flag: bool | None = Field(
-        default=None, alias='restrictDepartmentFlag'
-    )
-    sla: SLAReference | None = None
-    application_units: ApplicationUnits | None = Field(
-        default=None, alias='applicationUnits'
-    )
-    application_limit: float | None = Field(default=None, alias='applicationLimit')
-    application_cycle: ApplicationCycle | None = Field(
-        default=None, alias='applicationCycle'
-    )
-    application_unlimited_flag: bool | None = Field(
-        default=None, alias='applicationUnlimitedFlag'
-    )
-    one_time_flag: bool | None = Field(default=None, alias='oneTimeFlag')
-    cover_agreement_time_flag: bool | None = Field(
-        default=None, alias='coverAgreementTimeFlag'
-    )
-    cover_agreement_product_flag: bool | None = Field(
-        default=None, alias='coverAgreementProductFlag'
-    )
-    cover_agreement_expense_flag: bool | None = Field(
-        default=None, alias='coverAgreementExpenseFlag'
-    )
-    cover_sales_tax_flag: bool | None = Field(default=None, alias='coverSalesTaxFlag')
-    carry_over_unused_flag: bool | None = Field(
-        default=None, alias='carryOverUnusedFlag'
-    )
-    allow_overruns_flag: bool | None = Field(default=None, alias='allowOverrunsFlag')
-    expired_days: int | None = Field(default=None, alias='expiredDays')
-    limit: int | None = None
-    expire_when_zero: bool | None = Field(default=None, alias='expireWhenZero')
-    charge_to_firm_flag: bool | None = Field(default=None, alias='chargeToFirmFlag')
-    employee_comp_rate: EmployeeCompRate1 = Field(..., alias='employeeCompRate')
-    employee_comp_not_exceed: EmployeeCompNotExceed = Field(
-        ..., alias='employeeCompNotExceed'
-    )
-    comp_hourly_rate: float | None = Field(default=None, alias='compHourlyRate')
-    comp_limit_amount: float | None = Field(default=None, alias='compLimitAmount')
-    billing_cycle: BillingCycleReference | None = Field(
-        default=None, alias='billingCycle'
-    )
-    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    invoicing_cycle: InvoicingCycle1 = Field(..., alias='invoicingCycle')
-    bill_amount: float | None = Field(default=None, alias='billAmount')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    restrict_down_payment_flag: bool | None = Field(
-        default=None, alias='restrictDownPaymentFlag'
-    )
-    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
-    """
-     Max length: 4000;
-    """
-    top_comment_flag: bool | None = Field(default=None, alias='topCommentFlag')
-    bottom_comment_flag: bool | None = Field(default=None, alias='bottomCommentFlag')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
-    invoice_template: InvoiceTemplateReference | None = Field(
-        default=None, alias='invoiceTemplate'
-    )
-    bill_time: BillTime1 = Field(..., alias='billTime')
-    bill_expenses: BillExpenses1 = Field(..., alias='billExpenses')
-    bill_products: BillProducts1 = Field(..., alias='billProducts')
-    billable_time_invoice_flag: bool | None = Field(
-        default=None, alias='billableTimeInvoiceFlag'
-    )
-    billable_expense_invoice_flag: bool | None = Field(
-        default=None, alias='billableExpenseInvoiceFlag'
-    )
-    billable_product_invoice_flag: bool | None = Field(
-        default=None, alias='billableProductInvoiceFlag'
-    )
-    copy_work_roles_flag: bool | None = Field(default=None, alias='copyWorkRolesFlag')
-    copy_work_types_flag: bool | None = Field(default=None, alias='copyWorkTypesFlag')
-    exclusion_work_role_ids: list[int] | None = Field(
-        default=None, alias='exclusionWorkRoleIds'
-    )
-    add_all_work_role_exclusions: bool | None = Field(
-        default=None, alias='addAllWorkRoleExclusions'
-    )
-    remove_all_work_role_exclusions: bool | None = Field(
-        default=None, alias='removeAllWorkRoleExclusions'
-    )
-    exclusion_work_type_ids: list[int] | None = Field(
-        default=None, alias='exclusionWorkTypeIds'
-    )
-    add_all_work_type_exclusions: bool | None = Field(
-        default=None, alias='addAllWorkTypeExclusions'
-    )
-    remove_all_work_type_exclusions: bool | None = Field(
-        default=None, alias='removeAllWorkTypeExclusions'
-    )
-    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
-    """
-     Max length: 50;
-    """
-    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
-    email_template: EmailTemplateReference | None = Field(
-        default=None, alias='emailTemplate'
-    )
-    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
-    invoice_prorated_additions_flag: bool | None = Field(
-        default=None, alias='invoiceProratedAdditionsFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeBoardDefault(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    location: SystemLocationReference
-    department: SystemDepartmentReference | None = None
-    board: BoardReference | None = None
-    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AgreementTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    application_units: ApplicationUnits | None = Field(
+    application_units: Literal['Amount', 'Hours', 'Incidents'] | None = Field(
         default=None, alias='applicationUnits'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AgreementTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class AgreementTypeReference(ActivityReference):
+    pass
 
 
-class AgreementTypeWorkRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
-    ending_date: datetime | None = Field(default=None, alias='endingDate')
-    rate: float | None = None
-    rate_type: RateType = Field(..., alias='rateType')
-    limit_to: float | None = Field(default=None, alias='limitTo')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeWorkRoleExclusion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeWorkRoleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeWorkType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
-    ending_date: datetime | None = Field(default=None, alias='endingDate')
-    rate: float | None = None
-    rate_type: RateType = Field(..., alias='rateType')
-    bill_time: BillTime1 = Field(..., alias='billTime')
-    hours_min: float | None = Field(default=None, alias='hoursMin')
-    hours_max: float | None = Field(default=None, alias='hoursMax')
-    round_bill_hours: float | None = Field(default=None, alias='roundBillHours')
-    overage_rate: float | None = Field(default=None, alias='overageRate')
-    overage_rate_type: OverageRateType = Field(..., alias='overageRateType')
-    limit_to: float | None = Field(default=None, alias='limitTo')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementTypeWorkTypeExclusion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: AgreementTypeReference | None = None
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementWorkRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    location_id: int | None = Field(default=None, alias='locationId')
-    rate_type: RateType = Field(..., alias='rateType')
-    rate: float | None = None
-    limit_to: float | None = Field(default=None, alias='limitTo')
-    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
-    ending_date: datetime | None = Field(default=None, alias='endingDate')
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementWorkRoleExclusion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementWorkType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    location: OwnerLevelReference | None = None
-    location_id: int | None = Field(default=None, alias='locationId')
-    rate_type: RateType = Field(..., alias='rateType')
-    bill_time: BillTime1 = Field(..., alias='billTime')
-    rate: float | None = None
-    hours_max: float | None = Field(default=None, alias='hoursMax')
-    hours_min: float | None = Field(default=None, alias='hoursMin')
-    round_bill_hours: float | None = Field(default=None, alias='roundBillHours')
-    overage_rate: float | None = Field(default=None, alias='overageRate')
-    overage_rate_type: OverageRateType | None = Field(
-        default=None, alias='overageRateType'
-    )
-    agreement_limit: float | None = Field(default=None, alias='agreementLimit')
-    site: SiteReference | None = None
-    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
-    ending_date: datetime | None = Field(default=None, alias='endingDate')
-    agreement: AgreementReference | None = None
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AgreementWorkTypeExclusion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AllSort(Enum):
-    ASCENDING = 'Ascending'
-    DESCENDING = 'Descending'
-
-
-class AllowedFileType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AllowedFileType(ConnectWiseModel):
     id: int | None = None
     file_type: str = Field(..., alias='fileType')
     size_limit: int | None = Field(default=None, alias='sizeLimit')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AllowedOrigin(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AllowedOrigin(ConnectWiseModel):
     id: int | None = None
     origin: str
     """
@@ -1154,132 +307,10 @@ class AllowedOrigin(BaseModel):
     """
     last_update_utc: datetime | None = Field(default=None, alias='lastUpdateUtc')
     updated_by: str | None = Field(default=None, alias='updatedBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ApiMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str
-    """
-     Max length: 15;
-    """
-    name: str | None = None
-    """
-     Max length: 30; Required On Updates;
-    """
-    email_address: str | None = Field(default=None, alias='emailAddress')
-    """
-     Max length: 250;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    inactive_date: datetime | None = Field(default=None, alias='inactiveDate')
-    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
-    security_role: SecurityRoleReference | None = Field(
-        default=None, alias='securityRole'
-    )
-    structure_level: StructureReference | None = Field(
-        default=None, alias='structureLevel'
-    )
-    security_location: SystemLocationReference | None = Field(
-        default=None, alias='securityLocation'
-    )
-    default_location: SystemLocationReference | None = Field(
-        default=None, alias='defaultLocation'
-    )
-    default_department: SystemDepartmentReference | None = Field(
-        default=None, alias='defaultDepartment'
-    )
-    sales_default_location: SystemLocationReference | None = Field(
-        default=None, alias='salesDefaultLocation'
-    )
-    service_default_board: BoardReference | None = Field(
-        default=None, alias='serviceDefaultBoard'
-    )
-    notes: str | None = None
-    excluded_service_board_ids: list[int] | None = Field(
-        default=None, alias='excludedServiceBoardIds'
-    )
-    block_price_flag: bool | None = Field(default=None, alias='blockPriceFlag')
-    block_cost_flag: bool | None = Field(default=None, alias='blockCostFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ApiRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    external_id: str | None = Field(default=None, alias='externalId')
-    parent_id: int | None = Field(default=None, alias='parentId')
-    grand_parent_id: int | None = Field(default=None, alias='grandParentId')
-    entity: IRestIdentifiedItem | None = None
-    filters: FilterValues | None = None
-    page: PageValues | None = None
-    format: str | None = None
-    fields: str | None = None
-    misc_properties: dict[str, dict[str, Any]] | None = Field(
-        default=None, alias='miscProperties'
-    )
-    member_context: str | None = Field(default=None, alias='memberContext')
-    update_only_ces_properties: bool | None = Field(
-        default=None, alias='updateOnlyCesProperties'
-    )
-
-
-class ApplicationCycle(Enum):
-    CONTRACT2_WEEKS = 'Contract2Weeks'
-    CONTRACT4_WEEKS = 'Contract4Weeks'
-    CONTRACT_YEAR = 'ContractYear'
-    CALENDAR_MONTH = 'CalendarMonth'
-    CALENDAR_QUARTER = 'CalendarQuarter'
-    CALENDAR_WEEK = 'CalendarWeek'
-    CONTRACT_QUARTER = 'ContractQuarter'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class ApplicationUnits(Enum):
-    AMOUNT = 'Amount'
-    HOURS = 'Hours'
-    INCIDENTS = 'Incidents'
-
-
-class ApplyToType(Enum):
-    ALL = 'All'
-    AGREEMENT = 'Agreement'
-    PROJECT = 'Project'
-    PROJECT_PHASE = 'ProjectPhase'
-    SALES_ORDER = 'SalesOrder'
-    TICKET = 'Ticket'
-
-
-class ApprovalType(Enum):
-    DATA_ENTRY = 'DataEntry'
-    TIER1_UPDATE = 'Tier1Update'
-    TIER2_UPDATE = 'Tier2Update'
-    BILLING = 'Billing'
-    SERVICE = 'Service'
-    PROJECT = 'Project'
-    MONTHLY_SUMMARY = 'MonthlySummary'
-    SALES_ACTIVITY = 'SalesActivity'
-    SCHEDULE = 'Schedule'
-
-
-class AttachConfigurationsFor(Enum):
-    """
-    Required when notifyType is set to: "Attach Configuration"
-    """
-
-    COMPANY = 'Company'
-    CONTACT = 'Contact'
-
-
-class AuditTrailEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AuditTrailEntry(ConnectWiseModel):
     text: str | None = None
     entered_date: str | None = Field(default=None, alias='enteredDate')
     entered_by: str | None = Field(default=None, alias='enteredBy')
@@ -1288,278 +319,18 @@ class AuditTrailEntry(BaseModel):
     audit_source: str | None = Field(default=None, alias='auditSource')
 
 
-class AuthAnvil(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class AuthAnvil(ConnectWiseModel):
     id: int | None = None
     server_location_url: str = Field(..., alias='serverLocationUrl')
     site_id: int = Field(..., alias='siteId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class AuthenticationServiceType(Enum):
-    AUTH_ANVIL = 'AuthAnvil'
-    GOOGLE_AUTHENTICATOR = 'GoogleAuthenticator'
-    EMAIL = 'Email'
+class AutomateScriptReference(ActivityReference):
+    pass
 
 
-class AutoSyncTime(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sync_time: str = Field(..., alias='syncTime')
-    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class AutomateScriptReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BasedOn(Enum):
-    ALL_HOURS = 'AllHours'
-    CUSTOMER = 'Customer'
-    MY_CALENDAR = 'MyCalendar'
-    CUSTOM = 'Custom'
-
-
-class BatchEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    account_type: str | None = Field(default=None, alias='accountType')
-    name: str | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    debit: float | None = None
-    credit: float | None = None
-    cost: float | None = None
-    item: str | None = None
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    cost_of_goods_sold_account_number: str | None = Field(
-        default=None, alias='costOfGoodsSoldAccountNumber'
-    )
-    invoice: InvoiceReference | None = None
-    purchase_order: PurchaseOrderReference | None = Field(
-        default=None, alias='purchaseOrder'
-    )
-    line_item: PurchaseOrderLineItemReference | None = Field(
-        default=None, alias='lineItem'
-    )
-    transfer: str | None = None
-    expense: ExpenseDetailReference | None = None
-    adjustment_detail: AdjustmentDetailReference | None = Field(
-        default=None, alias='adjustmentDetail'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BatchFrequencyUnit(Enum):
-    """
-    If not specified, defaults to Minutes. Months is not supported as month length varies
-    """
-
-    MINUTES = 'Minutes'
-    HOURS = 'Hours'
-    DAYS = 'Days'
-
-
-class BatchSchedule(Enum):
-    """
-    If activateFlag is true, batchSchedule is required
-    """
-
-    ANY_TIME = 'AnyTime'
-    MY_COMPANY_OFFICE_HOURS = 'MyCompanyOfficeHours'
-    SLA_HOURS = 'SlaHours'
-
-
-class BillCustomer(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-
-
-class BillExpense(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillExpenses(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillExpenses1(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillExpenses3(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillExpenses5(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillProduct(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillProducts(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillProducts1(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillProducts2(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillProducts4(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillTime(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillTime1(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillTime11(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-
-
-class BillTime6(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillTime8(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillableOption(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillableOption4(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-
-
-class BillableOption5(Enum):
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillableOption7(Enum):
-    """
-    Required On Updates;
-    """
-
-    BILLABLE = 'Billable'
-    DO_NOT_BILL = 'DoNotBill'
-    NO_CHARGE = 'NoCharge'
-    NO_DEFAULT = 'NoDefault'
-
-
-class BillingAddress(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class BillingContact(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class BillingCycle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BillingCycle(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -1570,309 +341,36 @@ class BillingCycle(BaseModel):
      Max length: 50;
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    billing_options: BillingOptions = Field(..., alias='billingOptions')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    billing_options: Literal[
+        'BiMonthly',
+        'BiWeekly',
+        'Monthly',
+        'NotRecurring',
+        'Quarterly',
+        'SemiAnnual',
+        'Weekly',
+        'Yearly',
+    ] = Field(..., alias='billingOptions')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BillingCycleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BillingCycleInfo(AddressFormatInfo):
+    pass
 
 
-class BillingCycleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BillingCycleReference(ActivityReference):
+    pass
 
 
-class BillingDeliveryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BillingDeliveryReference(ActivityReference):
+    pass
 
 
-class BillingLevel(Enum):
-    DETAIL = 'Detail'
-    SUMMARY = 'Summary'
+class BillingSetupReference(ActivityReference):
+    pass
 
 
-class BillingMethod(Enum):
-    AGREEMENT = 'Agreement'
-    CREDIT_MEMO = 'CreditMemo'
-    DOWN_PAYMENT = 'DownPayment'
-    MISCELLANEOUS = 'Miscellaneous'
-    PROGRESS = 'Progress'
-    STANDARD = 'Standard'
-
-
-class BillingMethod1(Enum):
-    ACTUAL_RATES = 'ActualRates'
-    FIXED_FEE = 'FixedFee'
-    NOT_TO_EXCEED = 'NotToExceed'
-    OVERRIDE_RATE = 'OverrideRate'
-
-
-class BillingMethod2(Enum):
-    """
-    billingMethod is required if the phase billSeparatelyFlag is true.
-    """
-
-    ACTUAL_RATES = 'ActualRates'
-    FIXED_FEE = 'FixedFee'
-    NOT_TO_EXCEED = 'NotToExceed'
-    OVERRIDE_RATE = 'OverrideRate'
-
-
-class BillingMethod4(Enum):
-    ACTUAL_RATES = 'ActualRates'
-    FIXED_FEE = 'FixedFee'
-    NOT_TO_EXCEED = 'NotToExceed'
-    OVERRIDE_RATE = 'OverrideRate'
-
-
-class BillingOptions(Enum):
-    BI_MONTHLY = 'BiMonthly'
-    BI_WEEKLY = 'BiWeekly'
-    MONTHLY = 'Monthly'
-    NOT_RECURRING = 'NotRecurring'
-    QUARTERLY = 'Quarterly'
-    SEMI_ANNUAL = 'SemiAnnual'
-    WEEKLY = 'Weekly'
-    YEARLY = 'Yearly'
-
-
-class BillingRateType(Enum):
-    """
-    Required On Updates;
-    """
-
-    STAFF_MEMBER = 'StaffMember'
-    WORK_ROLE = 'WorkRole'
-
-
-class BillingSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    remit_name: str = Field(..., alias='remitName')
-    """
-     Max length: 50;
-    """
-    location: SystemLocationReference
-    address_one: str | None = Field(default=None, alias='addressOne')
-    """
-     Max length: 50;
-    """
-    address_two: str | None = Field(default=None, alias='addressTwo')
-    """
-     Max length: 50;
-    """
-    city: str | None = None
-    """
-     Max length: 50;
-    """
-    state: StateReference | None = None
-    zip: str | None = None
-    """
-     Max length: 12;
-    """
-    country: CountryReference | None = None
-    phone: str | None = None
-    """
-     Max length: 15;
-    """
-    invoice_title: str = Field(..., alias='invoiceTitle')
-    """
-     Max length: 50;
-    """
-    payable_name: str = Field(..., alias='payableName')
-    """
-     Max length: 50;
-    """
-    topcomment: str | None = None
-    """
-     Max length: 4000;
-    """
-    invoice_footer: str | None = Field(default=None, alias='invoiceFooter')
-    """
-     Max length: 500;
-    """
-    quote_footer: str | None = Field(default=None, alias='quoteFooter')
-    """
-     Max length: 1000;
-    """
-    overall_invoice_default: InvoiceTemplateReference | None = Field(
-        default=None, alias='overallInvoiceDefault'
-    )
-    standard_invoice_actual: InvoiceTemplateReference | None = Field(
-        default=None, alias='standardInvoiceActual'
-    )
-    standard_invoice_fixed: InvoiceTemplateReference | None = Field(
-        default=None, alias='standardInvoiceFixed'
-    )
-    progress_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='progressInvoice'
-    )
-    agreement_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='agreementInvoice'
-    )
-    credit_memo_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='creditMemoInvoice'
-    )
-    down_payment_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='downPaymentInvoice'
-    )
-    misc_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='miscInvoice'
-    )
-    sales_order_invoice: InvoiceTemplateReference | None = Field(
-        default=None, alias='salesOrderInvoice'
-    )
-    exclude_do_not_bill_time_flag: bool | None = Field(
-        default=None, alias='excludeDoNotBillTimeFlag'
-    )
-    exclude_do_not_bill_expense_flag: bool | None = Field(
-        default=None, alias='excludeDoNotBillExpenseFlag'
-    )
-    exclude_do_not_bill_product_flag: bool | None = Field(
-        default=None, alias='excludeDoNotBillProductFlag'
-    )
-    prefix_suffix_flag: PrefixSuffixFlag | None = Field(
-        default=None, alias='prefixSuffixFlag'
-    )
-    prefix_suffix_text: str | None = Field(default=None, alias='prefixSuffixText')
-    """
-     Max length: 5;
-    """
-    charge_adj_to_firm_flag: bool | None = Field(
-        default=None, alias='chargeAdjToFirmFlag'
-    )
-    no_watermark_flag: bool | None = Field(default=None, alias='noWatermarkFlag')
-    display_tax_flag: bool | None = Field(default=None, alias='displayTaxFlag')
-    allow_restricted_dept_on_routing_flag: bool | None = Field(
-        default=None, alias='allowRestrictedDeptOnRoutingFlag'
-    )
-    bill_ticket_separately_flag: bool | None = Field(
-        default=None, alias='billTicketSeparatelyFlag'
-    )
-    bill_ticket_complete_flag: bool | None = Field(
-        default=None, alias='billTicketCompleteFlag'
-    )
-    bill_ticket_unapproved_flag: bool | None = Field(
-        default=None, alias='billTicketUnapprovedFlag'
-    )
-    bill_project_complete_flag: bool | None = Field(
-        default=None, alias='billProjectCompleteFlag'
-    )
-    bill_project_unapproved_flag: bool | None = Field(
-        default=None, alias='billProjectUnapprovedFlag'
-    )
-    progress_time_flag: bool | None = Field(default=None, alias='progressTimeFlag')
-    restrict_project_downpayment_flag: bool | None = Field(
-        default=None, alias='restrictProjectDownpaymentFlag'
-    )
-    bill_sales_order_complete_flag: bool | None = Field(
-        default=None, alias='billSalesOrderCompleteFlag'
-    )
-    bill_product_after_ship_flag: bool | None = Field(
-        default=None, alias='billProductAfterShipFlag'
-    )
-    restrict_downpayment_flag: bool | None = Field(
-        default=None, alias='restrictDownpaymentFlag'
-    )
-    copy_non_service_products_flag: bool | None = Field(
-        default=None, alias='copyNonServiceProductsFlag'
-    )
-    copy_service_products_flag: bool | None = Field(
-        default=None, alias='copyServiceProductsFlag'
-    )
-    copy_agreement_products_flag: bool | None = Field(
-        default=None, alias='copyAgreementProductsFlag'
-    )
-    print_logo_flag: bool | None = Field(default=None, alias='printLogoFlag')
-    read_receipt_flag: bool | None = Field(default=None, alias='readReceiptFlag')
-    delivery_receipt_flag: bool | None = Field(
-        default=None, alias='deliveryReceiptFlag'
-    )
-    attach_xml_invoice_flag: bool | None = Field(
-        default=None, alias='attachXmlInvoiceFlag'
-    )
-    disable_routing_email_flag: bool | None = Field(
-        default=None, alias='disableRoutingEmailFlag'
-    )
-    email_template: EmailTemplateReference = Field(..., alias='emailTemplate')
-    localized_country: CountryReference | None = Field(
-        default=None, alias='localizedCountry'
-    )
-    business_number: str | None = Field(default=None, alias='businessNumber')
-    """
-     Max length: 50;
-    """
-    currency: CurrencyReference | None = None
-    custom_label: str | None = Field(default=None, alias='customLabel')
-    """
-     Max length: 50;
-    """
-    custom_text: str | None = Field(default=None, alias='customText')
-    """
-     Max length: 500;
-    """
-    company_code: str | None = Field(default=None, alias='companyCode')
-    """
-     Max length: 250;
-    """
-    exclude_avalara_flag: bool | None = Field(default=None, alias='excludeAvalaraFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BillingSetupInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    remit_name: str | None = Field(default=None, alias='remitName')
-    location: SystemLocationReference | None = None
-    currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BillingSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BillingSetupRouting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sequence_number: int = Field(..., alias='sequenceNumber')
-    invoice_rule: InvoiceRule = Field(..., alias='invoiceRule')
-    routing_rule: RoutingRule = Field(..., alias='routingRule')
-    member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BillingStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BillingStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -1883,33 +381,22 @@ class BillingStatus(BaseModel):
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     sent_flag: bool | None = Field(default=None, alias='sentFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BillingStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BillingStatusInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     sort_order: int | None = Field(default=None, alias='sortOrder')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BillingStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BillingStatusReference(ActivityReference):
+    pass
 
 
-class BillingTerm(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BillingTerm(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -1921,283 +408,18 @@ class BillingTerm(BaseModel):
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BillingTermInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BillingTermInfo(ActivityReference):
+    pass
 
 
-class BillingTerms(Enum):
-    FROM_ = 'From'
-    TO = 'To'
+class BillingTermsReference(ActivityReference):
+    pass
 
 
-class BillingTermsReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Board(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    sign_off_template: ServiceSignoffReference | None = Field(
-        default=None, alias='signOffTemplate'
-    )
-    send_to_contact_flag: bool | None = Field(default=None, alias='sendToContactFlag')
-    contact_template: ServiceEmailTemplateReference | None = Field(
-        default=None, alias='contactTemplate'
-    )
-    send_to_resource_flag: bool | None = Field(default=None, alias='sendToResourceFlag')
-    resource_template: ServiceEmailTemplateReference | None = Field(
-        default=None, alias='resourceTemplate'
-    )
-    project_flag: bool | None = Field(default=None, alias='projectFlag')
-    show_dependencies_flag: bool | None = Field(
-        default=None, alias='showDependenciesFlag'
-    )
-    """
-    This field only shows if it is Project Board.
-    """
-    show_estimates_flag: bool | None = Field(default=None, alias='showEstimatesFlag')
-    """
-    This field only shows if it is Project Board.
-    """
-    board_icon: DocumentReference | None = Field(default=None, alias='boardIcon')
-    bill_tickets_after_closed_flag: bool | None = Field(
-        default=None, alias='billTicketsAfterClosedFlag'
-    )
-    bill_ticket_separately_flag: bool | None = Field(
-        default=None, alias='billTicketSeparatelyFlag'
-    )
-    bill_unapproved_time_expense_flag: bool | None = Field(
-        default=None, alias='billUnapprovedTimeExpenseFlag'
-    )
-    override_billing_setup_flag: bool | None = Field(
-        default=None, alias='overrideBillingSetupFlag'
-    )
-    dispatch_member: MemberReference | None = Field(
-        default=None, alias='dispatchMember'
-    )
-    service_manager_member: MemberReference | None = Field(
-        default=None, alias='serviceManagerMember'
-    )
-    duty_manager_member: MemberReference | None = Field(
-        default=None, alias='dutyManagerMember'
-    )
-    oncall_member: MemberReference | None = Field(default=None, alias='oncallMember')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    bill_time: BillTime1 | None = Field(default=None, alias='billTime')
-    bill_expense: BillExpense | None = Field(default=None, alias='billExpense')
-    bill_product: BillProduct | None = Field(default=None, alias='billProduct')
-    auto_close_status: ServiceStatusReference | None = Field(
-        default=None, alias='autoCloseStatus'
-    )
-    auto_assign_new_tickets_flag: bool | None = Field(
-        default=None, alias='autoAssignNewTicketsFlag'
-    )
-    auto_assign_new_ec_tickets_flag: bool | None = Field(
-        default=None, alias='autoAssignNewECTicketsFlag'
-    )
-    auto_assign_new_portal_tickets_flag: bool | None = Field(
-        default=None, alias='autoAssignNewPortalTicketsFlag'
-    )
-    discussions_locked_flag: bool | None = Field(
-        default=None, alias='discussionsLockedFlag'
-    )
-    time_entry_locked_flag: bool | None = Field(
-        default=None, alias='timeEntryLockedFlag'
-    )
-    notify_email_from: str | None = Field(default=None, alias='notifyEmailFrom')
-    """
-     Max length: 50;
-    """
-    notify_email_from_name: str | None = Field(
-        default=None, alias='notifyEmailFromName'
-    )
-    """
-     Max length: 60;
-    """
-    closed_loop_discussions_flag: bool | None = Field(
-        default=None, alias='closedLoopDiscussionsFlag'
-    )
-    closed_loop_resolution_flag: bool | None = Field(
-        default=None, alias='closedLoopResolutionFlag'
-    )
-    closed_loop_internal_analysis_flag: bool | None = Field(
-        default=None, alias='closedLoopInternalAnalysisFlag'
-    )
-    time_entry_discussion_flag: bool | None = Field(
-        default=None, alias='timeEntryDiscussionFlag'
-    )
-    time_entry_resolution_flag: bool | None = Field(
-        default=None, alias='timeEntryResolutionFlag'
-    )
-    time_entry_internal_analysis_flag: bool | None = Field(
-        default=None, alias='timeEntryInternalAnalysisFlag'
-    )
-    problem_sort: ProblemSort | None = Field(default=None, alias='problemSort')
-    resolution_sort: ResolutionSort | None = Field(default=None, alias='resolutionSort')
-    internal_analysis_sort: InternalAnalysisSort | None = Field(
-        default=None, alias='internalAnalysisSort'
-    )
-    email_connector_allow_reopen_closed_flag: bool | None = Field(
-        default=None, alias='emailConnectorAllowReopenClosedFlag'
-    )
-    email_connector_reopen_status: ServiceStatusReference | None = Field(
-        default=None, alias='emailConnectorReopenStatus'
-    )
-    email_connector_reopen_resources_flag: bool | None = Field(
-        default=None, alias='emailConnectorReopenResourcesFlag'
-    )
-    """
-    This field can only be set when emailConnectorAllowReopenClosed is true.
-    """
-    email_connector_new_ticket_no_match_flag: bool | None = Field(
-        default=None, alias='emailConnectorNewTicketNoMatchFlag'
-    )
-    """
-    This field can only be set when emailConnectorAllowReopenClosed is true.
-    """
-    email_connector_never_reopen_by_days_flag: bool | None = Field(
-        default=None, alias='emailConnectorNeverReopenByDaysFlag'
-    )
-    """
-    This field can only be set when emailConnectorAllowReopenClosed is true.
-    """
-    email_connector_reopen_days_limit: int | None = Field(
-        default=None, alias='emailConnectorReopenDaysLimit'
-    )
-    """
-    This field can only be set when emailConnectorNeverReopenByDaysFlag and emailConnectorAllowReopenClosed are both true
-                This field is required when emailConnectorNeverReopenByDaysFlag is true.
-    """
-    email_connector_never_reopen_by_days_closed_flag: bool | None = Field(
-        default=None, alias='emailConnectorNeverReopenByDaysClosedFlag'
-    )
-    """
-    This field can only be set when emailConnectorAllowReopenClosed is true.
-    """
-    email_connector_reopen_days_closed_limit: int | None = Field(
-        default=None, alias='emailConnectorReopenDaysClosedLimit'
-    )
-    """
-    This field can only be set when emailConnectorNeverReopenByDaysClosedFlag and emailConnectorAllowReopenClosed are both true
-                This field is required when emailConnectorNeverReopenByDaysClosedFlag is true.
-    """
-    use_member_display_name_flag: bool | None = Field(
-        default=None, alias='useMemberDisplayNameFlag'
-    )
-    send_to_cc_flag: bool | None = Field(default=None, alias='sendToCCFlag')
-    auto_assign_ticket_owner_flag: bool | None = Field(
-        default=None, alias='autoAssignTicketOwnerFlag'
-    )
-    auto_assign_limit_flag: bool | None = Field(
-        default=None, alias='autoAssignLimitFlag'
-    )
-    auto_assign_limit_amount: int | None = Field(
-        default=None, alias='autoAssignLimitAmount'
-    )
-    """
-    This field can only be set when autoAssignLimitFlag is true
-    """
-    closed_loop_all_flag: bool | None = Field(default=None, alias='closedLoopAllFlag')
-    percentage_calculation: PercentageCalculation | None = Field(
-        default=None, alias='percentageCalculation'
-    )
-    all_sort: AllSort | None = Field(default=None, alias='allSort')
-    mark_first_note_issue_flag: bool | None = Field(
-        default=None, alias='markFirstNoteIssueFlag'
-    )
-    restrict_board_by_default_flag: bool | None = Field(
-        default=None, alias='restrictBoardByDefaultFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardAutoAssignResource(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardAutoTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: ServiceTypeReference | None = None
-    subtype: ServiceSubTypeReference | None = None
-    item: ServiceItemReference | None = None
-    service_template: ServiceTemplateReference | None = Field(
-        default=None, alias='serviceTemplate'
-    )
-    board: BoardReference | None = None
-    summary_setting: SummarySetting | None = Field(default=None, alias='summarySetting')
-    discussion_setting: DiscussionSetting | None = Field(
-        default=None, alias='discussionSetting'
-    )
-    internal_analysis_setting: InternalAnalysisSetting | None = Field(
-        default=None, alias='internalAnalysisSetting'
-    )
-    resolution_setting: ResolutionSetting | None = Field(
-        default=None, alias='resolutionSetting'
-    )
-    tasks_setting: TasksSetting | None = Field(default=None, alias='tasksSetting')
-    documents_setting: DocumentsSetting | None = Field(
-        default=None, alias='documentsSetting'
-    )
-    resources_setting: ResourcesSetting | None = Field(
-        default=None, alias='resourcesSetting'
-    )
-    budget_hours_setting: BudgetHoursSetting | None = Field(
-        default=None, alias='budgetHoursSetting'
-    )
-    finance_information_setting: FinanceInformationSetting | None = Field(
-        default=None, alias='financeInformationSetting'
-    )
-    send_notes_as_email_setting: SendNotesAsEmailSetting | None = Field(
-        default=None, alias='sendNotesAsEmailSetting'
-    )
-    impact_urgency_setting: ImpactUrgencySetting | None = Field(
-        default=None, alias='impactUrgencySetting'
-    )
-    template_priority_setting: TemplatePrioritySetting | None = Field(
-        default=None, alias='templatePrioritySetting'
-    )
-    auto_apply_flag: bool | None = Field(default=None, alias='autoApplyFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardCopy(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardCopy(ConnectWiseModel):
     id: int
     name: str
     """
@@ -2205,198 +427,28 @@ class BoardCopy(BaseModel):
     """
 
 
-class BoardDefault(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    board: BoardReference | None = None
-    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardExcludedMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardExcludedMember(ConnectWiseModel):
     id: int | None = None
     member_id: int | None = Field(default=None, alias='memberId')
     board_id: int | None = Field(default=None, alias='boardId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BoardInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    project_flag: bool | None = Field(default=None, alias='projectFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    closed_loop_discussions_flag: bool | None = Field(
-        default=None, alias='closedLoopDiscussionsFlag'
-    )
-    closed_loop_internal_analysis_flag: bool | None = Field(
-        default=None, alias='closedLoopInternalAnalysisFlag'
-    )
-    closed_loop_resolution_flag: bool | None = Field(
-        default=None, alias='closedLoopResolutionFlag'
-    )
-    closed_loop_all_flag: bool | None = Field(default=None, alias='closedLoopAllFlag')
-    problem_sort: ProblemSort | None = Field(default=None, alias='problemSort')
-    internal_analysis_sort: InternalAnalysisSort | None = Field(
-        default=None, alias='internalAnalysisSort'
-    )
-    resolution_sort: ResolutionSort | None = Field(default=None, alias='resolutionSort')
-    all_sort: AllSort | None = Field(default=None, alias='allSort')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BoardReference(ActivityReference):
+    pass
 
 
-class BoardItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardItemAssociation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int
-    sub_type_association_ids: list[int] | None = Field(
-        default=None, alias='subTypeAssociationIds'
-    )
-    """
-    If addAllSubTypesFlag and removeAllSubTypesFlag are both false, this field is required.
-    """
-    add_all_sub_types_flag: bool | None = Field(
-        default=None, alias='addAllSubTypesFlag'
-    )
-    remove_all_sub_types_flag: bool | None = Field(
-        default=None, alias='removeAllSubTypesFlag'
-    )
-    item: ServiceItemReference | None = None
-    board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    member: MemberReference | None = None
-    email: str | None = None
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    board: BoardReference | None = None
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    display_on_board: bool | None = Field(default=None, alias='displayOnBoard')
-    inactive: bool | None = None
-    closed_status: bool | None = Field(default=None, alias='closedStatus')
-    time_entry_not_allowed: bool | None = Field(
-        default=None, alias='timeEntryNotAllowed'
-    )
-    round_robin_catchall: bool | None = Field(default=None, alias='roundRobinCatchall')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    escalation_status: EscalationStatus | None = Field(
-        default=None, alias='escalationStatus'
-    )
-    customer_portal_description: str | None = Field(
-        default=None, alias='customerPortalDescription'
-    )
-    """
-     Max length: 500;
-    """
-    customer_portal_flag: bool | None = Field(default=None, alias='customerPortalFlag')
-    email_template: ServiceEmailTemplateReference | None = Field(
-        default=None, alias='emailTemplate'
-    )
-    status_indicator: StatusIndicatorReference | None = Field(
-        default=None, alias='statusIndicator'
-    )
-    custom_status_indicator_name: str | None = Field(
-        default=None, alias='customStatusIndicatorName'
-    )
-    """
-     Max length: 30;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    save_time_as_note: bool | None = Field(default=None, alias='saveTimeAsNote')
-
-
-class BoardStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardStatusInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     sort_order: int | None = Field(default=None, alias='sortOrder')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BoardStatusNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    status: ServiceStatusReference | None = None
-    member: MemberReference | None = None
-    email: str | None = None
-    """
-    Service Status Notification email must be entered if the notify type is "Email Address". Max length: 255;
-    """
-    workflow_step: int | None = Field(default=None, alias='workflowStep')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardSubType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardSubType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -2409,224 +461,45 @@ class BoardSubType(BaseModel):
     add_all_types_flag: bool | None = Field(default=None, alias='addAllTypesFlag')
     remove_all_types_flag: bool | None = Field(default=None, alias='removeAllTypesFlag')
     board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BoardSubTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardSubTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     type_association_ids: list[int] | None = Field(
         default=None, alias='typeAssociationIds'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BoardTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    team_leader: MemberReference | None = Field(default=None, alias='teamLeader')
-    members: list[int] | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    notify_on_ticket_delete: bool | None = Field(
-        default=None, alias='notifyOnTicketDelete'
-    )
-    default_round_robin_flag: bool | None = Field(
-        default=None, alias='defaultRoundRobinFlag'
-    )
-    round_robin_flag: bool | None = Field(default=None, alias='roundRobinFlag')
-    board_id: int | None = Field(default=None, alias='boardId')
-    location_id: int | None = Field(default=None, alias='locationId')
-    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class BoardTeamInfo(ActivityReference):
+    pass
 
 
-class BoardTeamInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    category: Category | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    request_for_change_flag: bool | None = Field(
-        default=None, alias='requestForChangeFlag'
-    )
-    integration_xref: str | None = Field(default=None, alias='integrationXref')
-    """
-     Max length: 50;
-    """
-    skill_category: SkillCategoryReference | None = Field(
-        default=None, alias='skillCategory'
-    )
-    skill: SkillReference | None = None
-    board: BoardReference | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BoardTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class BoardTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     board: BoardReference | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BoardTypeSubTypeItemAssociation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CalendarInfo(ActivityReference):
+    pass
+
+
+class CalendarReference(ActivityReference):
+    pass
+
+
+class CalendarSetupReference(ConnectWiseModel):
     id: int | None = None
-    type: ServiceTypeReference | None = None
-    sub_type: ServiceSubTypeReference | None = Field(default=None, alias='subType')
-    item: ServiceItemReference | None = None
-    board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class BudgetAnalysis(Enum):
-    """
-    Required On Updates;
-    """
-
-    ACTUAL_HOURS = 'ActualHours'
-    BILLABLE_HOURS = 'BillableHours'
-
-
-class BudgetHoursSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class BulkResult(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    payload: list[ResultInfo] | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class BundleRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    resource_type: str | None = Field(default=None, alias='resourceType')
-    version: str | None = None
-    api_request: ApiRequest | None = Field(default=None, alias='apiRequest')
-
-
-class BundleRequestsCollection(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    requests: list[BundleRequest]
-
-
-class BundleResult(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    resource_type: str | None = Field(default=None, alias='resourceType')
-    entities: list[IRestIdentifiedItem] | None = None
-    count: int | None = None
-    version: str | None = None
-    success: bool | None = None
-    status_code: int | None = Field(default=None, alias='statusCode')
-    error: ErrorResponseMessage | None = None
-
-
-class BundleResultsCollection(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    results: list[BundleResult] | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Calendar(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
-    monday_start_time: str | None = Field(default=None, alias='mondayStartTime')
-    monday_end_time: str | None = Field(default=None, alias='mondayEndTime')
-    tuesday_start_time: str | None = Field(default=None, alias='tuesdayStartTime')
-    tuesday_end_time: str | None = Field(default=None, alias='tuesdayEndTime')
-    wednesday_start_time: str | None = Field(default=None, alias='wednesdayStartTime')
-    wednesday_end_time: str | None = Field(default=None, alias='wednesdayEndTime')
-    thursday_start_time: str | None = Field(default=None, alias='thursdayStartTime')
-    thursday_end_time: str | None = Field(default=None, alias='thursdayEndTime')
-    friday_start_time: str | None = Field(default=None, alias='fridayStartTime')
-    friday_end_time: str | None = Field(default=None, alias='fridayEndTime')
-    saturday_start_time: str | None = Field(default=None, alias='saturdayStartTime')
-    saturday_end_time: str | None = Field(default=None, alias='saturdayEndTime')
-    sunday_start_time: str | None = Field(default=None, alias='sundayStartTime')
-    sunday_end_time: str | None = Field(default=None, alias='sundayEndTime')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CalendarInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CalendarReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CalendarSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CallbackEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CallbackEntry(ConnectWiseModel):
     id: int | None = None
     description: str | None = None
     """
@@ -2655,81 +528,14 @@ class CallbackEntry(BaseModel):
     is_self_suppressed_flag: bool | None = Field(
         default=None, alias='isSelfSuppressedFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Campaign(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    type: CampaignTypeReference | None = None
-    sub_type: CampaignSubTypeReference | None = Field(default=None, alias='subType')
-    status: CampaignStatusReference | None = None
-    start_date: datetime = Field(..., alias='startDate')
-    end_date: datetime | None = Field(default=None, alias='endDate')
-    location_id: int | None = Field(default=None, alias='locationId')
-    member: MemberReference | None = None
-    inactive: bool | None = None
-    inactive_days_after_end: int | None = Field(
-        default=None, alias='inactiveDaysAfterEnd'
-    )
-    notes: str | None = None
-    default_group: GroupReference | None = Field(default=None, alias='defaultGroup')
-    marketing_manager_default_track_id: int | None = Field(
-        default=None, alias='marketingManagerDefaultTrackId'
-    )
-    opportunity_default_track_id: int | None = Field(
-        default=None, alias='opportunityDefaultTrackId'
-    )
-    impressions: int | None = None
-    budget_revenue: float | None = Field(default=None, alias='budgetRevenue')
-    budget_cost: float | None = Field(default=None, alias='budgetCost')
-    actual_cost: float | None = Field(default=None, alias='actualCost')
-    budget_gross_margin: float | None = Field(default=None, alias='budgetGrossMargin')
-    budget_roi: float | None = Field(default=None, alias='budgetROI')
-    actual_revenue: float | None = Field(default=None, alias='actualRevenue')
-    actual_gross_margin: float | None = Field(default=None, alias='actualGrossMargin')
-    actual_roi: float | None = Field(default=None, alias='actualROI')
-    emails_sent: int | None = Field(default=None, alias='emailsSent')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CampaignReference(ActivityReference):
+    pass
 
 
-class CampaignAudit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    emails_sent: int = Field(..., alias='emailsSent')
-    emails_unsent: int | None = Field(default=None, alias='emailsUnsent')
-    documents_created: int | None = Field(default=None, alias='documentsCreated')
-    email_subject: str | None = Field(default=None, alias='emailSubject')
-    """
-     Max length: 1000;
-    """
-    group: GroupReference | None = None
-    campaign_id: int | None = Field(default=None, alias='campaignId')
-    created_by: str | None = Field(default=None, alias='createdBy')
-    date_created: str | None = Field(default=None, alias='dateCreated')
-
-
-class CampaignReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CampaignStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CampaignStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -2737,194 +543,43 @@ class CampaignStatus(BaseModel):
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CampaignStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CampaignStatusReference(ActivityReference):
+    pass
 
 
-class CampaignSubTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CampaignSubTypeReference(ActivityReference):
+    pass
 
 
-class CampaignType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CampaignType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 100;
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CampaignTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CampaignTypeInfo(ActivityReference):
+    pass
 
 
-class CampaignTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CampaignTypeReference(ActivityReference):
+    pass
 
 
-class CatalogComponent(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    quantity: float
-    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
-    hide_price_flag: bool | None = Field(default=None, alias='hidePriceFlag')
-    hide_item_identifier_flag: bool | None = Field(
-        default=None, alias='hideItemIdentifierFlag'
-    )
-    hide_description_flag: bool | None = Field(
-        default=None, alias='hideDescriptionFlag'
-    )
-    hide_quantity_flag: bool | None = Field(default=None, alias='hideQuantityFlag')
-    hide_extended_price_flag: bool | None = Field(
-        default=None, alias='hideExtendedPriceFlag'
-    )
-    parent_catalog_item: CatalogItemReference | None = Field(
-        default=None, alias='parentCatalogItem'
-    )
-    price: float | None = None
-    cost: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CatalogInventory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
-    warehouse: WarehouseReference | None = None
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    on_hand: int | None = Field(default=None, alias='onHand')
-    serial_numbers: list[OnHandSerialNumberReference] | None = Field(
-        default=None, alias='serialNumbers'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CatalogItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str
-    """
-     Max length: 60;
-    """
-    description: str
-    """
-     Max length: 60;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    subcategory: ProductSubCategoryReference | None = None
-    type: ProductTypeReference | None = None
-    product_class: ProductClass | None = Field(default=None, alias='productClass')
-    """
-    Defaults to Non-Inventory.
-    """
-    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    serialized_cost_flag: bool | None = Field(default=None, alias='serializedCostFlag')
-    phase_product_flag: bool | None = Field(default=None, alias='phaseProductFlag')
-    unit_of_measure: UnitOfMeasureReference | None = Field(
-        default=None, alias='unitOfMeasure'
-    )
-    min_stock_level: int | None = Field(default=None, alias='minStockLevel')
-    price: float | None = None
-    cost: float | None = None
-    price_attribute: PriceAttribute | None = Field(default=None, alias='priceAttribute')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    drop_ship_flag: bool | None = Field(default=None, alias='dropShipFlag')
-    special_order_flag: bool | None = Field(default=None, alias='specialOrderFlag')
-    customer_description: str = Field(..., alias='customerDescription')
-    """
-     Max length: 6000;
-    """
-    manufacturer: ManufacturerReference | None = None
-    manufacturer_part_number: str | None = Field(
-        default=None, alias='manufacturerPartNumber'
-    )
-    """
-     Max length: 50;
-    """
-    vendor: CompanyReference | None = None
-    vendor_sku: str | None = Field(default=None, alias='vendorSku')
-    """
-     Max length: 50;
-    """
-    notes: str | None = None
-    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
-    """
-     Max length: 50;
-    """
-    sla: SLAReference | None = None
-    entity_type: EntityTypeReference | None = Field(default=None, alias='entityType')
-    recurring_flag: bool | None = Field(default=None, alias='recurringFlag')
-    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
-    recurring_cost: float | None = Field(default=None, alias='recurringCost')
-    recurring_one_time_flag: bool | None = Field(
-        default=None, alias='recurringOneTimeFlag'
-    )
-    recurring_bill_cycle: BillingCycleReference | None = Field(
-        default=None, alias='recurringBillCycle'
-    )
-    recurring_cycle_type: RecurringCycleType | None = Field(
-        default=None, alias='recurringCycleType'
-    )
-    date_entered: str | None = Field(default=None, alias='dateEntered')
-    calculated_price_flag: bool | None = Field(
-        default=None, alias='calculatedPriceFlag'
-    )
-    calculated_cost_flag: bool | None = Field(default=None, alias='calculatedCostFlag')
-    category: ProductCategoryReference | None = None
-    calculated_price: float | None = Field(default=None, alias='calculatedPrice')
-    calculated_cost: float | None = Field(default=None, alias='calculatedCost')
-    billable_option: BillableOption | None = Field(default=None, alias='billableOption')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class CatalogItemInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CatalogItemInfo(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     description: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    product_class: ProductClass1 | None = Field(default=None, alias='productClass')
+    product_class: Literal[
+        'Agreement', 'Bundle', 'Inventory', 'NonInventory', 'Service'
+    ] | None = Field(default=None, alias='productClass')
     serialized_cost_flag: bool | None = Field(default=None, alias='serializedCostFlag')
     price: float | None = None
     cost: float | None = None
@@ -2936,41 +591,20 @@ class CatalogItemInfo(BaseModel):
         default=None, alias='manufacturerPartNumber'
     )
     vendor_sku: str | None = Field(default=None, alias='vendorSku')
-    billable_option: BillableOption | None = Field(default=None, alias='billableOption')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CatalogItemReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CatalogItemReference(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CatalogPricing(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
-    company: CompanyReference | None = None
-    location: SystemLocationReference | None = None
-    quantity: int | None = None
-    date: str | None = None
-    price: float | None = None
-
-
-class Category(Enum):
-    REACTIVE = 'Reactive'
-    PROACTIVE = 'Proactive'
-
-
-class Category1(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Category(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -2989,186 +623,46 @@ class Category1(BaseModel):
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     add_all_locations: bool | None = Field(default=None, alias='addAllLocations')
     remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CategoryInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CategoryInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Certification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CertificationReference(ActivityReference):
+    pass
 
 
-class CertificationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ChargeCodeReference(ActivityReference):
+    pass
 
 
-class ChargeCode(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    company: CompanyReference | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    bill_time: BillTime1 | None = Field(default=None, alias='billTime')
-    expense_entry_flag: bool | None = Field(default=None, alias='expenseEntryFlag')
-    allow_all_expense_type_flag: bool | None = Field(
-        default=None, alias='allowAllExpenseTypeFlag'
-    )
-    time_entry_flag: bool | None = Field(default=None, alias='timeEntryFlag')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    integration_xref: str | None = Field(default=None, alias='integrationXref')
-    """
-     Max length: 50;
-    """
-    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ChargeCodeExpenseType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: ExpenseTypeReference | None = None
-    charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ChargeCodeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    expense_entry_flag: bool | None = Field(default=None, alias='expenseEntryFlag')
-    allow_all_expense_type_flag: bool | None = Field(
-        default=None, alias='allowAllExpenseTypeFlag'
-    )
-    time_entry_flag: bool | None = Field(default=None, alias='timeEntryFlag')
-    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ChargeCodeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ChargeToType(Enum):
-    """
-    Gets or sets
-                company or chargeToType is required.
-    """
-
-    SERVICE_TICKET = 'ServiceTicket'
-    PROJECT_TICKET = 'ProjectTicket'
-    CHARGE_CODE = 'ChargeCode'
-    ACTIVITY = 'Activity'
-
-
-class ChargeToType1(Enum):
-    """
-    If chargeToId is not specified, we asume you enter time against the company specified
-    """
-
-    SERVICE_TICKET = 'ServiceTicket'
-    PROJECT_TICKET = 'ProjectTicket'
-    CHARGE_CODE = 'ChargeCode'
-    ACTIVITY = 'Activity'
-
-
-class ChildScheduleAction(Enum):
-    TRANSFER = 'Transfer'
-    DELETE = 'Delete'
-    DONE = 'Done'
-
-
-class Classification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Classification(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     multiplier: float | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     company_flag: bool | None = Field(default=None, alias='companyFlag')
     employee_flag: bool | None = Field(default=None, alias='employeeFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Classification1(Enum):
-    NON_REIMBURSABLE = 'NonReimbursable'
-    REIMBURSABLE = 'Reimbursable'
-    PERSONAL = 'Personal'
+class ClassificationReference(ActivityReference):
+    pass
 
 
-class ClassificationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ClearPickerRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    member: MemberReference | None = None
-    type: Type | None = None
-
-
-class ClosedInvoice(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ClosedInvoice(ConnectWiseModel):
     id: int | None = None
     status: BillingStatusReference | None = None
     internal_notes: str | None = Field(default=None, alias='internalNotes')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Code(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Code(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -3178,82 +672,10 @@ class Code(BaseModel):
     board_id: int | None = Field(default=None, alias='boardId')
     location_id: int | None = Field(default=None, alias='locationId')
     business_unit_id: int | None = Field(default=None, alias='businessUnitId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Color(Enum):
-    BLACK = 'Black'
-    BLUE = 'Blue'
-    CYAN = 'Cyan'
-    GRAY = 'Gray'
-    GREEN = 'Green'
-    LIME = 'Lime'
-    ORANGE = 'Orange'
-    PINK = 'Pink'
-    PURPLE = 'Purple'
-    RED = 'Red'
-    WHITE = 'White'
-    YELLOW = 'Yellow'
-    CUSTOM = 'Custom'
-
-
-class Commission(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    commission_percent: float | None = Field(default=None, alias='commissionPercent')
-    date_start: datetime | None = Field(default=None, alias='dateStart')
-    date_end: datetime | None = Field(default=None, alias='dateEnd')
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    company: CompanyReference | None = None
-    site: SiteReference | None = None
-    agreement: AgreementReference | None = None
-    project: ProjectReference | None = None
-    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
-    ticket: TicketReference | None = None
-    territory: SystemLocationReference | None = None
-    billing_method: BillingMethod | None = Field(default=None, alias='billingMethod')
-    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
-    project_board: ProjectBoardReference | None = Field(
-        default=None, alias='projectBoard'
-    )
-    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
-    agreement_type: AgreementTypeReference | None = Field(
-        default=None, alias='agreementType'
-    )
-    number_of_months: int | None = Field(default=None, alias='numberOfMonths')
-    product_category: ProductCategoryReference | None = Field(
-        default=None, alias='productCategory'
-    )
-    product_sub_category: ProductSubCategoryReference | None = Field(
-        default=None, alias='productSubCategory'
-    )
-    item: IvItemReference | None = None
-    commission_basis: CommissionBasis | None = Field(
-        default=None, alias='commissionBasis'
-    )
-    invoice_option: InvoiceOption | None = Field(default=None, alias='invoiceOption')
-    services_flag: bool | None = Field(default=None, alias='servicesFlag')
-    agreements_flag: bool | None = Field(default=None, alias='agreementsFlag')
-    products_flag: bool | None = Field(default=None, alias='productsFlag')
-    my_opportunities_flag: bool | None = Field(
-        default=None, alias='myOpportunitiesFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CommissionBasis(Enum):
-    GROSS_PROFIT = 'GrossProfit'
-    SALES_AMOUNT = 'SalesAmount'
-
-
-class CommunicationType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CommunicationType(ConnectWiseModel):
     id: int | None = None
     description: str
     phone_flag: bool | None = Field(default=None, alias='phoneFlag')
@@ -3285,434 +707,107 @@ class CommunicationType(BaseModel):
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CommunicationType1(Enum):
-    EMAIL = 'Email'
-    FAX = 'Fax'
-    PHONE = 'Phone'
-
-
-class CommunicationTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CommunicationTypeInfo(ConnectWiseModel):
     id: int | None = None
     description: str | None = None
     phone_flag: bool | None = Field(default=None, alias='phoneFlag')
     fax_flag: bool | None = Field(default=None, alias='faxFlag')
     email_flag: bool | None = Field(default=None, alias='emailFlag')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CommunicationTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CommunicationTypeReference(ActivityReference):
+    pass
 
 
-class Company(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str
-    """
-     Max length: 30;
-    """
-    name: str
-    """
-     Max length: 50;
-    """
-    status: CompanyStatusReference | None = None
-    address_line1: str | None = Field(default=None, alias='addressLine1')
-    """
-    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
-    """
-    address_line2: str | None = Field(default=None, alias='addressLine2')
-    """
-    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
-    """
-    city: str | None = None
-    """
-    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
-    """
-    state: str | None = None
-    """
-    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
-    """
-    zip: str | None = None
-    """
-    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 12;
-    """
-    country: CountryReference | None = None
-    phone_number: str | None = Field(default=None, alias='phoneNumber')
-    """
-     Max length: 30;
-    """
-    fax_number: str | None = Field(default=None, alias='faxNumber')
-    """
-     Max length: 30;
-    """
-    website: str | None = None
-    """
-     Max length: 255;
-    """
-    territory: SystemLocationReference | None = None
-    market: MarketDescriptionReference | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    default_contact: ContactReference | None = Field(
-        default=None, alias='defaultContact'
-    )
-    date_acquired: datetime | None = Field(default=None, alias='dateAcquired')
-    sic_code: SicCodeReference | None = Field(default=None, alias='sicCode')
-    parent_company: CompanyReference | None = Field(default=None, alias='parentCompany')
-    annual_revenue: float | None = Field(default=None, alias='annualRevenue')
-    number_of_employees: int | None = Field(default=None, alias='numberOfEmployees')
-    year_established: int | None = Field(default=None, alias='yearEstablished')
-    revenue_year: int | None = Field(default=None, alias='revenueYear')
-    ownership_type: OwnershipTypeReference | None = Field(
-        default=None, alias='ownershipType'
-    )
-    time_zone_setup: TimeZoneSetupReference | None = Field(
-        default=None, alias='timeZoneSetup'
-    )
-    lead_source: str | None = Field(default=None, alias='leadSource')
-    """
-     Max length: 50;
-    """
-    lead_flag: bool | None = Field(default=None, alias='leadFlag')
-    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    calendar: CalendarReference | None = None
-    user_defined_field1: str | None = Field(default=None, alias='userDefinedField1')
-    """
-     Max length: 50;
-    """
-    user_defined_field2: str | None = Field(default=None, alias='userDefinedField2')
-    """
-     Max length: 50;
-    """
-    user_defined_field3: str | None = Field(default=None, alias='userDefinedField3')
-    """
-     Max length: 50;
-    """
-    user_defined_field4: str | None = Field(default=None, alias='userDefinedField4')
-    """
-     Max length: 50;
-    """
-    user_defined_field5: str | None = Field(default=None, alias='userDefinedField5')
-    """
-     Max length: 50;
-    """
-    user_defined_field6: str | None = Field(default=None, alias='userDefinedField6')
-    """
-     Max length: 50;
-    """
-    user_defined_field7: str | None = Field(default=None, alias='userDefinedField7')
-    """
-     Max length: 50;
-    """
-    user_defined_field8: str | None = Field(default=None, alias='userDefinedField8')
-    """
-     Max length: 50;
-    """
-    user_defined_field9: str | None = Field(default=None, alias='userDefinedField9')
-    """
-     Max length: 50;
-    """
-    user_defined_field10: str | None = Field(default=None, alias='userDefinedField10')
-    """
-     Max length: 50;
-    """
-    vendor_identifier: str | None = Field(default=None, alias='vendorIdentifier')
-    tax_identifier: str | None = Field(default=None, alias='taxIdentifier')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    invoice_template: InvoiceTemplateReference | None = Field(
-        default=None, alias='invoiceTemplate'
-    )
-    pricing_schedule: PricingScheduleReference | None = Field(
-        default=None, alias='pricingSchedule'
-    )
-    company_entity_type: EntityTypeReference | None = Field(
-        default=None, alias='companyEntityType'
-    )
-    bill_to_company: CompanyReference | None = Field(
-        default=None, alias='billToCompany'
-    )
-    billing_site: SiteReference | None = Field(default=None, alias='billingSite')
-    billing_contact: ContactReference | None = Field(
-        default=None, alias='billingContact'
-    )
-    invoice_delivery_method: BillingDeliveryReference | None = Field(
-        default=None, alias='invoiceDeliveryMethod'
-    )
-    invoice_to_email_address: str | None = Field(
-        default=None, alias='invoiceToEmailAddress'
-    )
-    invoice_cc_email_address: str | None = Field(
-        default=None, alias='invoiceCCEmailAddress'
-    )
-    deleted_flag: bool | None = Field(default=None, alias='deletedFlag')
-    date_deleted: datetime | None = Field(default=None, alias='dateDeleted')
-    deleted_by: str | None = Field(default=None, alias='deletedBy')
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    facebook_url: str | None = Field(default=None, alias='facebookUrl')
-    twitter_url: str | None = Field(default=None, alias='twitterUrl')
-    linked_in_url: str | None = Field(default=None, alias='linkedInUrl')
-    currency: CurrencyReference | None = None
-    territory_manager: MemberReference | None = Field(
-        default=None, alias='territoryManager'
-    )
-    reseller_identifier: str | None = Field(default=None, alias='resellerIdentifier')
-    is_vendor_flag: bool | None = Field(default=None, alias='isVendorFlag')
-    types: list[CompanyTypeReference] | None = None
-    """
-    Gets or sets integrer array of Company_Type_Recids to be assigned to company that can be passed in only during new company creation (post)
-                To update existing companies type, use the /company/companyTypeAssociations or /company/companies/{ID}/typeAssociations endpoints.
-    """
-    site: SiteReference | None = None
-    integrator_tags: list[str] | None = Field(default=None, alias='integratorTags')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class CompanyActivityTabFormat(Enum):
-    SUMMARY_LIST = 'SummaryList'
-    DETAIL_LIST = 'DetailList'
-
-
-class CompanyCustomNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    custom_note: str = Field(..., alias='customNote')
-    """
-     Max length: 1500;
-    """
-    status: CompanyStatusReference | None = None
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyFinance(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    bill_override_flag: bool | None = Field(default=None, alias='billOverrideFlag')
-    bill_sr_flag: bool | None = Field(default=None, alias='billSrFlag')
-    bill_complete_sr_flag: bool | None = Field(default=None, alias='billCompleteSrFlag')
-    bill_unapproved_sr_flag: bool | None = Field(
-        default=None, alias='billUnapprovedSrFlag'
-    )
-    bill_restrict_pm_flag: bool | None = Field(default=None, alias='billRestrictPmFlag')
-    bill_complete_pm_flag: bool | None = Field(default=None, alias='billCompletePmFlag')
-    bill_unapproved_pm_flag: bool | None = Field(
-        default=None, alias='billUnapprovedPmFlag'
-    )
-    email_template: EmailTemplateReference | None = Field(
-        default=None, alias='emailTemplate'
-    )
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class CompanyGroup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    """
-     Required On Updates;
-    """
-    group: GroupReference | None = None
-    company: CompanyReference | None = None
-    default_contact_flag: bool | None = Field(default=None, alias='defaultContactFlag')
-    all_contacts_flag: bool | None = Field(default=None, alias='allContactsFlag')
-    remove_all_contacts_flag: bool | None = Field(
-        default=None, alias='removeAllContactsFlag'
-    )
-    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    contact_ids: list[int] | None = Field(default=None, alias='contactIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyManagementSummary(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    management_solution: ManagementSolutionReference | None = Field(
-        default=None, alias='managementSolution'
-    )
-    group_identifier: str = Field(..., alias='groupIdentifier')
-    """
-     Max length: 100;
-    """
-    device_type: DeviceType | None = Field(default=None, alias='deviceType')
-    """
-    Gets or sets deviceType is required if the managementSolution is Legacy.
-    """
-    agreement: AgreementReference | None = None
-    snmp_machines: int | None = Field(default=None, alias='snmpMachines')
-    total_workstations: int | None = Field(default=None, alias='totalWorkstations')
-    total_servers: int | None = Field(default=None, alias='totalServers')
-    total_windows_servers: int | None = Field(default=None, alias='totalWindowsServers')
-    total_windows_workstations: int | None = Field(
-        default=None, alias='totalWindowsWorkstations'
-    )
-    total_managed_machines: int | None = Field(
-        default=None, alias='totalManagedMachines'
-    )
-    servers_offline: int | None = Field(default=None, alias='serversOffline')
-    servers_disk_space_low: int | None = Field(
-        default=None, alias='serversDiskSpaceLow'
-    )
-    failed_backup_jobs: int | None = Field(default=None, alias='failedBackupJobs')
-    total_notifications: int | None = Field(default=None, alias='totalNotifications')
-    successful_backup_jobs: int | None = Field(
-        default=None, alias='successfulBackupJobs'
-    )
-    server_availability: int | None = Field(default=None, alias='serverAvailability')
-    viruses_removed: int | None = Field(default=None, alias='virusesRemoved')
-    spyware_items_removed: int | None = Field(default=None, alias='spywareItemsRemoved')
-    windows_patches_installed: int | None = Field(
-        default=None, alias='windowsPatchesInstalled'
-    )
-    disk_cleanups: int | None = Field(default=None, alias='diskCleanups')
-    disk_defragmentations: int | None = Field(
-        default=None, alias='diskDefragmentations'
-    )
-    fully_patched_machines: int | None = Field(
-        default=None, alias='fullyPatchedMachines'
-    )
-    missing_one_two_patches_machines: int | None = Field(
-        default=None, alias='missingOneTwoPatchesMachines'
-    )
-    missing_three_five_patches_machines: int | None = Field(
-        default=None, alias='missingThreeFivePatchesMachines'
-    )
-    missing_more_five_patches_machines: int | None = Field(
-        default=None, alias='missingMoreFivePatchesMachines'
-    )
-    missing_unscanned_patches_machines: int | None = Field(
-        default=None, alias='missingUnscannedPatchesMachines'
-    )
-    alerts_generated: str | None = Field(default=None, alias='alertsGenerated')
-    internet_connectivity: float | None = Field(
-        default=None, alias='internetConnectivity'
-    )
-    disk_space_cleaned_mb: int | None = Field(default=None, alias='diskSpaceCleanedMb')
-    missing_security_patches: str | None = Field(
-        default=None, alias='missingSecurityPatches'
-    )
-    cpu_utilization: float | None = Field(default=None, alias='cpuUtilization')
-    memory_utilization: float | None = Field(default=None, alias='memoryUtilization')
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyMerge(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CompanyMerge(ConnectWiseModel):
     to_company_id: int = Field(..., alias='toCompanyId')
-    name: Name | None = None
-    identifier: Identifier1 | None = None
-    status: Status1 | None = None
-    type: Type1 | None = None
-    primary_address: PrimaryAddress | None = Field(default=None, alias='primaryAddress')
-    primary_contact: PrimaryContact | None = Field(default=None, alias='primaryContact')
-    phone: Phone | None = None
-    fax: Fax | None = None
-    website: Website | None = None
-    market: Market | None = None
-    territory: Territory | None = None
-    revenue: Revenue | None = None
-    revenue_year: RevenueYear | None = Field(default=None, alias='revenueYear')
-    number_of_employees: NumberOfEmployees | None = Field(
+    name: Literal['From', 'To'] | None = None
+    identifier: Literal['From', 'To'] | None = None
+    status: Literal['From', 'To'] | None = None
+    type: Literal['From', 'To'] | None = None
+    primary_address: Literal['From', 'To'] | None = Field(
+        default=None, alias='primaryAddress'
+    )
+    primary_contact: Literal['From', 'To'] | None = Field(
+        default=None, alias='primaryContact'
+    )
+    phone: Literal['From', 'To'] | None = None
+    fax: Literal['From', 'To'] | None = None
+    website: Literal['From', 'To'] | None = None
+    market: Literal['From', 'To'] | None = None
+    territory: Literal['From', 'To'] | None = None
+    revenue: Literal['From', 'To'] | None = None
+    revenue_year: Literal['From', 'To'] | None = Field(
+        default=None, alias='revenueYear'
+    )
+    number_of_employees: Literal['From', 'To'] | None = Field(
         default=None, alias='numberOfEmployees'
     )
-    sic_code: SicCode | None = Field(default=None, alias='sicCode')
-    date_acquired: DateAcquired | None = Field(default=None, alias='dateAcquired')
-    time_zone: TimeZone | None = Field(default=None, alias='timeZone')
-    source_list: SourceList | None = Field(default=None, alias='sourceList')
-    user_defined_field1: UserDefinedField1 | None = Field(
+    sic_code: Literal['From', 'To'] | None = Field(default=None, alias='sicCode')
+    date_acquired: Literal['From', 'To'] | None = Field(
+        default=None, alias='dateAcquired'
+    )
+    time_zone: Literal['From', 'To'] | None = Field(default=None, alias='timeZone')
+    source_list: Literal['From', 'To'] | None = Field(default=None, alias='sourceList')
+    user_defined_field1: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField1'
     )
-    user_defined_field2: UserDefinedField2 | None = Field(
+    user_defined_field2: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField2'
     )
-    user_defined_field3: UserDefinedField3 | None = Field(
+    user_defined_field3: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField3'
     )
-    user_defined_field4: UserDefinedField4 | None = Field(
+    user_defined_field4: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField4'
     )
-    user_defined_field5: UserDefinedField5 | None = Field(
+    user_defined_field5: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField5'
     )
-    user_defined_field6: UserDefinedField6 | None = Field(
+    user_defined_field6: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField6'
     )
-    user_defined_field7: UserDefinedField7 | None = Field(
+    user_defined_field7: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField7'
     )
-    user_defined_field8: UserDefinedField8 | None = Field(
+    user_defined_field8: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField8'
     )
-    user_defined_field9: UserDefinedField9 | None = Field(
+    user_defined_field9: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField9'
     )
-    user_defined_field10: UserDefinedField10 | None = Field(
+    user_defined_field10: Literal['From', 'To'] | None = Field(
         default=None, alias='userDefinedField10'
     )
-    billing_address: BillingAddress | None = Field(default=None, alias='billingAddress')
-    billing_contact: BillingContact | None = Field(default=None, alias='billingContact')
-    tax_code: TaxCode | None = Field(default=None, alias='taxCode')
-    account_number: AccountNumber | None = Field(default=None, alias='accountNumber')
-    billing_terms: BillingTerms | None = Field(default=None, alias='billingTerms')
-    notes: Notes | None = None
-    sites: Sites | None = None
-    activities: Activities | None = None
-    opportunities: Opportunities | None = None
-    services: Services | None = None
-    projects: Projects | None = None
-    contacts: Contacts | None = None
-    documents: Documents | None = None
-
-
-class CompanyNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    billing_address: Literal['From', 'To'] | None = Field(
+        default=None, alias='billingAddress'
     )
-    id: int | None = None
-    text: str
-    type: NoteTypeReference | None = None
-    flagged: bool | None = None
-    entered_by: str | None = Field(default=None, alias='enteredBy')
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyNoteType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    billing_contact: Literal['From', 'To'] | None = Field(
+        default=None, alias='billingContact'
     )
+    tax_code: Literal['From', 'To'] | None = Field(default=None, alias='taxCode')
+    account_number: Literal['From', 'To'] | None = Field(
+        default=None, alias='accountNumber'
+    )
+    billing_terms: Literal['From', 'To'] | None = Field(
+        default=None, alias='billingTerms'
+    )
+    notes: Literal['Discard', 'Merge'] | None = None
+    sites: Literal['Discard', 'Merge'] | None = None
+    activities: Literal['Discard', 'Merge'] | None = None
+    opportunities: Literal['Discard', 'Merge'] | None = None
+    services: Literal['Discard', 'Merge'] | None = None
+    projects: Literal['Discard', 'Merge'] | None = None
+    contacts: Literal['Discard', 'Merge'] | None = None
+    documents: Literal['Discard', 'Merge'] | None = None
+
+
+class CompanyNoteType(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     """
@@ -3724,173 +819,26 @@ class CompanyNoteType(BaseModel):
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     import_flag: bool | None = Field(default=None, alias='importFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CompanyNoteTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CompanyNoteTypeInfo(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     name: str | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CompanyPickerItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    company: CompanyReference | None = None
-    company_status: CompanyStatusReference | None = Field(
-        default=None, alias='companyStatus'
-    )
-    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
-    company_site: SiteReference | None = Field(default=None, alias='companySite')
-    company_location: SystemLocationReference | None = Field(
-        default=None, alias='companyLocation'
-    )
-    company_country: CountryReference | None = Field(
-        default=None, alias='companyCountry'
-    )
-    vendor_picker_flag: bool | None = Field(default=None, alias='vendorPickerFlag')
-    """
-    Gets or sets if true, this record was created by the vendor picker component. Otherwise, the record was created by the company picker component.
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CompanyReference(CatalogItemReference):
+    pass
 
 
-class CompanyReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CompanyStatusReference(ActivityReference):
+    pass
 
 
-class CompanySite(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    address_line1: str | None = Field(default=None, alias='addressLine1')
-    """
-     Max length: 50;
-    """
-    address_line2: str | None = Field(default=None, alias='addressLine2')
-    """
-     Max length: 50;
-    """
-    city: str | None = None
-    """
-     Max length: 50;
-    """
-    state_reference: StateReference | None = Field(default=None, alias='stateReference')
-    zip: str | None = None
-    """
-     Max length: 12;
-    """
-    country: CountryReference | None = None
-    address_format: str | None = Field(default=None, alias='addressFormat')
-    phone_number: str | None = Field(default=None, alias='phoneNumber')
-    """
-     Max length: 30;
-    """
-    phone_number_ext: str | None = Field(default=None, alias='phoneNumberExt')
-    """
-     Max length: 30;
-    """
-    fax_number: str | None = Field(default=None, alias='faxNumber')
-    """
-     Max length: 30;
-    """
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    entity_type: EntityTypeReference | None = Field(default=None, alias='entityType')
-    expense_reimbursement: float | None = Field(
-        default=None, alias='expenseReimbursement'
-    )
-    primary_address_flag: bool | None = Field(default=None, alias='primaryAddressFlag')
-    default_shipping_flag: bool | None = Field(
-        default=None, alias='defaultShippingFlag'
-    )
-    default_billing_flag: bool | None = Field(default=None, alias='defaultBillingFlag')
-    default_mailing_flag: bool | None = Field(default=None, alias='defaultMailingFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    bill_separate_flag: bool | None = Field(default=None, alias='billSeparateFlag')
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    calendar: CalendarReference | None = None
-    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class CompanyStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    notify_flag: bool | None = Field(default=None, alias='notifyFlag')
-    disallow_saving_flag: bool | None = Field(default=None, alias='disallowSavingFlag')
-    notification_message: str | None = Field(default=None, alias='notificationMessage')
-    """
-     Max length: 500;
-    """
-    custom_note_flag: bool | None = Field(default=None, alias='customNoteFlag')
-    cancel_open_tracks_flag: bool | None = Field(
-        default=None, alias='cancelOpenTracksFlag'
-    )
-    track: TrackReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    company: CompanyReference | None = None
-    team_role: TeamRoleReference | None = Field(default=None, alias='teamRole')
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    contact: ContactReference | None = None
-    member: MemberReference | None = None
-    account_manager_flag: bool | None = Field(default=None, alias='accountManagerFlag')
-    tech_flag: bool | None = Field(default=None, alias='techFlag')
-    sales_flag: bool | None = Field(default=None, alias='salesFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CompanyType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CompanyType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -3903,55 +851,49 @@ class CompanyType(BaseModel):
     """
      Max length: 150;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CompanyTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CompanyTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     is_vendor: bool | None = Field(default=None, alias='isVendor')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CompanyTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CompanyTypeReference(ActivityReference):
+    pass
 
 
-class ConfigurationQuestion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationQuestion(ConnectWiseModel):
     answer_id: int | None = Field(default=None, alias='answerId')
     question_id: int | None = Field(default=None, alias='questionId')
     question: str | None = None
     answer: dict[str, Any] | None = None
     sequence_number: float | None = Field(default=None, alias='sequenceNumber')
     number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
-    field_type: FieldType | None = Field(default=None, alias='fieldType')
+    field_type: Literal[
+        'TextArea',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] | None = Field(default=None, alias='fieldType')
     required_flag: bool | None = Field(default=None, alias='requiredFlag')
 
 
-class ConfigurationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationReference(ConnectWiseModel):
     id: int | None = None
     device_identifier: str | None = Field(default=None, alias='deviceIdentifier')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationStatus(ConnectWiseModel):
     id: int | None = None
     description: str
     """
@@ -3959,33 +901,22 @@ class ConfigurationStatus(BaseModel):
     """
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationStatusInfo(ConnectWiseModel):
     id: int | None = None
     description: str | None = None
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ConfigurationStatusReference(ActivityReference):
+    pass
 
 
-class ConfigurationType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -3993,134 +924,38 @@ class ConfigurationType(BaseModel):
     """
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     system_flag: bool | None = Field(default=None, alias='systemFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationTypeCopy(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int
-    name: str
-    """
-     Max length: 50;
-    """
+class ConfigurationTypeCopy(BoardCopy):
+    pass
 
 
-class ConfigurationTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     system_flag: bool | None = Field(default=None, alias='systemFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationTypeQuestion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    field_type: FieldType = Field(..., alias='fieldType')
-    entry_type: EntryType = Field(..., alias='entryType')
-    sequence_number: float = Field(..., alias='sequenceNumber')
-    question: str
-    """
-     Max length: 1000;
-    """
-    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
-    required_flag: bool | None = Field(default=None, alias='requiredFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ConfigurationTypeQuestionInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    field_type: FieldType | None = Field(default=None, alias='fieldType')
-    entry_type: EntryType | None = Field(default=None, alias='entryType')
-    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
-    question: str | None = None
-    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
-    required_flag: bool | None = Field(default=None, alias='requiredFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ConfigurationTypeQuestionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConfigurationTypeQuestionReference(ConnectWiseModel):
     id: int | None = None
     question: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ConfigurationTypeQuestionValue(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    question: ConfigurationTypeQuestionReference | None = None
-    value: str
-    """
-     Max length: 1000;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ConfigurationTypeReference(ActivityReference):
+    pass
 
 
-class ConfigurationTypeQuestionValueInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    question: ConfigurationTypeQuestionReference | None = None
-    value: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ConfigurationTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ConnectWiseHostedScreen(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConnectWiseHostedScreen(ConnectWiseModel):
     id: int | None = None
     screen_id: str | None = Field(default=None, alias='screenId')
     name: str | None = None
 
 
-class ConnectWiseHostedSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ConnectWiseHostedSetup(ConnectWiseModel):
     id: int | None = None
     screen_id: int = Field(..., alias='screenId')
     """
@@ -4134,7 +969,7 @@ class ConnectWiseHostedSetup(BaseModel):
     """
      Max length: 1024;
     """
-    type: Type2
+    type: Literal['Tab', 'Pod', 'ToolbarButton']
     client_id: str | None = Field(default=None, alias='clientId')
     """
     Only required if not already set. Max length: 36;
@@ -4170,133 +1005,10 @@ class ConnectWiseHostedSetup(BaseModel):
     )
     created_by: str | None = Field(default=None, alias='createdBy')
     date_created: str | None = Field(default=None, alias='dateCreated')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Contact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    first_name: str | None = Field(default=None, alias='firstName')
-    last_name: str | None = Field(default=None, alias='lastName')
-    company: CompanyReference | None = None
-    site: SiteReference | None = None
-    address_line1: str | None = Field(default=None, alias='addressLine1')
-    address_line2: str | None = Field(default=None, alias='addressLine2')
-    city: str | None = None
-    state: str | None = None
-    zip: str | None = None
-    country: CountryReference | None = None
-    relationship: RelationshipReference | None = None
-    relationship_override: str | None = Field(
-        default=None, alias='relationshipOverride'
-    )
-    department: ContactDepartmentReference | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    default_merge_contact_id: int | None = Field(
-        default=None, alias='defaultMergeContactId'
-    )
-    security_identifier: str | None = Field(default=None, alias='securityIdentifier')
-    manager_contact: ContactReference | None = Field(
-        default=None, alias='managerContact'
-    )
-    assistant_contact: ContactReference | None = Field(
-        default=None, alias='assistantContact'
-    )
-    title: str | None = None
-    school: str | None = None
-    nick_name: str | None = Field(default=None, alias='nickName')
-    married_flag: bool | None = Field(default=None, alias='marriedFlag')
-    children_flag: bool | None = Field(default=None, alias='childrenFlag')
-    children: str | None = None
-    significant_other: str | None = Field(default=None, alias='significantOther')
-    portal_password: str | None = Field(default=None, alias='portalPassword')
-    portal_security_level: int | None = Field(default=None, alias='portalSecurityLevel')
-    disable_portal_login_flag: bool | None = Field(
-        default=None, alias='disablePortalLoginFlag'
-    )
-    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    gender: Gender | None = None
-    birth_day: str | None = Field(default=None, alias='birthDay')
-    anniversary: str | None = None
-    presence: Presence | None = None
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    facebook_url: str | None = Field(default=None, alias='facebookUrl')
-    twitter_url: str | None = Field(default=None, alias='twitterUrl')
-    linked_in_url: str | None = Field(default=None, alias='linkedInUrl')
-    default_phone_type: str | None = Field(default=None, alias='defaultPhoneType')
-    default_phone_nbr: str | None = Field(default=None, alias='defaultPhoneNbr')
-    default_phone_extension: str | None = Field(
-        default=None, alias='defaultPhoneExtension'
-    )
-    default_billing_flag: bool | None = Field(default=None, alias='defaultBillingFlag')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    user_defined_field1: str | None = Field(default=None, alias='userDefinedField1')
-    """
-     Max length: 50;
-    """
-    user_defined_field2: str | None = Field(default=None, alias='userDefinedField2')
-    """
-     Max length: 50;
-    """
-    user_defined_field3: str | None = Field(default=None, alias='userDefinedField3')
-    """
-     Max length: 50;
-    """
-    user_defined_field4: str | None = Field(default=None, alias='userDefinedField4')
-    """
-     Max length: 50;
-    """
-    user_defined_field5: str | None = Field(default=None, alias='userDefinedField5')
-    """
-     Max length: 50;
-    """
-    user_defined_field6: str | None = Field(default=None, alias='userDefinedField6')
-    """
-     Max length: 50;
-    """
-    user_defined_field7: str | None = Field(default=None, alias='userDefinedField7')
-    """
-     Max length: 50;
-    """
-    user_defined_field8: str | None = Field(default=None, alias='userDefinedField8')
-    """
-     Max length: 50;
-    """
-    user_defined_field9: str | None = Field(default=None, alias='userDefinedField9')
-    """
-     Max length: 50;
-    """
-    user_defined_field10: str | None = Field(default=None, alias='userDefinedField10')
-    """
-     Max length: 50;
-    """
-    company_location: SystemLocationReference | None = Field(
-        default=None, alias='companyLocation'
-    )
-    communication_items: list[ContactCommunicationItem] | None = Field(
-        default=None, alias='communicationItems'
-    )
-    types: list[ContactTypeReference] | None = None
-    integrator_tags: list[str] | None = Field(default=None, alias='integratorTags')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-    photo: DocumentReference | None = None
-    ignore_duplicates: bool | None = Field(default=None, alias='ignoreDuplicates')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    type_ids: list[int] | None = Field(default=None, alias='typeIds')
-    """
-    Gets or sets integrer array of Contact_Type_Recids to be assigned to contact that can be passed in only during new contact creation (post)
-                To update existing contacts type, use the /company/contactTypeAssociations or /company/contacts/{ID}/typeAssociations endpoints.
-    """
-
-
-class ContactCommunication(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactCommunication(ConnectWiseModel):
     id: int | None = None
     contact_id: int | None = Field(default=None, alias='contactId')
     type: CommunicationTypeReference | None = None
@@ -4310,130 +1022,56 @@ class ContactCommunication(BaseModel):
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    communication_type: CommunicationType1 | None = Field(
+    communication_type: Literal['Email', 'Fax', 'Phone'] | None = Field(
         default=None, alias='communicationType'
     )
     domain: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactCommunicationItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactCommunicationItem(ConnectWiseModel):
     id: int | None = None
     type: CommunicationTypeReference | None = None
     value: str | None = None
     extension: str | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     domain: str | None = None
-    communication_type: CommunicationType1 | None = Field(
+    communication_type: Literal['Email', 'Fax', 'Phone'] | None = Field(
         default=None, alias='communicationType'
     )
 
 
-class ContactDepartment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactDepartment(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 30;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactDepartmentInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ContactDepartmentInfo(ActivityReference):
+    pass
 
 
-class ContactDepartmentReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ContactDepartmentReference(ActivityReference):
+    pass
 
 
-class ContactGroup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    group: GroupReference | None = None
-    contact: ContactReference | None = None
-    description: str | None = None
-    """
-     Max length: 50;
-    """
-    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    company_unsubcribed_email_message: str | None = Field(
-        default=None, alias='companyUnsubcribedEmailMessage'
-    )
-    company_group_unsubscribed_email_message: str | None = Field(
-        default=None, alias='companyGroupUnsubscribedEmailMessage'
-    )
-    contact_unsubscribed_email_message: str | None = Field(
-        default=None, alias='contactUnsubscribedEmailMessage'
-    )
-    contact_group_unsubscribed_email_message: str | None = Field(
-        default=None, alias='contactGroupUnsubscribedEmailMessage'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ContactReference(ActivityReference):
+    pass
 
 
-class ContactNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    contact_id: int | None = Field(default=None, alias='contactId')
-    text: str
-    type: NoteTypeReference | None = None
-    flagged: bool | None = None
-    entered_by: str | None = Field(default=None, alias='enteredBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ContactReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ContactRelationship(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactRelationship(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactSync(Enum):
-    FL = 'FL'
-    LF = 'LF'
-    CFL = 'CFL'
-    CLF = 'CLF'
-
-
-class ContactTrack(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactTrack(ConnectWiseModel):
     id: int | None = None
     track_id: int | None = Field(default=None, alias='trackId')
     name: str | None = None
@@ -4444,13 +1082,10 @@ class ContactTrack(BaseModel):
     started_by: str | None = Field(default=None, alias='startedBy')
     company: CompanyReference | None = None
     contact: ContactReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactType(ConnectWiseModel):
     id: int | None = None
     description: str
     """
@@ -4462,470 +1097,36 @@ class ContactType(BaseModel):
     """
      Max length: 150;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ContactTypeInfo(ConnectWiseModel):
     id: int | None = None
     description: str | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     service_alert_flag: bool | None = Field(default=None, alias='serviceAlertFlag')
     service_alert_message: str | None = Field(default=None, alias='serviceAlertMessage')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ContactTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ContactTypeReference(ActivityReference):
+    pass
 
 
-class Contacts(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class Conversion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    quantity: float | None = None
-    uom_type: UnitOfMeasureReference | None = Field(default=None, alias='uomType')
-    parent_uom: UnitOfMeasureReference | None = Field(default=None, alias='parentUOM')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ConvertItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    record_type: RecordType = Field(..., alias='recordType')
-    project: ProjectReference | None = None
-    phase: ProjectPhaseReference | None = None
-    wbs_code: str | None = Field(default=None, alias='wbsCode')
-
-
-class ConvertToProject(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    record_type: RecordType | None = Field(default=None, alias='recordType')
-    project: ProjectReference | None = None
-    phase: ProjectPhaseReference | None = None
-    wbs_code: str = Field(..., alias='wbsCode')
-
-
-class CoreEntityCountryCode(Enum):
-    AF = 'AF'
-    AX = 'AX'
-    AL = 'AL'
-    DZ = 'DZ'
-    AS_ = 'AS'
-    AD = 'AD'
-    AO = 'AO'
-    AI = 'AI'
-    AQ = 'AQ'
-    AR = 'AR'
-    AM = 'AM'
-    AW = 'AW'
-    AT = 'AT'
-    AZ = 'AZ'
-    BH = 'BH'
-    BD = 'BD'
-    BB = 'BB'
-    BY = 'BY'
-    BZ = 'BZ'
-    BJ = 'BJ'
-    BM = 'BM'
-    BT = 'BT'
-    BO = 'BO'
-    BQ = 'BQ'
-    BA = 'BA'
-    BW = 'BW'
-    BV = 'BV'
-    IO = 'IO'
-    BN = 'BN'
-    BG = 'BG'
-    BF = 'BF'
-    BI = 'BI'
-    CM = 'CM'
-    CV = 'CV'
-    KY = 'KY'
-    CF = 'CF'
-    TD = 'TD'
-    CL = 'CL'
-    CX = 'CX'
-    CC = 'CC'
-    CO = 'CO'
-    KM = 'KM'
-    CG = 'CG'
-    CK = 'CK'
-    CI = 'CI'
-    HR = 'HR'
-    CU = 'CU'
-    CW = 'CW'
-    CY = 'CY'
-    CZ = 'CZ'
-    CD = 'CD'
-    DK = 'DK'
-    DJ = 'DJ'
-    DM = 'DM'
-    EC = 'EC'
-    EG = 'EG'
-    GQ = 'GQ'
-    ER = 'ER'
-    EE = 'EE'
-    ET = 'ET'
-    FK = 'FK'
-    FO = 'FO'
-    FJ = 'FJ'
-    FI = 'FI'
-    FR = 'FR'
-    GF = 'GF'
-    PF = 'PF'
-    TF = 'TF'
-    GA = 'GA'
-    GM = 'GM'
-    GE = 'GE'
-    GH = 'GH'
-    GI = 'GI'
-    GR = 'GR'
-    GL = 'GL'
-    GD = 'GD'
-    GP = 'GP'
-    GU = 'GU'
-    GT = 'GT'
-    GG = 'GG'
-    GN = 'GN'
-    GW = 'GW'
-    GY = 'GY'
-    HT = 'HT'
-    HM = 'HM'
-    HN = 'HN'
-    HK = 'HK'
-    HU = 'HU'
-    IS_ = 'IS'
-    IN_ = 'IN'
-    IR = 'IR'
-    IQ = 'IQ'
-    IE = 'IE'
-    IM = 'IM'
-    IT = 'IT'
-    JM = 'JM'
-    JP = 'JP'
-    JE = 'JE'
-    JO = 'JO'
-    KZ = 'KZ'
-    KE = 'KE'
-    KI = 'KI'
-    XK = 'XK'
-    KW = 'KW'
-    KG = 'KG'
-    LA = 'LA'
-    LV = 'LV'
-    LB = 'LB'
-    LS = 'LS'
-    LR = 'LR'
-    LY = 'LY'
-    LI = 'LI'
-    LT = 'LT'
-    LU = 'LU'
-    MO = 'MO'
-    MK = 'MK'
-    MG = 'MG'
-    MW = 'MW'
-    MY = 'MY'
-    ML = 'ML'
-    MT = 'MT'
-    MH = 'MH'
-    MQ = 'MQ'
-    MR = 'MR'
-    MU = 'MU'
-    YT = 'YT'
-    FM = 'FM'
-    MD = 'MD'
-    MC = 'MC'
-    MN = 'MN'
-    ME = 'ME'
-    MS = 'MS'
-    MZ = 'MZ'
-    NA = 'NA'
-    NR = 'NR'
-    NP = 'NP'
-    NC = 'NC'
-    NZ = 'NZ'
-    NI = 'NI'
-    NE = 'NE'
-    NG = 'NG'
-    NU = 'NU'
-    NF = 'NF'
-    KP = 'KP'
-    MP = 'MP'
-    OM = 'OM'
-    PK = 'PK'
-    PW = 'PW'
-    PS = 'PS'
-    PG = 'PG'
-    PY = 'PY'
-    PE = 'PE'
-    PN = 'PN'
-    PL = 'PL'
-    PT = 'PT'
-    PR = 'PR'
-    RE = 'RE'
-    RO = 'RO'
-    RU = 'RU'
-    RW = 'RW'
-    BL = 'BL'
-    SH = 'SH'
-    PM = 'PM'
-    VC = 'VC'
-    WS = 'WS'
-    SM = 'SM'
-    ST = 'ST'
-    SN = 'SN'
-    RS = 'RS'
-    SC = 'SC'
-    SL = 'SL'
-    SX = 'SX'
-    SK = 'SK'
-    SI = 'SI'
-    SB = 'SB'
-    SO = 'SO'
-    ZA = 'ZA'
-    GS = 'GS'
-    KR = 'KR'
-    SS = 'SS'
-    ES = 'ES'
-    LK = 'LK'
-    SD = 'SD'
-    SR = 'SR'
-    SJ = 'SJ'
-    SZ = 'SZ'
-    SE = 'SE'
-    SY = 'SY'
-    TJ = 'TJ'
-    TZ = 'TZ'
-    TH = 'TH'
-    TL = 'TL'
-    TG = 'TG'
-    TK = 'TK'
-    TO = 'TO'
-    TN = 'TN'
-    TR = 'TR'
-    TV = 'TV'
-    UG = 'UG'
-    UA = 'UA'
-    GB = 'GB'
-    UM = 'UM'
-    UZ = 'UZ'
-    VU = 'VU'
-    VN = 'VN'
-    WF = 'WF'
-    EH = 'EH'
-    YE = 'YE'
-    ZM = 'ZM'
-    ZW = 'ZW'
-    US = 'US'
-    CR = 'CR'
-    MX = 'MX'
-    AE = 'AE'
-    VI = 'VI'
-    VG = 'VG'
-    SA = 'SA'
-    KH = 'KH'
-    AU = 'AU'
-    ID = 'ID'
-    CA = 'CA'
-    BR = 'BR'
-    TW = 'TW'
-    TM = 'TM'
-    TC = 'TC'
-    QA = 'QA'
-    MM = 'MM'
-    CN = 'CN'
-    SG = 'SG'
-    IL = 'IL'
-    VA = 'VA'
-    DE = 'DE'
-    NL = 'NL'
-    AG = 'AG'
-    BE = 'BE'
-    LC = 'LC'
-    UY = 'UY'
-    PH = 'PH'
-    BS = 'BS'
-    VE = 'VE'
-    CH = 'CH'
-    MF = 'MF'
-    KN = 'KN'
-    TT = 'TT'
-    DO = 'DO'
-    PA = 'PA'
-    MV = 'MV'
-    SV = 'SV'
-    NO = 'NO'
-    MA = 'MA'
-    AC = 'AC'
-    TA = 'TA'
-
-
-class CorporateStructure(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    level_count: LevelCount | None = Field(default=None, alias='levelCount')
-    level1_name: str | None = Field(default=None, alias='level1Name')
-    """
-     Max length: 20;
-    """
-    level2_name: str | None = Field(default=None, alias='level2Name')
-    """
-     Max length: 20;
-    """
-    level3_name: str | None = Field(default=None, alias='level3Name')
-    """
-     Max length: 20;
-    """
-    level4_name: str | None = Field(default=None, alias='level4Name')
-    """
-     Max length: 20;
-    """
-    level5_name: str | None = Field(default=None, alias='level5Name')
-    """
-     Max length: 20;
-    """
-    fiscal_year_start: FiscalYearStart = Field(..., alias='fiscalYearStart')
-    location_caption: str = Field(..., alias='locationCaption')
-    """
-     Max length: 50;
-    """
-    group_caption: str = Field(..., alias='groupCaption')
-    """
-     Max length: 50;
-    """
-    base_currency: CurrencyReference = Field(..., alias='baseCurrency')
-    president: MemberReference | None = None
-    chief_operating_officer: MemberReference | None = Field(
-        default=None, alias='chiefOperatingOfficer'
-    )
-    controller: MemberReference | None = None
-    dispatcher: MemberReference | None = None
-    service_manager: MemberReference | None = Field(
-        default=None, alias='serviceManager'
-    )
-    duty_manager: MemberReference | None = Field(default=None, alias='dutyManager')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CorporateStructureInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location_caption: str | None = Field(default=None, alias='locationCaption')
-    group_caption: str | None = Field(default=None, alias='groupCaption')
-    base_currency: CurrencyReference | None = Field(default=None, alias='baseCurrency')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CorporateStructureLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CorporateStructureLevel(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
 
 
-class CorporateStructureLevelReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CorporateStructureLevelReference(ActivityReference):
+    pass
 
 
-class CostingMethod(Enum):
-    FIFO = 'FIFO'
-    LIFO = 'LIFO'
-    AVERAGE_COSTING = 'AverageCosting'
-
-
-class Count(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Count(ConnectWiseModel):
     count: int | None = None
 
 
-class Country(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    currency: CurrencyReference | None = None
-    city_caption: str | None = Field(default=None, alias='cityCaption')
-    """
-     Max length: 25;
-    """
-    state_caption: str | None = Field(default=None, alias='stateCaption')
-    """
-     Max length: 25;
-    """
-    zip_caption: str | None = Field(default=None, alias='zipCaption')
-    """
-     Max length: 25;
-    """
-    zip_minimum_length: int | None = Field(default=None, alias='zipMinimumLength')
-    dialing_prefix: str | None = Field(default=None, alias='dialingPrefix')
-    """
-     Max length: 5;
-    """
-    address_format: AddressFormatReference | None = Field(
-        default=None, alias='addressFormat'
-    )
-    country_code: str | None = Field(default=None, alias='countryCode')
-    """
-     Max length: 2;
-    """
-    core_entity_country_code: CoreEntityCountryCode | None = Field(
-        default=None, alias='coreEntityCountryCode'
-    )
-    localization_caption_one: str | None = Field(
-        default=None, alias='localizationCaptionOne'
-    )
-    """
-     Max length: 25;
-    """
-    localization_value_one: str | None = Field(
-        default=None, alias='localizationValueOne'
-    )
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CountryInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CountryInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
@@ -4936,23 +1137,14 @@ class CountryInfo(BaseModel):
     localization_caption_one: str | None = Field(
         default=None, alias='localizationCaptionOne'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CountryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CountryReference(CatalogItemReference):
+    pass
 
 
-class CreateAccountingBatchRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CreateAccountingBatchRequest(ConnectWiseModel):
     id: int | None = None
     batch_identifier: str | None = Field(default=None, alias='batchIdentifier')
     """
@@ -4980,144 +1172,19 @@ class CreateAccountingBatchRequest(BaseModel):
     summarize_expenses: bool | None = Field(default=None, alias='summarizeExpenses')
 
 
-class Crm(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    company_list_count: int | None = Field(default=None, alias='companyListCount')
-    lock_probability_flag: bool | None = Field(
-        default=None, alias='lockProbabilityFlag'
-    )
-    account_manager_role: TeamRoleReference | None = Field(
-        default=None, alias='accountManagerRole'
-    )
-    technical_contact_role: TeamRoleReference | None = Field(
-        default=None, alias='technicalContactRole'
-    )
-    sales_rep_role: TeamRoleReference | None = Field(default=None, alias='salesRepRole')
-    company_id_generation_flag: bool | None = Field(
-        default=None, alias='companyIdGenerationFlag'
-    )
-    exclude_spaces_flag: bool | None = Field(default=None, alias='excludeSpacesFlag')
-    field1_caption: str | None = Field(default=None, alias='field1Caption')
-    """
-     Max length: 25;
-    """
-    field2_caption: str | None = Field(default=None, alias='field2Caption')
-    """
-     Max length: 25;
-    """
-    field3_caption: str | None = Field(default=None, alias='field3Caption')
-    """
-     Max length: 25;
-    """
-    field4_caption: str | None = Field(default=None, alias='field4Caption')
-    """
-     Max length: 25;
-    """
-    field5_caption: str | None = Field(default=None, alias='field5Caption')
-    """
-     Max length: 25;
-    """
-    field6_caption: str | None = Field(default=None, alias='field6Caption')
-    """
-     Max length: 25;
-    """
-    field7_caption: str | None = Field(default=None, alias='field7Caption')
-    """
-     Max length: 25;
-    """
-    field8_caption: str | None = Field(default=None, alias='field8Caption')
-    """
-     Max length: 25;
-    """
-    field9_caption: str | None = Field(default=None, alias='field9Caption')
-    """
-     Max length: 25;
-    """
-    field10_caption: str | None = Field(default=None, alias='field10Caption')
-    """
-     Max length: 25;
-    """
-    primary_rep_caption: str | None = Field(default=None, alias='primaryRepCaption')
-    """
-     Max length: 50;
-    """
-    secondary_rep_caption: str | None = Field(default=None, alias='secondaryRepCaption')
-    """
-     Max length: 50;
-    """
-    other1_caption: str | None = Field(default=None, alias='other1Caption')
-    """
-     Max length: 50;
-    """
-    other2_caption: str | None = Field(default=None, alias='other2Caption')
-    """
-     Max length: 50;
-    """
-    default_year: bool | None = Field(default=None, alias='defaultYear')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CurrencyCode(ActivityReference):
+    pass
 
 
-class CrmInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    account_manager_role: TeamRoleReference | None = Field(
-        default=None, alias='accountManagerRole'
-    )
-    technical_contact_role: TeamRoleReference | None = Field(
-        default=None, alias='technicalContactRole'
-    )
-    sales_rep_role: TeamRoleReference | None = Field(default=None, alias='salesRepRole')
-    field1_caption: str | None = Field(default=None, alias='field1Caption')
-    field2_caption: str | None = Field(default=None, alias='field2Caption')
-    field3_caption: str | None = Field(default=None, alias='field3Caption')
-    field4_caption: str | None = Field(default=None, alias='field4Caption')
-    field5_caption: str | None = Field(default=None, alias='field5Caption')
-    field6_caption: str | None = Field(default=None, alias='field6Caption')
-    field7_caption: str | None = Field(default=None, alias='field7Caption')
-    field8_caption: str | None = Field(default=None, alias='field8Caption')
-    field9_caption: str | None = Field(default=None, alias='field9Caption')
-    field10_caption: str | None = Field(default=None, alias='field10Caption')
-    primary_rep_caption: str | None = Field(default=None, alias='primaryRepCaption')
-    secondary_rep_caption: str | None = Field(default=None, alias='secondaryRepCaption')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CurrencyCodeReference(ActivityReference):
+    pass
 
 
-class CurrencyCode(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CurrencyInfo(ActivityReference):
+    pass
 
 
-class CurrencyCodeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CurrencyInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CurrencyReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CurrencyReference(ConnectWiseModel):
     id: int | None = None
     symbol: str | None = None
     currency_code: str | None = Field(default=None, alias='currencyCode')
@@ -5132,32 +1199,49 @@ class CurrencyReference(BaseModel):
     display_id_flag: bool | None = Field(default=None, alias='displayIdFlag')
     right_align: bool | None = Field(default=None, alias='rightAlign')
     name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CustomFieldValue(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CustomFieldValue(ConnectWiseModel):
     id: int | None = None
     caption: str | None = None
-    type: Type3 | None = None
-    entry_method: EntryMethod | None = Field(default=None, alias='entryMethod')
-    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
-    value: Any | None = None
-
-
-class CustomReport(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    type: Literal[
+        'TextArea',
+        'Button',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] | None = None
+    entry_method: Literal['Date', 'EntryField', 'List', 'Option'] | None = Field(
+        default=None, alias='entryMethod'
     )
+    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
+    value: str | bool | int | None = None
+
+
+class CustomReport(ConnectWiseModel):
     id: int | None = None
     report_link: str = Field(..., alias='reportLink')
     name: str
     """
      Max length: 100;
     """
-    module: Module
+    module: Literal[
+        'Companies',
+        'Finance',
+        'Marketing',
+        'Procurement',
+        'Project',
+        'Sales',
+        'ServiceDesk',
+        'TimeExpense',
+    ]
     """
     The Module Name.
     """
@@ -5334,62 +1418,14 @@ class CustomReport(BaseModel):
     Parameter unique identifier for the Custom Report's Invoice Type parameter.
     """
     invoice_override: str | None = Field(default=None, alias='invoiceOverride')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CustomReportParameter(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    """
-    Either a caption name or parameter name is required. Max length: 50;
-    """
-    caption_name: str | None = Field(default=None, alias='captionName')
-    """
-    Either a caption name or parameter name is required. Max length: 50;
-    """
-    custom_report: CustomReportReference | None = Field(
-        default=None, alias='customReport'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class CustomReportReference(ActivityReference):
+    pass
 
 
-class CustomReportReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class CustomizeIdentifier(Enum):
-    COMPANY_REPORTS = 'CompanyReports'
-    FINANCE_REPORTS = 'FinanceReports'
-    MARKETING_REPORTS = 'MarketingReports'
-    PROCUREMENT_REPORTS = 'ProcurementReports'
-    PROJECT_REPORTS = 'ProjectReports'
-    SALES_REPORTS = 'SalesReports'
-    SERVICE_REPORTS = 'ServiceReports'
-    SYSTEM_REPORTS = 'SystemReports'
-    TIME_AND_EXPENSE_REPORTS = 'TimeAndExpenseReports'
-    COMPANY_CONFIGURATIONS = 'CompanyConfigurations'
-    FINANCE_AGREEMENTS = 'FinanceAgreements'
-    PROJECT_SCHEDULING = 'ProjectScheduling'
-    SERVICE_RESOURCE_SCHEDULING = 'ServiceResourceScheduling'
-    SYSTEM_MANAGE_HOSTED_API = 'SystemManageHostedApi'
-    SYSTEM_MY_ACCOUNT = 'SystemMyAccount'
-    SYSTEM_CUSTOM_MENU_ENTRY = 'SystemCustomMenuEntry'
-    SYSTEM_MASS_MAINTENANCE = 'SystemMassMaintenance'
-    SYSTEM_TABLE_SETUP = 'SystemTableSetup'
-
-
-class CwTimeZone(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class CwTimeZone(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     offset: float | None = None
@@ -5405,60 +1441,10 @@ class CwTimeZone(BaseModel):
     Determined based on system library value for specified timeZone.
                 Not able to be used in query params at this time.
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class CycleType(Enum):
-    CONTRACT_YEAR = 'ContractYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class DateAcquired(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class DefaultBillingLevel(Enum):
-    DETAIL = 'Detail'
-    SUMMARY = 'Summary'
-
-
-class DefaultEmail(Enum):
-    OFFICE = 'Office'
-    MOBILE = 'Mobile'
-    HOME = 'Home'
-
-
-class DefaultPhone(Enum):
-    OFFICE = 'Office'
-    MOBILE = 'Mobile'
-    HOME = 'Home'
-
-
-class DefaultSpecialInvoiceType(Enum):
-    AGREEMENT = 'Agreement'
-    CREDIT_MEMO = 'CreditMemo'
-    DOWN_PAYMENT = 'DownPayment'
-    MISCELLANEOUS = 'Miscellaneous'
-    PROGRESS = 'Progress'
-    STANDARD = 'Standard'
-
-
-class DelegationType(Enum):
-    APPROVAL = 'Approval'
-    PROJECT = 'Project'
-
-
-class DeleteLevel(Enum):
-    NONE = 'None'
-    MY = 'My'
-    ALL = 'All'
-
-
-class DeliveryMethod(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class DeliveryMethod(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -5475,13 +1461,10 @@ class DeliveryMethod(BaseModel):
     integration_active_flag: bool | None = Field(
         default=None, alias='integrationActiveFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Department(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Department(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -5491,125 +1474,26 @@ class Department(BaseModel):
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class DepartmentInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class DepartmentInfo(ActivityReference):
+    pass
 
 
-class DepartmentLocation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    department_manager: MemberReference | None = Field(
-        default=None, alias='departmentManager'
-    )
-    dispatch: MemberReference | None = None
-    service_manager: MemberReference | None = Field(
-        default=None, alias='serviceManager'
-    )
-    duty_manager: MemberReference | None = Field(default=None, alias='dutyManager')
-    ldap_config: LdapConfigurationReference | None = Field(
-        default=None, alias='ldapConfig'
-    )
-    add_all_locations: bool | None = Field(default=None, alias='addAllLocations')
-    remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class DirectionalSync(ContactRelationship):
+    pass
 
 
-class DepartmentLocationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class DirectionalSyncInfo(ActivityReference):
+    pass
 
 
-class DeviceType(Enum):
-    """
-    Gets or sets deviceType is required if the managementSolution is Legacy.
-    """
-
-    WORKSTATIONS_AND_SERVERS = 'WorkstationsAndServers'
-    BACKUP_STATS = 'BackupStats'
-    SERVERS = 'Servers'
-    WORKSTATIONS = 'Workstations'
+class DirectionalSyncReference(ActivityReference):
+    pass
 
 
-class DirectionalSync(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class DirectionalSyncInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class DirectionalSyncReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class DiscussionSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class DisplayClosedTicketsOption(Enum):
-    DO_NOT_DISPLAY = 'DoNotDisplay'
-    CLOSED30_DAYS = 'Closed30Days'
-    CLOSED60_DAYS = 'Closed60Days'
-    CLOSED90_DAYS = 'Closed90Days'
-    CLOSED120_DAYS = 'Closed120Days'
-    ALL_CLOSED = 'AllClosed'
-
-
-class DisplaySection(Enum):
-    CUSTOMER_INFORMATION = 'CustomerInformation'
-    DETAIL = 'Detail'
-    EXPENSES = 'Expenses'
-    CONFIGURATIONS = 'Configurations'
-    ADDITIONAL_SIGN_OFF_FIELDS = 'AdditionalSignOffFields'
-    INTERNAL_NOTES = 'InternalNotes'
-    TIME = 'Time'
-    PRODUCTS = 'Products'
-    RESOLUTION = 'Resolution'
-    SUMMARY = 'Summary'
-    TASKS = 'Tasks'
-
-
-class DocumentFormData(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class DocumentFormData(ConnectWiseModel):
     file: bytes | None = None
     record_id: int | None = Field(default=None, alias='recordId')
     record_type: str | None = Field(default=None, alias='recordType')
@@ -5620,45 +1504,11 @@ class DocumentFormData(BaseModel):
     is_avatar: bool | None = Field(default=None, alias='isAvatar')
 
 
-class DocumentInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    title: str | None = None
-    file_name: str | None = Field(default=None, alias='fileName')
-    server_file_name: str | None = Field(default=None, alias='serverFileName')
-    owner: str | None = None
-    link_flag: bool | None = Field(default=None, alias='linkFlag')
-    image_flag: bool | None = Field(default=None, alias='imageFlag')
-    public_flag: bool | None = Field(default=None, alias='publicFlag')
-    html_template_flag: bool | None = Field(default=None, alias='htmlTemplateFlag')
-    read_only_flag: bool | None = Field(default=None, alias='readOnlyFlag')
-    size: int | None = None
-    url_flag: bool | None = Field(default=None, alias='urlFlag')
-    created_on_date: str | None = Field(default=None, alias='createdOnDate')
-    document_type: DocumentTypeReference | None = Field(
-        default=None, alias='documentType'
-    )
-    guid: UUID | None = Field(
-        default=None, example='00000000-0000-0000-0000-000000000000'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class DocumentReference(ActivityReference):
+    pass
 
 
-class DocumentReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class DocumentSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class DocumentSetup(ConnectWiseModel):
     id: int | None = None
     upload_as_link_flag: bool | None = Field(default=None, alias='uploadAsLinkFlag')
     is_public_flag: bool | None = Field(default=None, alias='isPublicFlag')
@@ -5674,287 +1524,62 @@ class DocumentSetup(BaseModel):
     """
      Max length: 200;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class DocumentType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class DocumentType(ConnectWiseModel):
     id: int | None = None
     file_extension: str | None = Field(default=None, alias='fileExtension')
     icon: str | None = None
     mime_type: str | None = Field(default=None, alias='mimeType')
     description: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class DocumentTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class DocumentTypeReference(ActivityReference):
+    pass
 
 
-class Documents(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
+class EmailConnectorParsingStyleReference(ActivityReference):
+    pass
 
 
-class DocumentsSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
+class EmailConnectorParsingTypeReference(ActivityReference):
+    pass
 
 
-class EPayConfiguration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    currency: CurrencyReference | None = None
-    url: str
-    """
-     Max length: 400;
-    """
-    store_identifier: str = Field(..., alias='storeIdentifier')
-    """
-     Max length: 500;
-    """
-    encryption_key: str | None = Field(default=None, alias='encryptionKey')
-    """
-     Max length: 500;
-    """
-    initialization_vector: str | None = Field(
-        default=None, alias='initializationVector'
-    )
-    """
-     Max length: 500;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EditLevel(Enum):
-    NONE = 'None'
-    MY = 'My'
-    ALL = 'All'
-
-
-class EmailConnector(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    email_server_type: EmailServerType | None = Field(
-        default=None, alias='emailServerType'
-    )
-    imap_setup: ImapSetupReference | None = Field(default=None, alias='imapSetup')
-    office365_email_setup: Office365EmailSetupReference | None = Field(
-        default=None, alias='office365EmailSetup'
-    )
-    asio365_email_setup: Office365EmailSetupReference | None = Field(
-        default=None, alias='asio365EmailSetup'
-    )
-    google_email_setup: GoogleEmailSetupReference | None = Field(
-        default=None, alias='googleEmailSetup'
-    )
-    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
-    default_company: CompanyReference | None = Field(
-        default=None, alias='defaultCompany'
-    )
-    default_member: MemberReference | None = Field(default=None, alias='defaultMember')
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    email_notify_from: str | None = Field(default=None, alias='emailNotifyFrom')
-    """
-     Max length: 50;
-    """
-    bcc_email_to: str | None = Field(default=None, alias='bccEmailTo')
-    """
-     Max length: 250;
-    """
-    email_errors_to: str = Field(..., alias='emailErrorsTo')
-    """
-     Max length: 50;
-    """
-    set_email_to_default_contact_flag: bool | None = Field(
-        default=None, alias='setEmailToDefaultContactFlag'
-    )
-    no_response_flag: bool | None = Field(default=None, alias='noResponseFlag')
-    never_respond_flag: bool | None = Field(default=None, alias='neverRespondFlag')
-    discard_duplicates_flag: bool | None = Field(
-        default=None, alias='discardDuplicatesFlag'
-    )
-    post_replies_to_ticket_flag: bool | None = Field(
-        default=None, alias='postRepliesToTicketFlag'
-    )
-    create_contact_flag: bool | None = Field(default=None, alias='createContactFlag')
-    response_email_for_new: str | None = Field(
-        default=None, alias='responseEmailForNew'
-    )
-    response_email_for_existing: str | None = Field(
-        default=None, alias='responseEmailForExisting'
-    )
-    source_override: ServiceSourceReference | None = Field(
-        default=None, alias='sourceOverride'
-    )
-    priority_override: PriorityReference | None = Field(
-        default=None, alias='priorityOverride'
-    )
-    type_override: ServiceTypeReference | None = Field(
-        default=None, alias='typeOverride'
-    )
-    sub_type_override: ServiceSubTypeReference | None = Field(
-        default=None, alias='subTypeOverride'
-    )
-    item_override: ServiceItemReference | None = Field(
-        default=None, alias='itemOverride'
-    )
-    status_override: ServiceStatusReference | None = Field(
-        default=None, alias='statusOverride'
-    )
-    add_cc_flag: bool | None = Field(default=None, alias='addCcFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    imap_setup: ImapSetupReference | None = Field(default=None, alias='imapSetup')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorParsingRule(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    parsing_style: EmailConnectorParsingStyleReference | None = Field(
-        default=None, alias='parsingStyle'
-    )
-    priority: int
-    parsing_variable: EmailConnectorParsingVariableReference | None = Field(
-        default=None, alias='parsingVariable'
-    )
-    search_term: str = Field(..., alias='searchTerm')
-    """
-     Max length: 250;
-    """
-    service_priority: PriorityReference | None = Field(
-        default=None, alias='servicePriority'
-    )
-    service_status: ServiceStatusReference | None = Field(
-        default=None, alias='serviceStatus'
-    )
-    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
-    service_sub_type: ServiceSubTypeReference | None = Field(
-        default=None, alias='serviceSubType'
-    )
-    service_item: ServiceItemReference | None = Field(default=None, alias='serviceItem')
-    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorParsingStyle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    parsing_type: EmailConnectorParsingTypeReference | None = Field(
-        default=None, alias='parsingType'
-    )
-    parse_rule: str = Field(..., alias='parseRule')
-    """
-     Max length: 500;
-    """
-    priority: int
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorParsingStyleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorParsingTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailConnectorParsingVariableReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class EmailConnectorParsingVariableReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class EmailConnectorReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class EmailConnectorReference(ActivityReference):
+    pass
 
 
-class EmailExclusion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class EmailExclusion(ConnectWiseModel):
     id: int | None = None
     description: str
     """
      Max length: 100;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class EmailOpened(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class EmailOpened(ConnectWiseModel):
     id: int | None = None
     campaign_id: int | None = Field(default=None, alias='campaignId')
     contact_id: int = Field(..., alias='contactId')
     date_opened: datetime | None = Field(default=None, alias='dateOpened')
 
 
-class EmailServerType(Enum):
-    IMAP = 'IMAP'
-    OFFICE365 = 'Office365'
-    GOOGLE = 'Google'
-    ASIO365 = 'Asio365'
+class EmailTemplateReference(ActivityReference):
+    pass
 
 
-class EmailTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class EmailToken(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class EmailToken(ConnectWiseModel):
     id: int | None = None
     token: str | None = None
     description: str | None = None
@@ -5976,268 +1601,61 @@ class EmailToken(BaseModel):
     portal_password_flag: bool | None = Field(default=None, alias='portalPasswordFlag')
 
 
-class EmployeeCompNotExceed(Enum):
-    BILLING = 'Billing'
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class EmployeeCompRate(Enum):
-    """
-    Required On Updates;
-    """
-
-    ACTUAL = 'Actual'
-    HOURLY = 'Hourly'
-
-
-class EmployeeCompRate1(Enum):
-    ACTUAL = 'Actual'
-    HOURLY = 'Hourly'
-
-
-class EntityType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class EntityType(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     code: str | None = None
 
 
-class EntityTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
+class EntityTypeInfo(CorporateStructureLevel):
+    pass
 
 
-class EntityTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class EntityTypeReference(ActivityReference):
+    pass
 
 
-class EntryMethod(Enum):
-    DATE = 'Date'
-    ENTRY_FIELD = 'EntryField'
-    LIST = 'List'
-    OPTION = 'Option'
-
-
-class EntryType(Enum):
-    DATE = 'Date'
-    ENTRY_FIELD = 'EntryField'
-    LIST = 'List'
-    OPTION = 'Option'
-
-
-class EntryTypeIdentifier(Enum):
-    DATE = 'Date'
-    ENTRY_FIELD = 'EntryField'
-    LIST = 'List'
-    OPTION = 'Option'
-
-
-class ErrorResponseMessage(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    code: str | None = None
-    message: str | None = None
-    errors: list[ValidationError] | None = None
-
-
-class EscalationStatus(Enum):
-    NOT_RESPONDED = 'NotResponded'
-    RESPONDED = 'Responded'
-    RESOLUTION_PLAN = 'ResolutionPlan'
-    RESOLVED = 'Resolved'
-    NO_ESCALATION = 'NoEscalation'
-
-
-class ExecutionTime(Enum):
-    """
-    Defaults to Once when not specified
-    """
-
-    ONCE = 'Once'
-    MULTIPLE_TIMES = 'MultipleTimes'
-    CONTINUOUSLY = 'Continuously'
-
-
-class ExpenseDetailReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExpenseDetailReference(ConnectWiseModel):
     id: int | None = None
     amount: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ExpenseEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExpenseReportReference(ActivityReference):
+    pass
+
+
+class ExpenseReportTierUpdate(ConnectWiseModel):
     id: int | None = None
-    expense_report: ExpenseReportReference | None = Field(
-        default=None, alias='expenseReport'
-    )
-    company: CompanyReference | None = None
-    charge_to_id: int | None = Field(default=None, alias='chargeToId')
-    charge_to_type: ChargeToType | None = Field(default=None, alias='chargeToType')
-    """
-    Gets or sets
-                company or chargeToType is required.
-    """
-    type: ExpenseTypeReference | None = None
-    member: MemberReference | None = None
-    payment_method: PaymentMethodReference | None = Field(
-        default=None, alias='paymentMethod'
-    )
-    classification: ClassificationReference | None = None
-    amount: float
-    billable_option: BillableOption | None = Field(default=None, alias='billableOption')
-    date: datetime
-    location_id: int | None = Field(default=None, alias='locationId')
-    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
-    notes: str | None = None
-    agreement: AgreementReference | None = None
-    invoice_amount: float | None = Field(default=None, alias='invoiceAmount')
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    taxes: list[ExpenseTax] | None = None
-    invoice: InvoiceReference | None = None
-    currency: CurrencyReference | None = None
-    status: Status2 | None = None
-    bill_amount: float | None = Field(default=None, alias='billAmount')
-    agreement_amount: float | None = Field(default=None, alias='agreementAmount')
-    odometer_start: float | None = Field(default=None, alias='odometerStart')
-    odometer_end: float | None = Field(default=None, alias='odometerEnd')
-    ticket: TicketReference | None = None
-    project: ProjectReference | None = None
-    phase: ProjectPhaseReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
+    approval_type: Literal[
+        'DataEntry',
+        'Tier1Update',
+        'Tier2Update',
+        'Billing',
+        'Service',
+        'Project',
+        'MonthlySummary',
+        'SalesActivity',
+        'Schedule',
+    ] | None = Field(default=None, alias='approvalType')
 
 
-class ExpenseEntryAudit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    source: Source | None = None
-    type: Type4 | None = None
-    message: str | None = None
-    old_value: str | None = Field(default=None, alias='oldValue')
-    new_value: str | None = Field(default=None, alias='newValue')
-    value: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ExpenseRevenueReference(AgreementRevenueReference):
+    pass
 
 
-class ExpenseFormat(Enum):
-    DEFAULT = 'Default'
-    CONDENSED = 'Condensed'
-
-
-class ExpenseReport(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    year: int | None = None
-    period: int | None = None
-    date_start: str | None = Field(default=None, alias='dateStart')
-    date_end: str | None = Field(default=None, alias='dateEnd')
-    status: Status2 | None = None
-    total: float | None = None
-    due_date: str | None = Field(default=None, alias='dueDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ExpenseReportAudit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    source: Source | None = None
-    type: Type4 | None = None
-    message: str | None = None
-    old_value: str | None = Field(default=None, alias='oldValue')
-    new_value: str | None = Field(default=None, alias='newValue')
-    value: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ExpenseReportReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ExpenseReportTierUpdate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    approval_type: ApprovalType | None = Field(default=None, alias='approvalType')
-
-
-class ExpenseRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ExpenseTax(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    amount: float | None = None
-    type: ExpenseTaxTypeReference | None = None
-
-
-class ExpenseTaxTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExpenseTaxTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive: bool | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ExpenseTaxTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ExpenseTaxTypeReference(ActivityReference):
+    pass
 
 
-class ExpenseType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExpenseType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -6245,8 +1663,12 @@ class ExpenseType(BaseModel):
     """
     amount_caption: str = Field(..., alias='amountCaption')
     reimbursement_rate: float | None = Field(default=None, alias='reimbursementRate')
-    bill_expenses: BillExpenses1 = Field(..., alias='billExpenses')
-    invoice_markup_option: InvoiceMarkupOption = Field(..., alias='invoiceMarkupOption')
+    bill_expenses: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billExpenses'
+    )
+    invoice_markup_option: Literal['Amount', 'Mile', 'Percent'] = Field(
+        ..., alias='invoiceMarkupOption'
+    )
     invoice_markup_amount: float | None = Field(
         default=None, alias='invoiceMarkupAmount'
     )
@@ -6260,44 +1682,23 @@ class ExpenseType(BaseModel):
      Max length: 50;
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ExpenseTypeExemption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    expense_type: ExpenseTypeReference = Field(..., alias='expenseType')
-    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ExpenseTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExpenseTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     amount_caption: str | None = Field(default=None, alias='amountCaption')
     mileage_flag: bool | None = Field(default=None, alias='mileageFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ExpenseTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ExpenseTypeReference(ActivityReference):
+    pass
 
 
-class Experiment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Experiment(ConnectWiseModel):
     id: int | None = None
     experiment_id: str | None = Field(default=None, alias='experimentId')
     name: str | None = None
@@ -6305,13 +1706,10 @@ class Experiment(BaseModel):
     properties: str | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     member_inactive_flag: bool | None = Field(default=None, alias='memberInactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ExportAccountingBatchRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ExportAccountingBatchRequest(ConnectWiseModel):
     batch_identifier: str | None = Field(default=None, alias='batchIdentifier')
     """
      Max length: 50;
@@ -6321,7 +1719,7 @@ class ExportAccountingBatchRequest(BaseModel):
     )
     thru_date: datetime | None = Field(default=None, alias='thruDate')
     location_id: int | None = Field(default=None, alias='locationId')
-    summarize_invoices: SummarizeInvoices | None = Field(
+    summarize_invoices: Literal['Default', 'Condensed', 'Detailed'] | None = Field(
         default=None, alias='summarizeInvoices'
     )
     export_invoices_flag: bool | None = Field(default=None, alias='exportInvoicesFlag')
@@ -6363,216 +1761,63 @@ class ExportAccountingBatchRequest(BaseModel):
     )
 
 
-class Fax(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class FieldType(Enum):
-    TEXT_AREA = 'TextArea'
-    CURRENCY = 'Currency'
-    DATE = 'Date'
-    HYPERLINK = 'Hyperlink'
-    IP_ADDRESS = 'IPAddress'
-    CHECKBOX = 'Checkbox'
-    NUMBER = 'Number'
-    PERCENT = 'Percent'
-    TEXT = 'Text'
-    PASSWORD = 'Password'
-
-
-class FieldType3(Enum):
-    TEXT_AREA = 'TextArea'
-    BUTTON = 'Button'
-    CURRENCY = 'Currency'
-    DATE = 'Date'
-    HYPERLINK = 'Hyperlink'
-    IP_ADDRESS = 'IPAddress'
-    CHECKBOX = 'Checkbox'
-    NUMBER = 'Number'
-    PERCENT = 'Percent'
-    TEXT = 'Text'
-    PASSWORD = 'Password'
-
-
-class FieldTypeIdentifier(Enum):
-    TEXT_AREA = 'TextArea'
-    BUTTON = 'Button'
-    CURRENCY = 'Currency'
-    DATE = 'Date'
-    HYPERLINK = 'Hyperlink'
-    IP_ADDRESS = 'IPAddress'
-    CHECKBOX = 'Checkbox'
-    NUMBER = 'Number'
-    PERCENT = 'Percent'
-    TEXT = 'Text'
-    PASSWORD = 'Password'
-
-
-class FileUploadSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class FileUploadSetting(ConnectWiseModel):
     id: int | None = None
     restrict_file_types_flag: bool = Field(..., alias='restrictFileTypesFlag')
     global_file_size_limit: int | None = Field(
         default=None, alias='globalFileSizeLimit'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class FilterValues(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class FilterValues(ConnectWiseModel):
     conditions: str | None = None
     order_by: str | None = Field(default=None, alias='orderBy')
     childconditions: str | None = None
     customfieldconditions: str | None = None
 
 
-class FinanceInformationSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class FiscalYearStart(Enum):
-    JANUARY = 'January'
-    FEBRUARY = 'February'
-    MARCH = 'March'
-    APRIL = 'April'
-    MAY = 'May'
-    JUNE = 'June'
-    JULY = 'July'
-    AUGUST = 'August'
-    SEPTEMBER = 'September'
-    OCTOBER = 'October'
-    NOVEMBER = 'November'
-    DECEMBER = 'December'
-
-
-class Forecast(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class FinanceCurrency(ConnectWiseModel):
     id: int | None = None
-    forecast_items: list[ForecastItem] | None = Field(
-        default=None, alias='forecastItems'
-    )
-    product_revenue: ProductRevenueReference | None = Field(
-        default=None, alias='productRevenue'
-    )
-    service_revenue: ServiceRevenueReference | None = Field(
-        default=None, alias='serviceRevenue'
-    )
-    agreement_revenue: AgreementRevenueReference | None = Field(
-        default=None, alias='agreementRevenue'
-    )
-    time_revenue: TimeRevenueReference | None = Field(default=None, alias='timeRevenue')
-    expense_revenue: ExpenseRevenueReference | None = Field(
-        default=None, alias='expenseRevenue'
-    )
-    forecast_revenue_totals: ForecastRevenueReference | None = Field(
-        default=None, alias='forecastRevenueTotals'
-    )
-    inclusive_revenue_totals: InclusiveRevenueReference | None = Field(
-        default=None, alias='inclusiveRevenueTotals'
-    )
-    recurring_total: float | None = Field(default=None, alias='recurringTotal')
-    won_revenue: WonRevenueReference | None = Field(default=None, alias='wonRevenue')
-    lost_revenue: LostRevenueReference | None = Field(default=None, alias='lostRevenue')
-    open_revenue: OpenRevenueReference | None = Field(default=None, alias='openRevenue')
-    other_revenue1: Other1RevenueReference | None = Field(
-        default=None, alias='otherRevenue1'
-    )
-    other_revenue2: Other2RevenueReference | None = Field(
-        default=None, alias='otherRevenue2'
-    )
-    sales_tax_revenue: float | None = Field(default=None, alias='salesTaxRevenue')
-    forecast_total_with_taxes: float | None = Field(
-        default=None, alias='forecastTotalWithTaxes'
-    )
-    expected_probability: int | None = Field(default=None, alias='expectedProbability')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ForecastItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    forecast_description: str | None = Field(default=None, alias='forecastDescription')
+    currency_identifier: str = Field(..., alias='currencyIdentifier')
+    """
+     Max length: 10;
+    """
+    name: str
     """
      Max length: 50;
     """
-    opportunity: OpportunityReference | None = None
-    quantity: float | None = None
-    status: OpportunityStatusReference | None = None
-    catalog_item: IvItemReference | None = Field(default=None, alias='catalogItem')
-    product_description: str | None = Field(default=None, alias='productDescription')
-    product_class: str | None = Field(default=None, alias='productClass')
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: int | None = None
-    include_flag: bool | None = Field(default=None, alias='includeFlag')
-    quote_werks_doc_no: str | None = Field(default=None, alias='quoteWerksDocNo')
+    symbol: str | None = None
     """
-     Max length: 20;
+     Max length: 10;
     """
-    quote_werks_doc_name: str | None = Field(default=None, alias='quoteWerksDocName')
-    """
-     Max length: 255;
-    """
-    quote_werks_quantity: int | None = Field(default=None, alias='quoteWerksQuantity')
-    forecast_type: ForecastType = Field(..., alias='forecastType')
-    link_flag: bool | None = Field(default=None, alias='linkFlag')
-    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
-    recurring_cost: float | None = Field(default=None, alias='recurringCost')
-    recurring_date_start: datetime | None = Field(
-        default=None, alias='recurringDateStart'
+    display_id_flag: bool | None = Field(default=None, alias='displayIdFlag')
+    display_symbol_flag: bool | None = Field(default=None, alias='displaySymbolFlag')
+    currency_code: CurrencyCodeReference | None = Field(
+        default=None, alias='currencyCode'
     )
-    recurring_date_end: datetime | None = Field(default=None, alias='recurringDateEnd')
-    bill_cycle: BillingCycleReference | None = Field(default=None, alias='billCycle')
-    cycle_basis: str | None = Field(default=None, alias='cycleBasis')
-    cycles: int | None = None
-    recurring_flag: bool | None = Field(default=None, alias='recurringFlag')
-    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
-    sub_number: int | None = Field(default=None, alias='subNumber')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ForecastRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    thousands_separator: str | None = Field(default=None, alias='thousandsSeparator')
+    """
+     Max length: 1;
+    """
+    decimal_separator: str | None = Field(default=None, alias='decimalSeparator')
+    """
+     Max length: 1;
+    """
+    negative_parentheses_flag: bool | None = Field(
+        default=None, alias='negativeParenthesesFlag'
     )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    right_align: bool | None = Field(default=None, alias='rightAlign')
+    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
+    report_format: str | None = Field(default=None, alias='reportFormat')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ForecastType(Enum):
-    OTHER1 = 'Other1'
-    OTHER2 = 'Other2'
-    AGREEMENT = 'Agreement'
-    PRODUCT = 'Product'
-    SERVICE = 'Service'
+class ForecastRevenueReference(AgreementRevenueReference):
+    pass
 
 
-class FormSubmitted(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class FormSubmitted(ConnectWiseModel):
     id: int | None = None
     campaign_id: int | None = Field(default=None, alias='campaignId')
     contact_id: int = Field(..., alias='contactId')
@@ -6589,124 +1834,22 @@ class FormSubmitted(BaseModel):
     status: str | None = None
 
 
-class FrequencyUnit(Enum):
-    """
-    Required when exectionTimes is set to MultipleTimes or Continuously
-    """
-
-    MINUTES = 'Minutes'
-    HOURS = 'Hours'
-    DAYS = 'Days'
-    MONTHS = 'Months'
-
-
-class GLAccount(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GenericBoardTeamReference(ConnectWiseModel):
     id: int | None = None
-    gl_type: GlType = Field(..., alias='glType')
-    mapped_type: MappedTypeReference = Field(..., alias='mappedType')
-    mapped_record: MappedRecordReference = Field(..., alias='mappedRecord')
-    segment1: str | None = None
-    """
-     Max length: 255;
-    """
-    segment2: str | None = None
-    """
-     Max length: 255;
-    """
-    segment3: str | None = None
-    """
-     Max length: 255;
-    """
-    segment4: str | None = None
-    """
-     Max length: 255;
-    """
-    segment5: str | None = None
-    """
-     Max length: 255;
-    """
-    segment6: str | None = None
-    """
-     Max length: 255;
-    """
-    segment7: str | None = None
-    """
-     Max length: 255;
-    """
-    segment8: str | None = None
-    """
-     Max length: 255;
-    """
-    segment9: str | None = None
-    """
-     Max length: 255;
-    """
-    segment10: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs1: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs2: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs3: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs4: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs5: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs6: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs7: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs8: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs9: str | None = None
-    """
-     Max length: 255;
-    """
-    cogs10: str | None = None
-    """
-     Max length: 255;
-    """
-    product_id: str | None = Field(default=None, alias='productId')
-    """
-     Max length: 255;
-    """
-    inventory: str | None = None
-    """
-     Max length: 255;
-    """
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    """
-     Max length: 255;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    name: str | None = None
+    is_project_team_flag: bool | None = Field(default=None, alias='isProjectTeamFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class GLCaption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GenericIdIdentifierReference(AccountingPackage):
+    pass
+
+
+class GenericNameIdDTO(AgreementApplicationAviablePer):
+    pass
+
+
+class GLCaption(ConnectWiseModel):
     id: int | None = None
     segment1: str | None = None
     """
@@ -6748,16 +1891,16 @@ class GLCaption(BaseModel):
     """
      Max length: 255;
     """
-    segment1type: Segment1type | None = None
-    segment2type: Segment2type | None = None
-    segment3type: Segment3type | None = None
-    segment4type: Segment4type | None = None
-    segment5type: Segment5type | None = None
-    segment6type: Segment6type | None = None
-    segment7type: Segment7type | None = None
-    segment8type: Segment8type | None = None
-    segment9type: Segment9type | None = None
-    segment10type: Segment10type | None = None
+    segment1type: Literal['Account', 'Class'] | None = None
+    segment2type: Literal['Account', 'Class'] | None = None
+    segment3type: Literal['Account', 'Class'] | None = None
+    segment4type: Literal['Account', 'Class'] | None = None
+    segment5type: Literal['Account', 'Class'] | None = None
+    segment6type: Literal['Account', 'Class'] | None = None
+    segment7type: Literal['Account', 'Class'] | None = None
+    segment8type: Literal['Account', 'Class'] | None = None
+    segment9type: Literal['Account', 'Class'] | None = None
+    segment10type: Literal['Account', 'Class'] | None = None
     cogs1: str | None = None
     """
      Max length: 255;
@@ -6798,179 +1941,17 @@ class GLCaption(BaseModel):
     """
      Max length: 255;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class GLExport(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    export_settings: GLExportSettings | None = Field(
-        default=None, alias='exportSettings'
-    )
-    vendors: list[GLExportVendor] | None = None
-    customers: list[GLExportCustomer] | None = None
-    transactions: list[GLExportTransaction] | None = None
-    expenses: list[GLExportExpense] | None = None
-    expense_bills: list[GLExportExpenseBill] | None = Field(
-        default=None, alias='expenseBills'
-    )
-    purchase_transactions: list[GLExportPurchaseTransaction] | None = Field(
-        default=None, alias='purchaseTransactions'
-    )
-    adjustment_transactions: list[GLExportAdjustmentTransaction] | None = Field(
-        default=None, alias='adjustmentTransactions'
-    )
-    inventory_transfers: list[GLExportInventoryTransfer] | None = Field(
-        default=None, alias='inventoryTransfers'
-    )
-
-
-class GLExportAdjustmentTransaction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: str | None = None
-    document_type: str | None = Field(default=None, alias='documentType')
-    document_date: str | None = Field(default=None, alias='documentDate')
-    gl_type_id: str | None = Field(default=None, alias='glTypeID')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    memo: str | None = None
-    gl_class: str | None = Field(default=None, alias='glClass')
-    adjustment_description: str | None = Field(
-        default=None, alias='adjustmentDescription'
-    )
-    adjustment_detail: list[GLExportAdjustmentTransactionDetail] | None = Field(
-        default=None, alias='adjustmentDetail'
-    )
-
-
-class GLExportAdjustmentTransactionDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    gl_class: str | None = Field(default=None, alias='glClass')
-    description: str | None = None
-    memo: str | None = None
-    item: IvItemReference | None = None
-    quantity: int | None = None
-    total: float | None = None
-    cost: float | None = None
-    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
-    inventory_account_number: str | None = Field(
-        default=None, alias='inventoryAccountNumber'
-    )
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    product_account_number: str | None = Field(
-        default=None, alias='productAccountNumber'
-    )
-
-
-class GLExportCustomer(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    company: CompanyReference | None = None
-    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
-    contact: ContactReference | None = None
-    site: SiteReference | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
-    due_days: int | None = Field(default=None, alias='dueDays')
-    taxable: bool | None = None
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    currency: CurrencyReference | None = None
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
-    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
-    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
-    state_tax_rate: float | None = Field(default=None, alias='stateTaxRate')
-    county_tax_rate: float | None = Field(default=None, alias='countyTaxRate')
-    city_tax_rate: float | None = Field(default=None, alias='cityTaxRate')
-    country_tax_rate: float | None = Field(default=None, alias='countryTaxRate')
-    composite_tax_rate: float | None = Field(default=None, alias='compositeTaxRate')
-    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-    state_tax_agency_xref: str | None = Field(default=None, alias='stateTaxAgencyXref')
-    county_tax_agency_xref: str | None = Field(
-        default=None, alias='countyTaxAgencyXref'
-    )
-    city_tax_agency_xref: str | None = Field(default=None, alias='cityTaxAgencyXref')
-    country_tax_agency_xref: str | None = Field(
-        default=None, alias='countryTaxAgencyXref'
-    )
-    composite_tax_agency_xref: str | None = Field(
-        default=None, alias='compositeTaxAgencyXref'
-    )
-    tax_levels: list[GLExportCustomerTaxLevel] | None = Field(
-        default=None, alias='taxLevels'
-    )
-
-
-class GLExportCustomerTaxLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportCustomerTaxLevel(ConnectWiseModel):
     tax_rate: float | None = Field(default=None, alias='taxRate')
     tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
     agency_xref: str | None = Field(default=None, alias='agencyXref')
     tax_level: int | None = Field(default=None, alias='taxLevel')
 
 
-class GLExportExpense(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_type: str | None = Field(default=None, alias='documentType')
-    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
-    ap_class: str | None = Field(default=None, alias='apClass')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    memo: str | None = None
-    description: str | None = None
-    period_start_date: str | None = Field(default=None, alias='periodStartDate')
-    period_end_date: str | None = Field(default=None, alias='periodEndDate')
-    member: MemberReference | None = None
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    company: CompanyReference | None = None
-    company_account_number: str | None = Field(
-        default=None, alias='companyAccountNumber'
-    )
-    project: ProjectReference | None = None
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    offset: GLExportExpenseOffset | None = None
-
-
-class GLExportExpenseBill(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_type: str | None = Field(default=None, alias='documentType')
-    document_number: str | None = Field(default=None, alias='documentNumber')
-    memo: str | None = None
-    gl_class: str | None = Field(default=None, alias='glClass')
-    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
-    member: MemberReference | None = None
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    detail: list[GLExportExpenseBillDetail] | None = None
-
-
-class GLExportExpenseBillDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportExpenseBillDetail(ConnectWiseModel):
     id: list[int] | None = None
     document_date: str | None = Field(default=None, alias='documentDate')
     gl_type_id: str | None = Field(default=None, alias='glTypeId')
@@ -6987,86 +1968,7 @@ class GLExportExpenseBillDetail(BaseModel):
     company_advance: bool | None = Field(default=None, alias='companyAdvance')
 
 
-class GLExportExpenseOffset(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_type: str | None = Field(default=None, alias='documentType')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    member: MemberReference | None = None
-    memo: str | None = None
-    description: str | None = None
-    total: float | None = None
-
-
-class GLExportInventoryTransfer(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: str | None = None
-    document_type: str | None = Field(default=None, alias='documentType')
-    document_date: str | None = Field(default=None, alias='documentDate')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    description: str | None = None
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    memo: str | None = None
-    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
-    inventory_account_number: str | None = Field(
-        default=None, alias='inventoryAccountNumber'
-    )
-    transfer_id: int | None = Field(default=None, alias='transferId')
-    item: IvItemReference | None = None
-    gl_item_id: str | None = Field(default=None, alias='glItemId')
-    sales_description: str | None = Field(default=None, alias='salesDescription')
-    item_description: str | None = Field(default=None, alias='itemDescription')
-    currency: CurrencyReference | None = None
-    item_price: float | None = Field(default=None, alias='itemPrice')
-    taxable: bool | None = None
-    unit_of_measure: UnitOfMeasureReference | None = Field(
-        default=None, alias='unitOfMeasure'
-    )
-    quantity: float | None = None
-    cost: float | None = None
-    total: float | None = None
-    sub_category: ProductSubCategoryReference | None = Field(
-        default=None, alias='subCategory'
-    )
-    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
-    bin: WarehouseBinReference | None = None
-    warehouse: WarehouseReference | None = None
-    transfer_from_bin: WarehouseBinReference | None = Field(
-        default=None, alias='transferFromBin'
-    )
-    transfer_from_location_xref: str | None = Field(
-        default=None, alias='transferFromLocationXref'
-    )
-    transfer_to_bin: WarehouseBinReference | None = Field(
-        default=None, alias='transferToBin'
-    )
-    transfer_to_location_xref: str | None = Field(
-        default=None, alias='transferToLocationXref'
-    )
-    location_xref: str | None = Field(default=None, alias='locationXref')
-    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
-    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
-    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
-    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
-    cogs_xref: str | None = Field(default=None, alias='cogsXref')
-    tax_note: str | None = Field(default=None, alias='taxNote')
-    offset: GLExportInventoryTransferOffset | None = None
-
-
-class GLExportInventoryTransferOffset(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportInventoryTransferOffset(ConnectWiseModel):
     id: int | None = None
     document_type: str | None = Field(default=None, alias='documentType')
     document_date: str | None = Field(default=None, alias='documentDate')
@@ -7078,508 +1980,28 @@ class GLExportInventoryTransferOffset(BaseModel):
     gl_type_id: str | None = Field(default=None, alias='glTypeId')
 
 
-class GLExportPurchaseTransaction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: str | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_number: str | None = Field(default=None, alias='documentNumber')
-    description: str | None = None
-    memo: str | None = None
-    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
-    purchase_date: str | None = Field(default=None, alias='purchaseDate')
-    company: CompanyReference | None = None
-    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
-    contact: ContactReference | None = None
-    site: SiteReference | None = None
-    purchase_class: str | None = Field(default=None, alias='purchaseClass')
-    freight_amount: float | None = Field(default=None, alias='freightAmount')
-    freight_packing_slip: str | None = Field(default=None, alias='freightPackingSlip')
-    packing_slip: str | None = Field(default=None, alias='packingSlip')
-    dropship_flag: bool | None = Field(default=None, alias='dropshipFlag')
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
-    due_days: int | None = Field(default=None, alias='dueDays')
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
-    vendor_invoice_date: str | None = Field(default=None, alias='vendorInvoiceDate')
-    vendor_invoice_number: str | None = Field(default=None, alias='vendorInvoiceNumber')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
-    ship_to_company: CompanyReference | None = Field(
-        default=None, alias='shipToCompany'
-    )
-    ship_to_company_account_number: str | None = Field(
-        default=None, alias='shipToCompanyAccountNumber'
-    )
-    ship_to_company_type: CompanyTypeReference | None = Field(
-        default=None, alias='shipToCompanyType'
-    )
-    ship_to_contact: ContactReference | None = Field(
-        default=None, alias='shipToContact'
-    )
-    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
-    ship_to_tax_group: str | None = Field(default=None, alias='shipToTaxGroup')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
-    use_avalara_tax_flag: bool | None = Field(default=None, alias='useAvalaraTaxFlag')
-    purchase_header_tax_group: str | None = Field(
-        default=None, alias='purchaseHeaderTaxGroup'
-    )
-    purchase_header_taxable_flag: bool | None = Field(
-        default=None, alias='purchaseHeaderTaxableFlag'
-    )
-    purchase_header_freight_taxable_flag: bool | None = Field(
-        default=None, alias='purchaseHeaderFreightTaxableFlag'
-    )
-    tax_levels: list[GLExportPurchaseTransactionTaxLevel] | None = Field(
-        default=None, alias='taxLevels'
-    )
-    purchase_detail: list[GLExportPurchaseTransactionDetail] | None = Field(
-        default=None, alias='purchaseDetail'
-    )
-    purchase_detail_tax: list[GLExportPurchaseTransactionDetailTax] | None = Field(
-        default=None, alias='purchaseDetailTax'
-    )
-
-
-class GLExportPurchaseTransactionDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    gl_item_id: str | None = Field(default=None, alias='glItemId')
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    description: str | None = None
-    cost: float | None = None
-    memo: str | None = None
-    tax_note: str | None = Field(default=None, alias='taxNote')
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
-    inventory_account_number: str | None = Field(
-        default=None, alias='inventoryAccountNumber'
-    )
-    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
-    item: IvItemReference | None = None
-    item_description: str | None = Field(default=None, alias='itemDescription')
-    sales_description: str | None = Field(default=None, alias='salesDescription')
-    taxable: bool | None = None
-    item_price: float | None = Field(default=None, alias='itemPrice')
-    item_cost: float | None = Field(default=None, alias='itemCost')
-    unit_of_measure: UnitOfMeasureReference | None = Field(
-        default=None, alias='unitOfMeasure'
-    )
-    quantity: float | None = None
-    total: float | None = None
-    currency: CurrencyReference | None = None
-    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
-    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
-    line_number: int | None = Field(default=None, alias='lineNumber')
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
-    sub_category: ProductSubCategoryReference | None = Field(
-        default=None, alias='subCategory'
-    )
-    shipment_method: ShipmentMethodReference | None = Field(
-        default=None, alias='shipmentMethod'
-    )
-    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
-    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
-    cogs_xref: str | None = Field(default=None, alias='cogsXref')
-    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
-    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
-    location_xref: str | None = Field(default=None, alias='locationXref')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    purchase_header_tax_group: str | None = Field(
-        default=None, alias='purchaseHeaderTaxGroup'
-    )
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    tax_rate: float | None = Field(default=None, alias='taxRate')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-
-
-class GLExportPurchaseTransactionDetailTax(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    cost: float | None = None
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    gl_item_id: str | None = Field(default=None, alias='glItemId')
-    memo: str | None = None
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
-    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
-    inventory_account_number: str | None = Field(
-        default=None, alias='inventoryAccountNumber'
-    )
-    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
-    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
-    cogs_xref: str | None = Field(default=None, alias='cogsXref')
-    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
-    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
-    location_xref: str | None = Field(default=None, alias='locationXref')
-    item: IvItemReference | None = None
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    sales_description: str | None = Field(default=None, alias='salesDescription')
-    item_description: str | None = Field(default=None, alias='itemDescription')
-    item_price: float | None = Field(default=None, alias='itemPrice')
-    item_cost: float | None = Field(default=None, alias='itemCost')
-    unit_of_measure: UnitOfMeasureReference | None = Field(
-        default=None, alias='unitOfMeasure'
-    )
-    quantity: float | None = None
-    total: float | None = None
-    currency: CurrencyReference | None = None
-    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
-    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
-    line_number: int | None = Field(default=None, alias='lineNumber')
-    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    shipment_method: ShipmentMethodReference | None = Field(
-        default=None, alias='shipmentMethod'
-    )
-    sub_category: ProductSubCategoryReference | None = Field(
-        default=None, alias='subCategory'
-    )
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    tax_rate: float | None = Field(default=None, alias='taxRate')
-    tax_rate_percent: float | None = Field(default=None, alias='taxRatePercent')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-    tax_note: str | None = Field(default=None, alias='taxNote')
-    purchase_header_tax_group: str | None = Field(
-        default=None, alias='purchaseHeaderTaxGroup'
-    )
-
-
-class GLExportPurchaseTransactionTaxLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportPurchaseTransactionTaxLevel(ConnectWiseModel):
     tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
     tax_level: int | None = Field(default=None, alias='taxLevel')
 
 
-class GLExportSettings(BaseModel):
+class GLExportSettings(ConnectWiseModel):
     pass
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
 
 
-class GLExportTransaction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    gl_class: str | None = Field(default=None, alias='glClass')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_number: str | None = Field(default=None, alias='documentNumber')
-    document_type: str | None = Field(default=None, alias='documentType')
-    memo: str | None = None
-    description: str | None = None
-    attention: str | None = None
-    sales_territory: str | None = Field(default=None, alias='salesTerritory')
-    company: CompanyReference | None = None
-    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
-    company_account_number: str | None = Field(
-        default=None, alias='companyAccountNumber'
-    )
-    site: SiteReference | None = None
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
-    due_days: int | None = Field(default=None, alias='dueDays')
-    due_date: str | None = Field(default=None, alias='dueDate')
-    email_delivery_flag: bool | None = Field(default=None, alias='emailDeliveryFlag')
-    print_delivery_flag: bool | None = Field(default=None, alias='printDeliveryFlag')
-    agreement_pre_payment_flag: bool | None = Field(
-        default=None, alias='agreementPrePaymentFlag'
-    )
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    billing_type: str | None = Field(default=None, alias='billingType')
-    gl_entry_ids: str | None = Field(default=None, alias='glEntryIds')
-    purchase_order: PurchaseOrderReference | None = Field(
-        default=None, alias='purchaseOrder'
-    )
-    project: ProjectReference | None = None
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    sales_rep_id: str | None = Field(default=None, alias='salesRepId')
-    sales_rep_name: str | None = Field(default=None, alias='salesRepName')
-    taxable: bool | None = None
-    taxable_total: float | None = Field(default=None, alias='taxableTotal')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
-    piggy_back_flag: bool | None = Field(default=None, alias='piggyBackFlag')
-    tax_account_number: str | None = Field(default=None, alias='taxAccountNumber')
-    sales_tax: float | None = Field(default=None, alias='salesTax')
-    state_tax: float | None = Field(default=None, alias='stateTax')
-    county_tax: float | None = Field(default=None, alias='countyTax')
-    city_tax: float | None = Field(default=None, alias='cityTax')
-    taxable_amount1: float | None = Field(default=None, alias='taxableAmount1')
-    taxable_amount2: float | None = Field(default=None, alias='taxableAmount2')
-    taxable_amount3: float | None = Field(default=None, alias='taxableAmount3')
-    taxable_amount4: float | None = Field(default=None, alias='taxableAmount4')
-    taxable_amount5: float | None = Field(default=None, alias='taxableAmount5')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    tax_id: str | None = Field(default=None, alias='taxId')
-    tax_dp_applied_flag: bool | None = Field(default=None, alias='taxDpAppliedFlag')
-    use_avalara_flag: bool | None = Field(default=None, alias='useAvalaraFlag')
-    send_avalara_tax_flag: bool | None = Field(default=None, alias='sendAvalaraTaxFlag')
-    ship_to_company: CompanyReference | None = Field(
-        default=None, alias='shipToCompany'
-    )
-    ship_to_company_account_number: str | None = Field(
-        default=None, alias='shipToCompanyAccountNumber'
-    )
-    ship_to_company_type: CompanyTypeReference | None = Field(
-        default=None, alias='shipToCompanyType'
-    )
-    ship_to_tax_id: str | None = Field(default=None, alias='shipToTaxId')
-    ship_site: SiteReference | None = Field(default=None, alias='shipSite')
-    ship_contact: str | None = Field(default=None, alias='shipContact')
-    detail: list[GLExportTransactionDetail] | None = None
-    tax_levels: list[GLExportTransactionTaxLevel] | None = Field(
-        default=None, alias='taxLevels'
-    )
-
-
-class GLExportTransactionDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    document_date: str | None = Field(default=None, alias='documentDate')
-    document_type: str | None = Field(default=None, alias='documentType')
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    gl_class: str | None = Field(default=None, alias='glClass')
-    gl_type_id: str | None = Field(default=None, alias='glTypeId')
-    gl_item_id: str | None = Field(default=None, alias='glItemId')
-    invoice_summary_option: str | None = Field(
-        default=None, alias='invoiceSummaryOption'
-    )
-    cost: float | None = None
-    sales_code: str | None = Field(default=None, alias='salesCode')
-    memo: str | None = None
-    description: str | None = None
-    quantity: float | None = None
-    total: float | None = None
-    currency: CurrencyReference | None = None
-    time_entry: TimeEntryReference | None = Field(default=None, alias='timeEntry')
-    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
-    inventory_account_number: str | None = Field(
-        default=None, alias='inventoryAccountNumber'
-    )
-    product_account_number: str | None = Field(
-        default=None, alias='productAccountNumber'
-    )
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
-    tax_note: str | None = Field(default=None, alias='taxNote')
-    tax_rate: float | None = Field(default=None, alias='taxRate')
-    tax_rate_percent: float | None = Field(default=None, alias='taxRatePercent')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    taxable2_flag: bool | None = Field(default=None, alias='taxable2Flag')
-    taxable3_flag: bool | None = Field(default=None, alias='taxable3Flag')
-    taxable4_flag: bool | None = Field(default=None, alias='taxable4Flag')
-    taxable5_flag: bool | None = Field(default=None, alias='taxable5Flag')
-    item: IvItemReference | None = None
-    product: ProductReference | None = None
-    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
-    item_price: float | None = Field(default=None, alias='itemPrice')
-    item_cost: float | None = Field(default=None, alias='itemCost')
-    item_description: str | None = Field(default=None, alias='itemDescription')
-    sales_description: str | None = Field(default=None, alias='salesDescription')
-    unit_of_measure: UnitOfMeasureReference | None = Field(
-        default=None, alias='unitOfMeasure'
-    )
-    sub_category: ProductSubCategoryReference | None = Field(
-        default=None, alias='subCategory'
-    )
-    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
-    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    shipment_method: ShipmentMethodReference | None = Field(
-        default=None, alias='shipmentMethod'
-    )
-    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
-    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
-    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
-    cogs_xref: str | None = Field(default=None, alias='cogsXref')
-    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
-    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
-    location_xref: str | None = Field(default=None, alias='locationXref')
-    tax_levels: list[GLExportTransactionDetailTaxLevel] | None = Field(
-        default=None, alias='taxLevels'
-    )
-
-
-class GLExportTransactionDetailTaxLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportTransactionDetailTaxLevel(ConnectWiseModel):
     taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
     tax_level: int | None = Field(default=None, alias='taxLevel')
 
 
-class GLExportTransactionTaxLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GLExportTransactionTaxLevel(ConnectWiseModel):
     tax_amount: float | None = Field(default=None, alias='taxAmount')
     taxable_amount: float | None = Field(default=None, alias='taxableAmount')
     tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
     tax_level: int | None = Field(default=None, alias='taxLevel')
 
 
-class GLExportVendor(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    member: MemberReference | None = None
-    vendor: CompanyReference | None = None
-    vendor_number: str | None = Field(default=None, alias='vendorNumber')
-    company: CompanyReference | None = None
-    contact: ContactReference | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    due_days: int | None = Field(default=None, alias='dueDays')
-    site: SiteReference | None = None
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-
-
-class GLPath(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    path: str | None = None
-    """
-     Max length: 255;
-    """
-    sql_server_name: str | None = Field(default=None, alias='sqlServerName')
-    """
-     Max length: 255;
-    """
-    database_name: str | None = Field(default=None, alias='databaseName')
-    """
-     Max length: 100;
-    """
-    last_payment_sync: datetime | None = Field(default=None, alias='lastPaymentSync')
-    last_payment_sync_by: MemberReference | None = Field(
-        default=None, alias='lastPaymentSyncBy'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Gender(Enum):
-    FEMALE = 'Female'
-    MALE = 'Male'
-
-
-class GenericBoardTeamReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    is_project_team_flag: bool | None = Field(default=None, alias='isProjectTeamFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class GenericIdIdentifierReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-
-
-class GenericNameIdDTO(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tag: str | None = None
-    name: str | None = None
-
-
-class GlType(Enum):
-    AP = 'AP'
-    AR = 'AR'
-    EE = 'EE'
-    EI = 'EI'
-    EO = 'EO'
-    IA = 'IA'
-    IT = 'IT'
-    P = 'P'
-    PF = 'PF'
-    R = 'R'
-    RA = 'RA'
-    RD = 'RD'
-    RE = 'RE'
-    RP = 'RP'
-    ST = 'ST'
-    SD = 'SD'
-    ET = 'ET'
-    FT = 'FT'
-    PT = 'PT'
-    WP = 'WP'
-    WR = 'WR'
-
-
-class GlobalSearchDefaultSort(Enum):
-    NONE = 'None'
-    LAST_UPDATED_DESC = 'LastUpdatedDesc'
-    LAST_UPDATED_ASC = 'LastUpdatedAsc'
-    CREATED_DESC = 'CreatedDesc'
-    CREATED_ASC = 'CreatedAsc'
-
-
-class GlobalSearchDefaultTicketFilter(Enum):
-    OPEN_RECORDS = 'OpenRecords'
-    CLOSED_RECORDS = 'ClosedRecords'
-    ALL_RECORDS = 'AllRecords'
-
-
-class GoogleEmailSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class GoogleEmailSetup(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -7613,49 +2035,14 @@ class GoogleEmailSetup(BaseModel):
     email_connector: EmailConnectorReference | None = Field(
         default=None, alias='emailConnector'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class GoogleEmailSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class GoogleEmailSetupReference(ActivityReference):
+    pass
 
 
-class GraphUserCsv(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: str | None = None
-    display_name: str | None = Field(default=None, alias='displayName')
-    principal_name: str | None = Field(default=None, alias='principalName')
-    country: str | None = None
-    state: str | None = None
-    city: str | None = None
-    department: str | None = None
-    first_name: str | None = Field(default=None, alias='firstName')
-    last_name: str | None = Field(default=None, alias='lastName')
-    address: str | None = None
-    postal_code: str | None = Field(default=None, alias='postalCode')
-    mail: str | None = None
-    is_matched_contact: bool | None = Field(default=None, alias='isMatchedContact')
-    account_enabled: bool | None = Field(default=None, alias='accountEnabled')
-    manage_contact_rec_id: int | None = Field(default=None, alias='manageContactRecId')
-    manage_contact_name: str | None = Field(default=None, alias='manageContactName')
-    job_title: str | None = Field(default=None, alias='jobTitle')
-    proxy_addresses: list[str] | None = Field(default=None, alias='proxyAddresses')
-    nick_name: str | None = Field(default=None, alias='nickName')
-    manager: Manager | None = None
-    employee_type: str | None = Field(default=None, alias='employeeType')
-
-
-class Group(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Group(ConnectWiseModel):
     id: int | None = None
     name: str
     public_description: str | None = Field(default=None, alias='publicDescription')
@@ -7664,158 +2051,34 @@ class Group(BaseModel):
     """
     public_flag: bool | None = Field(default=None, alias='publicFlag')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class GroupInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class GroupInfo(ActivityReference):
+    pass
 
 
-class GroupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class GroupReference(ActivityReference):
+    pass
 
 
-class HeaderAddressPosition(Enum):
-    CENTER = 'Center'
-    LEFT_SIDE = 'LeftSide'
-    RIGHT_SIDE = 'RightSide'
+class HolidayList(ContactRelationship):
+    pass
 
 
-class HeaderLogoPosition(Enum):
-    CENTER = 'Center'
-    LEFT_SIDE = 'LeftSide'
-    RIGHT_SIDE = 'RightSide'
+class HolidayListInfo(ActivityReference):
+    pass
 
 
-class HeaderTitleFont(Enum):
-    REGULAR = 'Regular'
-    REGULAR_BOLD = 'RegularBold'
-    LARGE = 'Large'
-    LARGE_BOLD = 'LargeBold'
-    EXTRA_LARGE = 'ExtraLarge'
-    EXTRA_LARGE_BOLD = 'ExtraLargeBold'
+class HolidayListReference(ActivityReference):
+    pass
 
 
-class HeaderTitlePosition(Enum):
-    CENTER = 'Center'
-    LEFT_SIDE = 'LeftSide'
-    RIGHT_SIDE = 'RightSide'
-
-
-class Holiday(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    all_day_flag: bool | None = Field(default=None, alias='allDayFlag')
-    """
-    Can be set to false to set a holiday for specific hours (Defaults to True).
-    """
-    date: date
-    time_start: str | None = Field(default=None, alias='timeStart')
-    time_end: str | None = Field(default=None, alias='timeEnd')
-    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class HolidayAvailableType(Enum):
-    ANNIVERSARY_YEAR = 'AnniversaryYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class HolidayInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    all_day_flag: bool | None = Field(default=None, alias='allDayFlag')
-    """
-    Can be set to false to set a holiday for specific hours (Defaults to True).
-    """
-    date: str | None = None
-    time_start: str | None = Field(default=None, alias='timeStart')
-    time_end: str | None = Field(default=None, alias='timeEnd')
-    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class HolidayList(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class HolidayListInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class HolidayListReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class IRestIdentifiedItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-
-
-class IdCollection(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class IdCollection(ConnectWiseModel):
     ids: list[int] | None = None
 
 
-class Identifier(Enum):
-    QB99 = 'QB99'
-    MAS200 = 'Mas200'
-    G_PLAINS = 'GPlains'
-    SBA = 'SBA'
-    MAS200V4 = 'Mas200v4'
-    OTHER = 'Other'
-
-
-class Identifier1(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Imap(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Imap(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -7850,34 +2113,23 @@ class Imap(BaseModel):
     email_connector: EmailConnectorReference | None = Field(
         default=None, alias='emailConnector'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ImapInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ImapInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     email_connector: EmailConnectorReference | None = Field(
         default=None, alias='emailConnector'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ImapSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ImapSetupReference(ActivityReference):
+    pass
 
 
-class Impact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Impact(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     description: str
@@ -7885,552 +2137,61 @@ class Impact(BaseModel):
      Max length: 200;
     """
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Impact1(Enum):
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-
-
-class Impact2(Enum):
-    """
-    Required On Updates;
-    """
-
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-
-
-class ImpactUrgencySetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class ImportMassMaintenance(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ImportMassMaintenance(ConnectWiseModel):
     deleted_contact_count: int | None = Field(default=None, alias='deletedContactCount')
     deleted_company_count: int | None = Field(default=None, alias='deletedCompanyCount')
     message: str | None = None
     success: bool | None = None
 
 
-class InOutBoard(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    in_out_type: InOutTypeReference | None = Field(default=None, alias='inOutType')
-    additional_info: str | None = Field(default=None, alias='additionalInfo')
-    """
-     Max length: 100;
-    """
-    date_back: datetime = Field(..., alias='dateBack')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class InclusiveRevenueReference(AgreementRevenueReference):
+    pass
 
 
-class InOutType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InOutType(ConnectWiseModel):
     id: int | None = None
     description: str
     """
      Max length: 30;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InOutTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InOutTypeInfo(ConnectWiseModel):
     id: int | None = None
     description: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InOutTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class InOutTypeReference(ActivityReference):
+    pass
 
 
-class IncludeExcludeType(Enum):
-    ALL = 'All'
-    M365_PROPERTY = 'M365Property'
-    NONE = 'None'
+class IntegratorLoginReference(ActivityReference):
+    pass
 
 
-class InclusiveRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Info(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    version: str | None = None
-    is_cloud: bool | None = Field(default=None, alias='isCloud')
-    server_time_zone: str | None = Field(default=None, alias='serverTimeZone')
-    license_bits: list[LicenseBit] | None = Field(default=None, alias='licenseBits')
-    cloud_region: str | None = Field(default=None, alias='cloudRegion')
-
-
-class InquireLevel(Enum):
-    NONE = 'None'
-    MY = 'My'
-    ALL = 'All'
-
-
-class IntegratorLogin(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    username: str
-    """
-     Max length: 50;
-    """
-    password: str | None = None
-    """
-    The password will never be returned in response. Max length: 50;
-    """
-    can_access_all_records_flag: bool | None = Field(
-        default=None, alias='canAccessAllRecordsFlag'
-    )
-    """
-    This flag controls whether the integrator can access only the db records it created, or all system records.
-    """
-    can_access_all_apis_flag: bool | None = Field(
-        default=None, alias='canAccessAllApisFlag'
-    )
-    """
-    Setting this flag to true will create an integrator that can access all of the available apis in the system.
-                If this field is set to true, both the member and board fields are required.
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    date_inactivated: datetime | None = Field(default=None, alias='dateInactivated')
-    inactivated_by: MemberReference | None = Field(default=None, alias='inactivatedBy')
-    service_ticket_api_flag: bool | None = Field(
-        default=None, alias='serviceTicketApiFlag'
-    )
-    board: BoardReference | None = None
-    service_board_callback_url: str | None = Field(
-        default=None, alias='serviceBoardCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    service_board_legacy_callback_flag: bool | None = Field(
-        default=None, alias='serviceBoardLegacyCallbackFlag'
-    )
-    time_entry_api_flag: bool | None = Field(default=None, alias='timeEntryApiFlag')
-    member: MemberReference | None = None
-    time_entry_callback_url: str | None = Field(
-        default=None, alias='timeEntryCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    time_entry_legacy_callback_flag: bool | None = Field(
-        default=None, alias='timeEntryLegacyCallbackFlag'
-    )
-    managed_services_api_flag: bool | None = Field(
-        default=None, alias='managedServicesApiFlag'
-    )
-    managed_services_auto_child_flag: bool | None = Field(
-        default=None, alias='managedServicesAutoChildFlag'
-    )
-    managed_services_childing_flag: bool | None = Field(
-        default=None, alias='managedServicesChildingFlag'
-    )
-    """
-    True if integrator is allowed to child configurations.
-    """
-    contact_api_flag: bool | None = Field(default=None, alias='contactApiFlag')
-    contact_callback_url: str | None = Field(default=None, alias='contactCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    contact_legacy_callback_flag: bool | None = Field(
-        default=None, alias='contactLegacyCallbackFlag'
-    )
-    company_api_flag: bool | None = Field(default=None, alias='companyApiFlag')
-    company_callback_url: str | None = Field(default=None, alias='companyCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    company_legacy_callback_flag: bool | None = Field(
-        default=None, alias='companyLegacyCallbackFlag'
-    )
-    activity_api_flag: bool | None = Field(default=None, alias='activityApiFlag')
-    activity_callback_url: str | None = Field(default=None, alias='activityCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    activity_legacy_callback_flag: bool | None = Field(
-        default=None, alias='activityLegacyCallbackFlag'
-    )
-    invoice_api_flag: bool | None = Field(default=None, alias='invoiceApiFlag')
-    product_api_flag: bool | None = Field(default=None, alias='productApiFlag')
-    product_callback_url: str | None = Field(default=None, alias='productCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    product_legacy_callback_flag: bool | None = Field(
-        default=None, alias='productLegacyCallbackFlag'
-    )
-    opportunity_api_flag: bool | None = Field(default=None, alias='opportunityApiFlag')
-    opportunity_callback_url: str | None = Field(
-        default=None, alias='opportunityCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    opportunity_legacy_callback_flag: bool | None = Field(
-        default=None, alias='opportunityLegacyCallbackFlag'
-    )
-    opportunity_conversion_api_flag: bool | None = Field(
-        default=None, alias='opportunityConversionApiFlag'
-    )
-    """
-    True if the member has access to the Opportunity Conversion Api.
-    """
-    member_api_flag: bool | None = Field(default=None, alias='memberApiFlag')
-    marketing_api_flag: bool | None = Field(default=None, alias='marketingApiFlag')
-    purchasing_api_flag: bool | None = Field(default=None, alias='purchasingApiFlag')
-    purchasing_callback_url: str | None = Field(
-        default=None, alias='purchasingCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    purchasing_legacy_callback_flag: bool | None = Field(
-        default=None, alias='purchasingLegacyCallbackFlag'
-    )
-    reporting_api_flag: bool | None = Field(default=None, alias='reportingApiFlag')
-    system_api_flag: bool | None = Field(default=None, alias='systemApiFlag')
-    project_api_flag: bool | None = Field(default=None, alias='projectApiFlag')
-    project_callback_url: str | None = Field(default=None, alias='projectCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    project_legacy_callback_flag: bool | None = Field(
-        default=None, alias='projectLegacyCallbackFlag'
-    )
-    configuration_api_flag: bool | None = Field(
-        default=None, alias='configurationApiFlag'
-    )
-    configuration_auto_child_flag: bool | None = Field(
-        default=None, alias='configurationAutoChildFlag'
-    )
-    configuration_childling_flag: bool | None = Field(
-        default=None, alias='configurationChildlingFlag'
-    )
-    """
-    True if integrator is allowed to child configurations.
-    """
-    configuration_callback_url: str | None = Field(
-        default=None, alias='configurationCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    configuration_legacy_callback_flag: bool | None = Field(
-        default=None, alias='configurationLegacyCallbackFlag'
-    )
-    schedule_api_flag: bool | None = Field(default=None, alias='scheduleApiFlag')
-    schedule_callback_url: str | None = Field(default=None, alias='scheduleCallbackUrl')
-    """
-     Max length: 1000;
-    """
-    schedule_legacy_callback_flag: bool | None = Field(
-        default=None, alias='scheduleLegacyCallbackFlag'
-    )
-    agreement_api_flag: bool | None = Field(default=None, alias='agreementApiFlag')
-    agreement_callback_url: str | None = Field(
-        default=None, alias='agreementCallbackUrl'
-    )
-    """
-     Max length: 1000;
-    """
-    agreement_callback_legacy_flag: bool | None = Field(
-        default=None, alias='agreementCallbackLegacyFlag'
-    )
-    document_api_flag: bool | None = Field(default=None, alias='documentApiFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class IntegratorLoginReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class IntegratorTag(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class IntegratorTag(ConnectWiseModel):
     id: int | None = None
     text: str
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class IntegratorTagCollection(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class IntegratorTagCollection(ConnectWiseModel):
     tags: list[str] | None = None
 
 
-class InternalAnalysisSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
+class InvoiceEmailTemplateInfo(ActivityReference):
+    pass
 
 
-class InternalAnalysisSort(Enum):
-    ASCENDING = 'Ascending'
-    DESCENDING = 'Descending'
-
-
-class InventoryOnHand(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
-    warehouse: WarehouseReference | None = None
-    warehouse_bin: WarehouseBinReference | None = Field(
-        default=None, alias='warehouseBin'
-    )
-    on_hand: int | None = Field(default=None, alias='onHand')
-    serial_numbers: list[OnHandSerialNumberReference] | None = Field(
-        default=None, alias='serialNumbers'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Invoice(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
-    """
-     Max length: 15; Required On Updates;
-    """
-    type: Type6
-    status: BillingStatusReference | None = None
-    company: CompanyReference | None = None
-    bill_to_company: CompanyReference | None = Field(
-        default=None, alias='billToCompany'
-    )
-    ship_to_company: CompanyReference | None = Field(
-        default=None, alias='shipToCompany'
-    )
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    apply_to_type: ApplyToType | None = Field(default=None, alias='applyToType')
-    apply_to_id: int | None = Field(default=None, alias='applyToId')
-    attention: str | None = None
-    """
-     Max length: 60;
-    """
-    ship_to_attention: str | None = Field(default=None, alias='shipToAttention')
-    """
-     Max length: 60;
-    """
-    billing_site: SiteReference | None = Field(default=None, alias='billingSite')
-    billing_site_address_line1: str | None = Field(
-        default=None, alias='billingSiteAddressLine1'
-    )
-    billing_site_address_line2: str | None = Field(
-        default=None, alias='billingSiteAddressLine2'
-    )
-    billing_site_city: str | None = Field(default=None, alias='billingSiteCity')
-    billing_site_state: str | None = Field(default=None, alias='billingSiteState')
-    billing_site_zip: str | None = Field(default=None, alias='billingSiteZip')
-    billing_site_country: str | None = Field(default=None, alias='billingSiteCountry')
-    shipping_site: SiteReference | None = Field(default=None, alias='shippingSite')
-    shipping_site_address_line1: str | None = Field(
-        default=None, alias='shippingSiteAddressLine1'
-    )
-    shipping_site_address_line2: str | None = Field(
-        default=None, alias='shippingSiteAddressLine2'
-    )
-    shipping_site_city: str | None = Field(default=None, alias='shippingSiteCity')
-    shipping_site_state: str | None = Field(default=None, alias='shippingSiteState')
-    shipping_site_zip: str | None = Field(default=None, alias='shippingSiteZip')
-    shipping_site_country: str | None = Field(default=None, alias='shippingSiteCountry')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    reference: str | None = None
-    """
-     Max length: 50;
-    """
-    customer_po: str | None = Field(default=None, alias='customerPO')
-    """
-     Max length: 50;
-    """
-    template_setup_id: int | None = Field(default=None, alias='templateSetupId')
-    """
-    Can be obtained via InvoiceTemplate report.
-    """
-    invoice_template: InvoiceTemplateDetailReference | None = Field(
-        default=None, alias='invoiceTemplate'
-    )
-    email_template_id: int | None = Field(default=None, alias='emailTemplateId')
-    """
-    Can be obtained via InvoiceEmailTemplate report.
-    """
-    add_to_batch_email_list: bool | None = Field(
-        default=None, alias='addToBatchEmailList'
-    )
-    date: datetime | None = None
-    restrict_downpayment_flag: bool | None = Field(
-        default=None, alias='restrictDownpaymentFlag'
-    )
-    location_id: int | None = Field(default=None, alias='locationId')
-    """
-     Required On Updates;
-    """
-    department_id: int | None = Field(default=None, alias='departmentId')
-    """
-    departmentId is only required for special invoices.
-    """
-    territory_id: int | None = Field(default=None, alias='territoryId')
-    top_comment: str | None = Field(default=None, alias='topComment')
-    bottom_comment: str | None = Field(default=None, alias='bottomComment')
-    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    internal_notes: str | None = Field(default=None, alias='internalNotes')
-    downpayment_previously_taxed_flag: bool | None = Field(
-        default=None, alias='downpaymentPreviouslyTaxedFlag'
-    )
-    service_total: float | None = Field(default=None, alias='serviceTotal')
-    override_down_payment_amount_flag: bool | None = Field(
-        default=None, alias='overrideDownPaymentAmountFlag'
-    )
-    currency: CurrencyReference | None = None
-    due_date: datetime | None = Field(default=None, alias='dueDate')
-    expense_total: float | None = Field(default=None, alias='expenseTotal')
-    product_total: float | None = Field(default=None, alias='productTotal')
-    previous_progress_applied: float | None = Field(
-        default=None, alias='previousProgressApplied'
-    )
-    service_adjustment_amount: float | None = Field(
-        default=None, alias='serviceAdjustmentAmount'
-    )
-    agreement_amount: float | None = Field(default=None, alias='agreementAmount')
-    downpayment_applied: float | None = Field(default=None, alias='downpaymentApplied')
-    subtotal: float | None = None
-    total: float | None = None
-    remaining_downpayment: float | None = Field(
-        default=None, alias='remainingDownpayment'
-    )
-    sales_tax: float | None = Field(default=None, alias='salesTax')
-    adjustment_reason: str | None = Field(default=None, alias='adjustmentReason')
-    adjusted_by: str | None = Field(default=None, alias='adjustedBy')
-    payments: float | None = None
-    credits: float | None = None
-    balance: float | None = None
-    special_invoice_flag: bool | None = Field(default=None, alias='specialInvoiceFlag')
-    billing_setup_reference: BillingSetupReference | None = Field(
-        default=None, alias='billingSetupReference'
-    )
-    ticket: TicketReference | None = None
-    project: ProjectReference | None = None
-    phase: ProjectPhaseReference | None = None
-    sales_order: SalesOrderReference | None = Field(default=None, alias='salesOrder')
-    agreement: AgreementReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    custom_fields: list[CustomFieldValue] | None = Field(
-        default=None, alias='customFields'
-    )
-
-
-class InvoiceEmailTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    service_survey: ServiceSurveyReference | None = Field(
-        default=None, alias='serviceSurvey'
-    )
-    use_sender_flag: bool | None = Field(default=None, alias='useSenderFlag')
-    first_name: str | None = Field(default=None, alias='firstName')
-    """
-    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
-    """
-    last_name: str | None = Field(default=None, alias='lastName')
-    """
-    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
-    """
-    email_address: str | None = Field(default=None, alias='emailAddress')
-    """
-    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
-    """
-    subject: str
-    """
-     Max length: 200;
-    """
-    body: str | None = None
-    copy_sender_flag: bool | None = Field(default=None, alias='copySenderFlag')
-    invoice_status: BillingStatusReference | None = Field(
-        default=None, alias='invoiceStatus'
-    )
-    attach_invoice_flag: bool | None = Field(default=None, alias='attachInvoiceFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class InvoiceEmailTemplateInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class InvoiceFormat(Enum):
-    DEFAULT = 'Default'
-    CONDENSED = 'Condensed'
-    DETAILED = 'Detailed'
-
-
-class InvoiceGroupingReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InvoiceGroupingReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     description: str | None = None
@@ -8439,92 +2200,18 @@ class InvoiceGroupingReference(BaseModel):
     group_parent_child_additions_flag: bool | None = Field(
         default=None, alias='groupParentChildAdditionsFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InvoiceInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    invoice: Invoice | None = None
-    invoice_template: InvoiceTemplate | None = Field(
-        default=None, alias='invoiceTemplate'
-    )
-    products: list[ProductItem] | None = None
-    bundled_components_info: list[ProductComponent] | None = Field(
-        default=None, alias='bundledComponentsInfo'
-    )
-    expenses: list[ExpenseEntry] | None = None
-    time_entries: list[TimeEntry] | None = Field(default=None, alias='timeEntries')
-    logo: DocumentInfo | None = None
-    billing_setup: BillingSetup | None = Field(default=None, alias='billingSetup')
-    agreement_billing_info: list[AgreementBillingInfo] | None = Field(
-        default=None, alias='agreementBillingInfo'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class InvoiceMarkupOption(Enum):
-    AMOUNT = 'Amount'
-    MILE = 'Mile'
-    PERCENT = 'Percent'
-
-
-class InvoiceOption(Enum):
-    ALL_INVOICES = 'AllInvoices'
-    PAID_INVOICES = 'PaidInvoices'
-
-
-class InvoicePayment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: str | None = None
-    source: Source2 | None = None
-    invoice: InvoiceReference | None = None
-    credit: InvoiceReference | None = None
-    amount: float | None = None
-    payment_date: datetime | None = Field(default=None, alias='paymentDate')
-    applied_by: str | None = Field(default=None, alias='appliedBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    wise_pay_payment: WisePayPayment | None = Field(
-        default=None, alias='wisePayPayment'
-    )
-    payment_sync_status: str | None = Field(default=None, alias='paymentSyncStatus')
-    payment_sync_date: str | None = Field(default=None, alias='paymentSyncDate')
-    payment_account: str | None = Field(default=None, alias='paymentAccount')
-    a_r_payment_account: str | None = Field(default=None, alias='aRPaymentAccount')
-
-
-class InvoiceReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InvoiceReference(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     billing_type: str | None = Field(default=None, alias='billingType')
     apply_to_type: str | None = Field(default=None, alias='applyToType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InvoiceRule(Enum):
-    ALL = 'All'
-    STANDARD = 'Standard'
-    PROJECT = 'Project'
-    AGREEMENT = 'Agreement'
-
-
-class InvoiceScreenDefaultTabFormat(Enum):
-    SHOW_INVOICING_TAB = 'ShowInvoicingTab'
-    SHOW_AGREEMENT_INVOICING_TAB = 'ShowAgreementInvoicingTab'
-
-
-class InvoiceTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InvoiceTemplate(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -8535,11 +2222,11 @@ class InvoiceTemplate(BaseModel):
     margin_top: float | None = Field(default=None, alias='marginTop')
     margin_bottom: float | None = Field(default=None, alias='marginBottom')
     logo_visible_flag: bool | None = Field(default=None, alias='logoVisibleFlag')
-    header_logo_position: HeaderLogoPosition | None = Field(
+    header_logo_position: Literal['Center', 'LeftSide', 'RightSide'] | None = Field(
         default=None, alias='headerLogoPosition'
     )
     remit_to_visible_flag: bool | None = Field(default=None, alias='remitToVisibleFlag')
-    header_address_position: HeaderAddressPosition | None = Field(
+    header_address_position: Literal['Center', 'LeftSide', 'RightSide'] | None = Field(
         default=None, alias='headerAddressPosition'
     )
     header_title_visible_flag: bool | None = Field(
@@ -8549,12 +2236,12 @@ class InvoiceTemplate(BaseModel):
     """
      Max length: 50;
     """
-    header_title_position: HeaderTitlePosition | None = Field(
+    header_title_position: Literal['Center', 'LeftSide', 'RightSide'] | None = Field(
         default=None, alias='headerTitlePosition'
     )
-    header_title_font: HeaderTitleFont | None = Field(
-        default=None, alias='headerTitleFont'
-    )
+    header_title_font: Literal[
+        'Regular', 'RegularBold', 'Large', 'LargeBold', 'ExtraLarge', 'ExtraLargeBold'
+    ] | None = Field(default=None, alias='headerTitleFont')
     header_terms_visible_flag: bool | None = Field(
         default=None, alias='headerTermsVisibleFlag'
     )
@@ -9164,135 +2851,45 @@ class InvoiceTemplate(BaseModel):
     """
      Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InvoiceTemplateDetailReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class InvoiceTemplateDetailReference(ActivityReference):
+    pass
 
 
-class InvoiceTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InvoiceTemplateReference(ConnectWiseModel):
     id: int | None = None
     """
     Gets or sets invoice Template Setup Id.
     """
     name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InvoiceTemplateSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class InvoiceTemplateSetup(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     custom_flag: bool | None = Field(default=None, alias='customFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class InvoiceTimeTabFormat(Enum):
-    SUMMARY_LIST = 'SummaryList'
-    DETAIL_LIST = 'DetailList'
+class IRestIdentifiedItem(ConnectWiseModel):
+    id: int | None = None
 
 
-class InvoiceType(Enum):
-    AGREEMENT = 'Agreement'
-    CREDIT_MEMO = 'CreditMemo'
-    DOWN_PAYMENT = 'DownPayment'
-    MISCELLANEOUS = 'Miscellaneous'
-    PROGRESS = 'Progress'
-    STANDARD = 'Standard'
-
-
-class InvoicingCycle(Enum):
-    """
-    Required On Updates;
-    """
-
-    CONTRACT_YEAR = 'ContractYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class InvoicingCycle1(Enum):
-    CONTRACT_YEAR = 'ContractYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class InvoicingDisplayOptions(Enum):
-    REMAIN_ON_INVOICING_SCREEN = 'RemainOnInvoicingScreen'
-    SHOW_RECENT_INVOICES = 'ShowRecentInvoices'
-
-
-class IvItemReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class IvItemReference(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class KBCategoryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class KBCategoryReference(ActivityReference):
+    pass
 
 
-class KPI(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    category: KPICategoryReference | None = None
-    date_filter: str | None = Field(default=None, alias='dateFilter')
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-
-
-class KPICategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-
-
-class KPICategoryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class KPIReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class KnowledgeBaseArticle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class KnowledgeBaseArticle(ConnectWiseModel):
     id: int | None = None
     title: str
     issue: str
@@ -9304,77 +2901,24 @@ class KnowledgeBaseArticle(BaseModel):
     sub_category_id: int | None = Field(default=None, alias='subCategoryId')
     date_created: str | None = Field(default=None, alias='dateCreated')
     created_by: str | None = Field(default=None, alias='createdBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class KnowledgeBaseCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class KPICategory(ConnectWiseModel):
     id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    approver: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    name: str | None = None
+    sort_order: int | None = Field(default=None, alias='sortOrder')
 
 
-class KnowledgeBaseLinkType(Enum):
-    ACTIVITY = 'Activity'
-    PROJECT_ISSUE = 'ProjectIssue'
-    KNOWLEDGE_BASE_ARTICLE = 'KnowledgeBaseArticle'
-    PROJECT_TICKET = 'ProjectTicket'
-    SERVICE_TICKET = 'ServiceTicket'
-    TIME = 'Time'
+class KPICategoryReference(ActivityReference):
+    pass
 
 
-class KnowledgeBaseSettings(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    require_approval: bool = Field(..., alias='requireApproval')
-    default_approver: MemberReference | None = Field(
-        default=None, alias='defaultApprover'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class KPIReference(ActivityReference):
+    pass
 
 
-class KnowledgeBaseSubCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    category: KBCategoryReference
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Language(Enum):
-    ENGLISH = 'English'
-    SPANISH = 'Spanish'
-    FRENCH = 'French'
-    BRITISH = 'British'
-    AUSTRALIAN = 'Australian'
-    BRAZILIAN_PORTUGUESE = 'BrazilianPortuguese'
-    CANADIAN_FRENCH = 'CanadianFrench'
-    GERMAN = 'German'
-    NEW_ZEALAND = 'NewZealand'
-    DUTCH = 'Dutch'
-
-
-class LdapConfiguration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LdapConfiguration(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -9388,159 +2932,47 @@ class LdapConfiguration(BaseModel):
     """
     Domain Name of the server. Max length: 50;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LdapConfigurationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class LdapConfigurationInfo(ActivityReference):
+    pass
 
 
-class LdapConfigurationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LdapConfigurationReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     server: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LdapConfigurationTestLink(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LdapConfigurationTestLink(ConnectWiseModel):
     server: str | None = None
     """
      Max length: 200;
     """
 
 
-class LegacySubCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LegacySubCategory(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 50;
     """
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LegacySubCategoryInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class LegacySubCategoryInfo(CategoryInfo):
+    pass
 
 
-class Level(Enum):
-    CRITICAL = 'Critical'
-    HIGH = 'High'
-    MEDIUM = 'Medium'
-    LOW = 'Low'
-
-
-class LevelCount(Enum):
-    LEVEL1 = 'Level1'
-    LEVEL2 = 'Level2'
-    LEVEL3 = 'Level3'
-    LEVEL4 = 'Level4'
-    LEVEL5 = 'Level5'
-
-
-class LevelFive(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelFiveRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LevelFour(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelFourRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LevelOne(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelOneRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LevelSix(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelSixRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LevelThree(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelThreeRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LevelTwo(Enum):
-    NON_TAXABLE = 'NonTaxable'
-    TAXABLE = 'Taxable'
-
-
-class LevelTwoRateType(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class LicenseBit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LicenseBit(ConnectWiseModel):
     name: str | None = None
     active_flag: bool | None = Field(default=None, alias='activeFlag')
 
 
-class LicenseClass(Enum):
-    """
-    F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
-    """
-
-    A = 'A'
-    C = 'C'
-    F = 'F'
-    X = 'X'
-
-
-class Link(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Link(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -9551,14 +2983,13 @@ class Link(BaseModel):
     """
      Max length: 1000;
     """
-    screen_link: ScreenLink | None = Field(default=None, alias='screenLink')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    screen_link: Literal[
+        'Company', 'Contact', 'Service', 'Invoice', 'PurchaseOrder', 'SalesOrder'
+    ] | None = Field(default=None, alias='screenLink')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LinkClicked(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LinkClicked(ConnectWiseModel):
     id: int | None = None
     campaign_id: int | None = Field(default=None, alias='campaignId')
     contact_id: int = Field(..., alias='contactId')
@@ -9570,182 +3001,45 @@ class LinkClicked(BaseModel):
     query_string: str | None = Field(default=None, alias='queryString')
 
 
-class LinkInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LinkInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
-    screen_link: ScreenLink | None = Field(default=None, alias='screenLink')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    screen_link: Literal[
+        'Company', 'Contact', 'Service', 'Invoice', 'PurchaseOrder', 'SalesOrder'
+    ] | None = Field(default=None, alias='screenLink')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LinkResolveUrlInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LinkResolveUrlInfo(ConnectWiseModel):
     reference_id: int = Field(..., alias='referenceId')
     url: str | None = None
 
 
-class LocaleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LocaleInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     locale_code: str | None = Field(default=None, alias='localeCode')
 
 
-class LocaleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class LocaleReference(ActivityReference):
+    pass
 
 
-class Location(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    owner_level_id: int | None = Field(default=None, alias='ownerLevelId')
-    structure_level: CorporateStructureLevelReference | None = Field(
-        default=None, alias='structureLevel'
-    )
-    name: str
-    """
-     Max length: 50;
-    """
-    manager: MemberReference | None = None
-    reports_to: SystemLocationReference | None = Field(default=None, alias='reportsTo')
-    sales_rep: str | None = Field(default=None, alias='salesRep')
-    """
-     Max length: 50;
-    """
-    time_zone_setup: TimeZoneSetupReference | None = Field(
-        default=None, alias='timeZoneSetup'
-    )
-    calendar: CalendarReference | None = None
-    override_address_line1: str | None = Field(
-        default=None, alias='overrideAddressLine1'
-    )
-    """
-     Max length: 50;
-    """
-    override_address_line2: str | None = Field(
-        default=None, alias='overrideAddressLine2'
-    )
-    """
-     Max length: 50;
-    """
-    override_city: str | None = Field(default=None, alias='overrideCity')
-    """
-     Max length: 50;
-    """
-    override_state: str | None = Field(default=None, alias='overrideState')
-    """
-     Max length: 50;
-    """
-    override_zip: str | None = Field(default=None, alias='overrideZip')
-    """
-     Max length: 12;
-    """
-    override_country: CountryReference | None = Field(
-        default=None, alias='overrideCountry'
-    )
-    override_phone_number: str | None = Field(default=None, alias='overridePhoneNumber')
-    """
-     Max length: 15;
-    """
-    override_fax_number: str | None = Field(default=None, alias='overrideFaxNumber')
-    """
-     Max length: 15;
-    """
-    owa_url: str | None = Field(default=None, alias='owaUrl')
-    """
-     Max length: 100;
-    """
-    payroll_xref: str | None = Field(default=None, alias='payrollXref')
-    """
-     Max length: 10;
-    """
-    location_flag: bool | None = Field(default=None, alias='locationFlag')
-    client_flag: bool | None = Field(default=None, alias='clientFlag')
-    work_role_ids: list[int] | None = Field(default=None, alias='workRoleIds')
-    department_ids: list[int] | None = Field(default=None, alias='departmentIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class LocationDepartment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    department: SystemDepartmentReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class LocationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class LocationInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     location_flag: bool | None = None
     structure_level: CorporateStructureLevelReference | None = Field(
         default=None, alias='structureLevel'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class LocationWorkRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    work_role_inactive_flag: bool | None = Field(
-        default=None, alias='workRoleInactiveFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class LostRevenueReference(AgreementRevenueReference):
+    pass
 
 
-class LogType(Enum):
-    ALL = 'All'
-    ERROR = 'Error'
-    NEW_MANAGED_SOLUTION = 'NewManagedSolution'
-    NEW_DEVICE_TYPE = 'NewDeviceType'
-    NEW_CONFIGURATION = 'NewConfiguration'
-    NEW_ADDITION = 'NewAddition'
-    INFO = 'Info'
-
-
-class LoginBy(Enum):
-    GLOBAL_ = 'Global'
-    MEMBER = 'Member'
-
-
-class LostRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class M365Contact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365Contact(ConnectWiseModel):
     id: int | None = None
     user_principal_name: str | None = Field(default=None, alias='userPrincipalName')
     display_name: str | None = Field(default=None, alias='displayName')
@@ -9760,13 +3054,10 @@ class M365Contact(BaseModel):
     groups: str | None = None
     directory_roles: str | None = Field(default=None, alias='directoryRoles')
     assigned_licenses: str | None = Field(default=None, alias='assignedLicenses')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class M365ContactSync(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365ContactSync(ConnectWiseModel):
     id: int | None = None
     tenant_id: str | None = Field(default=None, alias='tenantId')
     client_id: str | None = Field(default=None, alias='clientId')
@@ -9785,42 +3076,14 @@ class M365ContactSync(BaseModel):
     service_account_email: str | None = Field(default=None, alias='serviceAccountEmail')
     credential_file: str | None = Field(default=None, alias='credentialFile')
     credential_file_name: str | None = Field(default=None, alias='credentialFileName')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class M365ContactSyncCompany(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    company_rec_id: int | None = Field(default=None, alias='companyRecId')
-    tenant_id: str | None = Field(default=None, alias='tenantId')
-    parent_tenant_id: str | None = Field(default=None, alias='parentTenantId')
-    m365_tenant: M365Tenant | None = Field(default=None, alias='m365Tenant')
-    display_name: str | None = Field(default=None, alias='displayName')
-    sync_flag: bool | None = Field(default=None, alias='syncFlag')
-    company_id: str | None = Field(default=None, alias='companyId')
-    contacts: list[GraphUserCsv] | None = None
-    inactive_flag_tenant: bool | None = Field(default=None, alias='inactiveFlagTenant')
-    are_all_microsoft365_contact_sync_inactive: bool | None = Field(
-        default=None, alias='areAllMicrosoft365ContactSyncInactive'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class M365ContactSyncInfo(ActivityReference):
+    pass
 
 
-class M365ContactSyncInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class M365ContactSyncMonitoring(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365ContactSyncMonitoring(ConnectWiseModel):
     id: int | None = None
     monitoring_type_id: int | None = Field(default=None, alias='monitoringTypeId')
     email_address: str | None = Field(default=None, alias='emailAddress')
@@ -9828,13 +3091,10 @@ class M365ContactSyncMonitoring(BaseModel):
     service_board_status_id: int | None = Field(
         default=None, alias='serviceBoardStatusId'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class M365ContactSyncMonitoringNotificationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365ContactSyncMonitoringNotificationInfo(ConnectWiseModel):
     company_rec_id: int | None = Field(default=None, alias='companyRecId')
     company_name: str | None = Field(default=None, alias='companyName')
     address_rec_id: int | None = Field(default=None, alias='addressRecId')
@@ -9848,192 +3108,56 @@ class M365ContactSyncMonitoringNotificationInfo(BaseModel):
     tenant_name: str | None = Field(default=None, alias='tenantName')
 
 
-class M365ContactSyncProperty(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365ContactSyncProperty(ConnectWiseModel):
     id: int | None = None
-    include_exclude_type: IncludeExcludeType | None = Field(
+    include_exclude_type: Literal['All', 'M365Property', 'None'] | None = Field(
         default=None, alias='includeExcludeType'
     )
-    property_type: PropertyType | None = Field(default=None, alias='propertyType')
+    property_type: Literal[
+        'City',
+        'DepartmentContactSync',
+        'Email',
+        'DistributionGroup',
+        'JobTitle',
+        'AssignedLicenses',
+        'DisplayName',
+        'OfficeLocation',
+        'ReportManager',
+        'State',
+        'EmployeeType',
+        'UserType',
+    ] | None = Field(default=None, alias='propertyType')
     exclude_include_flag: bool | None = Field(default=None, alias='excludeIncludeFlag')
     wild_card: str | None = Field(default=None, alias='wildCard')
     company_rec_id: int | None = Field(default=None, alias='companyRecID')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class M365License(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365License(ConnectWiseModel):
     id: str | None = None
     description: str | None = None
 
 
-class M365Tenant(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class M365Tenant(ConnectWiseModel):
     id: str | None = None
     name: str | None = None
 
 
-class ManagedDeviceAccount(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    username: str | None = None
-    password: str | None = None
-    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
-        default=None, alias='managedDevicesIntegration'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagedDevicesIntegration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    solution: str
-    """
-     Max length: 30;
-    """
-    portal_url: str | None = Field(default=None, alias='portalUrl')
-    """
-     Max length: 200;
-    """
-    login_by: LoginBy = Field(..., alias='loginBy')
-    global_login_username: str | None = Field(default=None, alias='globalLoginUsername')
-    """
-    Gets or sets
-                this is only required when globalLoginFlag = true. Max length: 50;
-    """
-    global_login_password: str | None = Field(default=None, alias='globalLoginPassword')
-    """
-    Gets or sets
-                this is only required when globalLoginFlag = true. Max length: 50;
-    """
-    default_billing_level: DefaultBillingLevel = Field(..., alias='defaultBillingLevel')
-    management_it_setup_type: str | None = Field(
-        default=None, alias='managementItSetupType'
-    )
-    default_location: SystemLocationReference | None = Field(
-        default=None, alias='defaultLocation'
-    )
-    default_department: SystemDepartmentReference | None = Field(
-        default=None, alias='defaultDepartment'
-    )
-    integrator_login: IntegratorLoginReference | None = Field(
-        default=None, alias='integratorLogin'
-    )
-    match_on_serial_number_flag: bool | None = Field(
-        default=None, alias='matchOnSerialNumberFlag'
-    )
-    disable_new_cross_references_flag: bool | None = Field(
-        default=None, alias='disableNewCrossReferencesFlag'
-    )
-    config_bill_customer_flag: bool | None = Field(
-        default=None, alias='configBillCustomerFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagedDevicesIntegrationCrossReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
-        default=None, alias='managedDevicesIntegration'
-    )
-    vendor_type: str | None = Field(default=None, alias='vendorType')
-    """
-     Max length: 255;
-    """
-    vendor_level: str | None = Field(default=None, alias='vendorLevel')
-    """
-     Max length: 255;
-    """
-    agreement_type: AgreementTypeReference | None = Field(
-        default=None, alias='agreementType'
-    )
-    product: IvItemReference | None = None
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagedDevicesIntegrationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagedDevicesIntegrationInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     solution: str | None = None
     management_it_setup_type: str | None = Field(
         default=None, alias='managementItSetupType'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagedDevicesIntegrationLogin(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
-        default=None, alias='managedDevicesIntegration'
-    )
-    username: str
-    """
-     Max length: 50;
-    """
-    password: str | None = None
-    """
-     Max length: 50;
-    """
-    member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ManagedDevicesIntegrationReference(ActivityReference):
+    pass
 
 
-class ManagedDevicesIntegrationNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
-        default=None, alias='managedDevicesIntegration'
-    )
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    member: MemberReference | None = None
-    log_type: LogType = Field(..., alias='logType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagedDevicesIntegrationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagedInformation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagedInformation(ConnectWiseModel):
     management_solution_name: str | None = Field(
         default=None, alias='managementSolutionName'
     )
@@ -10051,10 +3175,7 @@ class ManagedInformation(BaseModel):
     )
 
 
-class Management(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Management(ConnectWiseModel):
     id: int | None = None
     run_time: datetime | None = Field(default=None, alias='runTime')
     added_configuration_status: ConfigurationStatusReference | None = Field(
@@ -10090,32 +3211,26 @@ class Management(BaseModel):
     Gets or sets
                 this is only required when scheduleExecutiveSummaryReportFlag = true.
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementBackup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementBackup(ConnectWiseModel):
     id: int | None = None
     type: AgreementTypeReference | None = None
     item: CatalogItemReference | None = None
-    billing_level: BillingLevel = Field(..., alias='billingLevel')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    billing_level: Literal['Detail', 'Summary'] = Field(..., alias='billingLevel')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementItSolution(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementItSolution(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 30;
     """
-    management_it_solution_type: ManagementItSolutionType = Field(
-        ..., alias='managementItSolutionType'
-    )
+    management_it_solution_type: Literal[
+        'LevelPlatforms', 'NAble', 'Continuum', 'Custom'
+    ] = Field(..., alias='managementItSolutionType')
     management_solution_name: str | None = Field(
         default=None, alias='managementSolutionName'
     )
@@ -10200,13 +3315,10 @@ class ManagementItSolution(BaseModel):
                 this is only required for Level Platforms solution. Max length: 100;
     """
     no_display_flag: bool | None = Field(default=None, alias='noDisplayFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementItSolutionAgreementInterfaceParameter(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementItSolutionAgreementInterfaceParameter(ConnectWiseModel):
     id: int | None = None
     managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
         default=None, alias='managedDevicesIntegration'
@@ -10221,28 +3333,15 @@ class ManagementItSolutionAgreementInterfaceParameter(BaseModel):
     spam_stats_product: IvItemReference | None = Field(
         default=None, alias='spamStatsProduct'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementItSolutionType(Enum):
-    LEVEL_PLATFORMS = 'LevelPlatforms'
-    N_ABLE = 'NAble'
-    CONTINUUM = 'Continuum'
-    CUSTOM = 'Custom'
-
-
-class ManagementLogDocumentInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementLogDocumentInfo(ConnectWiseModel):
     full_path_file_name: str | None = Field(default=None, alias='fullPathFileName')
     file_size: str | None = Field(default=None, alias='fileSize')
 
 
-class ManagementNetworkSecurity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementNetworkSecurity(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -10260,52 +3359,25 @@ class ManagementNetworkSecurity(BaseModel):
     """
      Max length: 100;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementReportNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    member: MemberReference | None = None
-    email: str | None = None
-    """
-     Max length: 50;
-    """
-    global_flag: bool | None = Field(default=None, alias='globalFlag')
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ManagementReportSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementReportSetup(ConnectWiseModel):
     id: int | None = None
     scheduled_report_disabled_flag: bool = Field(
         ..., alias='scheduledReportDisabledFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ManagementSolutionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ManagementSolutionReference(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     setup_name: str | None = Field(default=None, alias='setupName')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Manager(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Manager(ConnectWiseModel):
     manager_id: str | None = None
     user_type: str | None = Field(default=None, alias='userType')
     microsoft_365_contact_rec_id: int | None = Field(
@@ -10347,118 +3419,79 @@ class Manager(BaseModel):
     account_enabled: bool | None = Field(default=None, alias='accountEnabled')
 
 
-class Manufacturer(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class Manufacturer(LegacySubCategory):
+    pass
 
 
-class ManufacturerInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ManufacturerInfo(CategoryInfo):
+    pass
 
 
-class ManufacturerReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ManufacturerReference(ActivityReference):
+    pass
 
 
-class MappedRecordReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
+class MappedRecordReference(CorporateStructureLevel):
+    pass
 
 
-class MappedType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MappedType(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     table: str | None = None
     rec_id_field: str | None = Field(default=None, alias='recIdField')
-    gl_type: GlType | None = Field(default=None, alias='glType')
+    gl_type: Literal[
+        'AP',
+        'AR',
+        'EE',
+        'EI',
+        'EO',
+        'IA',
+        'IT',
+        'P',
+        'PF',
+        'R',
+        'RA',
+        'RD',
+        'RE',
+        'RP',
+        'ST',
+        'SD',
+        'ET',
+        'FT',
+        'PT',
+        'WP',
+        'WR',
+    ] | None = Field(default=None, alias='glType')
     sort_order: int | None = Field(default=None, alias='sortOrder')
 
 
-class MappedTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class MappedTypeReference(ActivityReference):
+    pass
 
 
-class Market(Enum):
-    FROM_ = 'From'
-    TO = 'To'
+class MarketDescription(ContactRelationship):
+    pass
 
 
-class MarketDescription(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class MarketDescriptionInfo(ActivityReference):
+    pass
 
 
-class MarketDescriptionInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class MarketDescriptionReference(ActivityReference):
+    pass
 
 
-class MarketDescriptionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MarketingCompany(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MarketingCompany(ConnectWiseModel):
     id: int | None = None
     group_id: int | None = Field(default=None, alias='groupId')
     default_contact_flag: bool | None = Field(default=None, alias='defaultContactFlag')
     all_contacts_flag: bool | None = Field(default=None, alias='allContactsFlag')
     unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MarketingContact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MarketingContact(ConnectWiseModel):
     id: int | None = None
     group_id: int | None = Field(default=None, alias='groupId')
     note: str | None = None
@@ -10466,41 +3499,8539 @@ class MarketingContact(BaseModel):
      Max length: 50;
     """
     unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MarketplaceImport(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MarketplaceImport(ConnectWiseModel):
     id: int | None = None
-    marketplace_import_type: MarketplaceImportType | None = Field(
-        default=None, alias='marketplaceImportType'
-    )
+    marketplace_import_type: Literal[
+        'Agreements',
+        'Configurations',
+        'CRMSurveys',
+        'CustomReports',
+        'CustomerPortalTypes',
+        'HTMLEmailTemplates',
+        'Products',
+        'ProjectBoards',
+        'ProjectTemplates',
+        'ReportWriterReports',
+        'ServiceBoards',
+        'TicketTemplates',
+        'Views',
+    ] | None = Field(default=None, alias='marketplaceImportType')
     marketplace_object: list | None = Field(default=None, alias='marketplaceObject')
     required_fields: list[str] | None = Field(default=None, alias='requiredFields')
 
 
-class MarketplaceImportType(Enum):
-    AGREEMENTS = 'Agreements'
-    CONFIGURATIONS = 'Configurations'
-    CRM_SURVEYS = 'CRMSurveys'
-    CUSTOM_REPORTS = 'CustomReports'
-    CUSTOMER_PORTAL_TYPES = 'CustomerPortalTypes'
-    HTML_EMAIL_TEMPLATES = 'HTMLEmailTemplates'
-    PRODUCTS = 'Products'
-    PROJECT_BOARDS = 'ProjectBoards'
-    PROJECT_TEMPLATES = 'ProjectTemplates'
-    REPORT_WRITER_REPORTS = 'ReportWriterReports'
-    SERVICE_BOARDS = 'ServiceBoards'
-    TICKET_TEMPLATES = 'TicketTemplates'
-    VIEWS = 'Views'
-
-
-class Member(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+class MemberInfo(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    first_name: str | None = Field(default=None, alias='firstName')
+    middle_initial: str | None = Field(default=None, alias='middleInitial')
+    last_name: str | None = Field(default=None, alias='lastName')
+    full_name: str | None = Field(default=None, alias='fullName')
+    default_email: str | None = Field(default=None, alias='defaultEmail')
+    photo: DocumentReference | None = None
+    license_class: Literal['A', 'C', 'F', 'X'] | None = Field(
+        default=None, alias='licenseClass'
     )
+    """
+    F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MemberLinkSsoUser(ConnectWiseModel):
+    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
+    """
+     Max length: 100;
+    """
+
+
+class MemberNotificationSetting(ConnectWiseModel):
+    id: int | None = None
+    notification_type: Literal['Email', 'Push'] = Field(..., alias='notificationType')
+    notification_trigger: Literal[
+        'ActivityStatusReq',
+        'CustomerUpdated',
+        'ExpenseReport',
+        'TicketStatusChange',
+        'TicketStatusRequest',
+        'TimeNagApprover',
+        'TimeNagMember',
+        'TimeSheet',
+        'WorkflowRules',
+    ] = Field(..., alias='notificationTrigger')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MemberOffice365(M365Tenant):
+    pass
+
+
+class MemberReference(CatalogItemReference):
+    pass
+
+
+class MemberSsoSettingsReference(ConnectWiseModel):
+    id: int | None = None
+    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
+    user_name: str | None = Field(default=None, alias='userName')
+    email: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MemberSsoToken(ConnectWiseModel):
+    token: str | None = None
+
+
+class MemberType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MemberTypeInfo(CategoryInfo):
+    pass
+
+
+class MemberTypeReference(ActivityReference):
+    pass
+
+
+class MenuLocationReference(ActivityReference):
+    pass
+
+
+class MySecurity(ConnectWiseModel):
+    id: int | None = None
+    add_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='addLevel'
+    )
+    edit_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='editLevel'
+    )
+    delete_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='deleteLevel'
+    )
+    inquire_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='inquireLevel'
+    )
+    module_function_name: str | None = Field(default=None, alias='moduleFunctionName')
+    module_function_description: str | None = Field(
+        default=None, alias='moduleFunctionDescription'
+    )
+    my_all_flag: bool | None = Field(default=None, alias='myAllFlag')
+    module_function_identifier: str | None = Field(
+        default=None, alias='moduleFunctionIdentifier'
+    )
+    report_flag: bool | None = Field(default=None, alias='reportFlag')
+    restrict_flag: bool | None = Field(default=None, alias='restrictFlag')
+    custom_flag: bool | None = Field(default=None, alias='customFlag')
+    module_description: str | None = Field(default=None, alias='moduleDescription')
+    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
+    module_name: str | None = Field(default=None, alias='moduleName')
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    member: MemberReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MySecurityCustomizeItem(ConnectWiseModel):
+    id: int | None = None
+    customize_identifier: Literal[
+        'CompanyReports',
+        'FinanceReports',
+        'MarketingReports',
+        'ProcurementReports',
+        'ProjectReports',
+        'SalesReports',
+        'ServiceReports',
+        'SystemReports',
+        'TimeAndExpenseReports',
+        'CompanyConfigurations',
+        'FinanceAgreements',
+        'ProjectScheduling',
+        'ServiceResourceScheduling',
+        'SystemManageHostedApi',
+        'SystemMyAccount',
+        'SystemCustomMenuEntry',
+        'SystemMassMaintenance',
+        'SystemTableSetup',
+    ] | None = Field(default=None, alias='customizeIdentifier')
+    item_identifier: str | None = Field(default=None, alias='itemIdentifier')
+
+
+class NoteTypeReference(ActivityReference):
+    pass
+
+
+class NotificationRecipient(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    name: str | None = None
+    external_flag: bool | None = Field(default=None, alias='externalFlag')
+    service_flag: bool | None = Field(default=None, alias='serviceFlag')
+    sales_flag: bool | None = Field(default=None, alias='salesFlag')
+    invoice_flag: bool | None = Field(default=None, alias='invoiceFlag')
+    agreement_flag: bool | None = Field(default=None, alias='agreementFlag')
+    member_flag: bool | None = Field(default=None, alias='memberFlag')
+    config_flag: bool | None = Field(default=None, alias='configFlag')
+    msp_flag: bool | None = Field(default=None, alias='mspFlag')
+    track_flag: bool | None = Field(default=None, alias='trackFlag')
+    project_flag: bool | None = Field(default=None, alias='projectFlag')
+    procurement_flag: bool | None = Field(default=None, alias='procurementFlag')
+    knowledge_base_flag: bool | None = Field(default=None, alias='knowledgeBaseFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class NotificationRecipientReference(CatalogItemReference):
+    pass
+
+
+class NotifyTypeReference(CatalogItemReference):
+    pass
+
+
+class Office365EmailSetup(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 200;
+    """
+    username: str
+    """
+     Max length: 100;
+    """
+    inbox_folder: str = Field(..., alias='inboxFolder')
+    """
+     Max length: 40;
+    """
+    processed_folder: str = Field(..., alias='processedFolder')
+    """
+     Max length: 40;
+    """
+    failed_folder: str = Field(..., alias='failedFolder')
+    """
+     Max length: 40;
+    """
+    tenant_id: str | None = Field(default=None, alias='tenantId')
+    """
+     Max length: 36;
+    """
+    client_id: str | None = Field(default=None, alias='clientId')
+    """
+     Max length: 36;
+    """
+    client_secret: str | None = Field(default=None, alias='clientSecret')
+    """
+     Max length: 4000;
+    """
+    authorized_flag: bool | None = Field(default=None, alias='authorizedFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    source: int | None = None
+    email_connector: EmailConnectorReference | None = Field(
+        default=None, alias='emailConnector'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Office365EmailSetupReference(ActivityReference):
+    pass
+
+
+class OnHandSerialNumberReference(ConnectWiseModel):
+    id: int | None = None
+    serial_number: str | None = Field(default=None, alias='serialNumber')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OnPremiseSearchSetting(ConnectWiseModel):
+    id: int | None = None
+    password: str
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpenRevenueReference(AgreementRevenueReference):
+    pass
+
+
+class OpportunityNote(ConnectWiseModel):
+    id: int | None = None
+    opportunity_id: int | None = Field(default=None, alias='opportunityId')
+    type: NoteTypeReference | None = None
+    text: str
+    flagged: bool | None = None
+    entered_by: str | None = Field(default=None, alias='enteredBy')
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityPriorityReference(ActivityReference):
+    pass
+
+
+class OpportunityProbabilityReference(ActivityReference):
+    pass
+
+
+class OpportunityRating(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityRatingInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityRatingReference(ActivityReference):
+    pass
+
+
+class OpportunityReference(ActivityReference):
+    pass
+
+
+class OpportunitySalesRoleReference(ActivityReference):
+    pass
+
+
+class OpportunityStage(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    probability: OpportunityProbabilityReference | None = None
+    color: str | None = None
+    """
+     Max length: 25;
+    """
+    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityStageInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    probability: OpportunityProbabilityReference | None = None
+    color: str | None = None
+    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityStageReference(ActivityReference):
+    pass
+
+
+class OpportunityStatus(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    won_flag: bool | None = Field(default=None, alias='wonFlag')
+    lost_flag: bool | None = Field(default=None, alias='lostFlag')
+    closed_flag: bool | None = Field(default=None, alias='closedFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    entered_by: str | None = Field(default=None, alias='enteredBy')
+    date_entered: datetime | None = Field(default=None, alias='dateEntered')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityStatusInfo(ConnectWiseModel):
+    id: int | None = None
+    closed_flag: bool | None = Field(default=None, alias='closedFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    name: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityStatusReference(ActivityReference):
+    pass
+
+
+class OpportunityToAgreementConversion(ConnectWiseModel):
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    name: str | None = None
+    type: AgreementTypeReference | None = None
+    start_date: str | None = Field(default=None, alias='startDate')
+    end_date: str | None = Field(default=None, alias='endDate')
+    no_ending_date_flag: bool | None = Field(default=None, alias='noEndingDateFlag')
+    bill_cycle_id: int | None = Field(default=None, alias='billCycleId')
+    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
+    location_id: int | None = Field(default=None, alias='locationId')
+    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
+    include_all_notes_flag: bool | None = Field(
+        default=None, alias='includeAllNotesFlag'
+    )
+    include_all_documents_flag: bool | None = Field(
+        default=None, alias='includeAllDocumentsFlag'
+    )
+    include_all_products_flag: bool | None = Field(
+        default=None, alias='includeAllProductsFlag'
+    )
+    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
+    include_document_ids: list[int] | None = Field(
+        default=None, alias='includeDocumentIds'
+    )
+    include_product_ids: list[int] | None = Field(
+        default=None, alias='includeProductIds'
+    )
+
+
+class OpportunityToSalesOrderConversion(ConnectWiseModel):
+    sales_order_id: int | None = Field(default=None, alias='salesOrderId')
+    name: str | None = None
+    include_all_notes_flag: bool | None = Field(
+        default=None, alias='includeAllNotesFlag'
+    )
+    include_all_documents_flag: bool | None = Field(
+        default=None, alias='includeAllDocumentsFlag'
+    )
+    include_all_products_flag: bool | None = Field(
+        default=None, alias='includeAllProductsFlag'
+    )
+    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
+    include_document_ids: list[int] | None = Field(
+        default=None, alias='includeDocumentIds'
+    )
+    include_product_ids: list[int] | None = Field(
+        default=None, alias='includeProductIds'
+    )
+
+
+class OpportunityToServiceTicketConversion(ConnectWiseModel):
+    ticket_id: int | None = Field(default=None, alias='ticketId')
+    summary: str | None = None
+    include_all_notes_flag: bool | None = Field(
+        default=None, alias='includeAllNotesFlag'
+    )
+    include_all_documents_flag: bool | None = Field(
+        default=None, alias='includeAllDocumentsFlag'
+    )
+    include_all_products_flag: bool | None = Field(
+        default=None, alias='includeAllProductsFlag'
+    )
+    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
+    include_document_ids: list[int] | None = Field(
+        default=None, alias='includeDocumentIds'
+    )
+    include_product_ids: list[int] | None = Field(
+        default=None, alias='includeProductIds'
+    )
+
+
+class OpportunityType(ConnectWiseModel):
+    id: int | None = None
+    description: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityTypeInfo(ConnectWiseModel):
+    id: int | None = None
+    description: str | None = None
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OpportunityTypeReference(ActivityReference):
+    pass
+
+
+class OrderStatusEmailTemplateReference(ActivityReference):
+    pass
+
+
+class OrderStatusInfo(CategoryInfo):
+    pass
+
+
+class OrderStatusReference(ActivityReference):
+    pass
+
+
+class OsGradeWeight(ConnectWiseModel):
+    id: int | None = None
+    os_grade_weight: float | None = Field(default=None, alias='osGradeWeight')
+    os_name: str | None = Field(default=None, alias='osName')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Other1RevenueReference(AgreementRevenueReference):
+    pass
+
+
+class Other2RevenueReference(AgreementRevenueReference):
+    pass
+
+
+class OwnerLevelReference(ActivityReference):
+    pass
+
+
+class OwnershipType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 200;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class OwnershipTypeInfo(ActivityReference):
+    pass
+
+
+class OwnershipTypeReference(ActivityReference):
+    pass
+
+
+class PageValues(ConnectWiseModel):
+    page: int | None = None
+    page_size: int | None = Field(default=None, alias='pageSize')
+    page_id: int | None = Field(default=None, alias='pageId')
+
+
+class ParsingType(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    parse_rule: str | None = Field(default=None, alias='parseRule')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ParsingVariable(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    code: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PatchOperation(ConnectWiseModel):
+    op: str | None = None
+    path: str | None = None
+    value: dict[str, Any] | None = None
+
+
+class PaymentMethodReference(ActivityReference):
+    pass
+
+
+class PaymentType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    classification: ClassificationReference | None = None
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    company_flag: bool | None = Field(default=None, alias='companyFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PaymentTypeInfo(AddressFormatInfo):
+    pass
+
+
+class PersonasInfo(CorporateStructureLevel):
+    pass
+
+
+class PhaseStatusReference(ActivityReference):
+    pass
+
+
+class PortalCalendar(ConnectWiseModel):
+    id: int | None = None
+    week_start: Literal[
+        'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    ] = Field(..., alias='weekStart')
+    adjust1_start: str | None = Field(default=None, alias='adjust1Start')
+    adjust1_end: str | None = Field(default=None, alias='adjust1End')
+    adjust1_hours: float | None = Field(default=None, alias='adjust1Hours')
+    adjust2_start: str | None = Field(default=None, alias='adjust2Start')
+    adjust2_end: str | None = Field(default=None, alias='adjust2End')
+    adjust2_hours: float | None = Field(default=None, alias='adjust2Hours')
+    adjust3_start: str | None = Field(default=None, alias='adjust3Start')
+    adjust3_end: str | None = Field(default=None, alias='adjust3End')
+    adjust3_hours: float | None = Field(default=None, alias='adjust3Hours')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalConfiguration(ConnectWiseModel):
+    id: int | None = None
+    """
+    Gets or sets and Sets
+                An existing Portal Configuration id is required when copying a Portal Configuration.
+    """
+    name: str
+    """
+     Max length: 150;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    company: CompanyReference | None = None
+    login_background_color: str | None = Field(
+        default=None, alias='loginBackgroundColor'
+    )
+    """
+     Max length: 7;
+    """
+    portal_background_color: str | None = Field(
+        default=None, alias='portalBackgroundColor'
+    )
+    """
+     Max length: 7;
+    """
+    menu_color: str | None = Field(default=None, alias='menuColor')
+    """
+     Max length: 7;
+    """
+    button_color: str | None = Field(default=None, alias='buttonColor')
+    """
+     Max length: 7;
+    """
+    header_color: str | None = Field(default=None, alias='headerColor')
+    """
+     Max length: 7;
+    """
+    url: str | None = None
+    """
+     Max length: 1000;
+    """
+    language: Literal[
+        'English',
+        'Spanish',
+        'French',
+        'British',
+        'Australian',
+        'BrazilianPortuguese',
+        'CanadianFrench',
+        'German',
+        'NewZealand',
+        'Dutch',
+    ] | None = None
+    welcome_text: str | None = Field(default=None, alias='welcomeText')
+    """
+     Max length: 4000;
+    """
+    board_ids: list[int] | None = Field(default=None, alias='boardIds')
+    agreement_type_ids: list[int] | None = Field(default=None, alias='agreementTypeIds')
+    config_type_ids: list[int] | None = Field(default=None, alias='configTypeIds')
+    location_ids: list[int] | None = Field(default=None, alias='locationIds')
+    portal_image_copy_success_flag: bool | None = Field(
+        default=None, alias='portalImageCopySuccessFlag'
+    )
+    display_vendor_flag: bool | None = Field(default=None, alias='displayVendorFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalConfigurationOpportunitySetup(ConnectWiseModel):
+    id: int | None = None
+    opportunity_status_rec_i_ds: list[int] | None = Field(
+        default=None, alias='opportunityStatusRecIDs'
+    )
+    add_all_opportunity_statuses: bool | None = Field(
+        default=None, alias='addAllOpportunityStatuses'
+    )
+    remove_all_opportunity_statuses: bool | None = Field(
+        default=None, alias='removeAllOpportunityStatuses'
+    )
+    opportunity_type_rec_i_ds: list[int] | None = Field(
+        default=None, alias='opportunityTypeRecIDs'
+    )
+    add_all_opportunity_types: bool | None = Field(
+        default=None, alias='addAllOpportunityTypes'
+    )
+    remove_all_opportunity_types: bool | None = Field(
+        default=None, alias='removeAllOpportunityTypes'
+    )
+    restrict_view_by_opportunity_status_flag: bool | None = Field(
+        default=None, alias='restrictViewByOpportunityStatusFlag'
+    )
+    restrict_view_by_opportunity_type_flag: bool | None = Field(
+        default=None, alias='restrictViewByOpportunityTypeFlag'
+    )
+    acceptance_change_status_flag: bool | None = Field(
+        default=None, alias='acceptanceChangeStatusFlag'
+    )
+    acceptance_create_activity_flag: bool | None = Field(
+        default=None, alias='acceptanceCreateActivityFlag'
+    )
+    acceptance_opportunity_status: OpportunityStatusReference | None = Field(
+        default=None, alias='acceptanceOpportunityStatus'
+    )
+    acceptance_send_email_flag: bool | None = Field(
+        default=None, alias='acceptanceSendEmailFlag'
+    )
+    acceptance_email_from_first_name: str | None = Field(
+        default=None, alias='acceptanceEmailFromFirstName'
+    )
+    acceptance_email_from_last_name: str | None = Field(
+        default=None, alias='acceptanceEmailFromLastName'
+    )
+    acceptance_email_subject: str | None = Field(
+        default=None, alias='acceptanceEmailSubject'
+    )
+    acceptance_email_body: str | None = Field(default=None, alias='acceptanceEmailBody')
+    acceptance_from_email: str | None = Field(default=None, alias='acceptanceFromEmail')
+    """
+    Gets or sets
+                required when acceptanceSendEmailFlag is true.
+    """
+    acceptance_email_activity_type: ActivityTypeReference | None = Field(
+        default=None, alias='acceptanceEmailActivityType'
+    )
+    acceptance_email_assigned_by_member: MemberReference | None = Field(
+        default=None, alias='acceptanceEmailAssignedByMember'
+    )
+    rejection_change_status_flag: bool | None = Field(
+        default=None, alias='rejectionChangeStatusFlag'
+    )
+    rejection_create_activity_flag: bool | None = Field(
+        default=None, alias='rejectionCreateActivityFlag'
+    )
+    rejection_opportunity_status: OpportunityStatusReference | None = Field(
+        default=None, alias='rejectionOpportunityStatus'
+    )
+    rejection_send_email_flag: bool | None = Field(
+        default=None, alias='rejectionSendEmailFlag'
+    )
+    rejection_email_from_first_name: str | None = Field(
+        default=None, alias='rejectionEmailFromFirstName'
+    )
+    rejection_email_from_last_name: str | None = Field(
+        default=None, alias='rejectionEmailFromLastName'
+    )
+    rejection_from_email: str | None = Field(default=None, alias='rejectionFromEmail')
+    """
+    Gets or sets
+                required when rejectionSendEmailFlag is true.
+    """
+    rejection_email_subject: str | None = Field(
+        default=None, alias='rejectionEmailSubject'
+    )
+    rejection_email_body: str | None = Field(default=None, alias='rejectionEmailBody')
+    rejection_email_activity_type: ActivityTypeReference | None = Field(
+        default=None, alias='rejectionEmailActivityType'
+    )
+    rejection_email_assigned_by_member: MemberReference | None = Field(
+        default=None, alias='rejectionEmailAssignedByMember'
+    )
+    confirmation_send_email_flag: bool | None = Field(
+        default=None, alias='confirmationSendEmailFlag'
+    )
+    confirmation_email_use_default_company_email_address_flag: bool | None = Field(
+        default=None, alias='confirmationEmailUseDefaultCompanyEmailAddressFlag'
+    )
+    confirmation_email_from_first_name: str | None = Field(
+        default=None, alias='confirmationEmailFromFirstName'
+    )
+    confirmation_email_from_last_name: str | None = Field(
+        default=None, alias='confirmationEmailFromLastName'
+    )
+    confirmation_from_email: str | None = Field(
+        default=None, alias='confirmationFromEmail'
+    )
+    """
+    Gets or sets
+                required when confirmationSendEmailFlag is true.
+    """
+    confirmation_email_subject: str | None = Field(
+        default=None, alias='confirmationEmailSubject'
+    )
+    confirmation_email_body: str | None = Field(
+        default=None, alias='confirmationEmailBody'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalConfigurationPasswordEmailSetup(ConnectWiseModel):
+    id: int | None = None
+    valid_password_email_use_custom_email_flag: bool | None = Field(
+        default=None, alias='validPasswordEmailUseCustomEmailFlag'
+    )
+    valid_password_email_from_first_name: str | None = Field(
+        default=None, alias='validPasswordEmailFromFirstName'
+    )
+    valid_password_email_from_last_name: str | None = Field(
+        default=None, alias='validPasswordEmailFromLastName'
+    )
+    valid_password_email_from_email: str | None = Field(
+        default=None, alias='validPasswordEmailFromEmail'
+    )
+    """
+    Gets or sets
+                required when validPasswordEmailUseCustomEmailFlag is true.
+    """
+    valid_password_email_subject: str | None = Field(
+        default=None, alias='validPasswordEmailSubject'
+    )
+    valid_password_email_body: str | None = Field(
+        default=None, alias='validPasswordEmailBody'
+    )
+    invalid_password_email_use_custom_email_flag: bool | None = Field(
+        default=None, alias='invalidPasswordEmailUseCustomEmailFlag'
+    )
+    invalid_password_email_from_first_name: str | None = Field(
+        default=None, alias='invalidPasswordEmailFromFirstName'
+    )
+    invalid_password_email_from_last_name: str | None = Field(
+        default=None, alias='invalidPasswordEmailFromLastName'
+    )
+    invalid_password_email_from_email: str | None = Field(
+        default=None, alias='invalidPasswordEmailFromEmail'
+    )
+    """
+    Gets or sets
+                required when invalidPasswordEmailUseCustomEmailFlag is true.
+    """
+    invalid_password_email_subject: str | None = Field(
+        default=None, alias='invalidPasswordEmailSubject'
+    )
+    invalid_password_email_body: str | None = Field(
+        default=None, alias='invalidPasswordEmailBody'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalConfigurationPaymentProcessor(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    test_url: str | None = Field(default=None, alias='testURL')
+
+
+class PortalConfigurationPaymentProcessorReference(ActivityReference):
+    pass
+
+
+class PortalConfigurationReference(ActivityReference):
+    pass
+
+
+class PortalReport(ConnectWiseModel):
+    id: int | None = None
+    portal_configuration: PortalConfigurationReference | None = Field(
+        default=None, alias='portalConfiguration'
+    )
+    name: str
+    """
+     Max length: 255;
+    """
+    url: str
+    """
+     Max length: 255;
+    """
+    open_same_window_flag: bool | None = Field(default=None, alias='openSameWindowFlag')
+    custom_flag: bool | None = Field(default=None, alias='customFlag')
+    display_flag: bool | None = Field(default=None, alias='displayFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalSecurity(ConnectWiseModel):
+    identifier: str | None = None
+    enabled: bool | None = None
+
+
+class PortalSecurityLevel(ConnectWiseModel):
+    id: int | None = None
+    caption_identifier: str | None = Field(default=None, alias='captionIdentifier')
+    is_default_flag: bool | None = Field(default=None, alias='isDefaultFlag')
+    caption: str | None = None
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PortalSecuritySetting(ConnectWiseModel):
+    id: int | None = None
+    function_identifier: str | None = Field(default=None, alias='functionIdentifier')
+    function_description: str | None = Field(default=None, alias='functionDescription')
+    level_one: bool | None = Field(default=None, alias='levelOne')
+    level_two: bool | None = Field(default=None, alias='levelTwo')
+    level_three: bool | None = Field(default=None, alias='levelThree')
+    level_four: bool | None = Field(default=None, alias='levelFour')
+    level_five: bool | None = Field(default=None, alias='levelFive')
+    level_six: bool | None = Field(default=None, alias='levelSix')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PricingBreak(ConnectWiseModel):
+    id: int | None = None
+    detail_id: int | None = Field(default=None, alias='detailId')
+    amount: float | None = None
+    quantity_start: float = Field(..., alias='quantityStart')
+    quantity_end: float | None = Field(default=None, alias='quantityEnd')
+    unlimited: bool | None = None
+    price_method: Literal[
+        'FlatRateForRange',
+        'PercentMarkupFromCost',
+        'PercentMarkdownFromPrice',
+        'PricePerUnit',
+    ] = Field(..., alias='priceMethod')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PricingSchedule(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    currency: CurrencyReference | None = None
+    companies: list[int] | None = None
+    set_all_companies_flag: bool | None = Field(
+        default=None, alias='setAllCompaniesFlag'
+    )
+    remove_all_companies_flag: bool | None = Field(
+        default=None, alias='removeAllCompaniesFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PricingScheduleReference(ActivityReference):
+    pass
+
+
+class Priority(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    color: Literal[
+        'Black',
+        'Blue',
+        'Cyan',
+        'Gray',
+        'Green',
+        'Lime',
+        'Orange',
+        'Pink',
+        'Purple',
+        'Red',
+        'White',
+        'Yellow',
+        'Custom',
+    ]
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    image_link: str | None = Field(default=None, alias='imageLink')
+    urgency_sort_order: str | None = Field(default=None, alias='urgencySortOrder')
+    level: Literal['Critical', 'High', 'Medium', 'Low'] | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class PriorityInfo(OpportunityRatingInfo):
+    pass
+
+
+class PriorityReference(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    sort: int | None = None
+    level: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProcurementSetting(ConnectWiseModel):
+    id: int | None = None
+    starting_purchase_order_num: int = Field(..., alias='startingPurchaseOrderNum')
+    purchase_order_prefix: str | None = Field(default=None, alias='purchaseOrderPrefix')
+    """
+     Max length: 5;
+    """
+    purchase_order_suffix: str | None = Field(default=None, alias='purchaseOrderSuffix')
+    """
+     Max length: 5;
+    """
+    prefix_suffix_type: Literal['Prefix', 'Suffix'] | None = Field(
+        default=None, alias='prefixSuffixType'
+    )
+    disable_cost_updates_flag: bool | None = Field(
+        default=None, alias='disableCostUpdatesFlag'
+    )
+    disable_negative_inventory_flag: bool | None = Field(
+        default=None, alias='disableNegativeInventoryFlag'
+    )
+    costing_method: Literal['FIFO', 'LIFO', 'AverageCosting'] = Field(
+        ..., alias='costingMethod'
+    )
+    auto_close_purchase_order_flag: bool | None = Field(
+        default=None, alias='autoClosePurchaseOrderFlag'
+    )
+    auto_close_purchase_order_item_flag: bool | None = Field(
+        default=None, alias='autoClosePurchaseOrderItemFlag'
+    )
+    auto_approve_purchase_order_flag: bool | None = Field(
+        default=None, alias='autoApprovePurchaseOrderFlag'
+    )
+    tax_purchase_order_flag: bool | None = Field(
+        default=None, alias='taxPurchaseOrderFlag'
+    )
+    tax_freight_flag: bool | None = Field(default=None, alias='taxFreightFlag')
+    use_vendor_tax_code_flag: bool | None = Field(
+        default=None, alias='useVendorTaxCodeFlag'
+    )
+    num_decimal_places: int | None = Field(default=None, alias='numDecimalPlaces')
+    disable_auto_pick_flag: bool | None = Field(
+        default=None, alias='disableAutoPickFlag'
+    )
+    default_product_taxable_flag: bool | None = Field(
+        default=None, alias='defaultProductTaxableFlag'
+    )
+    eori_number: str | None = Field(default=None, alias='eoriNumber')
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProductCategoryReference(ActivityReference):
+    pass
+
+
+class ProductDemand(ConnectWiseModel):
+    product_rec_id: int | None = Field(default=None, alias='productRecId')
+    quantity: int | None = None
+    cost: float | None = None
+
+
+class ProductDetach(ConnectWiseModel):
+    remove_from_ticket: bool | None = Field(default=None, alias='removeFromTicket')
+    remove_from_invoice: bool | None = Field(default=None, alias='removeFromInvoice')
+    remove_from_opportunity: bool | None = Field(
+        default=None, alias='removeFromOpportunity'
+    )
+    remove_from_sales_order: bool | None = Field(
+        default=None, alias='removeFromSalesOrder'
+    )
+    remove_from_project: bool | None = Field(default=None, alias='removeFromProject')
+
+
+class ProductItemReference(ActivityReference):
+    pass
+
+
+class ProductRecurring(ConnectWiseModel):
+    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
+    recurring_cost: float | None = Field(default=None, alias='recurringCost')
+    start_date: str | None = Field(default=None, alias='startDate')
+    end_date: str | None = Field(default=None, alias='endDate')
+    """
+    The Recurring End Date is calculated based on the
+                start date, number of cycles, and cycle type.
+    """
+    bill_cycle_id: int | None = Field(default=None, alias='billCycleId')
+    cycles: int | None = None
+    cycle_type: Literal['ContractYear', 'CalendarYear'] | None = Field(
+        default=None, alias='cycleType'
+    )
+
+
+class ProductReference(InOutTypeInfo):
+    pass
+
+
+class ProductRevenueReference(AgreementRevenueReference):
+    pass
+
+
+class ProductSubCategoryReference(ActivityReference):
+    pass
+
+
+class ProductType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    type_xref: Literal[
+        'InventoryPart', 'NonInventoryPart', 'OtherCharge', 'Service'
+    ] | None = Field(default=None, alias='typeXref')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProductTypeInfo(CategoryInfo):
+    pass
+
+
+class ProductTypeReference(ActivityReference):
+    pass
+
+
+class ProjectBoardReference(ActivityReference):
+    pass
+
+
+class ProjectBoardTeamInfo(ActivityReference):
+    pass
+
+
+class ProjectContact(ConnectWiseModel):
+    id: int | None = None
+    project_id: int | None = Field(default=None, alias='projectId')
+    contact: ContactReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProjectNote(ConnectWiseModel):
+    id: int | None = None
+    project_id: int | None = Field(default=None, alias='projectId')
+    text: str
+    type: NoteTypeReference | None = None
+    flagged: bool | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProjectPhaseReference(ActivityReference):
+    pass
+
+
+class ProjectReference(ActivityReference):
+    pass
+
+
+class ProjectRoleReference(AdjustmentTypeReference):
+    pass
+
+
+class ProjectSecurityRole(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    manager_role_flag: bool | None = Field(default=None, alias='managerRoleFlag')
+    default_contact_flag: bool | None = Field(default=None, alias='defaultContactFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProjectSecurityRoleSetting(ConnectWiseModel):
+    id: int | None = None
+    add_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='addLevel'
+    )
+    edit_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='editLevel'
+    )
+    delete_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='deleteLevel'
+    )
+    inquire_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='inquireLevel'
+    )
+    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
+    """
+     Max length: 50;
+    """
+    my_flag: bool | None = Field(default=None, alias='myFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProjectStatusInfo(CategoryInfo):
+    pass
+
+
+class ProjectStatusReference(ActivityReference):
+    pass
+
+
+class ProjectTemplateWorkPlan(ConnectWiseModel):
+    tree_id: str | None = Field(default=None, alias='treeID')
+    i_d: int | None = Field(default=None, alias='iD')
+    rec_id: int | None = Field(default=None, alias='recID')
+    display_id: str | None = Field(default=None, alias='displayID')
+    s_r_service_rec_id: int | None = Field(default=None, alias='sR_Service_RecID')
+    description: str | None = None
+    project_name: str | None = Field(default=None, alias='projectName')
+    budget_amount: float | None = Field(default=None, alias='budgetAmount')
+    is_project: bool | None = Field(default=None, alias='isProject')
+    is_phase: bool | None = Field(default=None, alias='isPhase')
+    is_ticket: bool | None = Field(default=None, alias='isTicket')
+    is_new_item: bool | None = Field(default=None, alias='isNewItem')
+    wbs_code: str | None = Field(default=None, alias='wbsCode')
+    parent_phase_rec_id: int | None = Field(default=None, alias='parentPhaseRecID')
+
+
+class ProjectType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    integration_xref: str | None = Field(default=None, alias='integrationXref')
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ProjectTypeInfo(ActivityReference):
+    pass
+
+
+class ProjectTypeReference(ActivityReference):
+    pass
+
+
+class PurchaseOrderLineItemReference(AdjustmentTypeReference):
+    pass
+
+
+class PurchaseOrderReference(ActivityReference):
+    pass
+
+
+class PurchaseOrderStatusEmailTemplateReference(ActivityReference):
+    pass
+
+
+class PurchaseOrderStatusReference(ActivityReference):
+    pass
+
+
+class RelationshipReference(ActivityReference):
+    pass
+
+
+class ReminderReference(ActivityReference):
+    pass
+
+
+class Report(ConnectWiseModel):
+    name: str | None = None
+
+
+class ReportCard(ContactRelationship):
+    pass
+
+
+class ReportCardInfo(ActivityReference):
+    pass
+
+
+class ReportCardReference(ActivityReference):
+    pass
+
+
+class ReportColumnDefinition(ConnectWiseModel):
+    type: str | None = None
+    is_nullable: bool | None = Field(default=None, alias='isNullable')
+    identity_column: bool | None = Field(default=None, alias='identityColumn')
+
+
+class ReportDataResponse(ConnectWiseModel):
+    column_definitions: list[dict[str, ReportColumnDefinition]] | None = None
+    row_values: list[list[dict[str, Any]]] | None = None
+
+
+class ReportingService(ConnectWiseModel):
+    id: int | None = None
+    reporting_user_name: str | None = Field(default=None, alias='reportingUserName')
+    """
+     Max length: 50;
+    """
+    reporting_password: str | None = Field(default=None, alias='reportingPassword')
+    """
+    To blank out the password, enter an empty string here. Max length: 50;
+    """
+    reporting_domain: str | None = Field(default=None, alias='reportingDomain')
+    """
+     Max length: 50;
+    """
+    reporting_url: str | None = Field(default=None, alias='reportingUrl')
+    """
+     Max length: 100;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class RequestPasswordRequest(ConnectWiseModel):
+    email: str
+
+
+class RmaAction(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class RmaActionInfo(ActivityReference):
+    pass
+
+
+class RmaActionReference(ActivityReference):
+    pass
+
+
+class RmaDisposition(RmaAction):
+    pass
+
+
+class RmaDispositionInfo(ActivityReference):
+    pass
+
+
+class RmaDispositionReference(ActivityReference):
+    pass
+
+
+class RmaStatusEmailTemplateReference(ActivityReference):
+    pass
+
+
+class RmaStatusInfo(OpportunityRatingInfo):
+    pass
+
+
+class RmaStatusReference(ActivityReference):
+    pass
+
+
+class Role(ContactRelationship):
+    pass
+
+
+class SalesOrderReference(AdjustmentTypeReference):
+    pass
+
+
+class SalesProbability(ConnectWiseModel):
+    id: int | None = None
+    probability: int
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SalesProbabilityInfo(ConnectWiseModel):
+    id: int | None = None
+    probability: int | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SalesTeamReference(AdjustmentTypeReference):
+    pass
+
+
+class ScheduleColor(ConnectWiseModel):
+    id: int | None = None
+    start_percent: int | None = Field(default=None, alias='startPercent')
+    """
+    A startPercent (0 or higher) is required if endPercent has value.
+    """
+    end_percent: int | None = Field(default=None, alias='endPercent')
+    """
+    A endPercent is required if startPercent has value.
+    """
+    color: str
+    """
+    Must be a valid Hexadecimal Color Code.
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ScheduleEntryReference(InOutTypeInfo):
+    pass
+
+
+class ScheduleReminderTime(ConnectWiseModel):
+    id: int | None = None
+    time: int | None = None
+    """
+    Time is calculated in minutes.
+    """
+    name: str | None = None
+    """
+     Max length: 10;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ScheduleSpanReference(AdjustmentTypeReference):
+    pass
+
+
+class ScheduleStatus(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    show_as_tentative_flag: bool | None = Field(
+        default=None, alias='showAsTentativeFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ScheduleStatusReference(ActivityReference):
+    pass
+
+
+class ScheduleTypeReference(AdjustmentTypeReference):
+    pass
+
+
+class SchedulingMemberInfo(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    first_name: str | None = Field(default=None, alias='firstName')
+    middle_initial: str | None = Field(default=None, alias='middleInitial')
+    last_name: str | None = Field(default=None, alias='lastName')
+    full_name: str | None = Field(default=None, alias='fullName')
+    default_email: str | None = Field(default=None, alias='defaultEmail')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SecurityRole(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    role_type: str | None = Field(default=None, alias='roleType')
+    """
+     Max length: 30;
+    """
+    admin_flag: bool | None = Field(default=None, alias='adminFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SecurityRoleInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    role_type: str | None = Field(default=None, alias='roleType')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SecurityRoleReference(ActivityReference):
+    pass
+
+
+class SecurityRoleSetting(ConnectWiseModel):
+    id: int | None = None
+    add_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='addLevel'
+    )
+    edit_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='editLevel'
+    )
+    delete_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='deleteLevel'
+    )
+    inquire_level: Literal['None', 'My', 'All'] | None = Field(
+        default=None, alias='inquireLevel'
+    )
+    module_function_name: str | None = Field(default=None, alias='moduleFunctionName')
+    module_function_description: str | None = Field(
+        default=None, alias='moduleFunctionDescription'
+    )
+    my_all_flag: bool | None = Field(default=None, alias='myAllFlag')
+    module_function_identifier: str | None = Field(
+        default=None, alias='moduleFunctionIdentifier'
+    )
+    report_flag: bool | None = Field(default=None, alias='reportFlag')
+    restrict_flag: bool | None = Field(default=None, alias='restrictFlag')
+    custom_flag: bool | None = Field(default=None, alias='customFlag')
+    module_description: str | None = Field(default=None, alias='moduleDescription')
+    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
+    module_name: str | None = Field(default=None, alias='moduleName')
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Service(ConnectWiseModel):
+    id: int | None = None
+    sr_notify: Literal[
+        'All', 'NewAndClosedRequests', 'ClosedRequestsOnly', 'NewRequestsOnly', 'None'
+    ] = Field(..., alias='srNotify')
+    schedule_span: Literal['Standard', 'OfficeHours', 'Overnight'] = Field(
+        ..., alias='scheduleSpan'
+    )
+    hide_delimiter_flag: bool | None = Field(default=None, alias='hideDelimiterFlag')
+    allow_cc_flag: bool | None = Field(default=None, alias='allowCCFlag')
+    allow_to_flag: bool | None = Field(default=None, alias='allowTOFlag')
+    header_color: str | None = Field(default=None, alias='headerColor')
+    """
+     Max length: 50;
+    """
+    member_color: str | None = Field(default=None, alias='memberColor')
+    """
+     Max length: 50;
+    """
+    contact_color: str | None = Field(default=None, alias='contactColor')
+    """
+     Max length: 50;
+    """
+    unknown_color: str | None = Field(default=None, alias='unknownColor')
+    """
+     Max length: 50;
+    """
+    calendar_setup: CalendarSetupReference | None = Field(
+        default=None, alias='calendarSetup'
+    )
+    header_color_disable_flag: bool | None = Field(
+        default=None, alias='headerColorDisableFlag'
+    )
+    member_color_disable_flag: bool | None = Field(
+        default=None, alias='memberColorDisableFlag'
+    )
+    contact_color_disable_flag: bool | None = Field(
+        default=None, alias='contactColorDisableFlag'
+    )
+    unknown_color_disable_flag: bool | None = Field(
+        default=None, alias='unknownColorDisableFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceCodeReference(ActivityReference):
+    pass
+
+
+class ServiceEmailTemplateReference(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    name: str | None = None
+    type: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceInfo(ConnectWiseModel):
+    id: int | None = None
+    header_color: str | None = Field(default=None, alias='headerColor')
+    member_color: str | None = Field(default=None, alias='memberColor')
+    contact_color: str | None = Field(default=None, alias='contactColor')
+    unknown_color: str | None = Field(default=None, alias='unknownColor')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceItemReference(ActivityReference):
+    pass
+
+
+class ServiceLocation(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    where: Literal['OnSite', 'Remote', 'InHouse']
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceLocationInfo(AddressFormatInfo):
+    pass
+
+
+class ServiceLocationReference(ActivityReference):
+    pass
+
+
+class ServiceNote(ConnectWiseModel):
+    id: int | None = None
+    ticket_id: int | None = Field(default=None, alias='ticketId')
+    text: str | None = None
+    detail_description_flag: bool | None = Field(
+        default=None, alias='detailDescriptionFlag'
+    )
+    internal_analysis_flag: bool | None = Field(
+        default=None, alias='internalAnalysisFlag'
+    )
+    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
+    issue_flag: bool | None = Field(default=None, alias='issueFlag')
+    member: MemberReference | None = None
+    contact: ContactReference | None = None
+    customer_updated_flag: bool | None = Field(
+        default=None, alias='customerUpdatedFlag'
+    )
+    process_notifications: bool | None = Field(
+        default=None, alias='processNotifications'
+    )
+    date_created: str | None = Field(default=None, alias='dateCreated')
+    created_by: str | None = Field(default=None, alias='createdBy')
+    internal_flag: bool | None = Field(default=None, alias='internalFlag')
+    external_flag: bool | None = Field(default=None, alias='externalFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceRevenueReference(AgreementRevenueReference):
+    pass
+
+
+class ServiceSignoff(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    visible_logo_flag: bool | None = Field(default=None, alias='visibleLogoFlag')
+    company_info_flag: bool | None = Field(default=None, alias='companyInfoFlag')
+    billing_terms_flag: bool | None = Field(default=None, alias='billingTermsFlag')
+    summary_flag: bool | None = Field(default=None, alias='summaryFlag')
+    discussion_flag: bool | None = Field(default=None, alias='discussionFlag')
+    task_flag: bool | None = Field(default=None, alias='taskFlag')
+    """
+    On add/post, if this is set to true but no value is set for task, task is defaulted to ServiceTasks.All.
+    """
+    task: Literal['All', 'Closed', 'Open'] | None = None
+    """
+    On add/post, if this is set but no value is set for taskFlag, taskFlag is set to true.
+    """
+    configurations_flag: bool | None = Field(default=None, alias='configurationsFlag')
+    internal_notes_flag: bool | None = Field(default=None, alias='internalNotesFlag')
+    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
+    time_flag: bool | None = Field(default=None, alias='timeFlag')
+    """
+    On add/post, if any time related flag is set to true, this is also set to true.
+    """
+    time_member_flag: bool | None = Field(default=None, alias='timeMemberFlag')
+    time_date_flag: bool | None = Field(default=None, alias='timeDateFlag')
+    time_start_end_flag: bool | None = Field(default=None, alias='timeStartEndFlag')
+    time_bill_flag: bool | None = Field(default=None, alias='timeBillFlag')
+    time_hours_flag: bool | None = Field(default=None, alias='timeHoursFlag')
+    time_rate_flag: bool | None = Field(default=None, alias='timeRateFlag')
+    time_extended_amount_flag: bool | None = Field(
+        default=None, alias='timeExtendedAmountFlag'
+    )
+    time_work_type_flag: bool | None = Field(default=None, alias='timeWorkTypeFlag')
+    time_agreement_flag: bool | None = Field(default=None, alias='timeAgreementFlag')
+    time_notes_flag: bool | None = Field(default=None, alias='timeNotesFlag')
+    time_manual_flag: bool | None = Field(default=None, alias='timeManualFlag')
+    time_manual_entry: int | None = Field(default=None, alias='timeManualEntry')
+    time_tax_flag: bool | None = Field(default=None, alias='timeTaxFlag')
+    expense_flag: bool | None = Field(default=None, alias='expenseFlag')
+    """
+    On add/post, if any expense related flag is set to true, this is also set to true.
+    """
+    expense_date_flag: bool | None = Field(default=None, alias='expenseDateFlag')
+    expense_member_flag: bool | None = Field(default=None, alias='expenseMemberFlag')
+    expense_type_flag: bool | None = Field(default=None, alias='expenseTypeFlag')
+    expense_bill_flag: bool | None = Field(default=None, alias='expenseBillFlag')
+    expense_amount_flag: bool | None = Field(default=None, alias='expenseAmountFlag')
+    expense_agreement_flag: bool | None = Field(
+        default=None, alias='expenseAgreementFlag'
+    )
+    expense_notes_flag: bool | None = Field(default=None, alias='expenseNotesFlag')
+    expense_tax_flag: bool | None = Field(default=None, alias='expenseTaxFlag')
+    expense_manual_flag: bool | None = Field(default=None, alias='expenseManualFlag')
+    expense_manual_entry: int | None = Field(default=None, alias='expenseManualEntry')
+    product_flag: bool | None = Field(default=None, alias='productFlag')
+    """
+    On add/post, if any product related flag is set to true, this is also set to true.
+    """
+    product_description_flag: bool | None = Field(
+        default=None, alias='productDescriptionFlag'
+    )
+    product_bill_flag: bool | None = Field(default=None, alias='productBillFlag')
+    product_quantity_flag: bool | None = Field(
+        default=None, alias='productQuantityFlag'
+    )
+    product_price_flag: bool | None = Field(default=None, alias='productPriceFlag')
+    product_extended_amount_flag: bool | None = Field(
+        default=None, alias='productExtendedAmountFlag'
+    )
+    product_agreement_flag: bool | None = Field(
+        default=None, alias='productAgreementFlag'
+    )
+    product_manual_flag: bool | None = Field(default=None, alias='productManualFlag')
+    product_manual_entry: int | None = Field(default=None, alias='productManualEntry')
+    product_tax_flag: bool | None = Field(default=None, alias='productTaxFlag')
+    technician_signoff_flag: bool | None = Field(
+        default=None, alias='technicianSignoffFlag'
+    )
+    customer_signoff_text_flag: bool | None = Field(
+        default=None, alias='customerSignoffTextFlag'
+    )
+    """
+    On add/post, if customerSignoffText.Length > 0, this is set to true.
+    """
+    customer_signoff_text: str | None = Field(default=None, alias='customerSignoffText')
+    """
+     Max length: 4000;
+    """
+    customer_signoff_fields_flag: bool | None = Field(
+        default=None, alias='customerSignoffFieldsFlag'
+    )
+    billing_methods_text_flag: bool | None = Field(
+        default=None, alias='billingMethodsTextFlag'
+    )
+    """
+    On add/post, if billingMethodsText.Length > 0, this is set to true.
+    """
+    billing_methods_text: str | None = Field(default=None, alias='billingMethodsText')
+    """
+     Max length: 2000;
+    """
+    credit_card_fields_flag: bool | None = Field(
+        default=None, alias='creditCardFieldsFlag'
+    )
+    default_ff_flag: bool | None = Field(default=None, alias='defaultFFFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceSignoffInfo(AddressFormatInfo):
+    pass
+
+
+class ServiceSignoffReference(ActivityReference):
+    pass
+
+
+class ServiceSourceReference(ActivityReference):
+    pass
+
+
+class ServiceStatusReference(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    sort: int | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceSubTypeReference(ActivityReference):
+    pass
+
+
+class ServiceSurvey(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    header_include_logo_flag: bool | None = Field(
+        default=None, alias='headerIncludeLogoFlag'
+    )
+    header_text: str | None = Field(default=None, alias='headerText')
+    """
+     Max length: 4000;
+    """
+    header_text_visible_flag: bool | None = Field(
+        default=None, alias='headerTextVisibleFlag'
+    )
+    footer_text: str | None = Field(default=None, alias='footerText')
+    """
+     Max length: 500;
+    """
+    footer_text_visible_flag: bool | None = Field(
+        default=None, alias='footerTextVisibleFlag'
+    )
+    thank_you_text: str | None = Field(default=None, alias='thankYouText')
+    """
+     Max length: 4000;
+    """
+    notify_who: GenericIdIdentifierReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    notify_who_visible_flag: bool | None = Field(
+        default=None, alias='notifyWhoVisibleFlag'
+    )
+    notify_member: MemberReference | None = Field(default=None, alias='notifyMember')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceSurveyQuestionOption(ConnectWiseModel):
+    include_flag: bool | None = Field(default=None, alias='includeFlag')
+    caption: str | None = None
+    points: int | None = None
+
+
+class ServiceSurveyReference(ActivityReference):
+    pass
+
+
+class ServiceTeamReference(ActivityReference):
+    pass
+
+
+class ServiceTemplateInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    template_flag: bool | None = Field(default=None, alias='templateFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceTemplateReference(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    summary: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceTicketLink(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
+    link_text: str = Field(..., alias='linkText')
+    """
+     Max length: 50;
+    """
+    url: str
+    """
+     Max length: 1000;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceTicketLinkInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    link_text: str | None = Field(default=None, alias='linkText')
+    url: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ServiceTypeReference(ActivityReference):
+    pass
+
+
+class SetupScreen(ConnectWiseModel):
+    id: int | None = None
+    category: str | None = None
+    name: str | None = None
+    description: str | None = None
+    module_description: str | None = Field(default=None, alias='moduleDescription')
+    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
+    module_name: str | None = Field(default=None, alias='moduleName')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Severity(Impact):
+    pass
+
+
+class ShipmentMethod(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    tracking_url: str | None = Field(default=None, alias='trackingUrl')
+    """
+     Max length: 200;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ShipmentMethodInfo(ActivityReference):
+    pass
+
+
+class ShipmentMethodReference(ActivityReference):
+    pass
+
+
+class SicCodeReference(ActivityReference):
+    pass
+
+
+class SiteReference(ActivityReference):
+    pass
+
+
+class SkillCategory(ContactDepartment):
+    pass
+
+
+class SkillCategoryReference(ActivityReference):
+    pass
+
+
+class SkillInfo(ActivityReference):
+    pass
+
+
+class SkillReference(ActivityReference):
+    pass
+
+
+class SLA(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 25;
+    """
+    based_on: Literal['AllHours', 'Customer', 'MyCalendar', 'Custom'] = Field(
+        ..., alias='basedOn'
+    )
+    custom_calendar: CalendarReference | None = Field(
+        default=None, alias='customCalendar'
+    )
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    application_order: int | None = Field(default=None, alias='applicationOrder')
+    hi_impact_hi_urgency: PriorityReference | None = Field(
+        default=None, alias='hiImpactHiUrgency'
+    )
+    hi_impact_med_urgency: PriorityReference | None = Field(
+        default=None, alias='hiImpactMedUrgency'
+    )
+    hi_impact_low_urgency: PriorityReference | None = Field(
+        default=None, alias='hiImpactLowUrgency'
+    )
+    med_impact_hi_urgency: PriorityReference | None = Field(
+        default=None, alias='medImpactHiUrgency'
+    )
+    med_impact_med_urgency: PriorityReference | None = Field(
+        default=None, alias='medImpactMedUrgency'
+    )
+    med_impact_low_urgency: PriorityReference | None = Field(
+        default=None, alias='medImpactLowUrgency'
+    )
+    low_impact_hi_urgency: PriorityReference | None = Field(
+        default=None, alias='lowImpactHiUrgency'
+    )
+    low_impact_med_urgency: PriorityReference | None = Field(
+        default=None, alias='lowImpactMedUrgency'
+    )
+    low_impact_low_urgency: PriorityReference | None = Field(
+        default=None, alias='lowImpactLowUrgency'
+    )
+    respond_hours: float | None = Field(default=None, alias='respondHours')
+    respond_percent: int | None = Field(default=None, alias='respondPercent')
+    plan_within: float | None = Field(default=None, alias='planWithin')
+    plan_within_percent: int | None = Field(default=None, alias='planWithinPercent')
+    resolution_hours: float | None = Field(default=None, alias='resolutionHours')
+    resolution_percent: int | None = Field(default=None, alias='resolutionPercent')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SLAInfo(ActivityReference):
+    pass
+
+
+class SLAReference(ActivityReference):
+    pass
+
+
+class Source(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    entered_by: str | None = Field(default=None, alias='enteredBy')
+    date_entered: datetime | None = Field(default=None, alias='dateEntered')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SourceInfo(ActivityReference):
+    pass
+
+
+class SsoConfiguration(ConnectWiseModel):
+    id: int | None = None
+    """
+    Unique identifier of the SSO Configuration
+    """
+    name: str
+    """
+    Descriptor of the SSO Configuration Max length: 100;
+    """
+    sso_type: Literal['CWSSO', 'SAML'] = Field(..., alias='ssoType')
+    """
+    Type of SSO Configuration
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    """
+    Whether the SSO configuration is not active
+    """
+    saml_entity_id: str | None = Field(default=None, alias='samlEntityId')
+    """
+    SAML Identity Provider Id Max length: 1000;
+    """
+    saml_sign_in_url: str | None = Field(default=None, alias='samlSignInUrl')
+    """
+    Sign in url for the SAML Identity Provider Max length: 1000;
+    """
+    saml_idp_certificate: str | None = Field(default=None, alias='samlIdpCertificate')
+    """
+    Public certificate for Identity Provider signatures
+    """
+    saml_certificate_name: str | None = Field(default=None, alias='samlCertificateName')
+    """
+    Name of the SAML certificate. Metadata on SAML_Idp_Certificate
+    """
+    saml_certificate_issued_to: str | None = Field(
+        default=None, alias='samlCertificateIssuedTo'
+    )
+    """
+    Who the SAML certificate was issued to. Metadata on SAML_Idp_Certificate
+    """
+    saml_certificate_thumbprint: str | None = Field(
+        default=None, alias='samlCertificateThumbprint'
+    )
+    """
+    Thumbprint of the SAML certificate. Metadata on SAML_Idp_Certificate
+    """
+    saml_certificate_valid_from: datetime | None = Field(
+        default=None, alias='samlCertificateValidFrom'
+    )
+    """
+    Date when the SAML certificate becomes valid. Metadata on SAML_Idp_Certificate
+    """
+    saml_certificate_valid_to: datetime | None = Field(
+        default=None, alias='samlCertificateValidTo'
+    )
+    """
+    Date when the SAML certificate is no longer valid. Metadata on SAML_Idp_Certificate
+    """
+    location_ids: list[int] = Field(..., alias='locationIds')
+    """
+    The locations where the SAML Idp Configuration is used
+    """
+    client_id: str | None = Field(default=None, alias='clientId')
+    """
+    Client identity for this configuration of ConnectWise SSO Max length: 1000;
+    """
+    sts_base_url: str | None = Field(default=None, alias='stsBaseUrl')
+    """
+    Sign in URL for ConnectWise SSO
+    """
+    sts_user_admin_url: str | None = Field(default=None, alias='stsUserAdminUrl')
+    """
+    User Admin Url for ConnectWise SSO
+    """
+    token: str | None = None
+    submitted_member_count: int | None = Field(
+        default=None, alias='submittedMemberCount'
+    )
+    all_members_submitted: bool | None = Field(
+        default=None, alias='allMembersSubmitted'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    is_sso_on_by_default: bool | None = Field(default=None, alias='isSsoOnByDefault')
+
+
+class SsoUser(ConnectWiseModel):
+    id: int | None = None
+    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
+    user_name: str | None = Field(default=None, alias='userName')
+    first_name: str | None = Field(default=None, alias='firstName')
+    last_name: str | None = Field(default=None, alias='lastName')
+    email: str | None = None
+    email_confirmed: bool | None = Field(default=None, alias='emailConfirmed')
+    disabled_flag: bool | None = Field(default=None, alias='disabledFlag')
+    linked_flag: bool | None = Field(default=None, alias='linkedFlag')
+    date_entered: str | None = Field(default=None, alias='dateEntered')
+    last_updated: str | None = Field(default=None, alias='lastUpdated')
+    linked_member: MemberReference | None = Field(default=None, alias='linkedMember')
+
+
+class State(ConnectWiseModel):
+    id: int | None = None
+    identifier: str
+    """
+     Max length: 50;
+    """
+    name: str
+    """
+     Max length: 50;
+    """
+    country: CountryReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class StateInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    identifier: str | None = None
+    country: CountryReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class StateReference(CatalogItemReference):
+    pass
+
+
+class StatusIndicator(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    name: str | None = None
+    color: str | None = None
+    icon: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class StatusIndicatorReference(CatalogItemReference):
+    pass
+
+
+class StructureReference(ActivityReference):
+    pass
+
+
+class SubCategory(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    integration_xref: str | None = Field(default=None, alias='integrationXref')
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    category: ProductCategoryReference
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SubCategoryInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    category: ProductCategoryReference | None = None
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SuccessResponse(ConnectWiseModel):
+    success: bool | None = None
+    message: str | None = None
+
+
+class Survey(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    instructions: str | None = None
+    """
+     Max length: 1000;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SurveyInfo(CategoryInfo):
+    pass
+
+
+class SurveyOption(ConnectWiseModel):
+    id: int | None = None
+    caption: str
+    """
+     Max length: 100;
+    """
+    points: int
+    visibleflag: bool | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class SurveyQuestionReference(ConfigurationTypeQuestionReference):
+    pass
+
+
+class SurveyReference(ActivityReference):
+    pass
+
+
+class SurveyResultDetail(ConnectWiseModel):
+    question_id: int | None = Field(default=None, alias='questionId')
+    answer: dict[str, Any] | None = None
+    """
+    If question type is Selection, this should be the option array index.
+    """
+
+
+class SystemDepartmentReference(CatalogItemReference):
+    pass
+
+
+class SystemLocationReference(ActivityReference):
+    pass
+
+
+class SystemMenuEntryReference(ActivityReference):
+    pass
+
+
+class SystemSetting(ConnectWiseModel):
+    id: int | None = None
+    description: str | None = None
+    value: str
+    value_type: str | None = Field(default=None, alias='valueType')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Task(ConnectWiseModel):
+    id: int | None = None
+    ticket_id: int | None = Field(default=None, alias='ticketId')
+    notes: str | None = None
+    closed_flag: bool | None = Field(default=None, alias='closedFlag')
+    priority: int | None = None
+    schedule: ScheduleEntryReference | None = None
+    code: ServiceCodeReference | None = None
+    resolution: str | None = None
+    child_schedule_action: Literal['Transfer', 'Delete', 'Done'] | None = Field(
+        default=None, alias='childScheduleAction'
+    )
+    child_ticket_id: int | None = Field(default=None, alias='childTicketId')
+    summary: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxCode(ConnectWiseModel):
+    id: int | None = None
+    identifier: str
+    """
+     Max length: 8;
+    """
+    description: str
+    """
+     Max length: 50;
+    """
+    invoice_caption: str = Field(..., alias='invoiceCaption')
+    """
+     Max length: 25;
+    """
+    country: CountryReference | None = None
+    effective_date: datetime = Field(..., alias='effectiveDate')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    display_on_invoice_flag: bool | None = Field(
+        default=None, alias='displayOnInvoiceFlag'
+    )
+    canada_calculate_gst_flag: bool | None = Field(
+        default=None, alias='canadaCalculateGSTFlag'
+    )
+    cancel_date: datetime | None = Field(default=None, alias='cancelDate')
+    level_one_rate: float | None = Field(default=None, alias='levelOneRate')
+    level_one_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelOneRateType'
+    )
+    level_one_taxable_max: float | None = Field(
+        default=None, alias='levelOneTaxableMax'
+    )
+    level_one_caption: str | None = Field(default=None, alias='levelOneCaption')
+    """
+     Max length: 25;
+    """
+    level_one_tax_code_xref: str | None = Field(
+        default=None, alias='levelOneTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_one_agency_xref: str | None = Field(default=None, alias='levelOneAgencyXref')
+    """
+     Max length: 100;
+    """
+    level_one_services_flag: bool | None = Field(
+        default=None, alias='levelOneServicesFlag'
+    )
+    level_one_expenses_flag: bool | None = Field(
+        default=None, alias='levelOneExpensesFlag'
+    )
+    level_one_products_flag: bool | None = Field(
+        default=None, alias='levelOneProductsFlag'
+    )
+    level_one_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelOneApplySingleUnitFlag'
+    )
+    level_one_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelOneApplySingleUnitMin'
+    )
+    level_one_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelOneApplySingleUnitMax'
+    )
+    level_two_rate: float | None = Field(default=None, alias='levelTwoRate')
+    level_two_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelTwoRateType'
+    )
+    level_two_taxable_max: float | None = Field(
+        default=None, alias='levelTwoTaxableMax'
+    )
+    level_two_caption: str | None = Field(default=None, alias='levelTwoCaption')
+    """
+     Max length: 25;
+    """
+    level_two_tax_code_xref: str | None = Field(
+        default=None, alias='levelTwoTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_two_agency_xref: str | None = Field(default=None, alias='levelTwoAgencyXref')
+    """
+     Max length: 100;
+    """
+    level_two_services_flag: bool | None = Field(
+        default=None, alias='levelTwoServicesFlag'
+    )
+    level_two_expenses_flag: bool | None = Field(
+        default=None, alias='levelTwoExpensesFlag'
+    )
+    level_two_products_flag: bool | None = Field(
+        default=None, alias='levelTwoProductsFlag'
+    )
+    level_two_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelTwoApplySingleUnitFlag'
+    )
+    level_two_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelTwoApplySingleUnitMin'
+    )
+    level_two_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelTwoApplySingleUnitMax'
+    )
+    level_three_rate: float | None = Field(default=None, alias='levelThreeRate')
+    level_three_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelThreeRateType'
+    )
+    level_three_taxable_max: float | None = Field(
+        default=None, alias='levelThreeTaxableMax'
+    )
+    level_three_caption: str | None = Field(default=None, alias='levelThreeCaption')
+    """
+     Max length: 25;
+    """
+    level_three_tax_code_xref: str | None = Field(
+        default=None, alias='levelThreeTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_three_agency_xref: str | None = Field(
+        default=None, alias='levelThreeAgencyXref'
+    )
+    """
+     Max length: 100;
+    """
+    level_three_services_flag: bool | None = Field(
+        default=None, alias='levelThreeServicesFlag'
+    )
+    level_three_expenses_flag: bool | None = Field(
+        default=None, alias='levelThreeExpensesFlag'
+    )
+    level_three_products_flag: bool | None = Field(
+        default=None, alias='levelThreeProductsFlag'
+    )
+    level_three_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelThreeApplySingleUnitFlag'
+    )
+    level_three_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelThreeApplySingleUnitMin'
+    )
+    level_three_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelThreeApplySingleUnitMax'
+    )
+    level_four_rate: float | None = Field(default=None, alias='levelFourRate')
+    level_four_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelFourRateType'
+    )
+    level_four_taxable_max: float | None = Field(
+        default=None, alias='levelFourTaxableMax'
+    )
+    level_four_caption: str | None = Field(default=None, alias='levelFourCaption')
+    """
+     Max length: 25;
+    """
+    level_four_tax_code_xref: str | None = Field(
+        default=None, alias='levelFourTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_four_agency_xref: str | None = Field(
+        default=None, alias='levelFourAgencyXref'
+    )
+    """
+     Max length: 100;
+    """
+    level_four_services_flag: bool | None = Field(
+        default=None, alias='levelFourServicesFlag'
+    )
+    level_four_expenses_flag: bool | None = Field(
+        default=None, alias='levelFourExpensesFlag'
+    )
+    level_four_products_flag: bool | None = Field(
+        default=None, alias='levelFourProductsFlag'
+    )
+    level_four_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelFourApplySingleUnitFlag'
+    )
+    level_four_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelFourApplySingleUnitMin'
+    )
+    level_four_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelFourApplySingleUnitMax'
+    )
+    level_five_rate: float | None = Field(default=None, alias='levelFiveRate')
+    level_five_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelFiveRateType'
+    )
+    level_five_taxable_max: float | None = Field(
+        default=None, alias='levelFiveTaxableMax'
+    )
+    level_five_caption: str | None = Field(default=None, alias='levelFiveCaption')
+    """
+     Max length: 25;
+    """
+    level_five_tax_code_xref: str | None = Field(
+        default=None, alias='levelFiveTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_five_agency_xref: str | None = Field(
+        default=None, alias='levelFiveAgencyXref'
+    )
+    """
+     Max length: 100;
+    """
+    level_five_services_flag: bool | None = Field(
+        default=None, alias='levelFiveServicesFlag'
+    )
+    level_five_expenses_flag: bool | None = Field(
+        default=None, alias='levelFiveExpensesFlag'
+    )
+    level_five_products_flag: bool | None = Field(
+        default=None, alias='levelFiveProductsFlag'
+    )
+    level_five_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelFiveApplySingleUnitFlag'
+    )
+    level_five_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelFiveApplySingleUnitMin'
+    )
+    level_five_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelFiveApplySingleUnitMax'
+    )
+    level_six_rate: float | None = Field(default=None, alias='levelSixRate')
+    level_six_rate_type: Literal['Amount', 'Percent'] | None = Field(
+        default=None, alias='levelSixRateType'
+    )
+    level_six_taxable_max: float | None = Field(
+        default=None, alias='levelSixTaxableMax'
+    )
+    level_six_caption: str | None = Field(default=None, alias='levelSixCaption')
+    """
+     Max length: 25;
+    """
+    level_six_tax_code_xref: str | None = Field(
+        default=None, alias='levelSixTaxCodeXref'
+    )
+    """
+     Max length: 50;
+    """
+    level_six_agency_xref: str | None = Field(default=None, alias='levelSixAgencyXref')
+    """
+     Max length: 100;
+    """
+    level_six_services_flag: bool | None = Field(
+        default=None, alias='levelSixServicesFlag'
+    )
+    level_six_expenses_flag: bool | None = Field(
+        default=None, alias='levelSixExpensesFlag'
+    )
+    level_six_products_flag: bool | None = Field(
+        default=None, alias='levelSixProductsFlag'
+    )
+    level_six_apply_single_unit_flag: bool | None = Field(
+        default=None, alias='levelSixApplySingleUnitFlag'
+    )
+    level_six_apply_single_unit_min: float | None = Field(
+        default=None, alias='levelSixApplySingleUnitMin'
+    )
+    level_six_apply_single_unit_max: float | None = Field(
+        default=None, alias='levelSixApplySingleUnitMax'
+    )
+    work_role_ids: list[int] | None = Field(default=None, alias='workRoleIds')
+    """
+    Array of work role exemptions for the tax code.
+    """
+    add_all_work_roles: bool | None = Field(default=None, alias='addAllWorkRoles')
+    remove_all_work_roles: bool | None = Field(default=None, alias='removeAllWorkRoles')
+    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
+    """
+    Array of expense type exemptions for the tax code.
+    """
+    add_all_expense_types: bool | None = Field(default=None, alias='addAllExpenseTypes')
+    remove_all_expense_types: bool | None = Field(
+        default=None, alias='removeAllExpenseTypes'
+    )
+    product_type_ids: list[int] | None = Field(default=None, alias='productTypeIds')
+    """
+    Array of product type exemptions for the tax code.
+    """
+    add_all_product_types: bool | None = Field(default=None, alias='addAllProductTypes')
+    remove_all_product_types: bool | None = Field(
+        default=None, alias='removeAllProductTypes'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxCodeInfo(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    description: str | None = None
+    effective_date: str | None = Field(default=None, alias='effectiveDate')
+    cancel_date: str | None = Field(default=None, alias='cancelDate')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxCodeLevel(ConnectWiseModel):
+    id: int | None = None
+    tax_level: int | None = Field(default=None, alias='taxLevel')
+    tax_rate: float = Field(..., alias='taxRate')
+    rate_type: Literal['Amount', 'Percent'] = Field(..., alias='rateType')
+    taxable_max: float | None = Field(default=None, alias='taxableMax')
+    caption: str | None = None
+    """
+     Max length: 25;
+    """
+    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
+    """
+     Max length: 50;
+    """
+    agency_xref: str | None = Field(default=None, alias='agencyXref')
+    """
+     Max length: 100;
+    """
+    tax_services_flag: bool | None = Field(default=None, alias='taxServicesFlag')
+    tax_expenses_flag: bool | None = Field(default=None, alias='taxExpensesFlag')
+    tax_products_flag: bool | None = Field(default=None, alias='taxProductsFlag')
+    single_unit_flag: bool | None = Field(default=None, alias='singleUnitFlag')
+    single_unit_minimum: float | None = Field(default=None, alias='singleUnitMinimum')
+    single_unit_maximum: float | None = Field(default=None, alias='singleUnitMaximum')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxCodeLevelReference(ActivityReference):
+    pass
+
+
+class TaxCodeReference(ActivityReference):
+    pass
+
+
+class TaxCodeXRef(ConnectWiseModel):
+    id: int | None = None
+    description: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    level_one: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelOne'
+    )
+    level_two: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelTwo'
+    )
+    level_three: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelThree'
+    )
+    level_four: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelFour'
+    )
+    level_five: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelFive'
+    )
+    level_six: Literal['NonTaxable', 'Taxable'] | None = Field(
+        default=None, alias='levelSix'
+    )
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxIntegration(ConnectWiseModel):
+    tax_integration_type: Literal['Avalara'] | None = Field(
+        default=None, alias='taxIntegrationType'
+    )
+    id: int | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    """
+     Max length: 50;
+    """
+    license_key: str | None = Field(default=None, alias='licenseKey')
+    """
+     Max length: 50;
+    """
+    service_url: str | None = Field(default=None, alias='serviceUrl')
+    """
+     Max length: 250;
+    """
+    company_code: str | None = Field(default=None, alias='companyCode')
+    """
+     Max length: 50;
+    """
+    time_tax_code: str | None = Field(default=None, alias='timeTaxCode')
+    """
+     Max length: 50;
+    """
+    expense_tax_code: str | None = Field(default=None, alias='expenseTaxCode')
+    """
+     Max length: 50;
+    """
+    product_tax_code: str | None = Field(default=None, alias='productTaxCode')
+    """
+     Max length: 50;
+    """
+    invoice_amount_tax_code: str | None = Field(
+        default=None, alias='invoiceAmountTaxCode'
+    )
+    """
+     Max length: 50;
+    """
+    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
+    commit_transactions_flag: bool | None = Field(
+        default=None, alias='commitTransactionsFlag'
+    )
+    sales_invoice_flag: bool | None = Field(default=None, alias='salesInvoiceFlag')
+    freight_tax_code: str | None = Field(default=None, alias='freightTaxCode')
+    """
+     Max length: 50;
+    """
+    accounting_integration_flag: bool | None = Field(
+        default=None, alias='accountingIntegrationFlag'
+    )
+    tax_line_flag: bool | None = Field(default=None, alias='taxLineFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TaxIntegrationInfo(ConnectWiseModel):
+    id: int | None = None
+    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
+    tax_integration_type: Literal['Avalara'] | None = Field(
+        default=None, alias='taxIntegrationType'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Team(ConnectWiseModel):
+    id: int | None = None
+    type: Literal['Individual', 'Team']
+    member: MemberReference | None = None
+    sales_team: SalesTeamReference | None = Field(default=None, alias='salesTeam')
+    commission_percent: int | None = Field(default=None, alias='commissionPercent')
+    referral_flag: bool | None = Field(default=None, alias='referralFlag')
+    opportunity_id: int | None = Field(default=None, alias='opportunityId')
+    responsible_flag: bool | None = Field(default=None, alias='responsibleFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TeamMember(ConnectWiseModel):
+    id: int | None = None
+    board: BoardReference | None = None
+    team: ServiceTeamReference | None = None
+    member: MemberReference | None = None
+    team_leader_flag: bool | None = Field(default=None, alias='teamLeaderFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TeamRole(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 20;
+    """
+    account_manager_flag: bool | None = Field(default=None, alias='accountManagerFlag')
+    tech_flag: bool | None = Field(default=None, alias='techFlag')
+    sales_flag: bool | None = Field(default=None, alias='salesFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TeamRoleInfo(ActivityReference):
+    pass
+
+
+class TeamRoleReference(ActivityReference):
+    pass
+
+
+class TemplateGeneratedCountsModel(ConnectWiseModel):
+    service_count: int | None = Field(default=None, alias='serviceCount')
+    schedule_count: int | None = Field(default=None, alias='scheduleCount')
+
+
+class TicketBundle(ConnectWiseModel):
+    child_ticket_ids: list[int] | None = Field(default=None, alias='childTicketIds')
+
+
+class TicketInfo(ConnectWiseModel):
+    id: int | None = None
+    summary: str | None = None
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TicketMerge(ConnectWiseModel):
+    merge_ticket_ids: list[int] = Field(..., alias='mergeTicketIds')
+    status: ServiceStatusReference | None = None
+
+
+class TicketNote(ConnectWiseModel):
+    id: int | None = None
+    ticket_id: int | None = Field(default=None, alias='ticketId')
+    text: str | None = None
+    detail_description_flag: bool | None = Field(
+        default=None, alias='detailDescriptionFlag'
+    )
+    internal_analysis_flag: bool | None = Field(
+        default=None, alias='internalAnalysisFlag'
+    )
+    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
+    issue_flag: bool | None = Field(default=None, alias='issueFlag')
+    member: MemberReference | None = None
+    contact: ContactReference | None = None
+    customer_updated_flag: bool | None = Field(
+        default=None, alias='customerUpdatedFlag'
+    )
+    process_notifications: bool | None = Field(
+        default=None, alias='processNotifications'
+    )
+    internal_flag: bool | None = Field(default=None, alias='internalFlag')
+    external_flag: bool | None = Field(default=None, alias='externalFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TicketReference(ConnectWiseModel):
+    id: int | None = None
+    summary: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TicketSync(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 80;
+    """
+    vendor_type: Literal['Zenith'] = Field(..., alias='vendorType')
+    integrator_login: IntegratorLoginReference | None = Field(
+        default=None, alias='integratorLogin'
+    )
+    company: CompanyReference | None = None
+    url: str
+    user_name: str | None = Field(default=None, alias='userName')
+    password: str | None = None
+    psg: str | None = None
+    problem_description_flag: bool | None = Field(
+        default=None, alias='problemDescriptionFlag'
+    )
+    internal_analysis_flag: bool | None = Field(
+        default=None, alias='internalAnalysisFlag'
+    )
+    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TicketTask(ConnectWiseModel):
+    id: int | None = None
+    ticket_id: int | None = Field(default=None, alias='ticketId')
+    notes: str | None = None
+    closed_flag: bool | None = Field(default=None, alias='closedFlag')
+    priority: int | None = None
+    schedule: ScheduleEntryReference | None = None
+    code: ServiceCodeReference | None = None
+    resolution: str | None = None
+    summary: str | None = None
+    child_schedule_action: Literal['Transfer', 'Delete', 'Done'] | None = Field(
+        default=None, alias='childScheduleAction'
+    )
+    child_ticket_id: int | None = Field(default=None, alias='childTicketId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeAccrual(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    vacation_flag: bool | None = Field(default=None, alias='vacationFlag')
+    """
+    if vacationFlag is set to false, system will clear out or ingore the values of vacationAvailableType, vacationCarryoverAllowedFlag, vacationCarryoverLimit
+    """
+    vacation_available_type: Literal['AnniversaryYear', 'CalendarYear'] | None = Field(
+        default=None, alias='vacationAvailableType'
+    )
+    vacation_carryover_allowed_flag: bool | None = Field(
+        default=None, alias='vacationCarryoverAllowedFlag'
+    )
+    vacation_carryover_limit: float | None = Field(
+        default=None, alias='vacationCarryoverLimit'
+    )
+    sick_flag: bool | None = Field(default=None, alias='sickFlag')
+    """
+    if sickFlag is set to false, system will clear out or ignore the values of sickAvailableType, sickCarryoverAllowedFlag, sickCarryoverLimit
+    """
+    sick_available_type: Literal['AnniversaryYear', 'CalendarYear'] | None = Field(
+        default=None, alias='sickAvailableType'
+    )
+    sick_carryover_allowed_flag: bool | None = Field(
+        default=None, alias='sickCarryoverAllowedFlag'
+    )
+    sick_carryover_limit: float | None = Field(default=None, alias='sickCarryoverLimit')
+    pto_flag: bool | None = Field(default=None, alias='ptoFlag')
+    """
+    if ptoFlag is set to false, system will clear out or ignore the values of ptoAvailableType, ptoCarryoverAllowedFlag, ptoCarryoverLimit
+    """
+    pto_available_type: Literal['AnniversaryYear', 'CalendarYear'] | None = Field(
+        default=None, alias='ptoAvailableType'
+    )
+    pto_carryover_allowed_flag: bool | None = Field(
+        default=None, alias='ptoCarryoverAllowedFlag'
+    )
+    pto_carryover_limit: float | None = Field(default=None, alias='ptoCarryoverLimit')
+    holiday_flag: bool | None = Field(default=None, alias='holidayFlag')
+    """
+    if holidayFlag is set to false, system will clear out or ignore the values of holidayAvailableType, holidayCarryoverAllowedFlag, holidayCarryoverLimit
+    """
+    holiday_available_type: Literal['AnniversaryYear', 'CalendarYear'] | None = Field(
+        default=None, alias='holidayAvailableType'
+    )
+    holiday_carryover_allowed_flag: bool | None = Field(
+        default=None, alias='holidayCarryoverAllowedFlag'
+    )
+    holiday_carryover_limit: float | None = Field(
+        default=None, alias='holidayCarryoverLimit'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeAccrualReference(ActivityReference):
+    pass
+
+
+class TimeEntryAudit(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    source: Literal[
+        'None',
+        'Member',
+        'API',
+        'Workflow',
+        'Portal',
+        'Mobile',
+        'Network',
+        'EmailConnector',
+        'MassMaintenance',
+        'Application',
+        'SystemAPI',
+        'Conversion',
+    ] | None = None
+    type: Literal[
+        'Activity',
+        'CloseDate',
+        'Company',
+        'Contact',
+        'Conversion',
+        'Document',
+        'Forecast',
+        'Note',
+        'Notes',
+        'Opportunity',
+        'Products',
+        'Stage',
+        'Status',
+        'Surveys',
+        'Team',
+        'Tracks',
+        'Configuration',
+        'ConfigurationQuestions',
+        'DeviceBackupDetails',
+        'Tickets',
+        'Subject',
+        'ActivityOverview',
+        'Schedule',
+        'Resources',
+        'ExpenseEntry',
+        'Member',
+        'Date',
+        'Classification',
+        'Amount',
+        'ExpenseType',
+        'WorkType',
+        'WorkRole',
+        'Mileage',
+        'Billing',
+        'ExpenseHeader',
+        'Project',
+        'TimeEntry',
+        'TicketStatus',
+        'DateTime',
+        'DeductHours',
+        'ActualHours',
+        'Invoice',
+        'CompanyFinance',
+        'Billable',
+        'SalesOrder',
+        'Shipping',
+        'Profile',
+        'Group',
+        'GroupContact',
+        'GroupCompany',
+        'Options',
+        'Site',
+        'Agreement',
+        'Addition',
+        'Adjustment',
+        'Microsoft365',
+        'API',
+        'ProjectFinance',
+        'CompanyProfile',
+        'CompanyTeam',
+        'CompanyMgmt',
+        'InvoiceTotal',
+        'BillingInformation',
+        'ShippingInformation',
+        'BillingStatus',
+        'Location',
+        'Department',
+        'Territory',
+        'Payment',
+        'Credit',
+        'SubcontractorInformation',
+        'InvoicingParameters',
+        'ApplicationParameters',
+        'Finance',
+        'Invoicing',
+        'Email',
+        'Batching',
+        'KnowledgeBase',
+        'KbArticle',
+        'KnowledgeBaseApproval',
+        'KnowledgeBaseTicket',
+        'ManageNetwork',
+        'Tasks',
+        'CustomField',
+        'ScreenConnect',
+        'SLA',
+        'Ticket',
+        'Workflow',
+        'Record',
+        'CombinedTickets',
+        'Template',
+        'PurchaseOrder',
+        'Meeting',
+        'RmaOverview',
+        'ReturnedBy',
+        'PurchasedFromVendor',
+        'WarrantyVendor',
+        'RepairVendor',
+        'AdditionalDetails',
+        'TicketTemplate',
+        'AutoGeneration',
+        'TimeInternalNote',
+        'TimeDiscussion',
+        'TimeInternal',
+        'TimeResolution',
+        'MemberTemplate',
+        'Delegation',
+        'Skill',
+        'Certification',
+        'Accrual',
+        'ApiKey',
+        'Login',
+        'Notifications',
+        'System',
+        'ServiceBoard',
+        'ProjectBoard',
+        'Scheduling',
+        'TimeBillingExpense',
+        'CRM',
+        'Procurement',
+        'JobRole',
+        'Details',
+        'Authentication',
+    ] | None = None
+    message: str | None = None
+    old_value: str | None = Field(default=None, alias='oldValue')
+    new_value: str | None = Field(default=None, alias='newValue')
+    value: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeEntryReference(CalendarSetupReference):
+    pass
+
+
+class TimeExpense(ConnectWiseModel):
+    id: int | None = None
+    tier1_approval_flag: bool | None = Field(default=None, alias='tier1ApprovalFlag')
+    tier2_approval_flag: bool | None = Field(default=None, alias='tier2ApprovalFlag')
+    disable_time_entry_flag: bool | None = Field(
+        default=None, alias='disableTimeEntryFlag'
+    )
+    require_time_note_flag: bool | None = Field(
+        default=None, alias='requireTimeNoteFlag'
+    )
+    require_expense_note_flag: bool | None = Field(
+        default=None, alias='requireExpenseNoteFlag'
+    )
+    rounding_factor: float | None = Field(default=None, alias='roundingFactor')
+    invoice_start: int | None = Field(default=None, alias='invoiceStart')
+    default_special_invoice_type: Literal[
+        'Agreement',
+        'CreditMemo',
+        'DownPayment',
+        'Miscellaneous',
+        'Progress',
+        'Standard',
+    ] | None = Field(default=None, alias='defaultSpecialInvoiceType')
+    internal_company: CompanyReference | None = Field(
+        default=None, alias='internalCompany'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimePeriodSetup(ConnectWiseModel):
+    id: int | None = None
+    period_apply_to: Literal['Both', 'Expense', 'Time'] = Field(
+        ..., alias='periodApplyTo'
+    )
+    year: int
+    number_future_periods: int = Field(..., alias='numberFuturePeriods')
+    type: Literal['Weekly', 'BiWeekly', 'SemiMonthly', 'Monthly']
+    description: str | None = None
+    """
+     Max length: 100;
+    """
+    first_period_end_date: date = Field(..., alias='firstPeriodEndDate')
+    monthly_period_ends: int | None = Field(default=None, alias='monthlyPeriodEnds')
+    """
+    Only needed when type is monthly
+    """
+    semi_monthly_first_period: int | None = Field(
+        default=None, alias='semiMonthlyFirstPeriod'
+    )
+    """
+    Only needed when type is semi-monthly
+    """
+    semi_monthly_second_period: int | None = Field(
+        default=None, alias='semiMonthlySecondPeriod'
+    )
+    """
+    Only needed when type is semi-monthly
+    """
+    semi_monthly_last_day_flag: bool | None = Field(
+        default=None, alias='semiMonthlyLastDayFlag'
+    )
+    last_day_flag: bool | None = Field(default=None, alias='lastDayFlag')
+    """
+    Only needed when type is monthly
+    """
+    days_past_end_date: int = Field(..., alias='daysPastEndDate')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimePeriodSetupDefaults(GLExportSettings):
+    pass
+
+
+class TimePeriodSetupReference(CalendarSetupReference):
+    pass
+
+
+class TimeRevenueReference(AgreementRevenueReference):
+    pass
+
+
+class TimeSheet(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    year: int | None = None
+    period: int | None = None
+    date_start: str | None = Field(default=None, alias='dateStart')
+    date_end: str | None = Field(default=None, alias='dateEnd')
+    status: Literal[
+        'Open',
+        'Rejected',
+        'PendingApproval',
+        'ErrorsCorrected',
+        'PendingProjectApproval',
+        'ApprovedByTierOne',
+        'RejectBySecondTier',
+        'ApprovedByTierTwo',
+        'ReadyToBill',
+        'Billed',
+        'WrittenOff',
+        'BilledAgreement',
+    ] | None = None
+    hours: float | None = None
+    deadline: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeSheetAudit(TimeEntryAudit):
+    pass
+
+
+class TimeSheetReference(ActivityReference):
+    pass
+
+
+class TimeSheetTierUpdate(ExpenseReportTierUpdate):
+    pass
+
+
+class TimeZoneReference(ActivityReference):
+    pass
+
+
+class TimeZoneSetup(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    time_zone: TimeZoneReference | None = Field(default=None, alias='timeZone')
+    offset: float | None = None
+    """
+    The hours offset from UTC (+/-)
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    """
+    Identifies the default system time zone setup
+    """
+    daylight_savings_flag: bool | None = Field(
+        default=None, alias='daylightSavingsFlag'
+    )
+    """
+    Determined based on system library value for specified timeZone.
+                Not able to be used in query params at this time
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeZoneSetupInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    offset: float | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TimeZoneSetupReference(ActivityReference):
+    pass
+
+
+class TodayPageCategory(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    sort_order: int = Field(..., alias='sortOrder')
+    location: SystemLocationReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Token(ConnectWiseModel):
+    public_key: str | None = Field(default=None, alias='publicKey')
+    private_key: str | None = Field(default=None, alias='privateKey')
+    expiration: str | None = None
+
+
+class Track(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 100;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    notify_action_ids: list[int] | None = Field(default=None, alias='notifyActionIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class TrackReference(ActivityReference):
+    pass
+
+
+class TypeSubTypeCampaignSubType(ConnectWiseModel):
+    id: int | None = None
+    type_id: int | None = Field(default=None, alias='typeId')
+    name: str | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnitOfMeasure(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
+    """
+     Max length: 31;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnitOfMeasureReference(ActivityReference):
+    pass
+
+
+class UnpostedExpense(ConnectWiseModel):
+    id: int | None = None
+    location_id: int | None = Field(default=None, alias='locationId')
+    department_id: int | None = Field(default=None, alias='departmentId')
+    company: CompanyReference | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    credit_account: str | None = Field(default=None, alias='creditAccount')
+    expense_detail_id: int | None = Field(default=None, alias='expenseDetailId')
+    expense_type: ExpenseTypeReference | None = Field(default=None, alias='expenseType')
+    classification: Literal['NonReimbursable', 'Reimbursable', 'Personal'] | None = None
+    gl_type: Literal[
+        'AP',
+        'AR',
+        'EE',
+        'EI',
+        'EO',
+        'IA',
+        'IT',
+        'P',
+        'PF',
+        'R',
+        'RA',
+        'RD',
+        'RE',
+        'RP',
+        'ST',
+        'SD',
+        'ET',
+        'FT',
+        'PT',
+        'WP',
+        'WR',
+    ] | None = Field(default=None, alias='glType')
+    member: MemberReference | None = None
+    date_expense: str | None = Field(default=None, alias='dateExpense')
+    charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
+    charge_description: str | None = Field(default=None, alias='chargeDescription')
+    in_policy: bool | None = Field(default=None, alias='inPolicy')
+    payment_method: PaymentMethodReference | None = Field(
+        default=None, alias='paymentMethod'
+    )
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    billable_amount: float | None = Field(default=None, alias='billableAmount')
+    non_billable_amount: float | None = Field(default=None, alias='nonBillableAmount')
+    agreement: AgreementReference | None = None
+    agreement_amount_covered: float | None = Field(
+        default=None, alias='agreementAmountCovered'
+    )
+    ticket: TicketReference | None = None
+    project: ProjectReference | None = None
+    project_phase: ProjectPhaseReference | None = Field(
+        default=None, alias='projectPhase'
+    )
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
+    """
+    Used to determine if Avalara tax is enabled.
+    """
+    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
+    sales_tax_amount: float | None = Field(default=None, alias='salesTaxAmount')
+    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
+    """
+    Set to true if transaction is taxable at the state level.
+    """
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
+    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
+    """
+    Set to true if transaction is taxable at the county level.
+    """
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
+    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
+    """
+    Set to true if transaction is taxable at the city level.
+    """
+    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
+    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
+    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
+    """
+    Set to true if transaction is taxable at the country level.
+    """
+    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
+    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
+    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
+    """
+    Set to true if transaction is taxable at the composite level.
+    """
+    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
+    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
+    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
+    """
+    Set to true if transaction is taxable at level six.
+    """
+    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
+    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
+    date_closed: str | None = Field(default=None, alias='dateClosed')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnpostedExpenseTaxableLevel(ConnectWiseModel):
+    id: int | None = None
+    tax_level: int | None = Field(default=None, alias='taxLevel')
+    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
+    tax_amount: float | None = Field(default=None, alias='taxAmount')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnpostedInvoice(ConnectWiseModel):
+    id: int | None = None
+    billing_log_id: int | None = Field(default=None, alias='billingLogId')
+    location_id: int | None = Field(default=None, alias='locationId')
+    department_id: int | None = Field(default=None, alias='departmentId')
+    company: CompanyReference | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    bill_to_company: CompanyReference | None = Field(
+        default=None, alias='billToCompany'
+    )
+    bill_to_site: SiteReference | None = Field(default=None, alias='billToSite')
+    ship_to_company: CompanyReference | None = Field(
+        default=None, alias='shipToCompany'
+    )
+    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
+    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
+    invoice_date: str | None = Field(default=None, alias='invoiceDate')
+    invoice_type: Literal[
+        'Agreement',
+        'CreditMemo',
+        'DownPayment',
+        'Miscellaneous',
+        'Progress',
+        'Standard',
+    ] | None = Field(default=None, alias='invoiceType')
+    description: str | None = None
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    due_days: str | None = Field(default=None, alias='dueDays')
+    due_date: str | None = Field(default=None, alias='dueDate')
+    currency: CurrencyReference | None = None
+    sub_total: float | None = Field(default=None, alias='subTotal')
+    total: float | None = None
+    invoice_taxable_flag: bool | None = Field(default=None, alias='invoiceTaxableFlag')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
+    """
+    Used to determine if Avalara tax is enabled.
+    """
+    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
+    sales_tax_amount: float | None = Field(default=None, alias='salesTaxAmount')
+    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
+    """
+    Set to true if transaction is taxable at the state level.
+    """
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
+    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
+    """
+    Set to true if transaction is taxable at the county level.
+    """
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
+    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
+    """
+    Set to true if transaction is taxable at the city level.
+    """
+    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
+    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
+    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
+    """
+    Set to true if transaction is taxable at the country level.
+    """
+    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
+    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
+    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
+    """
+    Set to true if transaction is taxable at the composite level.
+    """
+    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
+    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
+    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
+    """
+    Set to true if transaction is taxable at level six.
+    """
+    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
+    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
+    created_by: str | None = Field(default=None, alias='createdBy')
+    date_closed: str | None = Field(default=None, alias='dateClosed')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnpostedInvoiceTaxableLevel(UnpostedExpenseTaxableLevel):
+    pass
+
+
+class UnpostedProcurement(ConnectWiseModel):
+    id: int | None = None
+    description: str | None = None
+    unposted_product_id: str | None = Field(default=None, alias='unpostedProductId')
+    location_id: int | None = Field(default=None, alias='locationId')
+    department_id: int | None = Field(default=None, alias='departmentId')
+    procurement_type: Literal['Purchase', 'Adjustment', 'Transfer'] | None = Field(
+        default=None, alias='procurementType'
+    )
+    purchase_order: PurchaseOrderReference | None = Field(
+        default=None, alias='purchaseOrder'
+    )
+    purchase_date: str | None = Field(default=None, alias='purchaseDate')
+    tracking_number: str | None = Field(default=None, alias='trackingNumber')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
+    """
+    Used to determine if Avalara tax is enabled.
+    """
+    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
+    purchase_order_taxable_flag: bool | None = Field(
+        default=None, alias='purchaseOrderTaxableFlag'
+    )
+    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
+    """
+    Set to true if transaction is taxable at the state level.
+    """
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
+    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
+    """
+    Set to true if transaction is taxable at the county level.
+    """
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
+    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
+    """
+    Set to true if transaction is taxable at the city level.
+    """
+    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
+    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
+    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
+    """
+    Set to true if transaction is taxable at the country level.
+    """
+    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
+    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
+    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
+    """
+    Set to true if transaction is taxable at the composite level.
+    """
+    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
+    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
+    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
+    """
+    Set to true if transaction is taxable at level six.
+    """
+    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
+    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
+    tax_total: float | None = Field(default=None, alias='taxTotal')
+    customer: CompanyReference | None = None
+    vendor: CompanyReference | None = None
+    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
+    vendor_invoice_number: str | None = Field(default=None, alias='vendorInvoiceNumber')
+    vendor_invoice_date: str | None = Field(default=None, alias='vendorInvoiceDate')
+    tax_freight_flag: bool | None = Field(default=None, alias='taxFreightFlag')
+    freight_tax_total: float | None = Field(default=None, alias='freightTaxTotal')
+    freight_cost: float | None = Field(default=None, alias='freightCost')
+    date_closed: str | None = Field(default=None, alias='dateClosed')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class UnpostedProcurementTaxableLevel(UnpostedExpenseTaxableLevel):
+    pass
+
+
+class Usage(ConnectWiseModel):
+    type: str | None = None
+    count: int | None = None
+    id: int | None = None
+    description: str | None = None
+    hyperlink: str | None = None
+    type_key: str | None = Field(default=None, alias='typeKey')
+
+
+class UserDefinedFieldOption(ConnectWiseModel):
+    id: int | None = None
+    option_value: str | None = Field(default=None, alias='optionValue')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+
+
+class UserDefinedFieldReference(ActivityReference):
+    pass
+
+
+class UserDefinedFieldValueModel(ConnectWiseModel):
+    user_defined_field_rec_id: int | None = Field(
+        default=None, alias='userDefinedFieldRecId'
+    )
+    value: str | None = None
+    row_num: int | None = Field(default=None, alias='rowNum')
+    skip_location_and_billing_unit: bool | None = Field(
+        default=None, alias='skipLocationAndBillingUnit'
+    )
+    filtered: bool | None = None
+
+
+class ValidatePortalRequest(ConnectWiseModel):
+    email: str
+    password: str
+
+
+class ValidatePortalResponse(ConnectWiseModel):
+    success: bool | None = None
+    contact_id: int | None = Field(default=None, alias='contactId')
+
+
+class ValidationError(ConnectWiseModel):
+    code: str | None = None
+    message: str | None = None
+    resource: str | None = None
+    field: str | None = None
+    details: str | None = None
+
+
+class Warehouse(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    company: CompanyReference | None = None
+    location: SystemLocationReference | None = None
+    contact: ContactReference | None = None
+    department: SystemDepartmentReference | None = None
+    manager: MemberReference | None = None
+    site: SiteReference | None = None
+    location_xref: str | None = Field(default=None, alias='locationXref')
+    """
+     Max length: 10;
+    """
+    location_default_flag: bool | None = Field(
+        default=None, alias='locationDefaultFlag'
+    )
+    overall_default_flag: bool | None = Field(default=None, alias='overallDefaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    locked_flag: bool | None = Field(default=None, alias='lockedFlag')
+    currency: CurrencyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WarehouseBinReference(ActivityReference):
+    pass
+
+
+class WarehouseInfo(CategoryInfo):
+    pass
+
+
+class WarehouseReference(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    locked_flag: bool | None = Field(default=None, alias='lockedFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WisePayBatchPayment(ConnectWiseModel):
+    amount: float | None = None
+    wise_pay_href: str | None = Field(default=None, alias='wisePayHref')
+
+
+class WisePayFeeInvoice(ConnectWiseModel):
+    id: int | None = None
+    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
+    amount: float | None = None
+    invoice_href: str | None = Field(default=None, alias='invoiceHref')
+
+
+class WisePayPayment(ConnectWiseModel):
+    payment_date_utc: str | None = Field(default=None, alias='paymentDateUtc')
+    wise_pay_reference: str | None = Field(default=None, alias='wisePayReference')
+    batch_payment: WisePayBatchPayment | None = Field(
+        default=None, alias='batchPayment'
+    )
+    fee_invoice: WisePayFeeInvoice | None = Field(default=None, alias='feeInvoice')
+
+
+class WonRevenueReference(AgreementRevenueReference):
+    pass
+
+
+class WorkflowAction(ConnectWiseModel):
+    id: int | None = None
+    notify_type: NotifyTypeReference = Field(..., alias='notifyType')
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    specific_member_to: MemberReference | None = Field(
+        default=None, alias='specificMemberTo'
+    )
+    email_recipient: str | None = Field(default=None, alias='emailRecipient')
+    """
+    Required when notifyWho is set to: "Email Address" Max length: 250;
+    """
+    notify_from: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyFrom'
+    )
+    specific_member_from: MemberReference | None = Field(
+        default=None, alias='specificMemberFrom'
+    )
+    email_from: str | None = Field(default=None, alias='emailFrom')
+    """
+    Required when notifyFrom is set to: "Email Address" Max length: 250;
+    """
+    cc_contact: ContactReference | None = Field(default=None, alias='ccContact')
+    bcc_contact: ContactReference | None = Field(default=None, alias='bccContact')
+    subject: str | None = None
+    """
+    Required when notifyType is set to: "Create Activity", "Send Email", "Assign Resource" Max length: 100;
+    """
+    notes: str | None = None
+    activity_status: ActivityStatusReference | None = Field(
+        default=None, alias='activityStatus'
+    )
+    activity_type: ActivityTypeReference | None = Field(
+        default=None, alias='activityType'
+    )
+    attached_track: TrackReference | None = Field(default=None, alias='attachedTrack')
+    days_to_execute: int | None = Field(default=None, alias='daysToExecute')
+    board: BoardReference | None = None
+    board_status: ServiceStatusReference | None = Field(
+        default=None, alias='boardStatus'
+    )
+    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
+    service_sub_type: ServiceSubTypeReference | None = Field(
+        default=None, alias='serviceSubType'
+    )
+    service_item: ServiceItemReference | None = Field(default=None, alias='serviceItem')
+    group: GroupReference | None = None
+    service_template: ServiceTemplateReference | None = Field(
+        default=None, alias='serviceTemplate'
+    )
+    invoice_min_days: int | None = Field(default=None, alias='invoiceMinDays')
+    automate_script: AutomateScriptReference | None = Field(
+        default=None, alias='automateScript'
+    )
+    script_success_status: ServiceStatusReference | None = Field(
+        default=None, alias='scriptSuccessStatus'
+    )
+    script_fail_status: ServiceStatusReference | None = Field(
+        default=None, alias='scriptFailStatus'
+    )
+    detail_notes_flag: bool | None = Field(default=None, alias='detailNotesFlag')
+    internal_notes_flag: bool | None = Field(default=None, alias='internalNotesFlag')
+    audit_notes_flag: bool | None = Field(default=None, alias='auditNotesFlag')
+    service_priority: PriorityReference | None = Field(
+        default=None, alias='servicePriority'
+    )
+    update_owner_flag: bool | None = Field(default=None, alias='updateOwnerFlag')
+    sales_order_status: OrderStatusReference | None = Field(
+        default=None, alias='salesOrderStatus'
+    )
+    project_status: ProjectStatusReference | None = Field(
+        default=None, alias='projectStatus'
+    )
+    company_status: CompanyStatusReference | None = Field(
+        default=None, alias='companyStatus'
+    )
+    attachments: list[int] | None = None
+    service_survey: ServiceSurveyReference | None = Field(
+        default=None, alias='serviceSurvey'
+    )
+    specific_team_to: GenericBoardTeamReference | None = Field(
+        default=None, alias='specificTeamTo'
+    )
+    attach_configurations_for: Literal['Company', 'Contact'] | None = Field(
+        default=None, alias='attachConfigurationsFor'
+    )
+    """
+    Required when notifyType is set to: "Attach Configuration"
+    """
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    configuration_status: ConfigurationStatusReference | None = Field(
+        default=None, alias='configurationStatus'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowActionAutomateParameter(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    value: str | None = None
+
+
+class WorkflowActionUserDefinedField(ConnectWiseModel):
+    id: int | None = None
+    event_id: int | None = Field(default=None, alias='eventId')
+    action_id: int | None = Field(default=None, alias='actionId')
+    caption: str | None = None
+    user_defined_field_id: int | None = Field(default=None, alias='userDefinedFieldId')
+    value: str | None = None
+    overwrite_flag: bool | None = Field(default=None, alias='overwriteFlag')
+    pod_description: str | None = Field(default=None, alias='podDescription')
+    field_type_id: str | None = Field(default=None, alias='fieldTypeId')
+    entry_type_id: str | None = Field(default=None, alias='entryTypeId')
+    required_flag: bool | None = Field(default=None, alias='requiredFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowAttachment(ActivityReference):
+    pass
+
+
+class WorkflowEvent(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    event_condition: str = Field(..., alias='eventCondition')
+    frequency_unit: Literal['Minutes', 'Hours', 'Days', 'Months'] | None = Field(
+        default=None, alias='frequencyUnit'
+    )
+    """
+    Required when exectionTimes is set to MultipleTimes or Continuously
+    """
+    frequency_of_execution: int | None = Field(
+        default=None, alias='frequencyOfExecution'
+    )
+    """
+    Required when exectionTimes is set to MultipleTimes or Continuously
+    """
+    max_number_of_execution: int | None = Field(
+        default=None, alias='maxNumberOfExecution'
+    )
+    """
+    Required when exectionTimes is set to MultipleTimes
+    """
+    execution_time: Literal['Once', 'MultipleTimes', 'Continuously'] | None = Field(
+        default=None, alias='executionTime'
+    )
+    """
+    Defaults to Once when not specified
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowNotifyType(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    name: str | None = None
+    is_setup_flag: bool | None = Field(default=None, alias='isSetupFlag')
+    """
+    If the current action is available because it is already set up. Pertains to integrations such as Automate
+    """
+    external_flag: bool | None = Field(default=None, alias='externalFlag')
+    """
+    If the current action effects external objects e.g. integrations or sending an email
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowNotifyTypeInfo(ConnectWiseModel):
+    id: int | None = None
+    identifier: str | None = None
+    name: str | None = None
+    is_setup_flag: bool | None = Field(default=None, alias='isSetupFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowTableType(CatalogItemReference):
+    pass
+
+
+class WorkflowTableTypeInfo(CatalogItemReference):
+    pass
+
+
+class WorkflowTableTypeReference(CatalogItemReference):
+    pass
+
+
+class WorkflowTrigger(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    description: str | None = None
+    has_options_flag: bool | None = Field(default=None, alias='hasOptionsFlag')
+    has_operator_flag: bool | None = Field(default=None, alias='hasOperatorFlag')
+    custom_field: UserDefinedFieldReference | None = Field(
+        default=None, alias='customField'
+    )
+    expected_type: str | None = Field(default=None, alias='expectedType')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkflowTriggerOption(ConnectWiseModel):
+    value: str | None = None
+    name: str | None = None
+    custom_field: UserDefinedFieldReference | None = Field(
+        default=None, alias='customField'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkRole(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    hourly_rate: float | None = Field(default=None, alias='hourlyRate')
+    integration_xref: str | None = Field(default=None, alias='integrationXref')
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    add_all_locations: bool | None = Field(default=None, alias='addAllLocations')
+    remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
+    add_all_agreement_exclusions: bool | None = Field(
+        default=None, alias='addAllAgreementExclusions'
+    )
+    """
+    Used only on create to add the work role to all agreement and agreement type exclusion lists
+    """
+    location_ids: list[int] | None = Field(default=None, alias='locationIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkRoleInfo(CategoryInfo):
+    pass
+
+
+class WorkRoleReference(ActivityReference):
+    pass
+
+
+class WorkType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge'] = Field(
+        ..., alias='billTime'
+    )
+    rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='rateType'
+    )
+    rate: float
+    hours_min: float | None = Field(default=None, alias='hoursMin')
+    hours_max: float | None = Field(default=None, alias='hoursMax')
+    round_bill_hours_to: float | None = Field(default=None, alias='roundBillHoursTo')
+    accrual_type: Literal['Holiday', 'PTO', 'Sick', 'Vacation'] | None = Field(
+        default=None, alias='accrualType'
+    )
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    overall_default_flag: bool | None = Field(default=None, alias='overallDefaultFlag')
+    activity_default_flag: bool | None = Field(
+        default=None, alias='activityDefaultFlag'
+    )
+    utilization_flag: bool | None = Field(default=None, alias='utilizationFlag')
+    cost_multiplier: float | None = Field(default=None, alias='costMultiplier')
+    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
+    """
+     Max length: 50;
+    """
+    add_all_agreement_exclusions: bool | None = Field(
+        default=None, alias='addAllAgreementExclusions'
+    )
+    """
+    Used only on create to add the work type to all agreement and agreement type exclusion lists
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkTypeInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    activity_default_flag: bool | None = Field(
+        default=None, alias='activityDefaultFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkTypeReference(ActivityReference):
+    pass
+
+
+class Activity(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 100;
+    """
+    type: ActivityTypeReference | None = None
+    company: CompanyReference | None = None
+    contact: ContactReference | None = None
+    phone_number: str | None = Field(default=None, alias='phoneNumber')
+    """
+     Max length: 30;
+    """
+    email: str | None = None
+    """
+     Max length: 250;
+    """
+    status: ActivityStatusReference | None = None
+    opportunity: OpportunityReference | None = None
+    ticket: TicketReference | None = None
+    agreement: AgreementReference | None = None
+    campaign: CampaignReference | None = None
+    notes: str | None = None
+    date_start: datetime | None = Field(default=None, alias='dateStart')
+    date_end: datetime | None = Field(default=None, alias='dateEnd')
+    assigned_by: MemberReference | None = Field(default=None, alias='assignedBy')
+    assign_to: MemberReference | None = Field(default=None, alias='assignTo')
+    schedule_status: ScheduleStatusReference | None = Field(
+        default=None, alias='scheduleStatus'
+    )
+    reminder: ReminderReference | None = None
+    where: ServiceLocationReference | None = None
+    notify_flag: bool | None = Field(default=None, alias='notifyFlag')
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    currency: CurrencyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class ActivityStopwatch(ConnectWiseModel):
+    activity_id: int = Field(..., alias='activityId')
+    activity_mobile_guid: UUID | None = Field(default=None, alias='activityMobileGuid')
+    agreement: AgreementReference | None = None
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
+    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
+    date_entered: datetime | None = Field(default=None, alias='dateEntered')
+    end_time: datetime | None = Field(default=None, alias='endTime')
+    id: int | None = None
+    internal_notes: str | None = Field(default=None, alias='internalNotes')
+    location_id: int | None = Field(default=None, alias='locationId')
+    member: MemberReference | None = None
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    notes: str | None = None
+    """
+     Max length: 4000;
+    """
+    start_time: datetime | None = Field(default=None, alias='startTime')
+    status: Literal['Reset', 'Running', 'Paused', 'Stopped']
+    total_pause_time: int | None = Field(default=None, alias='totalPauseTime')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Addition(ConnectWiseModel):
+    id: int | None = None
+    product: IvItemReference | None = None
+    quantity: float | None = None
+    less_included: float | None = Field(default=None, alias='lessIncluded')
+    unit_price: float | None = Field(default=None, alias='unitPrice')
+    unit_cost: float | None = Field(default=None, alias='unitCost')
+    bill_customer: Literal['Billable', 'DoNotBill', 'NoCharge'] = Field(
+        ..., alias='billCustomer'
+    )
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    cancelled_date: datetime | None = Field(default=None, alias='cancelledDate')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    serial_number: str | None = Field(default=None, alias='serialNumber')
+    """
+     Max length: 50;
+    """
+    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
+    """
+     Max length: 6000;
+    """
+    purchase_item_flag: bool | None = Field(default=None, alias='purchaseItemFlag')
+    special_order_flag: bool | None = Field(default=None, alias='specialOrderFlag')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    description: str | None = None
+    billed_quantity: float | None = Field(default=None, alias='billedQuantity')
+    uom: str | None = None
+    ext_price: float | None = Field(default=None, alias='extPrice')
+    ext_cost: float | None = Field(default=None, alias='extCost')
+    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
+    margin: float | None = None
+    prorate_cost: float | None = Field(default=None, alias='prorateCost')
+    prorate_price: float | None = Field(default=None, alias='proratePrice')
+    extended_prorate_cost: float | None = Field(
+        default=None, alias='extendedProrateCost'
+    )
+    extended_prorate_price: float | None = Field(
+        default=None, alias='extendedProratePrice'
+    )
+    prorate_current_period_flag: bool | None = Field(
+        default=None, alias='prorateCurrentPeriodFlag'
+    )
+    opportunity: OpportunityReference | None = None
+    agreement_status: Literal[
+        'Active', 'Cancelled', 'Expired', 'Inactive'
+    ] | None = Field(default=None, alias='agreementStatus')
+    invoice_grouping: InvoiceGroupingReference | None = Field(
+        default=None, alias='invoiceGrouping'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class AdjustmentDetail(ConnectWiseModel):
+    id: int | None = None
+    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
+    description: str | None = None
+    """
+     Max length: 50;
+    """
+    quantity_on_hand: float | None = Field(default=None, alias='quantityOnHand')
+    unit_cost: float | None = Field(default=None, alias='unitCost')
+    warehouse: WarehouseReference | None = None
+    warehouse_bin: WarehouseBinReference | None = Field(
+        default=None, alias='warehouseBin'
+    )
+    quantity_adjusted: int = Field(..., alias='quantityAdjusted')
+    serial_number: str | None = Field(default=None, alias='serialNumber')
+    """
+     Max length: 1000;
+    """
+    adjustment: AdjustmentReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Agreement(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 100;
+    """
+    type: AgreementTypeReference | None = None
+    company: CompanyReference | None = None
+    contact: ContactReference | None = None
+    site: SiteReference | None = None
+    sub_contract_company: CompanyReference | None = Field(
+        default=None, alias='subContractCompany'
+    )
+    sub_contract_contact: ContactReference | None = Field(
+        default=None, alias='subContractContact'
+    )
+    parent_agreement: AgreementReference | None = Field(
+        default=None, alias='parentAgreement'
+    )
+    customer_po: str | None = Field(default=None, alias='customerPO')
+    """
+     Max length: 50;
+    """
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    restrict_location_flag: bool | None = Field(
+        default=None, alias='restrictLocationFlag'
+    )
+    restrict_department_flag: bool | None = Field(
+        default=None, alias='restrictDepartmentFlag'
+    )
+    start_date: datetime | None = Field(default=None, alias='startDate')
+    end_date: datetime | None = Field(default=None, alias='endDate')
+    no_ending_date_flag: bool | None = Field(default=None, alias='noEndingDateFlag')
+    opportunity: OpportunityReference | None = None
+    cancelled_flag: bool | None = Field(default=None, alias='cancelledFlag')
+    date_cancelled: datetime | None = Field(default=None, alias='dateCancelled')
+    reason_cancelled: str | None = Field(default=None, alias='reasonCancelled')
+    """
+     Max length: 100;
+    """
+    sla: SLAReference | None = None
+    work_order: str | None = Field(default=None, alias='workOrder')
+    """
+     Max length: 20;
+    """
+    internal_notes: str | None = Field(default=None, alias='internalNotes')
+    application_units: Literal['Amount', 'Hours', 'Incidents'] | None = Field(
+        default=None, alias='applicationUnits'
+    )
+    application_limit: float | None = Field(default=None, alias='applicationLimit')
+    application_cycle: Literal[
+        'Contract2Weeks',
+        'Contract4Weeks',
+        'ContractYear',
+        'CalendarMonth',
+        'CalendarQuarter',
+        'CalendarWeek',
+        'ContractQuarter',
+        'CalendarYear',
+    ] | None = Field(default=None, alias='applicationCycle')
+    application_unlimited_flag: bool | None = Field(
+        default=None, alias='applicationUnlimitedFlag'
+    )
+    one_time_flag: bool | None = Field(default=None, alias='oneTimeFlag')
+    cover_agreement_time: bool | None = Field(default=None, alias='coverAgreementTime')
+    cover_agreement_product: bool | None = Field(
+        default=None, alias='coverAgreementProduct'
+    )
+    cover_agreement_expense: bool | None = Field(
+        default=None, alias='coverAgreementExpense'
+    )
+    cover_sales_tax: bool | None = Field(default=None, alias='coverSalesTax')
+    carry_over_unused: bool | None = Field(default=None, alias='carryOverUnused')
+    allow_overruns: bool | None = Field(default=None, alias='allowOverruns')
+    expired_days: int | None = Field(default=None, alias='expiredDays')
+    limit: int | None = None
+    expire_when_zero: bool | None = Field(default=None, alias='expireWhenZero')
+    charge_to_firm: bool | None = Field(default=None, alias='chargeToFirm')
+    employee_comp_rate: Literal['Actual', 'Hourly'] | None = Field(
+        default=None, alias='employeeCompRate'
+    )
+    """
+     Required On Updates;
+    """
+    employee_comp_not_exceed: Literal['Billing', 'Amount', 'Percent'] | None = Field(
+        default=None, alias='employeeCompNotExceed'
+    )
+    comp_hourly_rate: float | None = Field(default=None, alias='compHourlyRate')
+    comp_limit_amount: float | None = Field(default=None, alias='compLimitAmount')
+    billing_cycle: BillingCycleReference | None = Field(
+        default=None, alias='billingCycle'
+    )
+    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    invoicing_cycle: Literal['ContractYear', 'CalendarYear'] | None = Field(
+        default=None, alias='invoicingCycle'
+    )
+    """
+     Required On Updates;
+    """
+    bill_to_company: CompanyReference | None = Field(
+        default=None, alias='billToCompany'
+    )
+    bill_to_contact: ContactReference | None = Field(
+        default=None, alias='billToContact'
+    )
+    bill_to_site: SiteReference | None = Field(default=None, alias='billToSite')
+    bill_amount: float | None = Field(default=None, alias='billAmount')
+    taxable: bool | None = None
+    prorate_first_bill: float | None = Field(default=None, alias='prorateFirstBill')
+    bill_start_date: datetime | None = Field(default=None, alias='billStartDate')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    restrict_down_payment: bool | None = Field(
+        default=None, alias='restrictDownPayment'
+    )
+    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
+    invoice_prorated_additions_flag: bool | None = Field(
+        default=None, alias='invoiceProratedAdditionsFlag'
+    )
+    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
+    top_comment: bool | None = Field(default=None, alias='topComment')
+    bottom_comment: bool | None = Field(default=None, alias='bottomComment')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
+    invoice_template: InvoiceTemplateReference | None = Field(
+        default=None, alias='invoiceTemplate'
+    )
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
+    """
+     Required On Updates;
+    """
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
+    """
+     Required On Updates;
+    """
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
+    """
+     Required On Updates;
+    """
+    billable_time_invoice: bool | None = Field(
+        default=None, alias='billableTimeInvoice'
+    )
+    billable_expense_invoice: bool | None = Field(
+        default=None, alias='billableExpenseInvoice'
+    )
+    billable_product_invoice: bool | None = Field(
+        default=None, alias='billableProductInvoice'
+    )
+    currency: CurrencyReference | None = None
+    period_type: Literal['Current', 'Future', 'Both', 'Undefined'] | None = Field(
+        default=None, alias='periodType'
+    )
+    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
+    next_invoice_date: str | None = Field(default=None, alias='nextInvoiceDate')
+    company_location: SystemLocationReference | None = Field(
+        default=None, alias='companyLocation'
+    )
+    ship_to_company: CompanyReference | None = Field(
+        default=None, alias='shipToCompany'
+    )
+    ship_to_contact: ContactReference | None = Field(
+        default=None, alias='shipToContact'
+    )
+    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
+    agreement_status: Literal[
+        'Active', 'Cancelled', 'Expired', 'Inactive'
+    ] | None = Field(default=None, alias='agreementStatus')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class AgreementAdjustment(ConnectWiseModel):
+    id: int | None = None
+    amount: float | None = None
+    description: str | None = None
+    """
+     Max length: 1000;
+    """
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class AgreementApplicationParameters(ConnectWiseModel):
+    application_unit: AgreementApplicationUnit | None = Field(
+        default=None, alias='applicationUnit'
+    )
+    application_limit: AgreementApplicationLimit | None = Field(
+        default=None, alias='applicationLimit'
+    )
+    application_limit_amount: float | None = Field(
+        default=None, alias='applicationLimitAmount'
+    )
+    available_per: AgreementApplicationAviablePer | None = Field(
+        default=None, alias='availablePer'
+    )
+    covers_time_flag: bool | None = Field(default=None, alias='coversTimeFlag')
+    covers_expenses_flag: bool | None = Field(default=None, alias='coversExpensesFlag')
+    covers_products_flag: bool | None = Field(default=None, alias='coversProductsFlag')
+    covers_tax_flag: bool | None = Field(default=None, alias='coversTaxFlag')
+    carryover_unused_flag: bool | None = Field(
+        default=None, alias='carryoverUnusedFlag'
+    )
+    carry_over_days: int | None = Field(default=None, alias='carryOverDays')
+    allow_overruns_flag: bool | None = Field(default=None, alias='allowOverrunsFlag')
+    overrun_limit: int | None = Field(default=None, alias='overrunLimit')
+    agreement_expires_flag: bool | None = Field(
+        default=None, alias='agreementExpiresFlag'
+    )
+    charge_adjustments_flag: bool | None = Field(
+        default=None, alias='chargeAdjustmentsFlag'
+    )
+    prepay_flag: bool | None = Field(default=None, alias='prepayFlag')
+    agr_billing_cycle: AgreementApplicationBillingCycle | None = Field(
+        default=None, alias='agrBillingCycle'
+    )
+    user_defined_field_values: list[UserDefinedFieldValueModel] | None = Field(
+        default=None, alias='userDefinedFieldValues'
+    )
+
+
+class AgreementRecurringParameters(ConnectWiseModel):
+    billing_cycle: GenericNameIdDTO | None = Field(default=None, alias='billingCycle')
+    cycle_base: GenericNameIdDTO | None = Field(default=None, alias='cycleBase')
+    a_gr_amount: float | None = Field(default=None, alias='aGRAmount')
+    taxable: bool | None = None
+    children_amount: float | None = Field(default=None, alias='childrenAmount')
+    additions_amount: float | None = Field(default=None, alias='additionsAmount')
+    total_amount: float | None = Field(default=None, alias='totalAmount')
+    a_gr_prorate: float | None = Field(default=None, alias='aGRProrate')
+    bill_start_date: str | None = Field(default=None, alias='billStartDate')
+    tax_code: GenericNameIdDTO | None = Field(default=None, alias='taxCode')
+    terms: GenericNameIdDTO | None = None
+    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
+    invoice_prorated_additions_flag: bool | None = Field(
+        default=None, alias='invoiceProratedAdditionsFlag'
+    )
+    restrict_downpayment: bool | None = Field(default=None, alias='restrictDownpayment')
+    currency: GenericNameIdDTO | None = None
+    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
+    user_defined_field_values: list[UserDefinedFieldValueModel] | None = Field(
+        default=None, alias='userDefinedFieldValues'
+    )
+
+
+class AgreementSite(ConnectWiseModel):
+    id: int | None = None
+    company: CompanyReference | None = None
+    site: SiteReference | None = None
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class AgreementType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    prefix_suffix_option: Literal['Prefix', 'Suffix'] | None = Field(
+        default=None, alias='prefixSuffixOption'
+    )
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    pre_payment_flag: bool | None = Field(default=None, alias='prePaymentFlag')
+    invoice_pre_suffix: str | None = Field(default=None, alias='invoicePreSuffix')
+    """
+     Max length: 5;
+    """
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    restrict_location_flag: bool | None = Field(
+        default=None, alias='restrictLocationFlag'
+    )
+    restrict_department_flag: bool | None = Field(
+        default=None, alias='restrictDepartmentFlag'
+    )
+    sla: SLAReference | None = None
+    application_units: Literal['Amount', 'Hours', 'Incidents'] | None = Field(
+        default=None, alias='applicationUnits'
+    )
+    application_limit: float | None = Field(default=None, alias='applicationLimit')
+    application_cycle: Literal[
+        'Contract2Weeks',
+        'Contract4Weeks',
+        'ContractYear',
+        'CalendarMonth',
+        'CalendarQuarter',
+        'CalendarWeek',
+        'ContractQuarter',
+        'CalendarYear',
+    ] | None = Field(default=None, alias='applicationCycle')
+    application_unlimited_flag: bool | None = Field(
+        default=None, alias='applicationUnlimitedFlag'
+    )
+    one_time_flag: bool | None = Field(default=None, alias='oneTimeFlag')
+    cover_agreement_time_flag: bool | None = Field(
+        default=None, alias='coverAgreementTimeFlag'
+    )
+    cover_agreement_product_flag: bool | None = Field(
+        default=None, alias='coverAgreementProductFlag'
+    )
+    cover_agreement_expense_flag: bool | None = Field(
+        default=None, alias='coverAgreementExpenseFlag'
+    )
+    cover_sales_tax_flag: bool | None = Field(default=None, alias='coverSalesTaxFlag')
+    carry_over_unused_flag: bool | None = Field(
+        default=None, alias='carryOverUnusedFlag'
+    )
+    allow_overruns_flag: bool | None = Field(default=None, alias='allowOverrunsFlag')
+    expired_days: int | None = Field(default=None, alias='expiredDays')
+    limit: int | None = None
+    expire_when_zero: bool | None = Field(default=None, alias='expireWhenZero')
+    charge_to_firm_flag: bool | None = Field(default=None, alias='chargeToFirmFlag')
+    employee_comp_rate: Literal['Actual', 'Hourly'] = Field(
+        ..., alias='employeeCompRate'
+    )
+    employee_comp_not_exceed: Literal['Billing', 'Amount', 'Percent'] = Field(
+        ..., alias='employeeCompNotExceed'
+    )
+    comp_hourly_rate: float | None = Field(default=None, alias='compHourlyRate')
+    comp_limit_amount: float | None = Field(default=None, alias='compLimitAmount')
+    billing_cycle: BillingCycleReference | None = Field(
+        default=None, alias='billingCycle'
+    )
+    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    invoicing_cycle: Literal['ContractYear', 'CalendarYear'] = Field(
+        ..., alias='invoicingCycle'
+    )
+    bill_amount: float | None = Field(default=None, alias='billAmount')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    restrict_down_payment_flag: bool | None = Field(
+        default=None, alias='restrictDownPaymentFlag'
+    )
+    invoice_description: str | None = Field(default=None, alias='invoiceDescription')
+    """
+     Max length: 4000;
+    """
+    top_comment_flag: bool | None = Field(default=None, alias='topCommentFlag')
+    bottom_comment_flag: bool | None = Field(default=None, alias='bottomCommentFlag')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
+    invoice_template: InvoiceTemplateReference | None = Field(
+        default=None, alias='invoiceTemplate'
+    )
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billTime'
+    )
+    bill_expenses: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billExpenses'
+    )
+    bill_products: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billProducts'
+    )
+    billable_time_invoice_flag: bool | None = Field(
+        default=None, alias='billableTimeInvoiceFlag'
+    )
+    billable_expense_invoice_flag: bool | None = Field(
+        default=None, alias='billableExpenseInvoiceFlag'
+    )
+    billable_product_invoice_flag: bool | None = Field(
+        default=None, alias='billableProductInvoiceFlag'
+    )
+    copy_work_roles_flag: bool | None = Field(default=None, alias='copyWorkRolesFlag')
+    copy_work_types_flag: bool | None = Field(default=None, alias='copyWorkTypesFlag')
+    exclusion_work_role_ids: list[int] | None = Field(
+        default=None, alias='exclusionWorkRoleIds'
+    )
+    add_all_work_role_exclusions: bool | None = Field(
+        default=None, alias='addAllWorkRoleExclusions'
+    )
+    remove_all_work_role_exclusions: bool | None = Field(
+        default=None, alias='removeAllWorkRoleExclusions'
+    )
+    exclusion_work_type_ids: list[int] | None = Field(
+        default=None, alias='exclusionWorkTypeIds'
+    )
+    add_all_work_type_exclusions: bool | None = Field(
+        default=None, alias='addAllWorkTypeExclusions'
+    )
+    remove_all_work_type_exclusions: bool | None = Field(
+        default=None, alias='removeAllWorkTypeExclusions'
+    )
+    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
+    """
+     Max length: 50;
+    """
+    prorate_flag: bool | None = Field(default=None, alias='prorateFlag')
+    email_template: EmailTemplateReference | None = Field(
+        default=None, alias='emailTemplate'
+    )
+    auto_invoice_flag: bool | None = Field(default=None, alias='autoInvoiceFlag')
+    invoice_prorated_additions_flag: bool | None = Field(
+        default=None, alias='invoiceProratedAdditionsFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementTypeBoardDefault(ConnectWiseModel):
+    id: int | None = None
+    type: AgreementTypeReference | None = None
+    location: SystemLocationReference
+    department: SystemDepartmentReference | None = None
+    board: BoardReference | None = None
+    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementTypeWorkRole(ConnectWiseModel):
+    id: int | None = None
+    type: AgreementTypeReference | None = None
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    ending_date: datetime | None = Field(default=None, alias='endingDate')
+    rate: float | None = None
+    rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='rateType'
+    )
+    limit_to: float | None = Field(default=None, alias='limitTo')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementTypeWorkRoleExclusion(ConnectWiseModel):
+    id: int | None = None
+    type: AgreementTypeReference | None = None
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementTypeWorkRoleInfo(AgreementTypeWorkRoleExclusion):
+    pass
+
+
+class AgreementTypeWorkType(ConnectWiseModel):
+    id: int | None = None
+    type: AgreementTypeReference | None = None
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    ending_date: datetime | None = Field(default=None, alias='endingDate')
+    rate: float | None = None
+    rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='rateType'
+    )
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billTime'
+    )
+    hours_min: float | None = Field(default=None, alias='hoursMin')
+    hours_max: float | None = Field(default=None, alias='hoursMax')
+    round_bill_hours: float | None = Field(default=None, alias='roundBillHours')
+    overage_rate: float | None = Field(default=None, alias='overageRate')
+    overage_rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='overageRateType'
+    )
+    limit_to: float | None = Field(default=None, alias='limitTo')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementTypeWorkTypeExclusion(ConnectWiseModel):
+    id: int | None = None
+    type: AgreementTypeReference | None = None
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementWorkRole(ConnectWiseModel):
+    id: int | None = None
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    location_id: int | None = Field(default=None, alias='locationId')
+    rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='rateType'
+    )
+    rate: float | None = None
+    limit_to: float | None = Field(default=None, alias='limitTo')
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    ending_date: datetime | None = Field(default=None, alias='endingDate')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementWorkRoleExclusion(ConnectWiseModel):
+    id: int | None = None
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementWorkType(ConnectWiseModel):
+    id: int | None = None
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    location: OwnerLevelReference | None = None
+    location_id: int | None = Field(default=None, alias='locationId')
+    rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] = Field(
+        ..., alias='rateType'
+    )
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] = Field(
+        ..., alias='billTime'
+    )
+    rate: float | None = None
+    hours_max: float | None = Field(default=None, alias='hoursMax')
+    hours_min: float | None = Field(default=None, alias='hoursMin')
+    round_bill_hours: float | None = Field(default=None, alias='roundBillHours')
+    overage_rate: float | None = Field(default=None, alias='overageRate')
+    overage_rate_type: Literal['AdjAmount', 'Custom', 'Multiplier'] | None = Field(
+        default=None, alias='overageRateType'
+    )
+    agreement_limit: float | None = Field(default=None, alias='agreementLimit')
+    site: SiteReference | None = None
+    effective_date: datetime | None = Field(default=None, alias='effectiveDate')
+    ending_date: datetime | None = Field(default=None, alias='endingDate')
+    agreement: AgreementReference | None = None
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class AgreementWorkTypeExclusion(ConnectWiseModel):
+    id: int | None = None
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ApiMember(ConnectWiseModel):
+    id: int | None = None
+    identifier: str
+    """
+     Max length: 15;
+    """
+    name: str | None = None
+    """
+     Max length: 30; Required On Updates;
+    """
+    email_address: str | None = Field(default=None, alias='emailAddress')
+    """
+     Max length: 250;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    inactive_date: datetime | None = Field(default=None, alias='inactiveDate')
+    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
+    security_role: SecurityRoleReference | None = Field(
+        default=None, alias='securityRole'
+    )
+    structure_level: StructureReference | None = Field(
+        default=None, alias='structureLevel'
+    )
+    security_location: SystemLocationReference | None = Field(
+        default=None, alias='securityLocation'
+    )
+    default_location: SystemLocationReference | None = Field(
+        default=None, alias='defaultLocation'
+    )
+    default_department: SystemDepartmentReference | None = Field(
+        default=None, alias='defaultDepartment'
+    )
+    sales_default_location: SystemLocationReference | None = Field(
+        default=None, alias='salesDefaultLocation'
+    )
+    service_default_board: BoardReference | None = Field(
+        default=None, alias='serviceDefaultBoard'
+    )
+    notes: str | None = None
+    excluded_service_board_ids: list[int] | None = Field(
+        default=None, alias='excludedServiceBoardIds'
+    )
+    block_price_flag: bool | None = Field(default=None, alias='blockPriceFlag')
+    block_cost_flag: bool | None = Field(default=None, alias='blockCostFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ApiRequest(ConnectWiseModel):
+    id: int | None = None
+    external_id: str | None = Field(default=None, alias='externalId')
+    parent_id: int | None = Field(default=None, alias='parentId')
+    grand_parent_id: int | None = Field(default=None, alias='grandParentId')
+    entity: IRestIdentifiedItem | None = None
+    filters: FilterValues | None = None
+    page: PageValues | None = None
+    format: str | None = None
+    fields: str | None = None
+    misc_properties: dict[str, dict[str, Any]] | None = Field(
+        default=None, alias='miscProperties'
+    )
+    member_context: str | None = Field(default=None, alias='memberContext')
+    update_only_ces_properties: bool | None = Field(
+        default=None, alias='updateOnlyCesProperties'
+    )
+
+
+class AutoSyncTime(ConnectWiseModel):
+    id: int | None = None
+    sync_time: str = Field(..., alias='syncTime')
+    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BatchEntry(ConnectWiseModel):
+    id: int | None = None
+    account_type: str | None = Field(default=None, alias='accountType')
+    name: str | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    debit: float | None = None
+    credit: float | None = None
+    cost: float | None = None
+    item: str | None = None
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    cost_of_goods_sold_account_number: str | None = Field(
+        default=None, alias='costOfGoodsSoldAccountNumber'
+    )
+    invoice: InvoiceReference | None = None
+    purchase_order: PurchaseOrderReference | None = Field(
+        default=None, alias='purchaseOrder'
+    )
+    line_item: PurchaseOrderLineItemReference | None = Field(
+        default=None, alias='lineItem'
+    )
+    transfer: str | None = None
+    expense: ExpenseDetailReference | None = None
+    adjustment_detail: AdjustmentDetailReference | None = Field(
+        default=None, alias='adjustmentDetail'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BillingSetup(ConnectWiseModel):
+    id: int | None = None
+    remit_name: str = Field(..., alias='remitName')
+    """
+     Max length: 50;
+    """
+    location: SystemLocationReference
+    address_one: str | None = Field(default=None, alias='addressOne')
+    """
+     Max length: 50;
+    """
+    address_two: str | None = Field(default=None, alias='addressTwo')
+    """
+     Max length: 50;
+    """
+    city: str | None = None
+    """
+     Max length: 50;
+    """
+    state: StateReference | None = None
+    zip: str | None = None
+    """
+     Max length: 12;
+    """
+    country: CountryReference | None = None
+    phone: str | None = None
+    """
+     Max length: 15;
+    """
+    invoice_title: str = Field(..., alias='invoiceTitle')
+    """
+     Max length: 50;
+    """
+    payable_name: str = Field(..., alias='payableName')
+    """
+     Max length: 50;
+    """
+    topcomment: str | None = None
+    """
+     Max length: 4000;
+    """
+    invoice_footer: str | None = Field(default=None, alias='invoiceFooter')
+    """
+     Max length: 500;
+    """
+    quote_footer: str | None = Field(default=None, alias='quoteFooter')
+    """
+     Max length: 1000;
+    """
+    overall_invoice_default: InvoiceTemplateReference | None = Field(
+        default=None, alias='overallInvoiceDefault'
+    )
+    standard_invoice_actual: InvoiceTemplateReference | None = Field(
+        default=None, alias='standardInvoiceActual'
+    )
+    standard_invoice_fixed: InvoiceTemplateReference | None = Field(
+        default=None, alias='standardInvoiceFixed'
+    )
+    progress_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='progressInvoice'
+    )
+    agreement_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='agreementInvoice'
+    )
+    credit_memo_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='creditMemoInvoice'
+    )
+    down_payment_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='downPaymentInvoice'
+    )
+    misc_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='miscInvoice'
+    )
+    sales_order_invoice: InvoiceTemplateReference | None = Field(
+        default=None, alias='salesOrderInvoice'
+    )
+    exclude_do_not_bill_time_flag: bool | None = Field(
+        default=None, alias='excludeDoNotBillTimeFlag'
+    )
+    exclude_do_not_bill_expense_flag: bool | None = Field(
+        default=None, alias='excludeDoNotBillExpenseFlag'
+    )
+    exclude_do_not_bill_product_flag: bool | None = Field(
+        default=None, alias='excludeDoNotBillProductFlag'
+    )
+    prefix_suffix_flag: Literal['Prefix', 'Suffix'] | None = Field(
+        default=None, alias='prefixSuffixFlag'
+    )
+    prefix_suffix_text: str | None = Field(default=None, alias='prefixSuffixText')
+    """
+     Max length: 5;
+    """
+    charge_adj_to_firm_flag: bool | None = Field(
+        default=None, alias='chargeAdjToFirmFlag'
+    )
+    no_watermark_flag: bool | None = Field(default=None, alias='noWatermarkFlag')
+    display_tax_flag: bool | None = Field(default=None, alias='displayTaxFlag')
+    allow_restricted_dept_on_routing_flag: bool | None = Field(
+        default=None, alias='allowRestrictedDeptOnRoutingFlag'
+    )
+    bill_ticket_separately_flag: bool | None = Field(
+        default=None, alias='billTicketSeparatelyFlag'
+    )
+    bill_ticket_complete_flag: bool | None = Field(
+        default=None, alias='billTicketCompleteFlag'
+    )
+    bill_ticket_unapproved_flag: bool | None = Field(
+        default=None, alias='billTicketUnapprovedFlag'
+    )
+    bill_project_complete_flag: bool | None = Field(
+        default=None, alias='billProjectCompleteFlag'
+    )
+    bill_project_unapproved_flag: bool | None = Field(
+        default=None, alias='billProjectUnapprovedFlag'
+    )
+    progress_time_flag: bool | None = Field(default=None, alias='progressTimeFlag')
+    restrict_project_downpayment_flag: bool | None = Field(
+        default=None, alias='restrictProjectDownpaymentFlag'
+    )
+    bill_sales_order_complete_flag: bool | None = Field(
+        default=None, alias='billSalesOrderCompleteFlag'
+    )
+    bill_product_after_ship_flag: bool | None = Field(
+        default=None, alias='billProductAfterShipFlag'
+    )
+    restrict_downpayment_flag: bool | None = Field(
+        default=None, alias='restrictDownpaymentFlag'
+    )
+    copy_non_service_products_flag: bool | None = Field(
+        default=None, alias='copyNonServiceProductsFlag'
+    )
+    copy_service_products_flag: bool | None = Field(
+        default=None, alias='copyServiceProductsFlag'
+    )
+    copy_agreement_products_flag: bool | None = Field(
+        default=None, alias='copyAgreementProductsFlag'
+    )
+    print_logo_flag: bool | None = Field(default=None, alias='printLogoFlag')
+    read_receipt_flag: bool | None = Field(default=None, alias='readReceiptFlag')
+    delivery_receipt_flag: bool | None = Field(
+        default=None, alias='deliveryReceiptFlag'
+    )
+    attach_xml_invoice_flag: bool | None = Field(
+        default=None, alias='attachXmlInvoiceFlag'
+    )
+    disable_routing_email_flag: bool | None = Field(
+        default=None, alias='disableRoutingEmailFlag'
+    )
+    email_template: EmailTemplateReference = Field(..., alias='emailTemplate')
+    localized_country: CountryReference | None = Field(
+        default=None, alias='localizedCountry'
+    )
+    business_number: str | None = Field(default=None, alias='businessNumber')
+    """
+     Max length: 50;
+    """
+    currency: CurrencyReference | None = None
+    custom_label: str | None = Field(default=None, alias='customLabel')
+    """
+     Max length: 50;
+    """
+    custom_text: str | None = Field(default=None, alias='customText')
+    """
+     Max length: 500;
+    """
+    company_code: str | None = Field(default=None, alias='companyCode')
+    """
+     Max length: 250;
+    """
+    exclude_avalara_flag: bool | None = Field(default=None, alias='excludeAvalaraFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BillingSetupInfo(ConnectWiseModel):
+    id: int | None = None
+    remit_name: str | None = Field(default=None, alias='remitName')
+    location: SystemLocationReference | None = None
+    currency: CurrencyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BillingSetupRouting(ConnectWiseModel):
+    id: int | None = None
+    sequence_number: int = Field(..., alias='sequenceNumber')
+    invoice_rule: Literal['All', 'Standard', 'Project', 'Agreement'] = Field(
+        ..., alias='invoiceRule'
+    )
+    routing_rule: Literal[
+        'Account',
+        'Territory',
+        'Creator',
+        'Department',
+        'Location',
+        'Member',
+        'Project',
+        'Sales',
+    ] = Field(..., alias='routingRule')
+    member: MemberReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Board(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    sign_off_template: ServiceSignoffReference | None = Field(
+        default=None, alias='signOffTemplate'
+    )
+    send_to_contact_flag: bool | None = Field(default=None, alias='sendToContactFlag')
+    contact_template: ServiceEmailTemplateReference | None = Field(
+        default=None, alias='contactTemplate'
+    )
+    send_to_resource_flag: bool | None = Field(default=None, alias='sendToResourceFlag')
+    resource_template: ServiceEmailTemplateReference | None = Field(
+        default=None, alias='resourceTemplate'
+    )
+    project_flag: bool | None = Field(default=None, alias='projectFlag')
+    show_dependencies_flag: bool | None = Field(
+        default=None, alias='showDependenciesFlag'
+    )
+    """
+    This field only shows if it is Project Board.
+    """
+    show_estimates_flag: bool | None = Field(default=None, alias='showEstimatesFlag')
+    """
+    This field only shows if it is Project Board.
+    """
+    board_icon: DocumentReference | None = Field(default=None, alias='boardIcon')
+    bill_tickets_after_closed_flag: bool | None = Field(
+        default=None, alias='billTicketsAfterClosedFlag'
+    )
+    bill_ticket_separately_flag: bool | None = Field(
+        default=None, alias='billTicketSeparatelyFlag'
+    )
+    bill_unapproved_time_expense_flag: bool | None = Field(
+        default=None, alias='billUnapprovedTimeExpenseFlag'
+    )
+    override_billing_setup_flag: bool | None = Field(
+        default=None, alias='overrideBillingSetupFlag'
+    )
+    dispatch_member: MemberReference | None = Field(
+        default=None, alias='dispatchMember'
+    )
+    service_manager_member: MemberReference | None = Field(
+        default=None, alias='serviceManagerMember'
+    )
+    duty_manager_member: MemberReference | None = Field(
+        default=None, alias='dutyManagerMember'
+    )
+    oncall_member: MemberReference | None = Field(default=None, alias='oncallMember')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
+    bill_expense: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpense')
+    bill_product: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProduct')
+    auto_close_status: ServiceStatusReference | None = Field(
+        default=None, alias='autoCloseStatus'
+    )
+    auto_assign_new_tickets_flag: bool | None = Field(
+        default=None, alias='autoAssignNewTicketsFlag'
+    )
+    auto_assign_new_ec_tickets_flag: bool | None = Field(
+        default=None, alias='autoAssignNewECTicketsFlag'
+    )
+    auto_assign_new_portal_tickets_flag: bool | None = Field(
+        default=None, alias='autoAssignNewPortalTicketsFlag'
+    )
+    discussions_locked_flag: bool | None = Field(
+        default=None, alias='discussionsLockedFlag'
+    )
+    time_entry_locked_flag: bool | None = Field(
+        default=None, alias='timeEntryLockedFlag'
+    )
+    notify_email_from: str | None = Field(default=None, alias='notifyEmailFrom')
+    """
+     Max length: 50;
+    """
+    notify_email_from_name: str | None = Field(
+        default=None, alias='notifyEmailFromName'
+    )
+    """
+     Max length: 60;
+    """
+    closed_loop_discussions_flag: bool | None = Field(
+        default=None, alias='closedLoopDiscussionsFlag'
+    )
+    closed_loop_resolution_flag: bool | None = Field(
+        default=None, alias='closedLoopResolutionFlag'
+    )
+    closed_loop_internal_analysis_flag: bool | None = Field(
+        default=None, alias='closedLoopInternalAnalysisFlag'
+    )
+    time_entry_discussion_flag: bool | None = Field(
+        default=None, alias='timeEntryDiscussionFlag'
+    )
+    time_entry_resolution_flag: bool | None = Field(
+        default=None, alias='timeEntryResolutionFlag'
+    )
+    time_entry_internal_analysis_flag: bool | None = Field(
+        default=None, alias='timeEntryInternalAnalysisFlag'
+    )
+    problem_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='problemSort'
+    )
+    resolution_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='resolutionSort'
+    )
+    internal_analysis_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='internalAnalysisSort'
+    )
+    email_connector_allow_reopen_closed_flag: bool | None = Field(
+        default=None, alias='emailConnectorAllowReopenClosedFlag'
+    )
+    email_connector_reopen_status: ServiceStatusReference | None = Field(
+        default=None, alias='emailConnectorReopenStatus'
+    )
+    email_connector_reopen_resources_flag: bool | None = Field(
+        default=None, alias='emailConnectorReopenResourcesFlag'
+    )
+    """
+    This field can only be set when emailConnectorAllowReopenClosed is true.
+    """
+    email_connector_new_ticket_no_match_flag: bool | None = Field(
+        default=None, alias='emailConnectorNewTicketNoMatchFlag'
+    )
+    """
+    This field can only be set when emailConnectorAllowReopenClosed is true.
+    """
+    email_connector_never_reopen_by_days_flag: bool | None = Field(
+        default=None, alias='emailConnectorNeverReopenByDaysFlag'
+    )
+    """
+    This field can only be set when emailConnectorAllowReopenClosed is true.
+    """
+    email_connector_reopen_days_limit: int | None = Field(
+        default=None, alias='emailConnectorReopenDaysLimit'
+    )
+    """
+    This field can only be set when emailConnectorNeverReopenByDaysFlag and emailConnectorAllowReopenClosed are both true
+                This field is required when emailConnectorNeverReopenByDaysFlag is true.
+    """
+    email_connector_never_reopen_by_days_closed_flag: bool | None = Field(
+        default=None, alias='emailConnectorNeverReopenByDaysClosedFlag'
+    )
+    """
+    This field can only be set when emailConnectorAllowReopenClosed is true.
+    """
+    email_connector_reopen_days_closed_limit: int | None = Field(
+        default=None, alias='emailConnectorReopenDaysClosedLimit'
+    )
+    """
+    This field can only be set when emailConnectorNeverReopenByDaysClosedFlag and emailConnectorAllowReopenClosed are both true
+                This field is required when emailConnectorNeverReopenByDaysClosedFlag is true.
+    """
+    use_member_display_name_flag: bool | None = Field(
+        default=None, alias='useMemberDisplayNameFlag'
+    )
+    send_to_cc_flag: bool | None = Field(default=None, alias='sendToCCFlag')
+    auto_assign_ticket_owner_flag: bool | None = Field(
+        default=None, alias='autoAssignTicketOwnerFlag'
+    )
+    auto_assign_limit_flag: bool | None = Field(
+        default=None, alias='autoAssignLimitFlag'
+    )
+    auto_assign_limit_amount: int | None = Field(
+        default=None, alias='autoAssignLimitAmount'
+    )
+    """
+    This field can only be set when autoAssignLimitFlag is true
+    """
+    closed_loop_all_flag: bool | None = Field(default=None, alias='closedLoopAllFlag')
+    percentage_calculation: Literal[
+        'ActualHours', 'Manual', 'ClosedPhases', 'ClosedTickets'
+    ] | None = Field(default=None, alias='percentageCalculation')
+    all_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='allSort'
+    )
+    mark_first_note_issue_flag: bool | None = Field(
+        default=None, alias='markFirstNoteIssueFlag'
+    )
+    restrict_board_by_default_flag: bool | None = Field(
+        default=None, alias='restrictBoardByDefaultFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardAutoAssignResource(ConnectWiseModel):
+    id: int | None = None
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    member: MemberReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardAutoTemplate(ConnectWiseModel):
+    id: int | None = None
+    type: ServiceTypeReference | None = None
+    subtype: ServiceSubTypeReference | None = None
+    item: ServiceItemReference | None = None
+    service_template: ServiceTemplateReference | None = Field(
+        default=None, alias='serviceTemplate'
+    )
+    board: BoardReference | None = None
+    summary_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='summarySetting'
+    )
+    discussion_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='discussionSetting'
+    )
+    internal_analysis_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='internalAnalysisSetting'
+    )
+    resolution_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='resolutionSetting'
+    )
+    tasks_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='tasksSetting'
+    )
+    documents_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='documentsSetting'
+    )
+    resources_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='resourcesSetting'
+    )
+    budget_hours_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='budgetHoursSetting'
+    )
+    finance_information_setting: Literal[
+        'Append', 'Overwrite', 'Ignore'
+    ] | None = Field(default=None, alias='financeInformationSetting')
+    send_notes_as_email_setting: Literal[
+        'Append', 'Overwrite', 'Ignore'
+    ] | None = Field(default=None, alias='sendNotesAsEmailSetting')
+    impact_urgency_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='impactUrgencySetting'
+    )
+    template_priority_setting: Literal['Append', 'Overwrite', 'Ignore'] | None = Field(
+        default=None, alias='templatePrioritySetting'
+    )
+    auto_apply_flag: bool | None = Field(default=None, alias='autoApplyFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardDefault(ConnectWiseModel):
+    id: int | None = None
+    board: BoardReference | None = None
+    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    agreement_id: int | None = Field(default=None, alias='agreementId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    project_flag: bool | None = Field(default=None, alias='projectFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    closed_loop_discussions_flag: bool | None = Field(
+        default=None, alias='closedLoopDiscussionsFlag'
+    )
+    closed_loop_internal_analysis_flag: bool | None = Field(
+        default=None, alias='closedLoopInternalAnalysisFlag'
+    )
+    closed_loop_resolution_flag: bool | None = Field(
+        default=None, alias='closedLoopResolutionFlag'
+    )
+    closed_loop_all_flag: bool | None = Field(default=None, alias='closedLoopAllFlag')
+    problem_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='problemSort'
+    )
+    internal_analysis_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='internalAnalysisSort'
+    )
+    resolution_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='resolutionSort'
+    )
+    all_sort: Literal['Ascending', 'Descending'] | None = Field(
+        default=None, alias='allSort'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardItem(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    board: BoardReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardItemAssociation(ConnectWiseModel):
+    id: int
+    sub_type_association_ids: list[int] | None = Field(
+        default=None, alias='subTypeAssociationIds'
+    )
+    """
+    If addAllSubTypesFlag and removeAllSubTypesFlag are both false, this field is required.
+    """
+    add_all_sub_types_flag: bool | None = Field(
+        default=None, alias='addAllSubTypesFlag'
+    )
+    remove_all_sub_types_flag: bool | None = Field(
+        default=None, alias='removeAllSubTypesFlag'
+    )
+    item: ServiceItemReference | None = None
+    board: BoardReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardNotification(ConnectWiseModel):
+    id: int | None = None
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    member: MemberReference | None = None
+    email: str | None = None
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardStatus(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    board: BoardReference | None = None
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    display_on_board: bool | None = Field(default=None, alias='displayOnBoard')
+    inactive: bool | None = None
+    closed_status: bool | None = Field(default=None, alias='closedStatus')
+    time_entry_not_allowed: bool | None = Field(
+        default=None, alias='timeEntryNotAllowed'
+    )
+    round_robin_catchall: bool | None = Field(default=None, alias='roundRobinCatchall')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    escalation_status: Literal[
+        'NotResponded', 'Responded', 'ResolutionPlan', 'Resolved', 'NoEscalation'
+    ] | None = Field(default=None, alias='escalationStatus')
+    customer_portal_description: str | None = Field(
+        default=None, alias='customerPortalDescription'
+    )
+    """
+     Max length: 500;
+    """
+    customer_portal_flag: bool | None = Field(default=None, alias='customerPortalFlag')
+    email_template: ServiceEmailTemplateReference | None = Field(
+        default=None, alias='emailTemplate'
+    )
+    status_indicator: StatusIndicatorReference | None = Field(
+        default=None, alias='statusIndicator'
+    )
+    custom_status_indicator_name: str | None = Field(
+        default=None, alias='customStatusIndicatorName'
+    )
+    """
+     Max length: 30;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    save_time_as_note: bool | None = Field(default=None, alias='saveTimeAsNote')
+
+
+class BoardStatusNotification(ConnectWiseModel):
+    id: int | None = None
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    status: ServiceStatusReference | None = None
+    member: MemberReference | None = None
+    email: str | None = None
+    """
+    Service Status Notification email must be entered if the notify type is "Email Address". Max length: 255;
+    """
+    workflow_step: int | None = Field(default=None, alias='workflowStep')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardTeam(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    team_leader: MemberReference | None = Field(default=None, alias='teamLeader')
+    members: list[int] | None = None
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    notify_on_ticket_delete: bool | None = Field(
+        default=None, alias='notifyOnTicketDelete'
+    )
+    default_round_robin_flag: bool | None = Field(
+        default=None, alias='defaultRoundRobinFlag'
+    )
+    round_robin_flag: bool | None = Field(default=None, alias='roundRobinFlag')
+    board_id: int | None = Field(default=None, alias='boardId')
+    location_id: int | None = Field(default=None, alias='locationId')
+    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardType(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    category: Literal['Reactive', 'Proactive'] | None = None
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    request_for_change_flag: bool | None = Field(
+        default=None, alias='requestForChangeFlag'
+    )
+    integration_xref: str | None = Field(default=None, alias='integrationXref')
+    """
+     Max length: 50;
+    """
+    skill_category: SkillCategoryReference | None = Field(
+        default=None, alias='skillCategory'
+    )
+    skill: SkillReference | None = None
+    board: BoardReference | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BoardTypeSubTypeItemAssociation(ConnectWiseModel):
+    id: int | None = None
+    type: ServiceTypeReference | None = None
+    sub_type: ServiceSubTypeReference | None = Field(default=None, alias='subType')
+    item: ServiceItemReference | None = None
+    board: BoardReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BundleRequest(ConnectWiseModel):
+    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
+    resource_type: str | None = Field(default=None, alias='resourceType')
+    version: str | None = None
+    api_request: ApiRequest | None = Field(default=None, alias='apiRequest')
+
+
+class BundleRequestsCollection(ConnectWiseModel):
+    requests: list[BundleRequest]
+
+
+class Calendar(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
+    monday_start_time: str | None = Field(default=None, alias='mondayStartTime')
+    monday_end_time: str | None = Field(default=None, alias='mondayEndTime')
+    tuesday_start_time: str | None = Field(default=None, alias='tuesdayStartTime')
+    tuesday_end_time: str | None = Field(default=None, alias='tuesdayEndTime')
+    wednesday_start_time: str | None = Field(default=None, alias='wednesdayStartTime')
+    wednesday_end_time: str | None = Field(default=None, alias='wednesdayEndTime')
+    thursday_start_time: str | None = Field(default=None, alias='thursdayStartTime')
+    thursday_end_time: str | None = Field(default=None, alias='thursdayEndTime')
+    friday_start_time: str | None = Field(default=None, alias='fridayStartTime')
+    friday_end_time: str | None = Field(default=None, alias='fridayEndTime')
+    saturday_start_time: str | None = Field(default=None, alias='saturdayStartTime')
+    saturday_end_time: str | None = Field(default=None, alias='saturdayEndTime')
+    sunday_start_time: str | None = Field(default=None, alias='sundayStartTime')
+    sunday_end_time: str | None = Field(default=None, alias='sundayEndTime')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Campaign(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    type: CampaignTypeReference | None = None
+    sub_type: CampaignSubTypeReference | None = Field(default=None, alias='subType')
+    status: CampaignStatusReference | None = None
+    start_date: datetime = Field(..., alias='startDate')
+    end_date: datetime | None = Field(default=None, alias='endDate')
+    location_id: int | None = Field(default=None, alias='locationId')
+    member: MemberReference | None = None
+    inactive: bool | None = None
+    inactive_days_after_end: int | None = Field(
+        default=None, alias='inactiveDaysAfterEnd'
+    )
+    notes: str | None = None
+    default_group: GroupReference | None = Field(default=None, alias='defaultGroup')
+    marketing_manager_default_track_id: int | None = Field(
+        default=None, alias='marketingManagerDefaultTrackId'
+    )
+    opportunity_default_track_id: int | None = Field(
+        default=None, alias='opportunityDefaultTrackId'
+    )
+    impressions: int | None = None
+    budget_revenue: float | None = Field(default=None, alias='budgetRevenue')
+    budget_cost: float | None = Field(default=None, alias='budgetCost')
+    actual_cost: float | None = Field(default=None, alias='actualCost')
+    budget_gross_margin: float | None = Field(default=None, alias='budgetGrossMargin')
+    budget_roi: float | None = Field(default=None, alias='budgetROI')
+    actual_revenue: float | None = Field(default=None, alias='actualRevenue')
+    actual_gross_margin: float | None = Field(default=None, alias='actualGrossMargin')
+    actual_roi: float | None = Field(default=None, alias='actualROI')
+    emails_sent: int | None = Field(default=None, alias='emailsSent')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CampaignSubTypeCampaignSubType(ConnectWiseModel):
+    id: int | None = None
+    type: CampaignTypeReference | None = None
+    name: str
+    """
+     Max length: 100;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CampaignAudit(ConnectWiseModel):
+    id: int | None = None
+    emails_sent: int = Field(..., alias='emailsSent')
+    emails_unsent: int | None = Field(default=None, alias='emailsUnsent')
+    documents_created: int | None = Field(default=None, alias='documentsCreated')
+    email_subject: str | None = Field(default=None, alias='emailSubject')
+    """
+     Max length: 1000;
+    """
+    group: GroupReference | None = None
+    campaign_id: int | None = Field(default=None, alias='campaignId')
+    created_by: str | None = Field(default=None, alias='createdBy')
+    date_created: str | None = Field(default=None, alias='dateCreated')
+
+
+class CatalogComponent(ConnectWiseModel):
+    id: int | None = None
+    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
+    quantity: float
+    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
+    hide_price_flag: bool | None = Field(default=None, alias='hidePriceFlag')
+    hide_item_identifier_flag: bool | None = Field(
+        default=None, alias='hideItemIdentifierFlag'
+    )
+    hide_description_flag: bool | None = Field(
+        default=None, alias='hideDescriptionFlag'
+    )
+    hide_quantity_flag: bool | None = Field(default=None, alias='hideQuantityFlag')
+    hide_extended_price_flag: bool | None = Field(
+        default=None, alias='hideExtendedPriceFlag'
+    )
+    parent_catalog_item: CatalogItemReference | None = Field(
+        default=None, alias='parentCatalogItem'
+    )
+    price: float | None = None
+    cost: float | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CatalogInventory(ConnectWiseModel):
+    id: int | None = None
+    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
+    warehouse: WarehouseReference | None = None
+    warehouse_bin: WarehouseBinReference | None = Field(
+        default=None, alias='warehouseBin'
+    )
+    on_hand: int | None = Field(default=None, alias='onHand')
+    serial_numbers: list[OnHandSerialNumberReference] | None = Field(
+        default=None, alias='serialNumbers'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CatalogItem(ConnectWiseModel):
+    id: int | None = None
+    identifier: str
+    """
+     Max length: 60;
+    """
+    description: str
+    """
+     Max length: 60;
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    subcategory: ProductSubCategoryReference | None = None
+    type: ProductTypeReference | None = None
+    product_class: Literal[
+        'Agreement', 'Bundle', 'Inventory', 'NonInventory', 'Service'
+    ] | None = Field(default=None, alias='productClass')
+    """
+    Defaults to Non-Inventory.
+    """
+    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
+    serialized_cost_flag: bool | None = Field(default=None, alias='serializedCostFlag')
+    phase_product_flag: bool | None = Field(default=None, alias='phaseProductFlag')
+    unit_of_measure: UnitOfMeasureReference | None = Field(
+        default=None, alias='unitOfMeasure'
+    )
+    min_stock_level: int | None = Field(default=None, alias='minStockLevel')
+    price: float | None = None
+    cost: float | None = None
+    price_attribute: Literal[
+        'FixedFee', 'NotToExceed', 'OverrideRate', 'TimeAndMaterials'
+    ] | None = Field(default=None, alias='priceAttribute')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    drop_ship_flag: bool | None = Field(default=None, alias='dropShipFlag')
+    special_order_flag: bool | None = Field(default=None, alias='specialOrderFlag')
+    customer_description: str = Field(..., alias='customerDescription')
+    """
+     Max length: 6000;
+    """
+    manufacturer: ManufacturerReference | None = None
+    manufacturer_part_number: str | None = Field(
+        default=None, alias='manufacturerPartNumber'
+    )
+    """
+     Max length: 50;
+    """
+    vendor: CompanyReference | None = None
+    vendor_sku: str | None = Field(default=None, alias='vendorSku')
+    """
+     Max length: 50;
+    """
+    notes: str | None = None
+    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
+    """
+     Max length: 50;
+    """
+    sla: SLAReference | None = None
+    entity_type: EntityTypeReference | None = Field(default=None, alias='entityType')
+    recurring_flag: bool | None = Field(default=None, alias='recurringFlag')
+    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
+    recurring_cost: float | None = Field(default=None, alias='recurringCost')
+    recurring_one_time_flag: bool | None = Field(
+        default=None, alias='recurringOneTimeFlag'
+    )
+    recurring_bill_cycle: BillingCycleReference | None = Field(
+        default=None, alias='recurringBillCycle'
+    )
+    recurring_cycle_type: Literal['ContractYear', 'CalendarYear'] | None = Field(
+        default=None, alias='recurringCycleType'
+    )
+    date_entered: str | None = Field(default=None, alias='dateEntered')
+    calculated_price_flag: bool | None = Field(
+        default=None, alias='calculatedPriceFlag'
+    )
+    calculated_cost_flag: bool | None = Field(default=None, alias='calculatedCostFlag')
+    category: ProductCategoryReference | None = None
+    calculated_price: float | None = Field(default=None, alias='calculatedPrice')
+    calculated_cost: float | None = Field(default=None, alias='calculatedCost')
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class CatalogPricing(ConnectWiseModel):
+    catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
+    company: CompanyReference | None = None
+    location: SystemLocationReference | None = None
+    quantity: int | None = None
+    date: str | None = None
+    price: float | None = None
+
+
+class Certification(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ChargeCode(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    company: CompanyReference | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
+    expense_entry_flag: bool | None = Field(default=None, alias='expenseEntryFlag')
+    allow_all_expense_type_flag: bool | None = Field(
+        default=None, alias='allowAllExpenseTypeFlag'
+    )
+    time_entry_flag: bool | None = Field(default=None, alias='timeEntryFlag')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    integration_xref: str | None = Field(default=None, alias='integrationXref')
+    """
+     Max length: 50;
+    """
+    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ChargeCodeExpenseType(ConnectWiseModel):
+    id: int | None = None
+    type: ExpenseTypeReference | None = None
+    charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ChargeCodeInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    expense_entry_flag: bool | None = Field(default=None, alias='expenseEntryFlag')
+    allow_all_expense_type_flag: bool | None = Field(
+        default=None, alias='allowAllExpenseTypeFlag'
+    )
+    time_entry_flag: bool | None = Field(default=None, alias='timeEntryFlag')
+    work_type: WorkTypeReference | None = Field(default=None, alias='workType')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ClearPickerRequest(ConnectWiseModel):
+    member: MemberReference | None = None
+    type: Literal['Company', 'Vendor'] | None = None
+
+
+class Commission(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    commission_percent: float | None = Field(default=None, alias='commissionPercent')
+    date_start: datetime | None = Field(default=None, alias='dateStart')
+    date_end: datetime | None = Field(default=None, alias='dateEnd')
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    company: CompanyReference | None = None
+    site: SiteReference | None = None
+    agreement: AgreementReference | None = None
+    project: ProjectReference | None = None
+    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
+    ticket: TicketReference | None = None
+    territory: SystemLocationReference | None = None
+    billing_method: Literal[
+        'Agreement',
+        'CreditMemo',
+        'DownPayment',
+        'Miscellaneous',
+        'Progress',
+        'Standard',
+    ] | None = Field(default=None, alias='billingMethod')
+    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
+    project_board: ProjectBoardReference | None = Field(
+        default=None, alias='projectBoard'
+    )
+    project_type: ProjectTypeReference | None = Field(default=None, alias='projectType')
+    agreement_type: AgreementTypeReference | None = Field(
+        default=None, alias='agreementType'
+    )
+    number_of_months: int | None = Field(default=None, alias='numberOfMonths')
+    product_category: ProductCategoryReference | None = Field(
+        default=None, alias='productCategory'
+    )
+    product_sub_category: ProductSubCategoryReference | None = Field(
+        default=None, alias='productSubCategory'
+    )
+    item: IvItemReference | None = None
+    commission_basis: Literal['GrossProfit', 'SalesAmount'] | None = Field(
+        default=None, alias='commissionBasis'
+    )
+    invoice_option: Literal['AllInvoices', 'PaidInvoices'] | None = Field(
+        default=None, alias='invoiceOption'
+    )
+    services_flag: bool | None = Field(default=None, alias='servicesFlag')
+    agreements_flag: bool | None = Field(default=None, alias='agreementsFlag')
+    products_flag: bool | None = Field(default=None, alias='productsFlag')
+    my_opportunities_flag: bool | None = Field(
+        default=None, alias='myOpportunitiesFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Company(ConnectWiseModel):
+    id: int | None = None
+    identifier: str
+    """
+     Max length: 30;
+    """
+    name: str
+    """
+     Max length: 50;
+    """
+    status: CompanyStatusReference | None = None
+    address_line1: str | None = Field(default=None, alias='addressLine1')
+    """
+    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
+    """
+    address_line2: str | None = Field(default=None, alias='addressLine2')
+    """
+    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
+    """
+    city: str | None = None
+    """
+    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
+    """
+    state: str | None = None
+    """
+    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 50;
+    """
+    zip: str | None = None
+    """
+    Gets or sets at least one address field is required -- addressLine1, addressLine2, city, state, zip and/or country. Max length: 12;
+    """
+    country: CountryReference | None = None
+    phone_number: str | None = Field(default=None, alias='phoneNumber')
+    """
+     Max length: 30;
+    """
+    fax_number: str | None = Field(default=None, alias='faxNumber')
+    """
+     Max length: 30;
+    """
+    website: str | None = None
+    """
+     Max length: 255;
+    """
+    territory: SystemLocationReference | None = None
+    market: MarketDescriptionReference | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    default_contact: ContactReference | None = Field(
+        default=None, alias='defaultContact'
+    )
+    date_acquired: datetime | None = Field(default=None, alias='dateAcquired')
+    sic_code: SicCodeReference | None = Field(default=None, alias='sicCode')
+    parent_company: CompanyReference | None = Field(default=None, alias='parentCompany')
+    annual_revenue: float | None = Field(default=None, alias='annualRevenue')
+    number_of_employees: int | None = Field(default=None, alias='numberOfEmployees')
+    year_established: int | None = Field(default=None, alias='yearEstablished')
+    revenue_year: int | None = Field(default=None, alias='revenueYear')
+    ownership_type: OwnershipTypeReference | None = Field(
+        default=None, alias='ownershipType'
+    )
+    time_zone_setup: TimeZoneSetupReference | None = Field(
+        default=None, alias='timeZoneSetup'
+    )
+    lead_source: str | None = Field(default=None, alias='leadSource')
+    """
+     Max length: 50;
+    """
+    lead_flag: bool | None = Field(default=None, alias='leadFlag')
+    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
+    calendar: CalendarReference | None = None
+    user_defined_field1: str | None = Field(default=None, alias='userDefinedField1')
+    """
+     Max length: 50;
+    """
+    user_defined_field2: str | None = Field(default=None, alias='userDefinedField2')
+    """
+     Max length: 50;
+    """
+    user_defined_field3: str | None = Field(default=None, alias='userDefinedField3')
+    """
+     Max length: 50;
+    """
+    user_defined_field4: str | None = Field(default=None, alias='userDefinedField4')
+    """
+     Max length: 50;
+    """
+    user_defined_field5: str | None = Field(default=None, alias='userDefinedField5')
+    """
+     Max length: 50;
+    """
+    user_defined_field6: str | None = Field(default=None, alias='userDefinedField6')
+    """
+     Max length: 50;
+    """
+    user_defined_field7: str | None = Field(default=None, alias='userDefinedField7')
+    """
+     Max length: 50;
+    """
+    user_defined_field8: str | None = Field(default=None, alias='userDefinedField8')
+    """
+     Max length: 50;
+    """
+    user_defined_field9: str | None = Field(default=None, alias='userDefinedField9')
+    """
+     Max length: 50;
+    """
+    user_defined_field10: str | None = Field(default=None, alias='userDefinedField10')
+    """
+     Max length: 50;
+    """
+    vendor_identifier: str | None = Field(default=None, alias='vendorIdentifier')
+    tax_identifier: str | None = Field(default=None, alias='taxIdentifier')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    invoice_template: InvoiceTemplateReference | None = Field(
+        default=None, alias='invoiceTemplate'
+    )
+    pricing_schedule: PricingScheduleReference | None = Field(
+        default=None, alias='pricingSchedule'
+    )
+    company_entity_type: EntityTypeReference | None = Field(
+        default=None, alias='companyEntityType'
+    )
+    bill_to_company: CompanyReference | None = Field(
+        default=None, alias='billToCompany'
+    )
+    billing_site: SiteReference | None = Field(default=None, alias='billingSite')
+    billing_contact: ContactReference | None = Field(
+        default=None, alias='billingContact'
+    )
+    invoice_delivery_method: BillingDeliveryReference | None = Field(
+        default=None, alias='invoiceDeliveryMethod'
+    )
+    invoice_to_email_address: str | None = Field(
+        default=None, alias='invoiceToEmailAddress'
+    )
+    invoice_cc_email_address: str | None = Field(
+        default=None, alias='invoiceCCEmailAddress'
+    )
+    deleted_flag: bool | None = Field(default=None, alias='deletedFlag')
+    date_deleted: datetime | None = Field(default=None, alias='dateDeleted')
+    deleted_by: str | None = Field(default=None, alias='deletedBy')
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    facebook_url: str | None = Field(default=None, alias='facebookUrl')
+    twitter_url: str | None = Field(default=None, alias='twitterUrl')
+    linked_in_url: str | None = Field(default=None, alias='linkedInUrl')
+    currency: CurrencyReference | None = None
+    territory_manager: MemberReference | None = Field(
+        default=None, alias='territoryManager'
+    )
+    reseller_identifier: str | None = Field(default=None, alias='resellerIdentifier')
+    is_vendor_flag: bool | None = Field(default=None, alias='isVendorFlag')
+    types: list[CompanyTypeReference] | None = None
+    """
+    Gets or sets integrer array of Company_Type_Recids to be assigned to company that can be passed in only during new company creation (post)
+                To update existing companies type, use the /company/companyTypeAssociations or /company/companies/{ID}/typeAssociations endpoints.
+    """
+    site: SiteReference | None = None
+    integrator_tags: list[str] | None = Field(default=None, alias='integratorTags')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class CompanyCompanyTypeAssociation(ConnectWiseModel):
+    id: int | None = None
+    type: CompanyTypeReference | None = None
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyConfiguration(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 100;
+    """
+    type: ConfigurationTypeReference | None = None
+    status: ConfigurationStatusReference | None = None
+    company: CompanyReference | None = None
+    contact: ContactReference | None = None
+    site: SiteReference | None = None
+    location_id: int | None = Field(default=None, alias='locationId')
+    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
+    device_identifier: str | None = Field(default=None, alias='deviceIdentifier')
+    """
+     Max length: 100;
+    """
+    serial_number: str | None = Field(default=None, alias='serialNumber')
+    """
+     Max length: 250;
+    """
+    model_number: str | None = Field(default=None, alias='modelNumber')
+    """
+     Max length: 50;
+    """
+    tag_number: str | None = Field(default=None, alias='tagNumber')
+    """
+     Max length: 50;
+    """
+    purchase_date: datetime | None = Field(default=None, alias='purchaseDate')
+    installation_date: datetime | None = Field(default=None, alias='installationDate')
+    installed_by: MemberReference | None = Field(default=None, alias='installedBy')
+    warranty_expiration_date: datetime | None = Field(
+        default=None, alias='warrantyExpirationDate'
+    )
+    vendor_notes: str | None = Field(default=None, alias='vendorNotes')
+    notes: str | None = None
+    mac_address: str | None = Field(default=None, alias='macAddress')
+    """
+     Max length: 25;
+    """
+    last_login_name: str | None = Field(default=None, alias='lastLoginName')
+    """
+     Max length: 100;
+    """
+    bill_flag: bool | None = Field(default=None, alias='billFlag')
+    backup_successes: int | None = Field(default=None, alias='backupSuccesses')
+    backup_incomplete: int | None = Field(default=None, alias='backupIncomplete')
+    backup_failed: int | None = Field(default=None, alias='backupFailed')
+    backup_restores: int | None = Field(default=None, alias='backupRestores')
+    last_backup_date: datetime | None = Field(default=None, alias='lastBackupDate')
+    backup_server_name: str | None = Field(default=None, alias='backupServerName')
+    """
+     Max length: 50;
+    """
+    backup_billable_space_gb: float | None = Field(
+        default=None, alias='backupBillableSpaceGb'
+    )
+    backup_protected_device_list: str | None = Field(
+        default=None, alias='backupProtectedDeviceList'
+    )
+    backup_year: int | None = Field(default=None, alias='backupYear')
+    backup_month: int | None = Field(default=None, alias='backupMonth')
+    ip_address: str | None = Field(default=None, alias='ipAddress')
+    """
+     Max length: 50;
+    """
+    default_gateway: str | None = Field(default=None, alias='defaultGateway')
+    """
+     Max length: 50;
+    """
+    os_type: str | None = Field(default=None, alias='osType')
+    """
+     Max length: 250;
+    """
+    os_info: str | None = Field(default=None, alias='osInfo')
+    """
+     Max length: 250;
+    """
+    cpu_speed: str | None = Field(default=None, alias='cpuSpeed')
+    """
+     Max length: 100;
+    """
+    ram: str | None = None
+    """
+     Max length: 25;
+    """
+    local_hard_drives: str | None = Field(default=None, alias='localHardDrives')
+    parent_configuration_id: int | None = Field(
+        default=None, alias='parentConfigurationId'
+    )
+    vendor: CompanyReference | None = None
+    manufacturer: ManufacturerReference | None = None
+    questions: list[ConfigurationQuestion] | None = None
+    active_flag: bool | None = Field(default=None, alias='activeFlag')
+    management_link: str | None = Field(default=None, alias='managementLink')
+    """
+     Max length: 1000;
+    """
+    remote_link: str | None = Field(default=None, alias='remoteLink')
+    """
+     Max length: 1000;
+    """
+    sla: SLAReference | None = None
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    display_vendor_flag: bool | None = Field(default=None, alias='displayVendorFlag')
+    company_location_id: int | None = Field(default=None, alias='companyLocationId')
+    show_remote_flag: bool | None = Field(default=None, alias='showRemoteFlag')
+    show_automate_flag: bool | None = Field(default=None, alias='showAutomateFlag')
+    needs_renewal_flag: bool | None = Field(default=None, alias='needsRenewalFlag')
+    manufacturer_part_number: str | None = Field(
+        default=None, alias='manufacturerPartNumber'
+    )
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class CompanyContactTypeAssociation(ConnectWiseModel):
+    id: int | None = None
+    type: ContactTypeReference | None = None
+    contact: ContactReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyCompanyTypeAssociationCompanyTypeAssociation(
+    CompanyCompanyTypeAssociation
+):
+    pass
+
+
+class CompanyCustomNote(ConnectWiseModel):
+    id: int | None = None
+    custom_note: str = Field(..., alias='customNote')
+    """
+     Max length: 1500;
+    """
+    status: CompanyStatusReference | None = None
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyFinance(ConnectWiseModel):
+    id: int | None = None
+    bill_override_flag: bool | None = Field(default=None, alias='billOverrideFlag')
+    bill_sr_flag: bool | None = Field(default=None, alias='billSrFlag')
+    bill_complete_sr_flag: bool | None = Field(default=None, alias='billCompleteSrFlag')
+    bill_unapproved_sr_flag: bool | None = Field(
+        default=None, alias='billUnapprovedSrFlag'
+    )
+    bill_restrict_pm_flag: bool | None = Field(default=None, alias='billRestrictPmFlag')
+    bill_complete_pm_flag: bool | None = Field(default=None, alias='billCompletePmFlag')
+    bill_unapproved_pm_flag: bool | None = Field(
+        default=None, alias='billUnapprovedPmFlag'
+    )
+    email_template: EmailTemplateReference | None = Field(
+        default=None, alias='emailTemplate'
+    )
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class CompanyGroup(ConnectWiseModel):
+    id: int | None = None
+    """
+     Required On Updates;
+    """
+    group: GroupReference | None = None
+    company: CompanyReference | None = None
+    default_contact_flag: bool | None = Field(default=None, alias='defaultContactFlag')
+    all_contacts_flag: bool | None = Field(default=None, alias='allContactsFlag')
+    remove_all_contacts_flag: bool | None = Field(
+        default=None, alias='removeAllContactsFlag'
+    )
+    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
+    contact_ids: list[int] | None = Field(default=None, alias='contactIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyManagementSummary(ConnectWiseModel):
+    id: int | None = None
+    management_solution: ManagementSolutionReference | None = Field(
+        default=None, alias='managementSolution'
+    )
+    group_identifier: str = Field(..., alias='groupIdentifier')
+    """
+     Max length: 100;
+    """
+    device_type: Literal[
+        'WorkstationsAndServers', 'BackupStats', 'Servers', 'Workstations'
+    ] | None = Field(default=None, alias='deviceType')
+    """
+    Gets or sets deviceType is required if the managementSolution is Legacy.
+    """
+    agreement: AgreementReference | None = None
+    snmp_machines: int | None = Field(default=None, alias='snmpMachines')
+    total_workstations: int | None = Field(default=None, alias='totalWorkstations')
+    total_servers: int | None = Field(default=None, alias='totalServers')
+    total_windows_servers: int | None = Field(default=None, alias='totalWindowsServers')
+    total_windows_workstations: int | None = Field(
+        default=None, alias='totalWindowsWorkstations'
+    )
+    total_managed_machines: int | None = Field(
+        default=None, alias='totalManagedMachines'
+    )
+    servers_offline: int | None = Field(default=None, alias='serversOffline')
+    servers_disk_space_low: int | None = Field(
+        default=None, alias='serversDiskSpaceLow'
+    )
+    failed_backup_jobs: int | None = Field(default=None, alias='failedBackupJobs')
+    total_notifications: int | None = Field(default=None, alias='totalNotifications')
+    successful_backup_jobs: int | None = Field(
+        default=None, alias='successfulBackupJobs'
+    )
+    server_availability: int | None = Field(default=None, alias='serverAvailability')
+    viruses_removed: int | None = Field(default=None, alias='virusesRemoved')
+    spyware_items_removed: int | None = Field(default=None, alias='spywareItemsRemoved')
+    windows_patches_installed: int | None = Field(
+        default=None, alias='windowsPatchesInstalled'
+    )
+    disk_cleanups: int | None = Field(default=None, alias='diskCleanups')
+    disk_defragmentations: int | None = Field(
+        default=None, alias='diskDefragmentations'
+    )
+    fully_patched_machines: int | None = Field(
+        default=None, alias='fullyPatchedMachines'
+    )
+    missing_one_two_patches_machines: int | None = Field(
+        default=None, alias='missingOneTwoPatchesMachines'
+    )
+    missing_three_five_patches_machines: int | None = Field(
+        default=None, alias='missingThreeFivePatchesMachines'
+    )
+    missing_more_five_patches_machines: int | None = Field(
+        default=None, alias='missingMoreFivePatchesMachines'
+    )
+    missing_unscanned_patches_machines: int | None = Field(
+        default=None, alias='missingUnscannedPatchesMachines'
+    )
+    alerts_generated: str | None = Field(default=None, alias='alertsGenerated')
+    internet_connectivity: float | None = Field(
+        default=None, alias='internetConnectivity'
+    )
+    disk_space_cleaned_mb: int | None = Field(default=None, alias='diskSpaceCleanedMb')
+    missing_security_patches: str | None = Field(
+        default=None, alias='missingSecurityPatches'
+    )
+    cpu_utilization: float | None = Field(default=None, alias='cpuUtilization')
+    memory_utilization: float | None = Field(default=None, alias='memoryUtilization')
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyNote(ConnectWiseModel):
+    id: int | None = None
+    text: str
+    type: NoteTypeReference | None = None
+    flagged: bool | None = None
+    entered_by: str | None = Field(default=None, alias='enteredBy')
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyPickerItem(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    company: CompanyReference | None = None
+    company_status: CompanyStatusReference | None = Field(
+        default=None, alias='companyStatus'
+    )
+    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
+    company_site: SiteReference | None = Field(default=None, alias='companySite')
+    company_location: SystemLocationReference | None = Field(
+        default=None, alias='companyLocation'
+    )
+    company_country: CountryReference | None = Field(
+        default=None, alias='companyCountry'
+    )
+    vendor_picker_flag: bool | None = Field(default=None, alias='vendorPickerFlag')
+    """
+    Gets or sets if true, this record was created by the vendor picker component. Otherwise, the record was created by the company picker component.
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanySite(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    address_line1: str | None = Field(default=None, alias='addressLine1')
+    """
+     Max length: 50;
+    """
+    address_line2: str | None = Field(default=None, alias='addressLine2')
+    """
+     Max length: 50;
+    """
+    city: str | None = None
+    """
+     Max length: 50;
+    """
+    state_reference: StateReference | None = Field(default=None, alias='stateReference')
+    zip: str | None = None
+    """
+     Max length: 12;
+    """
+    country: CountryReference | None = None
+    address_format: str | None = Field(default=None, alias='addressFormat')
+    phone_number: str | None = Field(default=None, alias='phoneNumber')
+    """
+     Max length: 30;
+    """
+    phone_number_ext: str | None = Field(default=None, alias='phoneNumberExt')
+    """
+     Max length: 30;
+    """
+    fax_number: str | None = Field(default=None, alias='faxNumber')
+    """
+     Max length: 30;
+    """
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    entity_type: EntityTypeReference | None = Field(default=None, alias='entityType')
+    expense_reimbursement: float | None = Field(
+        default=None, alias='expenseReimbursement'
+    )
+    primary_address_flag: bool | None = Field(default=None, alias='primaryAddressFlag')
+    default_shipping_flag: bool | None = Field(
+        default=None, alias='defaultShippingFlag'
+    )
+    default_billing_flag: bool | None = Field(default=None, alias='defaultBillingFlag')
+    default_mailing_flag: bool | None = Field(default=None, alias='defaultMailingFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    bill_separate_flag: bool | None = Field(default=None, alias='billSeparateFlag')
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    calendar: CalendarReference | None = None
+    time_zone: TimeZoneSetupReference | None = Field(default=None, alias='timeZone')
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class CompanyStatus(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    notify_flag: bool | None = Field(default=None, alias='notifyFlag')
+    disallow_saving_flag: bool | None = Field(default=None, alias='disallowSavingFlag')
+    notification_message: str | None = Field(default=None, alias='notificationMessage')
+    """
+     Max length: 500;
+    """
+    custom_note_flag: bool | None = Field(default=None, alias='customNoteFlag')
+    cancel_open_tracks_flag: bool | None = Field(
+        default=None, alias='cancelOpenTracksFlag'
+    )
+    track: TrackReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CompanyTeam(ConnectWiseModel):
+    id: int | None = None
+    company: CompanyReference | None = None
+    team_role: TeamRoleReference | None = Field(default=None, alias='teamRole')
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    contact: ContactReference | None = None
+    member: MemberReference | None = None
+    account_manager_flag: bool | None = Field(default=None, alias='accountManagerFlag')
+    tech_flag: bool | None = Field(default=None, alias='techFlag')
+    sales_flag: bool | None = Field(default=None, alias='salesFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ConfigurationTypeQuestion(ConnectWiseModel):
+    id: int | None = None
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    field_type: Literal[
+        'TextArea',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] = Field(..., alias='fieldType')
+    entry_type: Literal['Date', 'EntryField', 'List', 'Option'] = Field(
+        ..., alias='entryType'
+    )
+    sequence_number: float = Field(..., alias='sequenceNumber')
+    question: str
+    """
+     Max length: 1000;
+    """
+    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
+    required_flag: bool | None = Field(default=None, alias='requiredFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ConfigurationTypeQuestionInfo(ConnectWiseModel):
+    id: int | None = None
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    field_type: Literal[
+        'TextArea',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] | None = Field(default=None, alias='fieldType')
+    entry_type: Literal['Date', 'EntryField', 'List', 'Option'] | None = Field(
+        default=None, alias='entryType'
+    )
+    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
+    question: str | None = None
+    number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
+    required_flag: bool | None = Field(default=None, alias='requiredFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ConfigurationTypeQuestionValue(ConnectWiseModel):
+    id: int | None = None
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    question: ConfigurationTypeQuestionReference | None = None
+    value: str
+    """
+     Max length: 1000;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ConfigurationTypeQuestionValueInfo(ConnectWiseModel):
+    id: int | None = None
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    question: ConfigurationTypeQuestionReference | None = None
+    value: str | None = None
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Contact(ConnectWiseModel):
+    id: int | None = None
+    first_name: str | None = Field(default=None, alias='firstName')
+    last_name: str | None = Field(default=None, alias='lastName')
+    company: CompanyReference | None = None
+    site: SiteReference | None = None
+    address_line1: str | None = Field(default=None, alias='addressLine1')
+    address_line2: str | None = Field(default=None, alias='addressLine2')
+    city: str | None = None
+    state: str | None = None
+    zip: str | None = None
+    country: CountryReference | None = None
+    relationship: RelationshipReference | None = None
+    relationship_override: str | None = Field(
+        default=None, alias='relationshipOverride'
+    )
+    department: ContactDepartmentReference | None = None
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    default_merge_contact_id: int | None = Field(
+        default=None, alias='defaultMergeContactId'
+    )
+    security_identifier: str | None = Field(default=None, alias='securityIdentifier')
+    manager_contact: ContactReference | None = Field(
+        default=None, alias='managerContact'
+    )
+    assistant_contact: ContactReference | None = Field(
+        default=None, alias='assistantContact'
+    )
+    title: str | None = None
+    school: str | None = None
+    nick_name: str | None = Field(default=None, alias='nickName')
+    married_flag: bool | None = Field(default=None, alias='marriedFlag')
+    children_flag: bool | None = Field(default=None, alias='childrenFlag')
+    children: str | None = None
+    significant_other: str | None = Field(default=None, alias='significantOther')
+    portal_password: str | None = Field(default=None, alias='portalPassword')
+    portal_security_level: int | None = Field(default=None, alias='portalSecurityLevel')
+    disable_portal_login_flag: bool | None = Field(
+        default=None, alias='disablePortalLoginFlag'
+    )
+    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
+    gender: Literal['Female', 'Male'] | None = None
+    birth_day: str | None = Field(default=None, alias='birthDay')
+    anniversary: str | None = None
+    presence: Literal[
+        'NoAgent', 'Online', 'DoNotDisturb', 'Away', 'Offline'
+    ] | None = None
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    facebook_url: str | None = Field(default=None, alias='facebookUrl')
+    twitter_url: str | None = Field(default=None, alias='twitterUrl')
+    linked_in_url: str | None = Field(default=None, alias='linkedInUrl')
+    default_phone_type: str | None = Field(default=None, alias='defaultPhoneType')
+    default_phone_nbr: str | None = Field(default=None, alias='defaultPhoneNbr')
+    default_phone_extension: str | None = Field(
+        default=None, alias='defaultPhoneExtension'
+    )
+    default_billing_flag: bool | None = Field(default=None, alias='defaultBillingFlag')
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    user_defined_field1: str | None = Field(default=None, alias='userDefinedField1')
+    """
+     Max length: 50;
+    """
+    user_defined_field2: str | None = Field(default=None, alias='userDefinedField2')
+    """
+     Max length: 50;
+    """
+    user_defined_field3: str | None = Field(default=None, alias='userDefinedField3')
+    """
+     Max length: 50;
+    """
+    user_defined_field4: str | None = Field(default=None, alias='userDefinedField4')
+    """
+     Max length: 50;
+    """
+    user_defined_field5: str | None = Field(default=None, alias='userDefinedField5')
+    """
+     Max length: 50;
+    """
+    user_defined_field6: str | None = Field(default=None, alias='userDefinedField6')
+    """
+     Max length: 50;
+    """
+    user_defined_field7: str | None = Field(default=None, alias='userDefinedField7')
+    """
+     Max length: 50;
+    """
+    user_defined_field8: str | None = Field(default=None, alias='userDefinedField8')
+    """
+     Max length: 50;
+    """
+    user_defined_field9: str | None = Field(default=None, alias='userDefinedField9')
+    """
+     Max length: 50;
+    """
+    user_defined_field10: str | None = Field(default=None, alias='userDefinedField10')
+    """
+     Max length: 50;
+    """
+    company_location: SystemLocationReference | None = Field(
+        default=None, alias='companyLocation'
+    )
+    communication_items: list[ContactCommunicationItem] | None = Field(
+        default=None, alias='communicationItems'
+    )
+    types: list[ContactTypeReference] | None = None
+    integrator_tags: list[str] | None = Field(default=None, alias='integratorTags')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+    photo: DocumentReference | None = None
+    ignore_duplicates: bool | None = Field(default=None, alias='ignoreDuplicates')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    type_ids: list[int] | None = Field(default=None, alias='typeIds')
+    """
+    Gets or sets integrer array of Contact_Type_Recids to be assigned to contact that can be passed in only during new contact creation (post)
+                To update existing contacts type, use the /company/contactTypeAssociations or /company/contacts/{ID}/typeAssociations endpoints.
+    """
+
+
+class ContactContactTypeAssociationContactTypeAssociation(
+    CompanyContactTypeAssociation
+):
+    pass
+
+
+class ContactGroup(ConnectWiseModel):
+    id: int | None = None
+    group: GroupReference | None = None
+    contact: ContactReference | None = None
+    description: str | None = None
+    """
+     Max length: 50;
+    """
+    unsubscribe_flag: bool | None = Field(default=None, alias='unsubscribeFlag')
+    company_unsubcribed_email_message: str | None = Field(
+        default=None, alias='companyUnsubcribedEmailMessage'
+    )
+    company_group_unsubscribed_email_message: str | None = Field(
+        default=None, alias='companyGroupUnsubscribedEmailMessage'
+    )
+    contact_unsubscribed_email_message: str | None = Field(
+        default=None, alias='contactUnsubscribedEmailMessage'
+    )
+    contact_group_unsubscribed_email_message: str | None = Field(
+        default=None, alias='contactGroupUnsubscribedEmailMessage'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ContactNote(ConnectWiseModel):
+    id: int | None = None
+    contact_id: int | None = Field(default=None, alias='contactId')
+    text: str
+    type: NoteTypeReference | None = None
+    flagged: bool | None = None
+    entered_by: str | None = Field(default=None, alias='enteredBy')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Conversion(ConnectWiseModel):
+    id: int | None = None
+    quantity: float | None = None
+    uom_type: UnitOfMeasureReference | None = Field(default=None, alias='uomType')
+    parent_uom: UnitOfMeasureReference | None = Field(default=None, alias='parentUOM')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ConvertItem(ConnectWiseModel):
+    id: int | None = None
+    record_type: Literal['ProjectIssue', 'ProjectTicket', 'ServiceTicket'] = Field(
+        ..., alias='recordType'
+    )
+    project: ProjectReference | None = None
+    phase: ProjectPhaseReference | None = None
+    wbs_code: str | None = Field(default=None, alias='wbsCode')
+
+
+class ConvertToProject(ConnectWiseModel):
+    id: int | None = None
+    record_type: Literal[
+        'ProjectIssue', 'ProjectTicket', 'ServiceTicket'
+    ] | None = Field(default=None, alias='recordType')
+    project: ProjectReference | None = None
+    phase: ProjectPhaseReference | None = None
+    wbs_code: str = Field(..., alias='wbsCode')
+
+
+class CorporateStructure(ConnectWiseModel):
+    id: int | None = None
+    level_count: Literal[
+        'Level1', 'Level2', 'Level3', 'Level4', 'Level5'
+    ] | None = Field(default=None, alias='levelCount')
+    level1_name: str | None = Field(default=None, alias='level1Name')
+    """
+     Max length: 20;
+    """
+    level2_name: str | None = Field(default=None, alias='level2Name')
+    """
+     Max length: 20;
+    """
+    level3_name: str | None = Field(default=None, alias='level3Name')
+    """
+     Max length: 20;
+    """
+    level4_name: str | None = Field(default=None, alias='level4Name')
+    """
+     Max length: 20;
+    """
+    level5_name: str | None = Field(default=None, alias='level5Name')
+    """
+     Max length: 20;
+    """
+    fiscal_year_start: Literal[
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ] = Field(..., alias='fiscalYearStart')
+    location_caption: str = Field(..., alias='locationCaption')
+    """
+     Max length: 50;
+    """
+    group_caption: str = Field(..., alias='groupCaption')
+    """
+     Max length: 50;
+    """
+    base_currency: CurrencyReference = Field(..., alias='baseCurrency')
+    president: MemberReference | None = None
+    chief_operating_officer: MemberReference | None = Field(
+        default=None, alias='chiefOperatingOfficer'
+    )
+    controller: MemberReference | None = None
+    dispatcher: MemberReference | None = None
+    service_manager: MemberReference | None = Field(
+        default=None, alias='serviceManager'
+    )
+    duty_manager: MemberReference | None = Field(default=None, alias='dutyManager')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CorporateStructureInfo(ConnectWiseModel):
+    id: int | None = None
+    location_caption: str | None = Field(default=None, alias='locationCaption')
+    group_caption: str | None = Field(default=None, alias='groupCaption')
+    base_currency: CurrencyReference | None = Field(default=None, alias='baseCurrency')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Country(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    default_flag: bool | None = Field(default=None, alias='defaultFlag')
+    currency: CurrencyReference | None = None
+    city_caption: str | None = Field(default=None, alias='cityCaption')
+    """
+     Max length: 25;
+    """
+    state_caption: str | None = Field(default=None, alias='stateCaption')
+    """
+     Max length: 25;
+    """
+    zip_caption: str | None = Field(default=None, alias='zipCaption')
+    """
+     Max length: 25;
+    """
+    zip_minimum_length: int | None = Field(default=None, alias='zipMinimumLength')
+    dialing_prefix: str | None = Field(default=None, alias='dialingPrefix')
+    """
+     Max length: 5;
+    """
+    address_format: AddressFormatReference | None = Field(
+        default=None, alias='addressFormat'
+    )
+    country_code: str | None = Field(default=None, alias='countryCode')
+    """
+     Max length: 2;
+    """
+    core_entity_country_code: Literal[
+        'AF',
+        'AX',
+        'AL',
+        'DZ',
+        'AS',
+        'AD',
+        'AO',
+        'AI',
+        'AQ',
+        'AR',
+        'AM',
+        'AW',
+        'AT',
+        'AZ',
+        'BH',
+        'BD',
+        'BB',
+        'BY',
+        'BZ',
+        'BJ',
+        'BM',
+        'BT',
+        'BO',
+        'BQ',
+        'BA',
+        'BW',
+        'BV',
+        'IO',
+        'BN',
+        'BG',
+        'BF',
+        'BI',
+        'CM',
+        'CV',
+        'KY',
+        'CF',
+        'TD',
+        'CL',
+        'CX',
+        'CC',
+        'CO',
+        'KM',
+        'CG',
+        'CK',
+        'CI',
+        'HR',
+        'CU',
+        'CW',
+        'CY',
+        'CZ',
+        'CD',
+        'DK',
+        'DJ',
+        'DM',
+        'EC',
+        'EG',
+        'GQ',
+        'ER',
+        'EE',
+        'ET',
+        'FK',
+        'FO',
+        'FJ',
+        'FI',
+        'FR',
+        'GF',
+        'PF',
+        'TF',
+        'GA',
+        'GM',
+        'GE',
+        'GH',
+        'GI',
+        'GR',
+        'GL',
+        'GD',
+        'GP',
+        'GU',
+        'GT',
+        'GG',
+        'GN',
+        'GW',
+        'GY',
+        'HT',
+        'HM',
+        'HN',
+        'HK',
+        'HU',
+        'IS',
+        'IN',
+        'IR',
+        'IQ',
+        'IE',
+        'IM',
+        'IT',
+        'JM',
+        'JP',
+        'JE',
+        'JO',
+        'KZ',
+        'KE',
+        'KI',
+        'XK',
+        'KW',
+        'KG',
+        'LA',
+        'LV',
+        'LB',
+        'LS',
+        'LR',
+        'LY',
+        'LI',
+        'LT',
+        'LU',
+        'MO',
+        'MK',
+        'MG',
+        'MW',
+        'MY',
+        'ML',
+        'MT',
+        'MH',
+        'MQ',
+        'MR',
+        'MU',
+        'YT',
+        'FM',
+        'MD',
+        'MC',
+        'MN',
+        'ME',
+        'MS',
+        'MZ',
+        'NA',
+        'NR',
+        'NP',
+        'NC',
+        'NZ',
+        'NI',
+        'NE',
+        'NG',
+        'NU',
+        'NF',
+        'KP',
+        'MP',
+        'OM',
+        'PK',
+        'PW',
+        'PS',
+        'PG',
+        'PY',
+        'PE',
+        'PN',
+        'PL',
+        'PT',
+        'PR',
+        'RE',
+        'RO',
+        'RU',
+        'RW',
+        'BL',
+        'SH',
+        'PM',
+        'VC',
+        'WS',
+        'SM',
+        'ST',
+        'SN',
+        'RS',
+        'SC',
+        'SL',
+        'SX',
+        'SK',
+        'SI',
+        'SB',
+        'SO',
+        'ZA',
+        'GS',
+        'KR',
+        'SS',
+        'ES',
+        'LK',
+        'SD',
+        'SR',
+        'SJ',
+        'SZ',
+        'SE',
+        'SY',
+        'TJ',
+        'TZ',
+        'TH',
+        'TL',
+        'TG',
+        'TK',
+        'TO',
+        'TN',
+        'TR',
+        'TV',
+        'UG',
+        'UA',
+        'GB',
+        'UM',
+        'UZ',
+        'VU',
+        'VN',
+        'WF',
+        'EH',
+        'YE',
+        'ZM',
+        'ZW',
+        'US',
+        'CR',
+        'MX',
+        'AE',
+        'VI',
+        'VG',
+        'SA',
+        'KH',
+        'AU',
+        'ID',
+        'CA',
+        'BR',
+        'TW',
+        'TM',
+        'TC',
+        'QA',
+        'MM',
+        'CN',
+        'SG',
+        'IL',
+        'VA',
+        'DE',
+        'NL',
+        'AG',
+        'BE',
+        'LC',
+        'UY',
+        'PH',
+        'BS',
+        'VE',
+        'CH',
+        'MF',
+        'KN',
+        'TT',
+        'DO',
+        'PA',
+        'MV',
+        'SV',
+        'NO',
+        'MA',
+        'AC',
+        'TA',
+    ] | None = Field(default=None, alias='coreEntityCountryCode')
+    localization_caption_one: str | None = Field(
+        default=None, alias='localizationCaptionOne'
+    )
+    """
+     Max length: 25;
+    """
+    localization_value_one: str | None = Field(
+        default=None, alias='localizationValueOne'
+    )
+    """
+     Max length: 50;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Crm(ConnectWiseModel):
+    id: int | None = None
+    company_list_count: int | None = Field(default=None, alias='companyListCount')
+    lock_probability_flag: bool | None = Field(
+        default=None, alias='lockProbabilityFlag'
+    )
+    account_manager_role: TeamRoleReference | None = Field(
+        default=None, alias='accountManagerRole'
+    )
+    technical_contact_role: TeamRoleReference | None = Field(
+        default=None, alias='technicalContactRole'
+    )
+    sales_rep_role: TeamRoleReference | None = Field(default=None, alias='salesRepRole')
+    company_id_generation_flag: bool | None = Field(
+        default=None, alias='companyIdGenerationFlag'
+    )
+    exclude_spaces_flag: bool | None = Field(default=None, alias='excludeSpacesFlag')
+    field1_caption: str | None = Field(default=None, alias='field1Caption')
+    """
+     Max length: 25;
+    """
+    field2_caption: str | None = Field(default=None, alias='field2Caption')
+    """
+     Max length: 25;
+    """
+    field3_caption: str | None = Field(default=None, alias='field3Caption')
+    """
+     Max length: 25;
+    """
+    field4_caption: str | None = Field(default=None, alias='field4Caption')
+    """
+     Max length: 25;
+    """
+    field5_caption: str | None = Field(default=None, alias='field5Caption')
+    """
+     Max length: 25;
+    """
+    field6_caption: str | None = Field(default=None, alias='field6Caption')
+    """
+     Max length: 25;
+    """
+    field7_caption: str | None = Field(default=None, alias='field7Caption')
+    """
+     Max length: 25;
+    """
+    field8_caption: str | None = Field(default=None, alias='field8Caption')
+    """
+     Max length: 25;
+    """
+    field9_caption: str | None = Field(default=None, alias='field9Caption')
+    """
+     Max length: 25;
+    """
+    field10_caption: str | None = Field(default=None, alias='field10Caption')
+    """
+     Max length: 25;
+    """
+    primary_rep_caption: str | None = Field(default=None, alias='primaryRepCaption')
+    """
+     Max length: 50;
+    """
+    secondary_rep_caption: str | None = Field(default=None, alias='secondaryRepCaption')
+    """
+     Max length: 50;
+    """
+    other1_caption: str | None = Field(default=None, alias='other1Caption')
+    """
+     Max length: 50;
+    """
+    other2_caption: str | None = Field(default=None, alias='other2Caption')
+    """
+     Max length: 50;
+    """
+    default_year: bool | None = Field(default=None, alias='defaultYear')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CrmInfo(ConnectWiseModel):
+    id: int | None = None
+    account_manager_role: TeamRoleReference | None = Field(
+        default=None, alias='accountManagerRole'
+    )
+    technical_contact_role: TeamRoleReference | None = Field(
+        default=None, alias='technicalContactRole'
+    )
+    sales_rep_role: TeamRoleReference | None = Field(default=None, alias='salesRepRole')
+    field1_caption: str | None = Field(default=None, alias='field1Caption')
+    field2_caption: str | None = Field(default=None, alias='field2Caption')
+    field3_caption: str | None = Field(default=None, alias='field3Caption')
+    field4_caption: str | None = Field(default=None, alias='field4Caption')
+    field5_caption: str | None = Field(default=None, alias='field5Caption')
+    field6_caption: str | None = Field(default=None, alias='field6Caption')
+    field7_caption: str | None = Field(default=None, alias='field7Caption')
+    field8_caption: str | None = Field(default=None, alias='field8Caption')
+    field9_caption: str | None = Field(default=None, alias='field9Caption')
+    field10_caption: str | None = Field(default=None, alias='field10Caption')
+    primary_rep_caption: str | None = Field(default=None, alias='primaryRepCaption')
+    secondary_rep_caption: str | None = Field(default=None, alias='secondaryRepCaption')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class CustomReportParameter(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    """
+    Either a caption name or parameter name is required. Max length: 50;
+    """
+    caption_name: str | None = Field(default=None, alias='captionName')
+    """
+    Either a caption name or parameter name is required. Max length: 50;
+    """
+    custom_report: CustomReportReference | None = Field(
+        default=None, alias='customReport'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class DepartmentLocation(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    department_manager: MemberReference | None = Field(
+        default=None, alias='departmentManager'
+    )
+    dispatch: MemberReference | None = None
+    service_manager: MemberReference | None = Field(
+        default=None, alias='serviceManager'
+    )
+    duty_manager: MemberReference | None = Field(default=None, alias='dutyManager')
+    ldap_config: LdapConfigurationReference | None = Field(
+        default=None, alias='ldapConfig'
+    )
+    add_all_locations: bool | None = Field(default=None, alias='addAllLocations')
+    remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class DepartmentLocationInfo(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class DocumentInfo(ConnectWiseModel):
+    id: int | None = None
+    title: str | None = None
+    file_name: str | None = Field(default=None, alias='fileName')
+    server_file_name: str | None = Field(default=None, alias='serverFileName')
+    owner: str | None = None
+    link_flag: bool | None = Field(default=None, alias='linkFlag')
+    image_flag: bool | None = Field(default=None, alias='imageFlag')
+    public_flag: bool | None = Field(default=None, alias='publicFlag')
+    html_template_flag: bool | None = Field(default=None, alias='htmlTemplateFlag')
+    read_only_flag: bool | None = Field(default=None, alias='readOnlyFlag')
+    size: int | None = None
+    url_flag: bool | None = Field(default=None, alias='urlFlag')
+    created_on_date: str | None = Field(default=None, alias='createdOnDate')
+    document_type: DocumentTypeReference | None = Field(
+        default=None, alias='documentType'
+    )
+    guid: UUID | None = Field(
+        default=None, example='00000000-0000-0000-0000-000000000000'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class EmailConnector(ConnectWiseModel):
+    id: int | None = None
+    email_server_type: Literal['IMAP', 'Office365', 'Google', 'Asio365'] | None = Field(
+        default=None, alias='emailServerType'
+    )
+    imap_setup: ImapSetupReference | None = Field(default=None, alias='imapSetup')
+    office365_email_setup: Office365EmailSetupReference | None = Field(
+        default=None, alias='office365EmailSetup'
+    )
+    asio365_email_setup: Office365EmailSetupReference | None = Field(
+        default=None, alias='asio365EmailSetup'
+    )
+    google_email_setup: GoogleEmailSetupReference | None = Field(
+        default=None, alias='googleEmailSetup'
+    )
+    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
+    default_company: CompanyReference | None = Field(
+        default=None, alias='defaultCompany'
+    )
+    default_member: MemberReference | None = Field(default=None, alias='defaultMember')
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    email_notify_from: str | None = Field(default=None, alias='emailNotifyFrom')
+    """
+     Max length: 50;
+    """
+    bcc_email_to: str | None = Field(default=None, alias='bccEmailTo')
+    """
+     Max length: 250;
+    """
+    email_errors_to: str = Field(..., alias='emailErrorsTo')
+    """
+     Max length: 50;
+    """
+    set_email_to_default_contact_flag: bool | None = Field(
+        default=None, alias='setEmailToDefaultContactFlag'
+    )
+    no_response_flag: bool | None = Field(default=None, alias='noResponseFlag')
+    never_respond_flag: bool | None = Field(default=None, alias='neverRespondFlag')
+    discard_duplicates_flag: bool | None = Field(
+        default=None, alias='discardDuplicatesFlag'
+    )
+    post_replies_to_ticket_flag: bool | None = Field(
+        default=None, alias='postRepliesToTicketFlag'
+    )
+    create_contact_flag: bool | None = Field(default=None, alias='createContactFlag')
+    response_email_for_new: str | None = Field(
+        default=None, alias='responseEmailForNew'
+    )
+    response_email_for_existing: str | None = Field(
+        default=None, alias='responseEmailForExisting'
+    )
+    source_override: ServiceSourceReference | None = Field(
+        default=None, alias='sourceOverride'
+    )
+    priority_override: PriorityReference | None = Field(
+        default=None, alias='priorityOverride'
+    )
+    type_override: ServiceTypeReference | None = Field(
+        default=None, alias='typeOverride'
+    )
+    sub_type_override: ServiceSubTypeReference | None = Field(
+        default=None, alias='subTypeOverride'
+    )
+    item_override: ServiceItemReference | None = Field(
+        default=None, alias='itemOverride'
+    )
+    status_override: ServiceStatusReference | None = Field(
+        default=None, alias='statusOverride'
+    )
+    add_cc_flag: bool | None = Field(default=None, alias='addCcFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class EmailConnectorInfo(ConnectWiseModel):
+    id: int | None = None
+    imap_setup: ImapSetupReference | None = Field(default=None, alias='imapSetup')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class EmailConnectorParsingRule(ConnectWiseModel):
+    id: int | None = None
+    parsing_style: EmailConnectorParsingStyleReference | None = Field(
+        default=None, alias='parsingStyle'
+    )
+    priority: int
+    parsing_variable: EmailConnectorParsingVariableReference | None = Field(
+        default=None, alias='parsingVariable'
+    )
+    search_term: str = Field(..., alias='searchTerm')
+    """
+     Max length: 250;
+    """
+    service_priority: PriorityReference | None = Field(
+        default=None, alias='servicePriority'
+    )
+    service_status: ServiceStatusReference | None = Field(
+        default=None, alias='serviceStatus'
+    )
+    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
+    service_sub_type: ServiceSubTypeReference | None = Field(
+        default=None, alias='serviceSubType'
+    )
+    service_item: ServiceItemReference | None = Field(default=None, alias='serviceItem')
+    service_board: BoardReference | None = Field(default=None, alias='serviceBoard')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class EmailConnectorParsingStyle(ConnectWiseModel):
+    id: int | None = None
+    parsing_type: EmailConnectorParsingTypeReference | None = Field(
+        default=None, alias='parsingType'
+    )
+    parse_rule: str = Field(..., alias='parseRule')
+    """
+     Max length: 500;
+    """
+    priority: int
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class EPayConfiguration(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    currency: CurrencyReference | None = None
+    url: str
+    """
+     Max length: 400;
+    """
+    store_identifier: str = Field(..., alias='storeIdentifier')
+    """
+     Max length: 500;
+    """
+    encryption_key: str | None = Field(default=None, alias='encryptionKey')
+    """
+     Max length: 500;
+    """
+    initialization_vector: str | None = Field(
+        default=None, alias='initializationVector'
+    )
+    """
+     Max length: 500;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ErrorResponseMessage(ConnectWiseModel):
+    code: str | None = None
+    message: str | None = None
+    errors: list[ValidationError] | None = None
+
+
+class ExpenseEntryAudit(TimeEntryAudit):
+    pass
+
+
+class ExpenseReport(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    year: int | None = None
+    period: int | None = None
+    date_start: str | None = Field(default=None, alias='dateStart')
+    date_end: str | None = Field(default=None, alias='dateEnd')
+    status: Literal[
+        'Open',
+        'Rejected',
+        'PendingApproval',
+        'ErrorsCorrected',
+        'PendingProjectApproval',
+        'ApprovedByTierOne',
+        'RejectBySecondTier',
+        'ApprovedByTierTwo',
+        'ReadyToBill',
+        'Billed',
+        'WrittenOff',
+        'BilledAgreement',
+    ] | None = None
+    total: float | None = None
+    due_date: str | None = Field(default=None, alias='dueDate')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ExpenseReportAudit(TimeEntryAudit):
+    pass
+
+
+class ExpenseTax(ConnectWiseModel):
+    id: int | None = None
+    amount: float | None = None
+    type: ExpenseTaxTypeReference | None = None
+
+
+class ExpenseTypeExemption(ConnectWiseModel):
+    id: int | None = None
+    expense_type: ExpenseTypeReference = Field(..., alias='expenseType')
+    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ForecastItem(ConnectWiseModel):
+    id: int | None = None
+    forecast_description: str | None = Field(default=None, alias='forecastDescription')
+    """
+     Max length: 50;
+    """
+    opportunity: OpportunityReference | None = None
+    quantity: float | None = None
+    status: OpportunityStatusReference | None = None
+    catalog_item: IvItemReference | None = Field(default=None, alias='catalogItem')
+    product_description: str | None = Field(default=None, alias='productDescription')
+    product_class: str | None = Field(default=None, alias='productClass')
+    revenue: float | None = None
+    cost: float | None = None
+    margin: float | None = None
+    percentage: int | None = None
+    include_flag: bool | None = Field(default=None, alias='includeFlag')
+    quote_werks_doc_no: str | None = Field(default=None, alias='quoteWerksDocNo')
+    """
+     Max length: 20;
+    """
+    quote_werks_doc_name: str | None = Field(default=None, alias='quoteWerksDocName')
+    """
+     Max length: 255;
+    """
+    quote_werks_quantity: int | None = Field(default=None, alias='quoteWerksQuantity')
+    forecast_type: Literal[
+        'Other1', 'Other2', 'Agreement', 'Product', 'Service'
+    ] = Field(..., alias='forecastType')
+    link_flag: bool | None = Field(default=None, alias='linkFlag')
+    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
+    recurring_cost: float | None = Field(default=None, alias='recurringCost')
+    recurring_date_start: datetime | None = Field(
+        default=None, alias='recurringDateStart'
+    )
+    recurring_date_end: datetime | None = Field(default=None, alias='recurringDateEnd')
+    bill_cycle: BillingCycleReference | None = Field(default=None, alias='billCycle')
+    cycle_basis: str | None = Field(default=None, alias='cycleBasis')
+    cycles: int | None = None
+    recurring_flag: bool | None = Field(default=None, alias='recurringFlag')
+    sequence_number: float | None = Field(default=None, alias='sequenceNumber')
+    sub_number: int | None = Field(default=None, alias='subNumber')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class GLAccount(ConnectWiseModel):
+    id: int | None = None
+    gl_type: Literal[
+        'AP',
+        'AR',
+        'EE',
+        'EI',
+        'EO',
+        'IA',
+        'IT',
+        'P',
+        'PF',
+        'R',
+        'RA',
+        'RD',
+        'RE',
+        'RP',
+        'ST',
+        'SD',
+        'ET',
+        'FT',
+        'PT',
+        'WP',
+        'WR',
+    ] = Field(..., alias='glType')
+    mapped_type: MappedTypeReference = Field(..., alias='mappedType')
+    mapped_record: MappedRecordReference = Field(..., alias='mappedRecord')
+    segment1: str | None = None
+    """
+     Max length: 255;
+    """
+    segment2: str | None = None
+    """
+     Max length: 255;
+    """
+    segment3: str | None = None
+    """
+     Max length: 255;
+    """
+    segment4: str | None = None
+    """
+     Max length: 255;
+    """
+    segment5: str | None = None
+    """
+     Max length: 255;
+    """
+    segment6: str | None = None
+    """
+     Max length: 255;
+    """
+    segment7: str | None = None
+    """
+     Max length: 255;
+    """
+    segment8: str | None = None
+    """
+     Max length: 255;
+    """
+    segment9: str | None = None
+    """
+     Max length: 255;
+    """
+    segment10: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs1: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs2: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs3: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs4: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs5: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs6: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs7: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs8: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs9: str | None = None
+    """
+     Max length: 255;
+    """
+    cogs10: str | None = None
+    """
+     Max length: 255;
+    """
+    product_id: str | None = Field(default=None, alias='productId')
+    """
+     Max length: 255;
+    """
+    inventory: str | None = None
+    """
+     Max length: 255;
+    """
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    """
+     Max length: 255;
+    """
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class GLExportAdjustmentTransactionDetail(ConnectWiseModel):
+    gl_class: str | None = Field(default=None, alias='glClass')
+    description: str | None = None
+    memo: str | None = None
+    item: IvItemReference | None = None
+    quantity: int | None = None
+    total: float | None = None
+    cost: float | None = None
+    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
+    inventory_account_number: str | None = Field(
+        default=None, alias='inventoryAccountNumber'
+    )
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    product_account_number: str | None = Field(
+        default=None, alias='productAccountNumber'
+    )
+
+
+class GLExportCustomer(ConnectWiseModel):
+    company: CompanyReference | None = None
+    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
+    contact: ContactReference | None = None
+    site: SiteReference | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
+    due_days: int | None = Field(default=None, alias='dueDays')
+    taxable: bool | None = None
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    currency: CurrencyReference | None = None
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
+    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
+    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
+    state_tax_rate: float | None = Field(default=None, alias='stateTaxRate')
+    county_tax_rate: float | None = Field(default=None, alias='countyTaxRate')
+    city_tax_rate: float | None = Field(default=None, alias='cityTaxRate')
+    country_tax_rate: float | None = Field(default=None, alias='countryTaxRate')
+    composite_tax_rate: float | None = Field(default=None, alias='compositeTaxRate')
+    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+    state_tax_agency_xref: str | None = Field(default=None, alias='stateTaxAgencyXref')
+    county_tax_agency_xref: str | None = Field(
+        default=None, alias='countyTaxAgencyXref'
+    )
+    city_tax_agency_xref: str | None = Field(default=None, alias='cityTaxAgencyXref')
+    country_tax_agency_xref: str | None = Field(
+        default=None, alias='countryTaxAgencyXref'
+    )
+    composite_tax_agency_xref: str | None = Field(
+        default=None, alias='compositeTaxAgencyXref'
+    )
+    tax_levels: list[GLExportCustomerTaxLevel] | None = Field(
+        default=None, alias='taxLevels'
+    )
+
+
+class GLExportExpenseBill(ConnectWiseModel):
+    id: int | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_type: str | None = Field(default=None, alias='documentType')
+    document_number: str | None = Field(default=None, alias='documentNumber')
+    memo: str | None = None
+    gl_class: str | None = Field(default=None, alias='glClass')
+    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
+    member: MemberReference | None = None
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    detail: list[GLExportExpenseBillDetail] | None = None
+
+
+class GLExportExpenseOffset(ConnectWiseModel):
+    id: int | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_type: str | None = Field(default=None, alias='documentType')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    member: MemberReference | None = None
+    memo: str | None = None
+    description: str | None = None
+    total: float | None = None
+
+
+class GLExportInventoryTransfer(ConnectWiseModel):
+    id: str | None = None
+    document_type: str | None = Field(default=None, alias='documentType')
+    document_date: str | None = Field(default=None, alias='documentDate')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    description: str | None = None
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    memo: str | None = None
+    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
+    inventory_account_number: str | None = Field(
+        default=None, alias='inventoryAccountNumber'
+    )
+    transfer_id: int | None = Field(default=None, alias='transferId')
+    item: IvItemReference | None = None
+    gl_item_id: str | None = Field(default=None, alias='glItemId')
+    sales_description: str | None = Field(default=None, alias='salesDescription')
+    item_description: str | None = Field(default=None, alias='itemDescription')
+    currency: CurrencyReference | None = None
+    item_price: float | None = Field(default=None, alias='itemPrice')
+    taxable: bool | None = None
+    unit_of_measure: UnitOfMeasureReference | None = Field(
+        default=None, alias='unitOfMeasure'
+    )
+    quantity: float | None = None
+    cost: float | None = None
+    total: float | None = None
+    sub_category: ProductSubCategoryReference | None = Field(
+        default=None, alias='subCategory'
+    )
+    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
+    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
+    bin: WarehouseBinReference | None = None
+    warehouse: WarehouseReference | None = None
+    transfer_from_bin: WarehouseBinReference | None = Field(
+        default=None, alias='transferFromBin'
+    )
+    transfer_from_location_xref: str | None = Field(
+        default=None, alias='transferFromLocationXref'
+    )
+    transfer_to_bin: WarehouseBinReference | None = Field(
+        default=None, alias='transferToBin'
+    )
+    transfer_to_location_xref: str | None = Field(
+        default=None, alias='transferToLocationXref'
+    )
+    location_xref: str | None = Field(default=None, alias='locationXref')
+    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
+    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
+    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
+    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
+    cogs_xref: str | None = Field(default=None, alias='cogsXref')
+    tax_note: str | None = Field(default=None, alias='taxNote')
+    offset: GLExportInventoryTransferOffset | None = None
+
+
+class GLExportPurchaseTransactionDetail(ConnectWiseModel):
+    id: int | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    gl_item_id: str | None = Field(default=None, alias='glItemId')
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    description: str | None = None
+    cost: float | None = None
+    memo: str | None = None
+    tax_note: str | None = Field(default=None, alias='taxNote')
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
+    inventory_account_number: str | None = Field(
+        default=None, alias='inventoryAccountNumber'
+    )
+    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
+    item: IvItemReference | None = None
+    item_description: str | None = Field(default=None, alias='itemDescription')
+    sales_description: str | None = Field(default=None, alias='salesDescription')
+    taxable: bool | None = None
+    item_price: float | None = Field(default=None, alias='itemPrice')
+    item_cost: float | None = Field(default=None, alias='itemCost')
+    unit_of_measure: UnitOfMeasureReference | None = Field(
+        default=None, alias='unitOfMeasure'
+    )
+    quantity: float | None = None
+    total: float | None = None
+    currency: CurrencyReference | None = None
+    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
+    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
+    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
+    line_number: int | None = Field(default=None, alias='lineNumber')
+    warehouse_bin: WarehouseBinReference | None = Field(
+        default=None, alias='warehouseBin'
+    )
+    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
+    sub_category: ProductSubCategoryReference | None = Field(
+        default=None, alias='subCategory'
+    )
+    shipment_method: ShipmentMethodReference | None = Field(
+        default=None, alias='shipmentMethod'
+    )
+    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
+    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
+    cogs_xref: str | None = Field(default=None, alias='cogsXref')
+    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
+    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
+    location_xref: str | None = Field(default=None, alias='locationXref')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    purchase_header_tax_group: str | None = Field(
+        default=None, alias='purchaseHeaderTaxGroup'
+    )
+    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
+    tax_rate: float | None = Field(default=None, alias='taxRate')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+
+
+class GLExportPurchaseTransactionDetailTax(ConnectWiseModel):
+    id: int | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    cost: float | None = None
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    gl_item_id: str | None = Field(default=None, alias='glItemId')
+    memo: str | None = None
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
+    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
+    inventory_account_number: str | None = Field(
+        default=None, alias='inventoryAccountNumber'
+    )
+    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
+    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
+    cogs_xref: str | None = Field(default=None, alias='cogsXref')
+    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
+    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
+    location_xref: str | None = Field(default=None, alias='locationXref')
+    item: IvItemReference | None = None
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    sales_description: str | None = Field(default=None, alias='salesDescription')
+    item_description: str | None = Field(default=None, alias='itemDescription')
+    item_price: float | None = Field(default=None, alias='itemPrice')
+    item_cost: float | None = Field(default=None, alias='itemCost')
+    unit_of_measure: UnitOfMeasureReference | None = Field(
+        default=None, alias='unitOfMeasure'
+    )
+    quantity: float | None = None
+    total: float | None = None
+    currency: CurrencyReference | None = None
+    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
+    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
+    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
+    line_number: int | None = Field(default=None, alias='lineNumber')
+    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
+    warehouse_bin: WarehouseBinReference | None = Field(
+        default=None, alias='warehouseBin'
+    )
+    shipment_method: ShipmentMethodReference | None = Field(
+        default=None, alias='shipmentMethod'
+    )
+    sub_category: ProductSubCategoryReference | None = Field(
+        default=None, alias='subCategory'
+    )
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    tax_rate: float | None = Field(default=None, alias='taxRate')
+    tax_rate_percent: float | None = Field(default=None, alias='taxRatePercent')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+    tax_note: str | None = Field(default=None, alias='taxNote')
+    purchase_header_tax_group: str | None = Field(
+        default=None, alias='purchaseHeaderTaxGroup'
+    )
+
+
+class GLExportTransactionDetail(ConnectWiseModel):
+    id: int | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_type: str | None = Field(default=None, alias='documentType')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    gl_item_id: str | None = Field(default=None, alias='glItemId')
+    invoice_summary_option: str | None = Field(
+        default=None, alias='invoiceSummaryOption'
+    )
+    cost: float | None = None
+    sales_code: str | None = Field(default=None, alias='salesCode')
+    memo: str | None = None
+    description: str | None = None
+    quantity: float | None = None
+    total: float | None = None
+    currency: CurrencyReference | None = None
+    time_entry: TimeEntryReference | None = Field(default=None, alias='timeEntry')
+    cost_account_number: str | None = Field(default=None, alias='costAccountNumber')
+    inventory_account_number: str | None = Field(
+        default=None, alias='inventoryAccountNumber'
+    )
+    product_account_number: str | None = Field(
+        default=None, alias='productAccountNumber'
+    )
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+    tax_note: str | None = Field(default=None, alias='taxNote')
+    tax_rate: float | None = Field(default=None, alias='taxRate')
+    tax_rate_percent: float | None = Field(default=None, alias='taxRatePercent')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    taxable2_flag: bool | None = Field(default=None, alias='taxable2Flag')
+    taxable3_flag: bool | None = Field(default=None, alias='taxable3Flag')
+    taxable4_flag: bool | None = Field(default=None, alias='taxable4Flag')
+    taxable5_flag: bool | None = Field(default=None, alias='taxable5Flag')
+    item: IvItemReference | None = None
+    product: ProductReference | None = None
+    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
+    item_price: float | None = Field(default=None, alias='itemPrice')
+    item_cost: float | None = Field(default=None, alias='itemCost')
+    item_description: str | None = Field(default=None, alias='itemDescription')
+    sales_description: str | None = Field(default=None, alias='salesDescription')
+    unit_of_measure: UnitOfMeasureReference | None = Field(
+        default=None, alias='unitOfMeasure'
+    )
+    sub_category: ProductSubCategoryReference | None = Field(
+        default=None, alias='subCategory'
+    )
+    serialized_flag: bool | None = Field(default=None, alias='serializedFlag')
+    serial_numbers: str | None = Field(default=None, alias='serialNumbers')
+    warehouse_site: SiteReference | None = Field(default=None, alias='warehouseSite')
+    warehouse_bin: WarehouseBinReference | None = Field(
+        default=None, alias='warehouseBin'
+    )
+    shipment_method: ShipmentMethodReference | None = Field(
+        default=None, alias='shipmentMethod'
+    )
+    drop_shipped_flag: bool | None = Field(default=None, alias='dropShippedFlag')
+    item_type_xref: str | None = Field(default=None, alias='itemTypeXref')
+    inventory_xref: str | None = Field(default=None, alias='inventoryXref')
+    cogs_xref: str | None = Field(default=None, alias='cogsXref')
+    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
+    price_level_xref: str | None = Field(default=None, alias='priceLevelXref')
+    location_xref: str | None = Field(default=None, alias='locationXref')
+    tax_levels: list[GLExportTransactionDetailTaxLevel] | None = Field(
+        default=None, alias='taxLevels'
+    )
+
+
+class GLExportVendor(ConnectWiseModel):
+    member: MemberReference | None = None
+    vendor: CompanyReference | None = None
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    company: CompanyReference | None = None
+    contact: ContactReference | None = None
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    due_days: int | None = Field(default=None, alias='dueDays')
+    site: SiteReference | None = None
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+
+
+class GLPath(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    path: str | None = None
+    """
+     Max length: 255;
+    """
+    sql_server_name: str | None = Field(default=None, alias='sqlServerName')
+    """
+     Max length: 255;
+    """
+    database_name: str | None = Field(default=None, alias='databaseName')
+    """
+     Max length: 100;
+    """
+    last_payment_sync: datetime | None = Field(default=None, alias='lastPaymentSync')
+    last_payment_sync_by: MemberReference | None = Field(
+        default=None, alias='lastPaymentSyncBy'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class GraphUserCsv(ConnectWiseModel):
+    id: str | None = None
+    display_name: str | None = Field(default=None, alias='displayName')
+    principal_name: str | None = Field(default=None, alias='principalName')
+    country: str | None = None
+    state: str | None = None
+    city: str | None = None
+    department: str | None = None
+    first_name: str | None = Field(default=None, alias='firstName')
+    last_name: str | None = Field(default=None, alias='lastName')
+    address: str | None = None
+    postal_code: str | None = Field(default=None, alias='postalCode')
+    mail: str | None = None
+    is_matched_contact: bool | None = Field(default=None, alias='isMatchedContact')
+    account_enabled: bool | None = Field(default=None, alias='accountEnabled')
+    manage_contact_rec_id: int | None = Field(default=None, alias='manageContactRecId')
+    manage_contact_name: str | None = Field(default=None, alias='manageContactName')
+    job_title: str | None = Field(default=None, alias='jobTitle')
+    proxy_addresses: list[str] | None = Field(default=None, alias='proxyAddresses')
+    nick_name: str | None = Field(default=None, alias='nickName')
+    manager: Manager | None = None
+    employee_type: str | None = Field(default=None, alias='employeeType')
+
+
+class Holiday(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    all_day_flag: bool | None = Field(default=None, alias='allDayFlag')
+    """
+    Can be set to false to set a holiday for specific hours (Defaults to True).
+    """
+    date: date
+    time_start: str | None = Field(default=None, alias='timeStart')
+    time_end: str | None = Field(default=None, alias='timeEnd')
+    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class HolidayInfo(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    all_day_flag: bool | None = Field(default=None, alias='allDayFlag')
+    """
+    Can be set to false to set a holiday for specific hours (Defaults to True).
+    """
+    date: str | None = None
+    time_start: str | None = Field(default=None, alias='timeStart')
+    time_end: str | None = Field(default=None, alias='timeEnd')
+    holiday_list: HolidayListReference | None = Field(default=None, alias='holidayList')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Info(ConnectWiseModel):
+    version: str | None = None
+    is_cloud: bool | None = Field(default=None, alias='isCloud')
+    server_time_zone: str | None = Field(default=None, alias='serverTimeZone')
+    license_bits: list[LicenseBit] | None = Field(default=None, alias='licenseBits')
+    cloud_region: str | None = Field(default=None, alias='cloudRegion')
+
+
+class InOutBoard(ConnectWiseModel):
+    id: int | None = None
+    member: MemberReference | None = None
+    in_out_type: InOutTypeReference | None = Field(default=None, alias='inOutType')
+    additional_info: str | None = Field(default=None, alias='additionalInfo')
+    """
+     Max length: 100;
+    """
+    date_back: datetime = Field(..., alias='dateBack')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class IntegratorLogin(ConnectWiseModel):
+    id: int | None = None
+    username: str
+    """
+     Max length: 50;
+    """
+    password: str | None = None
+    """
+    The password will never be returned in response. Max length: 50;
+    """
+    can_access_all_records_flag: bool | None = Field(
+        default=None, alias='canAccessAllRecordsFlag'
+    )
+    """
+    This flag controls whether the integrator can access only the db records it created, or all system records.
+    """
+    can_access_all_apis_flag: bool | None = Field(
+        default=None, alias='canAccessAllApisFlag'
+    )
+    """
+    Setting this flag to true will create an integrator that can access all of the available apis in the system.
+                If this field is set to true, both the member and board fields are required.
+    """
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    date_inactivated: datetime | None = Field(default=None, alias='dateInactivated')
+    inactivated_by: MemberReference | None = Field(default=None, alias='inactivatedBy')
+    service_ticket_api_flag: bool | None = Field(
+        default=None, alias='serviceTicketApiFlag'
+    )
+    board: BoardReference | None = None
+    service_board_callback_url: str | None = Field(
+        default=None, alias='serviceBoardCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    service_board_legacy_callback_flag: bool | None = Field(
+        default=None, alias='serviceBoardLegacyCallbackFlag'
+    )
+    time_entry_api_flag: bool | None = Field(default=None, alias='timeEntryApiFlag')
+    member: MemberReference | None = None
+    time_entry_callback_url: str | None = Field(
+        default=None, alias='timeEntryCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    time_entry_legacy_callback_flag: bool | None = Field(
+        default=None, alias='timeEntryLegacyCallbackFlag'
+    )
+    managed_services_api_flag: bool | None = Field(
+        default=None, alias='managedServicesApiFlag'
+    )
+    managed_services_auto_child_flag: bool | None = Field(
+        default=None, alias='managedServicesAutoChildFlag'
+    )
+    managed_services_childing_flag: bool | None = Field(
+        default=None, alias='managedServicesChildingFlag'
+    )
+    """
+    True if integrator is allowed to child configurations.
+    """
+    contact_api_flag: bool | None = Field(default=None, alias='contactApiFlag')
+    contact_callback_url: str | None = Field(default=None, alias='contactCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    contact_legacy_callback_flag: bool | None = Field(
+        default=None, alias='contactLegacyCallbackFlag'
+    )
+    company_api_flag: bool | None = Field(default=None, alias='companyApiFlag')
+    company_callback_url: str | None = Field(default=None, alias='companyCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    company_legacy_callback_flag: bool | None = Field(
+        default=None, alias='companyLegacyCallbackFlag'
+    )
+    activity_api_flag: bool | None = Field(default=None, alias='activityApiFlag')
+    activity_callback_url: str | None = Field(default=None, alias='activityCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    activity_legacy_callback_flag: bool | None = Field(
+        default=None, alias='activityLegacyCallbackFlag'
+    )
+    invoice_api_flag: bool | None = Field(default=None, alias='invoiceApiFlag')
+    product_api_flag: bool | None = Field(default=None, alias='productApiFlag')
+    product_callback_url: str | None = Field(default=None, alias='productCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    product_legacy_callback_flag: bool | None = Field(
+        default=None, alias='productLegacyCallbackFlag'
+    )
+    opportunity_api_flag: bool | None = Field(default=None, alias='opportunityApiFlag')
+    opportunity_callback_url: str | None = Field(
+        default=None, alias='opportunityCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    opportunity_legacy_callback_flag: bool | None = Field(
+        default=None, alias='opportunityLegacyCallbackFlag'
+    )
+    opportunity_conversion_api_flag: bool | None = Field(
+        default=None, alias='opportunityConversionApiFlag'
+    )
+    """
+    True if the member has access to the Opportunity Conversion Api.
+    """
+    member_api_flag: bool | None = Field(default=None, alias='memberApiFlag')
+    marketing_api_flag: bool | None = Field(default=None, alias='marketingApiFlag')
+    purchasing_api_flag: bool | None = Field(default=None, alias='purchasingApiFlag')
+    purchasing_callback_url: str | None = Field(
+        default=None, alias='purchasingCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    purchasing_legacy_callback_flag: bool | None = Field(
+        default=None, alias='purchasingLegacyCallbackFlag'
+    )
+    reporting_api_flag: bool | None = Field(default=None, alias='reportingApiFlag')
+    system_api_flag: bool | None = Field(default=None, alias='systemApiFlag')
+    project_api_flag: bool | None = Field(default=None, alias='projectApiFlag')
+    project_callback_url: str | None = Field(default=None, alias='projectCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    project_legacy_callback_flag: bool | None = Field(
+        default=None, alias='projectLegacyCallbackFlag'
+    )
+    configuration_api_flag: bool | None = Field(
+        default=None, alias='configurationApiFlag'
+    )
+    configuration_auto_child_flag: bool | None = Field(
+        default=None, alias='configurationAutoChildFlag'
+    )
+    configuration_childling_flag: bool | None = Field(
+        default=None, alias='configurationChildlingFlag'
+    )
+    """
+    True if integrator is allowed to child configurations.
+    """
+    configuration_callback_url: str | None = Field(
+        default=None, alias='configurationCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    configuration_legacy_callback_flag: bool | None = Field(
+        default=None, alias='configurationLegacyCallbackFlag'
+    )
+    schedule_api_flag: bool | None = Field(default=None, alias='scheduleApiFlag')
+    schedule_callback_url: str | None = Field(default=None, alias='scheduleCallbackUrl')
+    """
+     Max length: 1000;
+    """
+    schedule_legacy_callback_flag: bool | None = Field(
+        default=None, alias='scheduleLegacyCallbackFlag'
+    )
+    agreement_api_flag: bool | None = Field(default=None, alias='agreementApiFlag')
+    agreement_callback_url: str | None = Field(
+        default=None, alias='agreementCallbackUrl'
+    )
+    """
+     Max length: 1000;
+    """
+    agreement_callback_legacy_flag: bool | None = Field(
+        default=None, alias='agreementCallbackLegacyFlag'
+    )
+    document_api_flag: bool | None = Field(default=None, alias='documentApiFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class InventoryOnHand(CatalogInventory):
+    pass
+
+
+class Invoice(ConnectWiseModel):
+    id: int | None = None
+    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
+    """
+     Max length: 15; Required On Updates;
+    """
+    type: Literal[
+        'Agreement',
+        'CreditMemo',
+        'DownPayment',
+        'Miscellaneous',
+        'Progress',
+        'Standard',
+    ]
+    status: BillingStatusReference | None = None
+    company: CompanyReference | None = None
+    bill_to_company: CompanyReference | None = Field(
+        default=None, alias='billToCompany'
+    )
+    ship_to_company: CompanyReference | None = Field(
+        default=None, alias='shipToCompany'
+    )
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    apply_to_type: Literal[
+        'All', 'Agreement', 'Project', 'ProjectPhase', 'SalesOrder', 'Ticket'
+    ] | None = Field(default=None, alias='applyToType')
+    apply_to_id: int | None = Field(default=None, alias='applyToId')
+    attention: str | None = None
+    """
+     Max length: 60;
+    """
+    ship_to_attention: str | None = Field(default=None, alias='shipToAttention')
+    """
+     Max length: 60;
+    """
+    billing_site: SiteReference | None = Field(default=None, alias='billingSite')
+    billing_site_address_line1: str | None = Field(
+        default=None, alias='billingSiteAddressLine1'
+    )
+    billing_site_address_line2: str | None = Field(
+        default=None, alias='billingSiteAddressLine2'
+    )
+    billing_site_city: str | None = Field(default=None, alias='billingSiteCity')
+    billing_site_state: str | None = Field(default=None, alias='billingSiteState')
+    billing_site_zip: str | None = Field(default=None, alias='billingSiteZip')
+    billing_site_country: str | None = Field(default=None, alias='billingSiteCountry')
+    shipping_site: SiteReference | None = Field(default=None, alias='shippingSite')
+    shipping_site_address_line1: str | None = Field(
+        default=None, alias='shippingSiteAddressLine1'
+    )
+    shipping_site_address_line2: str | None = Field(
+        default=None, alias='shippingSiteAddressLine2'
+    )
+    shipping_site_city: str | None = Field(default=None, alias='shippingSiteCity')
+    shipping_site_state: str | None = Field(default=None, alias='shippingSiteState')
+    shipping_site_zip: str | None = Field(default=None, alias='shippingSiteZip')
+    shipping_site_country: str | None = Field(default=None, alias='shippingSiteCountry')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    reference: str | None = None
+    """
+     Max length: 50;
+    """
+    customer_po: str | None = Field(default=None, alias='customerPO')
+    """
+     Max length: 50;
+    """
+    template_setup_id: int | None = Field(default=None, alias='templateSetupId')
+    """
+    Can be obtained via InvoiceTemplate report.
+    """
+    invoice_template: InvoiceTemplateDetailReference | None = Field(
+        default=None, alias='invoiceTemplate'
+    )
+    email_template_id: int | None = Field(default=None, alias='emailTemplateId')
+    """
+    Can be obtained via InvoiceEmailTemplate report.
+    """
+    add_to_batch_email_list: bool | None = Field(
+        default=None, alias='addToBatchEmailList'
+    )
+    date: datetime | None = None
+    restrict_downpayment_flag: bool | None = Field(
+        default=None, alias='restrictDownpaymentFlag'
+    )
+    location_id: int | None = Field(default=None, alias='locationId')
+    """
+     Required On Updates;
+    """
+    department_id: int | None = Field(default=None, alias='departmentId')
+    """
+    departmentId is only required for special invoices.
+    """
+    territory_id: int | None = Field(default=None, alias='territoryId')
+    top_comment: str | None = Field(default=None, alias='topComment')
+    bottom_comment: str | None = Field(default=None, alias='bottomComment')
+    taxable_flag: bool | None = Field(default=None, alias='taxableFlag')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    internal_notes: str | None = Field(default=None, alias='internalNotes')
+    downpayment_previously_taxed_flag: bool | None = Field(
+        default=None, alias='downpaymentPreviouslyTaxedFlag'
+    )
+    service_total: float | None = Field(default=None, alias='serviceTotal')
+    override_down_payment_amount_flag: bool | None = Field(
+        default=None, alias='overrideDownPaymentAmountFlag'
+    )
+    currency: CurrencyReference | None = None
+    due_date: datetime | None = Field(default=None, alias='dueDate')
+    expense_total: float | None = Field(default=None, alias='expenseTotal')
+    product_total: float | None = Field(default=None, alias='productTotal')
+    previous_progress_applied: float | None = Field(
+        default=None, alias='previousProgressApplied'
+    )
+    service_adjustment_amount: float | None = Field(
+        default=None, alias='serviceAdjustmentAmount'
+    )
+    agreement_amount: float | None = Field(default=None, alias='agreementAmount')
+    downpayment_applied: float | None = Field(default=None, alias='downpaymentApplied')
+    subtotal: float | None = None
+    total: float | None = None
+    remaining_downpayment: float | None = Field(
+        default=None, alias='remainingDownpayment'
+    )
+    sales_tax: float | None = Field(default=None, alias='salesTax')
+    adjustment_reason: str | None = Field(default=None, alias='adjustmentReason')
+    adjusted_by: str | None = Field(default=None, alias='adjustedBy')
+    payments: float | None = None
+    credits: float | None = None
+    balance: float | None = None
+    special_invoice_flag: bool | None = Field(default=None, alias='specialInvoiceFlag')
+    billing_setup_reference: BillingSetupReference | None = Field(
+        default=None, alias='billingSetupReference'
+    )
+    ticket: TicketReference | None = None
+    project: ProjectReference | None = None
+    phase: ProjectPhaseReference | None = None
+    sales_order: SalesOrderReference | None = Field(default=None, alias='salesOrder')
+    agreement: AgreementReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
+    )
+
+
+class InvoiceEmailTemplate(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    service_survey: ServiceSurveyReference | None = Field(
+        default=None, alias='serviceSurvey'
+    )
+    use_sender_flag: bool | None = Field(default=None, alias='useSenderFlag')
+    first_name: str | None = Field(default=None, alias='firstName')
+    """
+    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
+    """
+    last_name: str | None = Field(default=None, alias='lastName')
+    """
+    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
+    """
+    email_address: str | None = Field(default=None, alias='emailAddress')
+    """
+    From fields (first name, last name, email address) are required if useSenderFlag is false. Max length: 100;
+    """
+    subject: str
+    """
+     Max length: 200;
+    """
+    body: str | None = None
+    copy_sender_flag: bool | None = Field(default=None, alias='copySenderFlag')
+    invoice_status: BillingStatusReference | None = Field(
+        default=None, alias='invoiceStatus'
+    )
+    attach_invoice_flag: bool | None = Field(default=None, alias='attachInvoiceFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class InvoicePayment(ConnectWiseModel):
+    id: int | None = None
+    type: str | None = None
+    source: Literal['Default', 'WisePay'] | None = None
+    invoice: InvoiceReference | None = None
+    credit: InvoiceReference | None = None
+    amount: float | None = None
+    payment_date: datetime | None = Field(default=None, alias='paymentDate')
+    applied_by: str | None = Field(default=None, alias='appliedBy')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    wise_pay_payment: WisePayPayment | None = Field(
+        default=None, alias='wisePayPayment'
+    )
+    payment_sync_status: str | None = Field(default=None, alias='paymentSyncStatus')
+    payment_sync_date: str | None = Field(default=None, alias='paymentSyncDate')
+    payment_account: str | None = Field(default=None, alias='paymentAccount')
+    a_r_payment_account: str | None = Field(default=None, alias='aRPaymentAccount')
+
+
+class KnowledgeBaseCategory(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    approver: MemberReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class KnowledgeBaseSettings(ConnectWiseModel):
+    id: int | None = None
+    require_approval: bool = Field(..., alias='requireApproval')
+    default_approver: MemberReference | None = Field(
+        default=None, alias='defaultApprover'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class KnowledgeBaseSubCategory(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 50;
+    """
+    category: KBCategoryReference
+    location: SystemLocationReference | None = None
+    department: SystemDepartmentReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class KPI(ConnectWiseModel):
+    id: int | None = None
+    name: str | None = None
+    category: KPICategoryReference | None = None
+    date_filter: str | None = Field(default=None, alias='dateFilter')
+    sort_order: int | None = Field(default=None, alias='sortOrder')
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+
+
+class Location(ConnectWiseModel):
+    id: int | None = None
+    owner_level_id: int | None = Field(default=None, alias='ownerLevelId')
+    structure_level: CorporateStructureLevelReference | None = Field(
+        default=None, alias='structureLevel'
+    )
+    name: str
+    """
+     Max length: 50;
+    """
+    manager: MemberReference | None = None
+    reports_to: SystemLocationReference | None = Field(default=None, alias='reportsTo')
+    sales_rep: str | None = Field(default=None, alias='salesRep')
+    """
+     Max length: 50;
+    """
+    time_zone_setup: TimeZoneSetupReference | None = Field(
+        default=None, alias='timeZoneSetup'
+    )
+    calendar: CalendarReference | None = None
+    override_address_line1: str | None = Field(
+        default=None, alias='overrideAddressLine1'
+    )
+    """
+     Max length: 50;
+    """
+    override_address_line2: str | None = Field(
+        default=None, alias='overrideAddressLine2'
+    )
+    """
+     Max length: 50;
+    """
+    override_city: str | None = Field(default=None, alias='overrideCity')
+    """
+     Max length: 50;
+    """
+    override_state: str | None = Field(default=None, alias='overrideState')
+    """
+     Max length: 50;
+    """
+    override_zip: str | None = Field(default=None, alias='overrideZip')
+    """
+     Max length: 12;
+    """
+    override_country: CountryReference | None = Field(
+        default=None, alias='overrideCountry'
+    )
+    override_phone_number: str | None = Field(default=None, alias='overridePhoneNumber')
+    """
+     Max length: 15;
+    """
+    override_fax_number: str | None = Field(default=None, alias='overrideFaxNumber')
+    """
+     Max length: 15;
+    """
+    owa_url: str | None = Field(default=None, alias='owaUrl')
+    """
+     Max length: 100;
+    """
+    payroll_xref: str | None = Field(default=None, alias='payrollXref')
+    """
+     Max length: 10;
+    """
+    location_flag: bool | None = Field(default=None, alias='locationFlag')
+    client_flag: bool | None = Field(default=None, alias='clientFlag')
+    work_role_ids: list[int] | None = Field(default=None, alias='workRoleIds')
+    department_ids: list[int] | None = Field(default=None, alias='departmentIds')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class LocationDepartment(DepartmentLocationInfo):
+    pass
+
+
+class LocationWorkRole(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    work_role_inactive_flag: bool | None = Field(
+        default=None, alias='workRoleInactiveFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class M365ContactSyncCompany(ConnectWiseModel):
+    id: int | None = None
+    company_rec_id: int | None = Field(default=None, alias='companyRecId')
+    tenant_id: str | None = Field(default=None, alias='tenantId')
+    parent_tenant_id: str | None = Field(default=None, alias='parentTenantId')
+    m365_tenant: M365Tenant | None = Field(default=None, alias='m365Tenant')
+    display_name: str | None = Field(default=None, alias='displayName')
+    sync_flag: bool | None = Field(default=None, alias='syncFlag')
+    company_id: str | None = Field(default=None, alias='companyId')
+    contacts: list[GraphUserCsv] | None = None
+    inactive_flag_tenant: bool | None = Field(default=None, alias='inactiveFlagTenant')
+    are_all_microsoft365_contact_sync_inactive: bool | None = Field(
+        default=None, alias='areAllMicrosoft365ContactSyncInactive'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagedDeviceAccount(ConnectWiseModel):
+    id: int | None = None
+    username: str | None = None
+    password: str | None = None
+    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
+        default=None, alias='managedDevicesIntegration'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagedDevicesIntegration(ConnectWiseModel):
+    id: int | None = None
+    name: str
+    """
+     Max length: 30;
+    """
+    solution: str
+    """
+     Max length: 30;
+    """
+    portal_url: str | None = Field(default=None, alias='portalUrl')
+    """
+     Max length: 200;
+    """
+    login_by: Literal['Global', 'Member'] = Field(..., alias='loginBy')
+    global_login_username: str | None = Field(default=None, alias='globalLoginUsername')
+    """
+    Gets or sets
+                this is only required when globalLoginFlag = true. Max length: 50;
+    """
+    global_login_password: str | None = Field(default=None, alias='globalLoginPassword')
+    """
+    Gets or sets
+                this is only required when globalLoginFlag = true. Max length: 50;
+    """
+    default_billing_level: Literal['Detail', 'Summary'] = Field(
+        ..., alias='defaultBillingLevel'
+    )
+    management_it_setup_type: str | None = Field(
+        default=None, alias='managementItSetupType'
+    )
+    default_location: SystemLocationReference | None = Field(
+        default=None, alias='defaultLocation'
+    )
+    default_department: SystemDepartmentReference | None = Field(
+        default=None, alias='defaultDepartment'
+    )
+    integrator_login: IntegratorLoginReference | None = Field(
+        default=None, alias='integratorLogin'
+    )
+    match_on_serial_number_flag: bool | None = Field(
+        default=None, alias='matchOnSerialNumberFlag'
+    )
+    disable_new_cross_references_flag: bool | None = Field(
+        default=None, alias='disableNewCrossReferencesFlag'
+    )
+    config_bill_customer_flag: bool | None = Field(
+        default=None, alias='configBillCustomerFlag'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagedDevicesIntegrationCrossReference(ConnectWiseModel):
+    id: int | None = None
+    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
+        default=None, alias='managedDevicesIntegration'
+    )
+    vendor_type: str | None = Field(default=None, alias='vendorType')
+    """
+     Max length: 255;
+    """
+    vendor_level: str | None = Field(default=None, alias='vendorLevel')
+    """
+     Max length: 255;
+    """
+    agreement_type: AgreementTypeReference | None = Field(
+        default=None, alias='agreementType'
+    )
+    product: IvItemReference | None = None
+    configuration_type: ConfigurationTypeReference | None = Field(
+        default=None, alias='configurationType'
+    )
+    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagedDevicesIntegrationLogin(ConnectWiseModel):
+    id: int | None = None
+    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
+        default=None, alias='managedDevicesIntegration'
+    )
+    username: str
+    """
+     Max length: 50;
+    """
+    password: str | None = None
+    """
+     Max length: 50;
+    """
+    member: MemberReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagedDevicesIntegrationNotification(ConnectWiseModel):
+    id: int | None = None
+    managed_devices_integration: ManagedDevicesIntegrationReference | None = Field(
+        default=None, alias='managedDevicesIntegration'
+    )
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    member: MemberReference | None = None
+    log_type: Literal[
+        'All',
+        'Error',
+        'NewManagedSolution',
+        'NewDeviceType',
+        'NewConfiguration',
+        'NewAddition',
+        'Info',
+    ] = Field(..., alias='logType')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ManagementReportNotification(ConnectWiseModel):
+    id: int | None = None
+    notify_who: NotificationRecipientReference | None = Field(
+        default=None, alias='notifyWho'
+    )
+    member: MemberReference | None = None
+    email: str | None = None
+    """
+     Max length: 50;
+    """
+    global_flag: bool | None = Field(default=None, alias='globalFlag')
+    company: CompanyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class Member(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -10511,7 +12042,7 @@ class Member(BaseModel):
     ConditionallyRequired. API Member will get random password generated Max length: 60;
     """
     disable_online_flag: bool | None = Field(default=None, alias='disableOnlineFlag')
-    license_class: LicenseClass = Field(..., alias='licenseClass')
+    license_class: Literal['A', 'C', 'F', 'X'] = Field(..., alias='licenseClass')
     """
     F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
     """
@@ -10556,7 +12087,9 @@ class Member(BaseModel):
     """
      Max length: 250;
     """
-    default_email: DefaultEmail = Field(..., alias='defaultEmail')
+    default_email: Literal['Office', 'Mobile', 'Home'] = Field(
+        ..., alias='defaultEmail'
+    )
     primary_email: str | None = Field(default=None, alias='primaryEmail')
     """
      Max length: 250;
@@ -10585,7 +12118,9 @@ class Member(BaseModel):
     """
      Max length: 10;
     """
-    default_phone: DefaultPhone = Field(..., alias='defaultPhone')
+    default_phone: Literal['Office', 'Mobile', 'Home'] = Field(
+        ..., alias='defaultPhone'
+    )
     security_role: SecurityRoleReference | None = Field(
         default=None, alias='securityRole'
     )
@@ -10594,9 +12129,9 @@ class Member(BaseModel):
     calendar_sync_integration_flag: bool | None = Field(
         default=None, alias='calendarSyncIntegrationFlag'
     )
-    authentication_service_type: AuthenticationServiceType | None = Field(
-        default=None, alias='authenticationServiceType'
-    )
+    authentication_service_type: Literal[
+        'AuthAnvil', 'GoogleAuthenticator', 'Email'
+    ] | None = Field(default=None, alias='authenticationServiceType')
     timebased_one_time_password_activated: bool | None = Field(
         default=None, alias='timebasedOneTimePasswordActivated'
     )
@@ -10617,9 +12152,9 @@ class Member(BaseModel):
         default=None, alias='ssoSettings'
     )
     signature: str | None = None
-    phone_integration_type: PhoneIntegrationType | None = Field(
-        default=None, alias='phoneIntegrationType'
-    )
+    phone_integration_type: Literal[
+        'TAPI', 'SKYPE', 'TEL', 'CALLTO', 'NONE'
+    ] | None = Field(default=None, alias='phoneIntegrationType')
     use_browser_language_flag: bool | None = Field(
         default=None, alias='useBrowserLanguageFlag'
     )
@@ -10764,33 +12299,33 @@ class Member(BaseModel):
     restrict_default_warehouse_bin_flag: bool | None = Field(
         default=None, alias='restrictDefaultWarehouseBinFlag'
     )
-    company_activity_tab_format: CompanyActivityTabFormat | None = Field(
+    company_activity_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='companyActivityTabFormat'
     )
-    invoice_time_tab_format: InvoiceTimeTabFormat | None = Field(
+    invoice_time_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='invoiceTimeTabFormat'
     )
-    invoice_screen_default_tab_format: InvoiceScreenDefaultTabFormat | None = Field(
-        default=None, alias='invoiceScreenDefaultTabFormat'
-    )
-    invoicing_display_options: InvoicingDisplayOptions | None = Field(
-        default=None, alias='invoicingDisplayOptions'
-    )
-    agreement_invoicing_display_options: AgreementInvoicingDisplayOptions | None = (
-        Field(default=None, alias='agreementInvoicingDisplayOptions')
-    )
+    invoice_screen_default_tab_format: Literal[
+        'ShowInvoicingTab', 'ShowAgreementInvoicingTab'
+    ] | None = Field(default=None, alias='invoiceScreenDefaultTabFormat')
+    invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='invoicingDisplayOptions')
+    agreement_invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='agreementInvoicingDisplayOptions')
     auto_start_stopwatch: bool | None = Field(default=None, alias='autoStartStopwatch')
     auto_popup_quick_notes_with_stopwatch: bool | None = Field(
         default=None, alias='autoPopupQuickNotesWithStopwatch'
     )
-    global_search_default_ticket_filter: GlobalSearchDefaultTicketFilter | None = Field(
-        default=None, alias='globalSearchDefaultTicketFilter'
-    )
-    global_search_default_sort: GlobalSearchDefaultSort | None = Field(
-        default=None, alias='globalSearchDefaultSort'
-    )
+    global_search_default_ticket_filter: Literal[
+        'OpenRecords', 'ClosedRecords', 'AllRecords'
+    ] | None = Field(default=None, alias='globalSearchDefaultTicketFilter')
+    global_search_default_sort: Literal[
+        'None', 'LastUpdatedDesc', 'LastUpdatedAsc', 'CreatedDesc', 'CreatedAsc'
+    ] | None = Field(default=None, alias='globalSearchDefaultSort')
     phone_source: str | None = Field(default=None, alias='phoneSource')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     copy_pod_layouts: bool | None = Field(default=None, alias='copyPodLayouts')
     copy_shared_default_views: bool | None = Field(
         default=None, alias='copySharedDefaultViews'
@@ -10807,23 +12342,19 @@ class Member(BaseModel):
     )
 
 
-class MemberAccrual(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberAccrual(ConnectWiseModel):
     id: int | None = None
-    accrual_type: AccrualType = Field(..., alias='accrualType')
+    accrual_type: Literal['Holiday', 'PTO', 'Sick', 'Vacation'] = Field(
+        ..., alias='accrualType'
+    )
     year: int
     hours: float
     reason: str
     member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MemberCertification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberCertification(ConnectWiseModel):
     id: int | None = None
     certification: CertificationReference
     percent_complete: int | None = Field(default=None, alias='percentComplete')
@@ -10836,97 +12367,10 @@ class MemberCertification(BaseModel):
     notes: str | None = None
     member: MemberReference | None = None
     company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MemberDeactivation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    activity: MemberDeactivationSalesActivity | None = None
-    service_team: MemberDeactivationServiceTeam | None = Field(
-        default=None, alias='serviceTeam'
-    )
-    company_team: list[MemberDeactivationCompanyTeam] | None = Field(
-        default=None, alias='companyTeam'
-    )
-    """
-    A list of customers for which the member holds a team role
-    """
-    workflow_email: MemberDeactivationWorkflow | None = Field(
-        default=None, alias='workflowEmail'
-    )
-    service_status_workflow: list[MemberDeactivationStatusWorkflow] | None = Field(
-        default=None, alias='serviceStatusWorkflow'
-    )
-    ticket_template: MemberDeactivationServiceTemplate | None = Field(
-        default=None, alias='ticketTemplate'
-    )
-    opportunity: MemberDeactivationOpportunity | None = None
-    sales_team: MemberDeactivationSalesTeam | None = Field(
-        default=None, alias='salesTeam'
-    )
-    project_manager: MemberDeactivationProjectManager | None = Field(
-        default=None, alias='projectManager'
-    )
-    project_time_approver: MemberDeactivationProjectManager | None = Field(
-        default=None, alias='projectTimeApprover'
-    )
-    project_expense_approver: MemberDeactivationProjectManager | None = Field(
-        default=None, alias='projectExpenseApprover'
-    )
-    knowledge_base_article: MemberDeactivationKnowledgebaseArticle | None = Field(
-        default=None, alias='knowledgeBaseArticle'
-    )
-    my_company_president: MemberDeactivationMyCompanyPresidentRole | None = Field(
-        default=None, alias='myCompanyPresident'
-    )
-    my_company_coo: MemberDeactivationMyCompanyCOORole | None = Field(
-        default=None, alias='myCompanyCOO'
-    )
-    my_company_controller: MemberDeactivationMyCompanyControllerRole | None = Field(
-        default=None, alias='myCompanyController'
-    )
-    my_company_dispatch: MemberDeactivationMyCompanyDispatchRole | None = Field(
-        default=None, alias='myCompanyDispatch'
-    )
-    my_company_service_manager: MemberDeactivationMyCompanyServiceManagerRole | None = (
-        Field(default=None, alias='myCompanyServiceManager')
-    )
-    my_company_duty_manager_role: MemberDeactivationMyCompanyDutyManagerRole | None = (
-        Field(default=None, alias='myCompanyDutyManagerRole')
-    )
-    department_manager: MemberDeactivationDepartmentMananager | None = Field(
-        default=None, alias='departmentManager'
-    )
-    dispatch_member: MemberDeactivationDispatchMember | None = Field(
-        default=None, alias='dispatchMember'
-    )
-    service_manager: MemberDeactivationServiceManger | None = Field(
-        default=None, alias='serviceManager'
-    )
-    duty_manager: MemberDeactivationDutyManager | None = Field(
-        default=None, alias='dutyManager'
-    )
-    send_from_email_notify: MemberDeactivationSendFromEmailNotify | None = Field(
-        default=None, alias='sendFromEmailNotify'
-    )
-    delete_open_time_sheets_flag: bool | None = Field(
-        default=None, alias='deleteOpenTimeSheetsFlag'
-    )
-    """
-    By default, this is set to false
-                If there is any open timesheets, system will return error message
-                that there is open timesheets still attached to this member
-                If user would like to delete member with open timesheets, they can set this boolean to TRUE
-                System will delete member and any associated open timesheets
-    """
-
-
-class MemberDeactivationCompanyTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberDeactivationCompanyTeam(ConnectWiseModel):
     count: int | None = None
     id: int | None = None
     name: str | None = None
@@ -10938,190 +12382,84 @@ class MemberDeactivationCompanyTeam(BaseModel):
     )
 
 
-class MemberDeactivationDepartmentMananager(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberDeactivationDepartmentMananager(ConnectWiseModel):
     count: int | None = None
     re_assign_to_member: MemberReference | None = Field(
         default=None, alias='reAssignToMember'
     )
 
 
-class MemberDeactivationDispatchMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationDispatchMember(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationDutyManager(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationDutyManager(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationKnowledgebaseArticle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationKnowledgebaseArticle(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyCOORole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyControllerRole(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyControllerRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyCOORole(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyDispatchRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyDispatchRole(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyDutyManagerRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyDutyManagerRole(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyPresidentRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyPresidentRole(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationMyCompanyServiceManagerRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationMyCompanyServiceManagerRole(
+    MemberDeactivationDepartmentMananager
+):
+    pass
 
 
-class MemberDeactivationOpportunity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationOpportunity(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationProjectManager(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationProjectManager(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationSalesActivity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationSalesActivity(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationSalesTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationSalesTeam(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationSendFromEmailNotify(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationSendFromEmailNotify(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationServiceManger(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationServiceManger(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationServiceTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationServiceTeam(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationServiceTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationServiceTemplate(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDeactivationStatusWorkflow(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberDeactivationStatusWorkflow(ConnectWiseModel):
     count: int | None = None
     id: int | None = None
     name: str | None = None
@@ -11130,135 +12468,43 @@ class MemberDeactivationStatusWorkflow(BaseModel):
     )
 
 
-class MemberDeactivationWorkflow(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    count: int | None = None
-    re_assign_to_member: MemberReference | None = Field(
-        default=None, alias='reAssignToMember'
-    )
+class MemberDeactivationWorkflow(MemberDeactivationDepartmentMananager):
+    pass
 
 
-class MemberDelegation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberDelegation(ConnectWiseModel):
     id: int | None = None
-    delegation_type: DelegationType = Field(..., alias='delegationType')
+    delegation_type: Literal['Approval', 'Project'] = Field(..., alias='delegationType')
     delegated_to: MemberReference | None = Field(default=None, alias='delegatedTo')
     date_start: datetime = Field(..., alias='dateStart')
     date_end: datetime = Field(..., alias='dateEnd')
     member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MemberInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    first_name: str | None = Field(default=None, alias='firstName')
-    middle_initial: str | None = Field(default=None, alias='middleInitial')
-    last_name: str | None = Field(default=None, alias='lastName')
-    full_name: str | None = Field(default=None, alias='fullName')
-    default_email: str | None = Field(default=None, alias='defaultEmail')
-    photo: DocumentReference | None = None
-    license_class: LicenseClass | None = Field(default=None, alias='licenseClass')
-    """
-    F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberLinkSsoUser(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
-    """
-     Max length: 100;
-    """
-
-
-class MemberNotificationSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notification_type: NotificationType = Field(..., alias='notificationType')
-    notification_trigger: NotificationTrigger = Field(..., alias='notificationTrigger')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberOffice365(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: str | None = None
-    name: str | None = None
-
-
-class MemberPersona(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberPersona(ConnectWiseModel):
     id: int | None = None
     job_role_percentage: int | None = Field(default=None, alias='jobRolePercentage')
     name: str | None = None
     persona_id: int = Field(..., alias='personaId')
     member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MemberReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberSkill(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberSkill(ConnectWiseModel):
     id: int | None = None
     skill: SkillReference
-    skill_level: SkillLevel = Field(..., alias='skillLevel')
+    skill_level: Literal['Beginner', 'Intermediate', 'Advanced', 'Expert'] = Field(
+        ..., alias='skillLevel'
+    )
     certified_flag: bool | None = Field(default=None, alias='certifiedFlag')
     years_experience: int | None = Field(default=None, alias='yearsExperience')
     notes: str | None = None
     member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MemberSsoSettingsReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
-    user_name: str | None = Field(default=None, alias='userName')
-    email: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberSsoToken(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    token: str | None = None
-
-
-class MemberTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MemberTemplate(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -11409,33 +12655,33 @@ class MemberTemplate(BaseModel):
     restrict_default_warehouse_bin_flag: bool | None = Field(
         default=None, alias='restrictDefaultWarehouseBinFlag'
     )
-    company_activity_tab_format: CompanyActivityTabFormat | None = Field(
+    company_activity_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='companyActivityTabFormat'
     )
-    invoice_time_tab_format: InvoiceTimeTabFormat | None = Field(
+    invoice_time_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='invoiceTimeTabFormat'
     )
-    invoice_screen_default_tab_format: InvoiceScreenDefaultTabFormat | None = Field(
-        default=None, alias='invoiceScreenDefaultTabFormat'
-    )
-    invoicing_display_options: InvoicingDisplayOptions | None = Field(
-        default=None, alias='invoicingDisplayOptions'
-    )
-    agreement_invoicing_display_options: AgreementInvoicingDisplayOptions | None = (
-        Field(default=None, alias='agreementInvoicingDisplayOptions')
-    )
+    invoice_screen_default_tab_format: Literal[
+        'ShowInvoicingTab', 'ShowAgreementInvoicingTab'
+    ] | None = Field(default=None, alias='invoiceScreenDefaultTabFormat')
+    invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='invoicingDisplayOptions')
+    agreement_invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='agreementInvoicingDisplayOptions')
     auto_start_stopwatch: bool | None = Field(default=None, alias='autoStartStopwatch')
     auto_popup_quick_notes_with_stopwatch: bool | None = Field(
         default=None, alias='autoPopupQuickNotesWithStopwatch'
     )
-    global_search_default_ticket_filter: GlobalSearchDefaultTicketFilter | None = Field(
-        default=None, alias='globalSearchDefaultTicketFilter'
-    )
-    global_search_default_sort: GlobalSearchDefaultSort | None = Field(
-        default=None, alias='globalSearchDefaultSort'
-    )
+    global_search_default_ticket_filter: Literal[
+        'OpenRecords', 'ClosedRecords', 'AllRecords'
+    ] | None = Field(default=None, alias='globalSearchDefaultTicketFilter')
+    global_search_default_sort: Literal[
+        'None', 'LastUpdatedDesc', 'LastUpdatedAsc', 'CreatedDesc', 'CreatedAsc'
+    ] | None = Field(default=None, alias='globalSearchDefaultSort')
     phone_source: str | None = Field(default=None, alias='phoneSource')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     copy_pod_layouts: bool | None = Field(default=None, alias='copyPodLayouts')
     copy_shared_default_views: bool | None = Field(
         default=None, alias='copySharedDefaultViews'
@@ -11452,42 +12698,7 @@ class MemberTemplate(BaseModel):
     )
 
 
-class MemberType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MemberTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MenuEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MenuEntry(ConnectWiseModel):
     id: int | None = None
     menu_location: MenuLocationReference | None = Field(
         default=None, alias='menuLocation'
@@ -11514,57 +12725,24 @@ class MenuEntry(BaseModel):
     remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
     small_menu_icon_id: int | None = Field(default=None, alias='smallMenuIconId')
     large_menu_icon_id: int | None = Field(default=None, alias='largeMenuIconId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MenuEntryLocation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MenuEntryLocation(ConnectWiseModel):
     id: int | None = None
     location: SystemLocationReference | None = None
     menu_entry: SystemMenuEntryReference | None = Field(default=None, alias='menuEntry')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MenuLocationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MinimumStockByWarehouse(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MinimumStockByWarehouse(ConnectWiseModel):
     id: int | None = None
     warehouse: WarehouseReference
     minimum_stock: int = Field(..., alias='minimumStock')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Module(Enum):
-    """
-    The Module Name.
-    """
-
-    COMPANIES = 'Companies'
-    FINANCE = 'Finance'
-    MARKETING = 'Marketing'
-    PROCUREMENT = 'Procurement'
-    PROJECT = 'Project'
-    SALES = 'Sales'
-    SERVICE_DESK = 'ServiceDesk'
-    TIME_EXPENSE = 'TimeExpense'
-
-
-class MyAccount(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MyAccount(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -11591,7 +12769,7 @@ class MyAccount(BaseModel):
      Max length: 50;
     """
     report_card: ReportCardReference | None = Field(default=None, alias='reportCard')
-    license_class: LicenseClass = Field(..., alias='licenseClass')
+    license_class: Literal['A', 'C', 'F', 'X'] = Field(..., alias='licenseClass')
     """
     F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
     """
@@ -11661,12 +12839,16 @@ class MyAccount(BaseModel):
     """
      Max length: 10;
     """
-    default_email: DefaultEmail = Field(..., alias='defaultEmail')
+    default_email: Literal['Office', 'Mobile', 'Home'] = Field(
+        ..., alias='defaultEmail'
+    )
     primary_email: str | None = Field(default=None, alias='primaryEmail')
     """
      Max length: 250;
     """
-    default_phone: DefaultPhone = Field(..., alias='defaultPhone')
+    default_phone: Literal['Office', 'Mobile', 'Home'] = Field(
+        ..., alias='defaultPhone'
+    )
     default_location: SystemLocationReference | None = Field(
         default=None, alias='defaultLocation'
     )
@@ -11755,24 +12937,24 @@ class MyAccount(BaseModel):
     calendar_sync_integration_flag: bool | None = Field(
         default=None, alias='calendarSyncIntegrationFlag'
     )
-    company_activity_tab_format: CompanyActivityTabFormat = Field(
+    company_activity_tab_format: Literal['SummaryList', 'DetailList'] = Field(
         ..., alias='companyActivityTabFormat'
     )
-    invoice_time_tab_format: InvoiceTimeTabFormat = Field(
+    invoice_time_tab_format: Literal['SummaryList', 'DetailList'] = Field(
         ..., alias='invoiceTimeTabFormat'
     )
-    invoice_screen_default_tab_format: InvoiceScreenDefaultTabFormat = Field(
-        ..., alias='invoiceScreenDefaultTabFormat'
-    )
-    invoicing_display_options: InvoicingDisplayOptions = Field(
-        ..., alias='invoicingDisplayOptions'
-    )
-    agreement_invoicing_display_options: AgreementInvoicingDisplayOptions = Field(
-        ..., alias='agreementInvoicingDisplayOptions'
-    )
-    authentication_service_type: AuthenticationServiceType | None = Field(
-        default=None, alias='authenticationServiceType'
-    )
+    invoice_screen_default_tab_format: Literal[
+        'ShowInvoicingTab', 'ShowAgreementInvoicingTab'
+    ] = Field(..., alias='invoiceScreenDefaultTabFormat')
+    invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] = Field(..., alias='invoicingDisplayOptions')
+    agreement_invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] = Field(..., alias='agreementInvoicingDisplayOptions')
+    authentication_service_type: Literal[
+        'AuthAnvil', 'GoogleAuthenticator', 'Email'
+    ] | None = Field(default=None, alias='authenticationServiceType')
     timebased_one_time_password_activated: bool | None = Field(
         default=None, alias='timebasedOneTimePasswordActivated'
     )
@@ -11784,20 +12966,20 @@ class MyAccount(BaseModel):
         default=None, alias='autoPopupQuickNotesWithStopwatch'
     )
     signature: str | None = None
-    global_search_default_ticket_filter: GlobalSearchDefaultTicketFilter | None = Field(
-        default=None, alias='globalSearchDefaultTicketFilter'
-    )
-    global_search_default_sort: GlobalSearchDefaultSort | None = Field(
-        default=None, alias='globalSearchDefaultSort'
-    )
+    global_search_default_ticket_filter: Literal[
+        'OpenRecords', 'ClosedRecords', 'AllRecords'
+    ] | None = Field(default=None, alias='globalSearchDefaultTicketFilter')
+    global_search_default_sort: Literal[
+        'None', 'LastUpdatedDesc', 'LastUpdatedAsc', 'CreatedDesc', 'CreatedAsc'
+    ] | None = Field(default=None, alias='globalSearchDefaultSort')
     phone_source: str | None = Field(default=None, alias='phoneSource')
-    phone_integration_type: PhoneIntegrationType | None = Field(
-        default=None, alias='phoneIntegrationType'
-    )
+    phone_integration_type: Literal[
+        'TAPI', 'SKYPE', 'TEL', 'CALLTO', 'NONE'
+    ] | None = Field(default=None, alias='phoneIntegrationType')
     use_browser_language_flag: bool | None = Field(
         default=None, alias='useBrowserLanguageFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     copy_pod_layouts: bool | None = Field(default=None, alias='copyPodLayouts')
     copy_shared_default_views: bool | None = Field(
         default=None, alias='copySharedDefaultViews'
@@ -11811,10 +12993,7 @@ class MyAccount(BaseModel):
     )
 
 
-class MyMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MyMember(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     password: str | None = None
@@ -11826,7 +13005,9 @@ class MyMember(BaseModel):
     last_name: str | None = Field(default=None, alias='lastName')
     title: str | None = None
     report_card: ReportCardReference | None = Field(default=None, alias='reportCard')
-    license_class: LicenseClass | None = Field(default=None, alias='licenseClass')
+    license_class: Literal['A', 'C', 'F', 'X'] | None = Field(
+        default=None, alias='licenseClass'
+    )
     """
     F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
     """
@@ -11860,8 +13041,12 @@ class MyMember(BaseModel):
     home_email: str | None = Field(default=None, alias='homeEmail')
     home_phone: str | None = Field(default=None, alias='homePhone')
     home_extension: str | None = Field(default=None, alias='homeExtension')
-    default_email: DefaultEmail | None = Field(default=None, alias='defaultEmail')
-    default_phone: DefaultPhone | None = Field(default=None, alias='defaultPhone')
+    default_email: Literal['Office', 'Mobile', 'Home'] | None = Field(
+        default=None, alias='defaultEmail'
+    )
+    default_phone: Literal['Office', 'Mobile', 'Home'] | None = Field(
+        default=None, alias='defaultPhone'
+    )
     security_role: SecurityRoleReference | None = Field(
         default=None, alias='securityRole'
     )
@@ -12003,26 +13188,26 @@ class MyMember(BaseModel):
         default=None, alias='ldapConfiguration'
     )
     ldap_user_name: str | None = Field(default=None, alias='ldapUserName')
-    company_activity_tab_format: CompanyActivityTabFormat | None = Field(
+    company_activity_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='companyActivityTabFormat'
     )
-    invoice_time_tab_format: InvoiceTimeTabFormat | None = Field(
+    invoice_time_tab_format: Literal['SummaryList', 'DetailList'] | None = Field(
         default=None, alias='invoiceTimeTabFormat'
     )
-    invoice_screen_default_tab_format: InvoiceScreenDefaultTabFormat | None = Field(
-        default=None, alias='invoiceScreenDefaultTabFormat'
-    )
-    invoicing_display_options: InvoicingDisplayOptions | None = Field(
-        default=None, alias='invoicingDisplayOptions'
-    )
-    agreement_invoicing_display_options: AgreementInvoicingDisplayOptions | None = (
-        Field(default=None, alias='agreementInvoicingDisplayOptions')
-    )
+    invoice_screen_default_tab_format: Literal[
+        'ShowInvoicingTab', 'ShowAgreementInvoicingTab'
+    ] | None = Field(default=None, alias='invoiceScreenDefaultTabFormat')
+    invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='invoicingDisplayOptions')
+    agreement_invoicing_display_options: Literal[
+        'RemainOnInvoicingScreen', 'ShowRecentInvoices'
+    ] | None = Field(default=None, alias='agreementInvoicingDisplayOptions')
     corelytics_username: str | None = Field(default=None, alias='corelyticsUsername')
     corelytics_password: str | None = Field(default=None, alias='corelyticsPassword')
-    authentication_service_type: AuthenticationServiceType | None = Field(
-        default=None, alias='authenticationServiceType'
-    )
+    authentication_service_type: Literal[
+        'AuthAnvil', 'GoogleAuthenticator', 'Email'
+    ] | None = Field(default=None, alias='authenticationServiceType')
     timebased_one_time_password_activated: bool | None = Field(
         default=None, alias='timebasedOneTimePasswordActivated'
     )
@@ -12031,13 +13216,10 @@ class MyMember(BaseModel):
     )
     sso_session_flag: bool | None = Field(default=None, alias='ssoSessionFlag')
     sso_client_id: str | None = Field(default=None, alias='ssoClientId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MyMemberInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class MyMemberInfo(ConnectWiseModel):
     id: int | None = None
     identifier: str | None = None
     first_name: str | None = Field(default=None, alias='firstName')
@@ -12046,7 +13228,9 @@ class MyMemberInfo(BaseModel):
     full_name: str | None = Field(default=None, alias='fullName')
     default_email: str | None = Field(default=None, alias='defaultEmail')
     photo: DocumentReference | None = None
-    license_class: LicenseClass | None = Field(default=None, alias='licenseClass')
+    license_class: Literal['A', 'C', 'F', 'X'] | None = Field(
+        default=None, alias='licenseClass'
+    )
     """
     F = Full Member, A = API Member, C = StreamlineIT Member, X = Subcontractor Member
     """
@@ -12140,205 +13324,10 @@ class MyMemberInfo(BaseModel):
     )
     sso_session_flag: bool | None = Field(default=None, alias='ssoSessionFlag')
     sso_client_id: str | None = Field(default=None, alias='ssoClientId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class MySecurity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    add_level: AddLevel | None = Field(default=None, alias='addLevel')
-    edit_level: EditLevel | None = Field(default=None, alias='editLevel')
-    delete_level: DeleteLevel | None = Field(default=None, alias='deleteLevel')
-    inquire_level: InquireLevel | None = Field(default=None, alias='inquireLevel')
-    module_function_name: str | None = Field(default=None, alias='moduleFunctionName')
-    module_function_description: str | None = Field(
-        default=None, alias='moduleFunctionDescription'
-    )
-    my_all_flag: bool | None = Field(default=None, alias='myAllFlag')
-    module_function_identifier: str | None = Field(
-        default=None, alias='moduleFunctionIdentifier'
-    )
-    report_flag: bool | None = Field(default=None, alias='reportFlag')
-    restrict_flag: bool | None = Field(default=None, alias='restrictFlag')
-    custom_flag: bool | None = Field(default=None, alias='customFlag')
-    module_description: str | None = Field(default=None, alias='moduleDescription')
-    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
-    module_name: str | None = Field(default=None, alias='moduleName')
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class MySecurityCustomizeItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    customize_identifier: CustomizeIdentifier | None = Field(
-        default=None, alias='customizeIdentifier'
-    )
-    item_identifier: str | None = Field(default=None, alias='itemIdentifier')
-
-
-class Name(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class NoteType(Enum):
-    TICKET_NOTE = 'TicketNote'
-    TIME_ENTRY_NOTE = 'TimeEntryNote'
-    MEETING_NOTE = 'MeetingNote'
-
-
-class NoteTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Notes(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class NotificationRecipient(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    external_flag: bool | None = Field(default=None, alias='externalFlag')
-    service_flag: bool | None = Field(default=None, alias='serviceFlag')
-    sales_flag: bool | None = Field(default=None, alias='salesFlag')
-    invoice_flag: bool | None = Field(default=None, alias='invoiceFlag')
-    agreement_flag: bool | None = Field(default=None, alias='agreementFlag')
-    member_flag: bool | None = Field(default=None, alias='memberFlag')
-    config_flag: bool | None = Field(default=None, alias='configFlag')
-    msp_flag: bool | None = Field(default=None, alias='mspFlag')
-    track_flag: bool | None = Field(default=None, alias='trackFlag')
-    project_flag: bool | None = Field(default=None, alias='projectFlag')
-    procurement_flag: bool | None = Field(default=None, alias='procurementFlag')
-    knowledge_base_flag: bool | None = Field(default=None, alias='knowledgeBaseFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class NotificationRecipientReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class NotificationTrigger(Enum):
-    ACTIVITY_STATUS_REQ = 'ActivityStatusReq'
-    CUSTOMER_UPDATED = 'CustomerUpdated'
-    EXPENSE_REPORT = 'ExpenseReport'
-    TICKET_STATUS_CHANGE = 'TicketStatusChange'
-    TICKET_STATUS_REQUEST = 'TicketStatusRequest'
-    TIME_NAG_APPROVER = 'TimeNagApprover'
-    TIME_NAG_MEMBER = 'TimeNagMember'
-    TIME_SHEET = 'TimeSheet'
-    WORKFLOW_RULES = 'WorkflowRules'
-
-
-class NotificationType(Enum):
-    EMAIL = 'Email'
-    PUSH = 'Push'
-
-
-class NotifyType(Enum):
-    CREATE_ACTIVITY = 'CreateActivity'
-    SEND_EMAIL = 'SendEmail'
-    ADD_TO_GROUP = 'AddToGroup'
-    ATTACH_TRACK = 'AttachTrack'
-    CHANGE_COMPANY_STATUS = 'ChangeCompanyStatus'
-    CREATE_SERVICE_TICKET = 'CreateServiceTicket'
-
-
-class NotifyTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class NumberOfEmployees(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Office365EmailSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 200;
-    """
-    username: str
-    """
-     Max length: 100;
-    """
-    inbox_folder: str = Field(..., alias='inboxFolder')
-    """
-     Max length: 40;
-    """
-    processed_folder: str = Field(..., alias='processedFolder')
-    """
-     Max length: 40;
-    """
-    failed_folder: str = Field(..., alias='failedFolder')
-    """
-     Max length: 40;
-    """
-    tenant_id: str | None = Field(default=None, alias='tenantId')
-    """
-     Max length: 36;
-    """
-    client_id: str | None = Field(default=None, alias='clientId')
-    """
-     Max length: 36;
-    """
-    client_secret: str | None = Field(default=None, alias='clientSecret')
-    """
-     Max length: 4000;
-    """
-    authorized_flag: bool | None = Field(default=None, alias='authorizedFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    source: int | None = None
-    email_connector: EmailConnectorReference | None = Field(
-        default=None, alias='emailConnector'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Office365EmailSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OnHandSerialNumber(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OnHandSerialNumber(ConnectWiseModel):
     id: int | None = None
     serial: str | None = None
     catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
@@ -12346,57 +13335,10 @@ class OnHandSerialNumber(BaseModel):
     warehouse_bin: WarehouseBinReference | None = Field(
         default=None, alias='warehouseBin'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class OnHandSerialNumberReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    serial_number: str | None = Field(default=None, alias='serialNumber')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OnPremiseSearchSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    password: str
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OnlyDisplay(Enum):
-    DO_NOT_DISPLAY = 'DoNotDisplay'
-    CLOSED30_DAYS = 'Closed30Days'
-    CLOSED60_DAYS = 'Closed60Days'
-    CLOSED90_DAYS = 'Closed90Days'
-    CLOSED120_DAYS = 'Closed120Days'
-    ALL_CLOSED = 'AllClosed'
-
-
-class OpenRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Opportunities(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class Opportunity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Opportunity(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -12471,16 +13413,13 @@ class Opportunity(BaseModel):
     technical_contact: ContactReference | None = Field(
         default=None, alias='technicalContact'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class OpportunityContact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OpportunityContact(ConnectWiseModel):
     id: int | None = None
     contact: ContactReference | None = None
     company: CompanyReference | None = None
@@ -12490,205 +13429,10 @@ class OpportunityContact(BaseModel):
     opportunity_id: int | None = Field(default=None, alias='opportunityId')
     phone_number: str | None = Field(default=None, alias='phoneNumber')
     email_address: str | None = Field(default=None, alias='emailAddress')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class OpportunityNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    opportunity_id: int | None = Field(default=None, alias='opportunityId')
-    type: NoteTypeReference | None = None
-    text: str
-    flagged: bool | None = None
-    entered_by: str | None = Field(default=None, alias='enteredBy')
-    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityPriorityReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityProbabilityReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityRating(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityRatingInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityRatingReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunitySalesRoleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStage(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    probability: OpportunityProbabilityReference | None = None
-    color: str | None = None
-    """
-     Max length: 25;
-    """
-    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStageInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    probability: OpportunityProbabilityReference | None = None
-    color: str | None = None
-    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStageReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    won_flag: bool | None = Field(default=None, alias='wonFlag')
-    lost_flag: bool | None = Field(default=None, alias='lostFlag')
-    closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    entered_by: str | None = Field(default=None, alias='enteredBy')
-    date_entered: datetime | None = Field(default=None, alias='dateEntered')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityToAgreementConversion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    agreement_id: int | None = Field(default=None, alias='agreementId')
-    name: str | None = None
-    type: AgreementTypeReference | None = None
-    start_date: str | None = Field(default=None, alias='startDate')
-    end_date: str | None = Field(default=None, alias='endDate')
-    no_ending_date_flag: bool | None = Field(default=None, alias='noEndingDateFlag')
-    bill_cycle_id: int | None = Field(default=None, alias='billCycleId')
-    bill_one_time_flag: bool | None = Field(default=None, alias='billOneTimeFlag')
-    location_id: int | None = Field(default=None, alias='locationId')
-    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
-    include_all_notes_flag: bool | None = Field(
-        default=None, alias='includeAllNotesFlag'
-    )
-    include_all_documents_flag: bool | None = Field(
-        default=None, alias='includeAllDocumentsFlag'
-    )
-    include_all_products_flag: bool | None = Field(
-        default=None, alias='includeAllProductsFlag'
-    )
-    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
-    include_document_ids: list[int] | None = Field(
-        default=None, alias='includeDocumentIds'
-    )
-    include_product_ids: list[int] | None = Field(
-        default=None, alias='includeProductIds'
-    )
-
-
-class OpportunityToProjectConversion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OpportunityToProjectConversion(ConnectWiseModel):
     project_id: int | None = Field(default=None, alias='projectId')
     name: str | None = None
     status: ProjectStatusReference | None = None
@@ -12716,90 +13460,7 @@ class OpportunityToProjectConversion(BaseModel):
     )
 
 
-class OpportunityToSalesOrderConversion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    sales_order_id: int | None = Field(default=None, alias='salesOrderId')
-    name: str | None = None
-    include_all_notes_flag: bool | None = Field(
-        default=None, alias='includeAllNotesFlag'
-    )
-    include_all_documents_flag: bool | None = Field(
-        default=None, alias='includeAllDocumentsFlag'
-    )
-    include_all_products_flag: bool | None = Field(
-        default=None, alias='includeAllProductsFlag'
-    )
-    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
-    include_document_ids: list[int] | None = Field(
-        default=None, alias='includeDocumentIds'
-    )
-    include_product_ids: list[int] | None = Field(
-        default=None, alias='includeProductIds'
-    )
-
-
-class OpportunityToServiceTicketConversion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    ticket_id: int | None = Field(default=None, alias='ticketId')
-    summary: str | None = None
-    include_all_notes_flag: bool | None = Field(
-        default=None, alias='includeAllNotesFlag'
-    )
-    include_all_documents_flag: bool | None = Field(
-        default=None, alias='includeAllDocumentsFlag'
-    )
-    include_all_products_flag: bool | None = Field(
-        default=None, alias='includeAllProductsFlag'
-    )
-    include_note_ids: list[int] | None = Field(default=None, alias='includeNoteIds')
-    include_document_ids: list[int] | None = Field(
-        default=None, alias='includeDocumentIds'
-    )
-    include_product_ids: list[int] | None = Field(
-        default=None, alias='includeProductIds'
-    )
-
-
-class OpportunityType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OpportunityTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Order(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Order(ConnectWiseModel):
     id: int | None = None
     company: CompanyReference | None = None
     contact: ContactReference | None = None
@@ -12856,16 +13517,13 @@ class Order(BaseModel):
         default=None, alias='companyLocation'
     )
     sub_total: float | None = Field(default=None, alias='subTotal')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class OrderStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OrderStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -12878,13 +13536,10 @@ class OrderStatus(BaseModel):
     email_template: OrderStatusEmailTemplateReference | None = Field(
         default=None, alias='emailTemplate'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class OrderStatusEmailTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OrderStatusEmailTemplate(ConnectWiseModel):
     id: int | None = None
     status: OrderStatusReference | None = None
     use_sender_flag: bool | None = Field(default=None, alias='useSenderFlag')
@@ -12906,32 +13561,10 @@ class OrderStatusEmailTemplate(BaseModel):
     """
     body: str
     copy_sender_flag: bool | None = Field(default=None, alias='copySenderFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class OrderStatusEmailTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OrderStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OrderStatusNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class OrderStatusNotification(ConnectWiseModel):
     id: int | None = None
     notify_who: NotificationRecipientReference | None = Field(
         default=None, alias='notifyWho'
@@ -12943,32 +13576,10 @@ class OrderStatusNotification(BaseModel):
     Order Status Notification sendEmail must be entered if the notify type is "Email Address". Max length: 50;
     """
     workflow_step: int | None = Field(default=None, alias='workflowStep')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class OrderStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OsGradeWeight(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    os_grade_weight: float | None = Field(default=None, alias='osGradeWeight')
-    os_name: str | None = Field(default=None, alias='osName')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Other(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Other(ConnectWiseModel):
     id: int | None = None
     default_ldap: LdapConfigurationReference | None = Field(
         default=None, alias='defaultLdap'
@@ -12989,7 +13600,9 @@ class Other(BaseModel):
     """
      Max length: 200;
     """
-    contact_sync: ContactSync | None = Field(default=None, alias='contactSync')
+    contact_sync: Literal['FL', 'LF', 'CFL', 'CLF'] | None = Field(
+        default=None, alias='contactSync'
+    )
     server_time_zone: TimeZoneSetupReference | None = Field(
         default=None, alias='serverTimeZone'
     )
@@ -13020,183 +13633,10 @@ class Other(BaseModel):
     """
     If true, all Members time zone will also be set to serverTimeZone. Otherwise, only My Company time zone will be updated.
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class Other1RevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Other2RevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OverageRateType(Enum):
-    ADJ_AMOUNT = 'AdjAmount'
-    CUSTOM = 'Custom'
-    MULTIPLIER = 'Multiplier'
-
-
-class OwnerLevelReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OwnershipType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 200;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OwnershipTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class OwnershipTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PageValues(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    page: int | None = None
-    page_size: int | None = Field(default=None, alias='pageSize')
-    page_id: int | None = Field(default=None, alias='pageId')
-
-
-class ParsingType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    parse_rule: str | None = Field(default=None, alias='parseRule')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ParsingVariable(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    code: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PatchOperation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    op: str | None = None
-    path: str | None = None
-    value: dict[str, Any] | None = None
-
-
-class PaymentMethodReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PaymentType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    classification: ClassificationReference | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    company_flag: bool | None = Field(default=None, alias='companyFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PaymentTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PercentageCalculation(Enum):
-    ACTUAL_HOURS = 'ActualHours'
-    MANUAL = 'Manual'
-    CLOSED_PHASES = 'ClosedPhases'
-    CLOSED_TICKETS = 'ClosedTickets'
-
-
-class PeriodApplyTo(Enum):
-    BOTH = 'Both'
-    EXPENSE = 'Expense'
-    TIME = 'Time'
-
-
-class PeriodType(Enum):
-    CURRENT = 'Current'
-    FUTURE = 'Future'
-    BOTH = 'Both'
-    UNDEFINED = 'Undefined'
-
-
-class PersonasInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-
-
-class PhaseStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PhaseStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -13218,112 +13658,10 @@ class PhaseStatus(BaseModel):
     """
     Required when statusIndicator is Custom. Max length: 30;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PhaseStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Phone(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class PhoneIntegrationType(Enum):
-    TAPI = 'TAPI'
-    SKYPE = 'SKYPE'
-    TEL = 'TEL'
-    CALLTO = 'CALLTO'
-    NONE = 'NONE'
-
-
-class PortalCalendar(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    week_start: WeekStart = Field(..., alias='weekStart')
-    adjust1_start: str | None = Field(default=None, alias='adjust1Start')
-    adjust1_end: str | None = Field(default=None, alias='adjust1End')
-    adjust1_hours: float | None = Field(default=None, alias='adjust1Hours')
-    adjust2_start: str | None = Field(default=None, alias='adjust2Start')
-    adjust2_end: str | None = Field(default=None, alias='adjust2End')
-    adjust2_hours: float | None = Field(default=None, alias='adjust2Hours')
-    adjust3_start: str | None = Field(default=None, alias='adjust3Start')
-    adjust3_end: str | None = Field(default=None, alias='adjust3End')
-    adjust3_hours: float | None = Field(default=None, alias='adjust3Hours')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfiguration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    """
-    Gets or sets and Sets
-                An existing Portal Configuration id is required when copying a Portal Configuration.
-    """
-    name: str
-    """
-     Max length: 150;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    company: CompanyReference | None = None
-    login_background_color: str | None = Field(
-        default=None, alias='loginBackgroundColor'
-    )
-    """
-     Max length: 7;
-    """
-    portal_background_color: str | None = Field(
-        default=None, alias='portalBackgroundColor'
-    )
-    """
-     Max length: 7;
-    """
-    menu_color: str | None = Field(default=None, alias='menuColor')
-    """
-     Max length: 7;
-    """
-    button_color: str | None = Field(default=None, alias='buttonColor')
-    """
-     Max length: 7;
-    """
-    header_color: str | None = Field(default=None, alias='headerColor')
-    """
-     Max length: 7;
-    """
-    url: str | None = None
-    """
-     Max length: 1000;
-    """
-    language: Language | None = None
-    welcome_text: str | None = Field(default=None, alias='welcomeText')
-    """
-     Max length: 4000;
-    """
-    board_ids: list[int] | None = Field(default=None, alias='boardIds')
-    agreement_type_ids: list[int] | None = Field(default=None, alias='agreementTypeIds')
-    config_type_ids: list[int] | None = Field(default=None, alias='configTypeIds')
-    location_ids: list[int] | None = Field(default=None, alias='locationIds')
-    portal_image_copy_success_flag: bool | None = Field(
-        default=None, alias='portalImageCopySuccessFlag'
-    )
-    display_vendor_flag: bool | None = Field(default=None, alias='displayVendorFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfigurationInvoiceSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PortalConfigurationInvoiceSetup(ConnectWiseModel):
     id: int | None = None
     portal_configuration: PortalConfigurationReference | None = Field(
         default=None, alias='portalConfiguration'
@@ -13340,206 +13678,10 @@ class PortalConfigurationInvoiceSetup(BaseModel):
     billing_status_ids: list[int] | None = Field(default=None, alias='billingStatusIds')
     add_all_statuses: bool | None = Field(default=None, alias='addAllStatuses')
     remove_all_statuses: bool | None = Field(default=None, alias='removeAllStatuses')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PortalConfigurationOpportunitySetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    opportunity_status_rec_i_ds: list[int] | None = Field(
-        default=None, alias='opportunityStatusRecIDs'
-    )
-    add_all_opportunity_statuses: bool | None = Field(
-        default=None, alias='addAllOpportunityStatuses'
-    )
-    remove_all_opportunity_statuses: bool | None = Field(
-        default=None, alias='removeAllOpportunityStatuses'
-    )
-    opportunity_type_rec_i_ds: list[int] | None = Field(
-        default=None, alias='opportunityTypeRecIDs'
-    )
-    add_all_opportunity_types: bool | None = Field(
-        default=None, alias='addAllOpportunityTypes'
-    )
-    remove_all_opportunity_types: bool | None = Field(
-        default=None, alias='removeAllOpportunityTypes'
-    )
-    restrict_view_by_opportunity_status_flag: bool | None = Field(
-        default=None, alias='restrictViewByOpportunityStatusFlag'
-    )
-    restrict_view_by_opportunity_type_flag: bool | None = Field(
-        default=None, alias='restrictViewByOpportunityTypeFlag'
-    )
-    acceptance_change_status_flag: bool | None = Field(
-        default=None, alias='acceptanceChangeStatusFlag'
-    )
-    acceptance_create_activity_flag: bool | None = Field(
-        default=None, alias='acceptanceCreateActivityFlag'
-    )
-    acceptance_opportunity_status: OpportunityStatusReference | None = Field(
-        default=None, alias='acceptanceOpportunityStatus'
-    )
-    acceptance_send_email_flag: bool | None = Field(
-        default=None, alias='acceptanceSendEmailFlag'
-    )
-    acceptance_email_from_first_name: str | None = Field(
-        default=None, alias='acceptanceEmailFromFirstName'
-    )
-    acceptance_email_from_last_name: str | None = Field(
-        default=None, alias='acceptanceEmailFromLastName'
-    )
-    acceptance_email_subject: str | None = Field(
-        default=None, alias='acceptanceEmailSubject'
-    )
-    acceptance_email_body: str | None = Field(default=None, alias='acceptanceEmailBody')
-    acceptance_from_email: str | None = Field(default=None, alias='acceptanceFromEmail')
-    """
-    Gets or sets
-                required when acceptanceSendEmailFlag is true.
-    """
-    acceptance_email_activity_type: ActivityTypeReference | None = Field(
-        default=None, alias='acceptanceEmailActivityType'
-    )
-    acceptance_email_assigned_by_member: MemberReference | None = Field(
-        default=None, alias='acceptanceEmailAssignedByMember'
-    )
-    rejection_change_status_flag: bool | None = Field(
-        default=None, alias='rejectionChangeStatusFlag'
-    )
-    rejection_create_activity_flag: bool | None = Field(
-        default=None, alias='rejectionCreateActivityFlag'
-    )
-    rejection_opportunity_status: OpportunityStatusReference | None = Field(
-        default=None, alias='rejectionOpportunityStatus'
-    )
-    rejection_send_email_flag: bool | None = Field(
-        default=None, alias='rejectionSendEmailFlag'
-    )
-    rejection_email_from_first_name: str | None = Field(
-        default=None, alias='rejectionEmailFromFirstName'
-    )
-    rejection_email_from_last_name: str | None = Field(
-        default=None, alias='rejectionEmailFromLastName'
-    )
-    rejection_from_email: str | None = Field(default=None, alias='rejectionFromEmail')
-    """
-    Gets or sets
-                required when rejectionSendEmailFlag is true.
-    """
-    rejection_email_subject: str | None = Field(
-        default=None, alias='rejectionEmailSubject'
-    )
-    rejection_email_body: str | None = Field(default=None, alias='rejectionEmailBody')
-    rejection_email_activity_type: ActivityTypeReference | None = Field(
-        default=None, alias='rejectionEmailActivityType'
-    )
-    rejection_email_assigned_by_member: MemberReference | None = Field(
-        default=None, alias='rejectionEmailAssignedByMember'
-    )
-    confirmation_send_email_flag: bool | None = Field(
-        default=None, alias='confirmationSendEmailFlag'
-    )
-    confirmation_email_use_default_company_email_address_flag: bool | None = Field(
-        default=None, alias='confirmationEmailUseDefaultCompanyEmailAddressFlag'
-    )
-    confirmation_email_from_first_name: str | None = Field(
-        default=None, alias='confirmationEmailFromFirstName'
-    )
-    confirmation_email_from_last_name: str | None = Field(
-        default=None, alias='confirmationEmailFromLastName'
-    )
-    confirmation_from_email: str | None = Field(
-        default=None, alias='confirmationFromEmail'
-    )
-    """
-    Gets or sets
-                required when confirmationSendEmailFlag is true.
-    """
-    confirmation_email_subject: str | None = Field(
-        default=None, alias='confirmationEmailSubject'
-    )
-    confirmation_email_body: str | None = Field(
-        default=None, alias='confirmationEmailBody'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfigurationPasswordEmailSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    valid_password_email_use_custom_email_flag: bool | None = Field(
-        default=None, alias='validPasswordEmailUseCustomEmailFlag'
-    )
-    valid_password_email_from_first_name: str | None = Field(
-        default=None, alias='validPasswordEmailFromFirstName'
-    )
-    valid_password_email_from_last_name: str | None = Field(
-        default=None, alias='validPasswordEmailFromLastName'
-    )
-    valid_password_email_from_email: str | None = Field(
-        default=None, alias='validPasswordEmailFromEmail'
-    )
-    """
-    Gets or sets
-                required when validPasswordEmailUseCustomEmailFlag is true.
-    """
-    valid_password_email_subject: str | None = Field(
-        default=None, alias='validPasswordEmailSubject'
-    )
-    valid_password_email_body: str | None = Field(
-        default=None, alias='validPasswordEmailBody'
-    )
-    invalid_password_email_use_custom_email_flag: bool | None = Field(
-        default=None, alias='invalidPasswordEmailUseCustomEmailFlag'
-    )
-    invalid_password_email_from_first_name: str | None = Field(
-        default=None, alias='invalidPasswordEmailFromFirstName'
-    )
-    invalid_password_email_from_last_name: str | None = Field(
-        default=None, alias='invalidPasswordEmailFromLastName'
-    )
-    invalid_password_email_from_email: str | None = Field(
-        default=None, alias='invalidPasswordEmailFromEmail'
-    )
-    """
-    Gets or sets
-                required when invalidPasswordEmailUseCustomEmailFlag is true.
-    """
-    invalid_password_email_subject: str | None = Field(
-        default=None, alias='invalidPasswordEmailSubject'
-    )
-    invalid_password_email_body: str | None = Field(
-        default=None, alias='invalidPasswordEmailBody'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfigurationPaymentProcessor(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    test_url: str | None = Field(default=None, alias='testURL')
-
-
-class PortalConfigurationPaymentProcessorReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfigurationProjectSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PortalConfigurationProjectSetup(ConnectWiseModel):
     id: int | None = None
     portal_config: PortalConfigurationReference | None = Field(
         default=None, alias='portalConfig'
@@ -13554,7 +13696,14 @@ class PortalConfigurationProjectSetup(BaseModel):
     estimated_end_flag: bool | None = Field(default=None, alias='estimatedEndFlag')
     description_flag: bool | None = Field(default=None, alias='descriptionFlag')
     last_updated_flag: bool | None = Field(default=None, alias='lastUpdatedFlag')
-    only_display: OnlyDisplay = Field(..., alias='onlyDisplay')
+    only_display: Literal[
+        'DoNotDisplay',
+        'Closed30Days',
+        'Closed60Days',
+        'Closed90Days',
+        'Closed120Days',
+        'AllClosed',
+    ] = Field(..., alias='onlyDisplay')
     time_material_budget_hrs_flag: bool | None = Field(
         default=None, alias='timeMaterialBudgetHrsFlag'
     )
@@ -13644,22 +13793,10 @@ class PortalConfigurationProjectSetup(BaseModel):
     project_detail_total_hours_flag: bool | None = Field(
         default=None, alias='projectDetailTotalHoursFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PortalConfigurationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalConfigurationServiceSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PortalConfigurationServiceSetup(ConnectWiseModel):
     id: int | None = None
     service_type_flag: bool | None = Field(default=None, alias='serviceTypeFlag')
     service_sub_type_flag: bool | None = Field(default=None, alias='serviceSubTypeFlag')
@@ -13685,138 +13822,24 @@ class PortalConfigurationServiceSetup(BaseModel):
     enable_chat_assist_flag: bool | None = Field(
         default=None, alias='enableChatAssistFlag'
     )
-    display_closed_tickets_option: DisplayClosedTicketsOption = Field(
-        ..., alias='displayClosedTicketsOption'
-    )
+    display_closed_tickets_option: Literal[
+        'DoNotDisplay',
+        'Closed30Days',
+        'Closed60Days',
+        'Closed90Days',
+        'Closed120Days',
+        'AllClosed',
+    ] = Field(..., alias='displayClosedTicketsOption')
     time_materials_ticket_template: ServiceSignoffReference | None = Field(
         default=None, alias='timeMaterialsTicketTemplate'
     )
     fixed_fee_ticket_template: ServiceSignoffReference | None = Field(
         default=None, alias='fixedFeeTicketTemplate'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PortalReport(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    portal_configuration: PortalConfigurationReference | None = Field(
-        default=None, alias='portalConfiguration'
-    )
-    name: str
-    """
-     Max length: 255;
-    """
-    url: str
-    """
-     Max length: 255;
-    """
-    open_same_window_flag: bool | None = Field(default=None, alias='openSameWindowFlag')
-    custom_flag: bool | None = Field(default=None, alias='customFlag')
-    display_flag: bool | None = Field(default=None, alias='displayFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalSecurity(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    identifier: str | None = None
-    enabled: bool | None = None
-
-
-class PortalSecurityLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    caption_identifier: str | None = Field(default=None, alias='captionIdentifier')
-    is_default_flag: bool | None = Field(default=None, alias='isDefaultFlag')
-    caption: str | None = None
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PortalSecuritySetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    function_identifier: str | None = Field(default=None, alias='functionIdentifier')
-    function_description: str | None = Field(default=None, alias='functionDescription')
-    level_one: bool | None = Field(default=None, alias='levelOne')
-    level_two: bool | None = Field(default=None, alias='levelTwo')
-    level_three: bool | None = Field(default=None, alias='levelThree')
-    level_four: bool | None = Field(default=None, alias='levelFour')
-    level_five: bool | None = Field(default=None, alias='levelFive')
-    level_six: bool | None = Field(default=None, alias='levelSix')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PredecessorType(Enum):
-    TICKET = 'Ticket'
-    PHASE = 'Phase'
-
-
-class PrefixSuffixFlag(Enum):
-    PREFIX = 'Prefix'
-    SUFFIX = 'Suffix'
-
-
-class PrefixSuffixOption(Enum):
-    PREFIX = 'Prefix'
-    SUFFIX = 'Suffix'
-
-
-class PrefixSuffixType(Enum):
-    PREFIX = 'Prefix'
-    SUFFIX = 'Suffix'
-
-
-class Presence(Enum):
-    NO_AGENT = 'NoAgent'
-    ONLINE = 'Online'
-    DO_NOT_DISTURB = 'DoNotDisturb'
-    AWAY = 'Away'
-    OFFLINE = 'Offline'
-
-
-class PriceAttribute(Enum):
-    FIXED_FEE = 'FixedFee'
-    NOT_TO_EXCEED = 'NotToExceed'
-    OVERRIDE_RATE = 'OverrideRate'
-    TIME_AND_MATERIALS = 'TimeAndMaterials'
-
-
-class PriceMethod(Enum):
-    FLAT_RATE_FOR_RANGE = 'FlatRateForRange'
-    PERCENT_MARKUP_FROM_COST = 'PercentMarkupFromCost'
-    PERCENT_MARKDOWN_FROM_PRICE = 'PercentMarkdownFromPrice'
-    PRICE_PER_UNIT = 'PricePerUnit'
-
-
-class PricingBreak(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    detail_id: int | None = Field(default=None, alias='detailId')
-    amount: float | None = None
-    quantity_start: float = Field(..., alias='quantityStart')
-    quantity_end: float | None = Field(default=None, alias='quantityEnd')
-    unlimited: bool | None = None
-    price_method: PriceMethod = Field(..., alias='priceMethod')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PricingDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PricingDetail(ConnectWiseModel):
     id: int | None = None
     product: CatalogItemReference | None = None
     category: ProductCategoryReference | None = None
@@ -13826,98 +13849,10 @@ class PricingDetail(BaseModel):
     start_date: datetime = Field(..., alias='startDate')
     end_date: datetime | None = Field(default=None, alias='endDate')
     no_end_date: bool | None = Field(default=None, alias='noEndDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PricingSchedule(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    currency: CurrencyReference | None = None
-    companies: list[int] | None = None
-    set_all_companies_flag: bool | None = Field(
-        default=None, alias='setAllCompaniesFlag'
-    )
-    remove_all_companies_flag: bool | None = Field(
-        default=None, alias='removeAllCompaniesFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PricingScheduleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PrimaryAddress(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class PrimaryContact(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Priority(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    color: Color
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    image_link: str | None = Field(default=None, alias='imageLink')
-    urgency_sort_order: str | None = Field(default=None, alias='urgencySortOrder')
-    level: Level | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PriorityInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PriorityReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort: int | None = None
-    level: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProblemSort(Enum):
-    ASCENDING = 'Ascending'
-    DESCENDING = 'Descending'
-
-
-class ProcurementAdjustment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProcurementAdjustment(ConnectWiseModel):
     id: int | None = None
     identifier: str
     """
@@ -13935,102 +13870,10 @@ class ProcurementAdjustment(BaseModel):
     adjustment_details: list[AdjustmentDetail] | None = Field(
         default=None, alias='adjustmentDetails'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProcurementSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    starting_purchase_order_num: int = Field(..., alias='startingPurchaseOrderNum')
-    purchase_order_prefix: str | None = Field(default=None, alias='purchaseOrderPrefix')
-    """
-     Max length: 5;
-    """
-    purchase_order_suffix: str | None = Field(default=None, alias='purchaseOrderSuffix')
-    """
-     Max length: 5;
-    """
-    prefix_suffix_type: PrefixSuffixType | None = Field(
-        default=None, alias='prefixSuffixType'
-    )
-    disable_cost_updates_flag: bool | None = Field(
-        default=None, alias='disableCostUpdatesFlag'
-    )
-    disable_negative_inventory_flag: bool | None = Field(
-        default=None, alias='disableNegativeInventoryFlag'
-    )
-    costing_method: CostingMethod = Field(..., alias='costingMethod')
-    auto_close_purchase_order_flag: bool | None = Field(
-        default=None, alias='autoClosePurchaseOrderFlag'
-    )
-    auto_close_purchase_order_item_flag: bool | None = Field(
-        default=None, alias='autoClosePurchaseOrderItemFlag'
-    )
-    auto_approve_purchase_order_flag: bool | None = Field(
-        default=None, alias='autoApprovePurchaseOrderFlag'
-    )
-    tax_purchase_order_flag: bool | None = Field(
-        default=None, alias='taxPurchaseOrderFlag'
-    )
-    tax_freight_flag: bool | None = Field(default=None, alias='taxFreightFlag')
-    use_vendor_tax_code_flag: bool | None = Field(
-        default=None, alias='useVendorTaxCodeFlag'
-    )
-    num_decimal_places: int | None = Field(default=None, alias='numDecimalPlaces')
-    disable_auto_pick_flag: bool | None = Field(
-        default=None, alias='disableAutoPickFlag'
-    )
-    default_product_taxable_flag: bool | None = Field(
-        default=None, alias='defaultProductTaxableFlag'
-    )
-    eori_number: str | None = Field(default=None, alias='eoriNumber')
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProcurementType(Enum):
-    PURCHASE = 'Purchase'
-    ADJUSTMENT = 'Adjustment'
-    TRANSFER = 'Transfer'
-
-
-class ProductCategoryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductClass(Enum):
-    """
-    Defaults to Non-Inventory.
-    """
-
-    AGREEMENT = 'Agreement'
-    BUNDLE = 'Bundle'
-    INVENTORY = 'Inventory'
-    NON_INVENTORY = 'NonInventory'
-    SERVICE = 'Service'
-
-
-class ProductClass1(Enum):
-    AGREEMENT = 'Agreement'
-    BUNDLE = 'Bundle'
-    INVENTORY = 'Inventory'
-    NON_INVENTORY = 'NonInventory'
-    SERVICE = 'Service'
-
-
-class ProductComponent(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProductComponent(ConnectWiseModel):
     id: int | None = None
     sequence_number: int | None = Field(default=None, alias='sequenceNumber')
     """
@@ -14056,37 +13899,10 @@ class ProductComponent(BaseModel):
     product_item: ProductItemReference | None = Field(default=None, alias='productItem')
     price: float | None = None
     cost: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProductDemand(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    product_rec_id: int | None = Field(default=None, alias='productRecId')
-    quantity: int | None = None
-    cost: float | None = None
-
-
-class ProductDetach(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    remove_from_ticket: bool | None = Field(default=None, alias='removeFromTicket')
-    remove_from_invoice: bool | None = Field(default=None, alias='removeFromInvoice')
-    remove_from_opportunity: bool | None = Field(
-        default=None, alias='removeFromOpportunity'
-    )
-    remove_from_sales_order: bool | None = Field(
-        default=None, alias='removeFromSalesOrder'
-    )
-    remove_from_project: bool | None = Field(default=None, alias='removeFromProject')
-
-
-class ProductItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProductItem(ConnectWiseModel):
     id: int | None = None
     catalog_item: CatalogItemReference | None = Field(default=None, alias='catalogItem')
     description: str | None = None
@@ -14099,8 +13915,15 @@ class ProductItem(BaseModel):
     cost: float | None = None
     discount: float | None = None
     agreement_amount: float | None = Field(default=None, alias='agreementAmount')
-    price_method: PriceMethod | None = Field(default=None, alias='priceMethod')
-    billable_option: BillableOption4 = Field(..., alias='billableOption')
+    price_method: Literal[
+        'FlatRateForRange',
+        'PercentMarkupFromCost',
+        'PercentMarkdownFromPrice',
+        'PricePerUnit',
+    ] | None = Field(default=None, alias='priceMethod')
+    billable_option: Literal['Billable', 'DoNotBill', 'NoCharge'] = Field(
+        ..., alias='billableOption'
+    )
     agreement: AgreementReference | None = None
     location_id: int | None = Field(default=None, alias='locationId')
     """
@@ -14171,7 +13994,9 @@ class ProductItem(BaseModel):
     forecast_status: OpportunityStatusReference | None = Field(
         default=None, alias='forecastStatus'
     )
-    product_class: ProductClass1 | None = Field(default=None, alias='productClass')
+    product_class: Literal[
+        'Agreement', 'Bundle', 'Inventory', 'NonInventory', 'Service'
+    ] | None = Field(default=None, alias='productClass')
     need_to_purchase_flag: bool | None = Field(default=None, alias='needToPurchaseFlag')
     need_to_order_quantity: int | None = Field(
         default=None, alias='needToOrderQuantity'
@@ -14191,7 +14016,7 @@ class ProductItem(BaseModel):
     ignore_pricing_schedules_flag: bool | None = Field(
         default=None, alias='ignorePricingSchedulesFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     bypass_forecast_update: bool | None = Field(
         default=None, alias='bypassForecastUpdate'
     )
@@ -14200,19 +14025,7 @@ class ProductItem(BaseModel):
     )
 
 
-class ProductItemReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductPickingShippingDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProductPickingShippingDetail(ConnectWiseModel):
     id: int | None = None
     picked_quantity: int | None = Field(default=None, alias='pickedQuantity')
     shipped_quantity: int | None = Field(default=None, alias='shippedQuantity')
@@ -14229,110 +14042,25 @@ class ProductPickingShippingDetail(BaseModel):
     product_item: ProductItemReference | None = Field(default=None, alias='productItem')
     line_number: int | None = Field(default=None, alias='lineNumber')
     quantity: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProductRecurring(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    recurring_revenue: float | None = Field(default=None, alias='recurringRevenue')
-    recurring_cost: float | None = Field(default=None, alias='recurringCost')
-    start_date: str | None = Field(default=None, alias='startDate')
-    end_date: str | None = Field(default=None, alias='endDate')
-    """
-    The Recurring End Date is calculated based on the
-                start date, number of cycles, and cycle type.
-    """
-    bill_cycle_id: int | None = Field(default=None, alias='billCycleId')
-    cycles: int | None = None
-    cycle_type: CycleType | None = Field(default=None, alias='cycleType')
-
-
-class ProductReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductSubCategoryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    type_xref: TypeXref | None = Field(default=None, alias='typeXref')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductTypeExemption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProductTypeExemption(ConnectWiseModel):
     id: int | None = None
     product_type: ProductTypeReference = Field(..., alias='productType')
     taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProductTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProductTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Project(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Project(ConnectWiseModel):
     id: int | None = None
     actual_end: datetime | None = Field(default=None, alias='actualEnd')
     actual_hours: float | None = Field(default=None, alias='actualHours')
     actual_start: datetime | None = Field(default=None, alias='actualStart')
     agreement: AgreementReference | None = None
-    bill_expenses: BillExpenses3 | None = Field(default=None, alias='billExpenses')
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
     """
      Required On Updates;
     """
@@ -14341,8 +14069,10 @@ class Project(BaseModel):
     """
      Max length: 50;
     """
-    billing_method: BillingMethod1 = Field(..., alias='billingMethod')
-    billing_rate_type: BillingRateType | None = Field(
+    billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] = Field(..., alias='billingMethod')
+    billing_rate_type: Literal['StaffMember', 'WorkRole'] | None = Field(
         default=None, alias='billingRateType'
     )
     """
@@ -14351,14 +14081,18 @@ class Project(BaseModel):
     billing_terms: BillingTermsReference | None = Field(
         default=None, alias='billingTerms'
     )
-    bill_products: BillProducts2 | None = Field(default=None, alias='billProducts')
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
     """
      Required On Updates;
     """
     bill_project_after_closed_flag: bool | None = Field(
         default=None, alias='billProjectAfterClosedFlag'
     )
-    bill_time: BillTime6 | None = Field(default=None, alias='billTime')
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
     """
      Required On Updates;
     """
@@ -14373,7 +14107,9 @@ class Project(BaseModel):
         default=None, alias='billUnapprovedTimeAndExpense'
     )
     board: ProjectBoardReference | None = None
-    budget_analysis: BudgetAnalysis | None = Field(default=None, alias='budgetAnalysis')
+    budget_analysis: Literal['ActualHours', 'BillableHours'] | None = Field(
+        default=None, alias='budgetAnalysis'
+    )
     """
      Required On Updates;
     """
@@ -14452,16 +14188,13 @@ class Project(BaseModel):
     company_location: SystemLocationReference | None = Field(
         default=None, alias='companyLocation'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class ProjectBillingRate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectBillingRate(ConnectWiseModel):
     id: int | None = None
     project_rec_id: int | None = Field(default=None, alias='projectRecId')
     hourly_rate: float | None = Field(default=None, alias='hourlyRate')
@@ -14469,22 +14202,10 @@ class ProjectBillingRate(BaseModel):
     activity_class_rec_id: int | None = Field(default=None, alias='activityClassRecId')
     member: MemberReference | None = None
     member_rec_id: int | None = Field(default=None, alias='memberRecId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectBoardReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectBoardTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectBoardTeam(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -14493,55 +14214,18 @@ class ProjectBoardTeam(BaseModel):
     location: SystemLocationReference | None = None
     department: SystemDepartmentReference | None = None
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectBoardTeamInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectBoardTeamMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectBoardTeamMember(ConnectWiseModel):
     id: int | None = None
     member: MemberReference | None = None
     project_role: ProjectRoleReference | None = Field(default=None, alias='projectRole')
     work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectContact(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    project_id: int | None = Field(default=None, alias='projectId')
-    contact: ContactReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    project_id: int | None = Field(default=None, alias='projectId')
-    text: str
-    type: NoteTypeReference | None = None
-    flagged: bool | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectPhase(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectPhase(ConnectWiseModel):
     id: int | None = None
     project_id: int | None = Field(default=None, alias='projectId')
     description: str
@@ -14559,15 +14243,21 @@ class ProjectPhase(BaseModel):
     """
      Max length: 50;
     """
-    bill_time: BillTime6 | None = Field(default=None, alias='billTime')
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
     """
      Required On Updates;
     """
-    bill_expenses: BillExpenses3 | None = Field(default=None, alias='billExpenses')
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
     """
      Required On Updates;
     """
-    bill_products: BillProducts2 | None = Field(default=None, alias='billProducts')
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
     """
      Required On Updates;
     """
@@ -14577,7 +14267,9 @@ class ProjectPhase(BaseModel):
     notes: str | None = None
     deadline_date: datetime | None = Field(default=None, alias='deadlineDate')
     bill_separately_flag: bool | None = Field(default=None, alias='billSeparatelyFlag')
-    billing_method: BillingMethod2 | None = Field(default=None, alias='billingMethod')
+    billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='billingMethod')
     """
     billingMethod is required if the phase billSeparatelyFlag is true.
     """
@@ -14641,74 +14333,13 @@ class ProjectPhase(BaseModel):
         default=None, alias='shipToContact'
     )
     ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class ProjectPhaseReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectRoleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectSecurityRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    manager_role_flag: bool | None = Field(default=None, alias='managerRoleFlag')
-    default_contact_flag: bool | None = Field(default=None, alias='defaultContactFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectSecurityRoleSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    add_level: AddLevel | None = Field(default=None, alias='addLevel')
-    edit_level: EditLevel | None = Field(default=None, alias='editLevel')
-    delete_level: DeleteLevel | None = Field(default=None, alias='deleteLevel')
-    inquire_level: InquireLevel | None = Field(default=None, alias='inquireLevel')
-    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
-    """
-     Max length: 50;
-    """
-    my_flag: bool | None = Field(default=None, alias='myFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -14727,32 +14358,10 @@ class ProjectStatus(BaseModel):
     """
     Required when statusIndicator is Custom. Max length: 30;
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectTeamMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTeamMember(ConnectWiseModel):
     id: int | None = None
     project_id: int | None = Field(default=None, alias='projectId')
     hours: float | None = None
@@ -14761,13 +14370,10 @@ class ProjectTeamMember(BaseModel):
     work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
     start_date: datetime | None = Field(default=None, alias='startDate')
     end_date: datetime | None = Field(default=None, alias='endDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTemplate(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -14775,26 +14381,20 @@ class ProjectTemplate(BaseModel):
     """
     description: str | None = None
     type: ProjectTypeReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectTemplateTask(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTemplateTask(ConnectWiseModel):
     id: int | None = None
     ticket_id: int | None = Field(default=None, alias='ticketId')
     sequence: int | None = None
     description: str | None = None
     summary: str | None = None
     code: ServiceCodeReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectTemplateTicket(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTemplateTicket(ConnectWiseModel):
     id: int | None = None
     project_template_id: int | None = Field(default=None, alias='projectTemplateId')
     project_template_phase_id: int | None = Field(
@@ -14827,33 +14427,10 @@ class ProjectTemplateTicket(BaseModel):
     source: ServiceSourceReference | None = None
     work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
     work_type: WorkTypeReference | None = Field(default=None, alias='workType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectTemplateWorkPlan(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    tree_id: str | None = Field(default=None, alias='treeID')
-    i_d: int | None = Field(default=None, alias='iD')
-    rec_id: int | None = Field(default=None, alias='recID')
-    display_id: str | None = Field(default=None, alias='displayID')
-    s_r_service_rec_id: int | None = Field(default=None, alias='sR_Service_RecID')
-    description: str | None = None
-    project_name: str | None = Field(default=None, alias='projectName')
-    budget_amount: float | None = Field(default=None, alias='budgetAmount')
-    is_project: bool | None = Field(default=None, alias='isProject')
-    is_phase: bool | None = Field(default=None, alias='isPhase')
-    is_ticket: bool | None = Field(default=None, alias='isTicket')
-    is_new_item: bool | None = Field(default=None, alias='isNewItem')
-    wbs_code: str | None = Field(default=None, alias='wbsCode')
-    parent_phase_rec_id: int | None = Field(default=None, alias='parentPhaseRecID')
-
-
-class ProjectTicket(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTicket(ConnectWiseModel):
     id: int | None = None
     summary: str
     """
@@ -14938,9 +14515,14 @@ class ProjectTicket(BaseModel):
     knowledge_base_link_id: int | None = Field(
         default=None, alias='knowledgeBaseLinkId'
     )
-    knowledge_base_link_type: KnowledgeBaseLinkType | None = Field(
-        default=None, alias='knowledgeBaseLinkType'
-    )
+    knowledge_base_link_type: Literal[
+        'Activity',
+        'ProjectIssue',
+        'KnowledgeBaseArticle',
+        'ProjectTicket',
+        'ServiceTicket',
+        'Time',
+    ] | None = Field(default=None, alias='knowledgeBaseLinkType')
     allow_all_clients_portal_view: bool | None = Field(
         default=None, alias='allowAllClientsPortalView'
     )
@@ -14965,16 +14547,22 @@ class ProjectTicket(BaseModel):
     closed_flag: bool | None = Field(default=None, alias='closedFlag')
     actual_hours: float | None = Field(default=None, alias='actualHours')
     approved: bool | None = None
-    sub_billing_method: SubBillingMethod | None = Field(
-        default=None, alias='subBillingMethod'
-    )
+    sub_billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='subBillingMethod')
     sub_billing_amount: float | None = Field(default=None, alias='subBillingAmount')
     sub_date_accepted: str | None = Field(default=None, alias='subDateAccepted')
     resources: str | None = None
-    bill_time: BillTime8 | None = Field(default=None, alias='billTime')
-    bill_expenses: BillExpenses5 | None = Field(default=None, alias='billExpenses')
-    bill_products: BillProducts4 | None = Field(default=None, alias='billProducts')
-    predecessor_type: PredecessorType | None = Field(
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
+    predecessor_type: Literal['Ticket', 'Phase'] | None = Field(
         default=None, alias='predecessorType'
     )
     predecessor_id: int | None = Field(default=None, alias='predecessorId')
@@ -14993,7 +14581,7 @@ class ProjectTicket(BaseModel):
     duration: int | None = None
     mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
     currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     tasks: list[TicketTask] | None = None
     initial_description: str | None = Field(default=None, alias='initialDescription')
     """
@@ -15022,12 +14610,11 @@ class ProjectTicket(BaseModel):
     )
 
 
-class ProjectTicketNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectTicketNote(ConnectWiseModel):
     id: int | None = None
-    note_type: NoteType | None = Field(default=None, alias='noteType')
+    note_type: Literal['TicketNote', 'TimeEntryNote', 'MeetingNote'] | None = Field(
+        default=None, alias='noteType'
+    )
     ticket: TicketReference | None = None
     text: str | None = None
     detail_description_flag: bool | None = Field(
@@ -15045,49 +14632,10 @@ class ProjectTicketNote(BaseModel):
     original_author: str | None = Field(default=None, alias='originalAuthor')
     member: MemberReference | None = None
     contact: ContactReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ProjectType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    integration_xref: str | None = Field(default=None, alias='integrationXref')
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ProjectWorkplan(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ProjectWorkplan(ConnectWiseModel):
     id: int | None = None
     project_id: int | None = Field(default=None, alias='projectId')
     description: str | None = None
@@ -15099,16 +14647,24 @@ class ProjectWorkplan(BaseModel):
         default=None, alias='parentPhase'
     )
     wbs_code: str | None = Field(default=None, alias='wbsCode')
-    bill_time: BillTime8 | None = Field(default=None, alias='billTime')
-    bill_expenses: BillExpenses5 | None = Field(default=None, alias='billExpenses')
-    bill_products: BillProducts4 | None = Field(default=None, alias='billProducts')
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
+    )
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
     mark_as_milestone_flag: bool | None = Field(
         default=None, alias='markAsMilestoneFlag'
     )
     notes: str | None = None
     deadline_date: str | None = Field(default=None, alias='deadlineDate')
     bill_separately_flag: bool | None = Field(default=None, alias='billSeparatelyFlag')
-    billing_method: BillingMethod2 | None = Field(default=None, alias='billingMethod')
+    billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='billingMethod')
     """
     billingMethod is required if the phase billSeparatelyFlag is true.
     """
@@ -15169,42 +14725,14 @@ class ProjectWorkplan(BaseModel):
         default=None, alias='shipToContact'
     )
     ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     tickets: list[ProjectTicket] | None = None
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class Projects(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class PropertyType(Enum):
-    CITY = 'City'
-    DEPARTMENT_CONTACT_SYNC = 'DepartmentContactSync'
-    EMAIL = 'Email'
-    DISTRIBUTION_GROUP = 'DistributionGroup'
-    JOB_TITLE = 'JobTitle'
-    ASSIGNED_LICENSES = 'AssignedLicenses'
-    DISPLAY_NAME = 'DisplayName'
-    OFFICE_LOCATION = 'OfficeLocation'
-    REPORT_MANAGER = 'ReportManager'
-    STATE = 'State'
-    EMPLOYEE_TYPE = 'EmployeeType'
-    USER_TYPE = 'UserType'
-
-
-class PtoAvailableType(Enum):
-    ANNIVERSARY_YEAR = 'AnniversaryYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class PurchaseOrder(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchaseOrder(ConnectWiseModel):
     id: int | None = None
     business_unit_id: int | None = Field(default=None, alias='businessUnitId')
     cancel_reason: str | None = Field(default=None, alias='cancelReason')
@@ -15298,16 +14826,13 @@ class PurchaseOrder(BaseModel):
         default=None, alias='warehouseContact'
     )
     currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class PurchaseOrderLineItem(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchaseOrderLineItem(ConnectWiseModel):
     id: int | None = None
     backordered_flag: bool | None = Field(default=None, alias='backorderedFlag')
     canceled_by: str | None = Field(default=None, alias='canceledBy')
@@ -15371,35 +14896,19 @@ class PurchaseOrderLineItem(BaseModel):
      Max length: 10;
     """
     date_received: datetime | None = Field(default=None, alias='dateReceived')
-    received_status: ReceivedStatus | None = Field(default=None, alias='receivedStatus')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    received_status: Literal[
+        'Waiting',
+        'FullyReceived',
+        'PartiallyReceiveCancelRest',
+        'PartiallyReceiveCloneRest',
+    ] | None = Field(default=None, alias='receivedStatus')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class PurchaseOrderLineItemReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PurchaseOrderReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PurchaseOrderStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchaseOrderStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -15413,13 +14922,10 @@ class PurchaseOrderStatus(BaseModel):
     email_template: PurchaseOrderStatusEmailTemplateReference | None = Field(
         default=None, alias='emailTemplate'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PurchaseOrderStatusEmailTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchaseOrderStatusEmailTemplate(ConnectWiseModel):
     id: int | None = None
     status: PurchaseOrderStatusReference | None = None
     use_sender_flag: bool | None = Field(default=None, alias='useSenderFlag')
@@ -15441,22 +14947,10 @@ class PurchaseOrderStatusEmailTemplate(BaseModel):
     """
     body: str | None = None
     copy_sender_flag: bool | None = Field(default=None, alias='copySenderFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PurchaseOrderStatusEmailTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PurchaseOrderStatusNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchaseOrderStatusNotification(ConnectWiseModel):
     id: int | None = None
     notify_who: NotificationRecipientReference | None = Field(
         default=None, alias='notifyWho'
@@ -15468,32 +14962,17 @@ class PurchaseOrderStatusNotification(BaseModel):
     Purchase Order Status Notification email must be entered if the notify type is "Email Address". Max length: 50;
     """
     workflow_step: int | None = Field(default=None, alias='workflowStep')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class PurchaseOrderStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class PurchasingDemand(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class PurchasingDemand(ConnectWiseModel):
     warehouse: WarehouseReference | None = None
     vendor: CompanyReference | None = None
     products: list[ProductDemand] | None = None
     purchase_order: PurchaseOrder | None = Field(default=None, alias='purchaseOrder')
 
 
-class QuoteLink(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class QuoteLink(ConnectWiseModel):
     id: int | None = None
     location: SystemLocationReference | None = None
     link: str
@@ -15502,179 +14981,18 @@ class QuoteLink(BaseModel):
     """
     all_locations_flag: bool | None = Field(default=None, alias='allLocationsFlag')
     new_window_flag: bool | None = Field(default=None, alias='newWindowFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class RateType(Enum):
-    ADJ_AMOUNT = 'AdjAmount'
-    CUSTOM = 'Custom'
-    MULTIPLIER = 'Multiplier'
-
-
-class RateType4(Enum):
-    AMOUNT = 'Amount'
-    PERCENT = 'Percent'
-
-
-class RateType5(Enum):
-    ADJ_AMOUNT = 'AdjAmount'
-    CUSTOM = 'Custom'
-    MULTIPLIER = 'Multiplier'
-
-
-class ReceivedStatus(Enum):
-    WAITING = 'Waiting'
-    FULLY_RECEIVED = 'FullyReceived'
-    PARTIALLY_RECEIVE_CANCEL_REST = 'PartiallyReceiveCancelRest'
-    PARTIALLY_RECEIVE_CLONE_REST = 'PartiallyReceiveCloneRest'
-
-
-class RecordType(Enum):
-    PROJECT_ISSUE = 'ProjectIssue'
-    PROJECT_TICKET = 'ProjectTicket'
-    SERVICE_TICKET = 'ServiceTicket'
-
-
-class RecurringCycleType(Enum):
-    CONTRACT_YEAR = 'ContractYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class RelationshipReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ReminderReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Report(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    name: str | None = None
-
-
-class ReportCard(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ReportCardDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ReportCardDetail(ConnectWiseModel):
     id: int | None = None
     kpi: KPIReference | None = None
     sort_order: int | None = Field(default=None, alias='sortOrder')
     report_card: ReportCardReference | None = Field(default=None, alias='reportCard')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ReportCardInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ReportCardReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ReportColumnDefinition(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    type: str | None = None
-    is_nullable: bool | None = Field(default=None, alias='isNullable')
-    identity_column: bool | None = Field(default=None, alias='identityColumn')
-
-
-class ReportDataResponse(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    column_definitions: list[dict[str, ReportColumnDefinition]] | None = None
-    row_values: list[list[dict[str, Any]]] | None = None
-
-
-class ReportingService(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    reporting_user_name: str | None = Field(default=None, alias='reportingUserName')
-    """
-     Max length: 50;
-    """
-    reporting_password: str | None = Field(default=None, alias='reportingPassword')
-    """
-    To blank out the password, enter an empty string here. Max length: 50;
-    """
-    reporting_domain: str | None = Field(default=None, alias='reportingDomain')
-    """
-     Max length: 50;
-    """
-    reporting_url: str | None = Field(default=None, alias='reportingUrl')
-    """
-     Max length: 100;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RequestPasswordRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    email: str
-
-
-class ResolutionSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class ResolutionSort(Enum):
-    ASCENDING = 'Ascending'
-    DESCENDING = 'Descending'
-
-
-class ResourcesSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class ResultInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ResultInfo(ConnectWiseModel):
     success: bool | None = None
     original_index: int | None = Field(default=None, alias='originalIndex')
     status_code: int | None = Field(default=None, alias='statusCode')
@@ -15682,82 +15000,7 @@ class ResultInfo(BaseModel):
     error: ErrorResponseMessage | None = None
 
 
-class Revenue(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class RevenueYear(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class RmaAction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaActionInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaActionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaDisposition(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaDispositionInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaDispositionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class RmaStatus(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -15769,13 +15012,10 @@ class RmaStatus(BaseModel):
     email_template: RmaStatusEmailTemplateReference | None = Field(
         default=None, alias='emailTemplate'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class RmaStatusEmailTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class RmaStatusEmailTemplate(ConnectWiseModel):
     id: int | None = None
     status: RmaStatusReference | None = None
     use_sender_flag: bool | None = Field(default=None, alias='useSenderFlag')
@@ -15797,32 +15037,10 @@ class RmaStatusEmailTemplate(BaseModel):
     """
     body: str
     copy_sender_flag: bool | None = Field(default=None, alias='copySenderFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class RmaStatusEmailTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaStatusInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaStatusNotification(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class RmaStatusNotification(ConnectWiseModel):
     id: int | None = None
     notify_who: NotificationRecipientReference | None = Field(
         default=None, alias='notifyWho'
@@ -15834,22 +15052,10 @@ class RmaStatusNotification(BaseModel):
     RMA Status Notification sendEmail must be entered if the notify type is "Email Address". Max length: 50;
     """
     workflow_step: int | None = Field(default=None, alias='workflowStep')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class RmaStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RmaTag(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class RmaTag(ConnectWiseModel):
     id: int | None = None
     service_ticket: TicketReference | None = Field(default=None, alias='serviceTicket')
     sales_order: SalesOrderReference | None = Field(default=None, alias='salesOrder')
@@ -16128,151 +15334,13 @@ class RmaTag(BaseModel):
     )
     currency: CurrencyReference | None = None
     closed_by: MemberReference | None = Field(default=None, alias='closedBy')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class Role(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class RoutingRule(Enum):
-    ACCOUNT = 'Account'
-    TERRITORY = 'Territory'
-    CREATOR = 'Creator'
-    DEPARTMENT = 'Department'
-    LOCATION = 'Location'
-    MEMBER = 'Member'
-    PROJECT = 'Project'
-    SALES = 'Sales'
-
-
-class SLA(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 25;
-    """
-    based_on: BasedOn = Field(..., alias='basedOn')
-    custom_calendar: CalendarReference | None = Field(
-        default=None, alias='customCalendar'
-    )
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    application_order: int | None = Field(default=None, alias='applicationOrder')
-    hi_impact_hi_urgency: PriorityReference | None = Field(
-        default=None, alias='hiImpactHiUrgency'
-    )
-    hi_impact_med_urgency: PriorityReference | None = Field(
-        default=None, alias='hiImpactMedUrgency'
-    )
-    hi_impact_low_urgency: PriorityReference | None = Field(
-        default=None, alias='hiImpactLowUrgency'
-    )
-    med_impact_hi_urgency: PriorityReference | None = Field(
-        default=None, alias='medImpactHiUrgency'
-    )
-    med_impact_med_urgency: PriorityReference | None = Field(
-        default=None, alias='medImpactMedUrgency'
-    )
-    med_impact_low_urgency: PriorityReference | None = Field(
-        default=None, alias='medImpactLowUrgency'
-    )
-    low_impact_hi_urgency: PriorityReference | None = Field(
-        default=None, alias='lowImpactHiUrgency'
-    )
-    low_impact_med_urgency: PriorityReference | None = Field(
-        default=None, alias='lowImpactMedUrgency'
-    )
-    low_impact_low_urgency: PriorityReference | None = Field(
-        default=None, alias='lowImpactLowUrgency'
-    )
-    respond_hours: float | None = Field(default=None, alias='respondHours')
-    respond_percent: int | None = Field(default=None, alias='respondPercent')
-    plan_within: float | None = Field(default=None, alias='planWithin')
-    plan_within_percent: int | None = Field(default=None, alias='planWithinPercent')
-    resolution_hours: float | None = Field(default=None, alias='resolutionHours')
-    resolution_percent: int | None = Field(default=None, alias='resolutionPercent')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SLAInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SLAPriority(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    priority: PriorityReference | None = None
-    respond_hours: float | None = Field(default=None, alias='respondHours')
-    respond_percent: int | None = Field(default=None, alias='respondPercent')
-    plan_within: float | None = Field(default=None, alias='planWithin')
-    plan_within_percent: int | None = Field(default=None, alias='planWithinPercent')
-    resolution_hours: float | None = Field(default=None, alias='resolutionHours')
-    resolution_percent: int | None = Field(default=None, alias='resolutionPercent')
-    sla: SLAReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SLAReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SalesOrderReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SalesProbability(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    probability: int
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SalesProbabilityInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    probability: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SalesQuota(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SalesQuota(ConnectWiseModel):
     id: int | None = None
     member: MemberReference | None = None
     forecast_year: int | None = Field(default=None, alias='forecastYear')
@@ -16307,13 +15375,10 @@ class SalesQuota(BaseModel):
     december_revenue: float | None = Field(default=None, alias='decemberRevenue')
     december_margin: float | None = Field(default=None, alias='decemberMargin')
     currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SalesTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SalesTeam(ConnectWiseModel):
     id: int | None = None
     sales_team_identifier: str = Field(..., alias='salesTeamIdentifier')
     """
@@ -16327,54 +15392,19 @@ class SalesTeam(BaseModel):
         default=None, alias='salesTeamLocation'
     )
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SalesTeamMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SalesTeamMember(ConnectWiseModel):
     id: int | None = None
     member: MemberReference | None = None
     location: SystemLocationReference | None = None
     department: SystemDepartmentReference | None = None
     allow_access_flag: bool | None = Field(default=None, alias='allowAccessFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SalesTeamReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleColor(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    start_percent: int | None = Field(default=None, alias='startPercent')
-    """
-    A startPercent (0 or higher) is required if endPercent has value.
-    """
-    end_percent: int | None = Field(default=None, alias='endPercent')
-    """
-    A endPercent is required if startPercent has value.
-    """
-    color: str
-    """
-    Must be a valid Hexadecimal Color Code.
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ScheduleDetail(ConnectWiseModel):
     id: int | None = None
     schedule_entry: ScheduleEntryReference | None = Field(
         default=None, alias='scheduleEntry'
@@ -16382,13 +15412,10 @@ class ScheduleDetail(BaseModel):
     date_start: str | None = Field(default=None, alias='dateStart')
     date_end: str | None = Field(default=None, alias='dateEnd')
     member: MemberReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ScheduleEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ScheduleEntry(ConnectWiseModel):
     id: int | None = None
     object_id: int | None = Field(default=None, alias='objectId')
     name: str | None = None
@@ -16418,13 +15445,10 @@ class ScheduleEntry(BaseModel):
     acknowledged_date: datetime | None = Field(default=None, alias='acknowledgedDate')
     close_date: datetime | None = Field(default=None, alias='closeDate')
     hours: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ScheduleEntryDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ScheduleEntryDetail(ConnectWiseModel):
     id: int | None = None
     schedule_entry: ScheduleEntryReference | None = Field(
         default=None, alias='scheduleEntry'
@@ -16432,84 +15456,15 @@ class ScheduleEntryDetail(BaseModel):
     date_start: str | None = Field(default=None, alias='dateStart')
     date_end: str | None = Field(default=None, alias='dateEnd')
     hours_scheduled: float | None = Field(default=None, alias='hoursScheduled')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ScheduleEntryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleReminderTime(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    time: int | None = None
-    """
-    Time is calculated in minutes.
-    """
-    name: str | None = None
-    """
-     Max length: 10;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleSpan(Enum):
-    STANDARD = 'Standard'
-    OFFICE_HOURS = 'OfficeHours'
-    OVERNIGHT = 'Overnight'
-
-
-class ScheduleSpanReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleStatus(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    show_as_tentative_flag: bool | None = Field(
-        default=None, alias='showAsTentativeFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScheduleStopwatch(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class ScheduleStopwatch(ConnectWiseModel):
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     agreement: AgreementReference | None = None
-    billable_option: BillableOption5 | None = Field(
-        default=None, alias='billableOption'
-    )
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
     business_unit_id: int | None = Field(default=None, alias='businessUnitId')
     date_entered: datetime | None = Field(default=None, alias='dateEntered')
     end_time: datetime | None = Field(default=None, alias='endTime')
@@ -16525,16 +15480,13 @@ class ScheduleStopwatch(BaseModel):
     schedule_id: int = Field(..., alias='scheduleId')
     schedule_mobile_guid: UUID | None = Field(default=None, alias='scheduleMobileGuid')
     start_time: datetime | None = Field(default=None, alias='startTime')
-    status: Status4
+    status: Literal['Reset', 'Running', 'Paused', 'Stopped']
     total_pause_time: int | None = Field(default=None, alias='totalPauseTime')
     work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
     work_type: WorkTypeReference | None = Field(default=None, alias='workType')
 
 
-class ScheduleType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ScheduleType(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -16547,235 +15499,31 @@ class ScheduleType(BaseModel):
     charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
     where: ServiceLocationReference | None = None
     system_flag: bool | None = Field(default=None, alias='systemFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ScheduleTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ScheduleTypeInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     identifier: str | None = None
     charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
     where: ServiceLocationReference | None = None
     system_flag: bool | None = Field(default=None, alias='systemFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ScheduleTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceEmailTemplate(ConnectWiseModel):
     id: int | None = None
-    identifier: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SchedulingMemberInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    first_name: str | None = Field(default=None, alias='firstName')
-    middle_initial: str | None = Field(default=None, alias='middleInitial')
-    last_name: str | None = Field(default=None, alias='lastName')
-    full_name: str | None = Field(default=None, alias='fullName')
-    default_email: str | None = Field(default=None, alias='defaultEmail')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ScreenLink(Enum):
-    COMPANY = 'Company'
-    CONTACT = 'Contact'
-    SERVICE = 'Service'
-    INVOICE = 'Invoice'
-    PURCHASE_ORDER = 'PurchaseOrder'
-    SALES_ORDER = 'SalesOrder'
-
-
-class SecurityRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    role_type: str | None = Field(default=None, alias='roleType')
-    """
-     Max length: 30;
-    """
-    admin_flag: bool | None = Field(default=None, alias='adminFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SecurityRoleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    role_type: str | None = Field(default=None, alias='roleType')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SecurityRoleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SecurityRoleSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    add_level: AddLevel | None = Field(default=None, alias='addLevel')
-    edit_level: EditLevel | None = Field(default=None, alias='editLevel')
-    delete_level: DeleteLevel | None = Field(default=None, alias='deleteLevel')
-    inquire_level: InquireLevel | None = Field(default=None, alias='inquireLevel')
-    module_function_name: str | None = Field(default=None, alias='moduleFunctionName')
-    module_function_description: str | None = Field(
-        default=None, alias='moduleFunctionDescription'
-    )
-    my_all_flag: bool | None = Field(default=None, alias='myAllFlag')
-    module_function_identifier: str | None = Field(
-        default=None, alias='moduleFunctionIdentifier'
-    )
-    report_flag: bool | None = Field(default=None, alias='reportFlag')
-    restrict_flag: bool | None = Field(default=None, alias='restrictFlag')
-    custom_flag: bool | None = Field(default=None, alias='customFlag')
-    module_description: str | None = Field(default=None, alias='moduleDescription')
-    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
-    module_name: str | None = Field(default=None, alias='moduleName')
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Segment10type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment1type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment2type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment3type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment4type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment5type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment6type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment7type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment8type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class Segment9type(Enum):
-    ACCOUNT = 'Account'
-    CLASS_ = 'Class'
-
-
-class SendNotesAsEmailSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class Service(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sr_notify: SrNotify = Field(..., alias='srNotify')
-    schedule_span: ScheduleSpan = Field(..., alias='scheduleSpan')
-    hide_delimiter_flag: bool | None = Field(default=None, alias='hideDelimiterFlag')
-    allow_cc_flag: bool | None = Field(default=None, alias='allowCCFlag')
-    allow_to_flag: bool | None = Field(default=None, alias='allowTOFlag')
-    header_color: str | None = Field(default=None, alias='headerColor')
-    """
-     Max length: 50;
-    """
-    member_color: str | None = Field(default=None, alias='memberColor')
-    """
-     Max length: 50;
-    """
-    contact_color: str | None = Field(default=None, alias='contactColor')
-    """
-     Max length: 50;
-    """
-    unknown_color: str | None = Field(default=None, alias='unknownColor')
-    """
-     Max length: 50;
-    """
-    calendar_setup: CalendarSetupReference | None = Field(
-        default=None, alias='calendarSetup'
-    )
-    header_color_disable_flag: bool | None = Field(
-        default=None, alias='headerColorDisableFlag'
-    )
-    member_color_disable_flag: bool | None = Field(
-        default=None, alias='memberColorDisableFlag'
-    )
-    contact_color_disable_flag: bool | None = Field(
-        default=None, alias='contactColorDisableFlag'
-    )
-    unknown_color_disable_flag: bool | None = Field(
-        default=None, alias='unknownColorDisableFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceCodeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceEmailTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: Type7
+    type: Literal[
+        'Any',
+        'Closed',
+        'Invoice',
+        'New',
+        'SalesOrder',
+        'PurchaseOrder',
+        'RMA',
+        'Specific',
+    ]
     service_survey: ServiceSurveyReference | None = Field(
         default=None, alias='serviceSurvey'
     )
@@ -16812,339 +15560,35 @@ class ServiceEmailTemplate(BaseModel):
     service_status: ServiceStatusReference | None = Field(
         default=None, alias='serviceStatus'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceEmailTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    type: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    header_color: str | None = Field(default=None, alias='headerColor')
-    member_color: str | None = Field(default=None, alias='memberColor')
-    contact_color: str | None = Field(default=None, alias='contactColor')
-    unknown_color: str | None = Field(default=None, alias='unknownColor')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceItemReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceLocation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    where: Where
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceLocationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceLocationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    ticket_id: int | None = Field(default=None, alias='ticketId')
-    text: str | None = None
-    detail_description_flag: bool | None = Field(
-        default=None, alias='detailDescriptionFlag'
-    )
-    internal_analysis_flag: bool | None = Field(
-        default=None, alias='internalAnalysisFlag'
-    )
-    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
-    issue_flag: bool | None = Field(default=None, alias='issueFlag')
-    member: MemberReference | None = None
-    contact: ContactReference | None = None
-    customer_updated_flag: bool | None = Field(
-        default=None, alias='customerUpdatedFlag'
-    )
-    process_notifications: bool | None = Field(
-        default=None, alias='processNotifications'
-    )
-    date_created: str | None = Field(default=None, alias='dateCreated')
-    created_by: str | None = Field(default=None, alias='createdBy')
-    internal_flag: bool | None = Field(default=None, alias='internalFlag')
-    external_flag: bool | None = Field(default=None, alias='externalFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSignoff(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    visible_logo_flag: bool | None = Field(default=None, alias='visibleLogoFlag')
-    company_info_flag: bool | None = Field(default=None, alias='companyInfoFlag')
-    billing_terms_flag: bool | None = Field(default=None, alias='billingTermsFlag')
-    summary_flag: bool | None = Field(default=None, alias='summaryFlag')
-    discussion_flag: bool | None = Field(default=None, alias='discussionFlag')
-    task_flag: bool | None = Field(default=None, alias='taskFlag')
-    """
-    On add/post, if this is set to true but no value is set for task, task is defaulted to ServiceTasks.All.
-    """
-    task: Task | None = None
-    """
-    On add/post, if this is set but no value is set for taskFlag, taskFlag is set to true.
-    """
-    configurations_flag: bool | None = Field(default=None, alias='configurationsFlag')
-    internal_notes_flag: bool | None = Field(default=None, alias='internalNotesFlag')
-    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
-    time_flag: bool | None = Field(default=None, alias='timeFlag')
-    """
-    On add/post, if any time related flag is set to true, this is also set to true.
-    """
-    time_member_flag: bool | None = Field(default=None, alias='timeMemberFlag')
-    time_date_flag: bool | None = Field(default=None, alias='timeDateFlag')
-    time_start_end_flag: bool | None = Field(default=None, alias='timeStartEndFlag')
-    time_bill_flag: bool | None = Field(default=None, alias='timeBillFlag')
-    time_hours_flag: bool | None = Field(default=None, alias='timeHoursFlag')
-    time_rate_flag: bool | None = Field(default=None, alias='timeRateFlag')
-    time_extended_amount_flag: bool | None = Field(
-        default=None, alias='timeExtendedAmountFlag'
-    )
-    time_work_type_flag: bool | None = Field(default=None, alias='timeWorkTypeFlag')
-    time_agreement_flag: bool | None = Field(default=None, alias='timeAgreementFlag')
-    time_notes_flag: bool | None = Field(default=None, alias='timeNotesFlag')
-    time_manual_flag: bool | None = Field(default=None, alias='timeManualFlag')
-    time_manual_entry: int | None = Field(default=None, alias='timeManualEntry')
-    time_tax_flag: bool | None = Field(default=None, alias='timeTaxFlag')
-    expense_flag: bool | None = Field(default=None, alias='expenseFlag')
-    """
-    On add/post, if any expense related flag is set to true, this is also set to true.
-    """
-    expense_date_flag: bool | None = Field(default=None, alias='expenseDateFlag')
-    expense_member_flag: bool | None = Field(default=None, alias='expenseMemberFlag')
-    expense_type_flag: bool | None = Field(default=None, alias='expenseTypeFlag')
-    expense_bill_flag: bool | None = Field(default=None, alias='expenseBillFlag')
-    expense_amount_flag: bool | None = Field(default=None, alias='expenseAmountFlag')
-    expense_agreement_flag: bool | None = Field(
-        default=None, alias='expenseAgreementFlag'
-    )
-    expense_notes_flag: bool | None = Field(default=None, alias='expenseNotesFlag')
-    expense_tax_flag: bool | None = Field(default=None, alias='expenseTaxFlag')
-    expense_manual_flag: bool | None = Field(default=None, alias='expenseManualFlag')
-    expense_manual_entry: int | None = Field(default=None, alias='expenseManualEntry')
-    product_flag: bool | None = Field(default=None, alias='productFlag')
-    """
-    On add/post, if any product related flag is set to true, this is also set to true.
-    """
-    product_description_flag: bool | None = Field(
-        default=None, alias='productDescriptionFlag'
-    )
-    product_bill_flag: bool | None = Field(default=None, alias='productBillFlag')
-    product_quantity_flag: bool | None = Field(
-        default=None, alias='productQuantityFlag'
-    )
-    product_price_flag: bool | None = Field(default=None, alias='productPriceFlag')
-    product_extended_amount_flag: bool | None = Field(
-        default=None, alias='productExtendedAmountFlag'
-    )
-    product_agreement_flag: bool | None = Field(
-        default=None, alias='productAgreementFlag'
-    )
-    product_manual_flag: bool | None = Field(default=None, alias='productManualFlag')
-    product_manual_entry: int | None = Field(default=None, alias='productManualEntry')
-    product_tax_flag: bool | None = Field(default=None, alias='productTaxFlag')
-    technician_signoff_flag: bool | None = Field(
-        default=None, alias='technicianSignoffFlag'
-    )
-    customer_signoff_text_flag: bool | None = Field(
-        default=None, alias='customerSignoffTextFlag'
-    )
-    """
-    On add/post, if customerSignoffText.Length > 0, this is set to true.
-    """
-    customer_signoff_text: str | None = Field(default=None, alias='customerSignoffText')
-    """
-     Max length: 4000;
-    """
-    customer_signoff_fields_flag: bool | None = Field(
-        default=None, alias='customerSignoffFieldsFlag'
-    )
-    billing_methods_text_flag: bool | None = Field(
-        default=None, alias='billingMethodsTextFlag'
-    )
-    """
-    On add/post, if billingMethodsText.Length > 0, this is set to true.
-    """
-    billing_methods_text: str | None = Field(default=None, alias='billingMethodsText')
-    """
-     Max length: 2000;
-    """
-    credit_card_fields_flag: bool | None = Field(
-        default=None, alias='creditCardFieldsFlag'
-    )
-    default_ff_flag: bool | None = Field(default=None, alias='defaultFFFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSignoffCustomField(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceSignoffCustomField(ConnectWiseModel):
     id: int | None = None
     sequence_number: float = Field(..., alias='sequenceNumber')
-    display_section: DisplaySection = Field(..., alias='displaySection')
+    display_section: Literal[
+        'CustomerInformation',
+        'Detail',
+        'Expenses',
+        'Configurations',
+        'AdditionalSignOffFields',
+        'InternalNotes',
+        'Time',
+        'Products',
+        'Resolution',
+        'Summary',
+        'Tasks',
+    ] = Field(..., alias='displaySection')
     user_defined_field: UserDefinedFieldReference | None = Field(
         default=None, alias='userDefinedField'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceSignoffInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSignoffReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSourceReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceStatusReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    sort: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSubTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSurvey(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    header_include_logo_flag: bool | None = Field(
-        default=None, alias='headerIncludeLogoFlag'
-    )
-    header_text: str | None = Field(default=None, alias='headerText')
-    """
-     Max length: 4000;
-    """
-    header_text_visible_flag: bool | None = Field(
-        default=None, alias='headerTextVisibleFlag'
-    )
-    footer_text: str | None = Field(default=None, alias='footerText')
-    """
-     Max length: 500;
-    """
-    footer_text_visible_flag: bool | None = Field(
-        default=None, alias='footerTextVisibleFlag'
-    )
-    thank_you_text: str | None = Field(default=None, alias='thankYouText')
-    """
-     Max length: 4000;
-    """
-    notify_who: GenericIdIdentifierReference | None = Field(
-        default=None, alias='notifyWho'
-    )
-    notify_who_visible_flag: bool | None = Field(
-        default=None, alias='notifyWhoVisibleFlag'
-    )
-    notify_member: MemberReference | None = Field(default=None, alias='notifyMember')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceSurveyQuestion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceSurveyQuestion(ConnectWiseModel):
     id: int | None = None
     sequence_number: int | None = Field(default=None, alias='sequenceNumber')
-    type: Type8
+    type: Literal['OpenEnded', 'Selection']
     question: str
     """
      Max length: 1000;
@@ -17154,53 +15598,20 @@ class ServiceSurveyQuestion(BaseModel):
     required_flag: bool | None = Field(default=None, alias='requiredFlag')
     no_answer_points: int | None = Field(default=None, alias='noAnswerPoints')
     survey_id: int | None = Field(default=None, alias='surveyId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceSurveyQuestionOption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    include_flag: bool | None = Field(default=None, alias='includeFlag')
-    caption: str | None = None
-    points: int | None = None
-
-
-class ServiceSurveyReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTeam(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceTeam(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     leader: MemberReference | None = None
     location: SystemLocationReference | None = None
     department: SystemDepartmentReference | None = None
     delete_notify_flag: bool | None = Field(default=None, alias='deleteNotifyFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceTeamReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTemplate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceTemplate(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     board: BoardReference | None = None
@@ -17243,9 +15654,11 @@ class ServiceTemplate(BaseModel):
     expense_invoice_flag: bool | None = Field(default=None, alias='expenseInvoiceFlag')
     product_invoice_flag: bool | None = Field(default=None, alias='productInvoiceFlag')
     agreement: AgreementReference | None = None
-    billing_method: BillingMethod4 | None = Field(default=None, alias='billingMethod')
-    severity: Severity | None = None
-    impact: Impact1 | None = None
+    billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='billingMethod')
+    severity: Literal['Low', 'Medium', 'High'] | None = None
+    impact: Literal['Low', 'Medium', 'High'] | None = None
     assigned_by: MemberReference | None = Field(default=None, alias='assignedBy')
     schedule_days_before: int | None = Field(default=None, alias='scheduleDaysBefore')
     service_days_before: int | None = Field(default=None, alias='serviceDaysBefore')
@@ -17260,67 +15673,14 @@ class ServiceTemplate(BaseModel):
     restrict_downpayment_flag: bool | None = Field(
         default=None, alias='restrictDownpaymentFlag'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceTemplateInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class ServiceTicketNote(ConnectWiseModel):
     id: int | None = None
-    name: str | None = None
-    template_flag: bool | None = Field(default=None, alias='templateFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTemplateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    note_type: Literal['TicketNote', 'TimeEntryNote', 'MeetingNote'] | None = Field(
+        default=None, alias='noteType'
     )
-    id: int | None = None
-    name: str | None = None
-    summary: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTicketLink(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
-    link_text: str = Field(..., alias='linkText')
-    """
-     Max length: 50;
-    """
-    url: str
-    """
-     Max length: 1000;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTicketLinkInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    link_text: str | None = Field(default=None, alias='linkText')
-    url: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ServiceTicketNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    note_type: NoteType | None = Field(default=None, alias='noteType')
     ticket: TicketReference | None = None
     text: str | None = None
     is_markdown_flag: bool | None = Field(default=None, alias='isMarkdownFlag')
@@ -17339,384 +15699,33 @@ class ServiceTicketNote(BaseModel):
     original_author: str | None = Field(default=None, alias='originalAuthor')
     member: MemberReference | None = None
     contact: ContactReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class ServiceTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Services(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class SetupScreen(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    category: str | None = None
-    name: str | None = None
-    description: str | None = None
-    module_description: str | None = Field(default=None, alias='moduleDescription')
-    module_identifier: str | None = Field(default=None, alias='moduleIdentifier')
-    module_name: str | None = Field(default=None, alias='moduleName')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Severity(Enum):
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-
-
-class Severity1(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    description: str
-    """
-     Max length: 200;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Severity2(Enum):
-    """
-    Required On Updates;
-    """
-
-    LOW = 'Low'
-    MEDIUM = 'Medium'
-    HIGH = 'High'
-
-
-class ShipmentMethod(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    tracking_url: str | None = Field(default=None, alias='trackingUrl')
-    """
-     Max length: 200;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ShipmentMethodInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class ShipmentMethodReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SicCode(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class SicCodeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SickAvailableType(Enum):
-    ANNIVERSARY_YEAR = 'AnniversaryYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class SiteReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Sites(Enum):
-    DISCARD = 'Discard'
-    MERGE = 'Merge'
-
-
-class Skill(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Skill(ConnectWiseModel):
     id: int | None = None
     name: str
     """
      Max length: 50;
     """
     category: SkillCategoryReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SkillCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SLAPriority(ConnectWiseModel):
     id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    priority: PriorityReference | None = None
+    respond_hours: float | None = Field(default=None, alias='respondHours')
+    respond_percent: int | None = Field(default=None, alias='respondPercent')
+    plan_within: float | None = Field(default=None, alias='planWithin')
+    plan_within_percent: int | None = Field(default=None, alias='planWithinPercent')
+    resolution_hours: float | None = Field(default=None, alias='resolutionHours')
+    resolution_percent: int | None = Field(default=None, alias='resolutionPercent')
+    sla: SLAReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SkillCategoryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SkillInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SkillLevel(Enum):
-    BEGINNER = 'Beginner'
-    INTERMEDIATE = 'Intermediate'
-    ADVANCED = 'Advanced'
-    EXPERT = 'Expert'
-
-
-class SkillReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Source(Enum):
-    NONE = 'None'
-    MEMBER = 'Member'
-    API = 'API'
-    WORKFLOW = 'Workflow'
-    PORTAL = 'Portal'
-    MOBILE = 'Mobile'
-    NETWORK = 'Network'
-    EMAIL_CONNECTOR = 'EmailConnector'
-    MASS_MAINTENANCE = 'MassMaintenance'
-    APPLICATION = 'Application'
-    SYSTEM_API = 'SystemAPI'
-    CONVERSION = 'Conversion'
-
-
-class Source2(Enum):
-    DEFAULT = 'Default'
-    WISE_PAY = 'WisePay'
-
-
-class Source3(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    entered_by: str | None = Field(default=None, alias='enteredBy')
-    date_entered: datetime | None = Field(default=None, alias='dateEntered')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Source4(Enum):
-    NONE = 'None'
-    MEMBER = 'Member'
-    API = 'API'
-    WORKFLOW = 'Workflow'
-    PORTAL = 'Portal'
-    MOBILE = 'Mobile'
-    NETWORK = 'Network'
-    EMAIL_CONNECTOR = 'EmailConnector'
-    MASS_MAINTENANCE = 'MassMaintenance'
-    APPLICATION = 'Application'
-    SYSTEM_API = 'SystemAPI'
-    CONVERSION = 'Conversion'
-
-
-class SourceInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SourceList(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class SrNotify(Enum):
-    ALL = 'All'
-    NEW_AND_CLOSED_REQUESTS = 'NewAndClosedRequests'
-    CLOSED_REQUESTS_ONLY = 'ClosedRequestsOnly'
-    NEW_REQUESTS_ONLY = 'NewRequestsOnly'
-    NONE = 'None'
-
-
-class SsoConfiguration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    """
-    Unique identifier of the SSO Configuration
-    """
-    name: str
-    """
-    Descriptor of the SSO Configuration Max length: 100;
-    """
-    sso_type: SsoType = Field(..., alias='ssoType')
-    """
-    Type of SSO Configuration
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    """
-    Whether the SSO configuration is not active
-    """
-    saml_entity_id: str | None = Field(default=None, alias='samlEntityId')
-    """
-    SAML Identity Provider Id Max length: 1000;
-    """
-    saml_sign_in_url: str | None = Field(default=None, alias='samlSignInUrl')
-    """
-    Sign in url for the SAML Identity Provider Max length: 1000;
-    """
-    saml_idp_certificate: str | None = Field(default=None, alias='samlIdpCertificate')
-    """
-    Public certificate for Identity Provider signatures
-    """
-    saml_certificate_name: str | None = Field(default=None, alias='samlCertificateName')
-    """
-    Name of the SAML certificate. Metadata on SAML_Idp_Certificate
-    """
-    saml_certificate_issued_to: str | None = Field(
-        default=None, alias='samlCertificateIssuedTo'
-    )
-    """
-    Who the SAML certificate was issued to. Metadata on SAML_Idp_Certificate
-    """
-    saml_certificate_thumbprint: str | None = Field(
-        default=None, alias='samlCertificateThumbprint'
-    )
-    """
-    Thumbprint of the SAML certificate. Metadata on SAML_Idp_Certificate
-    """
-    saml_certificate_valid_from: datetime | None = Field(
-        default=None, alias='samlCertificateValidFrom'
-    )
-    """
-    Date when the SAML certificate becomes valid. Metadata on SAML_Idp_Certificate
-    """
-    saml_certificate_valid_to: datetime | None = Field(
-        default=None, alias='samlCertificateValidTo'
-    )
-    """
-    Date when the SAML certificate is no longer valid. Metadata on SAML_Idp_Certificate
-    """
-    location_ids: list[int] = Field(..., alias='locationIds')
-    """
-    The locations where the SAML Idp Configuration is used
-    """
-    client_id: str | None = Field(default=None, alias='clientId')
-    """
-    Client identity for this configuration of ConnectWise SSO Max length: 1000;
-    """
-    sts_base_url: str | None = Field(default=None, alias='stsBaseUrl')
-    """
-    Sign in URL for ConnectWise SSO
-    """
-    sts_user_admin_url: str | None = Field(default=None, alias='stsUserAdminUrl')
-    """
-    User Admin Url for ConnectWise SSO
-    """
-    token: str | None = None
-    submitted_member_count: int | None = Field(
-        default=None, alias='submittedMemberCount'
-    )
-    all_members_submitted: bool | None = Field(
-        default=None, alias='allMembersSubmitted'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-    is_sso_on_by_default: bool | None = Field(default=None, alias='isSsoOnByDefault')
-
-
-class SsoType(Enum):
-    """
-    Type of SSO Configuration
-    """
-
-    CWSSO = 'CWSSO'
-    SAML = 'SAML'
-
-
-class SsoUser(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    sso_user_id: str | None = Field(default=None, alias='ssoUserId')
-    user_name: str | None = Field(default=None, alias='userName')
-    first_name: str | None = Field(default=None, alias='firstName')
-    last_name: str | None = Field(default=None, alias='lastName')
-    email: str | None = None
-    email_confirmed: bool | None = Field(default=None, alias='emailConfirmed')
-    disabled_flag: bool | None = Field(default=None, alias='disabledFlag')
-    linked_flag: bool | None = Field(default=None, alias='linkedFlag')
-    date_entered: str | None = Field(default=None, alias='dateEntered')
-    last_updated: str | None = Field(default=None, alias='lastUpdated')
-    linked_member: MemberReference | None = Field(default=None, alias='linkedMember')
-
-
-class StandardNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class StandardNote(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -17726,246 +15735,38 @@ class StandardNote(BaseModel):
     location: SystemLocationReference | None = None
     department: SystemDepartmentReference | None = None
     board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class StandardNoteInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class StandardNoteInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     contents: str | None = None
     location: SystemLocationReference | None = None
     department: SystemDepartmentReference | None = None
     board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class State(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str
-    """
-     Max length: 50;
-    """
-    name: str
-    """
-     Max length: 50;
-    """
-    country: CountryReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class StateInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    identifier: str | None = None
-    country: CountryReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class StateReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Status(Enum):
-    RESET = 'Reset'
-    RUNNING = 'Running'
-    PAUSED = 'Paused'
-    STOPPED = 'Stopped'
-
-
-class Status1(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Status2(Enum):
-    OPEN = 'Open'
-    REJECTED = 'Rejected'
-    PENDING_APPROVAL = 'PendingApproval'
-    ERRORS_CORRECTED = 'ErrorsCorrected'
-    PENDING_PROJECT_APPROVAL = 'PendingProjectApproval'
-    APPROVED_BY_TIER_ONE = 'ApprovedByTierOne'
-    REJECT_BY_SECOND_TIER = 'RejectBySecondTier'
-    APPROVED_BY_TIER_TWO = 'ApprovedByTierTwo'
-    READY_TO_BILL = 'ReadyToBill'
-    BILLED = 'Billed'
-    WRITTEN_OFF = 'WrittenOff'
-    BILLED_AGREEMENT = 'BilledAgreement'
-
-
-class Status4(Enum):
-    RESET = 'Reset'
-    RUNNING = 'Running'
-    PAUSED = 'Paused'
-    STOPPED = 'Stopped'
-
-
-class Status6(Enum):
-    OPEN = 'Open'
-    REJECTED = 'Rejected'
-    PENDING_APPROVAL = 'PendingApproval'
-    ERRORS_CORRECTED = 'ErrorsCorrected'
-    PENDING_PROJECT_APPROVAL = 'PendingProjectApproval'
-    APPROVED_BY_TIER_ONE = 'ApprovedByTierOne'
-    REJECT_BY_SECOND_TIER = 'RejectBySecondTier'
-    APPROVED_BY_TIER_TWO = 'ApprovedByTierTwo'
-    READY_TO_BILL = 'ReadyToBill'
-    BILLED = 'Billed'
-    WRITTEN_OFF = 'WrittenOff'
-    BILLED_AGREEMENT = 'BilledAgreement'
-
-
-class StatusIndicator(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    color: str | None = None
-    icon: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class StatusIndicatorReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class StructureReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SubBillingMethod(Enum):
-    ACTUAL_RATES = 'ActualRates'
-    FIXED_FEE = 'FixedFee'
-    NOT_TO_EXCEED = 'NotToExceed'
-    OVERRIDE_RATE = 'OverrideRate'
-
-
-class SubCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    integration_xref: str | None = Field(default=None, alias='integrationXref')
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    category: ProductCategoryReference
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SubCategoryInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    category: ProductCategoryReference | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SuccessResponse(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    success: bool | None = None
-    message: str | None = None
-
-
-class SummarizeInvoices(Enum):
-    DEFAULT = 'Default'
-    CONDENSED = 'Condensed'
-    DETAILED = 'Detailed'
-
-
-class SummarySetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class Survey(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    instructions: str | None = None
-    """
-     Max length: 1000;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SurveyInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SurveyOption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    caption: str
-    """
-     Max length: 100;
-    """
-    points: int
-    visibleflag: bool | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SurveyQuestion(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SurveyQuestion(ConnectWiseModel):
     id: int | None = None
     survey: SurveyReference | None = None
-    field_type: FieldType3 = Field(..., alias='fieldType')
-    entry_type: EntryType = Field(..., alias='entryType')
+    field_type: Literal[
+        'TextArea',
+        'Button',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] = Field(..., alias='fieldType')
+    entry_type: Literal['Date', 'EntryField', 'List', 'Option'] = Field(
+        ..., alias='entryType'
+    )
     sequence_number: float = Field(..., alias='sequenceNumber')
     question: str
     """
@@ -17974,22 +15775,10 @@ class SurveyQuestion(BaseModel):
     number_of_decimals: int | None = Field(default=None, alias='numberOfDecimals')
     required_flag: bool | None = Field(default=None, alias='requiredFlag')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SurveyQuestionReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    question: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SurveyQuestionValue(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SurveyQuestionValue(ConnectWiseModel):
     id: int | None = None
     survey: SurveyReference | None = None
     question: SurveyQuestionReference | None = None
@@ -18000,22 +15789,10 @@ class SurveyQuestionValue(BaseModel):
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
     point_value: int | None = Field(default=None, alias='pointValue')
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SurveyReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SurveyResult(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class SurveyResult(ConnectWiseModel):
     id: int | None = None
     ticket_id: int = Field(..., alias='ticketId')
     email_address: str | None = Field(default=None, alias='emailAddress')
@@ -18026,680 +15803,38 @@ class SurveyResult(BaseModel):
     total_points: int | None = Field(default=None, alias='totalPoints')
     company: CompanyReference | None = None
     survey_id: int | None = Field(default=None, alias='surveyId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class SurveyResultDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    question_id: int | None = Field(default=None, alias='questionId')
-    answer: dict[str, Any] | None = None
-    """
-    If question type is Selection, this should be the option array index.
-    """
-
-
-class SystemDepartmentReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SystemLocationReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SystemMenuEntryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class SystemSetting(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str | None = None
-    value: str
-    value_type: str | None = Field(default=None, alias='valueType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Task(Enum):
-    """
-    On add/post, if this is set but no value is set for taskFlag, taskFlag is set to true.
-    """
-
-    ALL = 'All'
-    CLOSED = 'Closed'
-    OPEN = 'Open'
-
-
-class Task1(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    ticket_id: int | None = Field(default=None, alias='ticketId')
-    notes: str | None = None
-    closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    priority: int | None = None
-    schedule: ScheduleEntryReference | None = None
-    code: ServiceCodeReference | None = None
-    resolution: str | None = None
-    child_schedule_action: ChildScheduleAction | None = Field(
-        default=None, alias='childScheduleAction'
-    )
-    child_ticket_id: int | None = Field(default=None, alias='childTicketId')
-    summary: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TasksSetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class TaxCode(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class TaxCode1(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str
-    """
-     Max length: 8;
-    """
-    description: str
-    """
-     Max length: 50;
-    """
-    invoice_caption: str = Field(..., alias='invoiceCaption')
-    """
-     Max length: 25;
-    """
-    country: CountryReference | None = None
-    effective_date: datetime = Field(..., alias='effectiveDate')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    display_on_invoice_flag: bool | None = Field(
-        default=None, alias='displayOnInvoiceFlag'
-    )
-    canada_calculate_gst_flag: bool | None = Field(
-        default=None, alias='canadaCalculateGSTFlag'
-    )
-    cancel_date: datetime | None = Field(default=None, alias='cancelDate')
-    level_one_rate: float | None = Field(default=None, alias='levelOneRate')
-    level_one_rate_type: LevelOneRateType | None = Field(
-        default=None, alias='levelOneRateType'
-    )
-    level_one_taxable_max: float | None = Field(
-        default=None, alias='levelOneTaxableMax'
-    )
-    level_one_caption: str | None = Field(default=None, alias='levelOneCaption')
-    """
-     Max length: 25;
-    """
-    level_one_tax_code_xref: str | None = Field(
-        default=None, alias='levelOneTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_one_agency_xref: str | None = Field(default=None, alias='levelOneAgencyXref')
-    """
-     Max length: 100;
-    """
-    level_one_services_flag: bool | None = Field(
-        default=None, alias='levelOneServicesFlag'
-    )
-    level_one_expenses_flag: bool | None = Field(
-        default=None, alias='levelOneExpensesFlag'
-    )
-    level_one_products_flag: bool | None = Field(
-        default=None, alias='levelOneProductsFlag'
-    )
-    level_one_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelOneApplySingleUnitFlag'
-    )
-    level_one_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelOneApplySingleUnitMin'
-    )
-    level_one_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelOneApplySingleUnitMax'
-    )
-    level_two_rate: float | None = Field(default=None, alias='levelTwoRate')
-    level_two_rate_type: LevelTwoRateType | None = Field(
-        default=None, alias='levelTwoRateType'
-    )
-    level_two_taxable_max: float | None = Field(
-        default=None, alias='levelTwoTaxableMax'
-    )
-    level_two_caption: str | None = Field(default=None, alias='levelTwoCaption')
-    """
-     Max length: 25;
-    """
-    level_two_tax_code_xref: str | None = Field(
-        default=None, alias='levelTwoTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_two_agency_xref: str | None = Field(default=None, alias='levelTwoAgencyXref')
-    """
-     Max length: 100;
-    """
-    level_two_services_flag: bool | None = Field(
-        default=None, alias='levelTwoServicesFlag'
-    )
-    level_two_expenses_flag: bool | None = Field(
-        default=None, alias='levelTwoExpensesFlag'
-    )
-    level_two_products_flag: bool | None = Field(
-        default=None, alias='levelTwoProductsFlag'
-    )
-    level_two_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelTwoApplySingleUnitFlag'
-    )
-    level_two_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelTwoApplySingleUnitMin'
-    )
-    level_two_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelTwoApplySingleUnitMax'
-    )
-    level_three_rate: float | None = Field(default=None, alias='levelThreeRate')
-    level_three_rate_type: LevelThreeRateType | None = Field(
-        default=None, alias='levelThreeRateType'
-    )
-    level_three_taxable_max: float | None = Field(
-        default=None, alias='levelThreeTaxableMax'
-    )
-    level_three_caption: str | None = Field(default=None, alias='levelThreeCaption')
-    """
-     Max length: 25;
-    """
-    level_three_tax_code_xref: str | None = Field(
-        default=None, alias='levelThreeTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_three_agency_xref: str | None = Field(
-        default=None, alias='levelThreeAgencyXref'
-    )
-    """
-     Max length: 100;
-    """
-    level_three_services_flag: bool | None = Field(
-        default=None, alias='levelThreeServicesFlag'
-    )
-    level_three_expenses_flag: bool | None = Field(
-        default=None, alias='levelThreeExpensesFlag'
-    )
-    level_three_products_flag: bool | None = Field(
-        default=None, alias='levelThreeProductsFlag'
-    )
-    level_three_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelThreeApplySingleUnitFlag'
-    )
-    level_three_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelThreeApplySingleUnitMin'
-    )
-    level_three_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelThreeApplySingleUnitMax'
-    )
-    level_four_rate: float | None = Field(default=None, alias='levelFourRate')
-    level_four_rate_type: LevelFourRateType | None = Field(
-        default=None, alias='levelFourRateType'
-    )
-    level_four_taxable_max: float | None = Field(
-        default=None, alias='levelFourTaxableMax'
-    )
-    level_four_caption: str | None = Field(default=None, alias='levelFourCaption')
-    """
-     Max length: 25;
-    """
-    level_four_tax_code_xref: str | None = Field(
-        default=None, alias='levelFourTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_four_agency_xref: str | None = Field(
-        default=None, alias='levelFourAgencyXref'
-    )
-    """
-     Max length: 100;
-    """
-    level_four_services_flag: bool | None = Field(
-        default=None, alias='levelFourServicesFlag'
-    )
-    level_four_expenses_flag: bool | None = Field(
-        default=None, alias='levelFourExpensesFlag'
-    )
-    level_four_products_flag: bool | None = Field(
-        default=None, alias='levelFourProductsFlag'
-    )
-    level_four_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelFourApplySingleUnitFlag'
-    )
-    level_four_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelFourApplySingleUnitMin'
-    )
-    level_four_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelFourApplySingleUnitMax'
-    )
-    level_five_rate: float | None = Field(default=None, alias='levelFiveRate')
-    level_five_rate_type: LevelFiveRateType | None = Field(
-        default=None, alias='levelFiveRateType'
-    )
-    level_five_taxable_max: float | None = Field(
-        default=None, alias='levelFiveTaxableMax'
-    )
-    level_five_caption: str | None = Field(default=None, alias='levelFiveCaption')
-    """
-     Max length: 25;
-    """
-    level_five_tax_code_xref: str | None = Field(
-        default=None, alias='levelFiveTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_five_agency_xref: str | None = Field(
-        default=None, alias='levelFiveAgencyXref'
-    )
-    """
-     Max length: 100;
-    """
-    level_five_services_flag: bool | None = Field(
-        default=None, alias='levelFiveServicesFlag'
-    )
-    level_five_expenses_flag: bool | None = Field(
-        default=None, alias='levelFiveExpensesFlag'
-    )
-    level_five_products_flag: bool | None = Field(
-        default=None, alias='levelFiveProductsFlag'
-    )
-    level_five_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelFiveApplySingleUnitFlag'
-    )
-    level_five_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelFiveApplySingleUnitMin'
-    )
-    level_five_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelFiveApplySingleUnitMax'
-    )
-    level_six_rate: float | None = Field(default=None, alias='levelSixRate')
-    level_six_rate_type: LevelSixRateType | None = Field(
-        default=None, alias='levelSixRateType'
-    )
-    level_six_taxable_max: float | None = Field(
-        default=None, alias='levelSixTaxableMax'
-    )
-    level_six_caption: str | None = Field(default=None, alias='levelSixCaption')
-    """
-     Max length: 25;
-    """
-    level_six_tax_code_xref: str | None = Field(
-        default=None, alias='levelSixTaxCodeXref'
-    )
-    """
-     Max length: 50;
-    """
-    level_six_agency_xref: str | None = Field(default=None, alias='levelSixAgencyXref')
-    """
-     Max length: 100;
-    """
-    level_six_services_flag: bool | None = Field(
-        default=None, alias='levelSixServicesFlag'
-    )
-    level_six_expenses_flag: bool | None = Field(
-        default=None, alias='levelSixExpensesFlag'
-    )
-    level_six_products_flag: bool | None = Field(
-        default=None, alias='levelSixProductsFlag'
-    )
-    level_six_apply_single_unit_flag: bool | None = Field(
-        default=None, alias='levelSixApplySingleUnitFlag'
-    )
-    level_six_apply_single_unit_min: float | None = Field(
-        default=None, alias='levelSixApplySingleUnitMin'
-    )
-    level_six_apply_single_unit_max: float | None = Field(
-        default=None, alias='levelSixApplySingleUnitMax'
-    )
-    work_role_ids: list[int] | None = Field(default=None, alias='workRoleIds')
-    """
-    Array of work role exemptions for the tax code.
-    """
-    add_all_work_roles: bool | None = Field(default=None, alias='addAllWorkRoles')
-    remove_all_work_roles: bool | None = Field(default=None, alias='removeAllWorkRoles')
-    expense_type_ids: list[int] | None = Field(default=None, alias='expenseTypeIds')
-    """
-    Array of expense type exemptions for the tax code.
-    """
-    add_all_expense_types: bool | None = Field(default=None, alias='addAllExpenseTypes')
-    remove_all_expense_types: bool | None = Field(
-        default=None, alias='removeAllExpenseTypes'
-    )
-    product_type_ids: list[int] | None = Field(default=None, alias='productTypeIds')
-    """
-    Array of product type exemptions for the tax code.
-    """
-    add_all_product_types: bool | None = Field(default=None, alias='addAllProductTypes')
-    remove_all_product_types: bool | None = Field(
-        default=None, alias='removeAllProductTypes'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxCodeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    description: str | None = None
-    effective_date: str | None = Field(default=None, alias='effectiveDate')
-    cancel_date: str | None = Field(default=None, alias='cancelDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxCodeLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_level: int | None = Field(default=None, alias='taxLevel')
-    tax_rate: float = Field(..., alias='taxRate')
-    rate_type: RateType4 = Field(..., alias='rateType')
-    taxable_max: float | None = Field(default=None, alias='taxableMax')
-    caption: str | None = None
-    """
-     Max length: 25;
-    """
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    """
-     Max length: 50;
-    """
-    agency_xref: str | None = Field(default=None, alias='agencyXref')
-    """
-     Max length: 100;
-    """
-    tax_services_flag: bool | None = Field(default=None, alias='taxServicesFlag')
-    tax_expenses_flag: bool | None = Field(default=None, alias='taxExpensesFlag')
-    tax_products_flag: bool | None = Field(default=None, alias='taxProductsFlag')
-    single_unit_flag: bool | None = Field(default=None, alias='singleUnitFlag')
-    single_unit_minimum: float | None = Field(default=None, alias='singleUnitMinimum')
-    single_unit_maximum: float | None = Field(default=None, alias='singleUnitMaximum')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxCodeLevelReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxCodeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxCodeXRef(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str
-    """
-     Max length: 50;
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    level_one: LevelOne | None = Field(default=None, alias='levelOne')
-    level_two: LevelTwo | None = Field(default=None, alias='levelTwo')
-    level_three: LevelThree | None = Field(default=None, alias='levelThree')
-    level_four: LevelFour | None = Field(default=None, alias='levelFour')
-    level_five: LevelFive | None = Field(default=None, alias='levelFive')
-    level_six: LevelSix | None = Field(default=None, alias='levelSix')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxIntegration(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    tax_integration_type: TaxIntegrationType | None = Field(
-        default=None, alias='taxIntegrationType'
-    )
-    id: int | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    """
-     Max length: 50;
-    """
-    license_key: str | None = Field(default=None, alias='licenseKey')
-    """
-     Max length: 50;
-    """
-    service_url: str | None = Field(default=None, alias='serviceUrl')
-    """
-     Max length: 250;
-    """
-    company_code: str | None = Field(default=None, alias='companyCode')
-    """
-     Max length: 50;
-    """
-    time_tax_code: str | None = Field(default=None, alias='timeTaxCode')
-    """
-     Max length: 50;
-    """
-    expense_tax_code: str | None = Field(default=None, alias='expenseTaxCode')
-    """
-     Max length: 50;
-    """
-    product_tax_code: str | None = Field(default=None, alias='productTaxCode')
-    """
-     Max length: 50;
-    """
-    invoice_amount_tax_code: str | None = Field(
-        default=None, alias='invoiceAmountTaxCode'
-    )
-    """
-     Max length: 50;
-    """
-    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
-    commit_transactions_flag: bool | None = Field(
-        default=None, alias='commitTransactionsFlag'
-    )
-    sales_invoice_flag: bool | None = Field(default=None, alias='salesInvoiceFlag')
-    freight_tax_code: str | None = Field(default=None, alias='freightTaxCode')
-    """
-     Max length: 50;
-    """
-    accounting_integration_flag: bool | None = Field(
-        default=None, alias='accountingIntegrationFlag'
-    )
-    tax_line_flag: bool | None = Field(default=None, alias='taxLineFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxIntegrationInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    enabled_flag: bool | None = Field(default=None, alias='enabledFlag')
-    tax_integration_type: TaxIntegrationType | None = Field(
-        default=None, alias='taxIntegrationType'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TaxIntegrationType(Enum):
-    AVALARA = 'Avalara'
-
-
-class TaxableExpenseTypeLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class TaxableExpenseTypeLevel(ConnectWiseModel):
     id: int | None = None
     tax_code_level: TaxCodeLevelReference | None = Field(
         default=None, alias='taxCodeLevel'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class TaxableProductTypeLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_code_level: TaxCodeLevelReference | None = Field(
-        default=None, alias='taxCodeLevel'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class TaxableProductTypeLevel(TaxableExpenseTypeLevel):
+    pass
 
 
-class TaxableWorkRoleLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_code_level: TaxCodeLevelReference | None = Field(
-        default=None, alias='taxCodeLevel'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class TaxableWorkRoleLevel(TaxableExpenseTypeLevel):
+    pass
 
 
-class TaxableXRefLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_code_level: TaxCodeLevelReference | None = Field(
-        default=None, alias='taxCodeLevel'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class TaxableXRefLevel(TaxableExpenseTypeLevel):
+    pass
 
 
-class Team(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    type: Type9
-    member: MemberReference | None = None
-    sales_team: SalesTeamReference | None = Field(default=None, alias='salesTeam')
-    commission_percent: int | None = Field(default=None, alias='commissionPercent')
-    referral_flag: bool | None = Field(default=None, alias='referralFlag')
-    opportunity_id: int | None = Field(default=None, alias='opportunityId')
-    responsible_flag: bool | None = Field(default=None, alias='responsibleFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TeamMember(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    board: BoardReference | None = None
-    team: ServiceTeamReference | None = None
-    member: MemberReference | None = None
-    team_leader_flag: bool | None = Field(default=None, alias='teamLeaderFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TeamRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 20;
-    """
-    account_manager_flag: bool | None = Field(default=None, alias='accountManagerFlag')
-    tech_flag: bool | None = Field(default=None, alias='techFlag')
-    sales_flag: bool | None = Field(default=None, alias='salesFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TeamRoleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TeamRoleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TemplateGeneratedCountsModel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    service_count: int | None = Field(default=None, alias='serviceCount')
-    schedule_count: int | None = Field(default=None, alias='scheduleCount')
-
-
-class TemplatePrioritySetting(Enum):
-    APPEND = 'Append'
-    OVERWRITE = 'Overwrite'
-    IGNORE = 'Ignore'
-
-
-class Territory(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Ticket(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Ticket(ConnectWiseModel):
     id: int | None = None
     summary: str
     """
      Max length: 100;
     """
-    record_type: RecordType | None = Field(default=None, alias='recordType')
+    record_type: Literal[
+        'ProjectIssue', 'ProjectTicket', 'ServiceTicket'
+    ] | None = Field(default=None, alias='recordType')
     board: BoardReference | None = None
     status: ServiceStatusReference | None = None
     work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
@@ -18764,11 +15899,11 @@ class Ticket(BaseModel):
     budget_hours: float | None = Field(default=None, alias='budgetHours')
     opportunity: OpportunityReference | None = None
     agreement: AgreementReference | None = None
-    severity: Severity2 | None = None
+    severity: Literal['Low', 'Medium', 'High'] | None = None
     """
      Required On Updates;
     """
-    impact: Impact2 | None = None
+    impact: Literal['Low', 'Medium', 'High'] | None = None
     """
      Required On Updates;
     """
@@ -18851,12 +15986,14 @@ class Ticket(BaseModel):
     estimated_time_revenue: float | None = Field(
         default=None, alias='estimatedTimeRevenue'
     )
-    billing_method: BillingMethod4 | None = Field(default=None, alias='billingMethod')
+    billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='billingMethod')
     billing_amount: float | None = Field(default=None, alias='billingAmount')
     hourly_rate: float | None = Field(default=None, alias='hourlyRate')
-    sub_billing_method: SubBillingMethod | None = Field(
-        default=None, alias='subBillingMethod'
-    )
+    sub_billing_method: Literal[
+        'ActualRates', 'FixedFee', 'NotToExceed', 'OverrideRate'
+    ] | None = Field(default=None, alias='subBillingMethod')
     sub_billing_amount: float | None = Field(default=None, alias='subBillingAmount')
     sub_date_accepted: str | None = Field(default=None, alias='subDateAccepted')
     date_resolved: str | None = Field(default=None, alias='dateResolved')
@@ -18875,13 +16012,24 @@ class Ticket(BaseModel):
     has_merged_child_ticket_flag: bool | None = Field(
         default=None, alias='hasMergedChildTicketFlag'
     )
-    knowledge_base_link_type: KnowledgeBaseLinkType | None = Field(
-        default=None, alias='knowledgeBaseLinkType'
+    knowledge_base_link_type: Literal[
+        'Activity',
+        'ProjectIssue',
+        'KnowledgeBaseArticle',
+        'ProjectTicket',
+        'ServiceTicket',
+        'Time',
+    ] | None = Field(default=None, alias='knowledgeBaseLinkType')
+    bill_time: Literal['Billable', 'DoNotBill', 'NoCharge', 'NoDefault'] | None = Field(
+        default=None, alias='billTime'
     )
-    bill_time: BillTime8 | None = Field(default=None, alias='billTime')
-    bill_expenses: BillExpenses5 | None = Field(default=None, alias='billExpenses')
-    bill_products: BillProducts4 | None = Field(default=None, alias='billProducts')
-    predecessor_type: PredecessorType | None = Field(
+    bill_expenses: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billExpenses')
+    bill_products: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billProducts')
+    predecessor_type: Literal['Ticket', 'Phase'] | None = Field(
         default=None, alias='predecessorType'
     )
     predecessor_id: int | None = Field(default=None, alias='predecessorId')
@@ -18909,7 +16057,7 @@ class Ticket(BaseModel):
         default=None, alias='mergedParentTicket'
     )
     integrator_tags: list[str] | None = Field(default=None, alias='integratorTags')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     escalation_start_date_utc: str | None = Field(
         default=None, alias='escalationStartDateUTC'
     )
@@ -18935,77 +16083,12 @@ class Ticket(BaseModel):
     )
 
 
-class TicketBundle(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    child_ticket_ids: list[int] | None = Field(default=None, alias='childTicketIds')
-
-
-class TicketInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    summary: str | None = None
-    company: CompanyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TicketMerge(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    merge_ticket_ids: list[int] = Field(..., alias='mergeTicketIds')
-    status: ServiceStatusReference | None = None
-
-
-class TicketNote(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    ticket_id: int | None = Field(default=None, alias='ticketId')
-    text: str | None = None
-    detail_description_flag: bool | None = Field(
-        default=None, alias='detailDescriptionFlag'
-    )
-    internal_analysis_flag: bool | None = Field(
-        default=None, alias='internalAnalysisFlag'
-    )
-    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
-    issue_flag: bool | None = Field(default=None, alias='issueFlag')
-    member: MemberReference | None = None
-    contact: ContactReference | None = None
-    customer_updated_flag: bool | None = Field(
-        default=None, alias='customerUpdatedFlag'
-    )
-    process_notifications: bool | None = Field(
-        default=None, alias='processNotifications'
-    )
-    internal_flag: bool | None = Field(default=None, alias='internalFlag')
-    external_flag: bool | None = Field(default=None, alias='externalFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TicketReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    summary: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TicketStopwatch(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+class TicketStopwatch(ConnectWiseModel):
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     agreement: AgreementReference | None = None
-    billable_option: BillableOption5 | None = Field(
-        default=None, alias='billableOption'
-    )
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
     business_unit_id: int | None = Field(default=None, alias='businessUnitId')
     date_entered: datetime | None = Field(default=None, alias='dateEntered')
     end_time: datetime | None = Field(default=None, alias='endTime')
@@ -19022,7 +16105,7 @@ class TicketStopwatch(BaseModel):
         default=None, alias='serviceStatus'
     )
     start_time: datetime | None = Field(default=None, alias='startTime')
-    status: Status4
+    status: Literal['Reset', 'Running', 'Paused', 'Stopped']
     ticket: TicketReference | None = None
     ticket_mobile_guid: UUID | None = Field(default=None, alias='ticketMobileGuid')
     total_pause_time: int | None = Field(default=None, alias='totalPauseTime')
@@ -19045,117 +16128,11 @@ class TicketStopwatch(BaseModel):
     )
 
 
-class TicketSync(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class TimeAccrualDetail(ConnectWiseModel):
     id: int | None = None
-    name: str
-    """
-     Max length: 80;
-    """
-    vendor_type: VendorType = Field(..., alias='vendorType')
-    integrator_login: IntegratorLoginReference | None = Field(
-        default=None, alias='integratorLogin'
+    accrual_type: Literal['Holiday', 'PTO', 'Sick', 'Vacation'] = Field(
+        ..., alias='accrualType'
     )
-    company: CompanyReference | None = None
-    url: str
-    user_name: str | None = Field(default=None, alias='userName')
-    password: str | None = None
-    psg: str | None = None
-    problem_description_flag: bool | None = Field(
-        default=None, alias='problemDescriptionFlag'
-    )
-    internal_analysis_flag: bool | None = Field(
-        default=None, alias='internalAnalysisFlag'
-    )
-    resolution_flag: bool | None = Field(default=None, alias='resolutionFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TicketTask(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    ticket_id: int | None = Field(default=None, alias='ticketId')
-    notes: str | None = None
-    closed_flag: bool | None = Field(default=None, alias='closedFlag')
-    priority: int | None = None
-    schedule: ScheduleEntryReference | None = None
-    code: ServiceCodeReference | None = None
-    resolution: str | None = None
-    summary: str | None = None
-    child_schedule_action: ChildScheduleAction | None = Field(
-        default=None, alias='childScheduleAction'
-    )
-    child_ticket_id: int | None = Field(default=None, alias='childTicketId')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeAccrual(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    vacation_flag: bool | None = Field(default=None, alias='vacationFlag')
-    """
-    if vacationFlag is set to false, system will clear out or ingore the values of vacationAvailableType, vacationCarryoverAllowedFlag, vacationCarryoverLimit
-    """
-    vacation_available_type: VacationAvailableType | None = Field(
-        default=None, alias='vacationAvailableType'
-    )
-    vacation_carryover_allowed_flag: bool | None = Field(
-        default=None, alias='vacationCarryoverAllowedFlag'
-    )
-    vacation_carryover_limit: float | None = Field(
-        default=None, alias='vacationCarryoverLimit'
-    )
-    sick_flag: bool | None = Field(default=None, alias='sickFlag')
-    """
-    if sickFlag is set to false, system will clear out or ignore the values of sickAvailableType, sickCarryoverAllowedFlag, sickCarryoverLimit
-    """
-    sick_available_type: SickAvailableType | None = Field(
-        default=None, alias='sickAvailableType'
-    )
-    sick_carryover_allowed_flag: bool | None = Field(
-        default=None, alias='sickCarryoverAllowedFlag'
-    )
-    sick_carryover_limit: float | None = Field(default=None, alias='sickCarryoverLimit')
-    pto_flag: bool | None = Field(default=None, alias='ptoFlag')
-    """
-    if ptoFlag is set to false, system will clear out or ignore the values of ptoAvailableType, ptoCarryoverAllowedFlag, ptoCarryoverLimit
-    """
-    pto_available_type: PtoAvailableType | None = Field(
-        default=None, alias='ptoAvailableType'
-    )
-    pto_carryover_allowed_flag: bool | None = Field(
-        default=None, alias='ptoCarryoverAllowedFlag'
-    )
-    pto_carryover_limit: float | None = Field(default=None, alias='ptoCarryoverLimit')
-    holiday_flag: bool | None = Field(default=None, alias='holidayFlag')
-    """
-    if holidayFlag is set to false, system will clear out or ignore the values of holidayAvailableType, holidayCarryoverAllowedFlag, holidayCarryoverLimit
-    """
-    holiday_available_type: HolidayAvailableType | None = Field(
-        default=None, alias='holidayAvailableType'
-    )
-    holiday_carryover_allowed_flag: bool | None = Field(
-        default=None, alias='holidayCarryoverAllowedFlag'
-    )
-    holiday_carryover_limit: float | None = Field(
-        default=None, alias='holidayCarryoverLimit'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeAccrualDetail(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    accrual_type: AccrualType1 = Field(..., alias='accrualType')
     """
     Available types are: Holiday, PTO, Sick and Vacation.
     """
@@ -19163,29 +16140,19 @@ class TimeAccrualDetail(BaseModel):
     end_year: int = Field(..., alias='endYear')
     hours: float
     time_accrual: TimeAccrualReference | None = Field(default=None, alias='timeAccrual')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class TimeAccrualReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeEntry(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class TimeEntry(ConnectWiseModel):
     id: int | None = None
     company: CompanyReference | None = None
     charge_to_id: int | None = Field(default=None, alias='chargeToId')
     """
     If chargeToId is not specified, we asume you enter time against the company specified
     """
-    charge_to_type: ChargeToType1 | None = Field(default=None, alias='chargeToType')
+    charge_to_type: Literal[
+        'ServiceTicket', 'ProjectTicket', 'ChargeCode', 'Activity'
+    ] | None = Field(default=None, alias='chargeToType')
     """
     If chargeToId is not specified, we asume you enter time against the company specified
     """
@@ -19199,9 +16166,9 @@ class TimeEntry(BaseModel):
     time_end: datetime | None = Field(default=None, alias='timeEnd')
     hours_deduct: float | None = Field(default=None, alias='hoursDeduct')
     actual_hours: float | None = Field(default=None, alias='actualHours')
-    billable_option: BillableOption7 | None = Field(
-        default=None, alias='billableOption'
-    )
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
     """
      Required On Updates;
     """
@@ -19246,70 +16213,30 @@ class TimeEntry(BaseModel):
     agreement_hours: float | None = Field(default=None, alias='agreementHours')
     agreement_amount: float | None = Field(default=None, alias='agreementAmount')
     time_sheet: TimeSheetReference | None = Field(default=None, alias='timeSheet')
-    status: Status6 | None = None
+    status: Literal[
+        'Open',
+        'Rejected',
+        'PendingApproval',
+        'ErrorsCorrected',
+        'PendingProjectApproval',
+        'ApprovedByTierOne',
+        'RejectBySecondTier',
+        'ApprovedByTierTwo',
+        'ReadyToBill',
+        'Billed',
+        'WrittenOff',
+        'BilledAgreement',
+    ] | None = None
     ticket: TicketReference | None = None
     project: ProjectReference | None = None
     phase: ProjectPhaseReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
     custom_fields: list[CustomFieldValue] | None = Field(
         default=None, alias='customFields'
     )
 
 
-class TimeEntryAudit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    source: Source4 | None = None
-    type: Type10 | None = None
-    message: str | None = None
-    old_value: str | None = Field(default=None, alias='oldValue')
-    new_value: str | None = Field(default=None, alias='newValue')
-    value: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeEntryReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeExpense(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tier1_approval_flag: bool | None = Field(default=None, alias='tier1ApprovalFlag')
-    tier2_approval_flag: bool | None = Field(default=None, alias='tier2ApprovalFlag')
-    disable_time_entry_flag: bool | None = Field(
-        default=None, alias='disableTimeEntryFlag'
-    )
-    require_time_note_flag: bool | None = Field(
-        default=None, alias='requireTimeNoteFlag'
-    )
-    require_expense_note_flag: bool | None = Field(
-        default=None, alias='requireExpenseNoteFlag'
-    )
-    rounding_factor: float | None = Field(default=None, alias='roundingFactor')
-    invoice_start: int | None = Field(default=None, alias='invoiceStart')
-    default_special_invoice_type: DefaultSpecialInvoiceType | None = Field(
-        default=None, alias='defaultSpecialInvoiceType'
-    )
-    internal_company: CompanyReference | None = Field(
-        default=None, alias='internalCompany'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimePeriod(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class TimePeriod(ConnectWiseModel):
     id: int | None = None
     time_period_setup: TimePeriodSetupReference | None = Field(
         default=None, alias='timePeriodSetup'
@@ -19318,229 +16245,19 @@ class TimePeriod(BaseModel):
     start_date: str | None = Field(default=None, alias='startDate')
     end_date: str | None = Field(default=None, alias='endDate')
     deadline_date: str | None = Field(default=None, alias='deadlineDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class TimePeriodSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class TrackAction(ConnectWiseModel):
     id: int | None = None
-    period_apply_to: PeriodApplyTo = Field(..., alias='periodApplyTo')
-    year: int
-    number_future_periods: int = Field(..., alias='numberFuturePeriods')
-    type: Type11
-    description: str | None = None
-    """
-     Max length: 100;
-    """
-    first_period_end_date: date = Field(..., alias='firstPeriodEndDate')
-    monthly_period_ends: int | None = Field(default=None, alias='monthlyPeriodEnds')
-    """
-    Only needed when type is monthly
-    """
-    semi_monthly_first_period: int | None = Field(
-        default=None, alias='semiMonthlyFirstPeriod'
-    )
-    """
-    Only needed when type is semi-monthly
-    """
-    semi_monthly_second_period: int | None = Field(
-        default=None, alias='semiMonthlySecondPeriod'
-    )
-    """
-    Only needed when type is semi-monthly
-    """
-    semi_monthly_last_day_flag: bool | None = Field(
-        default=None, alias='semiMonthlyLastDayFlag'
-    )
-    last_day_flag: bool | None = Field(default=None, alias='lastDayFlag')
-    """
-    Only needed when type is monthly
-    """
-    days_past_end_date: int = Field(..., alias='daysPastEndDate')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimePeriodSetupDefaults(BaseModel):
-    pass
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-
-
-class TimePeriodSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeSheet(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    year: int | None = None
-    period: int | None = None
-    date_start: str | None = Field(default=None, alias='dateStart')
-    date_end: str | None = Field(default=None, alias='dateEnd')
-    status: Status6 | None = None
-    hours: float | None = None
-    deadline: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeSheetAudit(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    member: MemberReference | None = None
-    source: Source4 | None = None
-    type: Type12 | None = None
-    message: str | None = None
-    old_value: str | None = Field(default=None, alias='oldValue')
-    new_value: str | None = Field(default=None, alias='newValue')
-    value: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeSheetReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeSheetTierUpdate(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    approval_type: ApprovalType | None = Field(default=None, alias='approvalType')
-
-
-class TimeZone(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class TimeZoneReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeZoneSetup(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    time_zone: TimeZoneReference | None = Field(default=None, alias='timeZone')
-    offset: float | None = None
-    """
-    The hours offset from UTC (+/-)
-    """
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    """
-    Identifies the default system time zone setup
-    """
-    daylight_savings_flag: bool | None = Field(
-        default=None, alias='daylightSavingsFlag'
-    )
-    """
-    Determined based on system library value for specified timeZone.
-                Not able to be used in query params at this time
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeZoneSetupInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    offset: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TimeZoneSetupReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TodayPageCategory(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 30;
-    """
-    sort_order: int = Field(..., alias='sortOrder')
-    location: SystemLocationReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Token(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    public_key: str | None = Field(default=None, alias='publicKey')
-    private_key: str | None = Field(default=None, alias='privateKey')
-    expiration: str | None = None
-
-
-class Track(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 100;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    notify_action_ids: list[int] | None = Field(default=None, alias='notifyActionIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class TrackAction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    notify_type: NotifyType = Field(..., alias='notifyType')
+    notify_type: Literal[
+        'CreateActivity',
+        'SendEmail',
+        'AddToGroup',
+        'AttachTrack',
+        'ChangeCompanyStatus',
+        'CreateServiceTicket',
+    ] = Field(..., alias='notifyType')
     service_template: ServiceTemplateReference | None = Field(
         default=None, alias='serviceTemplate'
     )
@@ -19584,787 +16301,10 @@ class TrackAction(BaseModel):
     notify_from: NotificationRecipientReference | None = Field(
         default=None, alias='notifyFrom'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class TrackReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Type(Enum):
-    COMPANY = 'Company'
-    VENDOR = 'Vendor'
-
-
-class Type1(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class Type10(Enum):
-    ACTIVITY = 'Activity'
-    CLOSE_DATE = 'CloseDate'
-    COMPANY = 'Company'
-    CONTACT = 'Contact'
-    CONVERSION = 'Conversion'
-    DOCUMENT = 'Document'
-    FORECAST = 'Forecast'
-    NOTE = 'Note'
-    NOTES = 'Notes'
-    OPPORTUNITY = 'Opportunity'
-    PRODUCTS = 'Products'
-    STAGE = 'Stage'
-    STATUS = 'Status'
-    SURVEYS = 'Surveys'
-    TEAM = 'Team'
-    TRACKS = 'Tracks'
-    CONFIGURATION = 'Configuration'
-    CONFIGURATION_QUESTIONS = 'ConfigurationQuestions'
-    DEVICE_BACKUP_DETAILS = 'DeviceBackupDetails'
-    TICKETS = 'Tickets'
-    SUBJECT = 'Subject'
-    ACTIVITY_OVERVIEW = 'ActivityOverview'
-    SCHEDULE = 'Schedule'
-    RESOURCES = 'Resources'
-    EXPENSE_ENTRY = 'ExpenseEntry'
-    MEMBER = 'Member'
-    DATE = 'Date'
-    CLASSIFICATION = 'Classification'
-    AMOUNT = 'Amount'
-    EXPENSE_TYPE = 'ExpenseType'
-    WORK_TYPE = 'WorkType'
-    WORK_ROLE = 'WorkRole'
-    MILEAGE = 'Mileage'
-    BILLING = 'Billing'
-    EXPENSE_HEADER = 'ExpenseHeader'
-    PROJECT = 'Project'
-    TIME_ENTRY = 'TimeEntry'
-    TICKET_STATUS = 'TicketStatus'
-    DATE_TIME = 'DateTime'
-    DEDUCT_HOURS = 'DeductHours'
-    ACTUAL_HOURS = 'ActualHours'
-    INVOICE = 'Invoice'
-    COMPANY_FINANCE = 'CompanyFinance'
-    BILLABLE = 'Billable'
-    SALES_ORDER = 'SalesOrder'
-    SHIPPING = 'Shipping'
-    PROFILE = 'Profile'
-    GROUP = 'Group'
-    GROUP_CONTACT = 'GroupContact'
-    GROUP_COMPANY = 'GroupCompany'
-    OPTIONS = 'Options'
-    SITE = 'Site'
-    AGREEMENT = 'Agreement'
-    ADDITION = 'Addition'
-    ADJUSTMENT = 'Adjustment'
-    MICROSOFT365 = 'Microsoft365'
-    API = 'API'
-    PROJECT_FINANCE = 'ProjectFinance'
-    COMPANY_PROFILE = 'CompanyProfile'
-    COMPANY_TEAM = 'CompanyTeam'
-    COMPANY_MGMT = 'CompanyMgmt'
-    INVOICE_TOTAL = 'InvoiceTotal'
-    BILLING_INFORMATION = 'BillingInformation'
-    SHIPPING_INFORMATION = 'ShippingInformation'
-    BILLING_STATUS = 'BillingStatus'
-    LOCATION = 'Location'
-    DEPARTMENT = 'Department'
-    TERRITORY = 'Territory'
-    PAYMENT = 'Payment'
-    CREDIT = 'Credit'
-    SUBCONTRACTOR_INFORMATION = 'SubcontractorInformation'
-    INVOICING_PARAMETERS = 'InvoicingParameters'
-    APPLICATION_PARAMETERS = 'ApplicationParameters'
-    FINANCE = 'Finance'
-    INVOICING = 'Invoicing'
-    EMAIL = 'Email'
-    BATCHING = 'Batching'
-    KNOWLEDGE_BASE = 'KnowledgeBase'
-    KB_ARTICLE = 'KbArticle'
-    KNOWLEDGE_BASE_APPROVAL = 'KnowledgeBaseApproval'
-    KNOWLEDGE_BASE_TICKET = 'KnowledgeBaseTicket'
-    MANAGE_NETWORK = 'ManageNetwork'
-    TASKS = 'Tasks'
-    CUSTOM_FIELD = 'CustomField'
-    SCREEN_CONNECT = 'ScreenConnect'
-    SLA = 'SLA'
-    TICKET = 'Ticket'
-    WORKFLOW = 'Workflow'
-    RECORD = 'Record'
-    COMBINED_TICKETS = 'CombinedTickets'
-    TEMPLATE = 'Template'
-    PURCHASE_ORDER = 'PurchaseOrder'
-    MEETING = 'Meeting'
-    RMA_OVERVIEW = 'RmaOverview'
-    RETURNED_BY = 'ReturnedBy'
-    PURCHASED_FROM_VENDOR = 'PurchasedFromVendor'
-    WARRANTY_VENDOR = 'WarrantyVendor'
-    REPAIR_VENDOR = 'RepairVendor'
-    ADDITIONAL_DETAILS = 'AdditionalDetails'
-    TICKET_TEMPLATE = 'TicketTemplate'
-    AUTO_GENERATION = 'AutoGeneration'
-    TIME_INTERNAL_NOTE = 'TimeInternalNote'
-    TIME_DISCUSSION = 'TimeDiscussion'
-    TIME_INTERNAL = 'TimeInternal'
-    TIME_RESOLUTION = 'TimeResolution'
-    MEMBER_TEMPLATE = 'MemberTemplate'
-    DELEGATION = 'Delegation'
-    SKILL = 'Skill'
-    CERTIFICATION = 'Certification'
-    ACCRUAL = 'Accrual'
-    API_KEY = 'ApiKey'
-    LOGIN = 'Login'
-    NOTIFICATIONS = 'Notifications'
-    SYSTEM = 'System'
-    SERVICE_BOARD = 'ServiceBoard'
-    PROJECT_BOARD = 'ProjectBoard'
-    SCHEDULING = 'Scheduling'
-    TIME_BILLING_EXPENSE = 'TimeBillingExpense'
-    CRM = 'CRM'
-    PROCUREMENT = 'Procurement'
-    JOB_ROLE = 'JobRole'
-    DETAILS = 'Details'
-    AUTHENTICATION = 'Authentication'
-
-
-class Type11(Enum):
-    WEEKLY = 'Weekly'
-    BI_WEEKLY = 'BiWeekly'
-    SEMI_MONTHLY = 'SemiMonthly'
-    MONTHLY = 'Monthly'
-
-
-class Type12(Enum):
-    ACTIVITY = 'Activity'
-    CLOSE_DATE = 'CloseDate'
-    COMPANY = 'Company'
-    CONTACT = 'Contact'
-    CONVERSION = 'Conversion'
-    DOCUMENT = 'Document'
-    FORECAST = 'Forecast'
-    NOTE = 'Note'
-    NOTES = 'Notes'
-    OPPORTUNITY = 'Opportunity'
-    PRODUCTS = 'Products'
-    STAGE = 'Stage'
-    STATUS = 'Status'
-    SURVEYS = 'Surveys'
-    TEAM = 'Team'
-    TRACKS = 'Tracks'
-    CONFIGURATION = 'Configuration'
-    CONFIGURATION_QUESTIONS = 'ConfigurationQuestions'
-    DEVICE_BACKUP_DETAILS = 'DeviceBackupDetails'
-    TICKETS = 'Tickets'
-    SUBJECT = 'Subject'
-    ACTIVITY_OVERVIEW = 'ActivityOverview'
-    SCHEDULE = 'Schedule'
-    RESOURCES = 'Resources'
-    EXPENSE_ENTRY = 'ExpenseEntry'
-    MEMBER = 'Member'
-    DATE = 'Date'
-    CLASSIFICATION = 'Classification'
-    AMOUNT = 'Amount'
-    EXPENSE_TYPE = 'ExpenseType'
-    WORK_TYPE = 'WorkType'
-    WORK_ROLE = 'WorkRole'
-    MILEAGE = 'Mileage'
-    BILLING = 'Billing'
-    EXPENSE_HEADER = 'ExpenseHeader'
-    PROJECT = 'Project'
-    TIME_ENTRY = 'TimeEntry'
-    TICKET_STATUS = 'TicketStatus'
-    DATE_TIME = 'DateTime'
-    DEDUCT_HOURS = 'DeductHours'
-    ACTUAL_HOURS = 'ActualHours'
-    INVOICE = 'Invoice'
-    COMPANY_FINANCE = 'CompanyFinance'
-    BILLABLE = 'Billable'
-    SALES_ORDER = 'SalesOrder'
-    SHIPPING = 'Shipping'
-    PROFILE = 'Profile'
-    GROUP = 'Group'
-    GROUP_CONTACT = 'GroupContact'
-    GROUP_COMPANY = 'GroupCompany'
-    OPTIONS = 'Options'
-    SITE = 'Site'
-    AGREEMENT = 'Agreement'
-    ADDITION = 'Addition'
-    ADJUSTMENT = 'Adjustment'
-    MICROSOFT365 = 'Microsoft365'
-    API = 'API'
-    PROJECT_FINANCE = 'ProjectFinance'
-    COMPANY_PROFILE = 'CompanyProfile'
-    COMPANY_TEAM = 'CompanyTeam'
-    COMPANY_MGMT = 'CompanyMgmt'
-    INVOICE_TOTAL = 'InvoiceTotal'
-    BILLING_INFORMATION = 'BillingInformation'
-    SHIPPING_INFORMATION = 'ShippingInformation'
-    BILLING_STATUS = 'BillingStatus'
-    LOCATION = 'Location'
-    DEPARTMENT = 'Department'
-    TERRITORY = 'Territory'
-    PAYMENT = 'Payment'
-    CREDIT = 'Credit'
-    SUBCONTRACTOR_INFORMATION = 'SubcontractorInformation'
-    INVOICING_PARAMETERS = 'InvoicingParameters'
-    APPLICATION_PARAMETERS = 'ApplicationParameters'
-    FINANCE = 'Finance'
-    INVOICING = 'Invoicing'
-    EMAIL = 'Email'
-    BATCHING = 'Batching'
-    KNOWLEDGE_BASE = 'KnowledgeBase'
-    KB_ARTICLE = 'KbArticle'
-    KNOWLEDGE_BASE_APPROVAL = 'KnowledgeBaseApproval'
-    KNOWLEDGE_BASE_TICKET = 'KnowledgeBaseTicket'
-    MANAGE_NETWORK = 'ManageNetwork'
-    TASKS = 'Tasks'
-    CUSTOM_FIELD = 'CustomField'
-    SCREEN_CONNECT = 'ScreenConnect'
-    SLA = 'SLA'
-    TICKET = 'Ticket'
-    WORKFLOW = 'Workflow'
-    RECORD = 'Record'
-    COMBINED_TICKETS = 'CombinedTickets'
-    TEMPLATE = 'Template'
-    PURCHASE_ORDER = 'PurchaseOrder'
-    MEETING = 'Meeting'
-    RMA_OVERVIEW = 'RmaOverview'
-    RETURNED_BY = 'ReturnedBy'
-    PURCHASED_FROM_VENDOR = 'PurchasedFromVendor'
-    WARRANTY_VENDOR = 'WarrantyVendor'
-    REPAIR_VENDOR = 'RepairVendor'
-    ADDITIONAL_DETAILS = 'AdditionalDetails'
-    TICKET_TEMPLATE = 'TicketTemplate'
-    AUTO_GENERATION = 'AutoGeneration'
-    TIME_INTERNAL_NOTE = 'TimeInternalNote'
-    TIME_DISCUSSION = 'TimeDiscussion'
-    TIME_INTERNAL = 'TimeInternal'
-    TIME_RESOLUTION = 'TimeResolution'
-    MEMBER_TEMPLATE = 'MemberTemplate'
-    DELEGATION = 'Delegation'
-    SKILL = 'Skill'
-    CERTIFICATION = 'Certification'
-    ACCRUAL = 'Accrual'
-    API_KEY = 'ApiKey'
-    LOGIN = 'Login'
-    NOTIFICATIONS = 'Notifications'
-    SYSTEM = 'System'
-    SERVICE_BOARD = 'ServiceBoard'
-    PROJECT_BOARD = 'ProjectBoard'
-    SCHEDULING = 'Scheduling'
-    TIME_BILLING_EXPENSE = 'TimeBillingExpense'
-    CRM = 'CRM'
-    PROCUREMENT = 'Procurement'
-    JOB_ROLE = 'JobRole'
-    DETAILS = 'Details'
-    AUTHENTICATION = 'Authentication'
-
-
-class Type2(Enum):
-    TAB = 'Tab'
-    POD = 'Pod'
-    TOOLBAR_BUTTON = 'ToolbarButton'
-
-
-class Type3(Enum):
-    TEXT_AREA = 'TextArea'
-    BUTTON = 'Button'
-    CURRENCY = 'Currency'
-    DATE = 'Date'
-    HYPERLINK = 'Hyperlink'
-    IP_ADDRESS = 'IPAddress'
-    CHECKBOX = 'Checkbox'
-    NUMBER = 'Number'
-    PERCENT = 'Percent'
-    TEXT = 'Text'
-    PASSWORD = 'Password'
-
-
-class Type4(Enum):
-    ACTIVITY = 'Activity'
-    CLOSE_DATE = 'CloseDate'
-    COMPANY = 'Company'
-    CONTACT = 'Contact'
-    CONVERSION = 'Conversion'
-    DOCUMENT = 'Document'
-    FORECAST = 'Forecast'
-    NOTE = 'Note'
-    NOTES = 'Notes'
-    OPPORTUNITY = 'Opportunity'
-    PRODUCTS = 'Products'
-    STAGE = 'Stage'
-    STATUS = 'Status'
-    SURVEYS = 'Surveys'
-    TEAM = 'Team'
-    TRACKS = 'Tracks'
-    CONFIGURATION = 'Configuration'
-    CONFIGURATION_QUESTIONS = 'ConfigurationQuestions'
-    DEVICE_BACKUP_DETAILS = 'DeviceBackupDetails'
-    TICKETS = 'Tickets'
-    SUBJECT = 'Subject'
-    ACTIVITY_OVERVIEW = 'ActivityOverview'
-    SCHEDULE = 'Schedule'
-    RESOURCES = 'Resources'
-    EXPENSE_ENTRY = 'ExpenseEntry'
-    MEMBER = 'Member'
-    DATE = 'Date'
-    CLASSIFICATION = 'Classification'
-    AMOUNT = 'Amount'
-    EXPENSE_TYPE = 'ExpenseType'
-    WORK_TYPE = 'WorkType'
-    WORK_ROLE = 'WorkRole'
-    MILEAGE = 'Mileage'
-    BILLING = 'Billing'
-    EXPENSE_HEADER = 'ExpenseHeader'
-    PROJECT = 'Project'
-    TIME_ENTRY = 'TimeEntry'
-    TICKET_STATUS = 'TicketStatus'
-    DATE_TIME = 'DateTime'
-    DEDUCT_HOURS = 'DeductHours'
-    ACTUAL_HOURS = 'ActualHours'
-    INVOICE = 'Invoice'
-    COMPANY_FINANCE = 'CompanyFinance'
-    BILLABLE = 'Billable'
-    SALES_ORDER = 'SalesOrder'
-    SHIPPING = 'Shipping'
-    PROFILE = 'Profile'
-    GROUP = 'Group'
-    GROUP_CONTACT = 'GroupContact'
-    GROUP_COMPANY = 'GroupCompany'
-    OPTIONS = 'Options'
-    SITE = 'Site'
-    AGREEMENT = 'Agreement'
-    ADDITION = 'Addition'
-    ADJUSTMENT = 'Adjustment'
-    MICROSOFT365 = 'Microsoft365'
-    API = 'API'
-    PROJECT_FINANCE = 'ProjectFinance'
-    COMPANY_PROFILE = 'CompanyProfile'
-    COMPANY_TEAM = 'CompanyTeam'
-    COMPANY_MGMT = 'CompanyMgmt'
-    INVOICE_TOTAL = 'InvoiceTotal'
-    BILLING_INFORMATION = 'BillingInformation'
-    SHIPPING_INFORMATION = 'ShippingInformation'
-    BILLING_STATUS = 'BillingStatus'
-    LOCATION = 'Location'
-    DEPARTMENT = 'Department'
-    TERRITORY = 'Territory'
-    PAYMENT = 'Payment'
-    CREDIT = 'Credit'
-    SUBCONTRACTOR_INFORMATION = 'SubcontractorInformation'
-    INVOICING_PARAMETERS = 'InvoicingParameters'
-    APPLICATION_PARAMETERS = 'ApplicationParameters'
-    FINANCE = 'Finance'
-    INVOICING = 'Invoicing'
-    EMAIL = 'Email'
-    BATCHING = 'Batching'
-    KNOWLEDGE_BASE = 'KnowledgeBase'
-    KB_ARTICLE = 'KbArticle'
-    KNOWLEDGE_BASE_APPROVAL = 'KnowledgeBaseApproval'
-    KNOWLEDGE_BASE_TICKET = 'KnowledgeBaseTicket'
-    MANAGE_NETWORK = 'ManageNetwork'
-    TASKS = 'Tasks'
-    CUSTOM_FIELD = 'CustomField'
-    SCREEN_CONNECT = 'ScreenConnect'
-    SLA = 'SLA'
-    TICKET = 'Ticket'
-    WORKFLOW = 'Workflow'
-    RECORD = 'Record'
-    COMBINED_TICKETS = 'CombinedTickets'
-    TEMPLATE = 'Template'
-    PURCHASE_ORDER = 'PurchaseOrder'
-    MEETING = 'Meeting'
-    RMA_OVERVIEW = 'RmaOverview'
-    RETURNED_BY = 'ReturnedBy'
-    PURCHASED_FROM_VENDOR = 'PurchasedFromVendor'
-    WARRANTY_VENDOR = 'WarrantyVendor'
-    REPAIR_VENDOR = 'RepairVendor'
-    ADDITIONAL_DETAILS = 'AdditionalDetails'
-    TICKET_TEMPLATE = 'TicketTemplate'
-    AUTO_GENERATION = 'AutoGeneration'
-    TIME_INTERNAL_NOTE = 'TimeInternalNote'
-    TIME_DISCUSSION = 'TimeDiscussion'
-    TIME_INTERNAL = 'TimeInternal'
-    TIME_RESOLUTION = 'TimeResolution'
-    MEMBER_TEMPLATE = 'MemberTemplate'
-    DELEGATION = 'Delegation'
-    SKILL = 'Skill'
-    CERTIFICATION = 'Certification'
-    ACCRUAL = 'Accrual'
-    API_KEY = 'ApiKey'
-    LOGIN = 'Login'
-    NOTIFICATIONS = 'Notifications'
-    SYSTEM = 'System'
-    SERVICE_BOARD = 'ServiceBoard'
-    PROJECT_BOARD = 'ProjectBoard'
-    SCHEDULING = 'Scheduling'
-    TIME_BILLING_EXPENSE = 'TimeBillingExpense'
-    CRM = 'CRM'
-    PROCUREMENT = 'Procurement'
-    JOB_ROLE = 'JobRole'
-    DETAILS = 'Details'
-    AUTHENTICATION = 'Authentication'
-
-
-class Type6(Enum):
-    AGREEMENT = 'Agreement'
-    CREDIT_MEMO = 'CreditMemo'
-    DOWN_PAYMENT = 'DownPayment'
-    MISCELLANEOUS = 'Miscellaneous'
-    PROGRESS = 'Progress'
-    STANDARD = 'Standard'
-
-
-class Type7(Enum):
-    ANY = 'Any'
-    CLOSED = 'Closed'
-    INVOICE = 'Invoice'
-    NEW = 'New'
-    SALES_ORDER = 'SalesOrder'
-    PURCHASE_ORDER = 'PurchaseOrder'
-    RMA = 'RMA'
-    SPECIFIC = 'Specific'
-
-
-class Type8(Enum):
-    OPEN_ENDED = 'OpenEnded'
-    SELECTION = 'Selection'
-
-
-class Type9(Enum):
-    INDIVIDUAL = 'Individual'
-    TEAM = 'Team'
-
-
-class TypeXref(Enum):
-    INVENTORY_PART = 'InventoryPart'
-    NON_INVENTORY_PART = 'NonInventoryPart'
-    OTHER_CHARGE = 'OtherCharge'
-    SERVICE = 'Service'
-
-
-class UnitOfMeasure(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    uom_schedule_xref: str | None = Field(default=None, alias='uomScheduleXref')
-    """
-     Max length: 31;
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnitOfMeasureReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedExpense(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location_id: int | None = Field(default=None, alias='locationId')
-    department_id: int | None = Field(default=None, alias='departmentId')
-    company: CompanyReference | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    credit_account: str | None = Field(default=None, alias='creditAccount')
-    expense_detail_id: int | None = Field(default=None, alias='expenseDetailId')
-    expense_type: ExpenseTypeReference | None = Field(default=None, alias='expenseType')
-    classification: Classification1 | None = None
-    gl_type: GlType | None = Field(default=None, alias='glType')
-    member: MemberReference | None = None
-    date_expense: str | None = Field(default=None, alias='dateExpense')
-    charge_code: ChargeCodeReference | None = Field(default=None, alias='chargeCode')
-    charge_description: str | None = Field(default=None, alias='chargeDescription')
-    in_policy: bool | None = Field(default=None, alias='inPolicy')
-    payment_method: PaymentMethodReference | None = Field(
-        default=None, alias='paymentMethod'
-    )
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    billable_amount: float | None = Field(default=None, alias='billableAmount')
-    non_billable_amount: float | None = Field(default=None, alias='nonBillableAmount')
-    agreement: AgreementReference | None = None
-    agreement_amount_covered: float | None = Field(
-        default=None, alias='agreementAmountCovered'
-    )
-    ticket: TicketReference | None = None
-    project: ProjectReference | None = None
-    project_phase: ProjectPhaseReference | None = Field(
-        default=None, alias='projectPhase'
-    )
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
-    """
-    Used to determine if Avalara tax is enabled.
-    """
-    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
-    sales_tax_amount: float | None = Field(default=None, alias='salesTaxAmount')
-    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
-    """
-    Set to true if transaction is taxable at the state level.
-    """
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
-    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
-    """
-    Set to true if transaction is taxable at the county level.
-    """
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
-    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
-    """
-    Set to true if transaction is taxable at the city level.
-    """
-    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
-    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
-    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
-    """
-    Set to true if transaction is taxable at the country level.
-    """
-    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
-    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
-    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
-    """
-    Set to true if transaction is taxable at the composite level.
-    """
-    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
-    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
-    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
-    """
-    Set to true if transaction is taxable at level six.
-    """
-    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
-    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
-    date_closed: str | None = Field(default=None, alias='dateClosed')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedExpenseTaxableLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_level: int | None = Field(default=None, alias='taxLevel')
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    tax_amount: float | None = Field(default=None, alias='taxAmount')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedInvoice(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    billing_log_id: int | None = Field(default=None, alias='billingLogId')
-    location_id: int | None = Field(default=None, alias='locationId')
-    department_id: int | None = Field(default=None, alias='departmentId')
-    company: CompanyReference | None = None
-    account_number: str | None = Field(default=None, alias='accountNumber')
-    bill_to_company: CompanyReference | None = Field(
-        default=None, alias='billToCompany'
-    )
-    bill_to_site: SiteReference | None = Field(default=None, alias='billToSite')
-    ship_to_company: CompanyReference | None = Field(
-        default=None, alias='shipToCompany'
-    )
-    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
-    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
-    invoice_date: str | None = Field(default=None, alias='invoiceDate')
-    invoice_type: InvoiceType | None = Field(default=None, alias='invoiceType')
-    description: str | None = None
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    due_days: str | None = Field(default=None, alias='dueDays')
-    due_date: str | None = Field(default=None, alias='dueDate')
-    currency: CurrencyReference | None = None
-    sub_total: float | None = Field(default=None, alias='subTotal')
-    total: float | None = None
-    invoice_taxable_flag: bool | None = Field(default=None, alias='invoiceTaxableFlag')
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
-    """
-    Used to determine if Avalara tax is enabled.
-    """
-    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
-    sales_tax_amount: float | None = Field(default=None, alias='salesTaxAmount')
-    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
-    """
-    Set to true if transaction is taxable at the state level.
-    """
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
-    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
-    """
-    Set to true if transaction is taxable at the county level.
-    """
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
-    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
-    """
-    Set to true if transaction is taxable at the city level.
-    """
-    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
-    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
-    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
-    """
-    Set to true if transaction is taxable at the country level.
-    """
-    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
-    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
-    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
-    """
-    Set to true if transaction is taxable at the composite level.
-    """
-    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
-    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
-    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
-    """
-    Set to true if transaction is taxable at level six.
-    """
-    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
-    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
-    created_by: str | None = Field(default=None, alias='createdBy')
-    date_closed: str | None = Field(default=None, alias='dateClosed')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedInvoiceTaxableLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_level: int | None = Field(default=None, alias='taxLevel')
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    tax_amount: float | None = Field(default=None, alias='taxAmount')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedProcurement(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    description: str | None = None
-    unposted_product_id: str | None = Field(default=None, alias='unpostedProductId')
-    location_id: int | None = Field(default=None, alias='locationId')
-    department_id: int | None = Field(default=None, alias='departmentId')
-    procurement_type: ProcurementType | None = Field(
-        default=None, alias='procurementType'
-    )
-    purchase_order: PurchaseOrderReference | None = Field(
-        default=None, alias='purchaseOrder'
-    )
-    purchase_date: str | None = Field(default=None, alias='purchaseDate')
-    tracking_number: str | None = Field(default=None, alias='trackingNumber')
-    billing_terms: BillingTermsReference | None = Field(
-        default=None, alias='billingTerms'
-    )
-    currency: CurrencyReference | None = None
-    total: float | None = None
-    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
-    avalara_tax_flag: bool | None = Field(default=None, alias='avalaraTaxFlag')
-    """
-    Used to determine if Avalara tax is enabled.
-    """
-    item_taxable_flag: bool | None = Field(default=None, alias='itemTaxableFlag')
-    purchase_order_taxable_flag: bool | None = Field(
-        default=None, alias='purchaseOrderTaxableFlag'
-    )
-    state_tax_flag: bool | None = Field(default=None, alias='stateTaxFlag')
-    """
-    Set to true if transaction is taxable at the state level.
-    """
-    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
-    state_tax_amount: float | None = Field(default=None, alias='stateTaxAmount')
-    county_tax_flag: bool | None = Field(default=None, alias='countyTaxFlag')
-    """
-    Set to true if transaction is taxable at the county level.
-    """
-    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
-    county_tax_amount: float | None = Field(default=None, alias='countyTaxAmount')
-    city_tax_flag: bool | None = Field(default=None, alias='cityTaxFlag')
-    """
-    Set to true if transaction is taxable at the city level.
-    """
-    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
-    city_tax_amount: float | None = Field(default=None, alias='cityTaxAmount')
-    country_tax_flag: bool | None = Field(default=None, alias='countryTaxFlag')
-    """
-    Set to true if transaction is taxable at the country level.
-    """
-    country_tax_xref: str | None = Field(default=None, alias='countryTaxXref')
-    country_tax_amount: float | None = Field(default=None, alias='countryTaxAmount')
-    composite_tax_flag: bool | None = Field(default=None, alias='compositeTaxFlag')
-    """
-    Set to true if transaction is taxable at the composite level.
-    """
-    composite_tax_xref: str | None = Field(default=None, alias='compositeTaxXref')
-    composite_tax_amount: float | None = Field(default=None, alias='compositeTaxAmount')
-    level_six_tax_flag: bool | None = Field(default=None, alias='levelSixTaxFlag')
-    """
-    Set to true if transaction is taxable at level six.
-    """
-    level_six_tax_xref: str | None = Field(default=None, alias='levelSixTaxXref')
-    level_six_tax_amount: float | None = Field(default=None, alias='levelSixTaxAmount')
-    tax_total: float | None = Field(default=None, alias='taxTotal')
-    customer: CompanyReference | None = None
-    vendor: CompanyReference | None = None
-    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
-    vendor_invoice_number: str | None = Field(default=None, alias='vendorInvoiceNumber')
-    vendor_invoice_date: str | None = Field(default=None, alias='vendorInvoiceDate')
-    tax_freight_flag: bool | None = Field(default=None, alias='taxFreightFlag')
-    freight_tax_total: float | None = Field(default=None, alias='freightTaxTotal')
-    freight_cost: float | None = Field(default=None, alias='freightCost')
-    date_closed: str | None = Field(default=None, alias='dateClosed')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UnpostedProcurementTaxableLevel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    tax_level: int | None = Field(default=None, alias='taxLevel')
-    tax_code_xref: str | None = Field(default=None, alias='taxCodeXref')
-    tax_amount: float | None = Field(default=None, alias='taxAmount')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Usage(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    type: str | None = None
-    count: int | None = None
-    id: int | None = None
-    description: str | None = None
-    hyperlink: str | None = None
-    type_key: str | None = Field(default=None, alias='typeKey')
-
-
-class UserDefinedField(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class UserDefinedField(ConnectWiseModel):
     id: int | None = None
     """
     ID of the custom user defined field
@@ -20389,14 +16329,26 @@ class UserDefinedField(BaseModel):
     """
     Help text to accompany the custom field Max length: 1000;
     """
-    field_type_identifier: FieldTypeIdentifier = Field(..., alias='fieldTypeIdentifier')
+    field_type_identifier: Literal[
+        'TextArea',
+        'Button',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] = Field(..., alias='fieldTypeIdentifier')
     number_decimals: int | None = Field(default=None, alias='numberDecimals')
     """
     Only valid for Number or percent
     """
-    entry_type_identifier: EntryTypeIdentifier | None = Field(
-        default=None, alias='entryTypeIdentifier'
-    )
+    entry_type_identifier: Literal[
+        'Date', 'EntryField', 'List', 'Option'
+    ] | None = Field(default=None, alias='entryTypeIdentifier')
     required_flag: bool | None = Field(default=None, alias='requiredFlag')
     display_on_screen_flag: bool | None = Field(
         default=None, alias='displayOnScreenFlag'
@@ -20425,63 +16377,10 @@ class UserDefinedField(BaseModel):
     """
     Date in UTC the custom field was created
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class UserDefinedField1(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField10(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField2(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField3(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField4(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField5(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField6(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField7(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField8(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedField9(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class UserDefinedFieldInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class UserDefinedFieldInfo(ConnectWiseModel):
     id: int | None = None
     """
     ID of the custom user defined field
@@ -20502,16 +16401,26 @@ class UserDefinedFieldInfo(BaseModel):
     """
     Help text to accompany the custom field
     """
-    field_type_identifier: FieldTypeIdentifier | None = Field(
-        default=None, alias='fieldTypeIdentifier'
-    )
+    field_type_identifier: Literal[
+        'TextArea',
+        'Button',
+        'Currency',
+        'Date',
+        'Hyperlink',
+        'IPAddress',
+        'Checkbox',
+        'Number',
+        'Percent',
+        'Text',
+        'Password',
+    ] | None = Field(default=None, alias='fieldTypeIdentifier')
     number_decimals: int | None = Field(default=None, alias='numberDecimals')
     """
     Only valid for Number or percent
     """
-    entry_type_identifier: EntryTypeIdentifier | None = Field(
-        default=None, alias='entryTypeIdentifier'
-    )
+    entry_type_identifier: Literal[
+        'Date', 'EntryField', 'List', 'Option'
+    ] | None = Field(default=None, alias='entryTypeIdentifier')
     required_flag: bool | None = Field(default=None, alias='requiredFlag')
     display_on_screen_flag: bool | None = Field(
         default=None, alias='displayOnScreenFlag'
@@ -20538,113 +16447,10 @@ class UserDefinedFieldInfo(BaseModel):
     """
     Date in UTC the custom field was created
     """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class UserDefinedFieldOption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    option_value: str | None = Field(default=None, alias='optionValue')
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    sort_order: int | None = Field(default=None, alias='sortOrder')
-
-
-class UserDefinedFieldReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class UserDefinedFieldValueModel(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    user_defined_field_rec_id: int | None = Field(
-        default=None, alias='userDefinedFieldRecId'
-    )
-    value: str | None = None
-    row_num: int | None = Field(default=None, alias='rowNum')
-    skip_location_and_billing_unit: bool | None = Field(
-        default=None, alias='skipLocationAndBillingUnit'
-    )
-    filtered: bool | None = None
-
-
-class VacationAvailableType(Enum):
-    ANNIVERSARY_YEAR = 'AnniversaryYear'
-    CALENDAR_YEAR = 'CalendarYear'
-
-
-class ValidatePortalRequest(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    email: str
-    password: str
-
-
-class ValidatePortalResponse(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    success: bool | None = None
-    contact_id: int | None = Field(default=None, alias='contactId')
-
-
-class ValidationError(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    code: str | None = None
-    message: str | None = None
-    resource: str | None = None
-    field: str | None = None
-    details: str | None = None
-
-
-class VendorType(Enum):
-    ZENITH = 'Zenith'
-
-
-class Warehouse(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    company: CompanyReference | None = None
-    location: SystemLocationReference | None = None
-    contact: ContactReference | None = None
-    department: SystemDepartmentReference | None = None
-    manager: MemberReference | None = None
-    site: SiteReference | None = None
-    location_xref: str | None = Field(default=None, alias='locationXref')
-    """
-     Max length: 10;
-    """
-    location_default_flag: bool | None = Field(
-        default=None, alias='locationDefaultFlag'
-    )
-    overall_default_flag: bool | None = Field(default=None, alias='overallDefaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    locked_flag: bool | None = Field(default=None, alias='lockedFlag')
-    currency: CurrencyReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WarehouseBin(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class WarehouseBin(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -20670,243 +16476,19 @@ class WarehouseBin(BaseModel):
     transfer_bin: WarehouseBinReference | None = Field(
         default=None, alias='transferBin'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class WarehouseBinInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class WarehouseBinInfo(ConnectWiseModel):
     id: int | None = None
     name: str | None = None
     warehouse: WarehouseReference | None = None
     inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
     default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class WarehouseBinReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WarehouseInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WarehouseReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    locked_flag: bool | None = Field(default=None, alias='lockedFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Website(Enum):
-    FROM_ = 'From'
-    TO = 'To'
-
-
-class WeekStart(Enum):
-    SUNDAY = 'Sunday'
-    MONDAY = 'Monday'
-    TUESDAY = 'Tuesday'
-    WEDNESDAY = 'Wednesday'
-    THURSDAY = 'Thursday'
-    FRIDAY = 'Friday'
-    SATURDAY = 'Saturday'
-
-
-class Where(Enum):
-    ON_SITE = 'OnSite'
-    REMOTE = 'Remote'
-    IN_HOUSE = 'InHouse'
-
-
-class WisePayBatchPayment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    amount: float | None = None
-    wise_pay_href: str | None = Field(default=None, alias='wisePayHref')
-
-
-class WisePayFeeInvoice(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    invoice_number: str | None = Field(default=None, alias='invoiceNumber')
-    amount: float | None = None
-    invoice_href: str | None = Field(default=None, alias='invoiceHref')
-
-
-class WisePayPayment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    payment_date_utc: str | None = Field(default=None, alias='paymentDateUtc')
-    wise_pay_reference: str | None = Field(default=None, alias='wisePayReference')
-    batch_payment: WisePayBatchPayment | None = Field(
-        default=None, alias='batchPayment'
-    )
-    fee_invoice: WisePayFeeInvoice | None = Field(default=None, alias='feeInvoice')
-
-
-class WonRevenueReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    revenue: float | None = None
-    cost: float | None = None
-    margin: float | None = None
-    percentage: float | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkRole(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    hourly_rate: float | None = Field(default=None, alias='hourlyRate')
-    integration_xref: str | None = Field(default=None, alias='integrationXref')
-    """
-     Max length: 50;
-    """
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    add_all_locations: bool | None = Field(default=None, alias='addAllLocations')
-    remove_all_locations: bool | None = Field(default=None, alias='removeAllLocations')
-    add_all_agreement_exclusions: bool | None = Field(
-        default=None, alias='addAllAgreementExclusions'
-    )
-    """
-    Used only on create to add the work role to all agreement and agreement type exclusion lists
-    """
-    location_ids: list[int] | None = Field(default=None, alias='locationIds')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkRoleExemption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    work_role: WorkRoleReference = Field(..., alias='workRole')
-    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkRoleInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkRoleLocation(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    location: SystemLocationReference | None = None
-    hourly_rate: float | None = Field(default=None, alias='hourlyRate')
-    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkRoleReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str
-    """
-     Max length: 50;
-    """
-    bill_time: BillTime11 = Field(..., alias='billTime')
-    rate_type: RateType5 = Field(..., alias='rateType')
-    rate: float
-    hours_min: float | None = Field(default=None, alias='hoursMin')
-    hours_max: float | None = Field(default=None, alias='hoursMax')
-    round_bill_hours_to: float | None = Field(default=None, alias='roundBillHoursTo')
-    accrual_type: AccrualType2 | None = Field(default=None, alias='accrualType')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    overall_default_flag: bool | None = Field(default=None, alias='overallDefaultFlag')
-    activity_default_flag: bool | None = Field(
-        default=None, alias='activityDefaultFlag'
-    )
-    utilization_flag: bool | None = Field(default=None, alias='utilizationFlag')
-    cost_multiplier: float | None = Field(default=None, alias='costMultiplier')
-    integration_x_ref: str | None = Field(default=None, alias='integrationXRef')
-    """
-     Max length: 50;
-    """
-    add_all_agreement_exclusions: bool | None = Field(
-        default=None, alias='addAllAgreementExclusions'
-    )
-    """
-    Used only on create to add the work type to all agreement and agreement type exclusion lists
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    default_flag: bool | None = Field(default=None, alias='defaultFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    activity_default_flag: bool | None = Field(
-        default=None, alias='activityDefaultFlag'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class Workflow(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Workflow(ConnectWiseModel):
     id: int | None = None
     name: str
     """
@@ -20922,275 +16504,477 @@ class Workflow(BaseModel):
     Batches can not be turned on until after the workflow is created and it has atleast one event associated with it
     """
     batch_interval: int | None = Field(default=None, alias='batchInterval')
-    batch_frequency_unit: BatchFrequencyUnit | None = Field(
+    batch_frequency_unit: Literal['Minutes', 'Hours', 'Days'] | None = Field(
         default=None, alias='batchFrequencyUnit'
     )
     """
     If not specified, defaults to Minutes. Months is not supported as month length varies
     """
     batch_last_ran: datetime | None = Field(default=None, alias='batchLastRan')
-    batch_schedule: BatchSchedule | None = Field(default=None, alias='batchSchedule')
+    batch_schedule: Literal[
+        'AnyTime', 'MyCompanyOfficeHours', 'SlaHours'
+    ] | None = Field(default=None, alias='batchSchedule')
     """
     If activateFlag is true, batchSchedule is required
     """
     board: BoardReference | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class WorkflowAction(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class WorkRoleExemption(ConnectWiseModel):
     id: int | None = None
-    notify_type: NotifyTypeReference = Field(..., alias='notifyType')
-    notify_who: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyWho'
+    work_role: WorkRoleReference = Field(..., alias='workRole')
+    taxable_levels: list[int] | None = Field(default=None, alias='taxableLevels')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class WorkRoleLocation(ConnectWiseModel):
+    id: int | None = None
+    location: SystemLocationReference | None = None
+    hourly_rate: float | None = Field(default=None, alias='hourlyRate')
+    work_role: WorkRoleReference | None = Field(default=None, alias='workRole')
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BulkResult(ConnectWiseModel):
+    payload: list[ResultInfo] | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class BundleResult(ConnectWiseModel):
+    sequence_number: int | None = Field(default=None, alias='sequenceNumber')
+    resource_type: str | None = Field(default=None, alias='resourceType')
+    entities: list[IRestIdentifiedItem] | None = None
+    count: int | None = None
+    version: str | None = None
+    success: bool | None = None
+    status_code: int | None = Field(default=None, alias='statusCode')
+    error: ErrorResponseMessage | None = None
+
+
+class BundleResultsCollection(ConnectWiseModel):
+    results: list[BundleResult] | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class ExpenseEntry(ConnectWiseModel):
+    id: int | None = None
+    expense_report: ExpenseReportReference | None = Field(
+        default=None, alias='expenseReport'
     )
-    specific_member_to: MemberReference | None = Field(
-        default=None, alias='specificMemberTo'
+    company: CompanyReference | None = None
+    charge_to_id: int | None = Field(default=None, alias='chargeToId')
+    charge_to_type: Literal[
+        'ServiceTicket', 'ProjectTicket', 'ChargeCode', 'Activity'
+    ] | None = Field(default=None, alias='chargeToType')
+    """
+    Gets or sets
+                company or chargeToType is required.
+    """
+    type: ExpenseTypeReference | None = None
+    member: MemberReference | None = None
+    payment_method: PaymentMethodReference | None = Field(
+        default=None, alias='paymentMethod'
     )
-    email_recipient: str | None = Field(default=None, alias='emailRecipient')
-    """
-    Required when notifyWho is set to: "Email Address" Max length: 250;
-    """
-    notify_from: NotificationRecipientReference | None = Field(
-        default=None, alias='notifyFrom'
-    )
-    specific_member_from: MemberReference | None = Field(
-        default=None, alias='specificMemberFrom'
-    )
-    email_from: str | None = Field(default=None, alias='emailFrom')
-    """
-    Required when notifyFrom is set to: "Email Address" Max length: 250;
-    """
-    cc_contact: ContactReference | None = Field(default=None, alias='ccContact')
-    bcc_contact: ContactReference | None = Field(default=None, alias='bccContact')
-    subject: str | None = None
-    """
-    Required when notifyType is set to: "Create Activity", "Send Email", "Assign Resource" Max length: 100;
-    """
+    classification: ClassificationReference | None = None
+    amount: float
+    billable_option: Literal[
+        'Billable', 'DoNotBill', 'NoCharge', 'NoDefault'
+    ] | None = Field(default=None, alias='billableOption')
+    date: datetime
+    location_id: int | None = Field(default=None, alias='locationId')
+    business_unit_id: int | None = Field(default=None, alias='businessUnitId')
     notes: str | None = None
-    activity_status: ActivityStatusReference | None = Field(
-        default=None, alias='activityStatus'
+    agreement: AgreementReference | None = None
+    invoice_amount: float | None = Field(default=None, alias='invoiceAmount')
+    mobile_guid: UUID | None = Field(default=None, alias='mobileGuid')
+    taxes: list[ExpenseTax] | None = None
+    invoice: InvoiceReference | None = None
+    currency: CurrencyReference | None = None
+    status: Literal[
+        'Open',
+        'Rejected',
+        'PendingApproval',
+        'ErrorsCorrected',
+        'PendingProjectApproval',
+        'ApprovedByTierOne',
+        'RejectBySecondTier',
+        'ApprovedByTierTwo',
+        'ReadyToBill',
+        'Billed',
+        'WrittenOff',
+        'BilledAgreement',
+    ] | None = None
+    bill_amount: float | None = Field(default=None, alias='billAmount')
+    agreement_amount: float | None = Field(default=None, alias='agreementAmount')
+    odometer_start: float | None = Field(default=None, alias='odometerStart')
+    odometer_end: float | None = Field(default=None, alias='odometerEnd')
+    ticket: TicketReference | None = None
+    project: ProjectReference | None = None
+    phase: ProjectPhaseReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+    custom_fields: list[CustomFieldValue] | None = Field(
+        default=None, alias='customFields'
     )
-    activity_type: ActivityTypeReference | None = Field(
-        default=None, alias='activityType'
-    )
-    attached_track: TrackReference | None = Field(default=None, alias='attachedTrack')
-    days_to_execute: int | None = Field(default=None, alias='daysToExecute')
-    board: BoardReference | None = None
-    board_status: ServiceStatusReference | None = Field(
-        default=None, alias='boardStatus'
-    )
-    service_type: ServiceTypeReference | None = Field(default=None, alias='serviceType')
-    service_sub_type: ServiceSubTypeReference | None = Field(
-        default=None, alias='serviceSubType'
-    )
-    service_item: ServiceItemReference | None = Field(default=None, alias='serviceItem')
-    group: GroupReference | None = None
-    service_template: ServiceTemplateReference | None = Field(
-        default=None, alias='serviceTemplate'
-    )
-    invoice_min_days: int | None = Field(default=None, alias='invoiceMinDays')
-    automate_script: AutomateScriptReference | None = Field(
-        default=None, alias='automateScript'
-    )
-    script_success_status: ServiceStatusReference | None = Field(
-        default=None, alias='scriptSuccessStatus'
-    )
-    script_fail_status: ServiceStatusReference | None = Field(
-        default=None, alias='scriptFailStatus'
-    )
-    detail_notes_flag: bool | None = Field(default=None, alias='detailNotesFlag')
-    internal_notes_flag: bool | None = Field(default=None, alias='internalNotesFlag')
-    audit_notes_flag: bool | None = Field(default=None, alias='auditNotesFlag')
-    service_priority: PriorityReference | None = Field(
-        default=None, alias='servicePriority'
-    )
-    update_owner_flag: bool | None = Field(default=None, alias='updateOwnerFlag')
-    sales_order_status: OrderStatusReference | None = Field(
-        default=None, alias='salesOrderStatus'
-    )
-    project_status: ProjectStatusReference | None = Field(
-        default=None, alias='projectStatus'
-    )
-    company_status: CompanyStatusReference | None = Field(
-        default=None, alias='companyStatus'
-    )
-    attachments: list[int] | None = None
-    service_survey: ServiceSurveyReference | None = Field(
-        default=None, alias='serviceSurvey'
-    )
-    specific_team_to: GenericBoardTeamReference | None = Field(
-        default=None, alias='specificTeamTo'
-    )
-    attach_configurations_for: AttachConfigurationsFor | None = Field(
-        default=None, alias='attachConfigurationsFor'
-    )
-    """
-    Required when notifyType is set to: "Attach Configuration"
-    """
-    configuration_type: ConfigurationTypeReference | None = Field(
-        default=None, alias='configurationType'
-    )
-    configuration_status: ConfigurationStatusReference | None = Field(
-        default=None, alias='configurationStatus'
-    )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
 
 
-class WorkflowActionAutomateParameter(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
+class Forecast(ConnectWiseModel):
     id: int | None = None
-    name: str
-    value: str | None = None
-
-
-class WorkflowActionUserDefinedField(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+    forecast_items: list[ForecastItem] | None = Field(
+        default=None, alias='forecastItems'
     )
+    product_revenue: ProductRevenueReference | None = Field(
+        default=None, alias='productRevenue'
+    )
+    service_revenue: ServiceRevenueReference | None = Field(
+        default=None, alias='serviceRevenue'
+    )
+    agreement_revenue: AgreementRevenueReference | None = Field(
+        default=None, alias='agreementRevenue'
+    )
+    time_revenue: TimeRevenueReference | None = Field(default=None, alias='timeRevenue')
+    expense_revenue: ExpenseRevenueReference | None = Field(
+        default=None, alias='expenseRevenue'
+    )
+    forecast_revenue_totals: ForecastRevenueReference | None = Field(
+        default=None, alias='forecastRevenueTotals'
+    )
+    inclusive_revenue_totals: InclusiveRevenueReference | None = Field(
+        default=None, alias='inclusiveRevenueTotals'
+    )
+    recurring_total: float | None = Field(default=None, alias='recurringTotal')
+    won_revenue: WonRevenueReference | None = Field(default=None, alias='wonRevenue')
+    lost_revenue: LostRevenueReference | None = Field(default=None, alias='lostRevenue')
+    open_revenue: OpenRevenueReference | None = Field(default=None, alias='openRevenue')
+    other_revenue1: Other1RevenueReference | None = Field(
+        default=None, alias='otherRevenue1'
+    )
+    other_revenue2: Other2RevenueReference | None = Field(
+        default=None, alias='otherRevenue2'
+    )
+    sales_tax_revenue: float | None = Field(default=None, alias='salesTaxRevenue')
+    forecast_total_with_taxes: float | None = Field(
+        default=None, alias='forecastTotalWithTaxes'
+    )
+    expected_probability: int | None = Field(default=None, alias='expectedProbability')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    currency: CurrencyReference | None = None
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class GLExportAdjustmentTransaction(ConnectWiseModel):
+    id: str | None = None
+    document_type: str | None = Field(default=None, alias='documentType')
+    document_date: str | None = Field(default=None, alias='documentDate')
+    gl_type_id: str | None = Field(default=None, alias='glTypeID')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    memo: str | None = None
+    gl_class: str | None = Field(default=None, alias='glClass')
+    adjustment_description: str | None = Field(
+        default=None, alias='adjustmentDescription'
+    )
+    adjustment_detail: list[GLExportAdjustmentTransactionDetail] | None = Field(
+        default=None, alias='adjustmentDetail'
+    )
+
+
+class GLExportExpense(ConnectWiseModel):
     id: int | None = None
-    event_id: int | None = Field(default=None, alias='eventId')
-    action_id: int | None = Field(default=None, alias='actionId')
-    caption: str | None = None
-    user_defined_field_id: int | None = Field(default=None, alias='userDefinedFieldId')
-    value: str | None = None
-    overwrite_flag: bool | None = Field(default=None, alias='overwriteFlag')
-    pod_description: str | None = Field(default=None, alias='podDescription')
-    field_type_id: str | None = Field(default=None, alias='fieldTypeId')
-    entry_type_id: str | None = Field(default=None, alias='entryTypeId')
-    required_flag: bool | None = Field(default=None, alias='requiredFlag')
-    inactive_flag: bool | None = Field(default=None, alias='inactiveFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowAttachment(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowEvent(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
-    event_condition: str = Field(..., alias='eventCondition')
-    frequency_unit: FrequencyUnit | None = Field(default=None, alias='frequencyUnit')
-    """
-    Required when exectionTimes is set to MultipleTimes or Continuously
-    """
-    frequency_of_execution: int | None = Field(
-        default=None, alias='frequencyOfExecution'
-    )
-    """
-    Required when exectionTimes is set to MultipleTimes or Continuously
-    """
-    max_number_of_execution: int | None = Field(
-        default=None, alias='maxNumberOfExecution'
-    )
-    """
-    Required when exectionTimes is set to MultipleTimes
-    """
-    execution_time: ExecutionTime | None = Field(default=None, alias='executionTime')
-    """
-    Defaults to Once when not specified
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowNotifyType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    is_setup_flag: bool | None = Field(default=None, alias='isSetupFlag')
-    """
-    If the current action is available because it is already set up. Pertains to integrations such as Automate
-    """
-    external_flag: bool | None = Field(default=None, alias='externalFlag')
-    """
-    If the current action effects external objects e.g. integrations or sending an email
-    """
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowNotifyTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    is_setup_flag: bool | None = Field(default=None, alias='isSetupFlag')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowTableType(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowTableTypeInfo(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowTableTypeReference(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    identifier: str | None = None
-    name: str | None = None
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
-
-
-class WorkflowTrigger(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
-    )
-    id: int | None = None
-    name: str | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_type: str | None = Field(default=None, alias='documentType')
+    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
+    ap_class: str | None = Field(default=None, alias='apClass')
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    gl_class: str | None = Field(default=None, alias='glClass')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    memo: str | None = None
     description: str | None = None
-    has_options_flag: bool | None = Field(default=None, alias='hasOptionsFlag')
-    has_operator_flag: bool | None = Field(default=None, alias='hasOperatorFlag')
-    custom_field: UserDefinedFieldReference | None = Field(
-        default=None, alias='customField'
+    period_start_date: str | None = Field(default=None, alias='periodStartDate')
+    period_end_date: str | None = Field(default=None, alias='periodEndDate')
+    member: MemberReference | None = None
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    company: CompanyReference | None = None
+    company_account_number: str | None = Field(
+        default=None, alias='companyAccountNumber'
     )
-    expected_type: str | None = Field(default=None, alias='expectedType')
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    project: ProjectReference | None = None
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    offset: GLExportExpenseOffset | None = None
 
 
-class WorkflowTriggerOption(BaseModel):
-    model_config = ConfigDict(
-        populate_by_name=True,
+class GLExportPurchaseTransaction(ConnectWiseModel):
+    id: str | None = None
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_number: str | None = Field(default=None, alias='documentNumber')
+    description: str | None = None
+    memo: str | None = None
+    ap_account_number: str | None = Field(default=None, alias='apAccountNumber')
+    purchase_date: str | None = Field(default=None, alias='purchaseDate')
+    company: CompanyReference | None = None
+    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
+    contact: ContactReference | None = None
+    site: SiteReference | None = None
+    purchase_class: str | None = Field(default=None, alias='purchaseClass')
+    freight_amount: float | None = Field(default=None, alias='freightAmount')
+    freight_packing_slip: str | None = Field(default=None, alias='freightPackingSlip')
+    packing_slip: str | None = Field(default=None, alias='packingSlip')
+    dropship_flag: bool | None = Field(default=None, alias='dropshipFlag')
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
     )
-    value: str | None = None
-    name: str | None = None
-    custom_field: UserDefinedFieldReference | None = Field(
-        default=None, alias='customField'
+    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
+    due_days: int | None = Field(default=None, alias='dueDays')
+    vendor_number: str | None = Field(default=None, alias='vendorNumber')
+    vendor_account_number: str | None = Field(default=None, alias='vendorAccountNumber')
+    vendor_invoice_date: str | None = Field(default=None, alias='vendorInvoiceDate')
+    vendor_invoice_number: str | None = Field(default=None, alias='vendorInvoiceNumber')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    city_tax_xref: str | None = Field(default=None, alias='cityTaxXref')
+    ship_to_company: CompanyReference | None = Field(
+        default=None, alias='shipToCompany'
     )
-    field_info: dict[str, str] | None = Field(default=None, alias='_info')
+    ship_to_company_account_number: str | None = Field(
+        default=None, alias='shipToCompanyAccountNumber'
+    )
+    ship_to_company_type: CompanyTypeReference | None = Field(
+        default=None, alias='shipToCompanyType'
+    )
+    ship_to_contact: ContactReference | None = Field(
+        default=None, alias='shipToContact'
+    )
+    ship_to_site: SiteReference | None = Field(default=None, alias='shipToSite')
+    ship_to_tax_group: str | None = Field(default=None, alias='shipToTaxGroup')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
+    use_avalara_tax_flag: bool | None = Field(default=None, alias='useAvalaraTaxFlag')
+    purchase_header_tax_group: str | None = Field(
+        default=None, alias='purchaseHeaderTaxGroup'
+    )
+    purchase_header_taxable_flag: bool | None = Field(
+        default=None, alias='purchaseHeaderTaxableFlag'
+    )
+    purchase_header_freight_taxable_flag: bool | None = Field(
+        default=None, alias='purchaseHeaderFreightTaxableFlag'
+    )
+    tax_levels: list[GLExportPurchaseTransactionTaxLevel] | None = Field(
+        default=None, alias='taxLevels'
+    )
+    purchase_detail: list[GLExportPurchaseTransactionDetail] | None = Field(
+        default=None, alias='purchaseDetail'
+    )
+    purchase_detail_tax: list[GLExportPurchaseTransactionDetailTax] | None = Field(
+        default=None, alias='purchaseDetailTax'
+    )
 
 
-Manager.update_forward_refs()
+class GLExportTransaction(ConnectWiseModel):
+    id: int | None = None
+    gl_class: str | None = Field(default=None, alias='glClass')
+    gl_type_id: str | None = Field(default=None, alias='glTypeId')
+    document_date: str | None = Field(default=None, alias='documentDate')
+    document_number: str | None = Field(default=None, alias='documentNumber')
+    document_type: str | None = Field(default=None, alias='documentType')
+    memo: str | None = None
+    description: str | None = None
+    attention: str | None = None
+    sales_territory: str | None = Field(default=None, alias='salesTerritory')
+    company: CompanyReference | None = None
+    company_type: CompanyTypeReference | None = Field(default=None, alias='companyType')
+    company_account_number: str | None = Field(
+        default=None, alias='companyAccountNumber'
+    )
+    site: SiteReference | None = None
+    billing_terms: BillingTermsReference | None = Field(
+        default=None, alias='billingTerms'
+    )
+    billing_terms_xref: str | None = Field(default=None, alias='billingTermsXref')
+    due_days: int | None = Field(default=None, alias='dueDays')
+    due_date: str | None = Field(default=None, alias='dueDate')
+    email_delivery_flag: bool | None = Field(default=None, alias='emailDeliveryFlag')
+    print_delivery_flag: bool | None = Field(default=None, alias='printDeliveryFlag')
+    agreement_pre_payment_flag: bool | None = Field(
+        default=None, alias='agreementPrePaymentFlag'
+    )
+    account_number: str | None = Field(default=None, alias='accountNumber')
+    billing_type: str | None = Field(default=None, alias='billingType')
+    gl_entry_ids: str | None = Field(default=None, alias='glEntryIds')
+    purchase_order: PurchaseOrderReference | None = Field(
+        default=None, alias='purchaseOrder'
+    )
+    project: ProjectReference | None = None
+    currency: CurrencyReference | None = None
+    total: float | None = None
+    sales_rep_id: str | None = Field(default=None, alias='salesRepId')
+    sales_rep_name: str | None = Field(default=None, alias='salesRepName')
+    taxable: bool | None = None
+    taxable_total: float | None = Field(default=None, alias='taxableTotal')
+    tax_code: TaxCodeReference | None = Field(default=None, alias='taxCode')
+    tax_group_rate: float | None = Field(default=None, alias='taxGroupRate')
+    piggy_back_flag: bool | None = Field(default=None, alias='piggyBackFlag')
+    tax_account_number: str | None = Field(default=None, alias='taxAccountNumber')
+    sales_tax: float | None = Field(default=None, alias='salesTax')
+    state_tax: float | None = Field(default=None, alias='stateTax')
+    county_tax: float | None = Field(default=None, alias='countyTax')
+    city_tax: float | None = Field(default=None, alias='cityTax')
+    taxable_amount1: float | None = Field(default=None, alias='taxableAmount1')
+    taxable_amount2: float | None = Field(default=None, alias='taxableAmount2')
+    taxable_amount3: float | None = Field(default=None, alias='taxableAmount3')
+    taxable_amount4: float | None = Field(default=None, alias='taxableAmount4')
+    taxable_amount5: float | None = Field(default=None, alias='taxableAmount5')
+    tax_agency_xref: str | None = Field(default=None, alias='taxAgencyXref')
+    state_tax_xref: str | None = Field(default=None, alias='stateTaxXref')
+    county_tax_xref: str | None = Field(default=None, alias='countyTaxXref')
+    tax_id: str | None = Field(default=None, alias='taxId')
+    tax_dp_applied_flag: bool | None = Field(default=None, alias='taxDpAppliedFlag')
+    use_avalara_flag: bool | None = Field(default=None, alias='useAvalaraFlag')
+    send_avalara_tax_flag: bool | None = Field(default=None, alias='sendAvalaraTaxFlag')
+    ship_to_company: CompanyReference | None = Field(
+        default=None, alias='shipToCompany'
+    )
+    ship_to_company_account_number: str | None = Field(
+        default=None, alias='shipToCompanyAccountNumber'
+    )
+    ship_to_company_type: CompanyTypeReference | None = Field(
+        default=None, alias='shipToCompanyType'
+    )
+    ship_to_tax_id: str | None = Field(default=None, alias='shipToTaxId')
+    ship_site: SiteReference | None = Field(default=None, alias='shipSite')
+    ship_contact: str | None = Field(default=None, alias='shipContact')
+    detail: list[GLExportTransactionDetail] | None = None
+    tax_levels: list[GLExportTransactionTaxLevel] | None = Field(
+        default=None, alias='taxLevels'
+    )
+
+
+class InvoiceInfo(ConnectWiseModel):
+    id: int | None = None
+    invoice: Invoice | None = None
+    invoice_template: InvoiceTemplate | None = Field(
+        default=None, alias='invoiceTemplate'
+    )
+    products: list[ProductItem] | None = None
+    bundled_components_info: list[ProductComponent] | None = Field(
+        default=None, alias='bundledComponentsInfo'
+    )
+    expenses: list[ExpenseEntry] | None = None
+    time_entries: list[TimeEntry] | None = Field(default=None, alias='timeEntries')
+    logo: DocumentInfo | None = None
+    billing_setup: BillingSetup | None = Field(default=None, alias='billingSetup')
+    agreement_billing_info: list[AgreementBillingInfo] | None = Field(
+        default=None, alias='agreementBillingInfo'
+    )
+    info: dict[str, str] | None = Field(default=None, alias='_info')
+
+
+class MemberDeactivation(ConnectWiseModel):
+    activity: MemberDeactivationSalesActivity | None = None
+    service_team: MemberDeactivationServiceTeam | None = Field(
+        default=None, alias='serviceTeam'
+    )
+    company_team: list[MemberDeactivationCompanyTeam] | None = Field(
+        default=None, alias='companyTeam'
+    )
+    """
+    A list of customers for which the member holds a team role
+    """
+    workflow_email: MemberDeactivationWorkflow | None = Field(
+        default=None, alias='workflowEmail'
+    )
+    service_status_workflow: list[MemberDeactivationStatusWorkflow] | None = Field(
+        default=None, alias='serviceStatusWorkflow'
+    )
+    ticket_template: MemberDeactivationServiceTemplate | None = Field(
+        default=None, alias='ticketTemplate'
+    )
+    opportunity: MemberDeactivationOpportunity | None = None
+    sales_team: MemberDeactivationSalesTeam | None = Field(
+        default=None, alias='salesTeam'
+    )
+    project_manager: MemberDeactivationProjectManager | None = Field(
+        default=None, alias='projectManager'
+    )
+    project_time_approver: MemberDeactivationProjectManager | None = Field(
+        default=None, alias='projectTimeApprover'
+    )
+    project_expense_approver: MemberDeactivationProjectManager | None = Field(
+        default=None, alias='projectExpenseApprover'
+    )
+    knowledge_base_article: MemberDeactivationKnowledgebaseArticle | None = Field(
+        default=None, alias='knowledgeBaseArticle'
+    )
+    my_company_president: MemberDeactivationMyCompanyPresidentRole | None = Field(
+        default=None, alias='myCompanyPresident'
+    )
+    my_company_coo: MemberDeactivationMyCompanyCOORole | None = Field(
+        default=None, alias='myCompanyCOO'
+    )
+    my_company_controller: MemberDeactivationMyCompanyControllerRole | None = Field(
+        default=None, alias='myCompanyController'
+    )
+    my_company_dispatch: MemberDeactivationMyCompanyDispatchRole | None = Field(
+        default=None, alias='myCompanyDispatch'
+    )
+    my_company_service_manager: MemberDeactivationMyCompanyServiceManagerRole | None = (
+        Field(default=None, alias='myCompanyServiceManager')
+    )
+    my_company_duty_manager_role: MemberDeactivationMyCompanyDutyManagerRole | None = (
+        Field(default=None, alias='myCompanyDutyManagerRole')
+    )
+    department_manager: MemberDeactivationDepartmentMananager | None = Field(
+        default=None, alias='departmentManager'
+    )
+    dispatch_member: MemberDeactivationDispatchMember | None = Field(
+        default=None, alias='dispatchMember'
+    )
+    service_manager: MemberDeactivationServiceManger | None = Field(
+        default=None, alias='serviceManager'
+    )
+    duty_manager: MemberDeactivationDutyManager | None = Field(
+        default=None, alias='dutyManager'
+    )
+    send_from_email_notify: MemberDeactivationSendFromEmailNotify | None = Field(
+        default=None, alias='sendFromEmailNotify'
+    )
+    delete_open_time_sheets_flag: bool | None = Field(
+        default=None, alias='deleteOpenTimeSheetsFlag'
+    )
+    """
+    By default, this is set to false
+                If there is any open timesheets, system will return error message
+                that there is open timesheets still attached to this member
+                If user would like to delete member with open timesheets, they can set this boolean to TRUE
+                System will delete member and any associated open timesheets
+    """
+
+
+class GLExport(ConnectWiseModel):
+    export_settings: GLExportSettings | None = Field(
+        default=None, alias='exportSettings'
+    )
+    vendors: list[GLExportVendor] | None = None
+    customers: list[GLExportCustomer] | None = None
+    transactions: list[GLExportTransaction] | None = None
+    expenses: list[GLExportExpense] | None = None
+    expense_bills: list[GLExportExpenseBill] | None = Field(
+        default=None, alias='expenseBills'
+    )
+    purchase_transactions: list[GLExportPurchaseTransaction] | None = Field(
+        default=None, alias='purchaseTransactions'
+    )
+    adjustment_transactions: list[GLExportAdjustmentTransaction] | None = Field(
+        default=None, alias='adjustmentTransactions'
+    )
+    inventory_transfers: list[GLExportInventoryTransfer] | None = Field(
+        default=None, alias='inventoryTransfers'
+    )
+
+
+Manager.model_rebuild()

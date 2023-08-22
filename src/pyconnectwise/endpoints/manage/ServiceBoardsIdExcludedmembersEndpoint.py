@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersCountEndpoint 
     ServiceBoardsIdExcludedmembersCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersIdEndpoint import \
     ServiceBoardsIdExcludedmembersIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardExcludedMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SystemLdapconfigurationsIdEndpoint import Sy
 from pyconnectwise.endpoints.manage.SystemLdapconfigurationsInfoEndpoint import SystemLdapconfigurationsInfoEndpoint
 from pyconnectwise.endpoints.manage.SystemLdapconfigurationsTestlinkEndpoint import \
     SystemLdapconfigurationsTestlinkEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import LdapConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,10 +15,10 @@ class SystemLdapconfigurationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "ldapConfigurations", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemLdapconfigurationsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemLdapconfigurationsCountEndpoint(client, parent_endpoint=self))
         self.test_link = self._register_child_endpoint(
             SystemLdapconfigurationsTestlinkEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(SystemLdapconfigurationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemLdapconfigurationsIdEndpoint:
         """

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesCountEndpoint impo
     SalesOpportunitiesStatusesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesIdEndpoint import SalesOpportunitiesStatusesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesInfoEndpoint import SalesOpportunitiesStatusesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import OpportunityStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

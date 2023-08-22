@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemReportcardsCountEndpoint import SystemReportcardsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemReportcardsIdEndpoint import SystemReportcardsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemReportcardsInfoEndpoint import SystemReportcardsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ReportCard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

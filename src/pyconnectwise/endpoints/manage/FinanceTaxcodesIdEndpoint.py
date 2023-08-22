@@ -12,7 +12,6 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsEndpoint import
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdUsagesEndpoint import FinanceTaxcodesIdUsagesEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsEndpoint import \
     FinanceTaxcodesIdWorkroleexemptionsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -22,6 +21,9 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(FinanceTaxcodesIdInfoEndpoint(client, parent_endpoint=self))
+        self.product_type_exemptions = self._register_child_endpoint(
+            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
+        )
         self.work_role_exemptions = self._register_child_endpoint(
             FinanceTaxcodesIdWorkroleexemptionsEndpoint(client, parent_endpoint=self)
         )
@@ -29,16 +31,13 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
             FinanceTaxcodesIdTaxcodelevelsEndpoint(client, parent_endpoint=self)
         )
         self.copy = self._register_child_endpoint(FinanceTaxcodesIdCopyEndpoint(client, parent_endpoint=self))
-        self.product_type_exemptions = self._register_child_endpoint(
-            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(FinanceTaxcodesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.tax_code_x_refs = self._register_child_endpoint(
-            FinanceTaxcodesIdTaxcodexrefsEndpoint(client, parent_endpoint=self)
-        )
         self.expense_type_exemptions = self._register_child_endpoint(
             FinanceTaxcodesIdExpensetypeexemptionsEndpoint(client, parent_endpoint=self)
         )
+        self.tax_code_x_refs = self._register_child_endpoint(
+            FinanceTaxcodesIdTaxcodexrefsEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(FinanceTaxcodesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCode]:
         """
@@ -73,17 +72,15 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TaxCode, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /finance/taxCodes/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
         """

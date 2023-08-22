@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdCopyEndpoint import SystemW
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsEndpoint import SystemWorkflowsIdEventsEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesEndpoint import SystemWorkflowsIdNotifytypesEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdTriggersEndpoint import SystemWorkflowsIdTriggersEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Workflow
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -15,15 +14,15 @@ class SystemWorkflowsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.events = self._register_child_endpoint(SystemWorkflowsIdEventsEndpoint(client, parent_endpoint=self))
         self.triggers = self._register_child_endpoint(SystemWorkflowsIdTriggersEndpoint(client, parent_endpoint=self))
+        self.notify_types = self._register_child_endpoint(
+            SystemWorkflowsIdNotifytypesEndpoint(client, parent_endpoint=self)
+        )
         self.copy = self._register_child_endpoint(SystemWorkflowsIdCopyEndpoint(client, parent_endpoint=self))
         self.attachments = self._register_child_endpoint(
             SystemWorkflowsIdAttachmentsEndpoint(client, parent_endpoint=self)
         )
-        self.notify_types = self._register_child_endpoint(
-            SystemWorkflowsIdNotifytypesEndpoint(client, parent_endpoint=self)
-        )
+        self.events = self._register_child_endpoint(SystemWorkflowsIdEventsEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Workflow]:
         """
@@ -58,17 +57,15 @@ class SystemWorkflowsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Workflow, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /system/workflows/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Workflow:
         """

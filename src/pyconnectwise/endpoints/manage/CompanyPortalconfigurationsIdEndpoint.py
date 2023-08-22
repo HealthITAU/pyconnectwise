@@ -11,7 +11,6 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdProjectsetupsEn
     CompanyPortalconfigurationsIdProjectsetupsEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsEndpoint import \
     CompanyPortalconfigurationsIdServicesetupsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -26,14 +25,14 @@ class CompanyPortalconfigurationsIdEndpoint(ConnectWiseEndpoint):
         self.project_setups = self._register_child_endpoint(
             CompanyPortalconfigurationsIdProjectsetupsEndpoint(client, parent_endpoint=self)
         )
-        self.service_setups = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdServicesetupsEndpoint(client, parent_endpoint=self)
+        self.password_email_setups = self._register_child_endpoint(
+            CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(client, parent_endpoint=self)
         )
         self.opportunity_setups = self._register_child_endpoint(
             CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(client, parent_endpoint=self)
         )
-        self.password_email_setups = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(client, parent_endpoint=self)
+        self.service_setups = self._register_child_endpoint(
+            CompanyPortalconfigurationsIdServicesetupsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -71,17 +70,15 @@ class CompanyPortalconfigurationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PortalConfiguration, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /company/portalConfigurations/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfiguration:
         """

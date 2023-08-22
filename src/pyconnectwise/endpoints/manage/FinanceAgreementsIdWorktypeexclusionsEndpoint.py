@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsCountEn
     FinanceAgreementsIdWorktypeexclusionsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsIdWorktypeexclusionsIdEndpoint import \
     FinanceAgreementsIdWorktypeexclusionsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementWorkTypeExclusion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

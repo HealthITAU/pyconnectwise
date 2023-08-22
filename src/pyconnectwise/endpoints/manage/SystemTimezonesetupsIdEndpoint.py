@@ -2,7 +2,6 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdInfoEndpoint import SystemTimezonesetupsIdInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TimeZoneSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -72,14 +71,12 @@ class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeZoneSetup, super()._make_request("PATCH", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /system/timeZoneSetups/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)

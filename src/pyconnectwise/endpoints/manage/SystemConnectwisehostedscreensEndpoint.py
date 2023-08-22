@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemConnectwisehostedscreensCountEndpoint 
     SystemConnectwisehostedscreensCountEndpoint
 from pyconnectwise.endpoints.manage.SystemConnectwisehostedscreensIdEndpoint import \
     SystemConnectwisehostedscreensIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConnectWiseHostedScreen
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesCountEndpoint import ServiceBoardsIdTypesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesIdEndpoint import ServiceBoardsIdTypesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

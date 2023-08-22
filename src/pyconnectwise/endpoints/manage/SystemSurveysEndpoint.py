@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemSurveysCountEndpoint import SystemSurveysCountEndpoint
 from pyconnectwise.endpoints.manage.SystemSurveysIdEndpoint import SystemSurveysIdEndpoint
 from pyconnectwise.endpoints.manage.SystemSurveysInfoEndpoint import SystemSurveysInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Survey
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

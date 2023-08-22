@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ServiceTicketsCountEndpoint import ServiceTi
 from pyconnectwise.endpoints.manage.ServiceTicketsIdEndpoint import ServiceTicketsIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsInfoEndpoint import ServiceTicketsInfoEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsSearchEndpoint import ServiceTicketsSearchEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Ticket
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdNotificati
     ProcurementPurchaseorderstatusesIdNotificationsEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdUsagesEndpoint import \
     ProcurementPurchaseorderstatusesIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrderStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -61,17 +60,15 @@ class ProcurementPurchaseorderstatusesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PurchaseOrderStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /procurement/purchaseorderstatuses/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatus:
         """

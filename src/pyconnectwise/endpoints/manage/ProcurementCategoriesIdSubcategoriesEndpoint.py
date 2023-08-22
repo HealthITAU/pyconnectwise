@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesIdEndpoi
     ProcurementCategoriesIdSubcategoriesIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesInfoEndpoint import \
     ProcurementCategoriesIdSubcategoriesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

@@ -5,8 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsCountEndpo
     CompanyCompaniesIdTypeassociationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesIdTypeassociationsIdEndpoint import \
     CompanyCompaniesIdTypeassociationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.models.manage import CompanyCompanyTypeAssociation
+from pyconnectwise.models.manage import CompanyCompanyTypeAssociationCompanyTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -33,7 +32,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[CompanyCompanyTypeAssociation]:
+    ) -> PaginatedResponse[CompanyCompanyTypeAssociationCompanyTypeAssociation]:
         """
         Performs a GET request against the /company/companies/{id}/typeAssociations endpoint and returns an initialized PaginatedResponse object.
 
@@ -42,19 +41,21 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[CompanyCompanyTypeAssociation]: The initialized PaginatedResponse object.
+            PaginatedResponse[CompanyCompanyTypeAssociationCompanyTypeAssociation]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            CompanyCompanyTypeAssociation,
+            CompanyCompanyTypeAssociationCompanyTypeAssociation,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyCompanyTypeAssociation]:
+    def get(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> list[CompanyCompanyTypeAssociationCompanyTypeAssociation]:
         """
         Performs a GET request against the /company/companies/{id}/typeAssociations endpoint.
 
@@ -62,13 +63,16 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[CompanyCompanyTypeAssociation]: The parsed response data.
+            list[CompanyCompanyTypeAssociationCompanyTypeAssociation]: The parsed response data.
         """
         return self._parse_many(
-            CompanyCompanyTypeAssociation, super()._make_request("GET", data=data, params=params).json()
+            CompanyCompanyTypeAssociationCompanyTypeAssociation,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CompanyCompanyTypeAssociation:
+    def post(
+        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+    ) -> CompanyCompanyTypeAssociationCompanyTypeAssociation:
         """
         Performs a POST request against the /company/companies/{id}/typeAssociations endpoint.
 
@@ -76,8 +80,9 @@ class CompanyCompaniesIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            CompanyCompanyTypeAssociation: The parsed response data.
+            CompanyCompanyTypeAssociationCompanyTypeAssociation: The parsed response data.
         """
         return self._parse_one(
-            CompanyCompanyTypeAssociation, super()._make_request("POST", data=data, params=params).json()
+            CompanyCompanyTypeAssociationCompanyTypeAssociation,
+            super()._make_request("POST", data=data, params=params).json(),
         )

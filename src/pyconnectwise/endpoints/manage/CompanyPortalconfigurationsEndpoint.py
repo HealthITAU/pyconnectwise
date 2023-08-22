@@ -8,7 +8,6 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsCountEndpoint imp
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdEndpoint import CompanyPortalconfigurationsIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupEndpoint import \
     CompanyPortalconfigurationsInvoicesetupEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PortalConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -17,10 +16,10 @@ class CompanyPortalconfigurationsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalConfigurations", parent_endpoint=parent_endpoint)
 
+        self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
         self.invoice_setup = self._register_child_endpoint(
             CompanyPortalconfigurationsInvoicesetupEndpoint(client, parent_endpoint=self)
         )
-        self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsCountEndpoint(client, parent_endpoint=self)
         )

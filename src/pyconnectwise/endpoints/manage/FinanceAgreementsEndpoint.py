@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceAgreementsCountEndpoint import FinanceAgreementsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsIdEndpoint import FinanceAgreementsIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsTypesEndpoint import FinanceAgreementsTypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Agreement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

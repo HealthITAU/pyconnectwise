@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint i
     FinanceAccountingpackagesetupCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupIdEndpoint import \
     FinanceAccountingpackagesetupIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AccountingPackageSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

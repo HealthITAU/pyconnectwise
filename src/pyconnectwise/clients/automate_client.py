@@ -52,10 +52,10 @@ class ConnectWiseAutomateAPIClient:
             username (str): Your ConnectWise Automate API username.
             password (str): Your ConnectWise Automate API password.
         """
-        self.client_id = client_id
-        self.automate_url = automate_url
-        self.username = username
-        self.password = password
+        self.client_id: str = client_id
+        self.automate_url: str = automate_url
+        self.username: str = username
+        self.password: str = password
         self.token_expiry_time: datetime = datetime.utcnow()
 
         # Grab first access token

@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectSecurityrolesCountEndpoint import ProjectSecurityrolesCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdEndpoint import ProjectSecurityrolesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectSecurityRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

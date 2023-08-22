@@ -2,8 +2,7 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ComputersIdScheduledscriptsIdEndpoint import ComputersIdScheduledscriptsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import ScheduledScript
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechScheduledScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -26,7 +25,7 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[ScheduledScript]:
+    ) -> PaginatedResponse[LabTechScheduledScript]:
         """
         Performs a GET request against the /Computers/{id}/Scheduledscripts endpoint and returns an initialized PaginatedResponse object.
 
@@ -35,19 +34,19 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[ScheduledScript]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechScheduledScript]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            ScheduledScript,
+            LabTechScheduledScript,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduledScript]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechScheduledScript]:
         """
         Performs a GET request against the /Computers/{id}/Scheduledscripts endpoint.
 
@@ -55,11 +54,11 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[ScheduledScript]: The parsed response data.
+            list[LabTechScheduledScript]: The parsed response data.
         """
-        return self._parse_many(ScheduledScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechScheduledScript, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduledScript:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechScheduledScript:
         """
         Performs a POST request against the /Computers/{id}/Scheduledscripts endpoint.
 
@@ -67,6 +66,6 @@ class ComputersIdScheduledscriptsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            ScheduledScript: The parsed response data.
+            LabTechScheduledScript: The parsed response data.
         """
-        return self._parse_one(ScheduledScript, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechScheduledScript, super()._make_request("POST", data=data, params=params).json())

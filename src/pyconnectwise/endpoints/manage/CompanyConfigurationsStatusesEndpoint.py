@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesIdEndpoint impo
     CompanyConfigurationsStatusesIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsStatusesInfoEndpoint import \
     CompanyConfigurationsStatusesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConfigurationStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

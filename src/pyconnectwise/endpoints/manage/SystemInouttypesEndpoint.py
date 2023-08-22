@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemInouttypesCountEndpoint import SystemInouttypesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemInouttypesIdEndpoint import SystemInouttypesIdEndpoint
 from pyconnectwise.endpoints.manage.SystemInouttypesInfoEndpoint import SystemInouttypesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InOutType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

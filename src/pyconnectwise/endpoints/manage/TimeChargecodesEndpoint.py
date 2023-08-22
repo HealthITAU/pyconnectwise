@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.TimeChargecodesCountEndpoint import TimeChargecodesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeChargecodesIdEndpoint import TimeChargecodesIdEndpoint
 from pyconnectwise.endpoints.manage.TimeChargecodesInfoEndpoint import TimeChargecodesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ChargeCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

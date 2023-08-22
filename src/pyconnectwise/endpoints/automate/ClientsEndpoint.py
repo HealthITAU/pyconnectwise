@@ -2,8 +2,7 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ClientsIdEndpoint import ClientsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import Client
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechClient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -24,7 +23,9 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Client]:
+    def paginated(
+        self, page: int, page_size: int, params: dict[str, int | str] = {}
+    ) -> PaginatedResponse[LabTechClient]:
         """
         Performs a GET request against the /Clients endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,19 +34,19 @@ class ClientsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[Client]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechClient]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            Client,
+            LabTechClient,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Client]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechClient]:
         """
         Performs a GET request against the /Clients endpoint.
 
@@ -53,11 +54,11 @@ class ClientsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[Client]: The parsed response data.
+            list[LabTechClient]: The parsed response data.
         """
-        return self._parse_many(Client, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechClient, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Client:
+    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechClient:
         """
         Performs a POST request against the /Clients endpoint.
 
@@ -65,6 +66,6 @@ class ClientsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            Client: The parsed response data.
+            LabTechClient: The parsed response data.
         """
-        return self._parse_one(Client, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(LabTechClient, super()._make_request("POST", data=data, params=params).json())

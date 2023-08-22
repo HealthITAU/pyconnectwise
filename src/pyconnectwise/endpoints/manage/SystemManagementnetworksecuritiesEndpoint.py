@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesCountEndpoi
     SystemManagementnetworksecuritiesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesIdEndpoint import \
     SystemManagementnetworksecuritiesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementNetworkSecurity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

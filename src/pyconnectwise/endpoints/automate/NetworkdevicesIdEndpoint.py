@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import NetworkDevice
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechNetworkDevice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[NetworkDevice]:
+    ) -> PaginatedResponse[LabTechNetworkDevice]:
         """
         Performs a GET request against the /Networkdevices/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[NetworkDevice]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechNetworkDevice]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            NetworkDevice,
+            LabTechNetworkDevice,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NetworkDevice:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechNetworkDevice:
         """
         Performs a GET request against the /Networkdevices/{id} endpoint.
 
@@ -41,11 +40,11 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            NetworkDevice: The parsed response data.
+            LabTechNetworkDevice: The parsed response data.
         """
-        return self._parse_one(NetworkDevice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(LabTechNetworkDevice, super()._make_request("GET", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> NetworkDevice:
+    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechNetworkDevice:
         """
         Performs a PATCH request against the /Networkdevices/{id} endpoint.
 
@@ -53,6 +52,6 @@ class NetworkdevicesIdEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            NetworkDevice: The parsed response data.
+            LabTechNetworkDevice: The parsed response data.
         """
-        return self._parse_one(NetworkDevice, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(LabTechNetworkDevice, super()._make_request("PATCH", data=data, params=params).json())

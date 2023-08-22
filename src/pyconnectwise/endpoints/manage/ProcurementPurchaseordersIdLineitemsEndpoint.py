@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsCountEnd
     ProcurementPurchaseordersIdLineitemsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseordersIdLineitemsIdEndpoint import \
     ProcurementPurchaseordersIdLineitemsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PurchaseOrderLineItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,11 +15,11 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "lineitems", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ProcurementPurchaseordersIdLineitemsCountEndpoint(client, parent_endpoint=self)
-        )
         self.bulk = self._register_child_endpoint(
             ProcurementPurchaseordersIdLineitemsBulkEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(
+            ProcurementPurchaseordersIdLineitemsCountEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> ProcurementPurchaseordersIdLineitemsIdEndpoint:
@@ -83,14 +82,12 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PurchaseOrderLineItem, super()._make_request("POST", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /procurement/purchaseorders/{id}/lineitems endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)

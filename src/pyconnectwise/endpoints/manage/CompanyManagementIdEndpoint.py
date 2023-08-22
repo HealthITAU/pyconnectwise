@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.CompanyManagementIdLogEndpoint import Compan
 from pyconnectwise.endpoints.manage.CompanyManagementIdLogsEndpoint import CompanyManagementIdLogsEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementIdManagementreportnotificationsEndpoint import \
     CompanyManagementIdManagementreportnotificationsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Management
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -16,14 +15,14 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.logs = self._register_child_endpoint(CompanyManagementIdLogsEndpoint(client, parent_endpoint=self))
+        self.log = self._register_child_endpoint(CompanyManagementIdLogEndpoint(client, parent_endpoint=self))
         self.management_report_notifications = self._register_child_endpoint(
             CompanyManagementIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
         )
+        self.logs = self._register_child_endpoint(CompanyManagementIdLogsEndpoint(client, parent_endpoint=self))
         self.execute_managed_it_sync = self._register_child_endpoint(
             CompanyManagementIdExecutemanageditsyncEndpoint(client, parent_endpoint=self)
         )
-        self.log = self._register_child_endpoint(CompanyManagementIdLogEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Management]:
         """

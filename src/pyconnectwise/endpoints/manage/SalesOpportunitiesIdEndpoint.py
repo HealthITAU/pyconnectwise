@@ -13,7 +13,6 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesIdConverttoserviceticketEn
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastEndpoint import SalesOpportunitiesIdForecastEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdNotesEndpoint import SalesOpportunitiesIdNotesEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesIdTeamEndpoint import SalesOpportunitiesIdTeamEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Opportunity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -22,18 +21,18 @@ class SalesOpportunitiesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.notes = self._register_child_endpoint(SalesOpportunitiesIdNotesEndpoint(client, parent_endpoint=self))
-        self.convert_to_project = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttoprojectEndpoint(client, parent_endpoint=self)
-        )
-        self.convert_to_service_ticket = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
-        )
         self.forecast = self._register_child_endpoint(
             SalesOpportunitiesIdForecastEndpoint(client, parent_endpoint=self)
         )
         self.convert_to_sales_order = self._register_child_endpoint(
             SalesOpportunitiesIdConverttosalesorderEndpoint(client, parent_endpoint=self)
+        )
+        self.notes = self._register_child_endpoint(SalesOpportunitiesIdNotesEndpoint(client, parent_endpoint=self))
+        self.convert_to_service_ticket = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
+        )
+        self.convert_to_project = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttoprojectEndpoint(client, parent_endpoint=self)
         )
         self.contacts = self._register_child_endpoint(
             SalesOpportunitiesIdContactsEndpoint(client, parent_endpoint=self)
@@ -76,17 +75,15 @@ class SalesOpportunitiesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Opportunity, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /sales/opportunities/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Opportunity:
         """

@@ -1,7 +1,6 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import EntityTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -14,7 +13,7 @@ class CompanyEntitytypesIdInfoEndpoint(ConnectWiseEndpoint):
         self, page: int, page_size: int, params: dict[str, int | str] = {}
     ) -> PaginatedResponse[EntityTypeInfo]:
         """
-        Performs a GET request against the /company/entityTypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
+        Performs a GET request against the /company/entitytypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
         Parameters:
             page (int): The page number to request.
@@ -35,7 +34,7 @@ class CompanyEntitytypesIdInfoEndpoint(ConnectWiseEndpoint):
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EntityTypeInfo:
         """
-        Performs a GET request against the /company/entityTypes/{id}/info endpoint.
+        Performs a GET request against the /company/entitytypes/{id}/info endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.

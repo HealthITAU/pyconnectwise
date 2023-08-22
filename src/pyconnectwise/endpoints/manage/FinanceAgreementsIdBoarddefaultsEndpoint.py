@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsCountEndpoin
     FinanceAgreementsIdBoarddefaultsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsIdBoarddefaultsIdEndpoint import \
     FinanceAgreementsIdBoarddefaultsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardDefault
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

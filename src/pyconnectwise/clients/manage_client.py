@@ -43,11 +43,11 @@ class ConnectWiseManageAPIClient:
             private_key (str): Your ConnectWise Manage API Private key.
             codebase (str, optional): Your ConnectWise Manage Codebase. If not provided, it will be fetched from the API. Defaults to None.
         """
-        self.client_id = client_id
-        self.company_name = company_name
-        self.manage_url = manage_url
-        self.public_key = public_key
-        self.private_key = private_key
+        self.client_id: str = client_id
+        self.company_name: str = company_name
+        self.manage_url: str = manage_url
+        self.public_key: str = public_key
+        self.private_key: str = private_key
 
         # Retrieve codebase from the API if not provided
         if not codebase:
@@ -60,7 +60,7 @@ class ConnectWiseManageAPIClient:
             if codebase_request is None:
                 # we need to except here
                 raise Exception("Could not retrieve codebase from API.")
-            self.codebase = codebase_request
+            self.codebase: str = codebase_request
 
         # Initializing endpoints
         self.company = CompanyEndpoint(self)

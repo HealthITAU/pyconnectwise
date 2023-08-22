@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ScheduleHolidaylistsIdHolidaysIdEndpoint imp
     ScheduleHolidaylistsIdHolidaysIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleHolidaylistsIdHolidaysInfoEndpoint import \
     ScheduleHolidaylistsIdHolidaysInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 

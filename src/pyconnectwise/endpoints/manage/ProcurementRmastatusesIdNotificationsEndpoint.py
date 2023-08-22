@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsCountEn
     ProcurementRmastatusesIdNotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsIdEndpoint import \
     ProcurementRmastatusesIdNotificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

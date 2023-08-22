@@ -6,7 +6,6 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdNotificationsEndpoi
     ServiceBoardsIdStatusesIdNotificationsEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdStatusesIdUsagesEndpoint import \
     ServiceBoardsIdStatusesIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -18,10 +17,10 @@ class ServiceBoardsIdStatusesIdEndpoint(ConnectWiseEndpoint):
         self.usages = self._register_child_endpoint(
             ServiceBoardsIdStatusesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ServiceBoardsIdStatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.notifications = self._register_child_endpoint(
             ServiceBoardsIdStatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ServiceBoardsIdStatusesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardStatus]:
         """
@@ -56,17 +55,15 @@ class ServiceBoardsIdStatusesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(BoardStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /service/boards/{id}/statuses/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardStatus:
         """

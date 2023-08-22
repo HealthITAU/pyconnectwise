@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaks
     ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint import \
     ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import PricingBreak
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

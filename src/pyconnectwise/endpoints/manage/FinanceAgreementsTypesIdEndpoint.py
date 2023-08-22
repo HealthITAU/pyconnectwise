@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceAgreementsTypesIdCopyEndpoint import FinanceAgreementsTypesIdCopyEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsTypesIdInfoEndpoint import FinanceAgreementsTypesIdInfoEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementsTypesIdUsagesEndpoint import FinanceAgreementsTypesIdUsagesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import AgreementType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -54,17 +53,15 @@ class FinanceAgreementsTypesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(AgreementType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GenericMessageModel:
+    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
         """
         Performs a DELETE request against the /finance/agreements/types/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            GenericMessageModel: The parsed response data.
         """
-        return self._parse_one(GenericMessageModel, super()._make_request("DELETE", data=data, params=params).json())
+        super()._make_request("DELETE", data=data, params=params)
 
     def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementType:
         """

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsCountEndpoint import \
     FinanceInvoicetemplatesetupsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsIdEndpoint import FinanceInvoicetemplatesetupsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import InvoiceTemplateSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

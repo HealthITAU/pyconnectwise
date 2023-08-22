@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceLocationsCountEndpoint import ServiceLocationsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceLocationsIdEndpoint import ServiceLocationsIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceLocationsInfoEndpoint import ServiceLocationsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ServiceLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementCategoriesCountEndpoint import ProcurementCategoriesCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCategoriesIdEndpoint import ProcurementCategoriesIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCategoriesInfoEndpoint import ProcurementCategoriesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Category
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

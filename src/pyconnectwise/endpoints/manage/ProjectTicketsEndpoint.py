@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProjectTicketsCountEndpoint import ProjectTicketsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsIdEndpoint import ProjectTicketsIdEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsSearchEndpoint import ProjectTicketsSearchEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ProjectTicket
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

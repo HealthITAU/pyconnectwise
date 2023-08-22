@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsCountEndpoin
     SystemWorkflowsIdEventsIdActionsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsIdEndpoint import \
     SystemWorkflowsIdEventsIdActionsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkflowAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

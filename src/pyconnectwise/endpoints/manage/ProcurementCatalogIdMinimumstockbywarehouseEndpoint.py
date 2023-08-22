@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseC
     ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint import \
     ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import MinimumStockByWarehouse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.ProcurementRmadispositionsCountEndpoint impo
     ProcurementRmadispositionsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmadispositionsIdEndpoint import ProcurementRmadispositionsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmadispositionsInfoEndpoint import ProcurementRmadispositionsInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import RmaDisposition
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

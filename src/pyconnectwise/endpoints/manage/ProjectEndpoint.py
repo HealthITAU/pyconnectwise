@@ -13,7 +13,6 @@ from pyconnectwise.endpoints.manage.ProjectStatusesEndpoint import ProjectStatus
 from pyconnectwise.endpoints.manage.ProjectStatusindicatorsEndpoint import ProjectStatusindicatorsEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketnoteEndpoint import ProjectTicketnoteEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsEndpoint import ProjectTicketsEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -23,19 +22,19 @@ class ProjectEndpoint(ConnectWiseEndpoint):
 
         self.projects = self._register_child_endpoint(ProjectProjectsEndpoint(client, parent_endpoint=self))
         self.phase_statuses = self._register_child_endpoint(ProjectPhasestatusesEndpoint(client, parent_endpoint=self))
-        self.billing_rates = self._register_child_endpoint(ProjectBillingratesEndpoint(client, parent_endpoint=self))
-        self.project_templates = self._register_child_endpoint(
-            ProjectProjecttemplatesEndpoint(client, parent_endpoint=self)
-        )
-        self.ticket_note = self._register_child_endpoint(ProjectTicketnoteEndpoint(client, parent_endpoint=self))
+        self.security_roles = self._register_child_endpoint(ProjectSecurityrolesEndpoint(client, parent_endpoint=self))
         self.status_indicators = self._register_child_endpoint(
             ProjectStatusindicatorsEndpoint(client, parent_endpoint=self)
         )
-        self.tickets = self._register_child_endpoint(ProjectTicketsEndpoint(client, parent_endpoint=self))
-        self.security_roles = self._register_child_endpoint(ProjectSecurityrolesEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(ProjectStatusesEndpoint(client, parent_endpoint=self))
+        self.ticket_note = self._register_child_endpoint(ProjectTicketnoteEndpoint(client, parent_endpoint=self))
+        self.billing_rates = self._register_child_endpoint(ProjectBillingratesEndpoint(client, parent_endpoint=self))
         self.project_types = self._register_child_endpoint(ProjectProjecttypesEndpoint(client, parent_endpoint=self))
+        self.tickets = self._register_child_endpoint(ProjectTicketsEndpoint(client, parent_endpoint=self))
         self.boards = self._register_child_endpoint(ProjectBoardsEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(ProjectStatusesEndpoint(client, parent_endpoint=self))
+        self.project_templates = self._register_child_endpoint(
+            ProjectProjecttemplatesEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ProjectIdEndpoint:
         """

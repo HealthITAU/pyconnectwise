@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceGlaccountsCountEndpoint import FinanceGlaccountsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceGlaccountsIdEndpoint import FinanceGlaccountsIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesEndpoint import FinanceGlaccountsMappedtypesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import GLAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -13,10 +12,10 @@ class FinanceGlaccountsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "glAccounts", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
         self.mapped_types = self._register_child_endpoint(
             FinanceGlaccountsMappedtypesEndpoint(client, parent_endpoint=self)
         )
+        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> FinanceGlaccountsIdEndpoint:
         """

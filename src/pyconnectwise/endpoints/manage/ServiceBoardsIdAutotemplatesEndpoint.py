@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesCountEndpoint import \
     ServiceBoardsIdAutotemplatesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesIdEndpoint import ServiceBoardsIdAutotemplatesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import BoardAutoTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

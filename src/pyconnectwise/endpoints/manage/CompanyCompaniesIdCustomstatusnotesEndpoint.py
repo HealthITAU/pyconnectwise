@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesCountEndp
     CompanyCompaniesIdCustomstatusnotesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesIdCustomstatusnotesIdEndpoint import \
     CompanyCompaniesIdCustomstatusnotesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CompanyCustomNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

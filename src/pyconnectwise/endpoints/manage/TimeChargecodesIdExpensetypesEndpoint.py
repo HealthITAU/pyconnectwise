@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesCountEndpoint i
     TimeChargecodesIdExpensetypesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesIdEndpoint import \
     TimeChargecodesIdExpensetypesIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ChargeCodeExpenseType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

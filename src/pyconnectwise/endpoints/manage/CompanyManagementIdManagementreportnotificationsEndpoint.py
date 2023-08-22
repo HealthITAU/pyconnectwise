@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.CompanyManagementIdManagementreportnotificat
     CompanyManagementIdManagementreportnotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementIdManagementreportnotificationsIdEndpoint import \
     CompanyManagementIdManagementreportnotificationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ManagementReportNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

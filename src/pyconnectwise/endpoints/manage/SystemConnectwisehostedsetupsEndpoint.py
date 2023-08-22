@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemConnectwisehostedsetupsCountEndpoint i
     SystemConnectwisehostedsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemConnectwisehostedsetupsIdEndpoint import \
     SystemConnectwisehostedsetupsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import ConnectWiseHostedSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

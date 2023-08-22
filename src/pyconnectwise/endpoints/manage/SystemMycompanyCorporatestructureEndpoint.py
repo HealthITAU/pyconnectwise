@@ -7,7 +7,6 @@ from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint 
     SystemMycompanyCorporatestructureIdEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import \
     SystemMycompanyCorporatestructureInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import CorporateStructure
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

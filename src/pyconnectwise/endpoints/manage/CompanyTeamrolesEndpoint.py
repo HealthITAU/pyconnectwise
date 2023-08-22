@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.CompanyTeamrolesCountEndpoint import CompanyTeamrolesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyTeamrolesIdEndpoint import CompanyTeamrolesIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyTeamrolesInfoEndpoint import CompanyTeamrolesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TeamRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.LabTech.Models import LicensedProduct
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import LabTechLicensedProduct
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class LicensedproductsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[LicensedProduct]:
+    ) -> PaginatedResponse[LabTechLicensedProduct]:
         """
         Performs a GET request against the /Licensedproducts endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class LicensedproductsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[LicensedProduct]: The initialized PaginatedResponse object.
+            PaginatedResponse[LabTechLicensedProduct]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            LicensedProduct,
+            LabTechLicensedProduct,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LicensedProduct]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechLicensedProduct]:
         """
         Performs a GET request against the /Licensedproducts endpoint.
 
@@ -41,6 +40,6 @@ class LicensedproductsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[LicensedProduct]: The parsed response data.
+            list[LabTechLicensedProduct]: The parsed response data.
         """
-        return self._parse_many(LicensedProduct, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(LabTechLicensedProduct, super()._make_request("GET", data=data, params=params).json())

@@ -9,7 +9,6 @@ from pyconnectwise.endpoints.manage.SystemInfoLocationsEndpoint import SystemInf
 from pyconnectwise.endpoints.manage.SystemInfoMembersEndpoint import SystemInfoMembersEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoPersonasEndpoint import SystemInfoPersonasEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoStandardnotesEndpoint import SystemInfoStandardnotesEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Info
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -18,18 +17,18 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
+        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
         self.personas = self._register_child_endpoint(SystemInfoPersonasEndpoint(client, parent_endpoint=self))
         self.departmentlocations = self._register_child_endpoint(
             SystemInfoDepartmentlocationsEndpoint(client, parent_endpoint=self)
         )
+        self.departments = self._register_child_endpoint(SystemInfoDepartmentsEndpoint(client, parent_endpoint=self))
         self.locales = self._register_child_endpoint(SystemInfoLocalesEndpoint(client, parent_endpoint=self))
-        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
         self.locations = self._register_child_endpoint(SystemInfoLocationsEndpoint(client, parent_endpoint=self))
         self.members = self._register_child_endpoint(SystemInfoMembersEndpoint(client, parent_endpoint=self))
         self.standard_notes = self._register_child_endpoint(
             SystemInfoStandardnotesEndpoint(client, parent_endpoint=self)
         )
-        self.departments = self._register_child_endpoint(SystemInfoDepartmentsEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Info]:
         """

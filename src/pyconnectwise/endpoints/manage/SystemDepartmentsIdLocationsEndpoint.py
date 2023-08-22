@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsCountEndpoint import \
     SystemDepartmentsIdLocationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemDepartmentsIdLocationsIdEndpoint import SystemDepartmentsIdLocationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import DepartmentLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

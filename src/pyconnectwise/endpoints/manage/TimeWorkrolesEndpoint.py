@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.TimeWorkrolesCountEndpoint import TimeWorkrolesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeWorkrolesIdEndpoint import TimeWorkrolesIdEndpoint
 from pyconnectwise.endpoints.manage.TimeWorkrolesInfoEndpoint import TimeWorkrolesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

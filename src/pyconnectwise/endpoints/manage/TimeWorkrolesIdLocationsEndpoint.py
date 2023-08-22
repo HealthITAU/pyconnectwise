@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsCountEndpoint import TimeWorkrolesIdLocationsCountEndpoint
 from pyconnectwise.endpoints.manage.TimeWorkrolesIdLocationsIdEndpoint import TimeWorkrolesIdLocationsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import WorkRoleLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

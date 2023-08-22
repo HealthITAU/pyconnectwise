@@ -5,7 +5,6 @@ from pyconnectwise.endpoints.manage.SystemMembersCountEndpoint import SystemMemb
 from pyconnectwise.endpoints.manage.SystemMembersIdEndpoint import SystemMembersIdEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersTypesEndpoint import SystemMembersTypesEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersWithssoEndpoint import SystemMembersWithssoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import Member
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
@@ -14,9 +13,9 @@ class SystemMembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "members", parent_endpoint=parent_endpoint)
 
+        self.with_sso = self._register_child_endpoint(SystemMembersWithssoEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(SystemMembersTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SystemMembersCountEndpoint(client, parent_endpoint=self))
-        self.with_sso = self._register_child_endpoint(SystemMembersWithssoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemMembersIdEndpoint:
         """

@@ -3,7 +3,6 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SalesSalesteamsCountEndpoint import SalesSalesteamsCountEndpoint
 from pyconnectwise.endpoints.manage.SalesSalesteamsIdEndpoint import SalesSalesteamsIdEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import SalesTeam
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 

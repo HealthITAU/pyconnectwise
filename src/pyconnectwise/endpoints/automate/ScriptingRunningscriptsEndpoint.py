@@ -1,8 +1,7 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.models.automate.Automate.Api.Domain.Contracts.Scripts.RunningScripts import RunningScript
-from pyconnectwise.models.base.message_model import GenericMessageModel
+from pyconnectwise.models.automate import AutomateRunningScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 
@@ -12,7 +11,7 @@ class ScriptingRunningscriptsEndpoint(ConnectWiseEndpoint):
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
-    ) -> PaginatedResponse[RunningScript]:
+    ) -> PaginatedResponse[AutomateRunningScript]:
         """
         Performs a GET request against the /Scripting/Runningscripts endpoint and returns an initialized PaginatedResponse object.
 
@@ -21,19 +20,19 @@ class ScriptingRunningscriptsEndpoint(ConnectWiseEndpoint):
             page_size (int): The number of results to return per page.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            PaginatedResponse[RunningScript]: The initialized PaginatedResponse object.
+            PaginatedResponse[AutomateRunningScript]: The initialized PaginatedResponse object.
         """
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
             super()._make_request("GET", params=params),
-            RunningScript,
+            AutomateRunningScript,
             self,
             page,
             page_size,
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RunningScript]:
+    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AutomateRunningScript]:
         """
         Performs a GET request against the /Scripting/Runningscripts endpoint.
 
@@ -41,6 +40,6 @@ class ScriptingRunningscriptsEndpoint(ConnectWiseEndpoint):
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
         Returns:
-            list[RunningScript]: The parsed response data.
+            list[AutomateRunningScript]: The parsed response data.
         """
-        return self._parse_many(RunningScript, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(AutomateRunningScript, super()._make_request("GET", data=data, params=params).json())

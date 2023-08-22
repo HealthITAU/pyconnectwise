@@ -4,7 +4,6 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceTaxcodesCountEndpoint import FinanceTaxcodesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdEndpoint import FinanceTaxcodesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesInfoEndpoint import FinanceTaxcodesInfoEndpoint
-from pyconnectwise.models.base.message_model import GenericMessageModel
 from pyconnectwise.models.manage import TaxCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 
