@@ -3,6 +3,7 @@ import requests
 from requests import Response
 from typing import Any
 from typing import TypeVar, Type
+from pydantic import BaseModel
 
 TChildEndpoint = TypeVar("TChildEndpoint", bound="ConnectWiseEndpoint")
 TSelf = TypeVar("TSelf", bound="ConnectWiseEndpoint")
@@ -174,13 +175,3 @@ class ConnectWiseEndpoint:
 
     def _parse_one(self, model_type: Type[T], data: dict[str, Any]) -> T:
         return model_type.model_validate(data)
-
-    def id(self: TSelf, id: int) -> TSelf:
-        """
-        Set the ID for the current endpoint.
-
-        Args:
-            id (int): The ID to set.
-        """
-        self._id = id
-        return self
