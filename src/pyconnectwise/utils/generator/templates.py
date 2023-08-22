@@ -1,8 +1,7 @@
 from jinja2 import Template
 
 endpoint_template = Template(
-    """from pyconnectwise.models.base.message_model import GenericMessageModel
-from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+    """from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
 {%- if additional_imports is defined %}
@@ -64,18 +63,23 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
     {% endif %}
 
     {%- for operation in operations %}
-    def {{ operation.name }}(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> {{ operation.return_type }}:
+    def {{ operation.name }}(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> {{ 'None' if operation.void else operation.return_type }}:
         \"""
         Performs a {{ operation.name.upper() }} request against the {{ raw_path }} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
             params (dict[str, int | str]): The parameters to send in the request query string.
+        {%- if not operation.void %}
         Returns:
             {{ operation.return_type }}: The parsed response data.
+        {%- endif %}
         \"""
+
         {%- if operation.returns_single %}
         return self._parse_one({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
+        {% elif operation.void %}
+        super()._make_request("{{ operation.name.upper() }}", data=data, params=params)
         {% else %}
         return self._parse_many({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
         {% endif %}
@@ -118,11 +122,11 @@ class ConnectWiseManageAPIClient:
             private_key (str): Your ConnectWise Manage API Private key.
             codebase (str, optional): Your ConnectWise Manage Codebase. If not provided, it will be fetched from the API. Defaults to None.
         \"""
-        self.client_id = client_id
-        self.company_name = company_name
-        self.manage_url = manage_url
-        self.public_key = public_key
-        self.private_key = private_key
+        self.client_id: str = client_id
+        self.company_name: str = company_name
+        self.manage_url: str = manage_url
+        self.public_key: str = public_key
+        self.private_key: str = private_key
         
         # Retrieve codebase from the API if not provided
         if not codebase:
@@ -135,7 +139,7 @@ class ConnectWiseManageAPIClient:
             if codebase_request is None:
                 # we need to except here
                 raise Exception("Could not retrieve codebase from API.")
-            self.codebase = codebase_request
+            self.codebase: str = codebase_request
             
 
         # Initializing endpoints
@@ -237,10 +241,10 @@ class ConnectWiseAutomateAPIClient:
             username (str): Your ConnectWise Automate API username.
             password (str): Your ConnectWise Automate API password.
         \"""
-        self.client_id = client_id
-        self.automate_url = automate_url
-        self.username = username
-        self.password = password
+        self.client_id: str = client_id
+        self.automate_url: str = automate_url
+        self.username: str = username
+        self.password: str = password
         self.token_expiry_time: datetime = datetime.utcnow()
 
         # Grab first access token
