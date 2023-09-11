@@ -159,9 +159,14 @@ class ConnectWiseEndpoint:
         if endpoint:
             url = self._url_join(url, endpoint)
 
-        response = requests.request(
-            method, url, headers=self.client._get_headers(), json=data, params=params
-        )
+        if not data:
+            response = requests.request(
+                method, url, headers=self.client._get_headers(), params=params
+            )
+        else:
+            response = requests.request(
+                method, url, headers=self.client._get_headers(), json=data, params=params
+            )
 
         if response.status_code >= 400:
             raise Exception(
