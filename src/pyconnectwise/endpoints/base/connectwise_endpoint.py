@@ -1,9 +1,10 @@
 from __future__ import annotations
-import requests
 from requests import Response
 from typing import Any
-from typing import TypeVar, Type
-from pydantic import BaseModel
+from typing import TypeVar, Type, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 TChildEndpoint = TypeVar("TChildEndpoint", bound="ConnectWiseEndpoint")
 TSelf = TypeVar("TSelf", bound="ConnectWiseEndpoint")
@@ -53,7 +54,7 @@ class ConnectWiseEndpoint:
 
     def __init__(
         self,
-        client,
+        client: ConnectWiseClient,
         endpoint_url: str,
         parent_endpoint: ConnectWiseEndpoint | None = None,
     ):
@@ -103,20 +104,13 @@ class ConnectWiseEndpoint:
             return self.endpoint_base
         return self.endpoint_base.replace("{id}", str(self._id))
 
-    def _make_request_and_get_json(
-        self,
-        endpoint=None,
-        data: dict[str, Any] = {},
-        params: dict[str, int | str] = {},
-    ) -> dict[str, Any]:
-        return self._make_request("GET", endpoint, data, params).json()
-
     def _make_request(
         self,
         method: str,
-        endpoint=None,
-        data: dict[str, Any] = {},
-        params: dict[str, int | str] = {},
+        endpoint: 'ConnectWiseEndpoint' = None,
+        data: dict[str, Any] = None,
+        params: dict[str, int | str] = None,
+        headers: dict[str, str] = None,
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -135,45 +129,27 @@ class ConnectWiseEndpoint:
         Raises:
             Exception: If the request returns a status code >= 400.
         """
-        if not params:
-            params = {}
-        if not data:
-            data = {}
 
-        def build_url(endpoint: ConnectWiseEndpoint) -> str:
-            if endpoint._parent_endpoint is not None:
-                parent_url = build_url(endpoint._parent_endpoint)
-                if endpoint._parent_endpoint._id is not None:
+        def build_url(other_endpoint: ConnectWiseEndpoint) -> str:
+            if other_endpoint._parent_endpoint is not None:
+                parent_url = build_url(other_endpoint._parent_endpoint)
+                if other_endpoint._parent_endpoint._id is not None:
                     return self._url_join(
                         parent_url,
-                        endpoint._get_replaced_url(),
+                        other_endpoint._get_replaced_url(),
                     )
                 else:
-                    return self._url_join(parent_url, endpoint._get_replaced_url())
+                    return self._url_join(parent_url, other_endpoint._get_replaced_url())
             else:
                 return self._url_join(
-                    self.client._get_url(), endpoint._get_replaced_url()
+                    self.client._get_url(), other_endpoint._get_replaced_url()
                 )
 
         url = build_url(self)
         if endpoint:
             url = self._url_join(url, endpoint)
 
-        if not data:
-            response = requests.request(
-                method, url, headers=self.client._get_headers(), params=params
-            )
-        else:
-            response = requests.request(
-                method, url, headers=self.client._get_headers(), json=data, params=params
-            )
-
-        if response.status_code >= 400:
-            raise Exception(
-                f"Request failed with status code {response.status_code}: {response.text}"
-            )
-
-        return response
+        return self.client._make_request(method, url, data, params, headers)
 
     def _parse_many(self, model_type: Type[T], data: list[dict[str, Any]]) -> list[T]:
         return [model_type.model_validate(d) for d in data]
