@@ -204,3 +204,4 @@ automate_json/automate_tickets.json
 merged_spec1.json
 postprocess.py
 .vscode/
+/tests/
