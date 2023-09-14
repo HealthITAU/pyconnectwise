@@ -1,8 +1,4 @@
-import base64
 from datetime import datetime
-
-import requests
-
 from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
 from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
 from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
@@ -28,19 +24,23 @@ from pyconnectwise.endpoints.automate.SystemEndpoint import SystemEndpoint
 from pyconnectwise.endpoints.automate.UserclassesEndpoint import UserclassesEndpoint
 from pyconnectwise.endpoints.automate.UsersEndpoint import UsersEndpoint
 
+from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+from pyconnectwise.config import Config
 
-class ConnectWiseAutomateAPIClient:
+
+class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     """
     ConnectWise Automate API client. Handles the connection to the ConnectWise Automate API
     and the configuration of all the available endpoints.
     """
 
     def __init__(
-        self,
-        automate_url: str,
-        client_id: str,
-        username: str,
-        password: str,
+            self,
+            automate_url: str,
+            client_id: str,
+            username: str,
+            password: str,
+            config: Config = None
     ):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -51,12 +51,16 @@ class ConnectWiseAutomateAPIClient:
             client_id (str): Your ConnectWise Automate API Client ID.
             username (str): Your ConnectWise Automate API username.
             password (str): Your ConnectWise Automate API password.
+            config (Config, optional): Optional additional configuration for API interactions.
         """
         self.client_id: str = client_id
         self.automate_url: str = automate_url
         self.username: str = username
         self.password: str = password
         self.token_expiry_time: datetime = datetime.utcnow()
+
+        if config:
+            self.config = config
 
         # Grab first access token
         self.access_token: str = self._get_access_token()
@@ -100,18 +104,12 @@ class ConnectWiseAutomateAPIClient:
         """
         Performs a request to the ConnectWise Automate API to obtain an access token.
         """
-        token: str = ""
-        try:
-            auth_response = requests.post(
-                f"{self._get_url()}/apitoken",
-                json={"UserName": self.username, "Password": self.password},
-                headers={"Content-Type": "application/json", "ClientId": self.client_id},
-            ).json()
-            token = auth_response["AccessToken"]
-            self.token_expiry_time = datetime.fromisoformat(auth_response["ExpirationDate"])
-        except Exception as e:
-            print(e)
-            return token
+        auth_response = self._make_request("POST", f"{self._get_url()}/apitoken",
+                                           data={"UserName": self.username, "Password": self.password},
+                                           headers={"Content-Type": "application/json", "ClientId": self.client_id})
+        auth_resp_json = auth_response.json()
+        token = auth_resp_json["AccessToken"]
+        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
         return token
 
     def _refresh_access_token_if_necessary(self):

@@ -1,6 +1,6 @@
 import base64
-
-import requests
+from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+from pyconnectwise.config import Config
 
 from pyconnectwise.endpoints.manage.CompanyEndpoint import CompanyEndpoint
 from pyconnectwise.endpoints.manage.ConfigurationsEndpoint import ConfigurationsEndpoint
@@ -16,7 +16,7 @@ from pyconnectwise.endpoints.manage.SystemEndpoint import SystemEndpoint
 from pyconnectwise.endpoints.manage.TimeEndpoint import TimeEndpoint
 
 
-class ConnectWiseManageAPIClient:
+class ConnectWiseManageAPIClient(ConnectWiseClient):
     """
     ConnectWise Manage API client. Handles the connection to the ConnectWise Manage API
     and the configuration of all the available endpoints.
@@ -30,6 +30,7 @@ class ConnectWiseManageAPIClient:
         public_key: str,
         private_key: str,
         codebase: str | None = None,
+        config: Config = None
     ):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -42,12 +43,16 @@ class ConnectWiseManageAPIClient:
             public_key (str): Your ConnectWise Manage API Public key.
             private_key (str): Your ConnectWise Manage API Private key.
             codebase (str, optional): Your ConnectWise Manage Codebase. If not provided, it will be fetched from the API. Defaults to None.
+            config (Config, optional): Optional additional configuration for API interactions.
         """
         self.client_id: str = client_id
         self.company_name: str = company_name
         self.manage_url: str = manage_url
         self.public_key: str = public_key
         self.private_key: str = private_key
+
+        if config:
+            self.config = config
 
         # Retrieve codebase from the API if not provided
         if not codebase:
@@ -56,11 +61,7 @@ class ConnectWiseManageAPIClient:
                 company_name=company_name,
                 headers=self._get_headers(),
             )
-
-            if codebase_request is None:
-                # we need to except here
-                raise Exception("Could not retrieve codebase from API.")
-            self.codebase: str = codebase_request
+            self.codebase: str = codebase_request.strip('/')
 
         # Initializing endpoints
         self.company = CompanyEndpoint(self)
@@ -83,7 +84,7 @@ class ConnectWiseManageAPIClient:
         Returns:
             str: API URL.
         """
-        return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
+        return f"https://{self.manage_url}/{self.codebase}/apis/3.0"
 
     def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str | None:
         """
@@ -97,13 +98,9 @@ class ConnectWiseManageAPIClient:
         Returns:
             str: Codebase string or None if an error occurs.
         """
-        result = ""
-        try:
-            url = f"https://{manage_url}/login/companyinfo/{company_name}"
-            result = requests.request("GET", url, headers=headers).json().get("Codebase")
-        except:
-            result = None
-        return result
+        url = f"https://{manage_url}/login/companyinfo/{company_name}"
+        response = self._make_request("GET", url, headers=headers)
+        return response.json().get("Codebase")
 
     def _get_auth_string(self) -> str:
         """
