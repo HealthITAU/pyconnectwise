@@ -23,8 +23,7 @@ Endpoint generation is custom-built, but Pydantic models have been generated usi
 Known Issues:
 =============
 - Currently only parses **Response** models. No input models yet.
-- As this project is still a WIP, documentation or code commentary may not always align. 
-- Little to no error handling just yet
+- As this project is still a WIP, documentation or code commentary may not always align.
 
 Roadmap:
 =============
@@ -46,6 +45,7 @@ How-to:
   - [Get With Params](#get-with-params)
   - [Path Parameters](#child-endpoints)
 - [Pagination](#pagination)
+- [Additional Configuration](#additional-configuration)
 - [Examples](#examples)
 - [Contributing](#contributing)
 - [Supporting the project](#supporting-the-project)
@@ -65,7 +65,8 @@ manage_api_client = ConnectWiseManageAPIClient(
   # manage instance url,
   # your api client id,
   # your api public key,
-  # your api private key
+  # your api private key,
+  # optionally, a Config object for customizing API interactions. See [Additional Configuration].
 )
 ```
 
@@ -78,7 +79,8 @@ automate_api_client = ConnectWiseAutomateAPIClient(
   # your automate url
   # your client id
   # automate api username
-  # automate api password
+  # automate api password,
+  # optionally, a Config object for customizing API interactions. See [Additional Configuration].
 )
 ```
 
@@ -172,6 +174,27 @@ for company in paginated_companies:
 for company in paginated_companies.all():
   # ... do things ...
 ```
+
+# Additional Configuration
+As of version ```0.4.6```, pyConnectWise clients now accept a new ```Config``` object for additional API interaction configuration.
+
+### Implementation
+
+```python
+from pyconnectwise import ConnectWiseManageAPIClient, ConnectWiseAutomateAPIClient
+from pyconnectwise.config import Config
+
+# create an instance of Config with your own changes...
+config = Config(max_retries = 5)
+
+# ... and hand off to the clients during initialization
+manage_api_client = ConnectWiseManageAPIClient(config = config)
+automate_api_client = ConnectWiseAutomateAPIClient(config = config)
+```
+
+### Supported Options
+As of version ```0.4.6```, the following Config options are supported:
+* ```max_retries``` - The number of times to re-attempted a request if a HTTP 500 error occurs. Defaults to 3.
 
 # Examples
 
