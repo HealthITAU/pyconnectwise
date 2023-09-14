@@ -194,7 +194,7 @@ automate_api_client = ConnectWiseAutomateAPIClient(config = config)
 
 ### Supported Options
 As of version ```0.4.6```, the following Config options are supported:
-* ```max_retries``` - The number of times to re-attempted a request if a HTTP 500 error occurs. Defaults to 3.
+* ```max_retries``` - The number of times to re-attempt a request if a HTTP 500 error occurs. Defaults to 3.
 
 # Examples
 
