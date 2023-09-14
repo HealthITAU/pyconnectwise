@@ -89,14 +89,15 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
 
 manage_client_template = Template(
     """import base64
-import requests
+from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+from pyconnectwise.config import Config
 {%- if imports is defined %}
 {%- for import in imports %}
 {{ import }}
 {%- endfor %}
 {%- endif %}
 
-class ConnectWiseManageAPIClient:
+class ConnectWiseManageAPIClient(ConnectWiseClient):
     \"""
     ConnectWise Manage API client. Handles the connection to the ConnectWise Manage API
     and the configuration of all the available endpoints.
@@ -109,6 +110,7 @@ class ConnectWiseManageAPIClient:
         public_key: str,
         private_key: str,
         codebase: str | None = None,
+        config: Config = None
     ):
         \"""
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -121,12 +123,16 @@ class ConnectWiseManageAPIClient:
             public_key (str): Your ConnectWise Manage API Public key.
             private_key (str): Your ConnectWise Manage API Private key.
             codebase (str, optional): Your ConnectWise Manage Codebase. If not provided, it will be fetched from the API. Defaults to None.
+            config (Config, optional): Optional additional configuration for API interactions
         \"""
         self.client_id: str = client_id
         self.company_name: str = company_name
         self.manage_url: str = manage_url
         self.public_key: str = public_key
         self.private_key: str = private_key
+        
+        if config:
+            self.config = config
         
         # Retrieve codebase from the API if not provided
         if not codebase:
@@ -168,15 +174,9 @@ class ConnectWiseManageAPIClient:
         Returns:
             str: Codebase string or None if an error occurs.
         \"""
-        result = ""
-        try:
-            url = f"https://{manage_url}/login/companyinfo/{company_name}"
-            result = (
-                requests.request("GET", url, headers=headers).json().get("Codebase")
-            )
-        except:
-            result = None
-        return result
+        url = f"https://{manage_url}/login/companyinfo/{company_name}"
+        response = self._make_request("GET", url, headers=headers)
+        return response.json().get("Codebase")
 
     def _get_auth_string(self) -> str:
         \"""
@@ -211,7 +211,8 @@ class ConnectWiseManageAPIClient:
 
 automate_client_template = Template(
     """import base64
-import requests
+from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+from pyconnectwise.config import Config
 from datetime import datetime
 {%- if imports is defined %}
 {%- for import in imports %}
@@ -219,7 +220,7 @@ from datetime import datetime
 {%- endfor %}
 {%- endif %}
 
-class ConnectWiseAutomateAPIClient:
+class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     \"""
     ConnectWise Automate API client. Handles the connection to the ConnectWise Automate API
     and the configuration of all the available endpoints.
@@ -230,6 +231,7 @@ class ConnectWiseAutomateAPIClient:
         client_id: str,
         username: str,
         password: str,
+        config: Config = None
     ):
         \"""
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -240,12 +242,16 @@ class ConnectWiseAutomateAPIClient:
             client_id (str): Your ConnectWise Automate API Client ID.
             username (str): Your ConnectWise Automate API username.
             password (str): Your ConnectWise Automate API password.
+            config (Config, optional): Optional additional configuration for API interactions.
         \"""
         self.client_id: str = client_id
         self.automate_url: str = automate_url
         self.username: str = username
         self.password: str = password
         self.token_expiry_time: datetime = datetime.utcnow()
+        
+        if config:
+            self.config = config
 
         # Grab first access token
         self.access_token: str = self._get_access_token()
@@ -268,17 +274,10 @@ class ConnectWiseAutomateAPIClient:
         \"""
         Performs a request to the ConnectWise Automate API to obtain an access token.
         \"""
-        token: str = ""
-        try:
-            auth_response = requests.post(f'{self._get_url()}/apitoken', json={
-                "UserName": self.username,
-                "Password": self.password
-            }, headers={'Content-Type': 'application/json', 'ClientId': self.client_id}).json()
-            token = auth_response['AccessToken']
-            self.token_expiry_time = datetime.fromisoformat(auth_response['ExpirationDate'])
-        except Exception as e:
-            print(e)
-            return token
+        auth_response = self._make_request("POST", f"{self._get_url()}/apitoken", data={"UserName": self.username, "Password": self.password}, headers={"Content-Type": "application/json", "ClientId": self.client_id})
+        auth_resp_json = auth_response.json()
+        token = auth_resp_json["AccessToken"]
+        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
         return token
     
     def _refresh_access_token_if_necessary(self):
