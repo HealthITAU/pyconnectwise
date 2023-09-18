@@ -1,8 +1,9 @@
 from __future__ import annotations
 from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 from pyconnectwise.utils.helpers import parse_link_headers
-from typing import TYPE_CHECKING, Generic, TypeVar, Type
+from typing import TYPE_CHECKING, Generic, TypeVar, Type, Iterable
 from pydantic import BaseModel
+from requests import Response
 
 TModel = TypeVar("TModel", bound="BaseModel")
 
@@ -27,11 +28,12 @@ class PaginatedResponse(Generic[TModel]):
 
     def __init__(
         self,
-        response,
+        response: Response,
         response_model: Type[TModel],
         endpoint: ConnectWiseEndpoint,
-        page,
-        page_size,
+        page: int,
+        page_size: int,
+        params: dict[str, int | str] = {},
     ):
         """
         PaginatedResponse is a wrapper class for handling paginated responses from the
@@ -46,10 +48,16 @@ class PaginatedResponse(Generic[TModel]):
         expected model type for the response data. This allows for type-safe handling
         of model instances throughout the class.
         """
-        self._initialize(response, response_model, endpoint, page, page_size)
+        self._initialize(response, response_model, endpoint, page, page_size, params)
 
     def _initialize(
-        self, response, response_model, endpoint: ConnectWiseEndpoint, page, page_size
+        self,
+        response: Response,
+        response_model: Type[TModel],
+        endpoint: ConnectWiseEndpoint,
+        page: int,
+        page_size: int,
+        params: dict[str, int | str] = {},
     ):
         """
         Initialize the instance variables using the provided response, endpoint, and page size.
@@ -64,10 +72,15 @@ class PaginatedResponse(Generic[TModel]):
         self.endpoint = endpoint
         self.page_size = page_size
         self.parsed_link_headers = parse_link_headers(response.headers)
+        self.params = params
         if self.parsed_link_headers is not None:
             # ConnectWise Manage API gives us handy headers to parse for Pagination
-            self.has_next_page: bool = self.parsed_link_headers.get("has_next_page", False)
-            self.has_prev_page: bool = self.parsed_link_headers.get("has_prev_page", False)
+            self.has_next_page: bool = self.parsed_link_headers.get(
+                "has_next_page", False
+            )
+            self.has_prev_page: bool = self.parsed_link_headers.get(
+                "has_prev_page", False
+            )
             self.first_page: int = self.parsed_link_headers.get("first_page", None)
             self.prev_page: int = self.parsed_link_headers.get("prev_page", None)
             self.next_page: int = self.parsed_link_headers.get("next_page", None)
@@ -97,13 +110,16 @@ class PaginatedResponse(Generic[TModel]):
             self.has_data = False
             return self
 
-        next_response = self.endpoint.paginated(self.next_page, self.page_size)
+        next_response = self.endpoint.paginated(
+            self.next_page, self.page_size, self.params
+        )
         self._initialize(
             next_response.response,
             next_response.response_model,
             next_response.endpoint,
             self.next_page,
             next_response.page_size,
+            self.params,
         )
         return self
 
@@ -119,17 +135,20 @@ class PaginatedResponse(Generic[TModel]):
             self.has_data = False
             return self
 
-        prev_response = self.endpoint.paginated(self.prev_page, self.page_size)
+        prev_response = self.endpoint.paginated(
+            self.prev_page, self.page_size, self.params
+        )
         self._initialize(
             prev_response.response,
             prev_response.response_model,
             prev_response.endpoint,
             self.prev_page,
             prev_response.page_size,
+            self.params,
         )
         return self
 
-    def all(self):
+    def all(self) -> Iterable[TModel]:
         """
         Iterate through all items in the paginated response, across all pages.
 
