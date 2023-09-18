@@ -59,6 +59,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
             self,
             page,
             page_size,
+            params
         )
     {% endif %}
 
