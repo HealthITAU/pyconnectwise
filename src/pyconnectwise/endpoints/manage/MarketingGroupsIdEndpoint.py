@@ -13,9 +13,9 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(MarketingGroupsIdUsagesEndpoint(client, parent_endpoint=self))
         self.companies = self._register_child_endpoint(MarketingGroupsIdCompaniesEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(MarketingGroupsIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(MarketingGroupsIdUsagesEndpoint(client, parent_endpoint=self))
         self.contacts = self._register_child_endpoint(MarketingGroupsIdContactsEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Group]:
@@ -31,13 +31,7 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Group,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Group, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Group:
         """

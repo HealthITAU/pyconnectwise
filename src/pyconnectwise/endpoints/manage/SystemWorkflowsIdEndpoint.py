@@ -14,15 +14,15 @@ class SystemWorkflowsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.triggers = self._register_child_endpoint(SystemWorkflowsIdTriggersEndpoint(client, parent_endpoint=self))
-        self.notify_types = self._register_child_endpoint(
-            SystemWorkflowsIdNotifytypesEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(SystemWorkflowsIdCopyEndpoint(client, parent_endpoint=self))
         self.attachments = self._register_child_endpoint(
             SystemWorkflowsIdAttachmentsEndpoint(client, parent_endpoint=self)
         )
+        self.copy = self._register_child_endpoint(SystemWorkflowsIdCopyEndpoint(client, parent_endpoint=self))
         self.events = self._register_child_endpoint(SystemWorkflowsIdEventsEndpoint(client, parent_endpoint=self))
+        self.notify_types = self._register_child_endpoint(
+            SystemWorkflowsIdNotifytypesEndpoint(client, parent_endpoint=self)
+        )
+        self.triggers = self._register_child_endpoint(SystemWorkflowsIdTriggersEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Workflow]:
         """
@@ -37,13 +37,7 @@ class SystemWorkflowsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Workflow,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Workflow, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Workflow:
         """

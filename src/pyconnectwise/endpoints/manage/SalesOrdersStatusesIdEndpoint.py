@@ -15,14 +15,14 @@ class SalesOrdersStatusesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.info = self._register_child_endpoint(SalesOrdersStatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(SalesOrdersStatusesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.emailtemplates = self._register_child_endpoint(
-            SalesOrdersStatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
-        )
         self.notifications = self._register_child_endpoint(
             SalesOrdersStatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(SalesOrdersStatusesIdInfoEndpoint(client, parent_endpoint=self))
+        self.emailtemplates = self._register_child_endpoint(
+            SalesOrdersStatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[OrderStatus]:
         """
@@ -38,11 +38,7 @@ class SalesOrdersStatusesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            OrderStatus,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), OrderStatus, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatus:

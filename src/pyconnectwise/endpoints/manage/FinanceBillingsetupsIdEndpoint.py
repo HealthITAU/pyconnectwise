@@ -11,10 +11,10 @@ class FinanceBillingsetupsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(FinanceBillingsetupsIdInfoEndpoint(client, parent_endpoint=self))
         self.routings = self._register_child_endpoint(
             FinanceBillingsetupsIdRoutingsEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(FinanceBillingsetupsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -32,11 +32,7 @@ class FinanceBillingsetupsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            BillingSetup,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), BillingSetup, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingSetup:

@@ -23,29 +23,29 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.scheduleentries = self._register_child_endpoint(
-            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
-        )
+        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ServiceTicketsIdInfoEndpoint(client, parent_endpoint=self))
+        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
         self.tasks = self._register_child_endpoint(ServiceTicketsIdTasksEndpoint(client, parent_endpoint=self))
         self.all_notes = self._register_child_endpoint(ServiceTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
-        self.products = self._register_child_endpoint(ServiceTicketsIdProductsEndpoint(client, parent_endpoint=self))
-        self.timeentries = self._register_child_endpoint(
-            ServiceTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
-        )
-        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
-        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
-        self.notes = self._register_child_endpoint(ServiceTicketsIdNotesEndpoint(client, parent_endpoint=self))
-        self.activities = self._register_child_endpoint(
-            ServiceTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
-        )
         self.attach_children = self._register_child_endpoint(
             ServiceTicketsIdAttachchildrenEndpoint(client, parent_endpoint=self)
         )
-        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(ServiceTicketsIdNotesEndpoint(client, parent_endpoint=self))
         self.configurations = self._register_child_endpoint(
             ServiceTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
         )
+        self.activities = self._register_child_endpoint(
+            ServiceTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
+        )
+        self.scheduleentries = self._register_child_endpoint(
+            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
+        )
+        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
+        self.timeentries = self._register_child_endpoint(
+            ServiceTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
+        )
+        self.products = self._register_child_endpoint(ServiceTicketsIdProductsEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Ticket]:
         """
@@ -60,13 +60,7 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Ticket,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Ticket, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Ticket:
         """

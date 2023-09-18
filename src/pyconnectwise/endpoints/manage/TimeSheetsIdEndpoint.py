@@ -14,10 +14,10 @@ class TimeSheetsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.reverse = self._register_child_endpoint(TimeSheetsIdReverseEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(TimeSheetsIdSubmitEndpoint(client, parent_endpoint=self))
-        self.reject = self._register_child_endpoint(TimeSheetsIdRejectEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(TimeSheetsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.reverse = self._register_child_endpoint(TimeSheetsIdReverseEndpoint(client, parent_endpoint=self))
+        self.reject = self._register_child_endpoint(TimeSheetsIdRejectEndpoint(client, parent_endpoint=self))
         self.approve = self._register_child_endpoint(TimeSheetsIdApproveEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeSheet]:
@@ -33,13 +33,7 @@ class TimeSheetsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            TimeSheet,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), TimeSheet, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeSheet:
         """

@@ -30,6 +30,7 @@ class MaintenancewindowdefinitionsEndpoint(ConnectWiseEndpoint):
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

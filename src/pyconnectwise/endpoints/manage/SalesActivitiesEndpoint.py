@@ -13,9 +13,9 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "activities", parent_endpoint=parent_endpoint)
 
-        self.types = self._register_child_endpoint(SalesActivitiesTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesActivitiesCountEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(SalesActivitiesStatusesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(SalesActivitiesTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesActivitiesIdEndpoint:
         """
@@ -43,13 +43,7 @@ class SalesActivitiesEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Activity,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Activity, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Activity]:
         """

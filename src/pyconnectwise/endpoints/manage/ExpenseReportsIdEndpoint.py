@@ -14,10 +14,10 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self))
-        self.reject = self._register_child_endpoint(ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
+        self.reject = self._register_child_endpoint(ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self))
         self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
 
     def paginated(
@@ -36,11 +36,7 @@ class ExpenseReportsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ExpenseReport,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ExpenseReport, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ExpenseReport:

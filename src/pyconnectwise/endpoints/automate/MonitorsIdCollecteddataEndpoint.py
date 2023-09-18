@@ -16,6 +16,9 @@ class MonitorsIdCollecteddataEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Collecteddata", parent_endpoint=parent_endpoint)
 
+        self.yearlyaverages = self._register_child_endpoint(
+            MonitorsIdCollecteddataYearlyaveragesEndpoint(client, parent_endpoint=self)
+        )
         self.dailyaverages = self._register_child_endpoint(
             MonitorsIdCollecteddataDailyaveragesEndpoint(client, parent_endpoint=self)
         )
@@ -24,7 +27,4 @@ class MonitorsIdCollecteddataEndpoint(ConnectWiseEndpoint):
         )
         self.weeklyaverages = self._register_child_endpoint(
             MonitorsIdCollecteddataWeeklyaveragesEndpoint(client, parent_endpoint=self)
-        )
-        self.yearlyaverages = self._register_child_endpoint(
-            MonitorsIdCollecteddataYearlyaveragesEndpoint(client, parent_endpoint=self)
         )

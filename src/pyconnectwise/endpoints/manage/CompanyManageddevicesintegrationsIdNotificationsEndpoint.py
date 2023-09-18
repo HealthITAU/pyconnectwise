@@ -51,6 +51,7 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

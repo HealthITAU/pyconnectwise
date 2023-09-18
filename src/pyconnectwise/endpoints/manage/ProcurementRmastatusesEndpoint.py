@@ -12,8 +12,8 @@ class ProcurementRmastatusesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "rmaStatuses", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProcurementRmastatusesInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(ProcurementRmastatusesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ProcurementRmastatusesInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProcurementRmastatusesIdEndpoint:
         """
@@ -41,13 +41,7 @@ class ProcurementRmastatusesEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            RmaStatus,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), RmaStatus, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RmaStatus]:
         """

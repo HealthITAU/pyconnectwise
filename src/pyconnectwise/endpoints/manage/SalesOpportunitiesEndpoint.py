@@ -15,9 +15,9 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
 
-        self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOpportunitiesCountEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
+        self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self))
 
@@ -48,11 +48,7 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Opportunity,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), Opportunity, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Opportunity]:

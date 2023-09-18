@@ -14,11 +14,11 @@ class FinanceInvoiceemailtemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "invoiceEmailTemplates", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            FinanceInvoiceemailtemplatesInfoEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(
             FinanceInvoiceemailtemplatesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            FinanceInvoiceemailtemplatesInfoEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> FinanceInvoiceemailtemplatesIdEndpoint:
@@ -50,11 +50,7 @@ class FinanceInvoiceemailtemplatesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            InvoiceEmailTemplate,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), InvoiceEmailTemplate, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InvoiceEmailTemplate]:

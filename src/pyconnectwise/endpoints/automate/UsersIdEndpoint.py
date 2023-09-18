@@ -14,8 +14,8 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.settings = self._register_child_endpoint(UsersIdSettingsEndpoint(client, parent_endpoint=self))
         self.useraccess = self._register_child_endpoint(UsersIdUseraccessEndpoint(client, parent_endpoint=self))
+        self.settings = self._register_child_endpoint(UsersIdSettingsEndpoint(client, parent_endpoint=self))
         self.authlink = self._register_child_endpoint(UsersIdAuthlinkEndpoint(client, parent_endpoint=self))
         self.favorites = self._register_child_endpoint(UsersIdFavoritesEndpoint(client, parent_endpoint=self))
         self.changepassword = self._register_child_endpoint(UsersIdChangepasswordEndpoint(client, parent_endpoint=self))
@@ -36,11 +36,7 @@ class UsersIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AutomateUser,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), AutomateUser, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateUser:

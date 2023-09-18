@@ -1,7 +1,7 @@
 import base64
+
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
-
 from pyconnectwise.endpoints.manage.CompanyEndpoint import CompanyEndpoint
 from pyconnectwise.endpoints.manage.ConfigurationsEndpoint import ConfigurationsEndpoint
 from pyconnectwise.endpoints.manage.ExpenseEndpoint import ExpenseEndpoint
@@ -30,7 +30,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         public_key: str,
         private_key: str,
         codebase: str | None = None,
-        config: Config = None
+        config: Config = None,
     ):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -43,7 +43,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
             public_key (str): Your ConnectWise Manage API Public key.
             private_key (str): Your ConnectWise Manage API Private key.
             codebase (str, optional): Your ConnectWise Manage Codebase. If not provided, it will be fetched from the API. Defaults to None.
-            config (Config, optional): Optional additional configuration for API interactions.
+            config (Config, optional): Optional additional configuration for API interactions
         """
         self.client_id: str = client_id
         self.company_name: str = company_name
@@ -61,7 +61,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
                 company_name=company_name,
                 headers=self._get_headers(),
             )
-            self.codebase: str = codebase_request.strip('/')
+            self.codebase: str = codebase_request.strip("/")
 
         # Initializing endpoints
         self.company = CompanyEndpoint(self)
@@ -86,7 +86,9 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         """
         return f"https://{self.manage_url}/{self.codebase}/apis/3.0"
 
-    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str | None:
+    def _try_get_codebase_from_api(
+        self, manage_url: str, company_name: str, headers: dict[str, str]
+    ) -> str | None:
         """
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 

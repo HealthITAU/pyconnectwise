@@ -14,12 +14,12 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workflows", parent_endpoint=parent_endpoint)
 
-        self.userdefinedfields = self._register_child_endpoint(
-            SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
-        )
-        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.table_types = self._register_child_endpoint(
             SystemWorkflowsTabletypesEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
+        self.userdefinedfields = self._register_child_endpoint(
+            SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemWorkflowsIdEndpoint:
@@ -48,13 +48,7 @@ class SystemWorkflowsEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Workflow,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Workflow, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Workflow]:
         """

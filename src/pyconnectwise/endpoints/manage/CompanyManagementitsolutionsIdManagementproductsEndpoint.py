@@ -51,6 +51,7 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoi
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

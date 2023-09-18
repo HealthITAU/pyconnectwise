@@ -13,6 +13,6 @@ class DrivesIdDrivestatsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "Drivestats", parent_endpoint=parent_endpoint)
 
         self.yearly = self._register_child_endpoint(DrivesIdDrivestatsYearlyEndpoint(client, parent_endpoint=self))
+        self.weekly = self._register_child_endpoint(DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self))
         self.daily = self._register_child_endpoint(DrivesIdDrivestatsDailyEndpoint(client, parent_endpoint=self))
         self.monthly = self._register_child_endpoint(DrivesIdDrivestatsMonthlyEndpoint(client, parent_endpoint=self))
-        self.weekly = self._register_child_endpoint(DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self))

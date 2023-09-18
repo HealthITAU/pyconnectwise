@@ -15,11 +15,11 @@ class CompanyM365contactsyncPropertyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "property", parent_endpoint=parent_endpoint)
 
-        self.excluded = self._register_child_endpoint(
-            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(
             CompanyM365contactsyncPropertyCountEndpoint(client, parent_endpoint=self)
+        )
+        self.excluded = self._register_child_endpoint(
+            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
         )
         self.included = self._register_child_endpoint(
             CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)

@@ -13,10 +13,10 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.copy = self._register_child_endpoint(SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self))
         self.actions = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdActionsEndpoint(client, parent_endpoint=self)
         )
+        self.copy = self._register_child_endpoint(SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self))
         self.test = self._register_child_endpoint(SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self))
 
     def paginated(
@@ -35,11 +35,7 @@ class SystemWorkflowsIdEventsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            WorkflowEvent,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), WorkflowEvent, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowEvent:

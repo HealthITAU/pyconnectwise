@@ -21,14 +21,14 @@ class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
         self.checkvalidsync = self._register_child_endpoint(
             SystemM365contactsyncCheckvalidsyncEndpoint(client, parent_endpoint=self)
         )
-        self.notifydeactivation = self._register_child_endpoint(
-            SystemM365contactsyncNotifydeactivationEndpoint(client, parent_endpoint=self)
+        self.authorize = self._register_child_endpoint(
+            SystemM365contactsyncAuthorizeEndpoint(client, parent_endpoint=self)
         )
         self.notifyerror = self._register_child_endpoint(
             SystemM365contactsyncNotifyerrorEndpoint(client, parent_endpoint=self)
         )
-        self.authorize = self._register_child_endpoint(
-            SystemM365contactsyncAuthorizeEndpoint(client, parent_endpoint=self)
+        self.notifydeactivation = self._register_child_endpoint(
+            SystemM365contactsyncNotifydeactivationEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> SystemM365contactsyncIdEndpoint:

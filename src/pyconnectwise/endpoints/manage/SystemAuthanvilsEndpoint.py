@@ -12,10 +12,10 @@ class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "authAnvils", parent_endpoint=parent_endpoint)
 
+        self.count = self._register_child_endpoint(SystemAuthanvilsCountEndpoint(client, parent_endpoint=self))
         self.test_connection = self._register_child_endpoint(
             SystemAuthanvilsTestconnectionEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(SystemAuthanvilsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemAuthanvilsIdEndpoint:
         """
@@ -43,13 +43,7 @@ class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AuthAnvil,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), AuthAnvil, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AuthAnvil]:
         """

@@ -13,11 +13,11 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.entries = self._register_child_endpoint(
-            FinanceAccountingBatchesIdEntriesEndpoint(client, parent_endpoint=self)
-        )
         self.export = self._register_child_endpoint(
             FinanceAccountingBatchesIdExportEndpoint(client, parent_endpoint=self)
+        )
+        self.entries = self._register_child_endpoint(
+            FinanceAccountingBatchesIdEntriesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -36,11 +36,7 @@ class FinanceAccountingBatchesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AccountingBatch,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), AccountingBatch, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AccountingBatch:

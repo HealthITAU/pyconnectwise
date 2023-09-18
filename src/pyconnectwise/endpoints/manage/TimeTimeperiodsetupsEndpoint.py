@@ -12,8 +12,8 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timePeriodSetups", parent_endpoint=parent_endpoint)
 
-        self.default = self._register_child_endpoint(TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self))
+        self.default = self._register_child_endpoint(TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:
         """
@@ -44,11 +44,7 @@ class TimeTimeperiodsetupsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            TimePeriodSetup,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), TimePeriodSetup, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriodSetup]:

@@ -13,9 +13,9 @@ class SystemMembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "members", parent_endpoint=parent_endpoint)
 
+        self.count = self._register_child_endpoint(SystemMembersCountEndpoint(client, parent_endpoint=self))
         self.with_sso = self._register_child_endpoint(SystemMembersWithssoEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(SystemMembersTypesEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(SystemMembersCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemMembersIdEndpoint:
         """
@@ -43,13 +43,7 @@ class SystemMembersEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Member,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Member, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Member]:
         """

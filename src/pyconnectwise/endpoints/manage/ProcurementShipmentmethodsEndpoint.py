@@ -13,10 +13,10 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "shipmentmethods", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProcurementShipmentmethodsInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             ProcurementShipmentmethodsCountEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ProcurementShipmentmethodsInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProcurementShipmentmethodsIdEndpoint:
         """
@@ -47,11 +47,7 @@ class ProcurementShipmentmethodsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ShipmentMethod,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ShipmentMethod, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ShipmentMethod]:

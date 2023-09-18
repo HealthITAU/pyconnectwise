@@ -18,11 +18,11 @@ class ProcurementPurchaseorderstatusesIdEndpoint(ConnectWiseEndpoint):
         self.usages = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesIdUsagesEndpoint(client, parent_endpoint=self)
         )
-        self.emailtemplates = self._register_child_endpoint(
-            ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
-        )
         self.notifications = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesIdNotificationsEndpoint(client, parent_endpoint=self)
+        )
+        self.emailtemplates = self._register_child_endpoint(
+            ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -41,11 +41,7 @@ class ProcurementPurchaseorderstatusesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            PurchaseOrderStatus,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), PurchaseOrderStatus, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatus:

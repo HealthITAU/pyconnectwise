@@ -12,8 +12,8 @@ class ProjectProjecttypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "projectTypes", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ProjectProjecttypesInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(ProjectProjecttypesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ProjectProjecttypesInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProjectProjecttypesIdEndpoint:
         """
@@ -42,11 +42,7 @@ class ProjectProjecttypesEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ProjectType,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ProjectType, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectType]:

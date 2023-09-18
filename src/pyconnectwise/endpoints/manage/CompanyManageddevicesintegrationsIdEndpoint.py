@@ -19,8 +19,8 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.logins = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
+        self.usages = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
@@ -28,11 +28,11 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         self.cross_references = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
         )
+        self.logins = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
+        )
         self.notifications = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -51,11 +51,7 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ManagedDevicesIntegration,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ManagedDevicesIntegration, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:

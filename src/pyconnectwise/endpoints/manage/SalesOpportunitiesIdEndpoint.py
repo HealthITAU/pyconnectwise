@@ -21,25 +21,25 @@ class SalesOpportunitiesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.forecast = self._register_child_endpoint(
-            SalesOpportunitiesIdForecastEndpoint(client, parent_endpoint=self)
+        self.team = self._register_child_endpoint(SalesOpportunitiesIdTeamEndpoint(client, parent_endpoint=self))
+        self.convert_to_agreement = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttoagreementEndpoint(client, parent_endpoint=self)
+        )
+        self.convert_to_project = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttoprojectEndpoint(client, parent_endpoint=self)
         )
         self.convert_to_sales_order = self._register_child_endpoint(
             SalesOpportunitiesIdConverttosalesorderEndpoint(client, parent_endpoint=self)
         )
         self.notes = self._register_child_endpoint(SalesOpportunitiesIdNotesEndpoint(client, parent_endpoint=self))
-        self.convert_to_service_ticket = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
-        )
-        self.convert_to_project = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttoprojectEndpoint(client, parent_endpoint=self)
-        )
         self.contacts = self._register_child_endpoint(
             SalesOpportunitiesIdContactsEndpoint(client, parent_endpoint=self)
         )
-        self.team = self._register_child_endpoint(SalesOpportunitiesIdTeamEndpoint(client, parent_endpoint=self))
-        self.convert_to_agreement = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttoagreementEndpoint(client, parent_endpoint=self)
+        self.convert_to_service_ticket = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
+        )
+        self.forecast = self._register_child_endpoint(
+            SalesOpportunitiesIdForecastEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Opportunity]:
@@ -56,11 +56,7 @@ class SalesOpportunitiesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Opportunity,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), Opportunity, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Opportunity:

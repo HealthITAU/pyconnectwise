@@ -45,6 +45,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(ConnectWiseEndpoi
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

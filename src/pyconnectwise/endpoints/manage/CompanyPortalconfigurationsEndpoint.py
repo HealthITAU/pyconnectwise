@@ -17,11 +17,11 @@ class CompanyPortalconfigurationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "portalConfigurations", parent_endpoint=parent_endpoint)
 
         self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
-        self.invoice_setup = self._register_child_endpoint(
-            CompanyPortalconfigurationsInvoicesetupEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.invoice_setup = self._register_child_endpoint(
+            CompanyPortalconfigurationsInvoicesetupEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, id: int) -> CompanyPortalconfigurationsIdEndpoint:
@@ -53,11 +53,7 @@ class CompanyPortalconfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            PortalConfiguration,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), PortalConfiguration, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalConfiguration]:

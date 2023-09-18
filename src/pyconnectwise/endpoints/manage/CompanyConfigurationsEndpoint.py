@@ -15,8 +15,8 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "configurations", parent_endpoint=parent_endpoint)
 
         self.bulk = self._register_child_endpoint(CompanyConfigurationsBulkEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(CompanyConfigurationsTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(CompanyConfigurationsCountEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(CompanyConfigurationsTypesEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(
             CompanyConfigurationsStatusesEndpoint(client, parent_endpoint=self)
         )
@@ -50,11 +50,7 @@ class CompanyConfigurationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CompanyConfiguration,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), CompanyConfiguration, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CompanyConfiguration]:

@@ -22,16 +22,10 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
         self.auto_assign_resources = self._register_child_endpoint(
             ServiceBoardsIdAutoassignresourcesEndpoint(client, parent_endpoint=self)
         )
-        self.excluded_members = self._register_child_endpoint(
-            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
-        )
-        self.notifications = self._register_child_endpoint(
-            ServiceBoardsIdNotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.types = self._register_child_endpoint(ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self))
         self.type_sub_type_item_associations = self._register_child_endpoint(
             ServiceBoardsIdTypesubtypeitemassociationsEndpoint(client, parent_endpoint=self)
         )
@@ -39,10 +33,16 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         self.auto_templates = self._register_child_endpoint(
             ServiceBoardsIdAutotemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
-        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self))
         self.items = self._register_child_endpoint(ServiceBoardsIdItemsEndpoint(client, parent_endpoint=self))
+        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self))
+        self.excluded_members = self._register_child_endpoint(
+            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
+        )
+        self.notifications = self._register_child_endpoint(
+            ServiceBoardsIdNotificationsEndpoint(client, parent_endpoint=self)
+        )
+        self.statuses = self._register_child_endpoint(ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Board]:
         """
@@ -57,13 +57,7 @@ class ServiceBoardsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Board,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Board, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Board:
         """

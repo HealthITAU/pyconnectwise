@@ -16,14 +16,14 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.phases = self._register_child_endpoint(ProjectProjectsIdPhasesEndpoint(client, parent_endpoint=self))
+        self.project_workplan = self._register_child_endpoint(
+            ProjectProjectsIdProjectworkplanEndpoint(client, parent_endpoint=self)
+        )
         self.team_members = self._register_child_endpoint(
             ProjectProjectsIdTeammembersEndpoint(client, parent_endpoint=self)
         )
         self.notes = self._register_child_endpoint(ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self))
         self.contacts = self._register_child_endpoint(ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self))
-        self.project_workplan = self._register_child_endpoint(
-            ProjectProjectsIdProjectworkplanEndpoint(client, parent_endpoint=self)
-        )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Project]:
         """
@@ -38,13 +38,7 @@ class ProjectProjectsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Project,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Project, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Project:
         """

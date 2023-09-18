@@ -51,6 +51,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

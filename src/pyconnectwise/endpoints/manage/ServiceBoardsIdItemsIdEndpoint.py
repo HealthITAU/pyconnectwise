@@ -12,10 +12,10 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(ServiceBoardsIdItemsIdUsagesEndpoint(client, parent_endpoint=self))
         self.associations = self._register_child_endpoint(
             ServiceBoardsIdItemsIdAssociationsEndpoint(client, parent_endpoint=self)
         )
+        self.usages = self._register_child_endpoint(ServiceBoardsIdItemsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardItem]:
         """
@@ -30,13 +30,7 @@ class ServiceBoardsIdItemsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            BoardItem,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), BoardItem, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItem:
         """

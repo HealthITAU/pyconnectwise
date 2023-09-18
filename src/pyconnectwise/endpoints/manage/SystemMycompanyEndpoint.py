@@ -17,5 +17,5 @@ class SystemMycompanyEndpoint(ConnectWiseEndpoint):
             SystemMycompanyReportingservicesEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(SystemMycompanyInfoEndpoint(client, parent_endpoint=self))
-        self.documents = self._register_child_endpoint(SystemMycompanyDocumentsEndpoint(client, parent_endpoint=self))
         self.services = self._register_child_endpoint(SystemMycompanyServicesEndpoint(client, parent_endpoint=self))
+        self.documents = self._register_child_endpoint(SystemMycompanyDocumentsEndpoint(client, parent_endpoint=self))

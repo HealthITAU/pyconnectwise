@@ -14,12 +14,12 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.picking_shipping_details = self._register_child_endpoint(
-            ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
-        )
-        self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
         self.components = self._register_child_endpoint(
             ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
+        )
+        self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
+        self.picking_shipping_details = self._register_child_endpoint(
+            ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductItem]:
@@ -36,11 +36,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ProductItem,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ProductItem, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:

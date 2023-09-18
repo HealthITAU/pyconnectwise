@@ -30,6 +30,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint(ConnectWiseEn
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

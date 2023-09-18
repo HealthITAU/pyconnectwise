@@ -12,11 +12,11 @@ class FinanceAgreementsTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.copy = self._register_child_endpoint(FinanceAgreementsTypesIdCopyEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(
             FinanceAgreementsTypesIdUsagesEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(FinanceAgreementsTypesIdInfoEndpoint(client, parent_endpoint=self))
-        self.copy = self._register_child_endpoint(FinanceAgreementsTypesIdCopyEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -34,11 +34,7 @@ class FinanceAgreementsTypesIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AgreementType,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), AgreementType, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementType:

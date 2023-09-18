@@ -30,6 +30,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(Connect
             self,
             page,
             page_size,
+            params,
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationPaymentProcessor:

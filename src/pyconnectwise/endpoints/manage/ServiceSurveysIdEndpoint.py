@@ -15,8 +15,8 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
 
         self.copy = self._register_child_endpoint(ServiceSurveysIdCopyEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(ServiceSurveysIdUsagesEndpoint(client, parent_endpoint=self))
-        self.questions = self._register_child_endpoint(ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
         self.results = self._register_child_endpoint(ServiceSurveysIdResultsEndpoint(client, parent_endpoint=self))
+        self.questions = self._register_child_endpoint(ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: dict[str, int | str] = {}
@@ -34,11 +34,7 @@ class ServiceSurveysIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ServiceSurvey,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), ServiceSurvey, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurvey:

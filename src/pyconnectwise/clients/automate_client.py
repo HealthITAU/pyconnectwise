@@ -1,4 +1,8 @@
+import base64
 from datetime import datetime
+
+from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+from pyconnectwise.config import Config
 from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
 from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
 from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
@@ -24,9 +28,6 @@ from pyconnectwise.endpoints.automate.SystemEndpoint import SystemEndpoint
 from pyconnectwise.endpoints.automate.UserclassesEndpoint import UserclassesEndpoint
 from pyconnectwise.endpoints.automate.UsersEndpoint import UsersEndpoint
 
-from pyconnectwise.clients.connectwise_client import ConnectWiseClient
-from pyconnectwise.config import Config
-
 
 class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     """
@@ -34,14 +35,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     and the configuration of all the available endpoints.
     """
 
-    def __init__(
-            self,
-            automate_url: str,
-            client_id: str,
-            username: str,
-            password: str,
-            config: Config = None
-    ):
+    def __init__(self, automate_url: str, client_id: str, username: str, password: str, config: Config = None):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
         If no codebase is given, it tries to get it from the API.
@@ -104,9 +98,12 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         """
         Performs a request to the ConnectWise Automate API to obtain an access token.
         """
-        auth_response = self._make_request("POST", f"{self._get_url()}/apitoken",
-                                           data={"UserName": self.username, "Password": self.password},
-                                           headers={"Content-Type": "application/json", "ClientId": self.client_id})
+        auth_response = self._make_request(
+            "POST",
+            f"{self._get_url()}/apitoken",
+            data={"UserName": self.username, "Password": self.password},
+            headers={"Content-Type": "application/json", "ClientId": self.client_id},
+        )
         auth_resp_json = auth_response.json()
         token = auth_resp_json["AccessToken"]
         self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])

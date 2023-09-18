@@ -12,10 +12,10 @@ class ProcurementCategoriesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.info = self._register_child_endpoint(ProcurementCategoriesIdInfoEndpoint(client, parent_endpoint=self))
         self.subcategories = self._register_child_endpoint(
             ProcurementCategoriesIdSubcategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProcurementCategoriesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Category]:
         """
@@ -30,13 +30,7 @@ class ProcurementCategoriesIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Category,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Category, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Category:
         """

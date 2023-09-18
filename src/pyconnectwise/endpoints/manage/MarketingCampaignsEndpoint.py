@@ -14,10 +14,10 @@ class MarketingCampaignsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "campaigns", parent_endpoint=parent_endpoint)
 
-        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(MarketingCampaignsCountEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
         self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> MarketingCampaignsIdEndpoint:
         """
@@ -45,13 +45,7 @@ class MarketingCampaignsEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Campaign,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Campaign, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Campaign]:
         """

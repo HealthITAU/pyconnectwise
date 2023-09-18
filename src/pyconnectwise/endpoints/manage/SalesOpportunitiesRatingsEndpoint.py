@@ -12,8 +12,8 @@ class SalesOpportunitiesRatingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ratings", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SalesOpportunitiesRatingsInfoEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOpportunitiesRatingsCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(SalesOpportunitiesRatingsInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesOpportunitiesRatingsIdEndpoint:
         """
@@ -44,11 +44,7 @@ class SalesOpportunitiesRatingsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            OpportunityRating,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), OpportunityRating, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityRating]:

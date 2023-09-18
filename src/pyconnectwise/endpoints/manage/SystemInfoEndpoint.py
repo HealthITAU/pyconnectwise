@@ -17,18 +17,18 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
-        self.personas = self._register_child_endpoint(SystemInfoPersonasEndpoint(client, parent_endpoint=self))
+        self.departments = self._register_child_endpoint(SystemInfoDepartmentsEndpoint(client, parent_endpoint=self))
         self.departmentlocations = self._register_child_endpoint(
             SystemInfoDepartmentlocationsEndpoint(client, parent_endpoint=self)
         )
-        self.departments = self._register_child_endpoint(SystemInfoDepartmentsEndpoint(client, parent_endpoint=self))
-        self.locales = self._register_child_endpoint(SystemInfoLocalesEndpoint(client, parent_endpoint=self))
         self.locations = self._register_child_endpoint(SystemInfoLocationsEndpoint(client, parent_endpoint=self))
-        self.members = self._register_child_endpoint(SystemInfoMembersEndpoint(client, parent_endpoint=self))
+        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
         self.standard_notes = self._register_child_endpoint(
             SystemInfoStandardnotesEndpoint(client, parent_endpoint=self)
         )
+        self.personas = self._register_child_endpoint(SystemInfoPersonasEndpoint(client, parent_endpoint=self))
+        self.locales = self._register_child_endpoint(SystemInfoLocalesEndpoint(client, parent_endpoint=self))
+        self.members = self._register_child_endpoint(SystemInfoMembersEndpoint(client, parent_endpoint=self))
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Info]:
         """
@@ -43,13 +43,7 @@ class SystemInfoEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Info,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Info, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Info:
         """

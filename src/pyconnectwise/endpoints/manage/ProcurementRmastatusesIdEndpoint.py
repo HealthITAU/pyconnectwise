@@ -15,18 +15,18 @@ class ProcurementRmastatusesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.emailtemplates = self._register_child_endpoint(
-            ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
+        self.usages = self._register_child_endpoint(
+            ProcurementRmastatusesIdUsagesEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(ProcurementRmastatusesIdInfoEndpoint(client, parent_endpoint=self))
-        self.email_templates = self._register_child_endpoint(
+        self.emailtemplates = self._register_child_endpoint(
             ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
         self.notifications = self._register_child_endpoint(
             ProcurementRmastatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(
-            ProcurementRmastatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        self.email_templates = self._register_child_endpoint(
+            ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[RmaStatus]:
@@ -42,13 +42,7 @@ class ProcurementRmastatusesIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            RmaStatus,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), RmaStatus, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaStatus:
         """

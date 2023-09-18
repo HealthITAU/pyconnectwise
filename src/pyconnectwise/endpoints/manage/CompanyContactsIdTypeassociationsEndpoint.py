@@ -51,6 +51,7 @@ class CompanyContactsIdTypeassociationsEndpoint(ConnectWiseEndpoint):
             self,
             page,
             page_size,
+            params,
         )
 
     def get(

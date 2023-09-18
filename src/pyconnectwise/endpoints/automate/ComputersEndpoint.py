@@ -15,10 +15,10 @@ class ComputersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Computers", parent_endpoint=parent_endpoint)
 
-        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
-        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
         self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
         self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
+        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
+        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
         self.maintenancemodes = self._register_child_endpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )
@@ -52,11 +52,7 @@ class ComputersEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            LabTechComputer,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), LabTechComputer, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputer]:

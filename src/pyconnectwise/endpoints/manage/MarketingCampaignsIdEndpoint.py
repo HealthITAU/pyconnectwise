@@ -19,21 +19,21 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.forms_submitted = self._register_child_endpoint(
-            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
-        )
-        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
-        self.emails_opened = self._register_child_endpoint(
-            MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
-        )
         self.links_clicked = self._register_child_endpoint(
             MarketingCampaignsIdLinksclickedEndpoint(client, parent_endpoint=self)
+        )
+        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.opportunities = self._register_child_endpoint(
+            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
         )
         self.activities = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
-        self.opportunities = self._register_child_endpoint(
-            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
+        self.forms_submitted = self._register_child_endpoint(
+            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
+        )
+        self.emails_opened = self._register_child_endpoint(
+            MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Campaign]:
@@ -49,13 +49,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Campaign,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Campaign, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Campaign:
         """

@@ -18,21 +18,21 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "contacts", parent_endpoint=parent_endpoint)
 
-        self.request_password = self._register_child_endpoint(
-            CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
-        )
-        self.relationships = self._register_child_endpoint(
-            CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
-        )
-        self.types = self._register_child_endpoint(CompanyContactsTypesEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
-        self.departments = self._register_child_endpoint(
-            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
-        )
         self.validate_portal_credentials = self._register_child_endpoint(
             CompanyContactsValidateportalcredentialsEndpoint(client, parent_endpoint=self)
         )
+        self.departments = self._register_child_endpoint(
+            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
+        )
+        self.request_password = self._register_child_endpoint(
+            CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
+        )
+        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(CompanyContactsDefaultEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(CompanyContactsTypesEndpoint(client, parent_endpoint=self))
+        self.relationships = self._register_child_endpoint(
+            CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyContactsIdEndpoint:
         """
@@ -60,13 +60,7 @@ class CompanyContactsEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Contact,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Contact, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Contact]:
         """

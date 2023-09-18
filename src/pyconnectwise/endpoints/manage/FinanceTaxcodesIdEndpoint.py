@@ -20,24 +20,24 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(FinanceTaxcodesIdInfoEndpoint(client, parent_endpoint=self))
-        self.product_type_exemptions = self._register_child_endpoint(
-            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
-        )
         self.work_role_exemptions = self._register_child_endpoint(
             FinanceTaxcodesIdWorkroleexemptionsEndpoint(client, parent_endpoint=self)
         )
-        self.tax_code_levels = self._register_child_endpoint(
-            FinanceTaxcodesIdTaxcodelevelsEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(FinanceTaxcodesIdCopyEndpoint(client, parent_endpoint=self))
-        self.expense_type_exemptions = self._register_child_endpoint(
-            FinanceTaxcodesIdExpensetypeexemptionsEndpoint(client, parent_endpoint=self)
-        )
+        self.usages = self._register_child_endpoint(FinanceTaxcodesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(FinanceTaxcodesIdInfoEndpoint(client, parent_endpoint=self))
         self.tax_code_x_refs = self._register_child_endpoint(
             FinanceTaxcodesIdTaxcodexrefsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(FinanceTaxcodesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.copy = self._register_child_endpoint(FinanceTaxcodesIdCopyEndpoint(client, parent_endpoint=self))
+        self.tax_code_levels = self._register_child_endpoint(
+            FinanceTaxcodesIdTaxcodelevelsEndpoint(client, parent_endpoint=self)
+        )
+        self.expense_type_exemptions = self._register_child_endpoint(
+            FinanceTaxcodesIdExpensetypeexemptionsEndpoint(client, parent_endpoint=self)
+        )
+        self.product_type_exemptions = self._register_child_endpoint(
+            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCode]:
         """
@@ -52,13 +52,7 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            TaxCode,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), TaxCode, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
         """

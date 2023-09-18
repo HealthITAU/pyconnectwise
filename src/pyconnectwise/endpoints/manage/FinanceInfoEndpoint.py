@@ -11,10 +11,10 @@ class FinanceInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-        self.currency_codes = self._register_child_endpoint(
-            FinanceInfoCurrencycodesEndpoint(client, parent_endpoint=self)
-        )
-        self.invoice = self._register_child_endpoint(FinanceInfoInvoiceEndpoint(client, parent_endpoint=self))
         self.tax_integrations = self._register_child_endpoint(
             FinanceInfoTaxintegrationsEndpoint(client, parent_endpoint=self)
+        )
+        self.invoice = self._register_child_endpoint(FinanceInfoInvoiceEndpoint(client, parent_endpoint=self))
+        self.currency_codes = self._register_child_endpoint(
+            FinanceInfoCurrencycodesEndpoint(client, parent_endpoint=self)
         )

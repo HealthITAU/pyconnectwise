@@ -17,15 +17,15 @@ class LookupsEndpoint(ConnectWiseEndpoint):
         self.scanfrequencies = self._register_child_endpoint(
             LookupsScanfrequenciesEndpoint(client, parent_endpoint=self)
         )
-        self.probeeventlevels = self._register_child_endpoint(
-            LookupsProbeeventlevelsEndpoint(client, parent_endpoint=self)
+        self.snmphashmethods = self._register_child_endpoint(
+            LookupsSnmphashmethodsEndpoint(client, parent_endpoint=self)
         )
         self.snmpencryptionmethods = self._register_child_endpoint(
             LookupsSnmpencryptionmethodsEndpoint(client, parent_endpoint=self)
         )
-        self.snmphashmethods = self._register_child_endpoint(
-            LookupsSnmphashmethodsEndpoint(client, parent_endpoint=self)
-        )
         self.statusscannetworkportoptions = self._register_child_endpoint(
             LookupsStatusscannetworkportoptionsEndpoint(client, parent_endpoint=self)
+        )
+        self.probeeventlevels = self._register_child_endpoint(
+            LookupsProbeeventlevelsEndpoint(client, parent_endpoint=self)
         )

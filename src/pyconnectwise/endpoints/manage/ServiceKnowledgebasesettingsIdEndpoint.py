@@ -25,11 +25,7 @@ class ServiceKnowledgebasesettingsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            KnowledgeBaseSettings,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), KnowledgeBaseSettings, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseSettings:

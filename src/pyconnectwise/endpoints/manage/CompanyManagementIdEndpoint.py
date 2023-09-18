@@ -16,12 +16,12 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.log = self._register_child_endpoint(CompanyManagementIdLogEndpoint(client, parent_endpoint=self))
-        self.management_report_notifications = self._register_child_endpoint(
-            CompanyManagementIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
-        )
         self.logs = self._register_child_endpoint(CompanyManagementIdLogsEndpoint(client, parent_endpoint=self))
         self.execute_managed_it_sync = self._register_child_endpoint(
             CompanyManagementIdExecutemanageditsyncEndpoint(client, parent_endpoint=self)
+        )
+        self.management_report_notifications = self._register_child_endpoint(
+            CompanyManagementIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Management]:
@@ -37,13 +37,7 @@ class CompanyManagementIdEndpoint(ConnectWiseEndpoint):
         """
         params["page"] = page
         params["pageSize"] = page_size
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Management,
-            self,
-            page,
-            page_size,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Management, self, page, page_size, params)
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Management:
         """

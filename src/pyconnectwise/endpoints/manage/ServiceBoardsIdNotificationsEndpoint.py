@@ -45,11 +45,7 @@ class ServiceBoardsIdNotificationsEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            BoardNotification,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), BoardNotification, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardNotification]:

@@ -13,11 +13,11 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.test_connection = self._register_child_endpoint(
-            SystemOffice365EmailsetupsIdTestconnectionEndpoint(client, parent_endpoint=self)
-        )
         self.authorize = self._register_child_endpoint(
             SystemOffice365EmailsetupsIdAuthorizeEndpoint(client, parent_endpoint=self)
+        )
+        self.test_connection = self._register_child_endpoint(
+            SystemOffice365EmailsetupsIdTestconnectionEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
@@ -36,11 +36,7 @@ class SystemOffice365EmailsetupsIdEndpoint(ConnectWiseEndpoint):
         params["page"] = page
         params["pageSize"] = page_size
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Office365EmailSetup,
-            self,
-            page,
-            page_size,
+            super()._make_request("GET", params=params), Office365EmailSetup, self, page, page_size, params
         )
 
     def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetup:
