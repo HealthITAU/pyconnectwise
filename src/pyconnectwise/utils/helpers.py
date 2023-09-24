@@ -1,6 +1,7 @@
 from datetime import datetime
 import re
 from typing import Any
+from requests.structures import CaseInsensitiveDict
 
 
 def cw_format_datetime(dt: datetime) -> str:
@@ -22,7 +23,7 @@ def cw_format_datetime(dt: datetime) -> str:
     return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def parse_link_headers(headers: dict[str, str]) -> dict[str, Any] | None:
+def parse_link_headers(headers: CaseInsensitiveDict) -> dict[str, Any] | None:
     """
     Parses link headers to extract pagination information.
 
