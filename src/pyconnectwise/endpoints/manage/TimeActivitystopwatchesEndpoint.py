@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeActivitystopwatchesCountEndpoint import TimeActivitystopwatchesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeActivitystopwatchesIdEndpoint import TimeActivitystopwatchesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ActivityStopwatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeActivitystopwatchesEndpoint(ConnectWiseEndpoint):
+class TimeActivitystopwatchesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ActivityStopwatch], ConnectWiseManageRequestParams],
+    IPostable[ActivityStopwatch, ConnectWiseManageRequestParams],
+    IPaginateable[ActivityStopwatch, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "activitystopwatches", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class TimeActivitystopwatchesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ActivityStopwatch]:
         """
         Performs a GET request against the /time/activitystopwatches endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class TimeActivitystopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ActivityStopwatch]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ActivityStopwatch, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ActivityStopwatch]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ActivityStopwatch]:
         """
         Performs a GET request against the /time/activitystopwatches endpoint.
 
@@ -57,7 +69,7 @@ class TimeActivitystopwatchesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ActivityStopwatch, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ActivityStopwatch:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ActivityStopwatch:
         """
         Performs a POST request against the /time/activitystopwatches endpoint.
 

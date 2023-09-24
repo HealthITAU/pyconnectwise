@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesCountEndpo
     ServiceBoardsIdAutoassignresourcesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutoassignresourcesIdEndpoint import \
     ServiceBoardsIdAutoassignresourcesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardAutoAssignResource
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
+class ServiceBoardsIdAutoassignresourcesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardAutoAssignResource], ConnectWiseManageRequestParams],
+    IPostable[BoardAutoAssignResource, ConnectWiseManageRequestParams],
+    IPaginateable[BoardAutoAssignResource, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "autoAssignResources", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BoardAutoAssignResource]:
         """
         Performs a GET request against the /service/boards/{id}/autoAssignResources endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardAutoAssignResource]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BoardAutoAssignResource, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoAssignResource]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[BoardAutoAssignResource]:
         """
         Performs a GET request against the /service/boards/{id}/autoAssignResources endpoint.
 
@@ -61,7 +73,9 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(BoardAutoAssignResource, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoAssignResource:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> BoardAutoAssignResource:
         """
         Performs a POST request against the /service/boards/{id}/autoAssignResources endpoint.
 

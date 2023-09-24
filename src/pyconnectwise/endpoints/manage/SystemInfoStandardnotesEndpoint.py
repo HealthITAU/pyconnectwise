@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoStandardnotesCountEndpoint import SystemInfoStandardnotesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoStandardnotesIdEndpoint import SystemInfoStandardnotesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import StandardNoteInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
+class SystemInfoStandardnotesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[StandardNoteInfo], ConnectWiseManageRequestParams],
+    IPaginateable[StandardNoteInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "standardNotes", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[StandardNoteInfo]:
         """
         Performs a GET request against the /system/info/standardNotes endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class SystemInfoStandardnotesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[StandardNoteInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), StandardNoteInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[StandardNoteInfo]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[StandardNoteInfo]:
         """
         Performs a GET request against the /system/info/standardNotes endpoint.
 

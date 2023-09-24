@@ -4,11 +4,17 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseCountEndpoint import \
     SystemMycompanyTimeexpenseCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyTimeexpenseIdEndpoint import SystemMycompanyTimeexpenseIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimeExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
+class SystemMycompanyTimeexpenseEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TimeExpense], ConnectWiseManageRequestParams],
+    IPaginateable[TimeExpense, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "timeExpense", parent_endpoint=parent_endpoint)
 
@@ -29,7 +35,9 @@ class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeExpense]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint and returns an initialized PaginatedResponse object.
 
@@ -40,13 +48,16 @@ class SystemMycompanyTimeexpenseEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimeExpense]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TimeExpense, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeExpense]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TimeExpense]:
         """
         Performs a GET request against the /system/myCompany/timeExpense endpoint.
 

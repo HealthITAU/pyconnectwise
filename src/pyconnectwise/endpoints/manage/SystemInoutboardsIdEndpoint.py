@@ -1,15 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import InOutBoard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
+class SystemInoutboardsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[InOutBoard, ConnectWiseManageRequestParams],
+    IPuttable[InOutBoard, ConnectWiseManageRequestParams],
+    IPatchable[InOutBoard, ConnectWiseManageRequestParams],
+    IPaginateable[InOutBoard, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutBoard]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +30,14 @@ class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[InOutBoard]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), InOutBoard, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> InOutBoard:
         """
         Performs a GET request against the /system/inOutBoards/{id} endpoint.
 
@@ -36,7 +49,7 @@ class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(InOutBoard, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/inOutBoards/{id} endpoint.
 
@@ -46,7 +59,7 @@ class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> InOutBoard:
         """
         Performs a PUT request against the /system/inOutBoards/{id} endpoint.
 
@@ -58,7 +71,7 @@ class SystemInoutboardsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(InOutBoard, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> InOutBoard:
         """
         Performs a PATCH request against the /system/inOutBoards/{id} endpoint.
 

@@ -4,11 +4,17 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesCountEndpoint import \
     SystemLocationsIdWorkrolesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesIdEndpoint import SystemLocationsIdWorkrolesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import LocationWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemLocationsIdWorkrolesEndpoint(ConnectWiseEndpoint):
+class SystemLocationsIdWorkrolesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LocationWorkRole], ConnectWiseManageRequestParams],
+    IPaginateable[LocationWorkRole, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workRoles", parent_endpoint=parent_endpoint)
 
@@ -30,7 +36,7 @@ class SystemLocationsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LocationWorkRole]:
         """
         Performs a GET request against the /system/locations/{id}/workRoles endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +48,18 @@ class SystemLocationsIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LocationWorkRole]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LocationWorkRole, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocationWorkRole]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[LocationWorkRole]:
         """
         Performs a GET request against the /system/locations/{id}/workRoles endpoint.
 

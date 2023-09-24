@@ -2,18 +2,24 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemM365contactsyncInfoCountEndpoint import SystemM365contactsyncInfoCountEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import M365ContactSyncInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemM365contactsyncInfoEndpoint(ConnectWiseEndpoint):
+class SystemM365contactsyncInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[M365ContactSyncInfo], ConnectWiseManageRequestParams],
+    IPaginateable[M365ContactSyncInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(SystemM365contactsyncInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[M365ContactSyncInfo]:
         """
         Performs a GET request against the /system/m365contactsync/info endpoint and returns an initialized PaginatedResponse object.
@@ -25,13 +31,18 @@ class SystemM365contactsyncInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[M365ContactSyncInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), M365ContactSyncInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[M365ContactSyncInfo]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[M365ContactSyncInfo]:
         """
         Performs a GET request against the /system/m365contactsync/info endpoint.
 

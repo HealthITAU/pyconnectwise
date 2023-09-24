@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ScheduleTypesCountEndpoint import ScheduleTypesCountEndpoint
 from pyconnectwise.endpoints.manage.ScheduleTypesIdEndpoint import ScheduleTypesIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleTypesInfoEndpoint import ScheduleTypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ScheduleType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScheduleTypesEndpoint(ConnectWiseEndpoint):
+class ScheduleTypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ScheduleType], ConnectWiseManageRequestParams],
+    IPostable[ScheduleType, ConnectWiseManageRequestParams],
+    IPaginateable[ScheduleType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ScheduleType]:
         """
         Performs a GET request against the /schedule/types endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,16 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ScheduleType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ScheduleType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleType]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ScheduleType]:
         """
         Performs a GET request against the /schedule/types endpoint.
 
@@ -59,7 +69,7 @@ class ScheduleTypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ScheduleType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ScheduleType:
         """
         Performs a POST request against the /schedule/types endpoint.
 

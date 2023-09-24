@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPayme
     CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import \
     CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PortalConfigurationPaymentProcessor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWiseEndpoint):
+class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PortalConfigurationPaymentProcessor], ConnectWiseManageRequestParams],
+    IPaginateable[PortalConfigurationPaymentProcessor, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "paymentProcessors", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint and returns an initialized PaginatedResponse object.
@@ -43,8 +49,11 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
         Returns:
             PaginatedResponse[PortalConfigurationPaymentProcessor]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             PortalConfigurationPaymentProcessor,
@@ -55,7 +64,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(ConnectWi
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint.

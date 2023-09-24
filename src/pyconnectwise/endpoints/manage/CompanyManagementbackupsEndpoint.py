@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementbackupsCountEndpoint import CompanyManagementbackupsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementbackupsIdEndpoint import CompanyManagementbackupsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagementBackup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManagementbackupsEndpoint(ConnectWiseEndpoint):
+class CompanyManagementbackupsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagementBackup], ConnectWiseManageRequestParams],
+    IPostable[ManagementBackup, ConnectWiseManageRequestParams],
+    IPaginateable[ManagementBackup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementBackups", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class CompanyManagementbackupsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagementBackup]:
         """
         Performs a GET request against the /company/managementBackups endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class CompanyManagementbackupsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ManagementBackup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ManagementBackup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementBackup]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ManagementBackup]:
         """
         Performs a GET request against the /company/managementBackups endpoint.
 
@@ -57,7 +69,7 @@ class CompanyManagementbackupsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ManagementBackup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementBackup:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ManagementBackup:
         """
         Performs a POST request against the /company/managementBackups endpoint.
 

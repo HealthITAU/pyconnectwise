@@ -1,16 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechRemoteAgentTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
+class RemoteagenttemplatesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechRemoteAgentTemplate], ConnectWiseAutomateRequestParams],
+    IPostable[LabTechRemoteAgentTemplate, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechRemoteAgentTemplate, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Remoteagenttemplates", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechRemoteAgentTemplate]:
         """
         Performs a GET request against the /Remoteagenttemplates endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +29,18 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechRemoteAgentTemplate]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechRemoteAgentTemplate, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechRemoteAgentTemplate]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechRemoteAgentTemplate]:
         """
         Performs a GET request against the /Remoteagenttemplates endpoint.
 
@@ -42,7 +54,9 @@ class RemoteagenttemplatesEndpoint(ConnectWiseEndpoint):
             LabTechRemoteAgentTemplate, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechRemoteAgentTemplate:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechRemoteAgentTemplate:
         """
         Performs a POST request against the /Remoteagenttemplates endpoint.
 

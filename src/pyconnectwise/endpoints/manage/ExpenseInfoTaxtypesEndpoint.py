@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesCountEndpoint import ExpenseInfoTaxtypesCountEndpoint
 from pyconnectwise.endpoints.manage.ExpenseInfoTaxtypesIdEndpoint import ExpenseInfoTaxtypesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ExpenseTaxTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
+class ExpenseInfoTaxtypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ExpenseTaxTypeInfo], ConnectWiseManageRequestParams],
+    IPaginateable[ExpenseTaxTypeInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "taxTypes", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ExpenseTaxTypeInfo]:
         """
         Performs a GET request against the /expense/info/taxTypes endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class ExpenseInfoTaxtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ExpenseTaxTypeInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ExpenseTaxTypeInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ExpenseTaxTypeInfo]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ExpenseTaxTypeInfo]:
         """
         Performs a GET request against the /expense/info/taxTypes endpoint.
 

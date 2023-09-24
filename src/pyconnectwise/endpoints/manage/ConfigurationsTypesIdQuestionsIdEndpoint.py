@@ -5,16 +5,18 @@ from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdInfoEndpoint
     ConfigurationsTypesIdQuestionsIdInfoEndpoint
 from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesEndpoint import \
     ConfigurationsTypesIdQuestionsIdValuesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class ConfigurationsTypesIdQuestionsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            ConfigurationsTypesIdQuestionsIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.values = self._register_child_endpoint(
             ConfigurationsTypesIdQuestionsIdValuesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ConfigurationsTypesIdQuestionsIdInfoEndpoint(client, parent_endpoint=self)
         )

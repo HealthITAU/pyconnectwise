@@ -1,16 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechManagedLicense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
+class ClientsIdLicensesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechManagedLicense], ConnectWiseAutomateRequestParams],
+    IPostable[LabTechManagedLicense, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechManagedLicense, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Licenses", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechManagedLicense]:
         """
         Performs a GET request against the /Clients/{id}/Licenses endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +29,18 @@ class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechManagedLicense]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechManagedLicense, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechManagedLicense]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechManagedLicense]:
         """
         Performs a GET request against the /Clients/{id}/Licenses endpoint.
 
@@ -40,7 +52,9 @@ class ClientsIdLicensesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(LabTechManagedLicense, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechManagedLicense:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechManagedLicense:
         """
         Performs a POST request against the /Clients/{id}/Licenses endpoint.
 

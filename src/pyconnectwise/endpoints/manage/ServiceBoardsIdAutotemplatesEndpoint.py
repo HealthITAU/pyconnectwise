@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesCountEndpoint import \
     ServiceBoardsIdAutotemplatesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdAutotemplatesIdEndpoint import ServiceBoardsIdAutotemplatesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardAutoTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
+class ServiceBoardsIdAutotemplatesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardAutoTemplate], ConnectWiseManageRequestParams],
+    IPostable[BoardAutoTemplate, ConnectWiseManageRequestParams],
+    IPaginateable[BoardAutoTemplate, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "autoTemplates", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BoardAutoTemplate]:
         """
         Performs a GET request against the /service/boards/{id}/autoTemplates endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardAutoTemplate]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BoardAutoTemplate, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardAutoTemplate]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[BoardAutoTemplate]:
         """
         Performs a GET request against the /service/boards/{id}/autoTemplates endpoint.
 
@@ -60,7 +72,7 @@ class ServiceBoardsIdAutotemplatesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(BoardAutoTemplate, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardAutoTemplate:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BoardAutoTemplate:
         """
         Performs a POST request against the /service/boards/{id}/autoTemplates endpoint.
 

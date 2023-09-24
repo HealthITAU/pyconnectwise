@@ -1,15 +1,19 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Order
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesOpportunitiesIdConverttosalesorderEndpoint(ConnectWiseEndpoint):
+class SalesOpportunitiesIdConverttosalesorderEndpoint(
+    ConnectWiseEndpoint, IPostable[Order, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "convertToSalesOrder", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Order:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Order:
         """
         Performs a POST request against the /sales/opportunities/{id}/convertToSalesOrder endpoint.
 

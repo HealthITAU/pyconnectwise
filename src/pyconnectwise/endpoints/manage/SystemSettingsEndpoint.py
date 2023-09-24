@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemSettingsCountEndpoint import SystemSettingsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemSettingsIdEndpoint import SystemSettingsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import SystemSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemSettingsEndpoint(ConnectWiseEndpoint):
+class SystemSettingsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[SystemSetting], ConnectWiseManageRequestParams],
+    IPaginateable[SystemSetting, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "settings", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class SystemSettingsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SystemSetting]:
         """
         Performs a GET request against the /system/settings endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class SystemSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[SystemSetting]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), SystemSetting, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SystemSetting]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[SystemSetting]:
         """
         Performs a GET request against the /system/settings endpoint.
 

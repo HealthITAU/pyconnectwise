@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdManagementprod
     CompanyManagementitsolutionsIdManagementproductsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementitsolutionsIdManagementproductsIdEndpoint import \
     CompanyManagementitsolutionsIdManagementproductsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagementItSolutionAgreementInterfaceParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoint):
+class CompanyManagementitsolutionsIdManagementproductsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagementItSolutionAgreementInterfaceParameter], ConnectWiseManageRequestParams],
+    IPostable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IPaginateable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementProducts", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoi
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagementItSolutionAgreementInterfaceParameter]:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts endpoint and returns an initialized PaginatedResponse object.
@@ -43,8 +50,11 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoi
         Returns:
             PaginatedResponse[ManagementItSolutionAgreementInterfaceParameter]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             ManagementItSolutionAgreementInterfaceParameter,
@@ -55,7 +65,7 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoi
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ManagementItSolutionAgreementInterfaceParameter]:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts endpoint.
@@ -72,7 +82,7 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(ConnectWiseEndpoi
         )
 
     def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a POST request against the /company/managementItSolutions/{id}/managementProducts endpoint.

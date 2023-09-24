@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksCountEndpoint import ServiceTicketsIdTasksCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksIdEndpoint import ServiceTicketsIdTasksIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Task
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
+class ServiceTicketsIdTasksEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Task], ConnectWiseManageRequestParams],
+    IPostable[Task, ConnectWiseManageRequestParams],
+    IPaginateable[Task, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "tasks", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Task]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Task]:
         """
         Performs a GET request against the /service/tickets/{id}/tasks endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +46,14 @@ class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Task]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Task, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Task]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Task]:
         """
         Performs a GET request against the /service/tickets/{id}/tasks endpoint.
 
@@ -53,7 +65,7 @@ class ServiceTicketsIdTasksEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Task, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Task:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Task:
         """
         Performs a POST request against the /service/tickets/{id}/tasks endpoint.
 

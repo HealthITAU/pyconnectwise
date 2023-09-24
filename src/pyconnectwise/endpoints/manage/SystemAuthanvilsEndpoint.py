@@ -4,11 +4,17 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemAuthanvilsCountEndpoint import SystemAuthanvilsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemAuthanvilsIdEndpoint import SystemAuthanvilsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemAuthanvilsTestconnectionEndpoint import SystemAuthanvilsTestconnectionEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import AuthAnvil
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
+class SystemAuthanvilsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AuthAnvil], ConnectWiseManageRequestParams],
+    IPaginateable[AuthAnvil, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "authAnvils", parent_endpoint=parent_endpoint)
 
@@ -30,7 +36,9 @@ class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[AuthAnvil]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[AuthAnvil]:
         """
         Performs a GET request against the /system/authAnvils endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,11 +49,14 @@ class SystemAuthanvilsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AuthAnvil]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), AuthAnvil, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AuthAnvil]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[AuthAnvil]:
         """
         Performs a GET request against the /system/authAnvils endpoint.
 

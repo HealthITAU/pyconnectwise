@@ -7,25 +7,31 @@ from pyconnectwise.endpoints.manage.CompanyM365contactsyncPropertyExcludedEndpoi
     CompanyM365contactsyncPropertyExcludedEndpoint
 from pyconnectwise.endpoints.manage.CompanyM365contactsyncPropertyIncludedEndpoint import \
     CompanyM365contactsyncPropertyIncludedEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import M365ContactSyncProperty
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyM365contactsyncPropertyEndpoint(ConnectWiseEndpoint):
+class CompanyM365contactsyncPropertyEndpoint(
+    ConnectWiseEndpoint, IPostable[M365ContactSyncProperty, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "property", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
             CompanyM365contactsyncPropertyCountEndpoint(client, parent_endpoint=self)
         )
-        self.excluded = self._register_child_endpoint(
-            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
-        )
         self.included = self._register_child_endpoint(
             CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)
         )
+        self.excluded = self._register_child_endpoint(
+            CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
+        )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> M365ContactSyncProperty:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> M365ContactSyncProperty:
         """
         Performs a POST request against the /company/m365contactsync/property endpoint.
 

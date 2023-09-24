@@ -1,15 +1,21 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ClosedInvoice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceClosedinvoicesIdEndpoint(ConnectWiseEndpoint):
+class FinanceClosedinvoicesIdEndpoint(
+    ConnectWiseEndpoint,
+    IPuttable[ClosedInvoice, ConnectWiseManageRequestParams],
+    IPatchable[ClosedInvoice, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClosedInvoice:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ClosedInvoice:
         """
         Performs a PUT request against the /finance/closedInvoices/{id} endpoint.
 
@@ -21,7 +27,7 @@ class FinanceClosedinvoicesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ClosedInvoice, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ClosedInvoice:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ClosedInvoice:
         """
         Performs a PATCH request against the /finance/closedInvoices/{id} endpoint.
 

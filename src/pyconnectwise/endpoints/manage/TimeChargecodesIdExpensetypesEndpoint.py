@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesCountEndpoint i
     TimeChargecodesIdExpensetypesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeChargecodesIdExpensetypesIdEndpoint import \
     TimeChargecodesIdExpensetypesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ChargeCodeExpenseType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
+class TimeChargecodesIdExpensetypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ChargeCodeExpenseType], ConnectWiseManageRequestParams],
+    IPostable[ChargeCodeExpenseType, ConnectWiseManageRequestParams],
+    IPaginateable[ChargeCodeExpenseType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "expenseTypes", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ChargeCodeExpenseType]:
         """
         Performs a GET request against the /time/chargeCodes/{id}/expenseTypes endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ChargeCodeExpenseType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ChargeCodeExpenseType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ChargeCodeExpenseType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ChargeCodeExpenseType]:
         """
         Performs a GET request against the /time/chargeCodes/{id}/expenseTypes endpoint.
 
@@ -61,7 +73,9 @@ class TimeChargecodesIdExpensetypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ChargeCodeExpenseType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ChargeCodeExpenseType:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ChargeCodeExpenseType:
         """
         Performs a POST request against the /time/chargeCodes/{id}/expenseTypes endpoint.
 

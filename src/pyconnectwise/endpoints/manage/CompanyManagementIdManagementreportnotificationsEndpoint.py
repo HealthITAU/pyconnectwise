@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyManagementIdManagementreportnotificat
     CompanyManagementIdManagementreportnotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManagementIdManagementreportnotificationsIdEndpoint import \
     CompanyManagementIdManagementreportnotificationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagementReportNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManagementIdManagementreportnotificationsEndpoint(ConnectWiseEndpoint):
+class CompanyManagementIdManagementreportnotificationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagementReportNotification], ConnectWiseManageRequestParams],
+    IPostable[ManagementReportNotification, ConnectWiseManageRequestParams],
+    IPaginateable[ManagementReportNotification, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "managementReportNotifications", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(ConnectWiseEndpoi
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagementReportNotification]:
         """
         Performs a GET request against the /company/management/{id}/managementReportNotifications endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(ConnectWiseEndpoi
         Returns:
             PaginatedResponse[ManagementReportNotification]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ManagementReportNotification, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagementReportNotification]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ManagementReportNotification]:
         """
         Performs a GET request against the /company/management/{id}/managementReportNotifications endpoint.
 
@@ -63,7 +75,9 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(ConnectWiseEndpoi
             ManagementReportNotification, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagementReportNotification:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagementReportNotification:
         """
         Performs a POST request against the /company/management/{id}/managementReportNotifications endpoint.
 

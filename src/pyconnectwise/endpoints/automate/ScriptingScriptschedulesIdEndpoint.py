@@ -1,15 +1,19 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import AutomateScheduledScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScriptingScriptschedulesIdEndpoint(ConnectWiseEndpoint):
+class ScriptingScriptschedulesIdEndpoint(
+    ConnectWiseEndpoint, IPatchable[AutomateScheduledScript, ConnectWiseAutomateRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /Scripting/Scriptschedules/{id} endpoint.
 
@@ -19,7 +23,9 @@ class ScriptingScriptschedulesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateScheduledScript:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> AutomateScheduledScript:
         """
         Performs a PATCH request against the /Scripting/Scriptschedules/{id} endpoint.
 

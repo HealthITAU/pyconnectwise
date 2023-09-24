@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.SystemConnectwisehostedsetupsCountEndpoint i
     SystemConnectwisehostedsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemConnectwisehostedsetupsIdEndpoint import \
     SystemConnectwisehostedsetupsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ConnectWiseHostedSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
+class SystemConnectwisehostedsetupsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ConnectWiseHostedSetup], ConnectWiseManageRequestParams],
+    IPostable[ConnectWiseHostedSetup, ConnectWiseManageRequestParams],
+    IPaginateable[ConnectWiseHostedSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "connectwisehostedsetups", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ConnectWiseHostedSetup]:
         """
         Performs a GET request against the /system/connectwisehostedsetups endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ConnectWiseHostedSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ConnectWiseHostedSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConnectWiseHostedSetup]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ConnectWiseHostedSetup]:
         """
         Performs a GET request against the /system/connectwisehostedsetups endpoint.
 
@@ -61,7 +73,9 @@ class SystemConnectwisehostedsetupsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ConnectWiseHostedSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConnectWiseHostedSetup:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ConnectWiseHostedSetup:
         """
         Performs a POST request against the /system/connectwisehostedsetups endpoint.
 

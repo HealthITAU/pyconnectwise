@@ -6,19 +6,26 @@ from pyconnectwise.endpoints.manage.SystemLdapconfigurationsIdEndpoint import Sy
 from pyconnectwise.endpoints.manage.SystemLdapconfigurationsInfoEndpoint import SystemLdapconfigurationsInfoEndpoint
 from pyconnectwise.endpoints.manage.SystemLdapconfigurationsTestlinkEndpoint import \
     SystemLdapconfigurationsTestlinkEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import LdapConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemLdapconfigurationsEndpoint(ConnectWiseEndpoint):
+class SystemLdapconfigurationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LdapConfiguration], ConnectWiseManageRequestParams],
+    IPostable[LdapConfiguration, ConnectWiseManageRequestParams],
+    IPaginateable[LdapConfiguration, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ldapConfigurations", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(SystemLdapconfigurationsCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(SystemLdapconfigurationsInfoEndpoint(client, parent_endpoint=self))
         self.test_link = self._register_child_endpoint(
             SystemLdapconfigurationsTestlinkEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(SystemLdapconfigurationsInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemLdapconfigurationsIdEndpoint:
         """
@@ -34,7 +41,7 @@ class SystemLdapconfigurationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LdapConfiguration]:
         """
         Performs a GET request against the /system/ldapConfigurations endpoint and returns an initialized PaginatedResponse object.
@@ -46,13 +53,18 @@ class SystemLdapconfigurationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LdapConfiguration]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LdapConfiguration, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LdapConfiguration]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[LdapConfiguration]:
         """
         Performs a GET request against the /system/ldapConfigurations endpoint.
 
@@ -64,7 +76,7 @@ class SystemLdapconfigurationsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(LdapConfiguration, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LdapConfiguration:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> LdapConfiguration:
         """
         Performs a POST request against the /system/ldapConfigurations endpoint.
 

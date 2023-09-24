@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLocationsCountEndpoint import SystemInfoLocationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemInfoLocationsIdEndpoint import SystemInfoLocationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import LocationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
+class SystemInfoLocationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LocationInfo], ConnectWiseManageRequestParams],
+    IPaginateable[LocationInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locations", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,16 @@ class SystemInfoLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LocationInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LocationInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LocationInfo]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint.
 

@@ -11,32 +11,42 @@ from pyconnectwise.endpoints.manage.MarketingCampaignsIdLinksclickedEndpoint imp
     MarketingCampaignsIdLinksclickedEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdOpportunitiesEndpoint import \
     MarketingCampaignsIdOpportunitiesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Campaign
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
+class MarketingCampaignsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Campaign, ConnectWiseManageRequestParams],
+    IPuttable[Campaign, ConnectWiseManageRequestParams],
+    IPatchable[Campaign, ConnectWiseManageRequestParams],
+    IPaginateable[Campaign, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.forms_submitted = self._register_child_endpoint(
+            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
+        )
         self.links_clicked = self._register_child_endpoint(
             MarketingCampaignsIdLinksclickedEndpoint(client, parent_endpoint=self)
-        )
-        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
-        self.opportunities = self._register_child_endpoint(
-            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
         )
         self.activities = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
-        self.forms_submitted = self._register_child_endpoint(
-            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
+        self.opportunities = self._register_child_endpoint(
+            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
         )
+        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
         self.emails_opened = self._register_child_endpoint(
             MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
         )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Campaign]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Campaign]:
         """
         Performs a GET request against the /marketing/campaigns/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -47,11 +57,14 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Campaign]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Campaign, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Campaign:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Campaign:
         """
         Performs a GET request against the /marketing/campaigns/{id} endpoint.
 
@@ -63,7 +76,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Campaign, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /marketing/campaigns/{id} endpoint.
 
@@ -73,7 +86,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Campaign:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Campaign:
         """
         Performs a PUT request against the /marketing/campaigns/{id} endpoint.
 
@@ -85,7 +98,7 @@ class MarketingCampaignsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Campaign, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Campaign:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Campaign:
         """
         Performs a PATCH request against the /marketing/campaigns/{id} endpoint.
 

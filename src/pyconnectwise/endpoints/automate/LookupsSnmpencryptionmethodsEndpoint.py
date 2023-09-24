@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechEncryptionMethod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class LookupsSnmpencryptionmethodsEndpoint(ConnectWiseEndpoint):
+class LookupsSnmpencryptionmethodsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechEncryptionMethod], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechEncryptionMethod, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Snmpencryptionmethods", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechEncryptionMethod]:
         """
         Performs a GET request against the /Lookups/Snmpencryptionmethods endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class LookupsSnmpencryptionmethodsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechEncryptionMethod]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechEncryptionMethod, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechEncryptionMethod]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechEncryptionMethod]:
         """
         Performs a GET request against the /Lookups/Snmpencryptionmethods endpoint.
 

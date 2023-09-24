@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint i
     FinanceAccountingpackagesetupCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupIdEndpoint import \
     FinanceAccountingpackagesetupIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import AccountingPackageSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
+class FinanceAccountingpackagesetupEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AccountingPackageSetup], ConnectWiseManageRequestParams],
+    IPaginateable[AccountingPackageSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "accountingPackageSetup", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +49,18 @@ class FinanceAccountingpackagesetupEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AccountingPackageSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), AccountingPackageSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AccountingPackageSetup]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup endpoint.
 

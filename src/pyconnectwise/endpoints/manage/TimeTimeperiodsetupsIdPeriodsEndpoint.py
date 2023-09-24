@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsCountEndpoint i
     TimeTimeperiodsetupsIdPeriodsCountEndpoint
 from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsIdEndpoint import \
     TimeTimeperiodsetupsIdPeriodsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimePeriod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
+class TimeTimeperiodsetupsIdPeriodsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TimePeriod], ConnectWiseManageRequestParams],
+    IPaginateable[TimePeriod, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "periods", parent_endpoint=parent_endpoint)
 
@@ -30,7 +36,9 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimePeriod]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,11 +49,14 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimePeriod]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TimePeriod, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimePeriod]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods endpoint.
 

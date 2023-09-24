@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeTicketstopwatchesCountEndpoint import TimeTicketstopwatchesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeTicketstopwatchesIdEndpoint import TimeTicketstopwatchesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TicketStopwatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
+class TimeTicketstopwatchesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TicketStopwatch], ConnectWiseManageRequestParams],
+    IPostable[TicketStopwatch, ConnectWiseManageRequestParams],
+    IPaginateable[TicketStopwatch, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ticketstopwatches", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TicketStopwatch]:
         """
         Performs a GET request against the /time/ticketstopwatches endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TicketStopwatch]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TicketStopwatch, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TicketStopwatch]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[TicketStopwatch]:
         """
         Performs a GET request against the /time/ticketstopwatches endpoint.
 
@@ -57,7 +69,7 @@ class TimeTicketstopwatchesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(TicketStopwatch, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketStopwatch:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TicketStopwatch:
         """
         Performs a POST request against the /time/ticketstopwatches endpoint.
 

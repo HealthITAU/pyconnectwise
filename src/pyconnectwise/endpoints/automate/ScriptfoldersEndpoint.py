@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.automate.ScriptfoldersHierarchyEndpoint import ScriptfoldersHierarchyEndpoint
 from pyconnectwise.endpoints.automate.ScriptfoldersIdEndpoint import ScriptfoldersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechScriptFolder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScriptfoldersEndpoint(ConnectWiseEndpoint):
+class ScriptfoldersEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechScriptFolder], ConnectWiseAutomateRequestParams],
+    IPostable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Scriptfolders", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechScriptFolder]:
         """
         Performs a GET request against the /Scriptfolders endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechScriptFolder]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechScriptFolder, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechScriptFolder]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechScriptFolder]:
         """
         Performs a GET request against the /Scriptfolders endpoint.
 
@@ -57,7 +69,9 @@ class ScriptfoldersEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(LabTechScriptFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechScriptFolder:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechScriptFolder:
         """
         Performs a POST request against the /Scriptfolders endpoint.
 

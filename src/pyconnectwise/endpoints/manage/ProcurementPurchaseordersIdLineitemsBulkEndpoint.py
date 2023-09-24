@@ -1,15 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BulkResult
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
+class ProcurementPurchaseordersIdLineitemsBulkEndpoint(
+    ConnectWiseEndpoint,
+    IPostable[BulkResult, ConnectWiseManageRequestParams],
+    IDeleteable[ConnectWiseManageRequestParams],
+    IPuttable[BulkResult, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BulkResult:
         """
         Performs a POST request against the /procurement/purchaseorders/{id}/lineitems/bulk endpoint.
 
@@ -21,7 +28,7 @@ class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(BulkResult, super()._make_request("POST", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BulkResult:
         """
         Performs a DELETE request against the /procurement/purchaseorders/{id}/lineitems/bulk endpoint.
 
@@ -33,7 +40,7 @@ class ProcurementPurchaseordersIdLineitemsBulkEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(BulkResult, super()._make_request("DELETE", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BulkResult:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BulkResult:
         """
         Performs a PUT request against the /procurement/purchaseorders/{id}/lineitems/bulk endpoint.
 

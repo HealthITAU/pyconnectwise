@@ -35,7 +35,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     and the configuration of all the available endpoints.
     """
 
-    def __init__(self, automate_url: str, client_id: str, username: str, password: str, config: Config = None):
+    def __init__(self, automate_url: str, client_id: str, username: str, password: str, config: Config | None = None):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
         If no codebase is given, it tries to get it from the API.

@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsCountEndpoint import SystemMyaccountIdSkillsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsIdEndpoint import SystemMyaccountIdSkillsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MemberSkill
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMyaccountIdSkillsEndpoint(ConnectWiseEndpoint):
+class SystemMyaccountIdSkillsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[MemberSkill], ConnectWiseManageRequestParams],
+    IPostable[MemberSkill, ConnectWiseManageRequestParams],
+    IPaginateable[MemberSkill, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "skills", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class SystemMyaccountIdSkillsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MemberSkill]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[MemberSkill]:
         """
         Performs a GET request against the /system/myAccount/{id}/skills endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,13 +46,16 @@ class SystemMyaccountIdSkillsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MemberSkill]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), MemberSkill, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberSkill]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[MemberSkill]:
         """
         Performs a GET request against the /system/myAccount/{id}/skills endpoint.
 
@@ -55,7 +67,7 @@ class SystemMyaccountIdSkillsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(MemberSkill, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberSkill:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MemberSkill:
         """
         Performs a POST request against the /system/myAccount/{id}/skills endpoint.
 

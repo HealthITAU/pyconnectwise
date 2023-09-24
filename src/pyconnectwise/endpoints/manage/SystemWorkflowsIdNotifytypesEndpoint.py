@@ -6,11 +6,17 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint im
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import SystemWorkflowsIdNotifytypesIdEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import \
     SystemWorkflowsIdNotifytypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import WorkflowNotifyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
+class SystemWorkflowsIdNotifytypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[WorkflowNotifyType], ConnectWiseManageRequestParams],
+    IPaginateable[WorkflowNotifyType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notifyTypes", parent_endpoint=parent_endpoint)
 
@@ -35,7 +41,7 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[WorkflowNotifyType]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes endpoint and returns an initialized PaginatedResponse object.
@@ -47,13 +53,18 @@ class SystemWorkflowsIdNotifytypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[WorkflowNotifyType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), WorkflowNotifyType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowNotifyType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[WorkflowNotifyType]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes endpoint.
 

@@ -2,11 +2,18 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ClientsIdEndpoint import ClientsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechClient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ClientsEndpoint(ConnectWiseEndpoint):
+class ClientsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechClient], ConnectWiseAutomateRequestParams],
+    IPostable[LabTechClient, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechClient, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Clients", parent_endpoint=parent_endpoint)
 
@@ -24,7 +31,7 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechClient]:
         """
         Performs a GET request against the /Clients endpoint and returns an initialized PaginatedResponse object.
@@ -36,13 +43,18 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechClient]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechClient, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechClient]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechClient]:
         """
         Performs a GET request against the /Clients endpoint.
 
@@ -54,7 +66,7 @@ class ClientsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(LabTechClient, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechClient:
+    def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> LabTechClient:
         """
         Performs a POST request against the /Clients endpoint.
 

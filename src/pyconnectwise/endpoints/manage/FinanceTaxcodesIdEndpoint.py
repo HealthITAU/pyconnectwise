@@ -12,34 +12,44 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodexrefsEndpoint import
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdUsagesEndpoint import FinanceTaxcodesIdUsagesEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdWorkroleexemptionsEndpoint import \
     FinanceTaxcodesIdWorkroleexemptionsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TaxCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
+class FinanceTaxcodesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TaxCode, ConnectWiseManageRequestParams],
+    IPuttable[TaxCode, ConnectWiseManageRequestParams],
+    IPatchable[TaxCode, ConnectWiseManageRequestParams],
+    IPaginateable[TaxCode, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.copy = self._register_child_endpoint(FinanceTaxcodesIdCopyEndpoint(client, parent_endpoint=self))
+        self.tax_code_x_refs = self._register_child_endpoint(
+            FinanceTaxcodesIdTaxcodexrefsEndpoint(client, parent_endpoint=self)
+        )
+        self.tax_code_levels = self._register_child_endpoint(
+            FinanceTaxcodesIdTaxcodelevelsEndpoint(client, parent_endpoint=self)
+        )
         self.work_role_exemptions = self._register_child_endpoint(
             FinanceTaxcodesIdWorkroleexemptionsEndpoint(client, parent_endpoint=self)
         )
         self.usages = self._register_child_endpoint(FinanceTaxcodesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(FinanceTaxcodesIdInfoEndpoint(client, parent_endpoint=self))
-        self.tax_code_x_refs = self._register_child_endpoint(
-            FinanceTaxcodesIdTaxcodexrefsEndpoint(client, parent_endpoint=self)
-        )
-        self.copy = self._register_child_endpoint(FinanceTaxcodesIdCopyEndpoint(client, parent_endpoint=self))
-        self.tax_code_levels = self._register_child_endpoint(
-            FinanceTaxcodesIdTaxcodelevelsEndpoint(client, parent_endpoint=self)
+        self.product_type_exemptions = self._register_child_endpoint(
+            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
         )
         self.expense_type_exemptions = self._register_child_endpoint(
             FinanceTaxcodesIdExpensetypeexemptionsEndpoint(client, parent_endpoint=self)
         )
-        self.product_type_exemptions = self._register_child_endpoint(
-            FinanceTaxcodesIdProducttypeexemptionsEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(FinanceTaxcodesIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCode]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TaxCode]:
         """
         Performs a GET request against the /finance/taxCodes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -50,11 +60,14 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TaxCode]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TaxCode, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxCode:
         """
         Performs a GET request against the /finance/taxCodes/{id} endpoint.
 
@@ -66,7 +79,7 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TaxCode, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /finance/taxCodes/{id} endpoint.
 
@@ -76,7 +89,7 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxCode:
         """
         Performs a PUT request against the /finance/taxCodes/{id} endpoint.
 
@@ -88,7 +101,7 @@ class FinanceTaxcodesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TaxCode, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TaxCode:
         """
         Performs a PATCH request against the /finance/taxCodes/{id} endpoint.
 

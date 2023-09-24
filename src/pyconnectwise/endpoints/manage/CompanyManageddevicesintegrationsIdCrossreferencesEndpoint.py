@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossrefe
     CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint import \
     CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegrationCrossReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagedDevicesIntegrationCrossReference], ConnectWiseManageRequestParams],
+    IPostable[ManagedDevicesIntegrationCrossReference, ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegrationCrossReference, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "crossReferences", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegrationCrossReference]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/crossReferences endpoint and returns an initialized PaginatedResponse object.
@@ -43,8 +50,11 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         Returns:
             PaginatedResponse[ManagedDevicesIntegrationCrossReference]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             ManagedDevicesIntegrationCrossReference,
@@ -55,7 +65,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ManagedDevicesIntegrationCrossReference]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/crossReferences endpoint.
@@ -71,7 +81,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(ConnectWiseEndp
         )
 
     def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationCrossReference:
         """
         Performs a POST request against the /company/managedDevicesIntegrations/{id}/crossReferences endpoint.

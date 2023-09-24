@@ -1,15 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ApiMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
+class SystemApimembersIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ApiMember, ConnectWiseManageRequestParams],
+    IPuttable[ApiMember, ConnectWiseManageRequestParams],
+    IPatchable[ApiMember, ConnectWiseManageRequestParams],
+    IPaginateable[ApiMember, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ApiMember]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[ApiMember]:
         """
         Performs a GET request against the /system/apiMembers/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +30,14 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ApiMember]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), ApiMember, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ApiMember:
         """
         Performs a GET request against the /system/apiMembers/{id} endpoint.
 
@@ -36,7 +49,7 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ApiMember, super()._make_request("GET", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ApiMember:
         """
         Performs a PUT request against the /system/apiMembers/{id} endpoint.
 
@@ -48,7 +61,7 @@ class SystemApimembersIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ApiMember, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ApiMember:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ApiMember:
         """
         Performs a PATCH request against the /system/apiMembers/{id} endpoint.
 

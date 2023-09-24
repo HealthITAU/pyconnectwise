@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementSettingsCountEndpoint import ProcurementSettingsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementSettingsIdEndpoint import ProcurementSettingsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProcurementSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
+class ProcurementSettingsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProcurementSetting], ConnectWiseManageRequestParams],
+    IPaginateable[ProcurementSetting, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "settings", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProcurementSetting]:
         """
         Performs a GET request against the /procurement/settings endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class ProcurementSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProcurementSetting]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProcurementSetting, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProcurementSetting]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProcurementSetting]:
         """
         Performs a GET request against the /procurement/settings endpoint.
 

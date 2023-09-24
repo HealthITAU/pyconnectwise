@@ -3,11 +3,19 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksEndpoint import \
     ProcurementPricingschedulesIdDetailsIdBreaksEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PricingDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
+class ProcurementPricingschedulesIdDetailsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[PricingDetail, ConnectWiseManageRequestParams],
+    IPuttable[PricingDetail, ConnectWiseManageRequestParams],
+    IPatchable[PricingDetail, ConnectWiseManageRequestParams],
+    IPaginateable[PricingDetail, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -16,7 +24,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PricingDetail]:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -28,13 +36,16 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PricingDetail]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PricingDetail, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PricingDetail:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -46,7 +57,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PricingDetail, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -56,7 +67,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PricingDetail:
         """
         Performs a PUT request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 
@@ -68,7 +79,7 @@ class ProcurementPricingschedulesIdDetailsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(PricingDetail, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingDetail:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> PricingDetail:
         """
         Performs a PATCH request against the /procurement/pricingschedules/{id}/details/{id} endpoint.
 

@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesCountEndpoin
     ProcurementPurchaseorderstatusesCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEndpoint import \
     ProcurementPurchaseorderstatusesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PurchaseOrderStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
+class ProcurementPurchaseorderstatusesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PurchaseOrderStatus], ConnectWiseManageRequestParams],
+    IPostable[PurchaseOrderStatus, ConnectWiseManageRequestParams],
+    IPaginateable[PurchaseOrderStatus, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "purchaseorderstatuses", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PurchaseOrderStatus]:
         """
         Performs a GET request against the /procurement/purchaseorderstatuses endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PurchaseOrderStatus]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PurchaseOrderStatus, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PurchaseOrderStatus]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[PurchaseOrderStatus]:
         """
         Performs a GET request against the /procurement/purchaseorderstatuses endpoint.
 
@@ -61,7 +73,9 @@ class ProcurementPurchaseorderstatusesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(PurchaseOrderStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PurchaseOrderStatus:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> PurchaseOrderStatus:
         """
         Performs a POST request against the /procurement/purchaseorderstatuses endpoint.
 

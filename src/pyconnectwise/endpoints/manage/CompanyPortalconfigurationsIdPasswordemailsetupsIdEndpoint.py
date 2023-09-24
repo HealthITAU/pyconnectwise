@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PortalConfigurationPasswordEmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndpoint):
+class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
+    IPuttable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
+    IPatchable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
+    IPaginateable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalConfigurationPasswordEmailSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/passwordEmailSetups/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,8 +30,11 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
         Returns:
             PaginatedResponse[PortalConfigurationPasswordEmailSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             PortalConfigurationPasswordEmailSetup,
@@ -34,7 +45,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> PortalConfigurationPasswordEmailSetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/passwordEmailSetups/{id} endpoint.
@@ -50,7 +61,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
         )
 
     def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> PortalConfigurationPasswordEmailSetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/passwordEmailSetups/{id} endpoint.
@@ -66,7 +77,7 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(ConnectWiseEndp
         )
 
     def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> PortalConfigurationPasswordEmailSetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/passwordEmailSetups/{id} endpoint.

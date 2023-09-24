@@ -2,11 +2,19 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsIdPeriodsEndpoint import TimeTimeperiodsetupsIdPeriodsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimePeriodSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
+class TimeTimeperiodsetupsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TimePeriodSetup, ConnectWiseManageRequestParams],
+    IPuttable[TimePeriodSetup, ConnectWiseManageRequestParams],
+    IPatchable[TimePeriodSetup, ConnectWiseManageRequestParams],
+    IPaginateable[TimePeriodSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -15,7 +23,7 @@ class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TimePeriodSetup]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -27,13 +35,16 @@ class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimePeriodSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TimePeriodSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetup:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimePeriodSetup:
         """
         Performs a GET request against the /time/timePeriodSetups/{id} endpoint.
 
@@ -45,7 +56,7 @@ class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimePeriodSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /time/timePeriodSetups/{id} endpoint.
 
@@ -55,7 +66,7 @@ class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetup:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimePeriodSetup:
         """
         Performs a PUT request against the /time/timePeriodSetups/{id} endpoint.
 
@@ -67,7 +78,7 @@ class TimeTimeperiodsetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimePeriodSetup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriodSetup:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TimePeriodSetup:
         """
         Performs a PATCH request against the /time/timePeriodSetups/{id} endpoint.
 

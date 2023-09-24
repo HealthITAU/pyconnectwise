@@ -10,26 +10,28 @@ from pyconnectwise.endpoints.manage.SystemM365contactsyncNotifydeactivationEndpo
     SystemM365contactsyncNotifydeactivationEndpoint
 from pyconnectwise.endpoints.manage.SystemM365contactsyncNotifyerrorEndpoint import \
     SystemM365contactsyncNotifyerrorEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "m365contactsync", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemM365contactsyncInfoEndpoint(client, parent_endpoint=self))
+        self.notifydeactivation = self._register_child_endpoint(
+            SystemM365contactsyncNotifydeactivationEndpoint(client, parent_endpoint=self)
+        )
+        self.notifyerror = self._register_child_endpoint(
+            SystemM365contactsyncNotifyerrorEndpoint(client, parent_endpoint=self)
+        )
         self.checkvalidsync = self._register_child_endpoint(
             SystemM365contactsyncCheckvalidsyncEndpoint(client, parent_endpoint=self)
         )
         self.authorize = self._register_child_endpoint(
             SystemM365contactsyncAuthorizeEndpoint(client, parent_endpoint=self)
         )
-        self.notifyerror = self._register_child_endpoint(
-            SystemM365contactsyncNotifyerrorEndpoint(client, parent_endpoint=self)
-        )
-        self.notifydeactivation = self._register_child_endpoint(
-            SystemM365contactsyncNotifydeactivationEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemM365contactsyncInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemM365contactsyncIdEndpoint:
         """

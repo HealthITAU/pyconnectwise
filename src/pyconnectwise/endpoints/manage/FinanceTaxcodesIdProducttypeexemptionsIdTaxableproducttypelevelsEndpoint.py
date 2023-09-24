@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdTaxa
     FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint import \
     FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TaxableProductTypeLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(ConnectWiseEndpoint):
+class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TaxableProductTypeLevel], ConnectWiseManageRequestParams],
+    IPostable[TaxableProductTypeLevel, ConnectWiseManageRequestParams],
+    IPaginateable[TaxableProductTypeLevel, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "taxableProductTypeLevels", parent_endpoint=parent_endpoint)
 
@@ -33,7 +40,7 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(C
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TaxableProductTypeLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels endpoint and returns an initialized PaginatedResponse object.
@@ -45,13 +52,18 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(C
         Returns:
             PaginatedResponse[TaxableProductTypeLevel]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TaxableProductTypeLevel, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxableProductTypeLevel]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[TaxableProductTypeLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels endpoint.
 
@@ -63,7 +75,9 @@ class FinanceTaxcodesIdProducttypeexemptionsIdTaxableproducttypelevelsEndpoint(C
         """
         return self._parse_many(TaxableProductTypeLevel, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxableProductTypeLevel:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> TaxableProductTypeLevel:
         """
         Performs a POST request against the /finance/taxCodes/{id}/productTypeExemptions/{id}/taxableProductTypeLevels endpoint.
 

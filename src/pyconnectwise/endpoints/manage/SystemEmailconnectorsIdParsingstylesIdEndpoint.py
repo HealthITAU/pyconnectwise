@@ -3,11 +3,19 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint import \
     SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import EmailConnectorParsingStyle
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
+class SystemEmailconnectorsIdParsingstylesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[EmailConnectorParsingStyle, ConnectWiseManageRequestParams],
+    IPuttable[EmailConnectorParsingStyle, ConnectWiseManageRequestParams],
+    IPatchable[EmailConnectorParsingStyle, ConnectWiseManageRequestParams],
+    IPaginateable[EmailConnectorParsingStyle, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -16,7 +24,7 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[EmailConnectorParsingStyle]:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -28,13 +36,18 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[EmailConnectorParsingStyle]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), EmailConnectorParsingStyle, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -48,7 +61,7 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             EmailConnectorParsingStyle, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -58,7 +71,9 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a PUT request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 
@@ -72,7 +87,9 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(ConnectWiseEndpoint):
             EmailConnectorParsingStyle, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingStyle:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> EmailConnectorParsingStyle:
         """
         Performs a PATCH request against the /system/emailConnectors/{id}/parsingStyles/{id} endpoint.
 

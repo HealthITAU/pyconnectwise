@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsCountEndpoint import \
     ProcurementDirectionalsyncsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementDirectionalsyncsIdEndpoint import ProcurementDirectionalsyncsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import DirectionalSync
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
+class ProcurementDirectionalsyncsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[DirectionalSync], ConnectWiseManageRequestParams],
+    IPostable[DirectionalSync, ConnectWiseManageRequestParams],
+    IPaginateable[DirectionalSync, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "directionalSyncs", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[DirectionalSync]:
         """
         Performs a GET request against the /procurement/directionalSyncs endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[DirectionalSync]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), DirectionalSync, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[DirectionalSync]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[DirectionalSync]:
         """
         Performs a GET request against the /procurement/directionalSyncs endpoint.
 
@@ -60,7 +72,7 @@ class ProcurementDirectionalsyncsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(DirectionalSync, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> DirectionalSync:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> DirectionalSync:
         """
         Performs a POST request against the /procurement/directionalSyncs endpoint.
 

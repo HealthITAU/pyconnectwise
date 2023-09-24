@@ -1,15 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import EmailToken
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemEmailtokensIdEndpoint(ConnectWiseEndpoint):
+class SystemEmailtokensIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[EmailToken, ConnectWiseManageRequestParams],
+    IPaginateable[EmailToken, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[EmailToken]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[EmailToken]:
         """
         Performs a GET request against the /system/emailTokens/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +28,14 @@ class SystemEmailtokensIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[EmailToken]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), EmailToken, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailToken:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> EmailToken:
         """
         Performs a GET request against the /system/emailTokens/{id} endpoint.
 

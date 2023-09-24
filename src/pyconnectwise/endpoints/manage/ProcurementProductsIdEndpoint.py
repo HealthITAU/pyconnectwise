@@ -6,23 +6,33 @@ from pyconnectwise.endpoints.manage.ProcurementProductsIdComponentsEndpoint impo
 from pyconnectwise.endpoints.manage.ProcurementProductsIdDetachEndpoint import ProcurementProductsIdDetachEndpoint
 from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsEndpoint import \
     ProcurementProductsIdPickingshippingdetailsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProductItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
+class ProcurementProductsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ProductItem, ConnectWiseManageRequestParams],
+    IPuttable[ProductItem, ConnectWiseManageRequestParams],
+    IPatchable[ProductItem, ConnectWiseManageRequestParams],
+    IPaginateable[ProductItem, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.components = self._register_child_endpoint(
-            ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
-        )
-        self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
         self.picking_shipping_details = self._register_child_endpoint(
             ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
         )
+        self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
+        self.components = self._register_child_endpoint(
+            ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
+        )
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProductItem]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[ProductItem]:
         """
         Performs a GET request against the /procurement/products/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -33,13 +43,16 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProductItem]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProductItem, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProductItem:
         """
         Performs a GET request against the /procurement/products/{id} endpoint.
 
@@ -51,7 +64,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ProductItem, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /procurement/products/{id} endpoint.
 
@@ -61,7 +74,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProductItem:
         """
         Performs a PUT request against the /procurement/products/{id} endpoint.
 
@@ -73,7 +86,7 @@ class ProcurementProductsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ProductItem, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductItem:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProductItem:
         """
         Performs a PATCH request against the /procurement/products/{id} endpoint.
 

@@ -3,20 +3,30 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsEndpoint import SystemMyaccountIdDelegationsEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsEndpoint import SystemMyaccountIdSkillsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MyAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMyaccountIdEndpoint(ConnectWiseEndpoint):
+class SystemMyaccountIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[MyAccount, ConnectWiseManageRequestParams],
+    IPuttable[MyAccount, ConnectWiseManageRequestParams],
+    IPatchable[MyAccount, ConnectWiseManageRequestParams],
+    IPaginateable[MyAccount, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMyaccountIdDelegationsEndpoint(client, parent_endpoint=self)
         )
+        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MyAccount]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[MyAccount]:
         """
         Performs a GET request against the /system/myAccount/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -27,11 +37,14 @@ class SystemMyaccountIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MyAccount]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), MyAccount, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MyAccount:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
         """
         Performs a GET request against the /system/myAccount/{id} endpoint.
 
@@ -43,7 +56,7 @@ class SystemMyaccountIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(MyAccount, super()._make_request("GET", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MyAccount:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
         """
         Performs a PUT request against the /system/myAccount/{id} endpoint.
 
@@ -55,7 +68,7 @@ class SystemMyaccountIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(MyAccount, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MyAccount:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
         """
         Performs a PATCH request against the /system/myAccount/{id} endpoint.
 

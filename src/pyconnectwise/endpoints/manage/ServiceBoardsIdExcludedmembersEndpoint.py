@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersCountEndpoint 
     ServiceBoardsIdExcludedmembersCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdExcludedmembersIdEndpoint import \
     ServiceBoardsIdExcludedmembersIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardExcludedMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
+class ServiceBoardsIdExcludedmembersEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardExcludedMember], ConnectWiseManageRequestParams],
+    IPostable[BoardExcludedMember, ConnectWiseManageRequestParams],
+    IPaginateable[BoardExcludedMember, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "excludedMembers", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BoardExcludedMember]:
         """
         Performs a GET request against the /service/boards/{id}/excludedMembers endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardExcludedMember]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BoardExcludedMember, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardExcludedMember]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[BoardExcludedMember]:
         """
         Performs a GET request against the /service/boards/{id}/excludedMembers endpoint.
 
@@ -61,7 +73,9 @@ class ServiceBoardsIdExcludedmembersEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(BoardExcludedMember, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardExcludedMember:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> BoardExcludedMember:
         """
         Performs a POST request against the /service/boards/{id}/excludedMembers endpoint.
 

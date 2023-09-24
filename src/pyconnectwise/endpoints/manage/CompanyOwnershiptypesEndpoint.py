@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.CompanyOwnershiptypesCountEndpoint import CompanyOwnershiptypesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyOwnershiptypesIdEndpoint import CompanyOwnershiptypesIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyOwnershiptypesInfoEndpoint import CompanyOwnershiptypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import OwnershipType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyOwnershiptypesEndpoint(ConnectWiseEndpoint):
+class CompanyOwnershiptypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[OwnershipType], ConnectWiseManageRequestParams],
+    IPostable[OwnershipType, ConnectWiseManageRequestParams],
+    IPaginateable[OwnershipType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "ownershipTypes", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class CompanyOwnershiptypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[OwnershipType]:
         """
         Performs a GET request against the /company/ownershipTypes endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class CompanyOwnershiptypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[OwnershipType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), OwnershipType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OwnershipType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[OwnershipType]:
         """
         Performs a GET request against the /company/ownershipTypes endpoint.
 
@@ -59,7 +71,7 @@ class CompanyOwnershiptypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(OwnershipType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OwnershipType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> OwnershipType:
         """
         Performs a POST request against the /company/ownershipTypes endpoint.
 

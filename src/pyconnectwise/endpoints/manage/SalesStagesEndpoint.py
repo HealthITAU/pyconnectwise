@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SalesStagesCountEndpoint import SalesStagesCountEndpoint
 from pyconnectwise.endpoints.manage.SalesStagesIdEndpoint import SalesStagesIdEndpoint
 from pyconnectwise.endpoints.manage.SalesStagesInfoEndpoint import SalesStagesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import OpportunityStage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesStagesEndpoint(ConnectWiseEndpoint):
+class SalesStagesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[OpportunityStage], ConnectWiseManageRequestParams],
+    IPostable[OpportunityStage, ConnectWiseManageRequestParams],
+    IPaginateable[OpportunityStage, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "stages", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[OpportunityStage]:
         """
         Performs a GET request against the /sales/stages endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[OpportunityStage]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), OpportunityStage, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OpportunityStage]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[OpportunityStage]:
         """
         Performs a GET request against the /sales/stages endpoint.
 
@@ -59,7 +71,7 @@ class SalesStagesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(OpportunityStage, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OpportunityStage:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> OpportunityStage:
         """
         Performs a POST request against the /sales/stages endpoint.
 

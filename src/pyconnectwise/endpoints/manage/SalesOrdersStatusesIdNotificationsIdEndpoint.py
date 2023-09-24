@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import OrderStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
+class SalesOrdersStatusesIdNotificationsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[OrderStatusNotification, ConnectWiseManageRequestParams],
+    IPuttable[OrderStatusNotification, ConnectWiseManageRequestParams],
+    IPatchable[OrderStatusNotification, ConnectWiseManageRequestParams],
+    IPaginateable[OrderStatusNotification, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[OrderStatusNotification]:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/notifications/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +30,18 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[OrderStatusNotification]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), OrderStatusNotification, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> OrderStatusNotification:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -40,7 +53,7 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(OrderStatusNotification, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -50,7 +63,9 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> OrderStatusNotification:
         """
         Performs a PUT request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 
@@ -62,7 +77,9 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(OrderStatusNotification, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> OrderStatusNotification:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> OrderStatusNotification:
         """
         Performs a PATCH request against the /sales/orders/statuses/{id}/notifications/{id} endpoint.
 

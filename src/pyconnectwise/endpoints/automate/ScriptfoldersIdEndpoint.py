@@ -1,16 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechScriptFolder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
+class ScriptfoldersIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
+    IPatchable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechScriptFolder]:
         """
         Performs a GET request against the /Scriptfolders/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +29,18 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechScriptFolder]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechScriptFolder, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechScriptFolder:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechScriptFolder:
         """
         Performs a GET request against the /Scriptfolders/{id} endpoint.
 
@@ -40,7 +52,7 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(LabTechScriptFolder, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /Scriptfolders/{id} endpoint.
 
@@ -50,7 +62,9 @@ class ScriptfoldersIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechScriptFolder:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechScriptFolder:
         """
         Performs a PATCH request against the /Scriptfolders/{id} endpoint.
 

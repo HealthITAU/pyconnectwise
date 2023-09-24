@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import SystemPortalreportsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import SystemPortalreportsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PortalReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
+class SystemPortalreportsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PortalReport], ConnectWiseManageRequestParams],
+    IPostable[PortalReport, ConnectWiseManageRequestParams],
+    IPaginateable[PortalReport, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalReports", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,16 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PortalReport]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PortalReport, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalReport]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint.
 
@@ -57,7 +67,7 @@ class SystemPortalreportsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(PortalReport, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalReport:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PortalReport:
         """
         Performs a POST request against the /system/portalReports endpoint.
 

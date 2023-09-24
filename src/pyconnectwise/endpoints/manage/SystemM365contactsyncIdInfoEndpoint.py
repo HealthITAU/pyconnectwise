@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import M365ContactSyncInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemM365contactsyncIdInfoEndpoint(ConnectWiseEndpoint):
+class SystemM365contactsyncIdInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[M365ContactSyncInfo, ConnectWiseManageRequestParams],
+    IPaginateable[M365ContactSyncInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[M365ContactSyncInfo]:
         """
         Performs a GET request against the /system/m365contactsync/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class SystemM365contactsyncIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[M365ContactSyncInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), M365ContactSyncInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> M365ContactSyncInfo:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> M365ContactSyncInfo:
         """
         Performs a GET request against the /system/m365contactsync/{id}/info endpoint.
 

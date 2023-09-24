@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceCurrenciesCountEndpoint import FinanceCurrenciesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceCurrenciesIdEndpoint import FinanceCurrenciesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceCurrenciesInfoEndpoint import FinanceCurrenciesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import FinanceCurrency
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
+class FinanceCurrenciesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[FinanceCurrency], ConnectWiseManageRequestParams],
+    IPostable[FinanceCurrency, ConnectWiseManageRequestParams],
+    IPaginateable[FinanceCurrency, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "currencies", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[FinanceCurrency]:
         """
         Performs a GET request against the /finance/currencies endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[FinanceCurrency]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), FinanceCurrency, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[FinanceCurrency]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[FinanceCurrency]:
         """
         Performs a GET request against the /finance/currencies endpoint.
 
@@ -59,7 +71,7 @@ class FinanceCurrenciesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(FinanceCurrency, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> FinanceCurrency:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> FinanceCurrency:
         """
         Performs a POST request against the /finance/currencies endpoint.
 

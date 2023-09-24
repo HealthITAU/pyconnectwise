@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesCountEndpoint 
     ServiceKnowledgebasecategoriesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceKnowledgebasecategoriesIdEndpoint import \
     ServiceKnowledgebasecategoriesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import KnowledgeBaseCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
+class ServiceKnowledgebasecategoriesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[KnowledgeBaseCategory], ConnectWiseManageRequestParams],
+    IPostable[KnowledgeBaseCategory, ConnectWiseManageRequestParams],
+    IPaginateable[KnowledgeBaseCategory, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "knowledgeBaseCategories", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[KnowledgeBaseCategory]:
         """
         Performs a GET request against the /service/knowledgeBaseCategories endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[KnowledgeBaseCategory]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), KnowledgeBaseCategory, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[KnowledgeBaseCategory]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[KnowledgeBaseCategory]:
         """
         Performs a GET request against the /service/knowledgeBaseCategories endpoint.
 
@@ -61,7 +73,9 @@ class ServiceKnowledgebasecategoriesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(KnowledgeBaseCategory, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KnowledgeBaseCategory:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> KnowledgeBaseCategory:
         """
         Performs a POST request against the /service/knowledgeBaseCategories endpoint.
 

@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdScheduleentriesCountEndpoint import \
     ServiceTicketsIdScheduleentriesCountEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ScheduleEntryReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
+class ServiceTicketsIdScheduleentriesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ScheduleEntryReference], ConnectWiseManageRequestParams],
+    IPaginateable[ScheduleEntryReference, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "scheduleentries", parent_endpoint=parent_endpoint)
 
@@ -16,7 +22,7 @@ class ServiceTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ScheduleEntryReference]:
         """
         Performs a GET request against the /service/tickets/{id}/scheduleentries endpoint and returns an initialized PaginatedResponse object.
@@ -28,13 +34,18 @@ class ServiceTicketsIdScheduleentriesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ScheduleEntryReference]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ScheduleEntryReference, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleEntryReference]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ScheduleEntryReference]:
         """
         Performs a GET request against the /service/tickets/{id}/scheduleentries endpoint.
 

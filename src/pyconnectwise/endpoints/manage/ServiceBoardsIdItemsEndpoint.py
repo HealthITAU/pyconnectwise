@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsCountEndpoint import ServiceBoardsIdItemsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdItemsIdEndpoint import ServiceBoardsIdItemsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceBoardsIdItemsEndpoint(ConnectWiseEndpoint):
+class ServiceBoardsIdItemsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardItem], ConnectWiseManageRequestParams],
+    IPostable[BoardItem, ConnectWiseManageRequestParams],
+    IPaginateable[BoardItem, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "items", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class ServiceBoardsIdItemsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BoardItem]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[BoardItem]:
         """
         Performs a GET request against the /service/boards/{id}/items endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +46,14 @@ class ServiceBoardsIdItemsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardItem]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), BoardItem, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardItem]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[BoardItem]:
         """
         Performs a GET request against the /service/boards/{id}/items endpoint.
 
@@ -53,7 +65,7 @@ class ServiceBoardsIdItemsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(BoardItem, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BoardItem:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BoardItem:
         """
         Performs a POST request against the /service/boards/{id}/items endpoint.
 

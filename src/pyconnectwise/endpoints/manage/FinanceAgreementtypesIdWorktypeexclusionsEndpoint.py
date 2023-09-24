@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypeexclusionsCou
     FinanceAgreementtypesIdWorktypeexclusionsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypeexclusionsIdEndpoint import \
     FinanceAgreementtypesIdWorktypeexclusionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import AgreementTypeWorkTypeExclusion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceAgreementtypesIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
+class FinanceAgreementtypesIdWorktypeexclusionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AgreementTypeWorkTypeExclusion], ConnectWiseManageRequestParams],
+    IPostable[AgreementTypeWorkTypeExclusion, ConnectWiseManageRequestParams],
+    IPaginateable[AgreementTypeWorkTypeExclusion, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workTypeExclusions", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class FinanceAgreementtypesIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AgreementTypeWorkTypeExclusion]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workTypeExclusions endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class FinanceAgreementtypesIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AgreementTypeWorkTypeExclusion]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), AgreementTypeWorkTypeExclusion, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkTypeExclusion]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[AgreementTypeWorkTypeExclusion]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workTypeExclusions endpoint.
 
@@ -63,7 +75,9 @@ class FinanceAgreementtypesIdWorktypeexclusionsEndpoint(ConnectWiseEndpoint):
             AgreementTypeWorkTypeExclusion, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkTypeExclusion:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> AgreementTypeWorkTypeExclusion:
         """
         Performs a POST request against the /finance/agreementTypes/{id}/workTypeExclusions endpoint.
 

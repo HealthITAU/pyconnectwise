@@ -9,18 +9,24 @@ from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseE
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdPricingEndpoint import ProcurementCatalogIdPricingEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdQuantityonhandEndpoint import \
     ProcurementCatalogIdQuantityonhandEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CatalogItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
+class ProcurementCatalogIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[CatalogItem, ConnectWiseManageRequestParams],
+    IPuttable[CatalogItem, ConnectWiseManageRequestParams],
+    IPatchable[CatalogItem, ConnectWiseManageRequestParams],
+    IPaginateable[CatalogItem, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.pricing = self._register_child_endpoint(ProcurementCatalogIdPricingEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ProcurementCatalogIdInfoEndpoint(client, parent_endpoint=self))
-        self.inventory = self._register_child_endpoint(
-            ProcurementCatalogIdInventoryEndpoint(client, parent_endpoint=self)
+        self.minimum_stock_by_warehouse = self._register_child_endpoint(
+            ProcurementCatalogIdMinimumstockbywarehouseEndpoint(client, parent_endpoint=self)
         )
         self.components = self._register_child_endpoint(
             ProcurementCatalogIdComponentsEndpoint(client, parent_endpoint=self)
@@ -28,11 +34,15 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         self.quantity_on_hand = self._register_child_endpoint(
             ProcurementCatalogIdQuantityonhandEndpoint(client, parent_endpoint=self)
         )
-        self.minimum_stock_by_warehouse = self._register_child_endpoint(
-            ProcurementCatalogIdMinimumstockbywarehouseEndpoint(client, parent_endpoint=self)
+        self.pricing = self._register_child_endpoint(ProcurementCatalogIdPricingEndpoint(client, parent_endpoint=self))
+        self.inventory = self._register_child_endpoint(
+            ProcurementCatalogIdInventoryEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ProcurementCatalogIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CatalogItem]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[CatalogItem]:
         """
         Performs a GET request against the /procurement/catalog/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -43,13 +53,16 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CatalogItem]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CatalogItem, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogItem:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogItem:
         """
         Performs a GET request against the /procurement/catalog/{id} endpoint.
 
@@ -61,7 +74,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(CatalogItem, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /procurement/catalog/{id} endpoint.
 
@@ -71,7 +84,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogItem:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogItem:
         """
         Performs a PUT request against the /procurement/catalog/{id} endpoint.
 
@@ -83,7 +96,7 @@ class ProcurementCatalogIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(CatalogItem, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogItem:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> CatalogItem:
         """
         Performs a PATCH request against the /procurement/catalog/{id} endpoint.
 

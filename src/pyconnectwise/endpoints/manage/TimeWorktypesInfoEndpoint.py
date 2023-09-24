@@ -2,18 +2,24 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesInfoCountEndpoint import TimeWorktypesInfoCountEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import WorkTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeWorktypesInfoEndpoint(ConnectWiseEndpoint):
+class TimeWorktypesInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[WorkTypeInfo], ConnectWiseManageRequestParams],
+    IPaginateable[WorkTypeInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(TimeWorktypesInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[WorkTypeInfo]:
         """
         Performs a GET request against the /time/workTypes/info endpoint and returns an initialized PaginatedResponse object.
@@ -25,13 +31,16 @@ class TimeWorktypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[WorkTypeInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), WorkTypeInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkTypeInfo]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[WorkTypeInfo]:
         """
         Performs a GET request against the /time/workTypes/info endpoint.
 

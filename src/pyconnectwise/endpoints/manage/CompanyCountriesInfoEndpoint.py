@@ -2,17 +2,25 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyCountriesInfoCountEndpoint import CompanyCountriesInfoCountEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CountryInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyCountriesInfoEndpoint(ConnectWiseEndpoint):
+class CompanyCountriesInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[CountryInfo], ConnectWiseManageRequestParams],
+    IPaginateable[CountryInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(CompanyCountriesInfoCountEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[CountryInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[CountryInfo]:
         """
         Performs a GET request against the /company/countries/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,13 +31,16 @@ class CompanyCountriesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CountryInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CountryInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CountryInfo]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[CountryInfo]:
         """
         Performs a GET request against the /company/countries/info endpoint.
 

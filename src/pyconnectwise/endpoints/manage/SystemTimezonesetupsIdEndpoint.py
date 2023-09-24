@@ -2,18 +2,26 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemTimezonesetupsIdInfoEndpoint import SystemTimezonesetupsIdInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimeZoneSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
+class SystemTimezonesetupsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TimeZoneSetup, ConnectWiseManageRequestParams],
+    IPuttable[TimeZoneSetup, ConnectWiseManageRequestParams],
+    IPatchable[TimeZoneSetup, ConnectWiseManageRequestParams],
+    IPaginateable[TimeZoneSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemTimezonesetupsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TimeZoneSetup]:
         """
         Performs a GET request against the /system/timeZoneSetups/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -25,13 +33,16 @@ class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimeZoneSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TimeZoneSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimeZoneSetup:
         """
         Performs a GET request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -43,7 +54,7 @@ class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeZoneSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimeZoneSetup:
         """
         Performs a PUT request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -55,7 +66,7 @@ class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeZoneSetup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeZoneSetup:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TimeZoneSetup:
         """
         Performs a PATCH request against the /system/timeZoneSetups/{id} endpoint.
 
@@ -67,7 +78,7 @@ class SystemTimezonesetupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeZoneSetup, super()._make_request("PATCH", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/timeZoneSetups/{id} endpoint.
 

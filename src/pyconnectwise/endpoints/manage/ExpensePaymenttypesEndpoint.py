@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesCountEndpoint import ExpensePaymenttypesCountEndpoint
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesIdEndpoint import ExpensePaymenttypesIdEndpoint
 from pyconnectwise.endpoints.manage.ExpensePaymenttypesInfoEndpoint import ExpensePaymenttypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PaymentType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ExpensePaymenttypesEndpoint(ConnectWiseEndpoint):
+class ExpensePaymenttypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PaymentType], ConnectWiseManageRequestParams],
+    IPostable[PaymentType, ConnectWiseManageRequestParams],
+    IPaginateable[PaymentType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "paymentTypes", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class ExpensePaymenttypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[PaymentType]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[PaymentType]:
         """
         Performs a GET request against the /expense/paymentTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,13 +48,16 @@ class ExpensePaymenttypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PaymentType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PaymentType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PaymentType]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[PaymentType]:
         """
         Performs a GET request against the /expense/paymentTypes endpoint.
 
@@ -57,7 +69,7 @@ class ExpensePaymenttypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(PaymentType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PaymentType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PaymentType:
         """
         Performs a POST request against the /expense/paymentTypes endpoint.
 

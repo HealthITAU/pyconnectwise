@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemParsingvariablesCountEndpoint import SystemParsingvariablesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemParsingvariablesIdEndpoint import SystemParsingvariablesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ParsingVariable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
+class SystemParsingvariablesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ParsingVariable], ConnectWiseManageRequestParams],
+    IPaginateable[ParsingVariable, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "parsingVariables", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ParsingVariable]:
         """
         Performs a GET request against the /system/parsingVariables endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class SystemParsingvariablesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ParsingVariable]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ParsingVariable, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ParsingVariable]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ParsingVariable]:
         """
         Performs a GET request against the /system/parsingVariables endpoint.
 

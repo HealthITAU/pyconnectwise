@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsCountE
     ProcurementUnitofmeasuresIdConversionsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementUnitofmeasuresIdConversionsIdEndpoint import \
     ProcurementUnitofmeasuresIdConversionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Conversion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
+class ProcurementUnitofmeasuresIdConversionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Conversion], ConnectWiseManageRequestParams],
+    IPostable[Conversion, ConnectWiseManageRequestParams],
+    IPaginateable[Conversion, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "conversions", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,9 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Conversion]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Conversion]:
         """
         Performs a GET request against the /procurement/unitOfMeasures/{id}/conversions endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,11 +50,14 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Conversion]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Conversion, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Conversion]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Conversion]:
         """
         Performs a GET request against the /procurement/unitOfMeasures/{id}/conversions endpoint.
 
@@ -57,7 +69,7 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Conversion, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Conversion:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Conversion:
         """
         Performs a POST request against the /procurement/unitOfMeasures/{id}/conversions endpoint.
 

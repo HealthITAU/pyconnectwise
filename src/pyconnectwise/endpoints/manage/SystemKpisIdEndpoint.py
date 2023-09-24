@@ -1,15 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import KPI
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemKpisIdEndpoint(ConnectWiseEndpoint):
+class SystemKpisIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[KPI, ConnectWiseManageRequestParams],
+    IPaginateable[KPI, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[KPI]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[KPI]:
         """
         Performs a GET request against the /system/kpis/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +28,14 @@ class SystemKpisIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[KPI]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), KPI, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> KPI:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> KPI:
         """
         Performs a GET request against the /system/kpis/{id} endpoint.
 
