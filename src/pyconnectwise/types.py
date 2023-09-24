@@ -27,8 +27,27 @@ ConnectWiseManageRequestParams = TypedDict(
     },
 )
 
-GenericRequestParams: TypeAlias = Mapping[str, Literals]
-RequestParams: TypeAlias = ConnectWiseManageRequestParams | GenericRequestParams
+ConnectWiseAutomateRequestParams = TypedDict(
+    "ConnectWiseAutomateRequestParams",
+    {
+        "condition": NotRequired[str],
+        "customFieldConditions": NotRequired[str],
+        "orderBy": NotRequired[str],
+        "page": NotRequired[int],
+        "pageSize": NotRequired[int],
+        "ids": NotRequired[str],
+        "includeFields": NotRequired[str],
+        "excludeFields": NotRequired[str],
+        "expand": NotRequired[str],
+    },
+)
+
+GenericRequestParams: TypeAlias = dict[str, Literals]
+RequestParams: TypeAlias = (
+    ConnectWiseManageRequestParams
+    | ConnectWiseAutomateRequestParams
+    | GenericRequestParams
+)
 PatchRequestData: TypeAlias = list[Patch]
 RequestData: TypeAlias = JSON | PatchRequestData
 RequestMethod: TypeAlias = Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
