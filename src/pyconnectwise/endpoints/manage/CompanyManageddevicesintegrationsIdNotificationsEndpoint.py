@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificat
     CompanyManageddevicesintegrationsIdNotificationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificationsIdEndpoint import \
     CompanyManageddevicesintegrationsIdNotificationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegrationNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdNotificationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagedDevicesIntegrationNotification], ConnectWiseManageRequestParams],
+    IPostable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegrationNotification]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications endpoint and returns an initialized PaginatedResponse object.
@@ -43,8 +50,11 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         Returns:
             PaginatedResponse[ManagedDevicesIntegrationNotification]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             ManagedDevicesIntegrationNotification,
@@ -55,7 +65,7 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ManagedDevicesIntegrationNotification]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications endpoint.
@@ -71,7 +81,7 @@ class CompanyManageddevicesintegrationsIdNotificationsEndpoint(ConnectWiseEndpoi
         )
 
     def post(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationNotification:
         """
         Performs a POST request against the /company/managedDevicesIntegrations/{id}/notifications endpoint.

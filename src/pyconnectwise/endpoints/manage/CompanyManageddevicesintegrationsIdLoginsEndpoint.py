@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsCou
     CompanyManageddevicesintegrationsIdLoginsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdLoginsIdEndpoint import \
     CompanyManageddevicesintegrationsIdLoginsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegrationLogin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdLoginsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ManagedDevicesIntegrationLogin], ConnectWiseManageRequestParams],
+    IPostable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "logins", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegrationLogin]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ManagedDevicesIntegrationLogin]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ManagedDevicesIntegrationLogin, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ManagedDevicesIntegrationLogin]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ManagedDevicesIntegrationLogin]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins endpoint.
 
@@ -63,7 +75,9 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a POST request against the /company/managedDevicesIntegrations/{id}/logins endpoint.
 

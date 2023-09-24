@@ -3,18 +3,28 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesIdInfoEndpoint import ServiceSourcesIdInfoEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesIdUsagesEndpoint import ServiceSourcesIdUsagesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Source
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceSourcesIdEndpoint(ConnectWiseEndpoint):
+class ServiceSourcesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Source, ConnectWiseManageRequestParams],
+    IPuttable[Source, ConnectWiseManageRequestParams],
+    IPatchable[Source, ConnectWiseManageRequestParams],
+    IPaginateable[Source, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(ServiceSourcesIdUsagesEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ServiceSourcesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(ServiceSourcesIdUsagesEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Source]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Source]:
         """
         Performs a GET request against the /service/sources/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -25,11 +35,14 @@ class ServiceSourcesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Source]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Source, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Source:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Source:
         """
         Performs a GET request against the /service/sources/{id} endpoint.
 
@@ -41,7 +54,7 @@ class ServiceSourcesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Source, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /service/sources/{id} endpoint.
 
@@ -51,7 +64,7 @@ class ServiceSourcesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Source:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Source:
         """
         Performs a PUT request against the /service/sources/{id} endpoint.
 
@@ -63,7 +76,7 @@ class ServiceSourcesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Source, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Source:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Source:
         """
         Performs a PATCH request against the /service/sources/{id} endpoint.
 

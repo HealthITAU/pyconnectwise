@@ -3,18 +3,28 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemReportcardsIdDetailsEndpoint import SystemReportcardsIdDetailsEndpoint
 from pyconnectwise.endpoints.manage.SystemReportcardsIdInfoEndpoint import SystemReportcardsIdInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ReportCard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemReportcardsIdEndpoint(ConnectWiseEndpoint):
+class SystemReportcardsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ReportCard, ConnectWiseManageRequestParams],
+    IPuttable[ReportCard, ConnectWiseManageRequestParams],
+    IPatchable[ReportCard, ConnectWiseManageRequestParams],
+    IPaginateable[ReportCard, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(SystemReportcardsIdInfoEndpoint(client, parent_endpoint=self))
         self.details = self._register_child_endpoint(SystemReportcardsIdDetailsEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(SystemReportcardsIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ReportCard]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[ReportCard]:
         """
         Performs a GET request against the /system/reportCards/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -25,11 +35,14 @@ class SystemReportcardsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ReportCard]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), ReportCard, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportCard:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ReportCard:
         """
         Performs a GET request against the /system/reportCards/{id} endpoint.
 
@@ -41,7 +54,7 @@ class SystemReportcardsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ReportCard, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/reportCards/{id} endpoint.
 
@@ -51,7 +64,7 @@ class SystemReportcardsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportCard:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ReportCard:
         """
         Performs a PUT request against the /system/reportCards/{id} endpoint.
 
@@ -63,7 +76,7 @@ class SystemReportcardsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ReportCard, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ReportCard:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ReportCard:
         """
         Performs a PATCH request against the /system/reportCards/{id} endpoint.
 

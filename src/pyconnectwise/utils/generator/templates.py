@@ -4,13 +4,22 @@ endpoint_template = Template(
     """from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from typing import Any
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, ConnectWiseAutomateRequestParams, PatchRequestData
+from pyconnectwise.interfaces import (
+    IPaginateable,
+    IGettable,
+    IPostable,
+    IPatchable,
+    IPuttable,
+    IDeleteable
+)
 {%- if additional_imports is defined %}
 {%- for additional_import in additional_imports %}
 {{ additional_import }}
 {%- endfor %}
 {%- endif %}
 
-class {{ endpoint_class }}(ConnectWiseEndpoint):
+class {{ endpoint_class }}(ConnectWiseEndpoint{% for interface in interfaces %}, {{ interface.class }}[{% if interface.return_type is not none %}{{interface.return_type}},{%endif%}{% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endfor %}{% if pagination_model_class is not none %}, IPaginateable[{{pagination_model_class}}, {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endif %}):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{{ endpoint_path }}", parent_endpoint=parent_endpoint)
         {% if child_endpoints is defined %}
@@ -37,7 +46,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
     {% endif %}
 
     {%- if pagination_model_class is not none %}
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[{{ pagination_model_class }}]:
+    def paginated(self, page: int, page_size: int, params: {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %} | None = None) -> PaginatedResponse[{{ pagination_model_class }}]:
         \"""
         Performs a GET request against the {{ raw_path }} endpoint and returns an initialized PaginatedResponse object.
 
@@ -48,8 +57,14 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[{{ pagination_model_class }}]: The initialized PaginatedResponse object.
         \"""
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {
+                'page': page,
+                'pageSize': page_size
+            }
         return PaginatedResponse(
             super()._make_request(
                 "GET",
@@ -64,7 +79,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint):
     {% endif %}
 
     {%- for operation in operations %}
-    def {{ operation.name }}(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> {{ 'None' if operation.void else operation.return_type }}:
+    def {{ operation.name }}(self, data: {% if operation.name == "patch" %}PatchRequestData{% else %}JSON | None = None{% endif %}, params: {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %} | None = None) -> {{ 'None' if operation.void else operation.return_type }}:
         \"""
         Performs a {{ operation.name.upper() }} request against the {{ raw_path }} endpoint.
 
@@ -111,7 +126,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         public_key: str,
         private_key: str,
         codebase: str | None = None,
-        config: Config = None
+        config: Config | None = None
     ):
         \"""
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -163,7 +178,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         \"""
         return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
 
-    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str | None:
+    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str:
         \"""
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 
@@ -232,7 +247,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         client_id: str,
         username: str,
         password: str,
-        config: Config = None
+        config: Config | None = None
     ):
         \"""
         Initializes the client with the given credentials and optionally a specific codebase.

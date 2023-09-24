@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechProbeConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
+class LocationsIdProbeconfigurationEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
+    IPostable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
+    IPatchable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Probeconfiguration", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechProbeConfiguration]:
         """
         Performs a GET request against the /Locations/{id}/Probeconfiguration endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +30,18 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechProbeConfiguration]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechProbeConfiguration, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechProbeConfiguration:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechProbeConfiguration:
         """
         Performs a GET request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -40,7 +53,9 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(LabTechProbeConfiguration, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechProbeConfiguration:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechProbeConfiguration:
         """
         Performs a POST request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -54,7 +69,7 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
             LabTechProbeConfiguration, super()._make_request("POST", data=data, params=params).json()
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -64,7 +79,9 @@ class LocationsIdProbeconfigurationEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechProbeConfiguration:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechProbeConfiguration:
         """
         Performs a PATCH request against the /Locations/{id}/Probeconfiguration endpoint.
 

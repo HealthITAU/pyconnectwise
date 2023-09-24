@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechComputerChassis
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ComputersChassisEndpoint(ConnectWiseEndpoint):
+class ComputersChassisEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechComputerChassis], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechComputerChassis, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Chassis", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechComputerChassis]:
         """
         Performs a GET request against the /Computers/Chassis endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class ComputersChassisEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechComputerChassis]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechComputerChassis, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerChassis]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechComputerChassis]:
         """
         Performs a GET request against the /Computers/Chassis endpoint.
 

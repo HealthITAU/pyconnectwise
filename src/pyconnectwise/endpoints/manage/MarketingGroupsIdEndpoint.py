@@ -5,20 +5,30 @@ from pyconnectwise.endpoints.manage.MarketingGroupsIdCompaniesEndpoint import Ma
 from pyconnectwise.endpoints.manage.MarketingGroupsIdContactsEndpoint import MarketingGroupsIdContactsEndpoint
 from pyconnectwise.endpoints.manage.MarketingGroupsIdInfoEndpoint import MarketingGroupsIdInfoEndpoint
 from pyconnectwise.endpoints.manage.MarketingGroupsIdUsagesEndpoint import MarketingGroupsIdUsagesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Group
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
+class MarketingGroupsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Group, ConnectWiseManageRequestParams],
+    IPuttable[Group, ConnectWiseManageRequestParams],
+    IPatchable[Group, ConnectWiseManageRequestParams],
+    IPaginateable[Group, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.companies = self._register_child_endpoint(MarketingGroupsIdCompaniesEndpoint(client, parent_endpoint=self))
+        self.contacts = self._register_child_endpoint(MarketingGroupsIdContactsEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(MarketingGroupsIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(MarketingGroupsIdUsagesEndpoint(client, parent_endpoint=self))
-        self.contacts = self._register_child_endpoint(MarketingGroupsIdContactsEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Group]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Group]:
         """
         Performs a GET request against the /marketing/groups/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -29,11 +39,14 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Group]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Group, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Group:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Group:
         """
         Performs a GET request against the /marketing/groups/{id} endpoint.
 
@@ -45,7 +58,7 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Group, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /marketing/groups/{id} endpoint.
 
@@ -55,7 +68,7 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Group:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Group:
         """
         Performs a PUT request against the /marketing/groups/{id} endpoint.
 
@@ -67,7 +80,7 @@ class MarketingGroupsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Group, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Group:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Group:
         """
         Performs a PATCH request against the /marketing/groups/{id} endpoint.
 

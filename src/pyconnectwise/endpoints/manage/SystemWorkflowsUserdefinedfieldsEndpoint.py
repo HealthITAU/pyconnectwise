@@ -7,7 +7,9 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsEndpoi
     SystemWorkflowsUserdefinedfieldsEventsEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsIdEndpoint import \
     SystemWorkflowsUserdefinedfieldsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class SystemWorkflowsUserdefinedfieldsEndpoint(ConnectWiseEndpoint):

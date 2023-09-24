@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsCountEndpoint import \
     SystemOffice365EmailsetupsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsIdEndpoint import SystemOffice365EmailsetupsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Office365EmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemOffice365EmailsetupsEndpoint(ConnectWiseEndpoint):
+class SystemOffice365EmailsetupsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Office365EmailSetup], ConnectWiseManageRequestParams],
+    IPostable[Office365EmailSetup, ConnectWiseManageRequestParams],
+    IPaginateable[Office365EmailSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "emailSetups", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class SystemOffice365EmailsetupsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[Office365EmailSetup]:
         """
         Performs a GET request against the /system/office365/emailSetups endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class SystemOffice365EmailsetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Office365EmailSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), Office365EmailSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Office365EmailSetup]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[Office365EmailSetup]:
         """
         Performs a GET request against the /system/office365/emailSetups endpoint.
 
@@ -60,7 +72,9 @@ class SystemOffice365EmailsetupsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Office365EmailSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Office365EmailSetup:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> Office365EmailSetup:
         """
         Performs a POST request against the /system/office365/emailSetups endpoint.
 

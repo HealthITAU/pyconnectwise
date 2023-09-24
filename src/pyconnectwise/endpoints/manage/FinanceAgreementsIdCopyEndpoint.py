@@ -1,15 +1,17 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Agreement
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceAgreementsIdCopyEndpoint(ConnectWiseEndpoint):
+class FinanceAgreementsIdCopyEndpoint(ConnectWiseEndpoint, IPostable[Agreement, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "copy", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Agreement:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Agreement:
         """
         Performs a POST request against the /finance/agreements/{id}/copy endpoint.
 

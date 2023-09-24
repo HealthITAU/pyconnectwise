@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import M365ContactSyncProperty
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyM365contactsyncPropertyIncludedEndpoint(ConnectWiseEndpoint):
+class CompanyM365contactsyncPropertyIncludedEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[M365ContactSyncProperty], ConnectWiseManageRequestParams],
+    IPaginateable[M365ContactSyncProperty, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "included", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[M365ContactSyncProperty]:
         """
         Performs a GET request against the /company/m365contactsync/property/included endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class CompanyM365contactsyncPropertyIncludedEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[M365ContactSyncProperty]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), M365ContactSyncProperty, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[M365ContactSyncProperty]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[M365ContactSyncProperty]:
         """
         Performs a GET request against the /company/m365contactsync/property/included endpoint.
 

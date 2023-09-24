@@ -3,11 +3,19 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesIdInfoEndpoint import \
     ProcurementCategoriesIdSubcategoriesIdInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import LegacySubCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
+class ProcurementCategoriesIdSubcategoriesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[LegacySubCategory, ConnectWiseManageRequestParams],
+    IPuttable[LegacySubCategory, ConnectWiseManageRequestParams],
+    IPatchable[LegacySubCategory, ConnectWiseManageRequestParams],
+    IPaginateable[LegacySubCategory, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -16,7 +24,7 @@ class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LegacySubCategory]:
         """
         Performs a GET request against the /procurement/categories/{id}/subcategories/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -28,13 +36,16 @@ class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LegacySubCategory]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LegacySubCategory, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LegacySubCategory:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> LegacySubCategory:
         """
         Performs a GET request against the /procurement/categories/{id}/subcategories/{id} endpoint.
 
@@ -46,7 +57,7 @@ class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(LegacySubCategory, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /procurement/categories/{id}/subcategories/{id} endpoint.
 
@@ -56,7 +67,7 @@ class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LegacySubCategory:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> LegacySubCategory:
         """
         Performs a PUT request against the /procurement/categories/{id}/subcategories/{id} endpoint.
 
@@ -68,7 +79,7 @@ class ProcurementCategoriesIdSubcategoriesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(LegacySubCategory, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LegacySubCategory:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> LegacySubCategory:
         """
         Performs a PATCH request against the /procurement/categories/{id}/subcategories/{id} endpoint.
 

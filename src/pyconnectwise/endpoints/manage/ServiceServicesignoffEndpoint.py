@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceServicesignoffCountEndpoint import ServiceServicesignoffCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceServicesignoffIdEndpoint import ServiceServicesignoffIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceServicesignoffInfoEndpoint import ServiceServicesignoffInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ServiceSignoff
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceServicesignoffEndpoint(ConnectWiseEndpoint):
+class ServiceServicesignoffEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ServiceSignoff], ConnectWiseManageRequestParams],
+    IPostable[ServiceSignoff, ConnectWiseManageRequestParams],
+    IPaginateable[ServiceSignoff, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "serviceSignoff", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class ServiceServicesignoffEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ServiceSignoff]:
         """
         Performs a GET request against the /service/serviceSignoff endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class ServiceServicesignoffEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ServiceSignoff]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ServiceSignoff, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceSignoff]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ServiceSignoff]:
         """
         Performs a GET request against the /service/serviceSignoff endpoint.
 
@@ -59,7 +71,7 @@ class ServiceServicesignoffEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ServiceSignoff, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSignoff:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ServiceSignoff:
         """
         Performs a POST request against the /service/serviceSignoff endpoint.
 

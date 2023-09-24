@@ -3,11 +3,19 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdTestconnectionEndpoint import \
     SystemGoogleemailsetupIdTestconnectionEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import GoogleEmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
+class SystemGoogleemailsetupIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[GoogleEmailSetup, ConnectWiseManageRequestParams],
+    IPuttable[GoogleEmailSetup, ConnectWiseManageRequestParams],
+    IPatchable[GoogleEmailSetup, ConnectWiseManageRequestParams],
+    IPaginateable[GoogleEmailSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -16,7 +24,7 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[GoogleEmailSetup]:
         """
         Performs a GET request against the /system/googleemailsetup/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -28,13 +36,16 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[GoogleEmailSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), GoogleEmailSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> GoogleEmailSetup:
         """
         Performs a GET request against the /system/googleemailsetup/{id} endpoint.
 
@@ -46,7 +57,7 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(GoogleEmailSetup, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/googleemailsetup/{id} endpoint.
 
@@ -56,7 +67,7 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> GoogleEmailSetup:
         """
         Performs a PUT request against the /system/googleemailsetup/{id} endpoint.
 
@@ -68,7 +79,7 @@ class SystemGoogleemailsetupIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(GoogleEmailSetup, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> GoogleEmailSetup:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> GoogleEmailSetup:
         """
         Performs a PATCH request against the /system/googleemailsetup/{id} endpoint.
 

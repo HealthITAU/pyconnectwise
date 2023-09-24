@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CorporateStructureInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMycompanyCorporatestructureIdInfoEndpoint(ConnectWiseEndpoint):
+class SystemMycompanyCorporatestructureIdInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[CorporateStructureInfo, ConnectWiseManageRequestParams],
+    IPaginateable[CorporateStructureInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CorporateStructureInfo]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class SystemMycompanyCorporatestructureIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CorporateStructureInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CorporateStructureInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CorporateStructureInfo:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> CorporateStructureInfo:
         """
         Performs a GET request against the /system/myCompany/corporateStructure/{id}/info endpoint.
 

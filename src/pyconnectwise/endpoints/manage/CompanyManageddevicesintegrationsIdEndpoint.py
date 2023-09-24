@@ -11,32 +11,40 @@ from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdNotificat
     CompanyManageddevicesintegrationsIdNotificationsEndpoint
 from pyconnectwise.endpoints.manage.CompanyManageddevicesintegrationsIdUsagesEndpoint import \
     CompanyManageddevicesintegrationsIdUsagesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ManagedDevicesIntegration, ConnectWiseManageRequestParams],
+    IPuttable[ManagedDevicesIntegration, ConnectWiseManageRequestParams],
+    IPatchable[ManagedDevicesIntegration, ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegration, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
-        )
-        self.cross_references = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
+        self.notifications = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
         )
         self.logins = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
         )
-        self.notifications = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
+        self.info = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.cross_references = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegration]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -48,13 +56,18 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ManagedDevicesIntegration]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ManagedDevicesIntegration, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegration:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id} endpoint.
 
@@ -66,7 +79,7 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ManagedDevicesIntegration, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /company/managedDevicesIntegrations/{id} endpoint.
 
@@ -76,7 +89,9 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegration:
         """
         Performs a PUT request against the /company/managedDevicesIntegrations/{id} endpoint.
 
@@ -88,7 +103,9 @@ class CompanyManageddevicesintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ManagedDevicesIntegration, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegration:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegration:
         """
         Performs a PATCH request against the /company/managedDevicesIntegrations/{id} endpoint.
 

@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ScheduleStatusesCountEndpoint import ScheduleStatusesCountEndpoint
 from pyconnectwise.endpoints.manage.ScheduleStatusesIdEndpoint import ScheduleStatusesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ScheduleStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScheduleStatusesEndpoint(ConnectWiseEndpoint):
+class ScheduleStatusesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ScheduleStatus], ConnectWiseManageRequestParams],
+    IPostable[ScheduleStatus, ConnectWiseManageRequestParams],
+    IPaginateable[ScheduleStatus, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class ScheduleStatusesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ScheduleStatus]:
         """
         Performs a GET request against the /schedule/statuses endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class ScheduleStatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ScheduleStatus]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ScheduleStatus, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ScheduleStatus]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ScheduleStatus]:
         """
         Performs a GET request against the /schedule/statuses endpoint.
 
@@ -57,7 +69,7 @@ class ScheduleStatusesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ScheduleStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ScheduleStatus:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ScheduleStatus:
         """
         Performs a POST request against the /schedule/statuses endpoint.
 

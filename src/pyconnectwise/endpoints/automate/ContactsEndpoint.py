@@ -2,11 +2,18 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ContactsIdEndpoint import ContactsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import AutomateContact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ContactsEndpoint(ConnectWiseEndpoint):
+class ContactsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AutomateContact], ConnectWiseAutomateRequestParams],
+    IPostable[AutomateContact, ConnectWiseAutomateRequestParams],
+    IPaginateable[AutomateContact, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Contacts", parent_endpoint=parent_endpoint)
 
@@ -24,7 +31,7 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[AutomateContact]:
         """
         Performs a GET request against the /Contacts endpoint and returns an initialized PaginatedResponse object.
@@ -36,13 +43,18 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AutomateContact]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), AutomateContact, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AutomateContact]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[AutomateContact]:
         """
         Performs a GET request against the /Contacts endpoint.
 
@@ -54,7 +66,7 @@ class ContactsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(AutomateContact, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateContact:
+    def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> AutomateContact:
         """
         Performs a POST request against the /Contacts endpoint.
 

@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ScheduleCalendarsCountEndpoint import ScheduleCalendarsCountEndpoint
 from pyconnectwise.endpoints.manage.ScheduleCalendarsIdEndpoint import ScheduleCalendarsIdEndpoint
 from pyconnectwise.endpoints.manage.ScheduleCalendarsInfoEndpoint import ScheduleCalendarsInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Calendar
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
+class ScheduleCalendarsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Calendar], ConnectWiseManageRequestParams],
+    IPostable[Calendar, ConnectWiseManageRequestParams],
+    IPaginateable[Calendar, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "calendars", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Calendar]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Calendar]:
         """
         Performs a GET request against the /schedule/calendars endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Calendar]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Calendar, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Calendar]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Calendar]:
         """
         Performs a GET request against the /schedule/calendars endpoint.
 
@@ -55,7 +67,7 @@ class ScheduleCalendarsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Calendar, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Calendar:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Calendar:
         """
         Performs a POST request against the /schedule/calendars endpoint.
 

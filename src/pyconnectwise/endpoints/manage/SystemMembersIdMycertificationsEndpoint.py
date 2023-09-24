@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsCountEndpoint
     SystemMembersIdMycertificationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsIdEndpoint import \
     SystemMembersIdMycertificationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MemberCertification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMembersIdMycertificationsEndpoint(ConnectWiseEndpoint):
+class SystemMembersIdMycertificationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[MemberCertification], ConnectWiseManageRequestParams],
+    IPostable[MemberCertification, ConnectWiseManageRequestParams],
+    IPaginateable[MemberCertification, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "mycertifications", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class SystemMembersIdMycertificationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MemberCertification]:
         """
         Performs a GET request against the /system/members/{id}/mycertifications endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class SystemMembersIdMycertificationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MemberCertification]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), MemberCertification, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberCertification]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[MemberCertification]:
         """
         Performs a GET request against the /system/members/{id}/mycertifications endpoint.
 
@@ -61,7 +73,9 @@ class SystemMembersIdMycertificationsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(MemberCertification, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberCertification:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> MemberCertification:
         """
         Performs a POST request against the /system/members/{id}/mycertifications endpoint.
 

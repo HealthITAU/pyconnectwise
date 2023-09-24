@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaks
     ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint import \
     ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PricingBreak
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
+class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PricingBreak], ConnectWiseManageRequestParams],
+    IPostable[PricingBreak, ConnectWiseManageRequestParams],
+    IPaginateable[PricingBreak, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "breaks", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PricingBreak]:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,16 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PricingBreak]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PricingBreak, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PricingBreak]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[PricingBreak]:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint.
 
@@ -61,7 +71,7 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(PricingBreak, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PricingBreak:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PricingBreak:
         """
         Performs a POST request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint.
 

@@ -7,17 +7,24 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesIdEndpoint import SalesOpp
 from pyconnectwise.endpoints.manage.SalesOpportunitiesRatingsEndpoint import SalesOpportunitiesRatingsEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesStatusesEndpoint import SalesOpportunitiesStatusesEndpoint
 from pyconnectwise.endpoints.manage.SalesOpportunitiesTypesEndpoint import SalesOpportunitiesTypesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Opportunity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
+class SalesOpportunitiesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Opportunity], ConnectWiseManageRequestParams],
+    IPostable[Opportunity, ConnectWiseManageRequestParams],
+    IPaginateable[Opportunity, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(SalesOpportunitiesCountEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
         self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SalesOpportunitiesCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self))
 
@@ -34,7 +41,9 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Opportunity]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Opportunity]:
         """
         Performs a GET request against the /sales/opportunities endpoint and returns an initialized PaginatedResponse object.
 
@@ -45,13 +54,16 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Opportunity]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), Opportunity, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Opportunity]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Opportunity]:
         """
         Performs a GET request against the /sales/opportunities endpoint.
 
@@ -63,7 +75,7 @@ class SalesOpportunitiesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Opportunity, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Opportunity:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Opportunity:
         """
         Performs a POST request against the /sales/opportunities endpoint.
 

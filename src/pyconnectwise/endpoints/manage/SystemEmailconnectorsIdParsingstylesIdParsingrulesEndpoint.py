@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsin
     SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint import \
     SystemEmailconnectorsIdParsingstylesIdParsingrulesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import EmailConnectorParsingRule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndpoint):
+class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[EmailConnectorParsingRule], ConnectWiseManageRequestParams],
+    IPostable[EmailConnectorParsingRule, ConnectWiseManageRequestParams],
+    IPaginateable[EmailConnectorParsingRule, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "parsingRules", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[EmailConnectorParsingRule]:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
         Returns:
             PaginatedResponse[EmailConnectorParsingRule]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), EmailConnectorParsingRule, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailConnectorParsingRule]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[EmailConnectorParsingRule]:
         """
         Performs a GET request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules endpoint.
 
@@ -63,7 +75,9 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(ConnectWiseEndp
             EmailConnectorParsingRule, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailConnectorParsingRule:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> EmailConnectorParsingRule:
         """
         Performs a POST request against the /system/emailConnectors/{id}/parsingStyles/{id}/parsingRules endpoint.
 

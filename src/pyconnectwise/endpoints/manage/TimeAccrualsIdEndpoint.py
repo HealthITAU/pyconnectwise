@@ -2,17 +2,27 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeAccrualsIdDetailsEndpoint import TimeAccrualsIdDetailsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimeAccrual
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeAccrualsIdEndpoint(ConnectWiseEndpoint):
+class TimeAccrualsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TimeAccrual, ConnectWiseManageRequestParams],
+    IPuttable[TimeAccrual, ConnectWiseManageRequestParams],
+    IPatchable[TimeAccrual, ConnectWiseManageRequestParams],
+    IPaginateable[TimeAccrual, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.details = self._register_child_endpoint(TimeAccrualsIdDetailsEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeAccrual]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TimeAccrual]:
         """
         Performs a GET request against the /time/accruals/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,13 +33,16 @@ class TimeAccrualsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimeAccrual]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TimeAccrual, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrual:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimeAccrual:
         """
         Performs a GET request against the /time/accruals/{id} endpoint.
 
@@ -41,7 +54,7 @@ class TimeAccrualsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeAccrual, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /time/accruals/{id} endpoint.
 
@@ -51,7 +64,7 @@ class TimeAccrualsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrual:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimeAccrual:
         """
         Performs a PUT request against the /time/accruals/{id} endpoint.
 
@@ -63,7 +76,7 @@ class TimeAccrualsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TimeAccrual, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimeAccrual:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TimeAccrual:
         """
         Performs a PATCH request against the /time/accruals/{id} endpoint.
 

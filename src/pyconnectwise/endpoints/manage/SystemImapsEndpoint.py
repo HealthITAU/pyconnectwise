@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemImapsCountEndpoint import SystemImapsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemImapsIdEndpoint import SystemImapsIdEndpoint
 from pyconnectwise.endpoints.manage.SystemImapsInfoEndpoint import SystemImapsInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Imap
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemImapsEndpoint(ConnectWiseEndpoint):
+class SystemImapsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Imap], ConnectWiseManageRequestParams],
+    IPostable[Imap, ConnectWiseManageRequestParams],
+    IPaginateable[Imap, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "imaps", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class SystemImapsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Imap]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Imap]:
         """
         Performs a GET request against the /system/imaps endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class SystemImapsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Imap]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Imap, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Imap]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Imap]:
         """
         Performs a GET request against the /system/imaps endpoint.
 
@@ -55,7 +67,7 @@ class SystemImapsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Imap, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Imap:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Imap:
         """
         Performs a POST request against the /system/imaps endpoint.
 

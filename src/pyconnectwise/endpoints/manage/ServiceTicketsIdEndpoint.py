@@ -15,39 +15,49 @@ from pyconnectwise.endpoints.manage.ServiceTicketsIdScheduleentriesEndpoint impo
     ServiceTicketsIdScheduleentriesEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdTasksEndpoint import ServiceTicketsIdTasksEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdTimeentriesEndpoint import ServiceTicketsIdTimeentriesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Ticket
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
+class ServiceTicketsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Ticket, ConnectWiseManageRequestParams],
+    IPuttable[Ticket, ConnectWiseManageRequestParams],
+    IPatchable[Ticket, ConnectWiseManageRequestParams],
+    IPaginateable[Ticket, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ServiceTicketsIdInfoEndpoint(client, parent_endpoint=self))
-        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
-        self.tasks = self._register_child_endpoint(ServiceTicketsIdTasksEndpoint(client, parent_endpoint=self))
-        self.all_notes = self._register_child_endpoint(ServiceTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
-        self.attach_children = self._register_child_endpoint(
-            ServiceTicketsIdAttachchildrenEndpoint(client, parent_endpoint=self)
-        )
         self.notes = self._register_child_endpoint(ServiceTicketsIdNotesEndpoint(client, parent_endpoint=self))
         self.configurations = self._register_child_endpoint(
             ServiceTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
         )
-        self.activities = self._register_child_endpoint(
-            ServiceTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.scheduleentries = self._register_child_endpoint(
-            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
-        )
-        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
         self.timeentries = self._register_child_endpoint(
             ServiceTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
         )
+        self.tasks = self._register_child_endpoint(ServiceTicketsIdTasksEndpoint(client, parent_endpoint=self))
+        self.attach_children = self._register_child_endpoint(
+            ServiceTicketsIdAttachchildrenEndpoint(client, parent_endpoint=self)
+        )
+        self.all_notes = self._register_child_endpoint(ServiceTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
+        self.activities = self._register_child_endpoint(
+            ServiceTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
+        )
+        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
+        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
+        self.scheduleentries = self._register_child_endpoint(
+            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
+        )
         self.products = self._register_child_endpoint(ServiceTicketsIdProductsEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ServiceTicketsIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Ticket]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Ticket]:
         """
         Performs a GET request against the /service/tickets/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -58,11 +68,14 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Ticket]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Ticket, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Ticket:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Ticket:
         """
         Performs a GET request against the /service/tickets/{id} endpoint.
 
@@ -74,7 +87,7 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Ticket, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /service/tickets/{id} endpoint.
 
@@ -84,7 +97,7 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Ticket:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Ticket:
         """
         Performs a PUT request against the /service/tickets/{id} endpoint.
 
@@ -96,7 +109,7 @@ class ServiceTicketsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Ticket, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Ticket:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Ticket:
         """
         Performs a PATCH request against the /service/tickets/{id} endpoint.
 

@@ -6,11 +6,18 @@ from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesCountEndpoint imp
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesIdEndpoint import ProcurementAdjustmentsTypesIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsTypesInfoEndpoint import \
     ProcurementAdjustmentsTypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import AdjustmentType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
+class ProcurementAdjustmentsTypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AdjustmentType], ConnectWiseManageRequestParams],
+    IPostable[AdjustmentType, ConnectWiseManageRequestParams],
+    IPaginateable[AdjustmentType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
@@ -33,7 +40,7 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AdjustmentType]:
         """
         Performs a GET request against the /procurement/adjustments/types endpoint and returns an initialized PaginatedResponse object.
@@ -45,13 +52,18 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AdjustmentType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), AdjustmentType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AdjustmentType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[AdjustmentType]:
         """
         Performs a GET request against the /procurement/adjustments/types endpoint.
 
@@ -63,7 +75,7 @@ class ProcurementAdjustmentsTypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(AdjustmentType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AdjustmentType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> AdjustmentType:
         """
         Performs a POST request against the /procurement/adjustments/types endpoint.
 

@@ -1,15 +1,19 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechUserProfile
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class UserprofilesEndpoint(ConnectWiseEndpoint):
+class UserprofilesEndpoint(ConnectWiseEndpoint, IGettable[LabTechUserProfile, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Userprofiles", parent_endpoint=parent_endpoint)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechUserProfile:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechUserProfile:
         """
         Performs a GET request against the /Userprofiles endpoint.
 

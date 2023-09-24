@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServicePrioritiesCountEndpoint import ServicePrioritiesCountEndpoint
 from pyconnectwise.endpoints.manage.ServicePrioritiesIdEndpoint import ServicePrioritiesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Priority
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
+class ServicePrioritiesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Priority], ConnectWiseManageRequestParams],
+    IPostable[Priority, ConnectWiseManageRequestParams],
+    IPaginateable[Priority, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "priorities", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Priority]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Priority]:
         """
         Performs a GET request against the /service/priorities endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +46,14 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Priority]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Priority, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Priority]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Priority]:
         """
         Performs a GET request against the /service/priorities endpoint.
 
@@ -53,7 +65,7 @@ class ServicePrioritiesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Priority, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Priority:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Priority:
         """
         Performs a POST request against the /service/priorities endpoint.
 

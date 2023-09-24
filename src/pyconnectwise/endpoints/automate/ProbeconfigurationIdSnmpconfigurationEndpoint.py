@@ -1,16 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechProbeSnmpConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProbeconfigurationIdSnmpconfigurationEndpoint(ConnectWiseEndpoint):
+class ProbeconfigurationIdSnmpconfigurationEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[LabTechProbeSnmpConfiguration, ConnectWiseAutomateRequestParams],
+    IPatchable[LabTechProbeSnmpConfiguration, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechProbeSnmpConfiguration, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Snmpconfiguration", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechProbeSnmpConfiguration]:
         """
         Performs a GET request against the /Probeconfiguration/{id}/Snmpconfiguration endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +29,18 @@ class ProbeconfigurationIdSnmpconfigurationEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechProbeSnmpConfiguration]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechProbeSnmpConfiguration, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechProbeSnmpConfiguration:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechProbeSnmpConfiguration:
         """
         Performs a GET request against the /Probeconfiguration/{id}/Snmpconfiguration endpoint.
 
@@ -42,7 +54,9 @@ class ProbeconfigurationIdSnmpconfigurationEndpoint(ConnectWiseEndpoint):
             LabTechProbeSnmpConfiguration, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechProbeSnmpConfiguration:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechProbeSnmpConfiguration:
         """
         Performs a PATCH request against the /Probeconfiguration/{id}/Snmpconfiguration endpoint.
 

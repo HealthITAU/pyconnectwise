@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyTracksIdActionsCountEndpoint import CompanyTracksIdActionsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyTracksIdActionsIdEndpoint import CompanyTracksIdActionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TrackAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyTracksIdActionsEndpoint(ConnectWiseEndpoint):
+class CompanyTracksIdActionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TrackAction], ConnectWiseManageRequestParams],
+    IPostable[TrackAction, ConnectWiseManageRequestParams],
+    IPaginateable[TrackAction, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "actions", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class CompanyTracksIdActionsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TrackAction]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TrackAction]:
         """
         Performs a GET request against the /company/tracks/{id}/actions endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,13 +46,16 @@ class CompanyTracksIdActionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TrackAction]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TrackAction, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TrackAction]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TrackAction]:
         """
         Performs a GET request against the /company/tracks/{id}/actions endpoint.
 
@@ -55,7 +67,7 @@ class CompanyTracksIdActionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(TrackAction, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TrackAction:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TrackAction:
         """
         Performs a POST request against the /company/tracks/{id}/actions endpoint.
 

@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeSheetsCountEndpoint import TimeSheetsCountEndpoint
 from pyconnectwise.endpoints.manage.TimeSheetsIdEndpoint import TimeSheetsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimeSheet
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeSheetsEndpoint(ConnectWiseEndpoint):
+class TimeSheetsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TimeSheet], ConnectWiseManageRequestParams],
+    IPaginateable[TimeSheet, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "sheets", parent_endpoint=parent_endpoint)
 
@@ -26,7 +32,9 @@ class TimeSheetsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimeSheet]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TimeSheet]:
         """
         Performs a GET request against the /time/sheets endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +45,14 @@ class TimeSheetsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimeSheet]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TimeSheet, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TimeSheet]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TimeSheet]:
         """
         Performs a GET request against the /time/sheets endpoint.
 

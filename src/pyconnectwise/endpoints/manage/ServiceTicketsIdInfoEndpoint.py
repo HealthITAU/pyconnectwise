@@ -1,15 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TicketInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceTicketsIdInfoEndpoint(ConnectWiseEndpoint):
+class ServiceTicketsIdInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TicketInfo, ConnectWiseManageRequestParams],
+    IPaginateable[TicketInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TicketInfo]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TicketInfo]:
         """
         Performs a GET request against the /service/tickets/{id}/info endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +28,14 @@ class ServiceTicketsIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TicketInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TicketInfo, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TicketInfo:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TicketInfo:
         """
         Performs a GET request against the /service/tickets/{id}/info endpoint.
 

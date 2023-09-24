@@ -7,11 +7,17 @@ from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint 
     SystemMycompanyCorporatestructureIdEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import \
     SystemMycompanyCorporatestructureInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CorporateStructure
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
+class SystemMycompanyCorporatestructureEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[CorporateStructure], ConnectWiseManageRequestParams],
+    IPaginateable[CorporateStructure, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "corporateStructure", parent_endpoint=parent_endpoint)
 
@@ -36,7 +42,7 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint and returns an initialized PaginatedResponse object.
@@ -48,13 +54,18 @@ class SystemMycompanyCorporatestructureEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CorporateStructure]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CorporateStructure, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CorporateStructure]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint.
 

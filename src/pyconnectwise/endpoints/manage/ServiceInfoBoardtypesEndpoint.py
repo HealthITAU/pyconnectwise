@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceInfoBoardtypesCountEndpoint import ServiceInfoBoardtypesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceInfoBoardtypesIdEndpoint import ServiceInfoBoardtypesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceInfoBoardtypesEndpoint(ConnectWiseEndpoint):
+class ServiceInfoBoardtypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardTypeInfo], ConnectWiseManageRequestParams],
+    IPaginateable[BoardTypeInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "boardtypes", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class ServiceInfoBoardtypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BoardTypeInfo]:
         """
         Performs a GET request against the /service/info/boardtypes endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class ServiceInfoBoardtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardTypeInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BoardTypeInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BoardTypeInfo]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[BoardTypeInfo]:
         """
         Performs a GET request against the /service/info/boardtypes endpoint.
 

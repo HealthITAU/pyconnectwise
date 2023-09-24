@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import WorkflowActionUserDefinedField
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemWorkflowsUserdefinedfieldsEventsIdActionsIdEndpoint(ConnectWiseEndpoint):
+class SystemWorkflowsUserdefinedfieldsEventsIdActionsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[WorkflowActionUserDefinedField], ConnectWiseManageRequestParams],
+    IPaginateable[WorkflowActionUserDefinedField, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[WorkflowActionUserDefinedField]:
         """
         Performs a GET request against the /system/workflows/userdefinedfields/events/{id}/actions/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class SystemWorkflowsUserdefinedfieldsEventsIdActionsIdEndpoint(ConnectWiseEndpo
         Returns:
             PaginatedResponse[WorkflowActionUserDefinedField]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), WorkflowActionUserDefinedField, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkflowActionUserDefinedField]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[WorkflowActionUserDefinedField]:
         """
         Performs a GET request against the /system/workflows/userdefinedfields/events/{id}/actions/{id} endpoint.
 

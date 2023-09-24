@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsCountEndpoint 
     ProcurementCatalogIdComponentsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsIdEndpoint import \
     ProcurementCatalogIdComponentsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CatalogComponent
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementCatalogIdComponentsEndpoint(ConnectWiseEndpoint):
+class ProcurementCatalogIdComponentsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[CatalogComponent], ConnectWiseManageRequestParams],
+    IPostable[CatalogComponent, ConnectWiseManageRequestParams],
+    IPaginateable[CatalogComponent, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "components", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class ProcurementCatalogIdComponentsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CatalogComponent]:
         """
         Performs a GET request against the /procurement/catalog/{id}/components endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class ProcurementCatalogIdComponentsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CatalogComponent]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CatalogComponent, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CatalogComponent]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[CatalogComponent]:
         """
         Performs a GET request against the /procurement/catalog/{id}/components endpoint.
 
@@ -61,7 +73,7 @@ class ProcurementCatalogIdComponentsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(CatalogComponent, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CatalogComponent:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogComponent:
         """
         Performs a POST request against the /procurement/catalog/{id}/components endpoint.
 

@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceTaxcodesCountEndpoint import FinanceTaxcodesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdEndpoint import FinanceTaxcodesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesInfoEndpoint import FinanceTaxcodesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TaxCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceTaxcodesEndpoint(ConnectWiseEndpoint):
+class FinanceTaxcodesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TaxCode], ConnectWiseManageRequestParams],
+    IPostable[TaxCode, ConnectWiseManageRequestParams],
+    IPaginateable[TaxCode, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "taxCodes", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class FinanceTaxcodesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TaxCode]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TaxCode]:
         """
         Performs a GET request against the /finance/taxCodes endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class FinanceTaxcodesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TaxCode]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TaxCode, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TaxCode]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TaxCode]:
         """
         Performs a GET request against the /finance/taxCodes endpoint.
 
@@ -55,7 +67,7 @@ class FinanceTaxcodesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(TaxCode, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxCode:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxCode:
         """
         Performs a POST request against the /finance/taxCodes endpoint.
 

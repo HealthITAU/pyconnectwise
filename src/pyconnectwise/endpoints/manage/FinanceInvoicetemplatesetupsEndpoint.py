@@ -4,11 +4,17 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsCountEndpoint import \
     FinanceInvoicetemplatesetupsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceInvoicetemplatesetupsIdEndpoint import FinanceInvoicetemplatesetupsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import InvoiceTemplateSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
+class FinanceInvoicetemplatesetupsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[InvoiceTemplateSetup], ConnectWiseManageRequestParams],
+    IPaginateable[InvoiceTemplateSetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "invoiceTemplateSetups", parent_endpoint=parent_endpoint)
 
@@ -30,7 +36,7 @@ class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[InvoiceTemplateSetup]:
         """
         Performs a GET request against the /finance/invoiceTemplateSetups endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +48,18 @@ class FinanceInvoicetemplatesetupsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[InvoiceTemplateSetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), InvoiceTemplateSetup, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InvoiceTemplateSetup]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[InvoiceTemplateSetup]:
         """
         Performs a GET request against the /finance/invoiceTemplateSetups endpoint.
 

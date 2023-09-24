@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanCountEndpoin
     ProjectProjectsIdProjectworkplanCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjectsIdProjectworkplanIdEndpoint import \
     ProjectProjectsIdProjectworkplanIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProjectWorkplan
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
+class ProjectProjectsIdProjectworkplanEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProjectWorkplan], ConnectWiseManageRequestParams],
+    IPaginateable[ProjectWorkplan, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "projectWorkplan", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProjectWorkplan]:
         """
         Performs a GET request against the /project/projects/{id}/projectWorkplan endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +49,18 @@ class ProjectProjectsIdProjectworkplanEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProjectWorkplan]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProjectWorkplan, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectWorkplan]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProjectWorkplan]:
         """
         Performs a GET request against the /project/projects/{id}/projectWorkplan endpoint.
 

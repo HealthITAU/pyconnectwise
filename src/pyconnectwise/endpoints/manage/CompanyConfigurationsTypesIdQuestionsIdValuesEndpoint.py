@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValue
     CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint import \
     CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ConfigurationTypeQuestionValue
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint):
+class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ConfigurationTypeQuestionValue], ConnectWiseManageRequestParams],
+    IPostable[ConfigurationTypeQuestionValue, ConnectWiseManageRequestParams],
+    IPaginateable[ConfigurationTypeQuestionValue, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "values", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ConfigurationTypeQuestionValue]:
         """
         Performs a GET request against the /company/configurations/types/{id}/questions/{id}/values endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
         Returns:
             PaginatedResponse[ConfigurationTypeQuestionValue]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ConfigurationTypeQuestionValue, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationTypeQuestionValue]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ConfigurationTypeQuestionValue]:
         """
         Performs a GET request against the /company/configurations/types/{id}/questions/{id}/values endpoint.
 
@@ -63,7 +75,9 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint)
             ConfigurationTypeQuestionValue, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationTypeQuestionValue:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ConfigurationTypeQuestionValue:
         """
         Performs a POST request against the /company/configurations/types/{id}/questions/{id}/values endpoint.
 

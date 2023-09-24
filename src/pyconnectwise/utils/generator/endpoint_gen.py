@@ -18,8 +18,8 @@ def generate_endpoint(
     path: str,
     path_info: dict,
     relationships: dict,
+    is_manage: bool,
 ):
-    print(path)
     formatted_path = format_endpoint_path(path)
     endpoint_class_name = get_endpoint_class_name_from_path(formatted_path)
     model_class_name = endpoint_class_name.replace("Endpoint", "Model")
@@ -30,8 +30,7 @@ def generate_endpoint(
     operations = list(path_info.keys())
 
     child_endpoints = list(
-        set(format_endpoint_path(child)
-            for child in relationships.get(path, []))
+        set(format_endpoint_path(child) for child in relationships.get(path, []))
     )
 
     print(f"Generating {endpoint_class_name}")
@@ -80,6 +79,7 @@ def generate_endpoint(
 
     imported_models = []
     op_definitions = []
+    interfaces = []
     pagination_model_class = None
     for operation in operations:
         print(f"        Processing OP: {operation}")
@@ -104,16 +104,10 @@ def generate_endpoint(
                 #         "returns_single": True,
                 #     }
                 # )
-                op_definitions.append(
-                    {
-                        "name": operation,
-                        "void": True
-                    }
-                )
+                op_definitions.append({"name": operation, "void": True})
             else:
                 resp_content = response.get("content")
-                schema_object = resp_content.get(
-                    list(resp_content)[0]).get("schema")
+                schema_object = resp_content.get(list(resp_content)[0]).get("schema")
                 schema_ref = None
                 is_array = False
 
@@ -125,8 +119,7 @@ def generate_endpoint(
                     and schema_object.get("additionalProperties") is not None
                     and schema_object.get("$ref") is not None
                 ):
-                    schema_ref = schema_object.get(
-                        "additionalProperties").get("$ref")
+                    schema_ref = schema_object.get("additionalProperties").get("$ref")
                 else:
                     schema_ref = schema_object.get("$ref")
 
@@ -163,23 +156,45 @@ def generate_endpoint(
                         }
                     )
 
+                    if operation.lower() == "get":
+                        interfaces.append(
+                            {
+                                "class": "IGettable",
+                                "return_type": return_type,
+                            }
+                        )
+                    elif operation.lower() == "post":
+                        interfaces.append(
+                            {"class": "IPostable", "return_type": return_type}
+                        )
+                    elif operation.lower() == "patch":
+                        interfaces.append(
+                            {"class": "IPatchable", "return_type": return_type}
+                        )
+                    elif operation.lower() == "put":
+                        interfaces.append(
+                            {"class": "IPuttable", "return_type": return_type}
+                        )
+                    elif operation.lower() == "delete":
+                        interfaces.append({"class": "IDeleteable", "return_type": None})
+
     endpoint_code = endpoint_template.render(
         endpoint_class=endpoint_class_name,
         model_class=model_class_name,
         model_module=model_module_name,
         pagination_model_class=pagination_model_class,
-        endpoint_path=normalize_path_parameters(
-            path.split("/")[-1]).rstrip("/"),
+        endpoint_path=normalize_path_parameters(path.split("/")[-1]).rstrip("/"),
         operations=op_definitions,
         child_endpoints=child_endpoint_definitions,
         additional_imports=additional_imports,
         id_child_endpoint_class=id_child_endpoint_class_name,
         has_id_child=has_id_child,
         raw_path=path,
+        is_manage=is_manage,
+        interfaces=interfaces,
     )
 
     save_py_file(
-        os.path.join(endpoint_output_directory,
-                     endpoint_class_name), endpoint_code
+        os.path.join(endpoint_output_directory, endpoint_class_name), endpoint_code
     )
     return endpoint_class_name

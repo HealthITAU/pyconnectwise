@@ -1,15 +1,19 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Project
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesOpportunitiesIdConverttoprojectEndpoint(ConnectWiseEndpoint):
+class SalesOpportunitiesIdConverttoprojectEndpoint(
+    ConnectWiseEndpoint, IPostable[Project, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "convertToProject", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Project:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Project:
         """
         Performs a POST request against the /sales/opportunities/{id}/convertToProject endpoint.
 

@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint 
     ProjectSecurityrolesIdSettingsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import \
     ProjectSecurityrolesIdSettingsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProjectSecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
+class ProjectSecurityrolesIdSettingsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProjectSecurityRoleSetting], ConnectWiseManageRequestParams],
+    IPaginateable[ProjectSecurityRoleSetting, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "settings", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProjectSecurityRoleSetting]:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +49,18 @@ class ProjectSecurityrolesIdSettingsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProjectSecurityRoleSetting]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProjectSecurityRoleSetting, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectSecurityRoleSetting]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProjectSecurityRoleSetting]:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings endpoint.
 

@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesCountEndpoint import ServiceTicketsIdNotesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsIdNotesIdEndpoint import ServiceTicketsIdNotesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ServiceNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
+class ServiceTicketsIdNotesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ServiceNote], ConnectWiseManageRequestParams],
+    IPostable[ServiceNote, ConnectWiseManageRequestParams],
+    IPaginateable[ServiceNote, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "notes", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ServiceNote]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[ServiceNote]:
         """
         Performs a GET request against the /service/tickets/{id}/notes endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,13 +46,16 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ServiceNote]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ServiceNote, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ServiceNote]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ServiceNote]:
         """
         Performs a GET request against the /service/tickets/{id}/notes endpoint.
 
@@ -55,7 +67,7 @@ class ServiceTicketsIdNotesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ServiceNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceNote:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ServiceNote:
         """
         Performs a POST request against the /service/tickets/{id}/notes endpoint.
 

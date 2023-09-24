@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import SystemSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
+class SystemSettingsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[SystemSetting, ConnectWiseManageRequestParams],
+    IPuttable[SystemSetting, ConnectWiseManageRequestParams],
+    IPatchable[SystemSetting, ConnectWiseManageRequestParams],
+    IPaginateable[SystemSetting, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SystemSetting]:
         """
         Performs a GET request against the /system/settings/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +30,16 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[SystemSetting]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), SystemSetting, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SystemSetting:
         """
         Performs a GET request against the /system/settings/{id} endpoint.
 
@@ -40,7 +51,7 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(SystemSetting, super()._make_request("GET", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SystemSetting:
         """
         Performs a PUT request against the /system/settings/{id} endpoint.
 
@@ -52,7 +63,7 @@ class SystemSettingsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(SystemSetting, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SystemSetting:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> SystemSetting:
         """
         Performs a PATCH request against the /system/settings/{id} endpoint.
 

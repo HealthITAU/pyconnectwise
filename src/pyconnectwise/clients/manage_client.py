@@ -30,7 +30,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         public_key: str,
         private_key: str,
         codebase: str | None = None,
-        config: Config = None,
+        config: Config | None = None,
     ):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
@@ -61,7 +61,11 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
                 company_name=company_name,
                 headers=self._get_headers(),
             )
-            self.codebase: str = codebase_request.strip("/")
+
+            if codebase_request is None:
+                # we need to except here
+                raise Exception("Could not retrieve codebase from API.")
+            self.codebase: str = codebase_request
 
         # Initializing endpoints
         self.company = CompanyEndpoint(self)
@@ -84,11 +88,9 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         Returns:
             str: API URL.
         """
-        return f"https://{self.manage_url}/{self.codebase}/apis/3.0"
+        return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
 
-    def _try_get_codebase_from_api(
-        self, manage_url: str, company_name: str, headers: dict[str, str]
-    ) -> str | None:
+    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str:
         """
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 

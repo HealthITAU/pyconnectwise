@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsCountEndpoint import \
     SystemMyaccountIdDelegationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsIdEndpoint import SystemMyaccountIdDelegationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MemberDelegation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
+class SystemMyaccountIdDelegationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[MemberDelegation], ConnectWiseManageRequestParams],
+    IPostable[MemberDelegation, ConnectWiseManageRequestParams],
+    IPaginateable[MemberDelegation, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "delegations", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MemberDelegation]:
         """
         Performs a GET request against the /system/myAccount/{id}/delegations endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MemberDelegation]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), MemberDelegation, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MemberDelegation]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[MemberDelegation]:
         """
         Performs a GET request against the /system/myAccount/{id}/delegations endpoint.
 
@@ -60,7 +72,7 @@ class SystemMyaccountIdDelegationsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(MemberDelegation, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MemberDelegation:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MemberDelegation:
         """
         Performs a POST request against the /system/myAccount/{id}/delegations endpoint.
 

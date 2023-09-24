@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CommunicationTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyCommunicationtypesIdInfoEndpoint(ConnectWiseEndpoint):
+class CompanyCommunicationtypesIdInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[CommunicationTypeInfo, ConnectWiseManageRequestParams],
+    IPaginateable[CommunicationTypeInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CommunicationTypeInfo]:
         """
         Performs a GET request against the /company/communicationTypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class CompanyCommunicationtypesIdInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CommunicationTypeInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CommunicationTypeInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CommunicationTypeInfo:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> CommunicationTypeInfo:
         """
         Performs a GET request against the /company/communicationTypes/{id}/info endpoint.
 

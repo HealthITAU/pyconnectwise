@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import AutomateUserClassWebExtensionViewModel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class UserclassesIdWebextensionsEndpoint(ConnectWiseEndpoint):
+class UserclassesIdWebextensionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams],
+    IPuttable[list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Webextensions", parent_endpoint=parent_endpoint)
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
     ) -> list[AutomateUserClassWebExtensionViewModel]:
         """
         Performs a GET request against the /Userclasses/{id}/Webextensions endpoint.
@@ -26,7 +32,7 @@ class UserclassesIdWebextensionsEndpoint(ConnectWiseEndpoint):
         )
 
     def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
     ) -> list[AutomateUserClassWebExtensionViewModel]:
         """
         Performs a PUT request against the /Userclasses/{id}/Webextensions endpoint.

@@ -1,15 +1,17 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import SuccessResponse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyCompaniesIdMergeEndpoint(ConnectWiseEndpoint):
+class CompanyCompaniesIdMergeEndpoint(ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "merge", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SuccessResponse:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SuccessResponse:
         """
         Performs a POST request against the /company/companies/{id}/merge endpoint.
 

@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailexclusionsCountEndpoint import SystemEmailexclusionsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemEmailexclusionsIdEndpoint import SystemEmailexclusionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import EmailExclusion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemEmailexclusionsEndpoint(ConnectWiseEndpoint):
+class SystemEmailexclusionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[EmailExclusion], ConnectWiseManageRequestParams],
+    IPostable[EmailExclusion, ConnectWiseManageRequestParams],
+    IPaginateable[EmailExclusion, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "emailExclusions", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class SystemEmailexclusionsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[EmailExclusion]:
         """
         Performs a GET request against the /system/emailExclusions endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class SystemEmailexclusionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[EmailExclusion]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), EmailExclusion, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[EmailExclusion]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[EmailExclusion]:
         """
         Performs a GET request against the /system/emailExclusions endpoint.
 
@@ -57,7 +69,7 @@ class SystemEmailexclusionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(EmailExclusion, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> EmailExclusion:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> EmailExclusion:
         """
         Performs a POST request against the /system/emailExclusions endpoint.
 

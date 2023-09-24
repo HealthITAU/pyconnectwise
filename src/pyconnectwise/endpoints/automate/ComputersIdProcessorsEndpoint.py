@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechComputerProcessor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ComputersIdProcessorsEndpoint(ConnectWiseEndpoint):
+class ComputersIdProcessorsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechComputerProcessor], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechComputerProcessor, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Processors", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechComputerProcessor]:
         """
         Performs a GET request against the /Computers/{id}/Processors endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class ComputersIdProcessorsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechComputerProcessor]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechComputerProcessor, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputerProcessor]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechComputerProcessor]:
         """
         Performs a GET request against the /Computers/{id}/Processors endpoint.
 

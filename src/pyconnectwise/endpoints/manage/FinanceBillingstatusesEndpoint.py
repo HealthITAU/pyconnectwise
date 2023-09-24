@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.FinanceBillingstatusesCountEndpoint import FinanceBillingstatusesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceBillingstatusesIdEndpoint import FinanceBillingstatusesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceBillingstatusesInfoEndpoint import FinanceBillingstatusesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BillingStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
+class FinanceBillingstatusesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BillingStatus], ConnectWiseManageRequestParams],
+    IPostable[BillingStatus, ConnectWiseManageRequestParams],
+    IPaginateable[BillingStatus, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "billingStatuses", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BillingStatus]:
         """
         Performs a GET request against the /finance/billingStatuses endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BillingStatus]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BillingStatus, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BillingStatus]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[BillingStatus]:
         """
         Performs a GET request against the /finance/billingStatuses endpoint.
 
@@ -59,7 +71,7 @@ class FinanceBillingstatusesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(BillingStatus, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> BillingStatus:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BillingStatus:
         """
         Performs a POST request against the /finance/billingStatuses endpoint.
 

@@ -7,21 +7,27 @@ from pyconnectwise.endpoints.automate.ComputersMaintenancemodesEndpoint import C
 from pyconnectwise.endpoints.automate.ComputersMemoryslotsEndpoint import ComputersMemoryslotsEndpoint
 from pyconnectwise.endpoints.automate.ComputersSoftwareEndpoint import ComputersSoftwareEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechComputer
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ComputersEndpoint(ConnectWiseEndpoint):
+class ComputersEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechComputer], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechComputer, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Computers", parent_endpoint=parent_endpoint)
 
-        self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
-        self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
-        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
-        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
         self.maintenancemodes = self._register_child_endpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )
+        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
+        self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
+        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
+        self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ComputersIdEndpoint:
         """
@@ -37,7 +43,7 @@ class ComputersEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechComputer]:
         """
         Performs a GET request against the /Computers endpoint and returns an initialized PaginatedResponse object.
@@ -49,13 +55,18 @@ class ComputersEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechComputer]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechComputer, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechComputer]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechComputer]:
         """
         Performs a GET request against the /Computers endpoint.
 

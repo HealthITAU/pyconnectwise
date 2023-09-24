@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemTodaypagecategoriesCountEndpoint import SystemTodaypagecategoriesCountEndpoint
 from pyconnectwise.endpoints.manage.SystemTodaypagecategoriesIdEndpoint import SystemTodaypagecategoriesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TodayPageCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemTodaypagecategoriesEndpoint(ConnectWiseEndpoint):
+class SystemTodaypagecategoriesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[TodayPageCategory], ConnectWiseManageRequestParams],
+    IPostable[TodayPageCategory, ConnectWiseManageRequestParams],
+    IPaginateable[TodayPageCategory, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "todayPageCategories", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class SystemTodaypagecategoriesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TodayPageCategory]:
         """
         Performs a GET request against the /system/todayPageCategories endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class SystemTodaypagecategoriesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TodayPageCategory]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TodayPageCategory, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[TodayPageCategory]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[TodayPageCategory]:
         """
         Performs a GET request against the /system/todayPageCategories endpoint.
 
@@ -57,7 +69,7 @@ class SystemTodaypagecategoriesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(TodayPageCategory, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TodayPageCategory:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TodayPageCategory:
         """
         Performs a POST request against the /system/todayPageCategories endpoint.
 

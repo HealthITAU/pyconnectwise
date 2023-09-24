@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesubtypeitemassociationsCo
     ServiceBoardsIdTypesubtypeitemassociationsCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint import \
     ServiceBoardsIdTypesubtypeitemassociationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BoardTypeSubTypeItemAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceBoardsIdTypesubtypeitemassociationsEndpoint(ConnectWiseEndpoint):
+class ServiceBoardsIdTypesubtypeitemassociationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BoardTypeSubTypeItemAssociation], ConnectWiseManageRequestParams],
+    IPaginateable[BoardTypeSubTypeItemAssociation, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "typeSubTypeItemAssociations", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class ServiceBoardsIdTypesubtypeitemassociationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BoardTypeSubTypeItemAssociation]:
         """
         Performs a GET request against the /service/boards/{id}/typeSubTypeItemAssociations endpoint and returns an initialized PaginatedResponse object.
@@ -43,14 +49,17 @@ class ServiceBoardsIdTypesubtypeitemassociationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BoardTypeSubTypeItemAssociation]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), BoardTypeSubTypeItemAssociation, self, page, page_size, params
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[BoardTypeSubTypeItemAssociation]:
         """
         Performs a GET request against the /service/boards/{id}/typeSubTypeItemAssociations endpoint.

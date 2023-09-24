@@ -7,11 +7,18 @@ from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesIdEndpoint i
     FinanceAgreementtypesIdWorkrolesIdEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorkrolesInfoEndpoint import \
     FinanceAgreementtypesIdWorkrolesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import AgreementTypeWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
+class FinanceAgreementtypesIdWorkrolesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[AgreementTypeWorkRole], ConnectWiseManageRequestParams],
+    IPostable[AgreementTypeWorkRole, ConnectWiseManageRequestParams],
+    IPaginateable[AgreementTypeWorkRole, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workroles", parent_endpoint=parent_endpoint)
 
@@ -36,7 +43,7 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AgreementTypeWorkRole]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workroles endpoint and returns an initialized PaginatedResponse object.
@@ -48,13 +55,18 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[AgreementTypeWorkRole]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), AgreementTypeWorkRole, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[AgreementTypeWorkRole]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[AgreementTypeWorkRole]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workroles endpoint.
 
@@ -66,7 +78,9 @@ class FinanceAgreementtypesIdWorkrolesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(AgreementTypeWorkRole, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AgreementTypeWorkRole:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> AgreementTypeWorkRole:
         """
         Performs a POST request against the /finance/agreementTypes/{id}/workroles endpoint.
 

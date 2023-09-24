@@ -4,11 +4,14 @@ from pyconnectwise.utils.helpers import parse_link_headers
 from typing import TYPE_CHECKING, Generic, TypeVar, Type, Iterable
 from pydantic import BaseModel
 from requests import Response
+from pyconnectwise.types import RequestParams
+
 
 TModel = TypeVar("TModel", bound="BaseModel")
 
 if TYPE_CHECKING:
     from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+    from pyconnectwise.interfaces import IPaginateable
 
 
 class PaginatedResponse(Generic[TModel]):
@@ -30,10 +33,10 @@ class PaginatedResponse(Generic[TModel]):
         self,
         response: Response,
         response_model: Type[TModel],
-        endpoint: ConnectWiseEndpoint,
+        endpoint: IPaginateable,
         page: int,
         page_size: int,
-        params: dict[str, int | str] = {},
+        params: RequestParams | None = None,
     ):
         """
         PaginatedResponse is a wrapper class for handling paginated responses from the
@@ -54,10 +57,10 @@ class PaginatedResponse(Generic[TModel]):
         self,
         response: Response,
         response_model: Type[TModel],
-        endpoint: ConnectWiseEndpoint,
+        endpoint: IPaginateable,
         page: int,
         page_size: int,
-        params: dict[str, int | str] = {},
+        params: RequestParams | None = None,
     ):
         """
         Initialize the instance variables using the provided response, endpoint, and page size.
@@ -94,7 +97,9 @@ class PaginatedResponse(Generic[TModel]):
             self.prev_page = page - 1 if page > 1 else 1
             self.next_page = page + 1
             self.last_page = 999999
-        self.data: list[TModel] = endpoint._parse_many(response_model, response.json())
+        self.data: list[TModel] = [
+            response_model.model_validate(d) for d in response.json()
+        ]
         self.has_data = self.data and len(self.data) > 0
         self.index = 0
 

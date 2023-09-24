@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceCodesCountEndpoint import ServiceCodesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceCodesIdEndpoint import ServiceCodesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Code
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceCodesEndpoint(ConnectWiseEndpoint):
+class ServiceCodesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Code], ConnectWiseManageRequestParams],
+    IPostable[Code, ConnectWiseManageRequestParams],
+    IPaginateable[Code, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "codes", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Code]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Code]:
         """
         Performs a GET request against the /service/codes endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +46,14 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Code]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Code, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Code]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Code]:
         """
         Performs a GET request against the /service/codes endpoint.
 
@@ -53,7 +65,7 @@ class ServiceCodesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Code, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Code:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Code:
         """
         Performs a POST request against the /service/codes endpoint.
 

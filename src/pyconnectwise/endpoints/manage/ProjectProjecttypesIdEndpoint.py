@@ -3,18 +3,28 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjecttypesIdInfoEndpoint import ProjectProjecttypesIdInfoEndpoint
 from pyconnectwise.endpoints.manage.ProjectProjecttypesIdUsagesEndpoint import ProjectProjecttypesIdUsagesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProjectType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProjectProjecttypesIdEndpoint(ConnectWiseEndpoint):
+class ProjectProjecttypesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ProjectType, ConnectWiseManageRequestParams],
+    IPuttable[ProjectType, ConnectWiseManageRequestParams],
+    IPatchable[ProjectType, ConnectWiseManageRequestParams],
+    IPaginateable[ProjectType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(ProjectProjecttypesIdUsagesEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ProjectProjecttypesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(ProjectProjecttypesIdUsagesEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[ProjectType]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[ProjectType]:
         """
         Performs a GET request against the /project/projectTypes/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -25,13 +35,16 @@ class ProjectProjecttypesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProjectType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProjectType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectType:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
         """
         Performs a GET request against the /project/projectTypes/{id} endpoint.
 
@@ -43,7 +56,7 @@ class ProjectProjecttypesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ProjectType, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /project/projectTypes/{id} endpoint.
 
@@ -53,7 +66,7 @@ class ProjectProjecttypesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectType:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
         """
         Performs a PUT request against the /project/projectTypes/{id} endpoint.
 
@@ -65,7 +78,7 @@ class ProjectProjecttypesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ProjectType, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectType:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
         """
         Performs a PATCH request against the /project/projectTypes/{id} endpoint.
 

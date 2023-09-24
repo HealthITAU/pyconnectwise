@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProcurementWarehousesCountEndpoint import ProcurementWarehousesCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementWarehousesIdEndpoint import ProcurementWarehousesIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementWarehousesInfoEndpoint import ProcurementWarehousesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Warehouse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementWarehousesEndpoint(ConnectWiseEndpoint):
+class ProcurementWarehousesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Warehouse], ConnectWiseManageRequestParams],
+    IPostable[Warehouse, ConnectWiseManageRequestParams],
+    IPaginateable[Warehouse, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "warehouses", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class ProcurementWarehousesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Warehouse]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Warehouse]:
         """
         Performs a GET request against the /procurement/warehouses endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class ProcurementWarehousesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Warehouse]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Warehouse, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Warehouse]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Warehouse]:
         """
         Performs a GET request against the /procurement/warehouses endpoint.
 
@@ -55,7 +67,7 @@ class ProcurementWarehousesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Warehouse, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Warehouse:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Warehouse:
         """
         Performs a POST request against the /procurement/warehouses endpoint.
 

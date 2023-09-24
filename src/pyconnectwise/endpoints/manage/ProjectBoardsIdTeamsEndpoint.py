@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsCountEndpoint import ProjectBoardsIdTeamsCountEndpoint
 from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsIdEndpoint import ProjectBoardsIdTeamsIdEndpoint
 from pyconnectwise.endpoints.manage.ProjectBoardsIdTeamsInfoEndpoint import ProjectBoardsIdTeamsInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProjectBoardTeam
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProjectBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
+class ProjectBoardsIdTeamsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProjectBoardTeam], ConnectWiseManageRequestParams],
+    IPostable[ProjectBoardTeam, ConnectWiseManageRequestParams],
+    IPaginateable[ProjectBoardTeam, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "teams", parent_endpoint=parent_endpoint)
 
@@ -29,7 +36,7 @@ class ProjectBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProjectBoardTeam]:
         """
         Performs a GET request against the /project/boards/{id}/teams endpoint and returns an initialized PaginatedResponse object.
@@ -41,13 +48,18 @@ class ProjectBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProjectBoardTeam]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProjectBoardTeam, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProjectBoardTeam]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProjectBoardTeam]:
         """
         Performs a GET request against the /project/boards/{id}/teams endpoint.
 
@@ -59,7 +71,7 @@ class ProjectBoardsIdTeamsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ProjectBoardTeam, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBoardTeam:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectBoardTeam:
         """
         Performs a POST request against the /project/boards/{id}/teams endpoint.
 

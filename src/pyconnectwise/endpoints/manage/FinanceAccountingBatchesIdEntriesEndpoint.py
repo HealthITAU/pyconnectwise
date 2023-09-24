@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesCountEndpoi
     FinanceAccountingBatchesIdEntriesCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEntriesIdEndpoint import \
     FinanceAccountingBatchesIdEntriesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import BatchEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
+class FinanceAccountingBatchesIdEntriesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[BatchEntry], ConnectWiseManageRequestParams],
+    IPaginateable[BatchEntry, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "entries", parent_endpoint=parent_endpoint)
 
@@ -30,7 +36,9 @@ class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[BatchEntry]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[BatchEntry]:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries endpoint and returns an initialized PaginatedResponse object.
 
@@ -41,11 +49,14 @@ class FinanceAccountingBatchesIdEntriesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[BatchEntry]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), BatchEntry, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[BatchEntry]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[BatchEntry]:
         """
         Performs a GET request against the /finance/accounting/batches/{id}/entries endpoint.
 

@@ -1,15 +1,21 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechAVTemplatePolicyData
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class AvtemplatepolicydataEndpoint(ConnectWiseEndpoint):
+class AvtemplatepolicydataEndpoint(
+    ConnectWiseEndpoint, IPostable[LabTechAVTemplatePolicyData, ConnectWiseAutomateRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Avtemplatepolicydata", parent_endpoint=parent_endpoint)
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechAVTemplatePolicyData:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> LabTechAVTemplatePolicyData:
         """
         Performs a POST request against the /Avtemplatepolicydata endpoint.
 

@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.ServiceSourcesCountEndpoint import ServiceSourcesCountEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesIdEndpoint import ServiceSourcesIdEndpoint
 from pyconnectwise.endpoints.manage.ServiceSourcesInfoEndpoint import ServiceSourcesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Source
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceSourcesEndpoint(ConnectWiseEndpoint):
+class ServiceSourcesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Source], ConnectWiseManageRequestParams],
+    IPostable[Source, ConnectWiseManageRequestParams],
+    IPaginateable[Source, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "sources", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Source]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Source]:
         """
         Performs a GET request against the /service/sources endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Source]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Source, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Source]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Source]:
         """
         Performs a GET request against the /service/sources endpoint.
 
@@ -55,7 +67,7 @@ class ServiceSourcesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Source, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Source:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Source:
         """
         Performs a POST request against the /service/sources endpoint.
 

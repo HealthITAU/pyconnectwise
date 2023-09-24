@@ -7,7 +7,9 @@ from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesIdEndpoi
     ProcurementCategoriesIdSubcategoriesIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesInfoEndpoint import \
     ProcurementCategoriesIdSubcategoriesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class ProcurementCategoriesIdSubcategoriesEndpoint(ConnectWiseEndpoint):

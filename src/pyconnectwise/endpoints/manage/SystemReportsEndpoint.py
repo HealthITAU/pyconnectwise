@@ -2,11 +2,17 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemReportsIdEndpoint import SystemReportsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Report
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemReportsEndpoint(ConnectWiseEndpoint):
+class SystemReportsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Report], ConnectWiseManageRequestParams],
+    IPaginateable[Report, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "reports", parent_endpoint=parent_endpoint)
 
@@ -23,7 +29,9 @@ class SystemReportsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Report]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Report]:
         """
         Performs a GET request against the /system/reports endpoint and returns an initialized PaginatedResponse object.
 
@@ -34,11 +42,14 @@ class SystemReportsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Report]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Report, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Report]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Report]:
         """
         Performs a GET request against the /system/reports endpoint.
 

@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsCountE
     FinanceTaxcodesIdProducttypeexemptionsCountEndpoint
 from pyconnectwise.endpoints.manage.FinanceTaxcodesIdProducttypeexemptionsIdEndpoint import \
     FinanceTaxcodesIdProducttypeexemptionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProductTypeExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceTaxcodesIdProducttypeexemptionsEndpoint(ConnectWiseEndpoint):
+class FinanceTaxcodesIdProducttypeexemptionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProductTypeExemption], ConnectWiseManageRequestParams],
+    IPostable[ProductTypeExemption, ConnectWiseManageRequestParams],
+    IPaginateable[ProductTypeExemption, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "productTypeExemptions", parent_endpoint=parent_endpoint)
 
@@ -31,7 +38,7 @@ class FinanceTaxcodesIdProducttypeexemptionsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProductTypeExemption]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +50,18 @@ class FinanceTaxcodesIdProducttypeexemptionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProductTypeExemption]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProductTypeExemption, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductTypeExemption]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProductTypeExemption]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/productTypeExemptions endpoint.
 
@@ -61,7 +73,9 @@ class FinanceTaxcodesIdProducttypeexemptionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ProductTypeExemption, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProductTypeExemption:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ProductTypeExemption:
         """
         Performs a POST request against the /finance/taxCodes/{id}/productTypeExemptions endpoint.
 

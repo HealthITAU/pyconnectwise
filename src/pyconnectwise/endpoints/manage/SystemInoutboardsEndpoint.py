@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemInoutboardsCountEndpoint import SystemInoutboardsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemInoutboardsIdEndpoint import SystemInoutboardsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import InOutBoard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
+class SystemInoutboardsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[InOutBoard], ConnectWiseManageRequestParams],
+    IPostable[InOutBoard, ConnectWiseManageRequestParams],
+    IPaginateable[InOutBoard, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "inOutBoards", parent_endpoint=parent_endpoint)
 
@@ -26,7 +33,9 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[InOutBoard]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards endpoint and returns an initialized PaginatedResponse object.
 
@@ -37,11 +46,14 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[InOutBoard]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), InOutBoard, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[InOutBoard]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[InOutBoard]:
         """
         Performs a GET request against the /system/inOutBoards endpoint.
 
@@ -53,7 +65,7 @@ class SystemInoutboardsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(InOutBoard, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InOutBoard:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> InOutBoard:
         """
         Performs a POST request against the /system/inOutBoards endpoint.
 

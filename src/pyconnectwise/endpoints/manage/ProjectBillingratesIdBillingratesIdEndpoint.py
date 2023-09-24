@@ -1,15 +1,19 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProjectBillingRate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProjectBillingratesIdBillingratesIdEndpoint(ConnectWiseEndpoint):
+class ProjectBillingratesIdBillingratesIdEndpoint(
+    ConnectWiseEndpoint, IPatchable[ProjectBillingRate, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ProjectBillingRate:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProjectBillingRate:
         """
         Performs a PATCH request against the /project/billingRates/{id}/billingRates/{id} endpoint.
 

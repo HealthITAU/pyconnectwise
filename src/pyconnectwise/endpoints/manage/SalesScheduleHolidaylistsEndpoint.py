@@ -3,7 +3,9 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SalesScheduleHolidaylistsIdEndpoint import SalesScheduleHolidaylistsIdEndpoint
 from pyconnectwise.endpoints.manage.SalesScheduleHolidaylistsInfoEndpoint import SalesScheduleHolidaylistsInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class SalesScheduleHolidaylistsEndpoint(ConnectWiseEndpoint):

@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.TimeWorktypesCountEndpoint import TimeWorktypesCountEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesIdEndpoint import TimeWorktypesIdEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesInfoEndpoint import TimeWorktypesInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import WorkType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeWorktypesEndpoint(ConnectWiseEndpoint):
+class TimeWorktypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[WorkType], ConnectWiseManageRequestParams],
+    IPostable[WorkType, ConnectWiseManageRequestParams],
+    IPaginateable[WorkType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "workTypes", parent_endpoint=parent_endpoint)
 
@@ -28,7 +35,9 @@ class TimeWorktypesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[WorkType]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[WorkType]:
         """
         Performs a GET request against the /time/workTypes endpoint and returns an initialized PaginatedResponse object.
 
@@ -39,11 +48,14 @@ class TimeWorktypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[WorkType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), WorkType, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[WorkType]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[WorkType]:
         """
         Performs a GET request against the /time/workTypes endpoint.
 
@@ -55,7 +67,7 @@ class TimeWorktypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(WorkType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> WorkType:
         """
         Performs a POST request against the /time/workTypes endpoint.
 

@@ -5,23 +5,31 @@ from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesIdInfoEndpoint i
     FinanceInvoiceemailtemplatesIdInfoEndpoint
 from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesIdUsagesEndpoint import \
     FinanceInvoiceemailtemplatesIdUsagesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import InvoiceEmailTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceInvoiceemailtemplatesIdEndpoint(ConnectWiseEndpoint):
+class FinanceInvoiceemailtemplatesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
+    IPuttable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
+    IPatchable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
+    IPaginateable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.usages = self._register_child_endpoint(
-            FinanceInvoiceemailtemplatesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
         self.info = self._register_child_endpoint(
             FinanceInvoiceemailtemplatesIdInfoEndpoint(client, parent_endpoint=self)
         )
+        self.usages = self._register_child_endpoint(
+            FinanceInvoiceemailtemplatesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[InvoiceEmailTemplate]:
         """
         Performs a GET request against the /finance/invoiceEmailTemplates/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -33,13 +41,18 @@ class FinanceInvoiceemailtemplatesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[InvoiceEmailTemplate]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), InvoiceEmailTemplate, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceEmailTemplate:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> InvoiceEmailTemplate:
         """
         Performs a GET request against the /finance/invoiceEmailTemplates/{id} endpoint.
 
@@ -51,7 +64,7 @@ class FinanceInvoiceemailtemplatesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(InvoiceEmailTemplate, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /finance/invoiceEmailTemplates/{id} endpoint.
 
@@ -61,7 +74,9 @@ class FinanceInvoiceemailtemplatesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceEmailTemplate:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> InvoiceEmailTemplate:
         """
         Performs a PUT request against the /finance/invoiceEmailTemplates/{id} endpoint.
 
@@ -73,7 +88,9 @@ class FinanceInvoiceemailtemplatesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(InvoiceEmailTemplate, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> InvoiceEmailTemplate:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> InvoiceEmailTemplate:
         """
         Performs a PATCH request against the /finance/invoiceEmailTemplates/{id} endpoint.
 

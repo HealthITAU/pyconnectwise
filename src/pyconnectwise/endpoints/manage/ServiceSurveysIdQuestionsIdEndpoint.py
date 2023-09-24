@@ -5,21 +5,29 @@ from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdCopyEndpoint impo
     ServiceSurveysIdQuestionsIdCopyEndpoint
 from pyconnectwise.endpoints.manage.ServiceSurveysIdQuestionsIdOptionsEndpoint import \
     ServiceSurveysIdQuestionsIdOptionsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ServiceSurveyQuestion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ServiceSurveysIdQuestionsIdEndpoint(ConnectWiseEndpoint):
+class ServiceSurveysIdQuestionsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
+    IPuttable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
+    IPatchable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
+    IPaginateable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
+        self.copy = self._register_child_endpoint(ServiceSurveysIdQuestionsIdCopyEndpoint(client, parent_endpoint=self))
         self.options = self._register_child_endpoint(
             ServiceSurveysIdQuestionsIdOptionsEndpoint(client, parent_endpoint=self)
         )
-        self.copy = self._register_child_endpoint(ServiceSurveysIdQuestionsIdCopyEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ServiceSurveyQuestion]:
         """
         Performs a GET request against the /service/surveys/{id}/questions/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -31,13 +39,18 @@ class ServiceSurveysIdQuestionsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ServiceSurveyQuestion]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ServiceSurveyQuestion, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurveyQuestion:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ServiceSurveyQuestion:
         """
         Performs a GET request against the /service/surveys/{id}/questions/{id} endpoint.
 
@@ -49,7 +62,7 @@ class ServiceSurveysIdQuestionsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ServiceSurveyQuestion, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /service/surveys/{id}/questions/{id} endpoint.
 
@@ -59,7 +72,9 @@ class ServiceSurveysIdQuestionsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurveyQuestion:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ServiceSurveyQuestion:
         """
         Performs a PUT request against the /service/surveys/{id}/questions/{id} endpoint.
 
@@ -71,7 +86,9 @@ class ServiceSurveysIdQuestionsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(ServiceSurveyQuestion, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ServiceSurveyQuestion:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> ServiceSurveyQuestion:
         """
         Performs a PATCH request against the /service/surveys/{id}/questions/{id} endpoint.
 

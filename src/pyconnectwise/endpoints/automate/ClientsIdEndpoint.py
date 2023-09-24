@@ -5,21 +5,27 @@ from pyconnectwise.endpoints.automate.ClientsIdLicensesEndpoint import ClientsId
 from pyconnectwise.endpoints.automate.ClientsIdPermissionsEndpoint import ClientsIdPermissionsEndpoint
 from pyconnectwise.endpoints.automate.ClientsIdProductkeysEndpoint import ClientsIdProductkeysEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechClient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ClientsIdEndpoint(ConnectWiseEndpoint):
+class ClientsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[LabTechClient, ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechClient, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.productkeys = self._register_child_endpoint(ClientsIdProductkeysEndpoint(client, parent_endpoint=self))
-        self.documents = self._register_child_endpoint(ClientsIdDocumentsEndpoint(client, parent_endpoint=self))
         self.licenses = self._register_child_endpoint(ClientsIdLicensesEndpoint(client, parent_endpoint=self))
+        self.documents = self._register_child_endpoint(ClientsIdDocumentsEndpoint(client, parent_endpoint=self))
         self.permissions = self._register_child_endpoint(ClientsIdPermissionsEndpoint(client, parent_endpoint=self))
+        self.productkeys = self._register_child_endpoint(ClientsIdProductkeysEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechClient]:
         """
         Performs a GET request against the /Clients/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -31,13 +37,16 @@ class ClientsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechClient]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechClient, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> LabTechClient:
+    def get(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> LabTechClient:
         """
         Performs a GET request against the /Clients/{id} endpoint.
 

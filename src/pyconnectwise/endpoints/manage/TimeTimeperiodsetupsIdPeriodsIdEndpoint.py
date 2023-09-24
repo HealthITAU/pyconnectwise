@@ -1,15 +1,23 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TimePeriod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class TimeTimeperiodsetupsIdPeriodsIdEndpoint(ConnectWiseEndpoint):
+class TimeTimeperiodsetupsIdPeriodsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TimePeriod, ConnectWiseManageRequestParams],
+    IPaginateable[TimePeriod, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[TimePeriod]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[TimePeriod]:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +28,14 @@ class TimeTimeperiodsetupsIdPeriodsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TimePeriod]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), TimePeriod, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TimePeriod:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimePeriod:
         """
         Performs a GET request against the /time/timePeriodSetups/{id}/periods/{id} endpoint.
 

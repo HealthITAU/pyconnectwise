@@ -2,18 +2,24 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementTypesInfoCountEndpoint import ProcurementTypesInfoCountEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ProductTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementTypesInfoEndpoint(ConnectWiseEndpoint):
+class ProcurementTypesInfoEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ProductTypeInfo], ConnectWiseManageRequestParams],
+    IPaginateable[ProductTypeInfo, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "info", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(ProcurementTypesInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProductTypeInfo]:
         """
         Performs a GET request against the /procurement/types/info endpoint and returns an initialized PaginatedResponse object.
@@ -25,13 +31,18 @@ class ProcurementTypesInfoEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ProductTypeInfo]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ProductTypeInfo, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ProductTypeInfo]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ProductTypeInfo]:
         """
         Performs a GET request against the /procurement/types/info endpoint.
 

@@ -3,11 +3,15 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint import \
     SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import WorkflowActionUserDefinedField
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(ConnectWiseEndpoint):
+class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(
+    ConnectWiseEndpoint, IPostable[WorkflowActionUserDefinedField, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
@@ -15,7 +19,9 @@ class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(ConnectWiseEndpoint):
             SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint(client, parent_endpoint=self)
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> WorkflowActionUserDefinedField:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> WorkflowActionUserDefinedField:
         """
         Performs a POST request against the /system/workflows/userdefinedfields/events/{id} endpoint.
 

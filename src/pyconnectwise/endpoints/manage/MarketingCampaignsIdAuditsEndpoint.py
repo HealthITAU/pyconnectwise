@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsCountEndpoint import \
     MarketingCampaignsIdAuditsCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsIdAuditsIdEndpoint import MarketingCampaignsIdAuditsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CampaignAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
+class MarketingCampaignsIdAuditsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[CampaignAudit], ConnectWiseManageRequestParams],
+    IPostable[CampaignAudit, ConnectWiseManageRequestParams],
+    IPaginateable[CampaignAudit, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "audits", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CampaignAudit]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/audits endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CampaignAudit]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CampaignAudit, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignAudit]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[CampaignAudit]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/audits endpoint.
 
@@ -60,7 +72,7 @@ class MarketingCampaignsIdAuditsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(CampaignAudit, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignAudit:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CampaignAudit:
         """
         Performs a POST request against the /marketing/campaigns/{id}/audits endpoint.
 

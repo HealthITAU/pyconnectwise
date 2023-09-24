@@ -1,16 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagementItSolutionAgreementInterfaceParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndpoint):
+class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IPuttable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IPatchable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IDeleteable[ConnectWiseManageRequestParams],
+    IPaginateable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagementItSolutionAgreementInterfaceParameter]:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,8 +31,11 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndp
         Returns:
             PaginatedResponse[ManagementItSolutionAgreementInterfaceParameter]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             ManagementItSolutionAgreementInterfaceParameter,
@@ -34,7 +46,7 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndp
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -51,7 +63,7 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndp
         )
 
     def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a PUT request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -68,7 +80,7 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndp
         )
 
     def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a PATCH request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -85,7 +97,7 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(ConnectWiseEndp
         )
 
     def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a DELETE request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.

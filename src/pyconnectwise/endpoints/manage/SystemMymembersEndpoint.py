@@ -2,17 +2,25 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMymembersInfoEndpoint import SystemMymembersInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MyMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMymembersEndpoint(ConnectWiseEndpoint):
+class SystemMymembersEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[MyMember, ConnectWiseManageRequestParams],
+    IPaginateable[MyMember, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "myMembers", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemMymembersInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[MyMember]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[MyMember]:
         """
         Performs a GET request against the /system/myMembers endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,11 +31,14 @@ class SystemMymembersEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MyMember]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), MyMember, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MyMember:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MyMember:
         """
         Performs a GET request against the /system/myMembers endpoint.
 

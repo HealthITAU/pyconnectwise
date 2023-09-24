@@ -7,19 +7,26 @@ from pyconnectwise.endpoints.manage.CompanyCompaniesIdEndpoint import CompanyCom
 from pyconnectwise.endpoints.manage.CompanyCompaniesInfoEndpoint import CompanyCompaniesInfoEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesStatusesEndpoint import CompanyCompaniesStatusesEndpoint
 from pyconnectwise.endpoints.manage.CompanyCompaniesTypesEndpoint import CompanyCompaniesTypesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Company
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
+class CompanyCompaniesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[Company], ConnectWiseManageRequestParams],
+    IPostable[Company, ConnectWiseManageRequestParams],
+    IPaginateable[Company, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "companies", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(CompanyCompaniesCountEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCompaniesCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompaniesIdEndpoint:
         """
@@ -34,7 +41,9 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Company]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Company]:
         """
         Performs a GET request against the /company/companies endpoint and returns an initialized PaginatedResponse object.
 
@@ -45,11 +54,14 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Company]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Company, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[Company]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Company]:
         """
         Performs a GET request against the /company/companies endpoint.
 
@@ -61,7 +73,7 @@ class CompanyCompaniesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(Company, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Company:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Company:
         """
         Performs a POST request against the /company/companies endpoint.
 

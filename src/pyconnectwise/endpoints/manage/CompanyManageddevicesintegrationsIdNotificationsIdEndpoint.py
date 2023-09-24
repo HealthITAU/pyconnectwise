@@ -1,16 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegrationNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+    IPuttable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+    IPatchable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+    IDeleteable[ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegrationNotification]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,8 +31,11 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndp
         Returns:
             PaginatedResponse[ManagedDevicesIntegrationNotification]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             ManagedDevicesIntegrationNotification,
@@ -34,7 +46,7 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndp
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationNotification:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/notifications/{id} endpoint.
@@ -50,7 +62,7 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndp
         )
 
     def put(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationNotification:
         """
         Performs a PUT request against the /company/managedDevicesIntegrations/{id}/notifications/{id} endpoint.
@@ -66,7 +78,7 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndp
         )
 
     def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationNotification:
         """
         Performs a PATCH request against the /company/managedDevicesIntegrations/{id}/notifications/{id} endpoint.
@@ -82,7 +94,7 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(ConnectWiseEndp
         )
 
     def delete(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagedDevicesIntegrationNotification:
         """
         Performs a DELETE request against the /company/managedDevicesIntegrations/{id}/notifications/{id} endpoint.

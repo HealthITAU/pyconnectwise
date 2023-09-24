@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesCountEndpoint import \
     MarketingCampaignsSubtypesCountEndpoint
 from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesIdEndpoint import MarketingCampaignsSubtypesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import CampaignSubTypeCampaignSubType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
+class MarketingCampaignsSubtypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[CampaignSubTypeCampaignSubType], ConnectWiseManageRequestParams],
+    IPostable[CampaignSubTypeCampaignSubType, ConnectWiseManageRequestParams],
+    IPaginateable[CampaignSubTypeCampaignSubType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "subTypes", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CampaignSubTypeCampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/subTypes endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[CampaignSubTypeCampaignSubType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), CampaignSubTypeCampaignSubType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[CampaignSubTypeCampaignSubType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[CampaignSubTypeCampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/subTypes endpoint.
 
@@ -62,7 +74,9 @@ class MarketingCampaignsSubtypesEndpoint(ConnectWiseEndpoint):
             CampaignSubTypeCampaignSubType, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> CampaignSubTypeCampaignSubType:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> CampaignSubTypeCampaignSubType:
         """
         Performs a POST request against the /marketing/campaigns/subTypes endpoint.
 

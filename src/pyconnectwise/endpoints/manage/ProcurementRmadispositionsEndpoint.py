@@ -5,11 +5,18 @@ from pyconnectwise.endpoints.manage.ProcurementRmadispositionsCountEndpoint impo
     ProcurementRmadispositionsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmadispositionsIdEndpoint import ProcurementRmadispositionsIdEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmadispositionsInfoEndpoint import ProcurementRmadispositionsInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import RmaDisposition
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
+class ProcurementRmadispositionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[RmaDisposition], ConnectWiseManageRequestParams],
+    IPostable[RmaDisposition, ConnectWiseManageRequestParams],
+    IPaginateable[RmaDisposition, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "RMADispositions", parent_endpoint=parent_endpoint)
 
@@ -32,7 +39,7 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[RmaDisposition]:
         """
         Performs a GET request against the /procurement/RMADispositions endpoint and returns an initialized PaginatedResponse object.
@@ -44,13 +51,18 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[RmaDisposition]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), RmaDisposition, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[RmaDisposition]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[RmaDisposition]:
         """
         Performs a GET request against the /procurement/RMADispositions endpoint.
 
@@ -62,7 +74,7 @@ class ProcurementRmadispositionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(RmaDisposition, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> RmaDisposition:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> RmaDisposition:
         """
         Performs a POST request against the /procurement/RMADispositions endpoint.
 

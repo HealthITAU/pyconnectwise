@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import SurveyQuestionValue
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemSurveysIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
+class SystemSurveysIdQuestionsIdValuesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[SurveyQuestionValue, ConnectWiseManageRequestParams],
+    IPuttable[SurveyQuestionValue, ConnectWiseManageRequestParams],
+    IPatchable[SurveyQuestionValue, ConnectWiseManageRequestParams],
+    IPaginateable[SurveyQuestionValue, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SurveyQuestionValue]:
         """
         Performs a GET request against the /system/surveys/{id}/questions/{id}/values/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +30,18 @@ class SystemSurveysIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[SurveyQuestionValue]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), SurveyQuestionValue, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestionValue:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> SurveyQuestionValue:
         """
         Performs a GET request against the /system/surveys/{id}/questions/{id}/values/{id} endpoint.
 
@@ -40,7 +53,7 @@ class SystemSurveysIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(SurveyQuestionValue, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/surveys/{id}/questions/{id}/values/{id} endpoint.
 
@@ -50,7 +63,9 @@ class SystemSurveysIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestionValue:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> SurveyQuestionValue:
         """
         Performs a PUT request against the /system/surveys/{id}/questions/{id}/values/{id} endpoint.
 
@@ -62,7 +77,9 @@ class SystemSurveysIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(SurveyQuestionValue, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestionValue:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> SurveyQuestionValue:
         """
         Performs a PATCH request against the /system/surveys/{id}/questions/{id}/values/{id} endpoint.
 

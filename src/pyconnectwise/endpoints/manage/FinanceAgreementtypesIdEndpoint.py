@@ -11,7 +11,9 @@ from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypeexclusionsEnd
     FinanceAgreementtypesIdWorktypeexclusionsEndpoint
 from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesEndpoint import \
     FinanceAgreementtypesIdWorktypesEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class FinanceAgreementtypesIdEndpoint(ConnectWiseEndpoint):
@@ -21,15 +23,15 @@ class FinanceAgreementtypesIdEndpoint(ConnectWiseEndpoint):
         self.work_type_exclusions = self._register_child_endpoint(
             FinanceAgreementtypesIdWorktypeexclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.workroles = self._register_child_endpoint(
-            FinanceAgreementtypesIdWorkrolesEndpoint(client, parent_endpoint=self)
-        )
-        self.worktypes = self._register_child_endpoint(
-            FinanceAgreementtypesIdWorktypesEndpoint(client, parent_endpoint=self)
+        self.board_defaults = self._register_child_endpoint(
+            FinanceAgreementtypesIdBoarddefaultsEndpoint(client, parent_endpoint=self)
         )
         self.work_role_exclusions = self._register_child_endpoint(
             FinanceAgreementtypesIdWorkroleexclusionsEndpoint(client, parent_endpoint=self)
         )
-        self.board_defaults = self._register_child_endpoint(
-            FinanceAgreementtypesIdBoarddefaultsEndpoint(client, parent_endpoint=self)
+        self.worktypes = self._register_child_endpoint(
+            FinanceAgreementtypesIdWorktypesEndpoint(client, parent_endpoint=self)
+        )
+        self.workroles = self._register_child_endpoint(
+            FinanceAgreementtypesIdWorkrolesEndpoint(client, parent_endpoint=self)
         )

@@ -1,16 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import LabTechSensorCheck
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SensorchecksEndpoint(ConnectWiseEndpoint):
+class SensorchecksEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[LabTechSensorCheck], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechSensorCheck, ConnectWiseAutomateRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Sensorchecks", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
     ) -> PaginatedResponse[LabTechSensorCheck]:
         """
         Performs a GET request against the /Sensorchecks endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +28,18 @@ class SensorchecksEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[LabTechSensorCheck]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), LabTechSensorCheck, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[LabTechSensorCheck]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> list[LabTechSensorCheck]:
         """
         Performs a GET request against the /Sensorchecks endpoint.
 

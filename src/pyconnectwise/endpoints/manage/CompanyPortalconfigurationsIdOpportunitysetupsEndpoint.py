@@ -3,11 +3,19 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint import \
     CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PortalConfigurationOpportunitySetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint):
+class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PortalConfigurationOpportunitySetup], ConnectWiseManageRequestParams],
+    IPuttable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
+    IPatchable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
+    IPaginateable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "opportunitySetups", parent_endpoint=parent_endpoint)
 
@@ -25,7 +33,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalConfigurationOpportunitySetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/opportunitySetups endpoint and returns an initialized PaginatedResponse object.
@@ -37,8 +45,11 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
         Returns:
             PaginatedResponse[PortalConfigurationOpportunitySetup]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params),
             PortalConfigurationOpportunitySetup,
@@ -49,7 +60,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
         )
 
     def get(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[PortalConfigurationOpportunitySetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/opportunitySetups endpoint.
@@ -64,7 +75,9 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
             PortalConfigurationOpportunitySetup, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> PortalConfigurationOpportunitySetup:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/opportunitySetups endpoint.
 
@@ -79,7 +92,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(ConnectWiseEndpoint
         )
 
     def patch(
-        self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/opportunitySetups endpoint.

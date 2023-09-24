@@ -5,11 +5,17 @@ from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersCountEndpoint 
     ProcurementOnhandserialnumbersCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementOnhandserialnumbersIdEndpoint import \
     ProcurementOnhandserialnumbersIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import OnHandSerialNumber
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
+class ProcurementOnhandserialnumbersEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[OnHandSerialNumber], ConnectWiseManageRequestParams],
+    IPaginateable[OnHandSerialNumber, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "onhandserialnumbers", parent_endpoint=parent_endpoint)
 
@@ -31,7 +37,7 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[OnHandSerialNumber]:
         """
         Performs a GET request against the /procurement/onhandserialnumbers endpoint and returns an initialized PaginatedResponse object.
@@ -43,13 +49,18 @@ class ProcurementOnhandserialnumbersEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[OnHandSerialNumber]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), OnHandSerialNumber, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[OnHandSerialNumber]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[OnHandSerialNumber]:
         """
         Performs a GET request against the /procurement/onhandserialnumbers endpoint.
 

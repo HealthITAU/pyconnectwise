@@ -5,18 +5,25 @@ from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesCopyEndpoint impor
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesCountEndpoint import \
     CompanyConfigurationsTypesCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyConfigurationsTypesIdEndpoint import CompanyConfigurationsTypesIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ConfigurationType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
+class CompanyConfigurationsTypesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[ConfigurationType], ConnectWiseManageRequestParams],
+    IPostable[ConfigurationType, ConnectWiseManageRequestParams],
+    IPaginateable[ConfigurationType, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "types", parent_endpoint=parent_endpoint)
 
-        self.copy = self._register_child_endpoint(CompanyConfigurationsTypesCopyEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             CompanyConfigurationsTypesCountEndpoint(client, parent_endpoint=self)
         )
+        self.copy = self._register_child_endpoint(CompanyConfigurationsTypesCopyEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyConfigurationsTypesIdEndpoint:
         """
@@ -32,7 +39,7 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ConfigurationType]:
         """
         Performs a GET request against the /company/configurations/types endpoint and returns an initialized PaginatedResponse object.
@@ -44,13 +51,18 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ConfigurationType]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ConfigurationType, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[ConfigurationType]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[ConfigurationType]:
         """
         Performs a GET request against the /company/configurations/types endpoint.
 
@@ -62,7 +74,7 @@ class CompanyConfigurationsTypesEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(ConfigurationType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ConfigurationType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ConfigurationType:
         """
         Performs a POST request against the /company/configurations/types endpoint.
 

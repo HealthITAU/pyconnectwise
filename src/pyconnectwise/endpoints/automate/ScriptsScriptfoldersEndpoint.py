@@ -2,11 +2,15 @@ from typing import Any
 
 from pyconnectwise.endpoints.automate.ScriptsScriptfoldersIdEndpoint import ScriptsScriptfoldersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import AutomateSubmittableScriptFolder
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScriptsScriptfoldersEndpoint(ConnectWiseEndpoint):
+class ScriptsScriptfoldersEndpoint(
+    ConnectWiseEndpoint, IPostable[AutomateSubmittableScriptFolder, ConnectWiseAutomateRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Scriptfolders", parent_endpoint=parent_endpoint)
 
@@ -23,7 +27,9 @@ class ScriptsScriptfoldersEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateSubmittableScriptFolder:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+    ) -> AutomateSubmittableScriptFolder:
         """
         Performs a POST request against the /Scripts/Scriptfolders endpoint.
 

@@ -1,15 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Activity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SalesActivitiesIdEndpoint(ConnectWiseEndpoint):
+class SalesActivitiesIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Activity, ConnectWiseManageRequestParams],
+    IPuttable[Activity, ConnectWiseManageRequestParams],
+    IPatchable[Activity, ConnectWiseManageRequestParams],
+    IPaginateable[Activity, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Activity]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Activity]:
         """
         Performs a GET request against the /sales/activities/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -20,11 +30,14 @@ class SalesActivitiesIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Activity]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Activity, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Activity:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Activity:
         """
         Performs a GET request against the /sales/activities/{id} endpoint.
 
@@ -36,7 +49,7 @@ class SalesActivitiesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Activity, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /sales/activities/{id} endpoint.
 
@@ -46,7 +59,7 @@ class SalesActivitiesIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Activity:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Activity:
         """
         Performs a PUT request against the /sales/activities/{id} endpoint.
 
@@ -58,7 +71,7 @@ class SalesActivitiesIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Activity, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Activity:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Activity:
         """
         Performs a PATCH request against the /sales/activities/{id} endpoint.
 

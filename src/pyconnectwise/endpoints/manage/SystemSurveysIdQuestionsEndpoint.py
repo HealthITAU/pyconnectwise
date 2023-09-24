@@ -3,11 +3,18 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsCountEndpoint import SystemSurveysIdQuestionsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsIdEndpoint import SystemSurveysIdQuestionsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import SurveyQuestion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
+class SystemSurveysIdQuestionsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[SurveyQuestion], ConnectWiseManageRequestParams],
+    IPostable[SurveyQuestion, ConnectWiseManageRequestParams],
+    IPaginateable[SurveyQuestion, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "questions", parent_endpoint=parent_endpoint)
 
@@ -27,7 +34,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SurveyQuestion]:
         """
         Performs a GET request against the /system/surveys/{id}/questions endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +46,18 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[SurveyQuestion]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), SurveyQuestion, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[SurveyQuestion]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[SurveyQuestion]:
         """
         Performs a GET request against the /system/surveys/{id}/questions endpoint.
 
@@ -57,7 +69,7 @@ class SystemSurveysIdQuestionsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(SurveyQuestion, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> SurveyQuestion:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SurveyQuestion:
         """
         Performs a POST request against the /system/surveys/{id}/questions endpoint.
 

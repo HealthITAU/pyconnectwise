@@ -3,11 +3,13 @@ from typing import Any
 from pyconnectwise.endpoints.automate.ScriptsIdEndpoint import ScriptsIdEndpoint
 from pyconnectwise.endpoints.automate.ScriptsScriptfoldersEndpoint import ScriptsScriptfoldersEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.automate import AutomateScript
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class ScriptsEndpoint(ConnectWiseEndpoint):
+class ScriptsEndpoint(ConnectWiseEndpoint, IPostable[AutomateScript, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "Scripts", parent_endpoint=parent_endpoint)
 
@@ -26,7 +28,7 @@ class ScriptsEndpoint(ConnectWiseEndpoint):
         child._id = id
         return child
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> AutomateScript:
+    def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> AutomateScript:
         """
         Performs a POST request against the /Scripts endpoint.
 

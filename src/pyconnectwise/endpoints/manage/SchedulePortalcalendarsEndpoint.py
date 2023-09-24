@@ -3,11 +3,17 @@ from typing import Any
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SchedulePortalcalendarsCountEndpoint import SchedulePortalcalendarsCountEndpoint
 from pyconnectwise.endpoints.manage.SchedulePortalcalendarsIdEndpoint import SchedulePortalcalendarsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import PortalCalendar
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SchedulePortalcalendarsEndpoint(ConnectWiseEndpoint):
+class SchedulePortalcalendarsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[PortalCalendar], ConnectWiseManageRequestParams],
+    IPaginateable[PortalCalendar, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "portalcalendars", parent_endpoint=parent_endpoint)
 
@@ -27,7 +33,7 @@ class SchedulePortalcalendarsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalCalendar]:
         """
         Performs a GET request against the /schedule/portalcalendars endpoint and returns an initialized PaginatedResponse object.
@@ -39,13 +45,18 @@ class SchedulePortalcalendarsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[PortalCalendar]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), PortalCalendar, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[PortalCalendar]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[PortalCalendar]:
         """
         Performs a GET request against the /schedule/portalcalendars endpoint.
 

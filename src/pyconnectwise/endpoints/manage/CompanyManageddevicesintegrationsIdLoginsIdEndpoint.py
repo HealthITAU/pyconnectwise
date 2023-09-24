@@ -1,16 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import ManagedDevicesIntegrationLogin
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
+class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+    IPuttable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+    IPatchable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+    IDeleteable[ConnectWiseManageRequestParams],
+    IPaginateable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagedDevicesIntegrationLogin]:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +31,18 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[ManagedDevicesIntegrationLogin]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), ManagedDevicesIntegrationLogin, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a GET request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -42,7 +56,9 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin, super()._make_request("GET", data=data, params=params).json()
         )
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a PUT request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -56,7 +72,9 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin, super()._make_request("PUT", data=data, params=params).json()
         )
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def patch(
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a PATCH request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 
@@ -70,7 +88,9 @@ class CompanyManageddevicesintegrationsIdLoginsIdEndpoint(ConnectWiseEndpoint):
             ManagedDevicesIntegrationLogin, super()._make_request("PATCH", data=data, params=params).json()
         )
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> ManagedDevicesIntegrationLogin:
+    def delete(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> ManagedDevicesIntegrationLogin:
         """
         Performs a DELETE request against the /company/managedDevicesIntegrations/{id}/logins/{id} endpoint.
 

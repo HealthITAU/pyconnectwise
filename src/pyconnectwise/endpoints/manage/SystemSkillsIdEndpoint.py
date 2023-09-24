@@ -2,17 +2,27 @@ from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemSkillsIdInfoEndpoint import SystemSkillsIdInfoEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import Skill
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemSkillsIdEndpoint(ConnectWiseEndpoint):
+class SystemSkillsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[Skill, ConnectWiseManageRequestParams],
+    IPuttable[Skill, ConnectWiseManageRequestParams],
+    IPatchable[Skill, ConnectWiseManageRequestParams],
+    IPaginateable[Skill, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemSkillsIdInfoEndpoint(client, parent_endpoint=self))
 
-    def paginated(self, page: int, page_size: int, params: dict[str, int | str] = {}) -> PaginatedResponse[Skill]:
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[Skill]:
         """
         Performs a GET request against the /system/skills/{id} endpoint and returns an initialized PaginatedResponse object.
 
@@ -23,11 +33,14 @@ class SystemSkillsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[Skill]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), Skill, self, page, page_size, params)
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Skill:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Skill:
         """
         Performs a GET request against the /system/skills/{id} endpoint.
 
@@ -39,7 +52,7 @@ class SystemSkillsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Skill, super()._make_request("GET", data=data, params=params).json())
 
-    def delete(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /system/skills/{id} endpoint.
 
@@ -49,7 +62,7 @@ class SystemSkillsIdEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Skill:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Skill:
         """
         Performs a PUT request against the /system/skills/{id} endpoint.
 
@@ -61,7 +74,7 @@ class SystemSkillsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(Skill, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> Skill:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Skill:
         """
         Performs a PATCH request against the /system/skills/{id} endpoint.
 

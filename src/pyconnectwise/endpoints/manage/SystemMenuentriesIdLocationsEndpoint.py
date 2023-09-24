@@ -4,11 +4,18 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 from pyconnectwise.endpoints.manage.SystemMenuentriesIdLocationsCountEndpoint import \
     SystemMenuentriesIdLocationsCountEndpoint
 from pyconnectwise.endpoints.manage.SystemMenuentriesIdLocationsIdEndpoint import SystemMenuentriesIdLocationsIdEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import MenuEntryLocation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class SystemMenuentriesIdLocationsEndpoint(ConnectWiseEndpoint):
+class SystemMenuentriesIdLocationsEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[MenuEntryLocation], ConnectWiseManageRequestParams],
+    IPostable[MenuEntryLocation, ConnectWiseManageRequestParams],
+    IPaginateable[MenuEntryLocation, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "locations", parent_endpoint=parent_endpoint)
 
@@ -30,7 +37,7 @@ class SystemMenuentriesIdLocationsEndpoint(ConnectWiseEndpoint):
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MenuEntryLocation]:
         """
         Performs a GET request against the /system/menuEntries/{id}/locations endpoint and returns an initialized PaginatedResponse object.
@@ -42,13 +49,18 @@ class SystemMenuentriesIdLocationsEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[MenuEntryLocation]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), MenuEntryLocation, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> list[MenuEntryLocation]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> list[MenuEntryLocation]:
         """
         Performs a GET request against the /system/menuEntries/{id}/locations endpoint.
 
@@ -60,7 +72,7 @@ class SystemMenuentriesIdLocationsEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_many(MenuEntryLocation, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> MenuEntryLocation:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MenuEntryLocation:
         """
         Performs a POST request against the /system/menuEntries/{id}/locations endpoint.
 

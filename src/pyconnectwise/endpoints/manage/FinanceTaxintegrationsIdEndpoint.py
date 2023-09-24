@@ -1,16 +1,24 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
 from pyconnectwise.models.manage import TaxIntegration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
-class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
+class FinanceTaxintegrationsIdEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[TaxIntegration, ConnectWiseManageRequestParams],
+    IPuttable[TaxIntegration, ConnectWiseManageRequestParams],
+    IPatchable[TaxIntegration, ConnectWiseManageRequestParams],
+    IPaginateable[TaxIntegration, ConnectWiseManageRequestParams],
+):
     def __init__(self, client, parent_endpoint=None):
         super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
 
     def paginated(
-        self, page: int, page_size: int, params: dict[str, int | str] = {}
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TaxIntegration]:
         """
         Performs a GET request against the /finance/taxIntegrations/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -22,13 +30,16 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         Returns:
             PaginatedResponse[TaxIntegration]: The initialized PaginatedResponse object.
         """
-        params["page"] = page
-        params["pageSize"] = page_size
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
             super()._make_request("GET", params=params), TaxIntegration, self, page, page_size, params
         )
 
-    def get(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxIntegration:
         """
         Performs a GET request against the /finance/taxIntegrations/{id} endpoint.
 
@@ -40,7 +51,7 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TaxIntegration, super()._make_request("GET", data=data, params=params).json())
 
-    def put(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxIntegration:
         """
         Performs a PUT request against the /finance/taxIntegrations/{id} endpoint.
 
@@ -52,7 +63,7 @@ class FinanceTaxintegrationsIdEndpoint(ConnectWiseEndpoint):
         """
         return self._parse_one(TaxIntegration, super()._make_request("PUT", data=data, params=params).json())
 
-    def patch(self, data: dict[str, Any] = {}, params: dict[str, int | str] = {}) -> TaxIntegration:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TaxIntegration:
         """
         Performs a PATCH request against the /finance/taxIntegrations/{id} endpoint.
 
