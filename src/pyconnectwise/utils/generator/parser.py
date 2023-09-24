@@ -141,7 +141,12 @@ def _generate_manage(
         if schema["paths"].get(path) is not None:
             path_info = {key: value for key, value in schema["paths"][path].items()}
         generate_endpoint(
-            endpoint_output_path, model_output_path, path, path_info, relationships
+            endpoint_output_path,
+            model_output_path,
+            path,
+            path_info,
+            relationships,
+            True,
         )
 
     for endpoint, children in top_level_endpoints.items():
@@ -150,7 +155,12 @@ def _generate_manage(
         if schema["paths"].get(path) is not None:
             path_info = {key: value for key, value in schema["paths"][path].items()}
         endpoint_class = generate_endpoint(
-            endpoint_output_path, model_output_path, path, path_info, relationships
+            endpoint_output_path,
+            model_output_path,
+            path,
+            path_info,
+            relationships,
+            True,
         )
         client_top_level_endpoints.append(endpoint_class)
 
@@ -173,7 +183,12 @@ def _generate_automate(
         if schema["paths"].get(path) is not None:
             path_info = {key: value for key, value in schema["paths"][path].items()}
         generate_endpoint(
-            endpoint_output_path, model_output_path, path, path_info, relationships
+            endpoint_output_path,
+            model_output_path,
+            path,
+            path_info,
+            relationships,
+            False,
         )
 
     for endpoint, children in top_level_endpoints.items():
@@ -183,7 +198,12 @@ def _generate_automate(
             path_info = {key: value for key, value in schema["paths"][path].items()}
 
         endpoint_class = generate_endpoint(
-            endpoint_output_path, model_output_path, path, path_info, relationships
+            endpoint_output_path,
+            model_output_path,
+            path,
+            path_info,
+            relationships,
+            False,
         )
         client_top_level_endpoints.append(endpoint_class)
 
