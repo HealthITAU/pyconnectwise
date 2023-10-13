@@ -19,7 +19,15 @@ TRequestParams = TypeVar(
 )
 
 
-class IPaginateable(ABC, Generic[TModel, TRequestParams]):
+class IMethodBase(ABC, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        self.model = model
+
+
+class IPaginateable(IMethodBase, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def paginated(
         self,
@@ -30,7 +38,10 @@ class IPaginateable(ABC, Generic[TModel, TRequestParams]):
         pass
 
 
-class IGettable(ABC, Generic[TModel, TRequestParams]):
+class IGettable(IMethodBase, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def get(
         self,
@@ -40,7 +51,10 @@ class IGettable(ABC, Generic[TModel, TRequestParams]):
         pass
 
 
-class IPostable(ABC, Generic[TModel, TRequestParams]):
+class IPostable(IMethodBase, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def post(
         self,
@@ -50,7 +64,10 @@ class IPostable(ABC, Generic[TModel, TRequestParams]):
         pass
 
 
-class IPatchable(ABC, Generic[TModel, TRequestParams]):
+class IPatchable(IMethodBase, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def patch(
         self,
@@ -60,7 +77,10 @@ class IPatchable(ABC, Generic[TModel, TRequestParams]):
         pass
 
 
-class IPuttable(ABC, Generic[TModel, TRequestParams]):
+class IPuttable(IMethodBase, Generic[TModel, TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def put(
         self,
@@ -70,7 +90,10 @@ class IPuttable(ABC, Generic[TModel, TRequestParams]):
         pass
 
 
-class IDeleteable(ABC, Generic[TRequestParams]):
+class IDeleteable(IMethodBase, Generic[TRequestParams]):
+    def __init__(self, model: TModel):
+        super().__init__(model)
+
     @abstractmethod
     def delete(
         self,
