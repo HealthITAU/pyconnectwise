@@ -1,6 +1,9 @@
 from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 from pyconnectwise.utils.naming import to_camel_case
+from typing import get_origin, get_args, Union
+from types import UnionType
+import inspect
 
 
 class ConnectWiseModel(BaseModel):
