@@ -13,7 +13,9 @@ class PatchinformationEndpoint(
     IPaginateable[LabTechPatchInformation, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Patchinformation", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Patchinformation", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechPatchInformation)
+        IPaginateable.__init__(self, LabTechPatchInformation)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

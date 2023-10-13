@@ -19,13 +19,17 @@ class SalesOpportunitiesStatusesIdEndpoint(
     IPaginateable[OpportunityStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, OpportunityStatus)
+        IPuttable.__init__(self, OpportunityStatus)
+        IPatchable.__init__(self, OpportunityStatus)
+        IPaginateable.__init__(self, OpportunityStatus)
 
-        self.info = self._register_child_endpoint(
-            SalesOpportunitiesStatusesIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             SalesOpportunitiesStatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            SalesOpportunitiesStatusesIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

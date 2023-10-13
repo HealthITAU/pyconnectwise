@@ -13,7 +13,9 @@ class SystemAuthanvilsTestconnectionEndpoint(
     IPaginateable[SuccessResponse, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "testConnection", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "testConnection", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, SuccessResponse)
+        IPaginateable.__init__(self, SuccessResponse)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

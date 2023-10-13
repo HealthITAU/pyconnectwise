@@ -21,21 +21,25 @@ class ProcurementRmastatusesIdEndpoint(
     IPaginateable[RmaStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, RmaStatus)
+        IPuttable.__init__(self, RmaStatus)
+        IPatchable.__init__(self, RmaStatus)
+        IPaginateable.__init__(self, RmaStatus)
 
         self.emailtemplates = self._register_child_endpoint(
             ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
-        )
-        self.notifications = self._register_child_endpoint(
-            ProcurementRmastatusesIdNotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            ProcurementRmastatusesIdUsagesEndpoint(client, parent_endpoint=self)
         )
         self.email_templates = self._register_child_endpoint(
             ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(ProcurementRmastatusesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(
+            ProcurementRmastatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.notifications = self._register_child_endpoint(
+            ProcurementRmastatusesIdNotificationsEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

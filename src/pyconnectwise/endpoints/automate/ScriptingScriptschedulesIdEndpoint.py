@@ -11,7 +11,8 @@ class ScriptingScriptschedulesIdEndpoint(
     ConnectWiseEndpoint, IPatchable[AutomateScheduledScript, ConnectWiseAutomateRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IPatchable.__init__(self, AutomateScheduledScript)
 
     def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
         """

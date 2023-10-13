@@ -16,7 +16,10 @@ class FinanceDeliverymethodsEndpoint(
     IPaginateable[DeliveryMethod, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "deliveryMethods", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "deliveryMethods", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[DeliveryMethod])
+        IPostable.__init__(self, DeliveryMethod)
+        IPaginateable.__init__(self, DeliveryMethod)
 
         self.count = self._register_child_endpoint(FinanceDeliverymethodsCountEndpoint(client, parent_endpoint=self))
 

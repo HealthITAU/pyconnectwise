@@ -14,7 +14,9 @@ class CompanyOwnershiptypesInfoEndpoint(
     IPaginateable[OwnershipTypeInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[OwnershipTypeInfo])
+        IPaginateable.__init__(self, OwnershipTypeInfo)
 
         self.count = self._register_child_endpoint(CompanyOwnershiptypesInfoCountEndpoint(client, parent_endpoint=self))
 

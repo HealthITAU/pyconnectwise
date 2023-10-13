@@ -15,23 +15,23 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class PatchactionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Patchactions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Patchactions", parent_endpoint=parent_endpoint)
 
-        self.deployallsecurity = self._register_child_endpoint(
-            PatchactionsDeployallsecurityEndpoint(client, parent_endpoint=self)
+        self.settoteststage = self._register_child_endpoint(
+            PatchactionsSettoteststageEndpoint(client, parent_endpoint=self)
+        )
+        self.deployallapproved = self._register_child_endpoint(
+            PatchactionsDeployallapprovedEndpoint(client, parent_endpoint=self)
         )
         self.reattemptfailed = self._register_child_endpoint(
             PatchactionsReattemptfailedEndpoint(client, parent_endpoint=self)
         )
-        self.settoteststage = self._register_child_endpoint(
-            PatchactionsSettoteststageEndpoint(client, parent_endpoint=self)
+        self.deployallsecurity = self._register_child_endpoint(
+            PatchactionsDeployallsecurityEndpoint(client, parent_endpoint=self)
         )
         self.settopilotstage = self._register_child_endpoint(
             PatchactionsSettopilotstageEndpoint(client, parent_endpoint=self)
         )
         self.settoproductionstage = self._register_child_endpoint(
             PatchactionsSettoproductionstageEndpoint(client, parent_endpoint=self)
-        )
-        self.deployallapproved = self._register_child_endpoint(
-            PatchactionsDeployallapprovedEndpoint(client, parent_endpoint=self)
         )

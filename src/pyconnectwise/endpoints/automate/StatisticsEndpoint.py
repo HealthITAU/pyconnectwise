@@ -9,6 +9,6 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class StatisticsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Statistics", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Statistics", parent_endpoint=parent_endpoint)
 
         self.drives = self._register_child_endpoint(StatisticsDrivesEndpoint(client, parent_endpoint=self))

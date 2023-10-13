@@ -26,21 +26,25 @@ class CompanyContactsIdEndpoint(
     IPaginateable[Contact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Contact)
+        IPuttable.__init__(self, Contact)
+        IPatchable.__init__(self, Contact)
+        IPaginateable.__init__(self, Contact)
 
-        self.notes = self._register_child_endpoint(CompanyContactsIdNotesEndpoint(client, parent_endpoint=self))
+        self.portal_security = self._register_child_endpoint(
+            CompanyContactsIdPortalsecurityEndpoint(client, parent_endpoint=self)
+        )
         self.type_associations = self._register_child_endpoint(
             CompanyContactsIdTypeassociationsEndpoint(client, parent_endpoint=self)
         )
         self.groups = self._register_child_endpoint(CompanyContactsIdGroupsEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(CompanyContactsIdUsagesEndpoint(client, parent_endpoint=self))
-        self.tracks = self._register_child_endpoint(CompanyContactsIdTracksEndpoint(client, parent_endpoint=self))
-        self.portal_security = self._register_child_endpoint(
-            CompanyContactsIdPortalsecurityEndpoint(client, parent_endpoint=self)
-        )
         self.communications = self._register_child_endpoint(
             CompanyContactsIdCommunicationsEndpoint(client, parent_endpoint=self)
         )
+        self.tracks = self._register_child_endpoint(CompanyContactsIdTracksEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(CompanyContactsIdNotesEndpoint(client, parent_endpoint=self))
         self.image = self._register_child_endpoint(CompanyContactsIdImageEndpoint(client, parent_endpoint=self))
 
     def paginated(

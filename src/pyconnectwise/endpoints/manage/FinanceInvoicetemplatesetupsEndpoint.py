@@ -16,7 +16,9 @@ class FinanceInvoicetemplatesetupsEndpoint(
     IPaginateable[InvoiceTemplateSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "invoiceTemplateSetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "invoiceTemplateSetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[InvoiceTemplateSetup])
+        IPaginateable.__init__(self, InvoiceTemplateSetup)
 
         self.count = self._register_child_endpoint(
             FinanceInvoicetemplatesetupsCountEndpoint(client, parent_endpoint=self)

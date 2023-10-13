@@ -13,7 +13,9 @@ class LookupsProbeeventlevelsEndpoint(
     IPaginateable[LabTechProbeEventLevel, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Probeeventlevels", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Probeeventlevels", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechProbeEventLevel])
+        IPaginateable.__init__(self, LabTechProbeEventLevel)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

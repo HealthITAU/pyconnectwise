@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemFileuploadsettingsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "fileuploadsettings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "fileuploadsettings", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(SystemFileuploadsettingsCountEndpoint(client, parent_endpoint=self))
 

@@ -9,7 +9,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class PermissionsClientsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Clients", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Clients", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> PermissionsClientsIdEndpoint:
         """

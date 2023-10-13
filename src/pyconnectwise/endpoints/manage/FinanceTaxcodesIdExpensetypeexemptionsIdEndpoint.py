@@ -17,7 +17,11 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
     IPaginateable[ExpenseTypeExemption, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ExpenseTypeExemption)
+        IPuttable.__init__(self, ExpenseTypeExemption)
+        IPatchable.__init__(self, ExpenseTypeExemption)
+        IPaginateable.__init__(self, ExpenseTypeExemption)
 
         self.taxable_expense_type_levels = self._register_child_endpoint(
             FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint(client, parent_endpoint=self)

@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ExternalsystemcredentialsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Externalsystemcredentials", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Externalsystemcredentials", parent_endpoint=parent_endpoint)
 
         self.clients = self._register_child_endpoint(
             ExternalsystemcredentialsClientsEndpoint(client, parent_endpoint=self)

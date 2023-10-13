@@ -15,7 +15,9 @@ class ServiceInfoBoardsEndpoint(
     IPaginateable[BoardInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "boards", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "boards", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardInfo])
+        IPaginateable.__init__(self, BoardInfo)
 
         self.count = self._register_child_endpoint(ServiceInfoBoardsCountEndpoint(client, parent_endpoint=self))
 

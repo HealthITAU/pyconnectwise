@@ -17,7 +17,11 @@ class ProcurementAdjustmentsIdEndpoint(
     IPaginateable[ProcurementAdjustment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ProcurementAdjustment)
+        IPuttable.__init__(self, ProcurementAdjustment)
+        IPatchable.__init__(self, ProcurementAdjustment)
+        IPaginateable.__init__(self, ProcurementAdjustment)
 
         self.details = self._register_child_endpoint(
             ProcurementAdjustmentsIdDetailsEndpoint(client, parent_endpoint=self)

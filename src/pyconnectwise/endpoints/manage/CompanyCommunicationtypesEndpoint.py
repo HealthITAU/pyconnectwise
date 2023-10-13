@@ -17,7 +17,10 @@ class CompanyCommunicationtypesEndpoint(
     IPaginateable[CommunicationType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "communicationTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "communicationTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CommunicationType])
+        IPostable.__init__(self, CommunicationType)
+        IPaginateable.__init__(self, CommunicationType)
 
         self.count = self._register_child_endpoint(CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self))

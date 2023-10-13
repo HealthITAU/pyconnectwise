@@ -11,7 +11,8 @@ class CompanyManagementIdExecutemanageditsyncEndpoint(
     ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "executeManagedItSync", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "executeManagedItSync", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, SuccessResponse)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SuccessResponse:
         """

@@ -9,7 +9,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemContactsyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "contactsync", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "contactsync", parent_endpoint=parent_endpoint)
 
         self.monitoring = self._register_child_endpoint(
             SystemContactsyncMonitoringEndpoint(client, parent_endpoint=self)

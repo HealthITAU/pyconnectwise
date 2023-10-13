@@ -15,7 +15,9 @@ class SystemMembersIdManageddeviceaccountsEndpoint(
     IPaginateable[ManagedDeviceAccount, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managedDeviceAccounts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managedDeviceAccounts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagedDeviceAccount])
+        IPaginateable.__init__(self, ManagedDeviceAccount)
 
         self.bulk = self._register_child_endpoint(
             SystemMembersIdManageddeviceaccountsBulkEndpoint(client, parent_endpoint=self)

@@ -15,7 +15,11 @@ class FinanceBillingsetupsIdRoutingsIdEndpoint(
     IPaginateable[BillingSetupRouting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, BillingSetupRouting)
+        IPuttable.__init__(self, BillingSetupRouting)
+        IPatchable.__init__(self, BillingSetupRouting)
+        IPaginateable.__init__(self, BillingSetupRouting)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

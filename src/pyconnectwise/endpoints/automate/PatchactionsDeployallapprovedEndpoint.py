@@ -8,7 +8,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class PatchactionsDeployallapprovedEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Deployallapproved", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Deployallapproved", parent_endpoint=parent_endpoint)
 
     def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
         """

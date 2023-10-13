@@ -17,7 +17,11 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(
     IPaginateable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "opportunitySetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "opportunitySetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalConfigurationOpportunitySetup])
+        IPuttable.__init__(self, PortalConfigurationOpportunitySetup)
+        IPatchable.__init__(self, PortalConfigurationOpportunitySetup)
+        IPaginateable.__init__(self, PortalConfigurationOpportunitySetup)
 
     def id(self, id: int) -> CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint:
         """

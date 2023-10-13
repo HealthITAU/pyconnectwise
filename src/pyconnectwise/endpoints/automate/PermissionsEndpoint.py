@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class PermissionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Permissions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Permissions", parent_endpoint=parent_endpoint)
 
         self.clients = self._register_child_endpoint(PermissionsClientsEndpoint(client, parent_endpoint=self))
         self.users = self._register_child_endpoint(PermissionsUsersEndpoint(client, parent_endpoint=self))

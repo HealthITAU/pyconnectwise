@@ -17,7 +17,9 @@ class FinanceAccountingBatchesIdEndpoint(
     IPaginateable[AccountingBatch, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AccountingBatch)
+        IPaginateable.__init__(self, AccountingBatch)
 
         self.export = self._register_child_endpoint(
             FinanceAccountingBatchesIdExportEndpoint(client, parent_endpoint=self)

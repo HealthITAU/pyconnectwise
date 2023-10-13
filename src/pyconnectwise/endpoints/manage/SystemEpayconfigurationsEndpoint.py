@@ -16,7 +16,10 @@ class SystemEpayconfigurationsEndpoint(
     IPaginateable[EPayConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "ePayConfigurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "ePayConfigurations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[EPayConfiguration])
+        IPostable.__init__(self, EPayConfiguration)
+        IPaginateable.__init__(self, EPayConfiguration)
 
         self.count = self._register_child_endpoint(SystemEpayconfigurationsCountEndpoint(client, parent_endpoint=self))
 

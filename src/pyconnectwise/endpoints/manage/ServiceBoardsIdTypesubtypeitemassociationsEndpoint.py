@@ -17,7 +17,9 @@ class ServiceBoardsIdTypesubtypeitemassociationsEndpoint(
     IPaginateable[BoardTypeSubTypeItemAssociation, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "typeSubTypeItemAssociations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "typeSubTypeItemAssociations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardTypeSubTypeItemAssociation])
+        IPaginateable.__init__(self, BoardTypeSubTypeItemAssociation)
 
         self.count = self._register_child_endpoint(
             ServiceBoardsIdTypesubtypeitemassociationsCountEndpoint(client, parent_endpoint=self)

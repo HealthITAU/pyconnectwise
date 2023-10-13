@@ -16,7 +16,10 @@ class ServiceSurveysIdResultsEndpoint(
     IPaginateable[SurveyResult, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "results", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "results", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SurveyResult])
+        IPostable.__init__(self, SurveyResult)
+        IPaginateable.__init__(self, SurveyResult)
 
         self.count = self._register_child_endpoint(ServiceSurveysIdResultsCountEndpoint(client, parent_endpoint=self))
 

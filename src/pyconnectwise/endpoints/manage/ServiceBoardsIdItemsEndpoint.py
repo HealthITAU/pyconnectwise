@@ -16,7 +16,10 @@ class ServiceBoardsIdItemsEndpoint(
     IPaginateable[BoardItem, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "items", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "items", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardItem])
+        IPostable.__init__(self, BoardItem)
+        IPaginateable.__init__(self, BoardItem)
 
         self.count = self._register_child_endpoint(ServiceBoardsIdItemsCountEndpoint(client, parent_endpoint=self))
 

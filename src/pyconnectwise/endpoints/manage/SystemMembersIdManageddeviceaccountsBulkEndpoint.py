@@ -13,7 +13,9 @@ class SystemMembersIdManageddeviceaccountsBulkEndpoint(
     IPuttable[BulkResult, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "bulk", parent_endpoint=parent_endpoint)
+        IDeleteable.__init__(self, None)
+        IPuttable.__init__(self, BulkResult)
 
     def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BulkResult:
         """

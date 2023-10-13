@@ -11,7 +11,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ProcurementSubcategoriesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "subcategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "subcategories", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(ProcurementSubcategoriesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ProcurementSubcategoriesInfoEndpoint(client, parent_endpoint=self))

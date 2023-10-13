@@ -15,7 +15,9 @@ class CompanyManageddevicesintegrationsInfoEndpoint(
     IPaginateable[ManagedDevicesIntegrationInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagedDevicesIntegrationInfo])
+        IPaginateable.__init__(self, ManagedDevicesIntegrationInfo)
 
         self.count = self._register_child_endpoint(
             CompanyManageddevicesintegrationsInfoCountEndpoint(client, parent_endpoint=self)

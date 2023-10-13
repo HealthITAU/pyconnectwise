@@ -16,7 +16,10 @@ class SystemCallbacksEndpoint(
     IPaginateable[CallbackEntry, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "callbacks", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "callbacks", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CallbackEntry])
+        IPostable.__init__(self, CallbackEntry)
+        IPaginateable.__init__(self, CallbackEntry)
 
         self.count = self._register_child_endpoint(SystemCallbacksCountEndpoint(client, parent_endpoint=self))
 

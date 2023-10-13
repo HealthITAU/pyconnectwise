@@ -16,7 +16,11 @@ class ServiceEmailtemplatesIdEndpoint(
     IPaginateable[ServiceEmailTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceEmailTemplate)
+        IPuttable.__init__(self, ServiceEmailTemplate)
+        IPatchable.__init__(self, ServiceEmailTemplate)
+        IPaginateable.__init__(self, ServiceEmailTemplate)
 
         self.usages = self._register_child_endpoint(ServiceEmailtemplatesIdUsagesEndpoint(client, parent_endpoint=self))
 

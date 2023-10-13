@@ -9,7 +9,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class TimeSheetsIdRejectEndpoint(ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "reject", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "reject", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, SuccessResponse)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SuccessResponse:
         """

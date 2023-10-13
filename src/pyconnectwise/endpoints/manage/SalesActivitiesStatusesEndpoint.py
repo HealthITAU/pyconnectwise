@@ -17,7 +17,10 @@ class SalesActivitiesStatusesEndpoint(
     IPaginateable[ActivityStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "statuses", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "statuses", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ActivityStatus])
+        IPostable.__init__(self, ActivityStatus)
+        IPaginateable.__init__(self, ActivityStatus)
 
         self.count = self._register_child_endpoint(SalesActivitiesStatusesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SalesActivitiesStatusesInfoEndpoint(client, parent_endpoint=self))

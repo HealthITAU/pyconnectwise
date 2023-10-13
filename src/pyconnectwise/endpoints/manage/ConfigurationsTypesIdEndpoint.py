@@ -9,7 +9,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ConfigurationsTypesIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
 
         self.questions = self._register_child_endpoint(
             ConfigurationsTypesIdQuestionsEndpoint(client, parent_endpoint=self)

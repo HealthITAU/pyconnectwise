@@ -13,7 +13,9 @@ class LinksEndpoint(
     IPaginateable[LabTechLink, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Links", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Links", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechLink])
+        IPaginateable.__init__(self, LabTechLink)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

@@ -19,13 +19,17 @@ class CompanyContactsDepartmentsIdEndpoint(
     IPaginateable[ContactDepartment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ContactDepartment)
+        IPuttable.__init__(self, ContactDepartment)
+        IPatchable.__init__(self, ContactDepartment)
+        IPaginateable.__init__(self, ContactDepartment)
 
-        self.info = self._register_child_endpoint(
-            CompanyContactsDepartmentsIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             CompanyContactsDepartmentsIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            CompanyContactsDepartmentsIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

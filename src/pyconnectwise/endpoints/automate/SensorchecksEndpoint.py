@@ -13,7 +13,9 @@ class SensorchecksEndpoint(
     IPaginateable[LabTechSensorCheck, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Sensorchecks", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Sensorchecks", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechSensorCheck])
+        IPaginateable.__init__(self, LabTechSensorCheck)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

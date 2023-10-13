@@ -19,13 +19,17 @@ class ProcurementAdjustmentsTypesIdEndpoint(
     IPaginateable[AdjustmentType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AdjustmentType)
+        IPuttable.__init__(self, AdjustmentType)
+        IPatchable.__init__(self, AdjustmentType)
+        IPaginateable.__init__(self, AdjustmentType)
 
-        self.info = self._register_child_endpoint(
-            ProcurementAdjustmentsTypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             ProcurementAdjustmentsTypesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementAdjustmentsTypesIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

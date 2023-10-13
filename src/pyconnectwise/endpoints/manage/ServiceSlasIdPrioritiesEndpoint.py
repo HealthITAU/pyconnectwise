@@ -16,7 +16,10 @@ class ServiceSlasIdPrioritiesEndpoint(
     IPaginateable[SLAPriority, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "priorities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "priorities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SLAPriority])
+        IPostable.__init__(self, SLAPriority)
+        IPaginateable.__init__(self, SLAPriority)
 
         self.count = self._register_child_endpoint(ServiceSlasIdPrioritiesCountEndpoint(client, parent_endpoint=self))
 

@@ -16,7 +16,10 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
     IPaginateable[ManagementReportSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementReportSetup", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managementReportSetup", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementReportSetup])
+        IPostable.__init__(self, ManagementReportSetup)
+        IPaginateable.__init__(self, ManagementReportSetup)
 
     def id(self, id: int) -> CompanyCompaniesIdManagementreportsetupIdEndpoint:
         """

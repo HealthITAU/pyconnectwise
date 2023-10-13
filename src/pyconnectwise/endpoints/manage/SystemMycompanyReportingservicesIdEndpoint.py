@@ -17,7 +17,11 @@ class SystemMycompanyReportingservicesIdEndpoint(
     IPaginateable[ReportingService, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ReportingService)
+        IPuttable.__init__(self, ReportingService)
+        IPatchable.__init__(self, ReportingService)
+        IPaginateable.__init__(self, ReportingService)
 
         self.test_connection = self._register_child_endpoint(
             SystemMycompanyReportingservicesIdTestconnectionEndpoint(client, parent_endpoint=self)

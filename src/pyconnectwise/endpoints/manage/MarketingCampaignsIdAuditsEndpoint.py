@@ -17,7 +17,10 @@ class MarketingCampaignsIdAuditsEndpoint(
     IPaginateable[CampaignAudit, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "audits", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "audits", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CampaignAudit])
+        IPostable.__init__(self, CampaignAudit)
+        IPaginateable.__init__(self, CampaignAudit)
 
         self.count = self._register_child_endpoint(
             MarketingCampaignsIdAuditsCountEndpoint(client, parent_endpoint=self)

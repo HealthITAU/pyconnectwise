@@ -11,7 +11,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemOnpremisesearchsettingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "onPremiseSearchSetting", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "onPremiseSearchSetting", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
             SystemOnpremisesearchsettingCountEndpoint(client, parent_endpoint=self)

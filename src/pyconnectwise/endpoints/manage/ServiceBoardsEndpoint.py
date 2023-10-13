@@ -17,10 +17,13 @@ class ServiceBoardsEndpoint(
     IPaginateable[Board, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "boards", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "boards", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Board])
+        IPostable.__init__(self, Board)
+        IPaginateable.__init__(self, Board)
 
-        self.count = self._register_child_endpoint(ServiceBoardsCountEndpoint(client, parent_endpoint=self))
         self.copy = self._register_child_endpoint(ServiceBoardsCopyEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ServiceBoardsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ServiceBoardsIdEndpoint:
         """

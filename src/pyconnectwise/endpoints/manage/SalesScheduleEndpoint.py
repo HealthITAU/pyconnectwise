@@ -9,7 +9,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SalesScheduleEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "schedule", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "schedule", parent_endpoint=parent_endpoint)
 
         self.holidaylists = self._register_child_endpoint(
             SalesScheduleHolidaylistsEndpoint(client, parent_endpoint=self)

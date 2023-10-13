@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ScriptsIdCopyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Copy", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Copy", parent_endpoint=parent_endpoint)

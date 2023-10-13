@@ -16,7 +16,11 @@ class SystemInouttypesIdEndpoint(
     IPaginateable[InOutType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, InOutType)
+        IPuttable.__init__(self, InOutType)
+        IPatchable.__init__(self, InOutType)
+        IPaginateable.__init__(self, InOutType)
 
         self.info = self._register_child_endpoint(SystemInouttypesIdInfoEndpoint(client, parent_endpoint=self))
 

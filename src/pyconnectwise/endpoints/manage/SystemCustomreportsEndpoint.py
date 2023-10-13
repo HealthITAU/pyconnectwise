@@ -16,7 +16,10 @@ class SystemCustomreportsEndpoint(
     IPaginateable[CustomReport, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "customReports", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "customReports", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CustomReport])
+        IPostable.__init__(self, CustomReport)
+        IPaginateable.__init__(self, CustomReport)
 
         self.count = self._register_child_endpoint(SystemCustomreportsCountEndpoint(client, parent_endpoint=self))
 

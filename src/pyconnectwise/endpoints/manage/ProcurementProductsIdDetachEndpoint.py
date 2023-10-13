@@ -11,7 +11,8 @@ class ProcurementProductsIdDetachEndpoint(
     ConnectWiseEndpoint, IPostable[ProductDetach, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "detach", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "detach", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, ProductDetach)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProductDetach:
         """

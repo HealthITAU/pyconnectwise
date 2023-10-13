@@ -15,7 +15,9 @@ class SystemCwtimezonesEndpoint(
     IPaginateable[CwTimeZone, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "cwTimeZones", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "cwTimeZones", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CwTimeZone])
+        IPaginateable.__init__(self, CwTimeZone)
 
         self.count = self._register_child_endpoint(SystemCwtimezonesCountEndpoint(client, parent_endpoint=self))
 

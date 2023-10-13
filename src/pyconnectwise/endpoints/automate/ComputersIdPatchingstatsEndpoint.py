@@ -13,7 +13,9 @@ class ComputersIdPatchingstatsEndpoint(
     IPaginateable[AutomateComputerPatchingStats, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Patchingstats", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Patchingstats", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AutomateComputerPatchingStats)
+        IPaginateable.__init__(self, AutomateComputerPatchingStats)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

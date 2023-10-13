@@ -13,7 +13,9 @@ class CompanyCompaniesInfoTypesIdEndpoint(
     IPaginateable[CompanyTypeInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, CompanyTypeInfo)
+        IPaginateable.__init__(self, CompanyTypeInfo)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

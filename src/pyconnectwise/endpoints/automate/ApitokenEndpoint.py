@@ -13,7 +13,9 @@ class ApitokenEndpoint(
     IPostable[AutomateTokenResult, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Apitoken", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Apitoken", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AutomateAuthInformation)
+        IPostable.__init__(self, AutomateTokenResult)
 
     def get(
         self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None

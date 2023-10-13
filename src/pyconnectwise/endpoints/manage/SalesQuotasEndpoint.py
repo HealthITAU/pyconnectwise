@@ -16,7 +16,10 @@ class SalesQuotasEndpoint(
     IPaginateable[SalesQuota, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "quotas", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "quotas", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SalesQuota])
+        IPostable.__init__(self, SalesQuota)
+        IPaginateable.__init__(self, SalesQuota)
 
         self.count = self._register_child_endpoint(SalesQuotasCountEndpoint(client, parent_endpoint=self))
 

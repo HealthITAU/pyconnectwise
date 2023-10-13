@@ -18,7 +18,10 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(
     IPaginateable[ManagedDevicesIntegrationCrossReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "crossReferences", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "crossReferences", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagedDevicesIntegrationCrossReference])
+        IPostable.__init__(self, ManagedDevicesIntegrationCrossReference)
+        IPaginateable.__init__(self, ManagedDevicesIntegrationCrossReference)
 
         self.count = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdCrossreferencesCountEndpoint(client, parent_endpoint=self)

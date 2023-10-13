@@ -11,7 +11,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemMarketplaceimportEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "marketplaceimport", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "marketplaceimport", parent_endpoint=parent_endpoint)
 
         self.import_ = self._register_child_endpoint(
             SystemMarketplaceimportImportEndpoint(client, parent_endpoint=self)

@@ -18,7 +18,10 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
     IPaginateable[MinimumStockByWarehouse, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MinimumStockByWarehouse])
+        IPostable.__init__(self, MinimumStockByWarehouse)
+        IPaginateable.__init__(self, MinimumStockByWarehouse)
 
         self.count = self._register_child_endpoint(
             ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint(client, parent_endpoint=self)

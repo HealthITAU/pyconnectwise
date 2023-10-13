@@ -13,7 +13,9 @@ class ComputersIdScripthistoryEndpoint(
     IPaginateable[LabTechComputerScriptHistory, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Scripthistory", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Scripthistory", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechComputerScriptHistory])
+        IPaginateable.__init__(self, LabTechComputerScriptHistory)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

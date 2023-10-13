@@ -17,7 +17,10 @@ class FinanceGlaccountsEndpoint(
     IPaginateable[GLAccount, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "glAccounts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "glAccounts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[GLAccount])
+        IPostable.__init__(self, GLAccount)
+        IPaginateable.__init__(self, GLAccount)
 
         self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
         self.mapped_types = self._register_child_endpoint(

@@ -17,7 +17,10 @@ class SystemEmailconnectorsEndpoint(
     IPaginateable[EmailConnector, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "emailConnectors", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "emailConnectors", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[EmailConnector])
+        IPostable.__init__(self, EmailConnector)
+        IPaginateable.__init__(self, EmailConnector)
 
         self.count = self._register_child_endpoint(SystemEmailconnectorsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SystemEmailconnectorsInfoEndpoint(client, parent_endpoint=self))

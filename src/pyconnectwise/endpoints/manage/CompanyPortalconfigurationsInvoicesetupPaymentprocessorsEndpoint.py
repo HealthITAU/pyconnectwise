@@ -17,7 +17,9 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
     IPaginateable[PortalConfigurationPaymentProcessor, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "paymentProcessors", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "paymentProcessors", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalConfigurationPaymentProcessor])
+        IPaginateable.__init__(self, PortalConfigurationPaymentProcessor)
 
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(client, parent_endpoint=self)

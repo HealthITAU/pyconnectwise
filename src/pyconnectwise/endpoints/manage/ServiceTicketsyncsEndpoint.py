@@ -16,7 +16,10 @@ class ServiceTicketsyncsEndpoint(
     IPaginateable[TicketSync, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "ticketSyncs", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "ticketSyncs", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TicketSync])
+        IPostable.__init__(self, TicketSync)
+        IPaginateable.__init__(self, TicketSync)
 
         self.count = self._register_child_endpoint(ServiceTicketsyncsCountEndpoint(client, parent_endpoint=self))
 

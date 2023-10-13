@@ -14,7 +14,9 @@ class SystemTimezonesetupsInfoEndpoint(
     IPaginateable[TimeZoneSetupInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimeZoneSetupInfo])
+        IPaginateable.__init__(self, TimeZoneSetupInfo)
 
         self.count = self._register_child_endpoint(SystemTimezonesetupsInfoCountEndpoint(client, parent_endpoint=self))
 

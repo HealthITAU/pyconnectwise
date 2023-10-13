@@ -9,7 +9,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ScheduleColorsResetEndpoint(ConnectWiseEndpoint, IPostable[list[ScheduleColor], ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "reset", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "reset", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, list[ScheduleColor])
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None

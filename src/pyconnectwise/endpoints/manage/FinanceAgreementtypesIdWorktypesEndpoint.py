@@ -18,7 +18,10 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
     IPaginateable[AgreementTypeWorkType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "worktypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "worktypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[AgreementTypeWorkType])
+        IPostable.__init__(self, AgreementTypeWorkType)
+        IPaginateable.__init__(self, AgreementTypeWorkType)
 
         self.count = self._register_child_endpoint(
             FinanceAgreementtypesIdWorktypesCountEndpoint(client, parent_endpoint=self)

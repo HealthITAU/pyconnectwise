@@ -17,10 +17,14 @@ class TimeWorktypesIdEndpoint(
     IPaginateable[WorkType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, WorkType)
+        IPuttable.__init__(self, WorkType)
+        IPatchable.__init__(self, WorkType)
+        IPaginateable.__init__(self, WorkType)
 
-        self.info = self._register_child_endpoint(TimeWorktypesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(TimeWorktypesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(TimeWorktypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

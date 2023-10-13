@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class DatabaseservertimeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Databaseservertime", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Databaseservertime", parent_endpoint=parent_endpoint)

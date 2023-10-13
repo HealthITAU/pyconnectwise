@@ -15,7 +15,10 @@ class ServiceKnowledgebasesettingsEndpoint(
     IPaginateable[KnowledgeBaseSettings, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgebasesettings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "knowledgebasesettings", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, KnowledgeBaseSettings)
+        IPostable.__init__(self, KnowledgeBaseSettings)
+        IPaginateable.__init__(self, KnowledgeBaseSettings)
 
     def id(self, id: int) -> ServiceKnowledgebasesettingsIdEndpoint:
         """

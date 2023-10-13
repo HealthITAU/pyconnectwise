@@ -16,7 +16,10 @@ class SystemIntegratorloginsEndpoint(
     IPaginateable[IntegratorLogin, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "integratorlogins", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "integratorlogins", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[IntegratorLogin])
+        IPostable.__init__(self, IntegratorLogin)
+        IPaginateable.__init__(self, IntegratorLogin)
 
         self.count = self._register_child_endpoint(SystemIntegratorloginsCountEndpoint(client, parent_endpoint=self))
 

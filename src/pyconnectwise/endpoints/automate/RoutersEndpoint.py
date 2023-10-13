@@ -13,7 +13,9 @@ class RoutersEndpoint(
     IPaginateable[LabTechRouter, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Routers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Routers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechRouter])
+        IPaginateable.__init__(self, LabTechRouter)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

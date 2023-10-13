@@ -18,7 +18,10 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
     IPaginateable[FormSubmitted, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "formsSubmitted", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "formsSubmitted", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[FormSubmitted])
+        IPostable.__init__(self, FormSubmitted)
+        IPaginateable.__init__(self, FormSubmitted)
 
         self.count = self._register_child_endpoint(
             MarketingCampaignsIdFormssubmittedCountEndpoint(client, parent_endpoint=self)

@@ -18,7 +18,10 @@ class TimeChargecodesIdExpensetypesEndpoint(
     IPaginateable[ChargeCodeExpenseType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "expenseTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "expenseTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ChargeCodeExpenseType])
+        IPostable.__init__(self, ChargeCodeExpenseType)
+        IPaginateable.__init__(self, ChargeCodeExpenseType)
 
         self.count = self._register_child_endpoint(
             TimeChargecodesIdExpensetypesCountEndpoint(client, parent_endpoint=self)

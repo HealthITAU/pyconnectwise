@@ -10,7 +10,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemBundlesEndpoint(ConnectWiseEndpoint, IPostable[BundleResultsCollection, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "bundles", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "bundles", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, BundleResultsCollection)
 
         self.count = self._register_child_endpoint(SystemBundlesCountEndpoint(client, parent_endpoint=self))
 

@@ -18,7 +18,10 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(
     IPaginateable[ManagementReportNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementReportNotifications", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managementReportNotifications", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementReportNotification])
+        IPostable.__init__(self, ManagementReportNotification)
+        IPaginateable.__init__(self, ManagementReportNotification)
 
         self.count = self._register_child_endpoint(
             CompanyManagementIdManagementreportnotificationsCountEndpoint(client, parent_endpoint=self)

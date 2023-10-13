@@ -13,7 +13,9 @@ class SalesOpportunitiesIdNotesCountEndpoint(
     IPaginateable[OpportunityNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "count", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "count", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[OpportunityNote])
+        IPaginateable.__init__(self, OpportunityNote)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

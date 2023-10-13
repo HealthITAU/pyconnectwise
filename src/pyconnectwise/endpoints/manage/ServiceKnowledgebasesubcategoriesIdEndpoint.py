@@ -17,7 +17,11 @@ class ServiceKnowledgebasesubcategoriesIdEndpoint(
     IPaginateable[KnowledgeBaseSubCategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, KnowledgeBaseSubCategory)
+        IPuttable.__init__(self, KnowledgeBaseSubCategory)
+        IPatchable.__init__(self, KnowledgeBaseSubCategory)
+        IPaginateable.__init__(self, KnowledgeBaseSubCategory)
 
         self.usages = self._register_child_endpoint(
             ServiceKnowledgebasesubcategoriesIdUsagesEndpoint(client, parent_endpoint=self)

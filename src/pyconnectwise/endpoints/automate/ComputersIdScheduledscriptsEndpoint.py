@@ -15,7 +15,10 @@ class ComputersIdScheduledscriptsEndpoint(
     IPaginateable[LabTechScheduledScript, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Scheduledscripts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Scheduledscripts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechScheduledScript])
+        IPostable.__init__(self, LabTechScheduledScript)
+        IPaginateable.__init__(self, LabTechScheduledScript)
 
     def id(self, id: int) -> ComputersIdScheduledscriptsIdEndpoint:
         """

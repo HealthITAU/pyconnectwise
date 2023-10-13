@@ -19,12 +19,15 @@ class SystemWorkflowsEndpoint(
     IPaginateable[Workflow, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "workflows", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "workflows", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Workflow])
+        IPostable.__init__(self, Workflow)
+        IPaginateable.__init__(self, Workflow)
 
-        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.table_types = self._register_child_endpoint(
             SystemWorkflowsTabletypesEndpoint(client, parent_endpoint=self)
         )
+        self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.userdefinedfields = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )

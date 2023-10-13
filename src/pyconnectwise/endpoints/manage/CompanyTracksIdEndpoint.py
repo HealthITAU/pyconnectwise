@@ -16,7 +16,11 @@ class CompanyTracksIdEndpoint(
     IPaginateable[Track, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Track)
+        IPuttable.__init__(self, Track)
+        IPatchable.__init__(self, Track)
+        IPaginateable.__init__(self, Track)
 
         self.actions = self._register_child_endpoint(CompanyTracksIdActionsEndpoint(client, parent_endpoint=self))
 

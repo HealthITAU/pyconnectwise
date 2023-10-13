@@ -15,7 +15,10 @@ class FinanceInvoicesIdPaymentsEndpoint(
     IPaginateable[InvoicePayment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "payments", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "payments", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[InvoicePayment])
+        IPostable.__init__(self, InvoicePayment)
+        IPaginateable.__init__(self, InvoicePayment)
 
     def id(self, id: int) -> FinanceInvoicesIdPaymentsIdEndpoint:
         """

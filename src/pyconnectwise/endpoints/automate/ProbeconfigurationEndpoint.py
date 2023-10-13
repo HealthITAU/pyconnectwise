@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ProbeconfigurationEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Probeconfiguration", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Probeconfiguration", parent_endpoint=parent_endpoint)
 
         self.enableprobe = self._register_child_endpoint(
             ProbeconfigurationEnableprobeEndpoint(client, parent_endpoint=self)

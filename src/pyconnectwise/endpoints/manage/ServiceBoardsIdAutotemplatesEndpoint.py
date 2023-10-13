@@ -17,7 +17,10 @@ class ServiceBoardsIdAutotemplatesEndpoint(
     IPaginateable[BoardAutoTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "autoTemplates", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "autoTemplates", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardAutoTemplate])
+        IPostable.__init__(self, BoardAutoTemplate)
+        IPaginateable.__init__(self, BoardAutoTemplate)
 
         self.count = self._register_child_endpoint(
             ServiceBoardsIdAutotemplatesCountEndpoint(client, parent_endpoint=self)

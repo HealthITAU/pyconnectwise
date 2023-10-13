@@ -15,7 +15,10 @@ class ProjectProjectsIdContactsEndpoint(
     IPaginateable[ProjectContact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "contacts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "contacts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProjectContact])
+        IPostable.__init__(self, ProjectContact)
+        IPaginateable.__init__(self, ProjectContact)
 
     def id(self, id: int) -> ProjectProjectsIdContactsIdEndpoint:
         """

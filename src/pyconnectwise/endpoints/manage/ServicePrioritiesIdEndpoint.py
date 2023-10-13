@@ -17,10 +17,14 @@ class ServicePrioritiesIdEndpoint(
     IPaginateable[Priority, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Priority)
+        IPuttable.__init__(self, Priority)
+        IPatchable.__init__(self, Priority)
+        IPaginateable.__init__(self, Priority)
 
-        self.image = self._register_child_endpoint(ServicePrioritiesIdImageEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(ServicePrioritiesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.image = self._register_child_endpoint(ServicePrioritiesIdImageEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

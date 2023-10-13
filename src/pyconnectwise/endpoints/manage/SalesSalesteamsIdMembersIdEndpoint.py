@@ -15,7 +15,11 @@ class SalesSalesteamsIdMembersIdEndpoint(
     IPaginateable[SalesTeamMember, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, SalesTeamMember)
+        IPuttable.__init__(self, SalesTeamMember)
+        IPatchable.__init__(self, SalesTeamMember)
+        IPaginateable.__init__(self, SalesTeamMember)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -17,12 +17,16 @@ class SystemDepartmentsIdEndpoint(
     IPaginateable[Department, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Department)
+        IPuttable.__init__(self, Department)
+        IPatchable.__init__(self, Department)
+        IPaginateable.__init__(self, Department)
 
+        self.usages = self._register_child_endpoint(SystemDepartmentsIdUsagesEndpoint(client, parent_endpoint=self))
         self.locations = self._register_child_endpoint(
             SystemDepartmentsIdLocationsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(SystemDepartmentsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

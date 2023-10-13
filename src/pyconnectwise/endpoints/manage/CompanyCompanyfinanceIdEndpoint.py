@@ -9,7 +9,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class CompanyCompanyfinanceIdEndpoint(ConnectWiseEndpoint, IPuttable[CompanyFinance, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IPuttable.__init__(self, CompanyFinance)
 
     def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CompanyFinance:
         """

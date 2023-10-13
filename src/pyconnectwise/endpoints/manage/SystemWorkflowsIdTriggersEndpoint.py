@@ -15,7 +15,9 @@ class SystemWorkflowsIdTriggersEndpoint(
     IPaginateable[WorkflowTrigger, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "triggers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "triggers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[WorkflowTrigger])
+        IPaginateable.__init__(self, WorkflowTrigger)
 
         self.count = self._register_child_endpoint(SystemWorkflowsIdTriggersCountEndpoint(client, parent_endpoint=self))
 

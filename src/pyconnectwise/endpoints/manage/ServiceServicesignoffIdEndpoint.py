@@ -19,13 +19,17 @@ class ServiceServicesignoffIdEndpoint(
     IPaginateable[ServiceSignoff, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceSignoff)
+        IPuttable.__init__(self, ServiceSignoff)
+        IPatchable.__init__(self, ServiceSignoff)
+        IPaginateable.__init__(self, ServiceSignoff)
 
+        self.usages = self._register_child_endpoint(ServiceServicesignoffIdUsagesEndpoint(client, parent_endpoint=self))
         self.signoffcustomfields = self._register_child_endpoint(
             ServiceServicesignoffIdSignoffcustomfieldsEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(ServiceServicesignoffIdInfoEndpoint(client, parent_endpoint=self))
-        self.usages = self._register_child_endpoint(ServiceServicesignoffIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

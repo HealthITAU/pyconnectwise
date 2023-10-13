@@ -18,7 +18,10 @@ class MarketingCampaignsIdLinksclickedEndpoint(
     IPaginateable[LinkClicked, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "linksClicked", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "linksClicked", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LinkClicked])
+        IPostable.__init__(self, LinkClicked)
+        IPaginateable.__init__(self, LinkClicked)
 
         self.count = self._register_child_endpoint(
             MarketingCampaignsIdLinksclickedCountEndpoint(client, parent_endpoint=self)

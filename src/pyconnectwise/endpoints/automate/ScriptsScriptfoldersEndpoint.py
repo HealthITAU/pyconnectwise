@@ -12,7 +12,8 @@ class ScriptsScriptfoldersEndpoint(
     ConnectWiseEndpoint, IPostable[AutomateSubmittableScriptFolder, ConnectWiseAutomateRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Scriptfolders", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Scriptfolders", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, AutomateSubmittableScriptFolder)
 
     def id(self, id: int) -> ScriptsScriptfoldersIdEndpoint:
         """

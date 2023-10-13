@@ -15,7 +15,9 @@ class FinanceInfoCurrencycodesEndpoint(
     IPaginateable[CurrencyCode, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "currencyCodes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "currencyCodes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CurrencyCode])
+        IPaginateable.__init__(self, CurrencyCode)
 
         self.count = self._register_child_endpoint(FinanceInfoCurrencycodesCountEndpoint(client, parent_endpoint=self))
 

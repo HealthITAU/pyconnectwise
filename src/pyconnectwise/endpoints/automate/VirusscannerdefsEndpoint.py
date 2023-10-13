@@ -14,7 +14,10 @@ class VirusscannerdefsEndpoint(
     IPaginateable[LabTechVirusScannerDef, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Virusscannerdefs", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Virusscannerdefs", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechVirusScannerDef])
+        IPostable.__init__(self, LabTechVirusScannerDef)
+        IPaginateable.__init__(self, LabTechVirusScannerDef)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

@@ -15,7 +15,11 @@ class ServiceKnowledgebasecategoriesIdEndpoint(
     IPaginateable[KnowledgeBaseCategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, KnowledgeBaseCategory)
+        IPuttable.__init__(self, KnowledgeBaseCategory)
+        IPatchable.__init__(self, KnowledgeBaseCategory)
+        IPaginateable.__init__(self, KnowledgeBaseCategory)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

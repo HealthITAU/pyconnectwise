@@ -21,20 +21,22 @@ class SystemInfoEndpoint(
     IPaginateable[Info, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Info)
+        IPaginateable.__init__(self, Info)
 
-        self.personas = self._register_child_endpoint(SystemInfoPersonasEndpoint(client, parent_endpoint=self))
+        self.members = self._register_child_endpoint(SystemInfoMembersEndpoint(client, parent_endpoint=self))
         self.standard_notes = self._register_child_endpoint(
             SystemInfoStandardnotesEndpoint(client, parent_endpoint=self)
         )
+        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
+        self.personas = self._register_child_endpoint(SystemInfoPersonasEndpoint(client, parent_endpoint=self))
+        self.locales = self._register_child_endpoint(SystemInfoLocalesEndpoint(client, parent_endpoint=self))
         self.departmentlocations = self._register_child_endpoint(
             SystemInfoDepartmentlocationsEndpoint(client, parent_endpoint=self)
         )
-        self.locales = self._register_child_endpoint(SystemInfoLocalesEndpoint(client, parent_endpoint=self))
-        self.members = self._register_child_endpoint(SystemInfoMembersEndpoint(client, parent_endpoint=self))
         self.locations = self._register_child_endpoint(SystemInfoLocationsEndpoint(client, parent_endpoint=self))
         self.departments = self._register_child_endpoint(SystemInfoDepartmentsEndpoint(client, parent_endpoint=self))
-        self.links = self._register_child_endpoint(SystemInfoLinksEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

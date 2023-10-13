@@ -13,7 +13,9 @@ class CompanyManagementIdLogsEndpoint(
     IPaginateable[ManagementLogDocumentInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "logs", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "logs", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementLogDocumentInfo])
+        IPaginateable.__init__(self, ManagementLogDocumentInfo)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

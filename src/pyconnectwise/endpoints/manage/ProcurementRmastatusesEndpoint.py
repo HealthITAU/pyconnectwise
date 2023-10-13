@@ -17,7 +17,10 @@ class ProcurementRmastatusesEndpoint(
     IPaginateable[RmaStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "rmaStatuses", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "rmaStatuses", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[RmaStatus])
+        IPostable.__init__(self, RmaStatus)
+        IPaginateable.__init__(self, RmaStatus)
 
         self.count = self._register_child_endpoint(ProcurementRmastatusesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ProcurementRmastatusesInfoEndpoint(client, parent_endpoint=self))

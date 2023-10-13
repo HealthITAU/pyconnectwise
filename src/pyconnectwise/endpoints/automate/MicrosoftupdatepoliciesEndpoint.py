@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class MicrosoftupdatepoliciesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Microsoftupdatepolicies", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Microsoftupdatepolicies", parent_endpoint=parent_endpoint)

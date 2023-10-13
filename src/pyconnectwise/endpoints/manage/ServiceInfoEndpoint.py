@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ServiceInfoEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
 
-        self.boardtypes = self._register_child_endpoint(ServiceInfoBoardtypesEndpoint(client, parent_endpoint=self))
         self.boards = self._register_child_endpoint(ServiceInfoBoardsEndpoint(client, parent_endpoint=self))
+        self.boardtypes = self._register_child_endpoint(ServiceInfoBoardtypesEndpoint(client, parent_endpoint=self))

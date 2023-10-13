@@ -15,10 +15,12 @@ class SystemReportsIdEndpoint(
     IPaginateable[ReportDataResponse, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ReportDataResponse)
+        IPaginateable.__init__(self, ReportDataResponse)
 
-        self.count = self._register_child_endpoint(SystemReportsIdCountEndpoint(client, parent_endpoint=self))
         self.columns = self._register_child_endpoint(SystemReportsIdColumnsEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemReportsIdCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

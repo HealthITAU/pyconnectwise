@@ -14,7 +14,10 @@ class ScriptfoldersIdEndpoint(
     IPaginateable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechScriptFolder)
+        IPatchable.__init__(self, LabTechScriptFolder)
+        IPaginateable.__init__(self, LabTechScriptFolder)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

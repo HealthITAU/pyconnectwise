@@ -11,7 +11,8 @@ class SalesOpportunitiesIdConverttosalesorderEndpoint(
     ConnectWiseEndpoint, IPostable[Order, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "convertToSalesOrder", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "convertToSalesOrder", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, Order)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Order:
         """

@@ -17,7 +17,9 @@ class FinanceAccountingBatchesIdEntriesEndpoint(
     IPaginateable[BatchEntry, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "entries", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "entries", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BatchEntry])
+        IPaginateable.__init__(self, BatchEntry)
 
         self.count = self._register_child_endpoint(
             FinanceAccountingBatchesIdEntriesCountEndpoint(client, parent_endpoint=self)

@@ -14,7 +14,10 @@ class NetworkdevicesIdEndpoint(
     IPaginateable[LabTechNetworkDevice, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechNetworkDevice)
+        IPatchable.__init__(self, LabTechNetworkDevice)
+        IPaginateable.__init__(self, LabTechNetworkDevice)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

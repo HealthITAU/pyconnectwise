@@ -11,7 +11,8 @@ class ProcurementPurchasingdemandsEndpoint(
     ConnectWiseEndpoint, IPostable[PurchasingDemand, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "purchasingDemands", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "purchasingDemands", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, PurchasingDemand)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PurchasingDemand:
         """

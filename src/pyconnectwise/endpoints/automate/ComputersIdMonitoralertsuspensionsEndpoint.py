@@ -11,7 +11,8 @@ class ComputersIdMonitoralertsuspensionsEndpoint(
     ConnectWiseEndpoint, IPostable[LabTechMonitorAlertSuspension, ConnectWiseAutomateRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Monitoralertsuspensions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Monitoralertsuspensions", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, LabTechMonitorAlertSuspension)
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None

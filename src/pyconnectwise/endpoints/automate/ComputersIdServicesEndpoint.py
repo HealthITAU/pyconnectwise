@@ -13,7 +13,9 @@ class ComputersIdServicesEndpoint(
     IPaginateable[LabTechComputerService, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Services", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Services", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechComputerService])
+        IPaginateable.__init__(self, LabTechComputerService)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

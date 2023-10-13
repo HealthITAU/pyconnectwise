@@ -21,8 +21,13 @@ class SalesOrdersStatusesIdEndpoint(
     IPaginateable[OrderStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, OrderStatus)
+        IPuttable.__init__(self, OrderStatus)
+        IPatchable.__init__(self, OrderStatus)
+        IPaginateable.__init__(self, OrderStatus)
 
+        self.usages = self._register_child_endpoint(SalesOrdersStatusesIdUsagesEndpoint(client, parent_endpoint=self))
         self.emailtemplates = self._register_child_endpoint(
             SalesOrdersStatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
@@ -30,7 +35,6 @@ class SalesOrdersStatusesIdEndpoint(
             SalesOrdersStatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(SalesOrdersStatusesIdInfoEndpoint(client, parent_endpoint=self))
-        self.usages = self._register_child_endpoint(SalesOrdersStatusesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

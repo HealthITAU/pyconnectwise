@@ -16,7 +16,9 @@ class SystemMycompanyTimeexpenseEndpoint(
     IPaginateable[TimeExpense, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "timeExpense", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "timeExpense", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimeExpense])
+        IPaginateable.__init__(self, TimeExpense)
 
         self.count = self._register_child_endpoint(
             SystemMycompanyTimeexpenseCountEndpoint(client, parent_endpoint=self)

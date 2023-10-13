@@ -17,7 +17,9 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(
     IPaginateable[InventoryOnHand, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "inventoryOnHand", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "inventoryOnHand", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[InventoryOnHand])
+        IPaginateable.__init__(self, InventoryOnHand)
 
         self.count = self._register_child_endpoint(
             ProcurementWarehousebinsIdInventoryonhandCountEndpoint(client, parent_endpoint=self)

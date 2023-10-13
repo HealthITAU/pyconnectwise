@@ -17,7 +17,10 @@ class SalesOrdersEndpoint(
     IPaginateable[Order, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "orders", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "orders", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Order])
+        IPostable.__init__(self, Order)
+        IPaginateable.__init__(self, Order)
 
         self.count = self._register_child_endpoint(SalesOrdersCountEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(SalesOrdersStatusesEndpoint(client, parent_endpoint=self))

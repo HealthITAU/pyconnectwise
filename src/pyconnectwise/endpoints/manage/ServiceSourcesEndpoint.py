@@ -17,7 +17,10 @@ class ServiceSourcesEndpoint(
     IPaginateable[Source, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "sources", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "sources", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Source])
+        IPostable.__init__(self, Source)
+        IPaginateable.__init__(self, Source)
 
         self.count = self._register_child_endpoint(ServiceSourcesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ServiceSourcesInfoEndpoint(client, parent_endpoint=self))

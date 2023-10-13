@@ -13,7 +13,9 @@ class ComputersIdDriversEndpoint(
     IPaginateable[LabTechComputerDriver, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Drivers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Drivers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechComputerDriver])
+        IPaginateable.__init__(self, LabTechComputerDriver)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

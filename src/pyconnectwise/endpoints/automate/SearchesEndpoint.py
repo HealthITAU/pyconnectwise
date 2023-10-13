@@ -13,7 +13,9 @@ class SearchesEndpoint(
     IPaginateable[LabTechSearch, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Searches", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Searches", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechSearch])
+        IPaginateable.__init__(self, LabTechSearch)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

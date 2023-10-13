@@ -15,7 +15,9 @@ class TimeSheetsEndpoint(
     IPaginateable[TimeSheet, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "sheets", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "sheets", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimeSheet])
+        IPaginateable.__init__(self, TimeSheet)
 
         self.count = self._register_child_endpoint(TimeSheetsCountEndpoint(client, parent_endpoint=self))
 

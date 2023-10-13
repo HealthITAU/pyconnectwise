@@ -18,7 +18,10 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
     IPaginateable[TaxCodeLevel, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "taxCodeLevels", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "taxCodeLevels", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TaxCodeLevel])
+        IPostable.__init__(self, TaxCodeLevel)
+        IPaginateable.__init__(self, TaxCodeLevel)
 
         self.count = self._register_child_endpoint(
             FinanceTaxcodesIdTaxcodelevelsCountEndpoint(client, parent_endpoint=self)

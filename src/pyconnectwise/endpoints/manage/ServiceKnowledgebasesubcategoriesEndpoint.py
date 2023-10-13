@@ -18,7 +18,10 @@ class ServiceKnowledgebasesubcategoriesEndpoint(
     IPaginateable[KnowledgeBaseSubCategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgeBaseSubCategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "knowledgeBaseSubCategories", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[KnowledgeBaseSubCategory])
+        IPostable.__init__(self, KnowledgeBaseSubCategory)
+        IPaginateable.__init__(self, KnowledgeBaseSubCategory)
 
         self.count = self._register_child_endpoint(
             ServiceKnowledgebasesubcategoriesCountEndpoint(client, parent_endpoint=self)

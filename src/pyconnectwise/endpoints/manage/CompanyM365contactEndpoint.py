@@ -15,7 +15,9 @@ class CompanyM365contactEndpoint(
     IPaginateable[M365Contact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "m365contact", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "m365contact", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[M365Contact])
+        IPaginateable.__init__(self, M365Contact)
 
         self.count = self._register_child_endpoint(CompanyM365contactCountEndpoint(client, parent_endpoint=self))
 

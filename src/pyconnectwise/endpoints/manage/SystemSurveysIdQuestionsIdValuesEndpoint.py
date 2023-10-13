@@ -16,7 +16,10 @@ class SystemSurveysIdQuestionsIdValuesEndpoint(
     IPaginateable[SurveyQuestionValue, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "values", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "values", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SurveyQuestionValue])
+        IPostable.__init__(self, SurveyQuestionValue)
+        IPaginateable.__init__(self, SurveyQuestionValue)
 
     def id(self, id: int) -> SystemSurveysIdQuestionsIdValuesIdEndpoint:
         """

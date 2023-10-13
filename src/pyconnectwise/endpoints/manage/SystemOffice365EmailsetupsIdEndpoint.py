@@ -19,7 +19,11 @@ class SystemOffice365EmailsetupsIdEndpoint(
     IPaginateable[Office365EmailSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Office365EmailSetup)
+        IPuttable.__init__(self, Office365EmailSetup)
+        IPatchable.__init__(self, Office365EmailSetup)
+        IPaginateable.__init__(self, Office365EmailSetup)
 
         self.authorize = self._register_child_endpoint(
             SystemOffice365EmailsetupsIdAuthorizeEndpoint(client, parent_endpoint=self)

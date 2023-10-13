@@ -16,7 +16,10 @@ class ProjectTicketsIdNotesEndpoint(
     IPaginateable[TicketNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TicketNote])
+        IPostable.__init__(self, TicketNote)
+        IPaginateable.__init__(self, TicketNote)
 
         self.count = self._register_child_endpoint(ProjectTicketsIdNotesCountEndpoint(client, parent_endpoint=self))
 

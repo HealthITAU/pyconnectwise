@@ -17,7 +17,11 @@ class SalesOpportunitiesRatingsIdEndpoint(
     IPaginateable[OpportunityRating, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, OpportunityRating)
+        IPuttable.__init__(self, OpportunityRating)
+        IPatchable.__init__(self, OpportunityRating)
+        IPaginateable.__init__(self, OpportunityRating)
 
         self.info = self._register_child_endpoint(SalesOpportunitiesRatingsIdInfoEndpoint(client, parent_endpoint=self))
 

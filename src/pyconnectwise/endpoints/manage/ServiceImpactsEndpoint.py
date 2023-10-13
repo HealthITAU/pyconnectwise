@@ -15,7 +15,9 @@ class ServiceImpactsEndpoint(
     IPaginateable[Impact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "impacts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "impacts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Impact])
+        IPaginateable.__init__(self, Impact)
 
         self.count = self._register_child_endpoint(ServiceImpactsCountEndpoint(client, parent_endpoint=self))
 

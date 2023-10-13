@@ -13,7 +13,9 @@ class LookupsSnmphashmethodsEndpoint(
     IPaginateable[LabTechHashMethod, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Snmphashmethods", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Snmphashmethods", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechHashMethod])
+        IPaginateable.__init__(self, LabTechHashMethod)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

@@ -18,7 +18,10 @@ class FinanceBillingsetupsIdRoutingsEndpoint(
     IPaginateable[BillingSetupRouting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "routings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "routings", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BillingSetupRouting])
+        IPostable.__init__(self, BillingSetupRouting)
+        IPaginateable.__init__(self, BillingSetupRouting)
 
         self.count = self._register_child_endpoint(
             FinanceBillingsetupsIdRoutingsCountEndpoint(client, parent_endpoint=self)

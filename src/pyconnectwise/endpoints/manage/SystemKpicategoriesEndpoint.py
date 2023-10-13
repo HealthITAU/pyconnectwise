@@ -15,7 +15,9 @@ class SystemKpicategoriesEndpoint(
     IPaginateable[KPICategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "kpiCategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "kpiCategories", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[KPICategory])
+        IPaginateable.__init__(self, KPICategory)
 
         self.count = self._register_child_endpoint(SystemKpicategoriesCountEndpoint(client, parent_endpoint=self))
 

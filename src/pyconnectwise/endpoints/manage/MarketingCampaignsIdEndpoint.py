@@ -25,8 +25,19 @@ class MarketingCampaignsIdEndpoint(
     IPaginateable[Campaign, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Campaign)
+        IPuttable.__init__(self, Campaign)
+        IPatchable.__init__(self, Campaign)
+        IPaginateable.__init__(self, Campaign)
 
+        self.emails_opened = self._register_child_endpoint(
+            MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
+        )
+        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.opportunities = self._register_child_endpoint(
+            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
+        )
         self.forms_submitted = self._register_child_endpoint(
             MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
         )
@@ -35,13 +46,6 @@ class MarketingCampaignsIdEndpoint(
         )
         self.activities = self._register_child_endpoint(
             MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.opportunities = self._register_child_endpoint(
-            MarketingCampaignsIdOpportunitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
-        self.emails_opened = self._register_child_endpoint(
-            MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

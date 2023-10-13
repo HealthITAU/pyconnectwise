@@ -16,7 +16,10 @@ class ServiceTicketsIdNotesEndpoint(
     IPaginateable[ServiceNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ServiceNote])
+        IPostable.__init__(self, ServiceNote)
+        IPaginateable.__init__(self, ServiceNote)
 
         self.count = self._register_child_endpoint(ServiceTicketsIdNotesCountEndpoint(client, parent_endpoint=self))
 

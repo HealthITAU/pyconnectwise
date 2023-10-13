@@ -14,7 +14,9 @@ class MarketingGroupsIdUsagesEndpoint(
     IPaginateable[Usage, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "usages", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "usages", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Usage])
+        IPaginateable.__init__(self, Usage)
 
         self.list = self._register_child_endpoint(MarketingGroupsIdUsagesListEndpoint(client, parent_endpoint=self))
 

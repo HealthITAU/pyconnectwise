@@ -19,13 +19,17 @@ class FinanceInvoiceemailtemplatesIdEndpoint(
     IPaginateable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, InvoiceEmailTemplate)
+        IPuttable.__init__(self, InvoiceEmailTemplate)
+        IPatchable.__init__(self, InvoiceEmailTemplate)
+        IPaginateable.__init__(self, InvoiceEmailTemplate)
 
-        self.info = self._register_child_endpoint(
-            FinanceInvoiceemailtemplatesIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             FinanceInvoiceemailtemplatesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            FinanceInvoiceemailtemplatesIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

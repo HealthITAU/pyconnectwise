@@ -17,7 +17,11 @@ class SystemGoogleemailsetupIdEndpoint(
     IPaginateable[GoogleEmailSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, GoogleEmailSetup)
+        IPuttable.__init__(self, GoogleEmailSetup)
+        IPatchable.__init__(self, GoogleEmailSetup)
+        IPaginateable.__init__(self, GoogleEmailSetup)
 
         self.test_connection = self._register_child_endpoint(
             SystemGoogleemailsetupIdTestconnectionEndpoint(client, parent_endpoint=self)

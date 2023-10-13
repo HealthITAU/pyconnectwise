@@ -15,7 +15,9 @@ class SystemInfoPersonasEndpoint(
     IPaginateable[PersonasInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "personas", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "personas", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PersonasInfo])
+        IPaginateable.__init__(self, PersonasInfo)
 
         self.count = self._register_child_endpoint(SystemInfoPersonasCountEndpoint(client, parent_endpoint=self))
 

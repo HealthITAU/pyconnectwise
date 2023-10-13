@@ -15,7 +15,11 @@ class FinanceBatchsetupsIdEndpoint(
     IPaginateable[AgreementBatchSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AgreementBatchSetup)
+        IPuttable.__init__(self, AgreementBatchSetup)
+        IPatchable.__init__(self, AgreementBatchSetup)
+        IPaginateable.__init__(self, AgreementBatchSetup)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

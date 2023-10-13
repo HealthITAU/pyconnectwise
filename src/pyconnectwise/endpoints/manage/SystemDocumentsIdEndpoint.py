@@ -16,10 +16,13 @@ class SystemDocumentsIdEndpoint(
     IPaginateable[DocumentInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, DocumentInfo)
+        IPostable.__init__(self, DocumentInfo)
+        IPaginateable.__init__(self, DocumentInfo)
 
-        self.thumbnail = self._register_child_endpoint(SystemDocumentsIdThumbnailEndpoint(client, parent_endpoint=self))
         self.download = self._register_child_endpoint(SystemDocumentsIdDownloadEndpoint(client, parent_endpoint=self))
+        self.thumbnail = self._register_child_endpoint(SystemDocumentsIdThumbnailEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

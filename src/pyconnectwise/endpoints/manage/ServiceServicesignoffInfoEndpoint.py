@@ -14,7 +14,9 @@ class ServiceServicesignoffInfoEndpoint(
     IPaginateable[ServiceSignoffInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ServiceSignoffInfo])
+        IPaginateable.__init__(self, ServiceSignoffInfo)
 
         self.count = self._register_child_endpoint(ServiceServicesignoffInfoCountEndpoint(client, parent_endpoint=self))
 

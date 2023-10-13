@@ -18,7 +18,10 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesEndpoint(
     IPaginateable[ConfigurationTypeQuestionValue, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "values", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "values", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ConfigurationTypeQuestionValue])
+        IPostable.__init__(self, ConfigurationTypeQuestionValue)
+        IPaginateable.__init__(self, ConfigurationTypeQuestionValue)
 
         self.count = self._register_child_endpoint(
             CompanyConfigurationsTypesIdQuestionsIdValuesCountEndpoint(client, parent_endpoint=self)

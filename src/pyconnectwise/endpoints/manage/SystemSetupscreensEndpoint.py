@@ -15,7 +15,9 @@ class SystemSetupscreensEndpoint(
     IPaginateable[SetupScreen, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "setupScreens", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "setupScreens", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SetupScreen])
+        IPaginateable.__init__(self, SetupScreen)
 
         self.count = self._register_child_endpoint(SystemSetupscreensCountEndpoint(client, parent_endpoint=self))
 

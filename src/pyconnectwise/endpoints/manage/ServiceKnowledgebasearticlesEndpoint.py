@@ -17,7 +17,10 @@ class ServiceKnowledgebasearticlesEndpoint(
     IPaginateable[KnowledgeBaseArticle, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "knowledgeBaseArticles", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "knowledgeBaseArticles", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[KnowledgeBaseArticle])
+        IPostable.__init__(self, KnowledgeBaseArticle)
+        IPaginateable.__init__(self, KnowledgeBaseArticle)
 
         self.count = self._register_child_endpoint(
             ServiceKnowledgebasearticlesCountEndpoint(client, parent_endpoint=self)

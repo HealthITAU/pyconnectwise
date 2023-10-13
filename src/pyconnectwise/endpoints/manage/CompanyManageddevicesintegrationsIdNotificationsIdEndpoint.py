@@ -16,7 +16,12 @@ class CompanyManageddevicesintegrationsIdNotificationsIdEndpoint(
     IPaginateable[ManagedDevicesIntegrationNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ManagedDevicesIntegrationNotification)
+        IPuttable.__init__(self, ManagedDevicesIntegrationNotification)
+        IPatchable.__init__(self, ManagedDevicesIntegrationNotification)
+        IDeleteable.__init__(self, None)
+        IPaginateable.__init__(self, ManagedDevicesIntegrationNotification)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

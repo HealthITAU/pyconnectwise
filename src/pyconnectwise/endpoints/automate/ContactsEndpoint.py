@@ -15,7 +15,10 @@ class ContactsEndpoint(
     IPaginateable[AutomateContact, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Contacts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Contacts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[AutomateContact])
+        IPostable.__init__(self, AutomateContact)
+        IPaginateable.__init__(self, AutomateContact)
 
     def id(self, id: int) -> ContactsIdEndpoint:
         """

@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemDocumenttypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "documentTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "documentTypes", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemDocumenttypesInfoEndpoint(client, parent_endpoint=self))
 

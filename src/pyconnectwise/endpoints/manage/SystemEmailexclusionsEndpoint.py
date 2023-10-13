@@ -16,7 +16,10 @@ class SystemEmailexclusionsEndpoint(
     IPaginateable[EmailExclusion, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "emailExclusions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "emailExclusions", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[EmailExclusion])
+        IPostable.__init__(self, EmailExclusion)
+        IPaginateable.__init__(self, EmailExclusion)
 
         self.count = self._register_child_endpoint(SystemEmailexclusionsCountEndpoint(client, parent_endpoint=self))
 

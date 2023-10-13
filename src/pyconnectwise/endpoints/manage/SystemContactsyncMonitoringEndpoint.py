@@ -20,15 +20,17 @@ class SystemContactsyncMonitoringEndpoint(
     IPaginateable[M365ContactSyncMonitoring, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "monitoring", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "monitoring", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[M365ContactSyncMonitoring])
+        IPaginateable.__init__(self, M365ContactSyncMonitoring)
 
+        self.notificationtype = self._register_child_endpoint(
+            SystemContactsyncMonitoringNotificationtypeEndpoint(client, parent_endpoint=self)
+        )
         self.count = self._register_child_endpoint(
             SystemContactsyncMonitoringCountEndpoint(client, parent_endpoint=self)
         )
         self.type = self._register_child_endpoint(SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self))
-        self.notificationtype = self._register_child_endpoint(
-            SystemContactsyncMonitoringNotificationtypeEndpoint(client, parent_endpoint=self)
-        )
 
     def id(self, id: int) -> SystemContactsyncMonitoringIdEndpoint:
         """

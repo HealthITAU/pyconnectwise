@@ -19,7 +19,11 @@ class ServiceSurveysIdQuestionsIdEndpoint(
     IPaginateable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceSurveyQuestion)
+        IPuttable.__init__(self, ServiceSurveyQuestion)
+        IPatchable.__init__(self, ServiceSurveyQuestion)
+        IPaginateable.__init__(self, ServiceSurveyQuestion)
 
         self.copy = self._register_child_endpoint(ServiceSurveysIdQuestionsIdCopyEndpoint(client, parent_endpoint=self))
         self.options = self._register_child_endpoint(

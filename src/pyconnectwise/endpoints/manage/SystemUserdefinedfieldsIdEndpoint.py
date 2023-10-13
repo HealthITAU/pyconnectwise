@@ -16,7 +16,11 @@ class SystemUserdefinedfieldsIdEndpoint(
     IPaginateable[UserDefinedField, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, UserDefinedField)
+        IPuttable.__init__(self, UserDefinedField)
+        IPatchable.__init__(self, UserDefinedField)
+        IPaginateable.__init__(self, UserDefinedField)
 
         self.info = self._register_child_endpoint(SystemUserdefinedfieldsIdInfoEndpoint(client, parent_endpoint=self))
 

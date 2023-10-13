@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class PatchhistoryEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Patchhistory", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Patchhistory", parent_endpoint=parent_endpoint)

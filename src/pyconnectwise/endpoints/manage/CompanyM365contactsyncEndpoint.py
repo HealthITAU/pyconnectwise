@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class CompanyM365contactsyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "m365contactsync", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "m365contactsync", parent_endpoint=parent_endpoint)
 
         self.property = self._register_child_endpoint(
             CompanyM365contactsyncPropertyEndpoint(client, parent_endpoint=self)

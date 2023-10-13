@@ -16,7 +16,10 @@ class SystemSsoconfigurationsEndpoint(
     IPaginateable[SsoConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "ssoConfigurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "ssoConfigurations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SsoConfiguration])
+        IPostable.__init__(self, SsoConfiguration)
+        IPaginateable.__init__(self, SsoConfiguration)
 
         self.count = self._register_child_endpoint(SystemSsoconfigurationsCountEndpoint(client, parent_endpoint=self))
 

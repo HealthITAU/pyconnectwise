@@ -17,7 +17,10 @@ class TimeEntriesEndpoint(
     IPaginateable[TimeEntry, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "entries", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "entries", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimeEntry])
+        IPostable.__init__(self, TimeEntry)
+        IPaginateable.__init__(self, TimeEntry)
 
         self.count = self._register_child_endpoint(TimeEntriesCountEndpoint(client, parent_endpoint=self))
         self.defaults = self._register_child_endpoint(TimeEntriesDefaultsEndpoint(client, parent_endpoint=self))

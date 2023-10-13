@@ -15,7 +15,9 @@ class ServiceTicketsIdActivitiesEndpoint(
     IPaginateable[ActivityReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "activities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "activities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ActivityReference])
+        IPaginateable.__init__(self, ActivityReference)
 
         self.count = self._register_child_endpoint(
             ServiceTicketsIdActivitiesCountEndpoint(client, parent_endpoint=self)

@@ -16,7 +16,9 @@ class SystemLocationsIdDepartmentsEndpoint(
     IPaginateable[LocationDepartment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "departments", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "departments", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LocationDepartment])
+        IPaginateable.__init__(self, LocationDepartment)
 
         self.count = self._register_child_endpoint(
             SystemLocationsIdDepartmentsCountEndpoint(client, parent_endpoint=self)

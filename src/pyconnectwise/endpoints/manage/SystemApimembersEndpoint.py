@@ -17,10 +17,13 @@ class SystemApimembersEndpoint(
     IPaginateable[ApiMember, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "apiMembers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "apiMembers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ApiMember])
+        IPostable.__init__(self, ApiMember)
+        IPaginateable.__init__(self, ApiMember)
 
-        self.count = self._register_child_endpoint(SystemApimembersCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(SystemApimembersDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(SystemApimembersCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemApimembersIdEndpoint:
         """

@@ -13,7 +13,9 @@ class ProcurementSubcategoriesIdInfoEndpoint(
     IPaginateable[SubCategoryInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, SubCategoryInfo)
+        IPaginateable.__init__(self, SubCategoryInfo)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

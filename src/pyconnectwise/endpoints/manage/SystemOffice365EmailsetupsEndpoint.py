@@ -17,7 +17,10 @@ class SystemOffice365EmailsetupsEndpoint(
     IPaginateable[Office365EmailSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "emailSetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "emailSetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Office365EmailSetup])
+        IPostable.__init__(self, Office365EmailSetup)
+        IPaginateable.__init__(self, Office365EmailSetup)
 
         self.count = self._register_child_endpoint(
             SystemOffice365EmailsetupsCountEndpoint(client, parent_endpoint=self)

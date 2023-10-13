@@ -19,13 +19,17 @@ class SystemWorkflowsIdEventsIdEndpoint(
     IPaginateable[WorkflowEvent, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, WorkflowEvent)
+        IPuttable.__init__(self, WorkflowEvent)
+        IPatchable.__init__(self, WorkflowEvent)
+        IPaginateable.__init__(self, WorkflowEvent)
 
+        self.copy = self._register_child_endpoint(SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self))
+        self.test = self._register_child_endpoint(SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self))
         self.actions = self._register_child_endpoint(
             SystemWorkflowsIdEventsIdActionsEndpoint(client, parent_endpoint=self)
         )
-        self.copy = self._register_child_endpoint(SystemWorkflowsIdEventsIdCopyEndpoint(client, parent_endpoint=self))
-        self.test = self._register_child_endpoint(SystemWorkflowsIdEventsIdTestEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

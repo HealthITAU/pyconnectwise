@@ -16,7 +16,11 @@ class ExpenseEntriesIdEndpoint(
     IPaginateable[ExpenseEntry, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ExpenseEntry)
+        IPuttable.__init__(self, ExpenseEntry)
+        IPatchable.__init__(self, ExpenseEntry)
+        IPaginateable.__init__(self, ExpenseEntry)
 
         self.audits = self._register_child_endpoint(ExpenseEntriesIdAuditsEndpoint(client, parent_endpoint=self))
 

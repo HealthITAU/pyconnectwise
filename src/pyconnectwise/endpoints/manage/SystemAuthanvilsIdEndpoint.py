@@ -15,7 +15,11 @@ class SystemAuthanvilsIdEndpoint(
     IPaginateable[AuthAnvil, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AuthAnvil)
+        IPuttable.__init__(self, AuthAnvil)
+        IPatchable.__init__(self, AuthAnvil)
+        IPaginateable.__init__(self, AuthAnvil)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -18,7 +18,10 @@ class SystemManagementnetworksecuritiesEndpoint(
     IPaginateable[ManagementNetworkSecurity, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementNetworkSecurities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managementNetworkSecurities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementNetworkSecurity])
+        IPostable.__init__(self, ManagementNetworkSecurity)
+        IPaginateable.__init__(self, ManagementNetworkSecurity)
 
         self.count = self._register_child_endpoint(
             SystemManagementnetworksecuritiesCountEndpoint(client, parent_endpoint=self)

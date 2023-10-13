@@ -15,7 +15,10 @@ class NetworkdevicesEndpoint(
     IPaginateable[LabTechNetworkDevice, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Networkdevices", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Networkdevices", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechNetworkDevice])
+        IPostable.__init__(self, LabTechNetworkDevice)
+        IPaginateable.__init__(self, LabTechNetworkDevice)
 
     def id(self, id: int) -> NetworkdevicesIdEndpoint:
         """

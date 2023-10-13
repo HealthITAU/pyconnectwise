@@ -18,12 +18,16 @@ class SystemEmailconnectorsIdEndpoint(
     IPaginateable[EmailConnector, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, EmailConnector)
+        IPuttable.__init__(self, EmailConnector)
+        IPatchable.__init__(self, EmailConnector)
+        IPaginateable.__init__(self, EmailConnector)
 
+        self.info = self._register_child_endpoint(SystemEmailconnectorsIdInfoEndpoint(client, parent_endpoint=self))
         self.parsing_styles = self._register_child_endpoint(
             SystemEmailconnectorsIdParsingstylesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(SystemEmailconnectorsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

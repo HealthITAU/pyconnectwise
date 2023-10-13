@@ -13,7 +13,9 @@ class DrivesIdDrivestatsDailyEndpoint(
     IPaginateable[LabTechDriveStats, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Daily", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Daily", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechDriveStats])
+        IPaginateable.__init__(self, LabTechDriveStats)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

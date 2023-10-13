@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class MarketingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "marketing", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "marketing", parent_endpoint=parent_endpoint)
 
-        self.groups = self._register_child_endpoint(MarketingGroupsEndpoint(client, parent_endpoint=self))
         self.campaigns = self._register_child_endpoint(MarketingCampaignsEndpoint(client, parent_endpoint=self))
+        self.groups = self._register_child_endpoint(MarketingGroupsEndpoint(client, parent_endpoint=self))

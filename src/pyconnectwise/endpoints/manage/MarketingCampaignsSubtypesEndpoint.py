@@ -17,7 +17,10 @@ class MarketingCampaignsSubtypesEndpoint(
     IPaginateable[CampaignSubTypeCampaignSubType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "subTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "subTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CampaignSubTypeCampaignSubType])
+        IPostable.__init__(self, CampaignSubTypeCampaignSubType)
+        IPaginateable.__init__(self, CampaignSubTypeCampaignSubType)
 
         self.count = self._register_child_endpoint(
             MarketingCampaignsSubtypesCountEndpoint(client, parent_endpoint=self)

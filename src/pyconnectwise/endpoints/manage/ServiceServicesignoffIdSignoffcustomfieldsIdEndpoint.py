@@ -15,7 +15,11 @@ class ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint(
     IPaginateable[ServiceSignoffCustomField, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceSignoffCustomField)
+        IPuttable.__init__(self, ServiceSignoffCustomField)
+        IPatchable.__init__(self, ServiceSignoffCustomField)
+        IPaginateable.__init__(self, ServiceSignoffCustomField)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -17,7 +17,11 @@ class FinanceBillingsetupsIdEndpoint(
     IPaginateable[BillingSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, BillingSetup)
+        IPuttable.__init__(self, BillingSetup)
+        IPatchable.__init__(self, BillingSetup)
+        IPaginateable.__init__(self, BillingSetup)
 
         self.routings = self._register_child_endpoint(
             FinanceBillingsetupsIdRoutingsEndpoint(client, parent_endpoint=self)

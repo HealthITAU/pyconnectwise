@@ -11,7 +11,8 @@ class SalesOpportunitiesIdConverttoprojectEndpoint(
     ConnectWiseEndpoint, IPostable[Project, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "convertToProject", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "convertToProject", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, Project)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Project:
         """

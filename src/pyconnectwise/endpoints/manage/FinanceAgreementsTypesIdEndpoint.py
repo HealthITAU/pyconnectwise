@@ -18,13 +18,17 @@ class FinanceAgreementsTypesIdEndpoint(
     IPaginateable[AgreementType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AgreementType)
+        IPuttable.__init__(self, AgreementType)
+        IPatchable.__init__(self, AgreementType)
+        IPaginateable.__init__(self, AgreementType)
 
         self.copy = self._register_child_endpoint(FinanceAgreementsTypesIdCopyEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(FinanceAgreementsTypesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(
             FinanceAgreementsTypesIdUsagesEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(FinanceAgreementsTypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

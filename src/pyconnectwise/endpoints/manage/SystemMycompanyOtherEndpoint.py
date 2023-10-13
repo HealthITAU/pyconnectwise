@@ -15,7 +15,9 @@ class SystemMycompanyOtherEndpoint(
     IPaginateable[Other, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "other", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "other", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Other])
+        IPaginateable.__init__(self, Other)
 
         self.count = self._register_child_endpoint(SystemMycompanyOtherCountEndpoint(client, parent_endpoint=self))
 

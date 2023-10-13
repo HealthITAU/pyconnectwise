@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemContactsyncMonitoringNotificationtypeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notificationtype", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notificationtype", parent_endpoint=parent_endpoint)

@@ -16,7 +16,10 @@ class SystemStandardnotesEndpoint(
     IPaginateable[StandardNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "standardNotes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "standardNotes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[StandardNote])
+        IPostable.__init__(self, StandardNote)
+        IPaginateable.__init__(self, StandardNote)
 
         self.count = self._register_child_endpoint(SystemStandardnotesCountEndpoint(client, parent_endpoint=self))
 

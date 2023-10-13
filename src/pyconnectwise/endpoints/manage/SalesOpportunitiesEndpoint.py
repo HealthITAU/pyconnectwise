@@ -20,13 +20,16 @@ class SalesOpportunitiesEndpoint(
     IPaginateable[Opportunity, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "opportunities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Opportunity])
+        IPostable.__init__(self, Opportunity)
+        IPaginateable.__init__(self, Opportunity)
 
-        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
-        self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOpportunitiesCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(SalesOpportunitiesDefaultEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(SalesOpportunitiesStatusesEndpoint(client, parent_endpoint=self))
+        self.ratings = self._register_child_endpoint(SalesOpportunitiesRatingsEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SalesOpportunitiesIdEndpoint:
         """

@@ -16,7 +16,10 @@ class FinanceGlpathsEndpoint(
     IPaginateable[GLPath, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "glpaths", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "glpaths", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[GLPath])
+        IPostable.__init__(self, GLPath)
+        IPaginateable.__init__(self, GLPath)
 
         self.count = self._register_child_endpoint(FinanceGlpathsCountEndpoint(client, parent_endpoint=self))
 

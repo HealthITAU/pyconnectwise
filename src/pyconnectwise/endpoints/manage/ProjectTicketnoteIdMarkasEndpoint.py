@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ProjectTicketnoteIdMarkasEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "markAs", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "markAs", parent_endpoint=parent_endpoint)

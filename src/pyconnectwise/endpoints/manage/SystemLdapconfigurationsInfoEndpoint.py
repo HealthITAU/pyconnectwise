@@ -15,7 +15,9 @@ class SystemLdapconfigurationsInfoEndpoint(
     IPaginateable[LdapConfigurationInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LdapConfigurationInfo])
+        IPaginateable.__init__(self, LdapConfigurationInfo)
 
         self.count = self._register_child_endpoint(
             SystemLdapconfigurationsInfoCountEndpoint(client, parent_endpoint=self)

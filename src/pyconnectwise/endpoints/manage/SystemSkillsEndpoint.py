@@ -17,7 +17,10 @@ class SystemSkillsEndpoint(
     IPaginateable[Skill, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "skills", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "skills", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Skill])
+        IPostable.__init__(self, Skill)
+        IPaginateable.__init__(self, Skill)
 
         self.count = self._register_child_endpoint(SystemSkillsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SystemSkillsInfoEndpoint(client, parent_endpoint=self))

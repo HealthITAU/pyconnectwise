@@ -18,7 +18,10 @@ class ProcurementPurchaseorderstatusesIdNotificationsEndpoint(
     IPaginateable[PurchaseOrderStatusNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notifications", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PurchaseOrderStatusNotification])
+        IPostable.__init__(self, PurchaseOrderStatusNotification)
+        IPaginateable.__init__(self, PurchaseOrderStatusNotification)
 
         self.count = self._register_child_endpoint(
             ProcurementPurchaseorderstatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)

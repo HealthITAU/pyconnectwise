@@ -15,7 +15,9 @@ class ProjectStatusindicatorsEndpoint(
     IPaginateable[StatusIndicator, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "statusIndicators", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "statusIndicators", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[StatusIndicator])
+        IPaginateable.__init__(self, StatusIndicator)
 
         self.count = self._register_child_endpoint(ProjectStatusindicatorsCountEndpoint(client, parent_endpoint=self))
 

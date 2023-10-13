@@ -15,7 +15,11 @@ class CompanyPortalsecuritylevelsIdEndpoint(
     IPaginateable[PortalSecurityLevel, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, PortalSecurityLevel)
+        IPuttable.__init__(self, PortalSecurityLevel)
+        IPatchable.__init__(self, PortalSecurityLevel)
+        IPaginateable.__init__(self, PortalSecurityLevel)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

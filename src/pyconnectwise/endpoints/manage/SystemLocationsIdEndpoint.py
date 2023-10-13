@@ -18,15 +18,19 @@ class SystemLocationsIdEndpoint(
     IPaginateable[Location, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Location)
+        IPuttable.__init__(self, Location)
+        IPatchable.__init__(self, Location)
+        IPaginateable.__init__(self, Location)
 
+        self.usages = self._register_child_endpoint(SystemLocationsIdUsagesEndpoint(client, parent_endpoint=self))
         self.work_roles = self._register_child_endpoint(
             SystemLocationsIdWorkrolesEndpoint(client, parent_endpoint=self)
         )
         self.departments = self._register_child_endpoint(
             SystemLocationsIdDepartmentsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(SystemLocationsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

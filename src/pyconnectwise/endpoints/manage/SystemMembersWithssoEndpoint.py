@@ -13,7 +13,9 @@ class SystemMembersWithssoEndpoint(
     IPaginateable[Member, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "withSso", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "withSso", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Member])
+        IPaginateable.__init__(self, Member)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -15,7 +15,11 @@ class ServiceTicketsIdNotesIdEndpoint(
     IPaginateable[ServiceNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceNote)
+        IPuttable.__init__(self, ServiceNote)
+        IPatchable.__init__(self, ServiceNote)
+        IPaginateable.__init__(self, ServiceNote)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

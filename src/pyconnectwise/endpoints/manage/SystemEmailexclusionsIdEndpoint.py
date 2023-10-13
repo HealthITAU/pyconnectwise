@@ -15,7 +15,11 @@ class SystemEmailexclusionsIdEndpoint(
     IPaginateable[EmailExclusion, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, EmailExclusion)
+        IPuttable.__init__(self, EmailExclusion)
+        IPatchable.__init__(self, EmailExclusion)
+        IPaginateable.__init__(self, EmailExclusion)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

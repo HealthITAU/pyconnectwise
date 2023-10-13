@@ -15,7 +15,9 @@ class MarketingCampaignsIdOpportunitiesEndpoint(
     IPaginateable[OpportunityReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "opportunities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "opportunities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[OpportunityReference])
+        IPaginateable.__init__(self, OpportunityReference)
 
         self.count = self._register_child_endpoint(
             MarketingCampaignsIdOpportunitiesCountEndpoint(client, parent_endpoint=self)

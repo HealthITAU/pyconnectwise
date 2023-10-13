@@ -18,7 +18,10 @@ class SystemQuotelinksetupEndpoint(
     IPaginateable[QuoteLink, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "quoteLinkSetup", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "quoteLinkSetup", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[QuoteLink])
+        IPostable.__init__(self, QuoteLink)
+        IPaginateable.__init__(self, QuoteLink)
 
         self.count = self._register_child_endpoint(SystemQuotelinksetupCountEndpoint(client, parent_endpoint=self))
         self.test_connection = self._register_child_endpoint(

@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemGoogleemailsetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "googleemailsetup", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "googleemailsetup", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(SystemGoogleemailsetupCountEndpoint(client, parent_endpoint=self))
 

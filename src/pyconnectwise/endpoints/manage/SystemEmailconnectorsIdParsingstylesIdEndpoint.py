@@ -17,7 +17,11 @@ class SystemEmailconnectorsIdParsingstylesIdEndpoint(
     IPaginateable[EmailConnectorParsingStyle, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, EmailConnectorParsingStyle)
+        IPuttable.__init__(self, EmailConnectorParsingStyle)
+        IPatchable.__init__(self, EmailConnectorParsingStyle)
+        IPaginateable.__init__(self, EmailConnectorParsingStyle)
 
         self.parsing_rules = self._register_child_endpoint(
             SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(client, parent_endpoint=self)

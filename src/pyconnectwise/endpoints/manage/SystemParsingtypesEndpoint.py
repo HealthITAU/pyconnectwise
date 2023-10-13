@@ -15,7 +15,9 @@ class SystemParsingtypesEndpoint(
     IPaginateable[ParsingType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "parsingTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "parsingTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ParsingType])
+        IPaginateable.__init__(self, ParsingType)
 
         self.count = self._register_child_endpoint(SystemParsingtypesCountEndpoint(client, parent_endpoint=self))
 

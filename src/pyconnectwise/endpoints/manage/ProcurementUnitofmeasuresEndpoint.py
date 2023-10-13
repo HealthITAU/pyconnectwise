@@ -16,7 +16,10 @@ class ProcurementUnitofmeasuresEndpoint(
     IPaginateable[UnitOfMeasure, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "unitOfMeasures", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "unitOfMeasures", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[UnitOfMeasure])
+        IPostable.__init__(self, UnitOfMeasure)
+        IPaginateable.__init__(self, UnitOfMeasure)
 
         self.count = self._register_child_endpoint(ProcurementUnitofmeasuresCountEndpoint(client, parent_endpoint=self))
 

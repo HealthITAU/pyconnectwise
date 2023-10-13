@@ -11,7 +11,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ScriptsEndpoint(ConnectWiseEndpoint, IPostable[AutomateScript, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Scripts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Scripts", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, AutomateScript)
 
         self.scriptfolders = self._register_child_endpoint(ScriptsScriptfoldersEndpoint(client, parent_endpoint=self))
 

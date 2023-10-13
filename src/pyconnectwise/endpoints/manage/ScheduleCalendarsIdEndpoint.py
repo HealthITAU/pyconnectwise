@@ -18,11 +18,15 @@ class ScheduleCalendarsIdEndpoint(
     IPaginateable[Calendar, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Calendar)
+        IPatchable.__init__(self, Calendar)
+        IPuttable.__init__(self, Calendar)
+        IPaginateable.__init__(self, Calendar)
 
         self.copy = self._register_child_endpoint(ScheduleCalendarsIdCopyEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ScheduleCalendarsIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(ScheduleCalendarsIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ScheduleCalendarsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

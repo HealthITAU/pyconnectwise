@@ -11,7 +11,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class UsersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUser, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Users", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Users", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, AutomateUser)
 
         self.folders = self._register_child_endpoint(UsersFoldersEndpoint(client, parent_endpoint=self))
 

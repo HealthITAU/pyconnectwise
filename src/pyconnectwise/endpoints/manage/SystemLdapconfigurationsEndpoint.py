@@ -19,7 +19,10 @@ class SystemLdapconfigurationsEndpoint(
     IPaginateable[LdapConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "ldapConfigurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "ldapConfigurations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LdapConfiguration])
+        IPostable.__init__(self, LdapConfiguration)
+        IPaginateable.__init__(self, LdapConfiguration)
 
         self.count = self._register_child_endpoint(SystemLdapconfigurationsCountEndpoint(client, parent_endpoint=self))
         self.test_link = self._register_child_endpoint(

@@ -15,7 +15,11 @@ class SalesOrdersStatusesIdNotificationsIdEndpoint(
     IPaginateable[OrderStatusNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, OrderStatusNotification)
+        IPuttable.__init__(self, OrderStatusNotification)
+        IPatchable.__init__(self, OrderStatusNotification)
+        IPaginateable.__init__(self, OrderStatusNotification)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

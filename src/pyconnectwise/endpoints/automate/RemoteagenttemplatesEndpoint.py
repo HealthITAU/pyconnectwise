@@ -14,7 +14,10 @@ class RemoteagenttemplatesEndpoint(
     IPaginateable[LabTechRemoteAgentTemplate, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Remoteagenttemplates", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Remoteagenttemplates", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechRemoteAgentTemplate])
+        IPostable.__init__(self, LabTechRemoteAgentTemplate)
+        IPaginateable.__init__(self, LabTechRemoteAgentTemplate)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

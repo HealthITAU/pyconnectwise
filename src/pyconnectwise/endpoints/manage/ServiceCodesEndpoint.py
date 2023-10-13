@@ -16,7 +16,10 @@ class ServiceCodesEndpoint(
     IPaginateable[Code, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "codes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "codes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Code])
+        IPostable.__init__(self, Code)
+        IPaginateable.__init__(self, Code)
 
         self.count = self._register_child_endpoint(ServiceCodesCountEndpoint(client, parent_endpoint=self))
 

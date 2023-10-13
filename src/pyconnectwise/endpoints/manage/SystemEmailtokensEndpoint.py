@@ -15,7 +15,9 @@ class SystemEmailtokensEndpoint(
     IPaginateable[EmailToken, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "emailTokens", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "emailTokens", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[EmailToken])
+        IPaginateable.__init__(self, EmailToken)
 
         self.count = self._register_child_endpoint(SystemEmailtokensCountEndpoint(client, parent_endpoint=self))
 

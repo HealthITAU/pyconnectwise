@@ -13,11 +13,11 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemMycompanyEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "mycompany", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "mycompany", parent_endpoint=parent_endpoint)
 
-        self.documents = self._register_child_endpoint(SystemMycompanyDocumentsEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(SystemMycompanyInfoEndpoint(client, parent_endpoint=self))
-        self.services = self._register_child_endpoint(SystemMycompanyServicesEndpoint(client, parent_endpoint=self))
         self.reporting_services = self._register_child_endpoint(
             SystemMycompanyReportingservicesEndpoint(client, parent_endpoint=self)
         )
+        self.documents = self._register_child_endpoint(SystemMycompanyDocumentsEndpoint(client, parent_endpoint=self))
+        self.services = self._register_child_endpoint(SystemMycompanyServicesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(SystemMycompanyInfoEndpoint(client, parent_endpoint=self))

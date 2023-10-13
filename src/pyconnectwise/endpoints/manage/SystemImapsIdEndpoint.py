@@ -16,7 +16,11 @@ class SystemImapsIdEndpoint(
     IPaginateable[Imap, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Imap)
+        IPuttable.__init__(self, Imap)
+        IPatchable.__init__(self, Imap)
+        IPaginateable.__init__(self, Imap)
 
         self.info = self._register_child_endpoint(SystemImapsIdInfoEndpoint(client, parent_endpoint=self))
 

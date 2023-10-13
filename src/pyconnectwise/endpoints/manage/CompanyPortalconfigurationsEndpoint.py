@@ -21,12 +21,15 @@ class CompanyPortalconfigurationsEndpoint(
     IPaginateable[PortalConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "portalConfigurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "portalConfigurations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalConfiguration])
+        IPostable.__init__(self, PortalConfiguration)
+        IPaginateable.__init__(self, PortalConfiguration)
 
+        self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsCountEndpoint(client, parent_endpoint=self)
         )
-        self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
         self.invoice_setup = self._register_child_endpoint(
             CompanyPortalconfigurationsInvoicesetupEndpoint(client, parent_endpoint=self)
         )

@@ -17,10 +17,14 @@ class FinanceBillingtermsIdEndpoint(
     IPaginateable[BillingTerm, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, BillingTerm)
+        IPuttable.__init__(self, BillingTerm)
+        IPatchable.__init__(self, BillingTerm)
+        IPaginateable.__init__(self, BillingTerm)
 
-        self.info = self._register_child_endpoint(FinanceBillingtermsIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(FinanceBillingtermsIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(FinanceBillingtermsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -18,7 +18,10 @@ class ProcurementUnitofmeasuresIdConversionsEndpoint(
     IPaginateable[Conversion, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "conversions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "conversions", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Conversion])
+        IPostable.__init__(self, Conversion)
+        IPaginateable.__init__(self, Conversion)
 
         self.count = self._register_child_endpoint(
             ProcurementUnitofmeasuresIdConversionsCountEndpoint(client, parent_endpoint=self)

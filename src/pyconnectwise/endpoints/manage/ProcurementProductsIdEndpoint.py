@@ -20,14 +20,18 @@ class ProcurementProductsIdEndpoint(
     IPaginateable[ProductItem, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ProductItem)
+        IPuttable.__init__(self, ProductItem)
+        IPatchable.__init__(self, ProductItem)
+        IPaginateable.__init__(self, ProductItem)
 
-        self.picking_shipping_details = self._register_child_endpoint(
-            ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
-        )
         self.detach = self._register_child_endpoint(ProcurementProductsIdDetachEndpoint(client, parent_endpoint=self))
         self.components = self._register_child_endpoint(
             ProcurementProductsIdComponentsEndpoint(client, parent_endpoint=self)
+        )
+        self.picking_shipping_details = self._register_child_endpoint(
+            ProcurementProductsIdPickingshippingdetailsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

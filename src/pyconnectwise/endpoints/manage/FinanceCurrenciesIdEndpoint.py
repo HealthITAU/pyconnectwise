@@ -17,10 +17,14 @@ class FinanceCurrenciesIdEndpoint(
     IPaginateable[FinanceCurrency, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, FinanceCurrency)
+        IPuttable.__init__(self, FinanceCurrency)
+        IPatchable.__init__(self, FinanceCurrency)
+        IPaginateable.__init__(self, FinanceCurrency)
 
-        self.info = self._register_child_endpoint(FinanceCurrenciesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(FinanceCurrenciesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(FinanceCurrenciesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

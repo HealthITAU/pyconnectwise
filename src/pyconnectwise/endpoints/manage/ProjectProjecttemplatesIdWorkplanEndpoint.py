@@ -13,7 +13,9 @@ class ProjectProjecttemplatesIdWorkplanEndpoint(
     IPaginateable[ProjectTemplateWorkPlan, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "workplan", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "workplan", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProjectTemplateWorkPlan])
+        IPaginateable.__init__(self, ProjectTemplateWorkPlan)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

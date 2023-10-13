@@ -18,13 +18,15 @@ class ExpenseReportsIdEndpoint(
     IPaginateable[ExpenseReport, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ExpenseReport)
+        IPaginateable.__init__(self, ExpenseReport)
 
-        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
-        self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self))
         self.reject = self._register_child_endpoint(ExpenseReportsIdRejectEndpoint(client, parent_endpoint=self))
+        self.approve = self._register_child_endpoint(ExpenseReportsIdApproveEndpoint(client, parent_endpoint=self))
+        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

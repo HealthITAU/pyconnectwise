@@ -17,7 +17,11 @@ class FinanceInvoicetemplatesIdEndpoint(
     IPaginateable[InvoiceTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, InvoiceTemplate)
+        IPatchable.__init__(self, InvoiceTemplate)
+        IPuttable.__init__(self, InvoiceTemplate)
+        IPaginateable.__init__(self, InvoiceTemplate)
 
         self.usages = self._register_child_endpoint(
             FinanceInvoicetemplatesIdUsagesEndpoint(client, parent_endpoint=self)

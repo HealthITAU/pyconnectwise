@@ -14,7 +14,10 @@ class CompanyConfigurationsBulkEndpoint(
     IPuttable[CompanyConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "bulk", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "bulk", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, CompanyConfiguration)
+        IDeleteable.__init__(self, None)
+        IPuttable.__init__(self, CompanyConfiguration)
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None

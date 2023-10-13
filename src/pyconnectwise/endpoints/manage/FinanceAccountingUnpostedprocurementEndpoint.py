@@ -17,7 +17,9 @@ class FinanceAccountingUnpostedprocurementEndpoint(
     IPaginateable[UnpostedProcurement, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "unpostedprocurement", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "unpostedprocurement", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[UnpostedProcurement])
+        IPaginateable.__init__(self, UnpostedProcurement)
 
         self.count = self._register_child_endpoint(
             FinanceAccountingUnpostedprocurementCountEndpoint(client, parent_endpoint=self)

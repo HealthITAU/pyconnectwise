@@ -15,7 +15,11 @@ class SalesOpportunitiesIdNotesIdEndpoint(
     IPaginateable[OpportunityNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, OpportunityNote)
+        IPuttable.__init__(self, OpportunityNote)
+        IPatchable.__init__(self, OpportunityNote)
+        IPaginateable.__init__(self, OpportunityNote)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

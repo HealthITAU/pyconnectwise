@@ -18,7 +18,10 @@ class SystemConnectwisehostedsetupsEndpoint(
     IPaginateable[ConnectWiseHostedSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "connectwisehostedsetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "connectwisehostedsetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ConnectWiseHostedSetup])
+        IPostable.__init__(self, ConnectWiseHostedSetup)
+        IPaginateable.__init__(self, ConnectWiseHostedSetup)
 
         self.count = self._register_child_endpoint(
             SystemConnectwisehostedsetupsCountEndpoint(client, parent_endpoint=self)

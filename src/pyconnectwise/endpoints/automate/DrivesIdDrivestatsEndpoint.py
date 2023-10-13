@@ -12,9 +12,9 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class DrivesIdDrivestatsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Drivestats", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Drivestats", parent_endpoint=parent_endpoint)
 
-        self.weekly = self._register_child_endpoint(DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self))
-        self.daily = self._register_child_endpoint(DrivesIdDrivestatsDailyEndpoint(client, parent_endpoint=self))
         self.yearly = self._register_child_endpoint(DrivesIdDrivestatsYearlyEndpoint(client, parent_endpoint=self))
+        self.weekly = self._register_child_endpoint(DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self))
         self.monthly = self._register_child_endpoint(DrivesIdDrivestatsMonthlyEndpoint(client, parent_endpoint=self))
+        self.daily = self._register_child_endpoint(DrivesIdDrivestatsDailyEndpoint(client, parent_endpoint=self))

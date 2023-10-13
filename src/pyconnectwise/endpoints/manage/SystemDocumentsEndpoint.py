@@ -17,7 +17,10 @@ class SystemDocumentsEndpoint(
     IPaginateable[DocumentInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "documents", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "documents", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[DocumentInfo])
+        IPostable.__init__(self, DocumentInfo)
+        IPaginateable.__init__(self, DocumentInfo)
 
         self.count = self._register_child_endpoint(SystemDocumentsCountEndpoint(client, parent_endpoint=self))
         self.uploadsample = self._register_child_endpoint(

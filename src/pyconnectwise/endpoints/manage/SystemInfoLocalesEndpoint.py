@@ -15,7 +15,9 @@ class SystemInfoLocalesEndpoint(
     IPaginateable[LocaleInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "locales", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "locales", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LocaleInfo])
+        IPaginateable.__init__(self, LocaleInfo)
 
         self.count = self._register_child_endpoint(SystemInfoLocalesCountEndpoint(client, parent_endpoint=self))
 

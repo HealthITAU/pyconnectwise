@@ -15,7 +15,11 @@ class ProjectProjectsIdNotesIdEndpoint(
     IPaginateable[ProjectNote, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ProjectNote)
+        IPuttable.__init__(self, ProjectNote)
+        IPatchable.__init__(self, ProjectNote)
+        IPaginateable.__init__(self, ProjectNote)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

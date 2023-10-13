@@ -17,7 +17,9 @@ class ProjectSecurityrolesIdSettingsEndpoint(
     IPaginateable[ProjectSecurityRoleSetting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "settings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "settings", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProjectSecurityRoleSetting])
+        IPaginateable.__init__(self, ProjectSecurityRoleSetting)
 
         self.count = self._register_child_endpoint(
             ProjectSecurityrolesIdSettingsCountEndpoint(client, parent_endpoint=self)

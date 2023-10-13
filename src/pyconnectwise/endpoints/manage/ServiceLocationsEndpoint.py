@@ -17,7 +17,10 @@ class ServiceLocationsEndpoint(
     IPaginateable[ServiceLocation, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "locations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "locations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ServiceLocation])
+        IPostable.__init__(self, ServiceLocation)
+        IPaginateable.__init__(self, ServiceLocation)
 
         self.count = self._register_child_endpoint(ServiceLocationsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ServiceLocationsInfoEndpoint(client, parent_endpoint=self))

@@ -16,7 +16,10 @@ class SystemIntegratortagsEndpoint(
     IPaginateable[IntegratorTag, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "integratorTags", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "integratorTags", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[IntegratorTag])
+        IPostable.__init__(self, IntegratorTag)
+        IPaginateable.__init__(self, IntegratorTag)
 
         self.count = self._register_child_endpoint(SystemIntegratortagsCountEndpoint(client, parent_endpoint=self))
 

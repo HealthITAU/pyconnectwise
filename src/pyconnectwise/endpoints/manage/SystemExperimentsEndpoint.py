@@ -15,7 +15,9 @@ class SystemExperimentsEndpoint(
     IPaginateable[Experiment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "experiments", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "experiments", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Experiment])
+        IPaginateable.__init__(self, Experiment)
 
         self.count = self._register_child_endpoint(SystemExperimentsCountEndpoint(client, parent_endpoint=self))
 

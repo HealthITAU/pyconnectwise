@@ -16,7 +16,11 @@ class CompanyCountriesIdEndpoint(
     IPaginateable[Country, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Country)
+        IPuttable.__init__(self, Country)
+        IPatchable.__init__(self, Country)
+        IPaginateable.__init__(self, Country)
 
         self.info = self._register_child_endpoint(CompanyCountriesIdInfoEndpoint(client, parent_endpoint=self))
 

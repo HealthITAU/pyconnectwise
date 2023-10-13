@@ -9,6 +9,6 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class CompanyContactEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "contact", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "contact", parent_endpoint=parent_endpoint)
 
         self.types = self._register_child_endpoint(CompanyContactTypesEndpoint(client, parent_endpoint=self))

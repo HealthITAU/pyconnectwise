@@ -19,12 +19,15 @@ class MarketingCampaignsEndpoint(
     IPaginateable[Campaign, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "campaigns", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "campaigns", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Campaign])
+        IPostable.__init__(self, Campaign)
+        IPaginateable.__init__(self, Campaign)
 
-        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(MarketingCampaignsCountEndpoint(client, parent_endpoint=self))
-        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
+        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> MarketingCampaignsIdEndpoint:
         """

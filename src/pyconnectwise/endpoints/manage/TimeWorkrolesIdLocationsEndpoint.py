@@ -16,7 +16,10 @@ class TimeWorkrolesIdLocationsEndpoint(
     IPaginateable[WorkRoleLocation, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "locations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "locations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[WorkRoleLocation])
+        IPostable.__init__(self, WorkRoleLocation)
+        IPaginateable.__init__(self, WorkRoleLocation)
 
         self.count = self._register_child_endpoint(TimeWorkrolesIdLocationsCountEndpoint(client, parent_endpoint=self))
 

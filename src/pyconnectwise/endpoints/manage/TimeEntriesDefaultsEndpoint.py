@@ -9,7 +9,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class TimeEntriesDefaultsEndpoint(ConnectWiseEndpoint, IPostable[TimeEntry, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "defaults", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "defaults", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, TimeEntry)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TimeEntry:
         """

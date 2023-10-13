@@ -18,7 +18,10 @@ class CompanyContacttypeassociationsEndpoint(
     IPaginateable[CompanyContactTypeAssociation, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "contactTypeAssociations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "contactTypeAssociations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CompanyContactTypeAssociation])
+        IPostable.__init__(self, CompanyContactTypeAssociation)
+        IPaginateable.__init__(self, CompanyContactTypeAssociation)
 
         self.count = self._register_child_endpoint(
             CompanyContacttypeassociationsCountEndpoint(client, parent_endpoint=self)

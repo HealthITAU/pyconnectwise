@@ -10,9 +10,9 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class LocationsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.upgradeprobe = self._register_child_endpoint(LocationsIdUpgradeprobeEndpoint(client, parent_endpoint=self))
         self.probeconfiguration = self._register_child_endpoint(
             LocationsIdProbeconfigurationEndpoint(client, parent_endpoint=self)
         )
+        self.upgradeprobe = self._register_child_endpoint(LocationsIdUpgradeprobeEndpoint(client, parent_endpoint=self))

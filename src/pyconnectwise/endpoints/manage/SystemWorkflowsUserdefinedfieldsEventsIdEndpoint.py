@@ -13,7 +13,8 @@ class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(
     ConnectWiseEndpoint, IPostable[WorkflowActionUserDefinedField, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, WorkflowActionUserDefinedField)
 
         self.actions = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint(client, parent_endpoint=self)

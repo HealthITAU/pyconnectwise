@@ -17,7 +17,10 @@ class ProcurementAdjustmentsEndpoint(
     IPaginateable[ProcurementAdjustment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "adjustments", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "adjustments", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProcurementAdjustment])
+        IPostable.__init__(self, ProcurementAdjustment)
+        IPaginateable.__init__(self, ProcurementAdjustment)
 
         self.count = self._register_child_endpoint(ProcurementAdjustmentsCountEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(ProcurementAdjustmentsTypesEndpoint(client, parent_endpoint=self))

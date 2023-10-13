@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ServiceSchedulingMembersEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "members", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "members", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(ServiceSchedulingMembersInfoEndpoint(client, parent_endpoint=self))
 

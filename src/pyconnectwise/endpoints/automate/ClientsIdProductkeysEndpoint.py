@@ -14,7 +14,10 @@ class ClientsIdProductkeysEndpoint(
     IPaginateable[LabTechProductKey, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Productkeys", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Productkeys", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechProductKey])
+        IPostable.__init__(self, LabTechProductKey)
+        IPaginateable.__init__(self, LabTechProductKey)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

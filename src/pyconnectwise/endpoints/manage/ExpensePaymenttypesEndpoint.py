@@ -17,7 +17,10 @@ class ExpensePaymenttypesEndpoint(
     IPaginateable[PaymentType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "paymentTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "paymentTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PaymentType])
+        IPostable.__init__(self, PaymentType)
+        IPaginateable.__init__(self, PaymentType)
 
         self.count = self._register_child_endpoint(ExpensePaymenttypesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ExpensePaymenttypesInfoEndpoint(client, parent_endpoint=self))

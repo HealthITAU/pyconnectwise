@@ -10,7 +10,8 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class UsersFoldersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUserFolder, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Folders", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Folders", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, AutomateUserFolder)
 
     def id(self, id: int) -> UsersFoldersIdEndpoint:
         """

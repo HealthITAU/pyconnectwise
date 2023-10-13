@@ -16,7 +16,11 @@ class ServiceTicketlinksIdEndpoint(
     IPaginateable[ServiceTicketLink, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ServiceTicketLink)
+        IPuttable.__init__(self, ServiceTicketLink)
+        IPatchable.__init__(self, ServiceTicketLink)
+        IPaginateable.__init__(self, ServiceTicketLink)
 
         self.info = self._register_child_endpoint(ServiceTicketlinksIdInfoEndpoint(client, parent_endpoint=self))
 

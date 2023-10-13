@@ -14,20 +14,20 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class LookupsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Lookups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Lookups", parent_endpoint=parent_endpoint)
 
+        self.probeeventlevels = self._register_child_endpoint(
+            LookupsProbeeventlevelsEndpoint(client, parent_endpoint=self)
+        )
         self.snmphashmethods = self._register_child_endpoint(
             LookupsSnmphashmethodsEndpoint(client, parent_endpoint=self)
-        )
-        self.scanfrequencies = self._register_child_endpoint(
-            LookupsScanfrequenciesEndpoint(client, parent_endpoint=self)
         )
         self.snmpencryptionmethods = self._register_child_endpoint(
             LookupsSnmpencryptionmethodsEndpoint(client, parent_endpoint=self)
         )
+        self.scanfrequencies = self._register_child_endpoint(
+            LookupsScanfrequenciesEndpoint(client, parent_endpoint=self)
+        )
         self.statusscannetworkportoptions = self._register_child_endpoint(
             LookupsStatusscannetworkportoptionsEndpoint(client, parent_endpoint=self)
-        )
-        self.probeeventlevels = self._register_child_endpoint(
-            LookupsProbeeventlevelsEndpoint(client, parent_endpoint=self)
         )

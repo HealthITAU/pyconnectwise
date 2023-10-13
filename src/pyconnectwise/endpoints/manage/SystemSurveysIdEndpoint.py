@@ -18,11 +18,15 @@ class SystemSurveysIdEndpoint(
     IPaginateable[Survey, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Survey)
+        IPuttable.__init__(self, Survey)
+        IPatchable.__init__(self, Survey)
+        IPaginateable.__init__(self, Survey)
 
         self.copy = self._register_child_endpoint(SystemSurveysIdCopyEndpoint(client, parent_endpoint=self))
-        self.questions = self._register_child_endpoint(SystemSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SystemSurveysIdInfoEndpoint(client, parent_endpoint=self))
+        self.questions = self._register_child_endpoint(SystemSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

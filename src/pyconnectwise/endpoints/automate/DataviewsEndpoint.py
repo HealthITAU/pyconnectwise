@@ -14,7 +14,9 @@ class DataviewsEndpoint(
     IPaginateable[LabTechDataView, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Dataviews", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Dataviews", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechDataView])
+        IPaginateable.__init__(self, LabTechDataView)
 
     def id(self, id: int) -> DataviewsIdEndpoint:
         """

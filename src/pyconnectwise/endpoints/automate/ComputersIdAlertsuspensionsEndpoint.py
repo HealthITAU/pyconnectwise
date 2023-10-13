@@ -12,11 +12,11 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ComputersIdAlertsuspensionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Alertsuspensions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Alertsuspensions", parent_endpoint=parent_endpoint)
 
-        self.maintenancewindow = self._register_child_endpoint(
-            ComputersIdAlertsuspensionsMaintenancewindowEndpoint(client, parent_endpoint=self)
-        )
         self.templatediversion = self._register_child_endpoint(
             ComputersIdAlertsuspensionsTemplatediversionEndpoint(client, parent_endpoint=self)
+        )
+        self.maintenancewindow = self._register_child_endpoint(
+            ComputersIdAlertsuspensionsMaintenancewindowEndpoint(client, parent_endpoint=self)
         )

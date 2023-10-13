@@ -16,7 +16,11 @@ class ProcurementRmaactionsIdEndpoint(
     IPaginateable[RmaAction, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, RmaAction)
+        IPuttable.__init__(self, RmaAction)
+        IPatchable.__init__(self, RmaAction)
+        IPaginateable.__init__(self, RmaAction)
 
         self.info = self._register_child_endpoint(ProcurementRmaactionsIdInfoEndpoint(client, parent_endpoint=self))
 

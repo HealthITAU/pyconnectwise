@@ -18,7 +18,10 @@ class ServiceTicketsIdConfigurationsEndpoint(
     IPaginateable[ConfigurationReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "configurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "configurations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ConfigurationReference])
+        IPostable.__init__(self, ConfigurationReference)
+        IPaginateable.__init__(self, ConfigurationReference)
 
         self.count = self._register_child_endpoint(
             ServiceTicketsIdConfigurationsCountEndpoint(client, parent_endpoint=self)

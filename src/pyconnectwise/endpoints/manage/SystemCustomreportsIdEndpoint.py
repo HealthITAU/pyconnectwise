@@ -17,7 +17,11 @@ class SystemCustomreportsIdEndpoint(
     IPaginateable[CustomReport, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, CustomReport)
+        IPuttable.__init__(self, CustomReport)
+        IPatchable.__init__(self, CustomReport)
+        IPaginateable.__init__(self, CustomReport)
 
         self.parameters = self._register_child_endpoint(
             SystemCustomreportsIdParametersEndpoint(client, parent_endpoint=self)

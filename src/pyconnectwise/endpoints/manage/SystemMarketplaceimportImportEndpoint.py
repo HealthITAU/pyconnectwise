@@ -11,7 +11,8 @@ class SystemMarketplaceimportImportEndpoint(
     ConnectWiseEndpoint, IPostable[MarketplaceImport, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "import", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "import", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, MarketplaceImport)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MarketplaceImport:
         """

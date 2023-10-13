@@ -18,7 +18,10 @@ class ServiceBoardsIdExcludedmembersEndpoint(
     IPaginateable[BoardExcludedMember, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "excludedMembers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "excludedMembers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardExcludedMember])
+        IPostable.__init__(self, BoardExcludedMember)
+        IPaginateable.__init__(self, BoardExcludedMember)
 
         self.count = self._register_child_endpoint(
             ServiceBoardsIdExcludedmembersCountEndpoint(client, parent_endpoint=self)

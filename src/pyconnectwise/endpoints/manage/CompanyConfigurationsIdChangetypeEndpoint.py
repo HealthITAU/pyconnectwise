@@ -11,7 +11,8 @@ class CompanyConfigurationsIdChangetypeEndpoint(
     ConnectWiseEndpoint, IPatchable[CompanyConfiguration, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "changeType", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "changeType", parent_endpoint=parent_endpoint)
+        IPatchable.__init__(self, CompanyConfiguration)
 
     def patch(
         self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None

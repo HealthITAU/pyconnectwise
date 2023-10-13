@@ -17,7 +17,9 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(
     IPaginateable[TimePeriod, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "periods", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "periods", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimePeriod])
+        IPaginateable.__init__(self, TimePeriod)
 
         self.count = self._register_child_endpoint(
             TimeTimeperiodsetupsIdPeriodsCountEndpoint(client, parent_endpoint=self)

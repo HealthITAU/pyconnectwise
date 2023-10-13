@@ -16,7 +16,10 @@ class SystemMembersIdAccrualsEndpoint(
     IPaginateable[MemberAccrual, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "accruals", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "accruals", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MemberAccrual])
+        IPostable.__init__(self, MemberAccrual)
+        IPaginateable.__init__(self, MemberAccrual)
 
         self.count = self._register_child_endpoint(SystemMembersIdAccrualsCountEndpoint(client, parent_endpoint=self))
 

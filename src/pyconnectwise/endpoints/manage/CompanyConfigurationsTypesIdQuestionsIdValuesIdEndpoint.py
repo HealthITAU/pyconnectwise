@@ -17,7 +17,11 @@ class CompanyConfigurationsTypesIdQuestionsIdValuesIdEndpoint(
     IPaginateable[ConfigurationTypeQuestionValue, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ConfigurationTypeQuestionValue)
+        IPuttable.__init__(self, ConfigurationTypeQuestionValue)
+        IPatchable.__init__(self, ConfigurationTypeQuestionValue)
+        IPaginateable.__init__(self, ConfigurationTypeQuestionValue)
 
         self.usages = self._register_child_endpoint(
             CompanyConfigurationsTypesIdQuestionsIdValuesIdUsagesEndpoint(client, parent_endpoint=self)

@@ -15,7 +15,9 @@ class TimeAccrualsIdDetailsEndpoint(
     IPaginateable[TimeAccrualDetail, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "details", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "details", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimeAccrualDetail])
+        IPaginateable.__init__(self, TimeAccrualDetail)
 
         self.count = self._register_child_endpoint(TimeAccrualsIdDetailsCountEndpoint(client, parent_endpoint=self))
 

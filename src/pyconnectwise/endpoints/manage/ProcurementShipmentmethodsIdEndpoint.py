@@ -19,13 +19,17 @@ class ProcurementShipmentmethodsIdEndpoint(
     IPaginateable[ShipmentMethod, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ShipmentMethod)
+        IPuttable.__init__(self, ShipmentMethod)
+        IPatchable.__init__(self, ShipmentMethod)
+        IPaginateable.__init__(self, ShipmentMethod)
 
-        self.info = self._register_child_endpoint(
-            ProcurementShipmentmethodsIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             ProcurementShipmentmethodsIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementShipmentmethodsIdInfoEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

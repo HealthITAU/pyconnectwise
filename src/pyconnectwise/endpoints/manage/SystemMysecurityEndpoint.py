@@ -14,7 +14,9 @@ class SystemMysecurityEndpoint(
     IPaginateable[MySecurity, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "mySecurity", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "mySecurity", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MySecurity])
+        IPaginateable.__init__(self, MySecurity)
 
         self.customize_items = self._register_child_endpoint(
             SystemMysecurityCustomizeitemsEndpoint(client, parent_endpoint=self)

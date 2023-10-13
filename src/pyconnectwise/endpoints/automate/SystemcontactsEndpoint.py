@@ -13,7 +13,9 @@ class SystemcontactsEndpoint(
     IPaginateable[LabTechContact, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Systemcontacts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Systemcontacts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechContact])
+        IPaginateable.__init__(self, LabTechContact)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

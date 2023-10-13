@@ -17,7 +17,11 @@ class FinanceTaxcodesIdWorkroleexemptionsIdEndpoint(
     IPaginateable[WorkRoleExemption, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, WorkRoleExemption)
+        IPuttable.__init__(self, WorkRoleExemption)
+        IPatchable.__init__(self, WorkRoleExemption)
+        IPaginateable.__init__(self, WorkRoleExemption)
 
         self.taxable_work_role_levels = self._register_child_endpoint(
             FinanceTaxcodesIdWorkroleexemptionsIdTaxableworkrolelevelsEndpoint(client, parent_endpoint=self)

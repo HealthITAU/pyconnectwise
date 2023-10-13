@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ServicePriorityEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "priority", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "priority", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(ServicePriorityInfoEndpoint(client, parent_endpoint=self))
 

@@ -16,7 +16,10 @@ class ScriptfoldersEndpoint(
     IPaginateable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Scriptfolders", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Scriptfolders", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechScriptFolder])
+        IPostable.__init__(self, LabTechScriptFolder)
+        IPaginateable.__init__(self, LabTechScriptFolder)
 
         self.hierarchy = self._register_child_endpoint(ScriptfoldersHierarchyEndpoint(client, parent_endpoint=self))
 

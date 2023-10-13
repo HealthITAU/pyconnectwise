@@ -21,16 +21,20 @@ class ProcurementPurchaseordersIdEndpoint(
     IPaginateable[PurchaseOrder, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, PurchaseOrder)
+        IPuttable.__init__(self, PurchaseOrder)
+        IPatchable.__init__(self, PurchaseOrder)
+        IPaginateable.__init__(self, PurchaseOrder)
 
+        self.rebatch = self._register_child_endpoint(
+            ProcurementPurchaseordersIdRebatchEndpoint(client, parent_endpoint=self)
+        )
         self.lineitems = self._register_child_endpoint(
             ProcurementPurchaseordersIdLineitemsEndpoint(client, parent_endpoint=self)
         )
         self.unbatch = self._register_child_endpoint(
             ProcurementPurchaseordersIdUnbatchEndpoint(client, parent_endpoint=self)
-        )
-        self.rebatch = self._register_child_endpoint(
-            ProcurementPurchaseordersIdRebatchEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

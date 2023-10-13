@@ -18,7 +18,10 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
     IPaginateable[OrderStatusNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notifications", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[OrderStatusNotification])
+        IPostable.__init__(self, OrderStatusNotification)
+        IPaginateable.__init__(self, OrderStatusNotification)
 
         self.count = self._register_child_endpoint(
             SalesOrdersStatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)

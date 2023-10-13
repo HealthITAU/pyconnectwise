@@ -17,7 +17,10 @@ class ServiceBoardsIdNotificationsEndpoint(
     IPaginateable[BoardNotification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notifications", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notifications", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BoardNotification])
+        IPostable.__init__(self, BoardNotification)
+        IPaginateable.__init__(self, BoardNotification)
 
         self.count = self._register_child_endpoint(
             ServiceBoardsIdNotificationsCountEndpoint(client, parent_endpoint=self)

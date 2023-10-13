@@ -14,7 +14,10 @@ class SearchfoldersEndpoint(
     IPaginateable[LabTechSearchFolder, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Searchfolders", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Searchfolders", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechSearchFolder])
+        IPostable.__init__(self, LabTechSearchFolder)
+        IPaginateable.__init__(self, LabTechSearchFolder)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

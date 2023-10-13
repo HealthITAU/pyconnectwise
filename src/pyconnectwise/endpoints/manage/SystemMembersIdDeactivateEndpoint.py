@@ -11,7 +11,8 @@ class SystemMembersIdDeactivateEndpoint(
     ConnectWiseEndpoint, IPostable[MemberDeactivation, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "deactivate", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "deactivate", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, MemberDeactivation)
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None

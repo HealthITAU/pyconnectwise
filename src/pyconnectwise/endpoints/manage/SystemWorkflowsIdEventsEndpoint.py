@@ -16,7 +16,10 @@ class SystemWorkflowsIdEventsEndpoint(
     IPaginateable[WorkflowEvent, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "events", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "events", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[WorkflowEvent])
+        IPostable.__init__(self, WorkflowEvent)
+        IPaginateable.__init__(self, WorkflowEvent)
 
         self.count = self._register_child_endpoint(SystemWorkflowsIdEventsCountEndpoint(client, parent_endpoint=self))
 

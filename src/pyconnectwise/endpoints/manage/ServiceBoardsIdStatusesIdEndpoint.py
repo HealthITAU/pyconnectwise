@@ -20,15 +20,19 @@ class ServiceBoardsIdStatusesIdEndpoint(
     IPaginateable[BoardStatus, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, BoardStatus)
+        IPuttable.__init__(self, BoardStatus)
+        IPatchable.__init__(self, BoardStatus)
+        IPaginateable.__init__(self, BoardStatus)
 
+        self.usages = self._register_child_endpoint(
+            ServiceBoardsIdStatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
         self.notifications = self._register_child_endpoint(
             ServiceBoardsIdStatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
         self.info = self._register_child_endpoint(ServiceBoardsIdStatusesIdInfoEndpoint(client, parent_endpoint=self))
-        self.usages = self._register_child_endpoint(
-            ServiceBoardsIdStatusesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

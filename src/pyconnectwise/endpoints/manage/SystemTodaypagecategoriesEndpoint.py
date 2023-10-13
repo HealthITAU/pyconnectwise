@@ -16,7 +16,10 @@ class SystemTodaypagecategoriesEndpoint(
     IPaginateable[TodayPageCategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "todayPageCategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "todayPageCategories", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TodayPageCategory])
+        IPostable.__init__(self, TodayPageCategory)
+        IPaginateable.__init__(self, TodayPageCategory)
 
         self.count = self._register_child_endpoint(SystemTodaypagecategoriesCountEndpoint(client, parent_endpoint=self))
 

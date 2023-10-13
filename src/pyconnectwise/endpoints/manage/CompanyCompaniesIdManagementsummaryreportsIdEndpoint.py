@@ -15,7 +15,11 @@ class CompanyCompaniesIdManagementsummaryreportsIdEndpoint(
     IPaginateable[CompanyManagementSummary, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, CompanyManagementSummary)
+        IPuttable.__init__(self, CompanyManagementSummary)
+        IPatchable.__init__(self, CompanyManagementSummary)
+        IPaginateable.__init__(self, CompanyManagementSummary)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

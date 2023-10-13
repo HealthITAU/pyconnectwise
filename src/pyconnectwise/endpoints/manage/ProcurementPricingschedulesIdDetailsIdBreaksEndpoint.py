@@ -18,7 +18,10 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
     IPaginateable[PricingBreak, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "breaks", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "breaks", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PricingBreak])
+        IPostable.__init__(self, PricingBreak)
+        IPaginateable.__init__(self, PricingBreak)
 
         self.count = self._register_child_endpoint(
             ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint(client, parent_endpoint=self)

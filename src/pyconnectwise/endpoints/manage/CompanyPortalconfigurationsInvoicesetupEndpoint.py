@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class CompanyPortalconfigurationsInvoicesetupEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "invoiceSetup", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "invoiceSetup", parent_endpoint=parent_endpoint)
 
         self.payment_processors = self._register_child_endpoint(
             CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(client, parent_endpoint=self)

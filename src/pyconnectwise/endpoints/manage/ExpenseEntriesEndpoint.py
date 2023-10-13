@@ -16,7 +16,10 @@ class ExpenseEntriesEndpoint(
     IPaginateable[ExpenseEntry, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "entries", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "entries", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ExpenseEntry])
+        IPostable.__init__(self, ExpenseEntry)
+        IPaginateable.__init__(self, ExpenseEntry)
 
         self.count = self._register_child_endpoint(ExpenseEntriesCountEndpoint(client, parent_endpoint=self))
 

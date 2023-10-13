@@ -18,7 +18,10 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
     IPaginateable[ProductPickingShippingDetail, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "pickingShippingDetails", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "pickingShippingDetails", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProductPickingShippingDetail])
+        IPostable.__init__(self, list[ProductPickingShippingDetail])
+        IPaginateable.__init__(self, ProductPickingShippingDetail)
 
         self.count = self._register_child_endpoint(
             ProcurementProductsIdPickingshippingdetailsCountEndpoint(client, parent_endpoint=self)

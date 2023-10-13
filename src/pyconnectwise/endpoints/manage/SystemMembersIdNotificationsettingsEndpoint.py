@@ -18,7 +18,10 @@ class SystemMembersIdNotificationsettingsEndpoint(
     IPaginateable[MemberNotificationSetting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "notificationSettings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "notificationSettings", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MemberNotificationSetting])
+        IPostable.__init__(self, MemberNotificationSetting)
+        IPaginateable.__init__(self, MemberNotificationSetting)
 
         self.count = self._register_child_endpoint(
             SystemMembersIdNotificationsettingsCountEndpoint(client, parent_endpoint=self)

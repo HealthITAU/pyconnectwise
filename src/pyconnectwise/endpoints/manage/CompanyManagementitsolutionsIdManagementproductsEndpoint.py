@@ -18,7 +18,10 @@ class CompanyManagementitsolutionsIdManagementproductsEndpoint(
     IPaginateable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementProducts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managementProducts", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementItSolutionAgreementInterfaceParameter])
+        IPostable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
+        IPaginateable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
 
         self.count = self._register_child_endpoint(
             CompanyManagementitsolutionsIdManagementproductsCountEndpoint(client, parent_endpoint=self)

@@ -17,7 +17,10 @@ class ScheduleCalendarsEndpoint(
     IPaginateable[Calendar, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "calendars", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "calendars", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Calendar])
+        IPostable.__init__(self, Calendar)
+        IPaginateable.__init__(self, Calendar)
 
         self.count = self._register_child_endpoint(ScheduleCalendarsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ScheduleCalendarsInfoEndpoint(client, parent_endpoint=self))

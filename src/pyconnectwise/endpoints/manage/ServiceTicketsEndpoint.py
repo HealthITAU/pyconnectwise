@@ -18,7 +18,10 @@ class ServiceTicketsEndpoint(
     IPaginateable[Ticket, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "tickets", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "tickets", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Ticket])
+        IPostable.__init__(self, Ticket)
+        IPaginateable.__init__(self, Ticket)
 
         self.count = self._register_child_endpoint(ServiceTicketsCountEndpoint(client, parent_endpoint=self))
         self.search = self._register_child_endpoint(ServiceTicketsSearchEndpoint(client, parent_endpoint=self))

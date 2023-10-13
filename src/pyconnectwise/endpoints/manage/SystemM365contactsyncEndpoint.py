@@ -17,8 +17,12 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "m365contactsync", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "m365contactsync", parent_endpoint=parent_endpoint)
 
+        self.info = self._register_child_endpoint(SystemM365contactsyncInfoEndpoint(client, parent_endpoint=self))
+        self.authorize = self._register_child_endpoint(
+            SystemM365contactsyncAuthorizeEndpoint(client, parent_endpoint=self)
+        )
         self.notifydeactivation = self._register_child_endpoint(
             SystemM365contactsyncNotifydeactivationEndpoint(client, parent_endpoint=self)
         )
@@ -28,10 +32,6 @@ class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
         self.checkvalidsync = self._register_child_endpoint(
             SystemM365contactsyncCheckvalidsyncEndpoint(client, parent_endpoint=self)
         )
-        self.authorize = self._register_child_endpoint(
-            SystemM365contactsyncAuthorizeEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(SystemM365contactsyncInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemM365contactsyncIdEndpoint:
         """

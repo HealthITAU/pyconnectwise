@@ -11,7 +11,8 @@ class FinanceAgreementsTypesIdCopyEndpoint(
     ConnectWiseEndpoint, IPostable[AgreementType, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "copy", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "copy", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, AgreementType)
 
     def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> AgreementType:
         """

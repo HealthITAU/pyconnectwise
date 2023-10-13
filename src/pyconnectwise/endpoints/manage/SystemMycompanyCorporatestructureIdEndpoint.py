@@ -17,7 +17,11 @@ class SystemMycompanyCorporatestructureIdEndpoint(
     IPaginateable[CorporateStructure, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, CorporateStructure)
+        IPuttable.__init__(self, CorporateStructure)
+        IPatchable.__init__(self, CorporateStructure)
+        IPaginateable.__init__(self, CorporateStructure)
 
         self.info = self._register_child_endpoint(
             SystemMycompanyCorporatestructureIdInfoEndpoint(client, parent_endpoint=self)

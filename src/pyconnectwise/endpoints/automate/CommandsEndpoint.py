@@ -14,7 +14,9 @@ class CommandsEndpoint(
     IPaginateable[LabTechCommand, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Commands", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Commands", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechCommand])
+        IPaginateable.__init__(self, LabTechCommand)
 
     def id(self, id: int) -> CommandsIdEndpoint:
         """

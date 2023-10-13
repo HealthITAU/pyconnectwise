@@ -14,7 +14,10 @@ class TemplatepropertiesEndpoint(
     IPaginateable[LabTechTemplateProperty, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Templateproperties", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Templateproperties", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechTemplateProperty])
+        IPostable.__init__(self, LabTechTemplateProperty)
+        IPaginateable.__init__(self, LabTechTemplateProperty)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

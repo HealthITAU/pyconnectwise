@@ -17,7 +17,10 @@ class ProcurementPricingschedulesEndpoint(
     IPaginateable[PricingSchedule, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "pricingschedules", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "pricingschedules", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PricingSchedule])
+        IPostable.__init__(self, PricingSchedule)
+        IPaginateable.__init__(self, PricingSchedule)
 
         self.count = self._register_child_endpoint(
             ProcurementPricingschedulesCountEndpoint(client, parent_endpoint=self)

@@ -17,7 +17,10 @@ class CompanyStatesEndpoint(
     IPaginateable[State, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "states", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "states", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[State])
+        IPostable.__init__(self, State)
+        IPaginateable.__init__(self, State)
 
         self.count = self._register_child_endpoint(CompanyStatesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(CompanyStatesInfoEndpoint(client, parent_endpoint=self))

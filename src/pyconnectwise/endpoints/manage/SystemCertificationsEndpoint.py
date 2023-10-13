@@ -16,7 +16,10 @@ class SystemCertificationsEndpoint(
     IPaginateable[Certification, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "certifications", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "certifications", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Certification])
+        IPostable.__init__(self, Certification)
+        IPaginateable.__init__(self, Certification)
 
         self.count = self._register_child_endpoint(SystemCertificationsCountEndpoint(client, parent_endpoint=self))
 

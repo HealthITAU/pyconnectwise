@@ -17,7 +17,11 @@ class ProjectBoardsIdTeamsIdEndpoint(
     IPaginateable[ProjectBoardTeam, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ProjectBoardTeam)
+        IPuttable.__init__(self, ProjectBoardTeam)
+        IPatchable.__init__(self, ProjectBoardTeam)
+        IPaginateable.__init__(self, ProjectBoardTeam)
 
         self.members = self._register_child_endpoint(
             ProjectBoardsIdTeamsIdMembersEndpoint(client, parent_endpoint=self)

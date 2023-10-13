@@ -17,7 +17,10 @@ class ProcurementWarehousebinsEndpoint(
     IPaginateable[WarehouseBin, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "warehouseBins", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "warehouseBins", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[WarehouseBin])
+        IPostable.__init__(self, WarehouseBin)
+        IPaginateable.__init__(self, WarehouseBin)
 
         self.count = self._register_child_endpoint(ProcurementWarehousebinsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ProcurementWarehousebinsInfoEndpoint(client, parent_endpoint=self))

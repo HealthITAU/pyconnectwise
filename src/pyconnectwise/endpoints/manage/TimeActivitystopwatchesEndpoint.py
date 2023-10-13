@@ -16,7 +16,10 @@ class TimeActivitystopwatchesEndpoint(
     IPaginateable[ActivityStopwatch, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "activitystopwatches", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "activitystopwatches", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ActivityStopwatch])
+        IPostable.__init__(self, ActivityStopwatch)
+        IPaginateable.__init__(self, ActivityStopwatch)
 
         self.count = self._register_child_endpoint(TimeActivitystopwatchesCountEndpoint(client, parent_endpoint=self))
 

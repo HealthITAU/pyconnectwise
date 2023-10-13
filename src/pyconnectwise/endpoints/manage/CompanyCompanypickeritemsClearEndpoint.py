@@ -11,7 +11,8 @@ class CompanyCompanypickeritemsClearEndpoint(
     ConnectWiseEndpoint, IPostable[ClearPickerRequest, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "clear", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "clear", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, ClearPickerRequest)
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None

@@ -14,7 +14,9 @@ class ServiceTicketsIdProductsEndpoint(
     IPaginateable[ProductReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "products", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "products", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProductReference])
+        IPaginateable.__init__(self, ProductReference)
 
         self.count = self._register_child_endpoint(ServiceTicketsIdProductsCountEndpoint(client, parent_endpoint=self))
 

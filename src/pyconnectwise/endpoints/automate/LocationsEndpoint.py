@@ -15,7 +15,10 @@ class LocationsEndpoint(
     IPaginateable[AutomateLocation, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Locations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Locations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[AutomateLocation])
+        IPostable.__init__(self, LabTechLocation)
+        IPaginateable.__init__(self, AutomateLocation)
 
     def id(self, id: int) -> LocationsIdEndpoint:
         """

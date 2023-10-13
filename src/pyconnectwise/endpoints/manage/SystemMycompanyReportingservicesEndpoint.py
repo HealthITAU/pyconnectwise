@@ -15,7 +15,9 @@ class SystemMycompanyReportingservicesEndpoint(
     IPaginateable[ReportingService, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "reportingServices", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "reportingServices", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ReportingService])
+        IPaginateable.__init__(self, ReportingService)
 
     def id(self, id: int) -> SystemMycompanyReportingservicesIdEndpoint:
         """

@@ -16,7 +16,10 @@ class ServicePrioritiesEndpoint(
     IPaginateable[Priority, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "priorities", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "priorities", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Priority])
+        IPostable.__init__(self, Priority)
+        IPaginateable.__init__(self, Priority)
 
         self.count = self._register_child_endpoint(ServicePrioritiesCountEndpoint(client, parent_endpoint=self))
 

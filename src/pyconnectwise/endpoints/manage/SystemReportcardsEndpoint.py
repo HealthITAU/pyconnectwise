@@ -17,7 +17,10 @@ class SystemReportcardsEndpoint(
     IPaginateable[ReportCard, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "reportCards", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "reportCards", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ReportCard])
+        IPostable.__init__(self, ReportCard)
+        IPaginateable.__init__(self, ReportCard)
 
         self.count = self._register_child_endpoint(SystemReportcardsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SystemReportcardsInfoEndpoint(client, parent_endpoint=self))

@@ -17,10 +17,14 @@ class CompanyTeamrolesIdEndpoint(
     IPaginateable[TeamRole, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, TeamRole)
+        IPuttable.__init__(self, TeamRole)
+        IPatchable.__init__(self, TeamRole)
+        IPaginateable.__init__(self, TeamRole)
 
-        self.info = self._register_child_endpoint(CompanyTeamrolesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(CompanyTeamrolesIdUsagesEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(CompanyTeamrolesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

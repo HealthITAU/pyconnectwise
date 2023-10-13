@@ -15,7 +15,9 @@ class ProcurementShipmentmethodsInfoEndpoint(
     IPaginateable[ShipmentMethodInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ShipmentMethodInfo])
+        IPaginateable.__init__(self, ShipmentMethodInfo)
 
         self.count = self._register_child_endpoint(
             ProcurementShipmentmethodsInfoCountEndpoint(client, parent_endpoint=self)

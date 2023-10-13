@@ -17,7 +17,9 @@ class ProjectProjectsIdProjectworkplanEndpoint(
     IPaginateable[ProjectWorkplan, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "projectWorkplan", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "projectWorkplan", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ProjectWorkplan])
+        IPaginateable.__init__(self, ProjectWorkplan)
 
         self.count = self._register_child_endpoint(
             ProjectProjectsIdProjectworkplanCountEndpoint(client, parent_endpoint=self)

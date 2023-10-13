@@ -13,7 +13,9 @@ class ComputersMemoryslotsEndpoint(
     IPaginateable[LabTechComputerMemorySlot, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Memoryslots", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Memoryslots", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechComputerMemorySlot])
+        IPaginateable.__init__(self, LabTechComputerMemorySlot)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

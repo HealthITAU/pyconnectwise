@@ -17,7 +17,10 @@ class CompanyNotetypesEndpoint(
     IPaginateable[CompanyNoteType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "noteTypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "noteTypes", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CompanyNoteType])
+        IPostable.__init__(self, CompanyNoteType)
+        IPaginateable.__init__(self, CompanyNoteType)
 
         self.count = self._register_child_endpoint(CompanyNotetypesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(CompanyNotetypesInfoEndpoint(client, parent_endpoint=self))

@@ -16,7 +16,10 @@ class CompanyContactsIdTracksEndpoint(
     IPaginateable[ContactTrack, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "tracks", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "tracks", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ContactTrack])
+        IPostable.__init__(self, ContactTrack)
+        IPaginateable.__init__(self, ContactTrack)
 
         self.count = self._register_child_endpoint(CompanyContactsIdTracksCountEndpoint(client, parent_endpoint=self))
 

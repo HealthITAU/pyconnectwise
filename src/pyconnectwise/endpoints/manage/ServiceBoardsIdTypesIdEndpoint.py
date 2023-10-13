@@ -16,7 +16,11 @@ class ServiceBoardsIdTypesIdEndpoint(
     IPaginateable[BoardType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, BoardType)
+        IPuttable.__init__(self, BoardType)
+        IPatchable.__init__(self, BoardType)
+        IPaginateable.__init__(self, BoardType)
 
         self.usages = self._register_child_endpoint(ServiceBoardsIdTypesIdUsagesEndpoint(client, parent_endpoint=self))
 

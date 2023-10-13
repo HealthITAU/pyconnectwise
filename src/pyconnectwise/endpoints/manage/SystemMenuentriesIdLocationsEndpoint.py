@@ -17,7 +17,10 @@ class SystemMenuentriesIdLocationsEndpoint(
     IPaginateable[MenuEntryLocation, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "locations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "locations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MenuEntryLocation])
+        IPostable.__init__(self, MenuEntryLocation)
+        IPaginateable.__init__(self, MenuEntryLocation)
 
         self.count = self._register_child_endpoint(
             SystemMenuentriesIdLocationsCountEndpoint(client, parent_endpoint=self)

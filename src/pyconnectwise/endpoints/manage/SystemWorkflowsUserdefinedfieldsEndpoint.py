@@ -14,7 +14,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemWorkflowsUserdefinedfieldsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "userdefinedfields", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "userdefinedfields", parent_endpoint=parent_endpoint)
 
         self.actions = self._register_child_endpoint(
             SystemWorkflowsUserdefinedfieldsActionsEndpoint(client, parent_endpoint=self)

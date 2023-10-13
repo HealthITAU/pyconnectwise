@@ -14,7 +14,10 @@ class ComputersIdCommandexecuteEndpoint(
     IPaginateable[LabTechCommandExecute, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Commandexecute", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Commandexecute", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechCommandExecute])
+        IPostable.__init__(self, LabTechCommandExecute)
+        IPaginateable.__init__(self, LabTechCommandExecute)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

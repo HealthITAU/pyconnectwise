@@ -16,7 +16,11 @@ class SystemMycompanyCrmIdEndpoint(
     IPaginateable[Crm, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Crm)
+        IPuttable.__init__(self, Crm)
+        IPatchable.__init__(self, Crm)
+        IPaginateable.__init__(self, Crm)
 
         self.info = self._register_child_endpoint(SystemMycompanyCrmIdInfoEndpoint(client, parent_endpoint=self))
 

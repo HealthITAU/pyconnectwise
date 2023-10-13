@@ -14,7 +14,9 @@ class ServiceTicketsIdDocumentsEndpoint(
     IPaginateable[DocumentReference, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "documents", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "documents", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[DocumentReference])
+        IPaginateable.__init__(self, DocumentReference)
 
         self.count = self._register_child_endpoint(ServiceTicketsIdDocumentsCountEndpoint(client, parent_endpoint=self))
 

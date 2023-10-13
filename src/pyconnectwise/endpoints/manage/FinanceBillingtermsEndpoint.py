@@ -17,7 +17,10 @@ class FinanceBillingtermsEndpoint(
     IPaginateable[BillingTerm, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "billingTerms", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "billingTerms", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[BillingTerm])
+        IPostable.__init__(self, BillingTerm)
+        IPaginateable.__init__(self, BillingTerm)
 
         self.count = self._register_child_endpoint(FinanceBillingtermsCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(FinanceBillingtermsInfoEndpoint(client, parent_endpoint=self))

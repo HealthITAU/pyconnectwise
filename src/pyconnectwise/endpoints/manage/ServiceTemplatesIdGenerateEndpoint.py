@@ -11,7 +11,8 @@ class ServiceTemplatesIdGenerateEndpoint(
     ConnectWiseEndpoint, IPostable[TemplateGeneratedCountsModel, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "generate", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "generate", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, TemplateGeneratedCountsModel)
 
     def post(
         self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None

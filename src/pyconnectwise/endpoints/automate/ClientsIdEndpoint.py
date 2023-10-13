@@ -17,11 +17,13 @@ class ClientsIdEndpoint(
     IPaginateable[LabTechClient, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechClient)
+        IPaginateable.__init__(self, LabTechClient)
 
+        self.permissions = self._register_child_endpoint(ClientsIdPermissionsEndpoint(client, parent_endpoint=self))
         self.licenses = self._register_child_endpoint(ClientsIdLicensesEndpoint(client, parent_endpoint=self))
         self.documents = self._register_child_endpoint(ClientsIdDocumentsEndpoint(client, parent_endpoint=self))
-        self.permissions = self._register_child_endpoint(ClientsIdPermissionsEndpoint(client, parent_endpoint=self))
         self.productkeys = self._register_child_endpoint(ClientsIdProductkeysEndpoint(client, parent_endpoint=self))
 
     def paginated(

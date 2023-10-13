@@ -20,13 +20,16 @@ class CompanyCompaniesEndpoint(
     IPaginateable[Company, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "companies", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "companies", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[Company])
+        IPostable.__init__(self, Company)
+        IPaginateable.__init__(self, Company)
 
-        self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(CompanyCompaniesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyCompaniesIdEndpoint:
         """

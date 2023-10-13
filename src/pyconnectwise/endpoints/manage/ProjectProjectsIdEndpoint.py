@@ -21,14 +21,18 @@ class ProjectProjectsIdEndpoint(
     IPaginateable[Project, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Project)
+        IPuttable.__init__(self, Project)
+        IPatchable.__init__(self, Project)
+        IPaginateable.__init__(self, Project)
 
-        self.notes = self._register_child_endpoint(ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self))
         self.phases = self._register_child_endpoint(ProjectProjectsIdPhasesEndpoint(client, parent_endpoint=self))
+        self.contacts = self._register_child_endpoint(ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self))
         self.team_members = self._register_child_endpoint(
             ProjectProjectsIdTeammembersEndpoint(client, parent_endpoint=self)
         )
-        self.contacts = self._register_child_endpoint(ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self))
         self.project_workplan = self._register_child_endpoint(
             ProjectProjectsIdProjectworkplanEndpoint(client, parent_endpoint=self)
         )

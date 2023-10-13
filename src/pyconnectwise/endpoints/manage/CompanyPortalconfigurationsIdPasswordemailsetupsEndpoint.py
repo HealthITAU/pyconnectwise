@@ -15,7 +15,9 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
     IPaginateable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "passwordEmailSetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "passwordEmailSetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalConfigurationPasswordEmailSetup])
+        IPaginateable.__init__(self, PortalConfigurationPasswordEmailSetup)
 
     def id(self, id: int) -> CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint:
         """

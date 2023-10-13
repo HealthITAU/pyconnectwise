@@ -16,7 +16,9 @@ class ServiceTemplatesEndpoint(
     IPaginateable[ServiceTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "templates", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "templates", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ServiceTemplate])
+        IPaginateable.__init__(self, ServiceTemplate)
 
         self.count = self._register_child_endpoint(ServiceTemplatesCountEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(ServiceTemplatesInfoEndpoint(client, parent_endpoint=self))

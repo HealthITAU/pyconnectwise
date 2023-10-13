@@ -8,4 +8,4 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemReportsIdColumnsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "columns", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "columns", parent_endpoint=parent_endpoint)

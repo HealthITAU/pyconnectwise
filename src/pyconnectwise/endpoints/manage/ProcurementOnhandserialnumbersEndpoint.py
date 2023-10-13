@@ -17,7 +17,9 @@ class ProcurementOnhandserialnumbersEndpoint(
     IPaginateable[OnHandSerialNumber, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "onhandserialnumbers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "onhandserialnumbers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[OnHandSerialNumber])
+        IPaginateable.__init__(self, OnHandSerialNumber)
 
         self.count = self._register_child_endpoint(
             ProcurementOnhandserialnumbersCountEndpoint(client, parent_endpoint=self)

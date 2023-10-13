@@ -18,7 +18,11 @@ class ProcurementCategoriesIdEndpoint(
     IPaginateable[Category, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Category)
+        IPuttable.__init__(self, Category)
+        IPatchable.__init__(self, Category)
+        IPaginateable.__init__(self, Category)
 
         self.subcategories = self._register_child_endpoint(
             ProcurementCategoriesIdSubcategoriesEndpoint(client, parent_endpoint=self)

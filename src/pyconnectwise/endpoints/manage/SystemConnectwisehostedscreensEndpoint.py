@@ -17,7 +17,9 @@ class SystemConnectwisehostedscreensEndpoint(
     IPaginateable[ConnectWiseHostedScreen, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "connectWiseHostedScreens", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "connectWiseHostedScreens", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ConnectWiseHostedScreen])
+        IPaginateable.__init__(self, ConnectWiseHostedScreen)
 
         self.count = self._register_child_endpoint(
             SystemConnectwisehostedscreensCountEndpoint(client, parent_endpoint=self)

@@ -16,7 +16,9 @@ class CompanyPortalsecuritylevelsEndpoint(
     IPaginateable[PortalSecurityLevel, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "portalSecurityLevels", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "portalSecurityLevels", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalSecurityLevel])
+        IPaginateable.__init__(self, PortalSecurityLevel)
 
         self.count = self._register_child_endpoint(
             CompanyPortalsecuritylevelsCountEndpoint(client, parent_endpoint=self)

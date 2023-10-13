@@ -18,7 +18,10 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(
     IPaginateable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "logins", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "logins", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagedDevicesIntegrationLogin])
+        IPostable.__init__(self, ManagedDevicesIntegrationLogin)
+        IPaginateable.__init__(self, ManagedDevicesIntegrationLogin)
 
         self.count = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdLoginsCountEndpoint(client, parent_endpoint=self)

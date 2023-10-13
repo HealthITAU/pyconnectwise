@@ -26,25 +26,29 @@ class ProjectTicketsIdEndpoint(
     IPaginateable[ProjectTicket, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, ProjectTicket)
+        IPuttable.__init__(self, ProjectTicket)
+        IPatchable.__init__(self, ProjectTicket)
+        IPaginateable.__init__(self, ProjectTicket)
 
-        self.notes = self._register_child_endpoint(ProjectTicketsIdNotesEndpoint(client, parent_endpoint=self))
+        self.configurations = self._register_child_endpoint(
+            ProjectTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
+        )
+        self.documents = self._register_child_endpoint(ProjectTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.convert = self._register_child_endpoint(ProjectTicketsIdConvertEndpoint(client, parent_endpoint=self))
         self.timeentries = self._register_child_endpoint(
             ProjectTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
         )
-        self.tasks = self._register_child_endpoint(ProjectTicketsIdTasksEndpoint(client, parent_endpoint=self))
-        self.activities = self._register_child_endpoint(
-            ProjectTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.all_notes = self._register_child_endpoint(ProjectTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
-        self.documents = self._register_child_endpoint(ProjectTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
-        self.convert = self._register_child_endpoint(ProjectTicketsIdConvertEndpoint(client, parent_endpoint=self))
+        self.products = self._register_child_endpoint(ProjectTicketsIdProductsEndpoint(client, parent_endpoint=self))
         self.scheduleentries = self._register_child_endpoint(
             ProjectTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
         )
-        self.products = self._register_child_endpoint(ProjectTicketsIdProductsEndpoint(client, parent_endpoint=self))
-        self.configurations = self._register_child_endpoint(
-            ProjectTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
+        self.all_notes = self._register_child_endpoint(ProjectTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(ProjectTicketsIdNotesEndpoint(client, parent_endpoint=self))
+        self.tasks = self._register_child_endpoint(ProjectTicketsIdTasksEndpoint(client, parent_endpoint=self))
+        self.activities = self._register_child_endpoint(
+            ProjectTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

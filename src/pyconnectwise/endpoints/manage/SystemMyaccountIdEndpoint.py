@@ -17,12 +17,16 @@ class SystemMyaccountIdEndpoint(
     IPaginateable[MyAccount, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, MyAccount)
+        IPuttable.__init__(self, MyAccount)
+        IPatchable.__init__(self, MyAccount)
+        IPaginateable.__init__(self, MyAccount)
 
+        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMyaccountIdDelegationsEndpoint(client, parent_endpoint=self)
         )
-        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

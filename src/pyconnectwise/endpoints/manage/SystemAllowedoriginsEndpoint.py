@@ -16,7 +16,10 @@ class SystemAllowedoriginsEndpoint(
     IPaginateable[AllowedOrigin, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "allowedorigins", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "allowedorigins", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[AllowedOrigin])
+        IPostable.__init__(self, AllowedOrigin)
+        IPaginateable.__init__(self, AllowedOrigin)
 
         self.count = self._register_child_endpoint(SystemAllowedoriginsCountEndpoint(client, parent_endpoint=self))
 

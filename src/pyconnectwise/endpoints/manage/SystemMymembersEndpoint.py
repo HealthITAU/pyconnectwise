@@ -14,7 +14,9 @@ class SystemMymembersEndpoint(
     IPaginateable[MyMember, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "myMembers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "myMembers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, MyMember)
+        IPaginateable.__init__(self, MyMember)
 
         self.info = self._register_child_endpoint(SystemMymembersInfoEndpoint(client, parent_endpoint=self))
 

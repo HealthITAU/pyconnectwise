@@ -17,16 +17,17 @@ class CompanyM365contactsyncPropertyEndpoint(
     ConnectWiseEndpoint, IPostable[M365ContactSyncProperty, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "property", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "property", parent_endpoint=parent_endpoint)
+        IPostable.__init__(self, M365ContactSyncProperty)
 
         self.count = self._register_child_endpoint(
             CompanyM365contactsyncPropertyCountEndpoint(client, parent_endpoint=self)
         )
-        self.included = self._register_child_endpoint(
-            CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)
-        )
         self.excluded = self._register_child_endpoint(
             CompanyM365contactsyncPropertyExcludedEndpoint(client, parent_endpoint=self)
+        )
+        self.included = self._register_child_endpoint(
+            CompanyM365contactsyncPropertyIncludedEndpoint(client, parent_endpoint=self)
         )
 
     def post(

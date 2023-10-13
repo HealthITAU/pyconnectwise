@@ -15,7 +15,9 @@ class SystemSettingsEndpoint(
     IPaginateable[SystemSetting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "settings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "settings", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SystemSetting])
+        IPaginateable.__init__(self, SystemSetting)
 
         self.count = self._register_child_endpoint(SystemSettingsCountEndpoint(client, parent_endpoint=self))
 

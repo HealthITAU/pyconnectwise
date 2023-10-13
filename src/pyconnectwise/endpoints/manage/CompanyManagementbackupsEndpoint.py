@@ -16,7 +16,10 @@ class CompanyManagementbackupsEndpoint(
     IPaginateable[ManagementBackup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "managementBackups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "managementBackups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ManagementBackup])
+        IPostable.__init__(self, ManagementBackup)
+        IPaginateable.__init__(self, ManagementBackup)
 
         self.count = self._register_child_endpoint(CompanyManagementbackupsCountEndpoint(client, parent_endpoint=self))
 

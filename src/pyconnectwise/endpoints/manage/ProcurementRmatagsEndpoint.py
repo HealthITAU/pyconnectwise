@@ -17,10 +17,13 @@ class ProcurementRmatagsEndpoint(
     IPaginateable[RmaTag, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "rmaTags", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "rmaTags", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[RmaTag])
+        IPostable.__init__(self, RmaTag)
+        IPaginateable.__init__(self, RmaTag)
 
-        self.count = self._register_child_endpoint(ProcurementRmatagsCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(ProcurementRmatagsDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(ProcurementRmatagsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProcurementRmatagsIdEndpoint:
         """

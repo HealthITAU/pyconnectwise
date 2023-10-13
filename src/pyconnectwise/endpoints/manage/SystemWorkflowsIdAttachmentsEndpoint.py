@@ -16,7 +16,9 @@ class SystemWorkflowsIdAttachmentsEndpoint(
     IPaginateable[WorkflowAttachment, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "attachments", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "attachments", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[WorkflowAttachment])
+        IPaginateable.__init__(self, WorkflowAttachment)
 
         self.count = self._register_child_endpoint(
             SystemWorkflowsIdAttachmentsCountEndpoint(client, parent_endpoint=self)

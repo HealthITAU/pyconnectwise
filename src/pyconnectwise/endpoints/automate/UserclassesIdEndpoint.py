@@ -14,7 +14,9 @@ class UserclassesIdEndpoint(
     IPaginateable[AutomateUserClass, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, AutomateUserClass)
+        IPaginateable.__init__(self, AutomateUserClass)
 
         self.webextensions = self._register_child_endpoint(
             UserclassesIdWebextensionsEndpoint(client, parent_endpoint=self)

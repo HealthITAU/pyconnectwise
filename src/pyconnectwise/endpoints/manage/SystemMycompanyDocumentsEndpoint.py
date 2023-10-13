@@ -14,7 +14,9 @@ class SystemMycompanyDocumentsEndpoint(
     IPaginateable[DocumentSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "documents", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "documents", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[DocumentSetup])
+        IPaginateable.__init__(self, DocumentSetup)
 
     def id(self, id: int) -> SystemMycompanyDocumentsIdEndpoint:
         """

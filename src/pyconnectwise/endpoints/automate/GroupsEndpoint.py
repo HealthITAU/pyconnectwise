@@ -15,7 +15,10 @@ class GroupsEndpoint(
     IPaginateable[LabTechGroup, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Groups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Groups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[LabTechGroup])
+        IPostable.__init__(self, LabTechGroup)
+        IPaginateable.__init__(self, LabTechGroup)
 
     def id(self, id: int) -> GroupsIdEndpoint:
         """

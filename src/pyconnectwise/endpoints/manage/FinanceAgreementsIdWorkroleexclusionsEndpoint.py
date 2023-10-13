@@ -18,7 +18,10 @@ class FinanceAgreementsIdWorkroleexclusionsEndpoint(
     IPaginateable[AgreementWorkRoleExclusion, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "workRoleExclusions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "workRoleExclusions", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[AgreementWorkRoleExclusion])
+        IPostable.__init__(self, AgreementWorkRoleExclusion)
+        IPaginateable.__init__(self, AgreementWorkRoleExclusion)
 
         self.count = self._register_child_endpoint(
             FinanceAgreementsIdWorkroleexclusionsCountEndpoint(client, parent_endpoint=self)

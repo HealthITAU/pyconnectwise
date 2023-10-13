@@ -17,17 +17,17 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ScheduleEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "schedule", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "schedule", parent_endpoint=parent_endpoint)
 
+        self.calendars = self._register_child_endpoint(ScheduleCalendarsEndpoint(client, parent_endpoint=self))
+        self.holidaylists = self._register_child_endpoint(ScheduleHolidaylistsEndpoint(client, parent_endpoint=self))
+        self.entries = self._register_child_endpoint(ScheduleEntriesEndpoint(client, parent_endpoint=self))
+        self.reminder_times = self._register_child_endpoint(ScheduleRemindertimesEndpoint(client, parent_endpoint=self))
+        self.holiday_lists = self._register_child_endpoint(ScheduleHolidaylistsEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(ScheduleStatusesEndpoint(client, parent_endpoint=self))
+        self.details = self._register_child_endpoint(ScheduleDetailsEndpoint(client, parent_endpoint=self))
+        self.colors = self._register_child_endpoint(ScheduleColorsEndpoint(client, parent_endpoint=self))
         self.types = self._register_child_endpoint(ScheduleTypesEndpoint(client, parent_endpoint=self))
         self.portalcalendars = self._register_child_endpoint(
             SchedulePortalcalendarsEndpoint(client, parent_endpoint=self)
         )
-        self.colors = self._register_child_endpoint(ScheduleColorsEndpoint(client, parent_endpoint=self))
-        self.calendars = self._register_child_endpoint(ScheduleCalendarsEndpoint(client, parent_endpoint=self))
-        self.holiday_lists = self._register_child_endpoint(ScheduleHolidaylistsEndpoint(client, parent_endpoint=self))
-        self.holidaylists = self._register_child_endpoint(ScheduleHolidaylistsEndpoint(client, parent_endpoint=self))
-        self.reminder_times = self._register_child_endpoint(ScheduleRemindertimesEndpoint(client, parent_endpoint=self))
-        self.details = self._register_child_endpoint(ScheduleDetailsEndpoint(client, parent_endpoint=self))
-        self.statuses = self._register_child_endpoint(ScheduleStatusesEndpoint(client, parent_endpoint=self))
-        self.entries = self._register_child_endpoint(ScheduleEntriesEndpoint(client, parent_endpoint=self))

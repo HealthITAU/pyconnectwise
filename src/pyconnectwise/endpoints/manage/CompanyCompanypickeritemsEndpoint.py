@@ -17,7 +17,10 @@ class CompanyCompanypickeritemsEndpoint(
     IPaginateable[CompanyPickerItem, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "companyPickerItems", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "companyPickerItems", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[CompanyPickerItem])
+        IPostable.__init__(self, CompanyPickerItem)
+        IPaginateable.__init__(self, CompanyPickerItem)
 
         self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
         self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))

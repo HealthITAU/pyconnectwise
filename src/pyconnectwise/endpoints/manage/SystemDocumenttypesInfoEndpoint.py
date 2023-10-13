@@ -14,7 +14,9 @@ class SystemDocumenttypesInfoEndpoint(
     IPaginateable[DocumentType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[DocumentType])
+        IPaginateable.__init__(self, DocumentType)
 
         self.count = self._register_child_endpoint(SystemDocumenttypesInfoCountEndpoint(client, parent_endpoint=self))
 

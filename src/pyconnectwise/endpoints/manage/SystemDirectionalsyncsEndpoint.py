@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class SystemDirectionalsyncsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "directionalSyncs", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "directionalSyncs", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(SystemDirectionalsyncsInfoEndpoint(client, parent_endpoint=self))
 

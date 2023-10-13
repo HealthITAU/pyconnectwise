@@ -16,7 +16,9 @@ class ScheduleColorsEndpoint(
     IPaginateable[ScheduleColor, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "colors", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "colors", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ScheduleColor])
+        IPaginateable.__init__(self, ScheduleColor)
 
         self.count = self._register_child_endpoint(ScheduleColorsCountEndpoint(client, parent_endpoint=self))
         self.reset = self._register_child_endpoint(ScheduleColorsResetEndpoint(client, parent_endpoint=self))

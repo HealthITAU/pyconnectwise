@@ -17,7 +17,9 @@ class CompanyPortalconfigurationsIdInvoicesetupsEndpoint(
     IPaginateable[PortalConfigurationInvoiceSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "invoiceSetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "invoiceSetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[PortalConfigurationInvoiceSetup])
+        IPaginateable.__init__(self, PortalConfigurationInvoiceSetup)
 
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsIdInvoicesetupsCountEndpoint(client, parent_endpoint=self)

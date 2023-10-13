@@ -15,7 +15,9 @@ class ScheduleDetailsEndpoint(
     IPaginateable[ScheduleEntryDetail, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "details", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "details", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ScheduleEntryDetail])
+        IPaginateable.__init__(self, ScheduleEntryDetail)
 
         self.count = self._register_child_endpoint(ScheduleDetailsCountEndpoint(client, parent_endpoint=self))
 

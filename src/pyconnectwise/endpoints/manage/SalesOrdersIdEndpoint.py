@@ -17,7 +17,11 @@ class SalesOrdersIdEndpoint(
     IPaginateable[Order, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, Order)
+        IPuttable.__init__(self, Order)
+        IPatchable.__init__(self, Order)
+        IPaginateable.__init__(self, Order)
 
         self.convert_to_service_ticket = self._register_child_endpoint(
             SalesOrdersIdConverttoserviceticketEndpoint(client, parent_endpoint=self)

@@ -14,7 +14,10 @@ class ProbeconfigurationIdSnmpconfigurationEndpoint(
     IPaginateable[LabTechProbeSnmpConfiguration, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Snmpconfiguration", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Snmpconfiguration", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechProbeSnmpConfiguration)
+        IPatchable.__init__(self, LabTechProbeSnmpConfiguration)
+        IPaginateable.__init__(self, LabTechProbeSnmpConfiguration)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

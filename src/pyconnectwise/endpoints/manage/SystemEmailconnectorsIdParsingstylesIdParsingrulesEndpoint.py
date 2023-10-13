@@ -18,7 +18,10 @@ class SystemEmailconnectorsIdParsingstylesIdParsingrulesEndpoint(
     IPaginateable[EmailConnectorParsingRule, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "parsingRules", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "parsingRules", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[EmailConnectorParsingRule])
+        IPostable.__init__(self, EmailConnectorParsingRule)
+        IPaginateable.__init__(self, EmailConnectorParsingRule)
 
         self.count = self._register_child_endpoint(
             SystemEmailconnectorsIdParsingstylesIdParsingrulesCountEndpoint(client, parent_endpoint=self)

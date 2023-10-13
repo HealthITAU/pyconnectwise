@@ -17,10 +17,13 @@ class TimeTimeperiodsetupsEndpoint(
     IPaginateable[TimePeriodSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "timePeriodSetups", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "timePeriodSetups", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[TimePeriodSetup])
+        IPostable.__init__(self, TimePeriodSetup)
+        IPaginateable.__init__(self, TimePeriodSetup)
 
-        self.count = self._register_child_endpoint(TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(TimeTimeperiodsetupsDefaultEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:
         """

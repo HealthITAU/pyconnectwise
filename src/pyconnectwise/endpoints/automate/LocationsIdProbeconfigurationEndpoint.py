@@ -15,7 +15,11 @@ class LocationsIdProbeconfigurationEndpoint(
     IPaginateable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "Probeconfiguration", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "Probeconfiguration", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, LabTechProbeConfiguration)
+        IPostable.__init__(self, LabTechProbeConfiguration)
+        IPatchable.__init__(self, LabTechProbeConfiguration)
+        IPaginateable.__init__(self, LabTechProbeConfiguration)
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None

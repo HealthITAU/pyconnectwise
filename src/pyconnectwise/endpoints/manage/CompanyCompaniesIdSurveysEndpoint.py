@@ -9,6 +9,6 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class CompanyCompaniesIdSurveysEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "surveys", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "surveys", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(CompanyCompaniesIdSurveysCountEndpoint(client, parent_endpoint=self))

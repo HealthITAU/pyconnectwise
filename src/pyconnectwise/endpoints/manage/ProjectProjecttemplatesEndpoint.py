@@ -10,7 +10,7 @@ from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectW
 
 class ProjectProjecttemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "projectTemplates", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "projectTemplates", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(ProjectProjecttemplatesCountEndpoint(client, parent_endpoint=self))
 

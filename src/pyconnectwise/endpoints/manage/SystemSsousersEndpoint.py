@@ -15,7 +15,9 @@ class SystemSsousersEndpoint(
     IPaginateable[SsoUser, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "ssoUsers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "ssoUsers", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[SsoUser])
+        IPaginateable.__init__(self, SsoUser)
 
         self.count = self._register_child_endpoint(SystemSsousersCountEndpoint(client, parent_endpoint=self))
 
