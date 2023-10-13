@@ -142,7 +142,7 @@ class ConnectWiseEndpoint:
 
         return self.client._make_request(method, url, data, params, headers)
 
-    def _build_url(other_endpoint: ConnectWiseEndpoint) -> str:
+    def _build_url(self, other_endpoint: ConnectWiseEndpoint) -> str:
         if other_endpoint._parent_endpoint is not None:
             parent_url = self._build_url(other_endpoint._parent_endpoint)
             if other_endpoint._parent_endpoint._id is not None:
