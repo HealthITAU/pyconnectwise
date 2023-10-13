@@ -21,7 +21,11 @@ from pyconnectwise.interfaces import (
 
 class {{ endpoint_class }}(ConnectWiseEndpoint{% for interface in interfaces %}, {{ interface.class }}[{% if interface.return_type is not none %}{{interface.return_type}},{%endif%}{% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endfor %}{% if pagination_model_class is not none %}, IPaginateable[{{pagination_model_class}}, {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endif %}):
     def __init__(self, client, parent_endpoint=None):
-        super().__init__(client, "{{ endpoint_path }}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(self, client, "{{ endpoint_path }}", parent_endpoint=parent_endpoint)
+        {%- for interface in interfaces %}
+        {{interface.class}}.__init__(self, {{interface.return_type}})
+        {%- endfor %}
+        
         {% if child_endpoints is defined %}
         {%- for child_endpoint in child_endpoints %}
         self.{{ child_endpoint.field_name }} = self._register_child_endpoint(
