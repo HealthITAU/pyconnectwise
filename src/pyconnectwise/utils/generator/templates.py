@@ -25,7 +25,9 @@ class {{ endpoint_class }}(ConnectWiseEndpoint{% for interface in interfaces %},
         {%- for interface in interfaces %}
         {{interface.class}}.__init__(self, {{interface.return_type}})
         {%- endfor %}
-        
+        {%- if pagination_model_class is not none %}
+        IPaginateable.__init__(self, {{pagination_model_class}})
+        {%- endif %}
         {% if child_endpoints is defined %}
         {%- for child_endpoint in child_endpoints %}
         self.{{ child_endpoint.field_name }} = self._register_child_endpoint(
