@@ -136,29 +136,29 @@ class ConnectWiseEndpoint:
         Raises:
             Exception: If the request returns a status code >= 400.
         """
-
-        def build_url(other_endpoint: ConnectWiseEndpoint) -> str:
-            if other_endpoint._parent_endpoint is not None:
-                parent_url = build_url(other_endpoint._parent_endpoint)
-                if other_endpoint._parent_endpoint._id is not None:
-                    return self._url_join(
-                        parent_url,
-                        other_endpoint._get_replaced_url(),
-                    )
-                else:
-                    return self._url_join(
-                        parent_url, other_endpoint._get_replaced_url()
-                    )
-            else:
-                return self._url_join(
-                    self.client._get_url(), other_endpoint._get_replaced_url()
-                )
-
-        url = build_url(self)
+        url = self._get_endpoint_url()
         if endpoint:
             url = self._url_join(url, endpoint)
 
         return self.client._make_request(method, url, data, params, headers)
+
+    def _build_url(other_endpoint: ConnectWiseEndpoint) -> str:
+        if other_endpoint._parent_endpoint is not None:
+            parent_url = self._build_url(other_endpoint._parent_endpoint)
+            if other_endpoint._parent_endpoint._id is not None:
+                return self._url_join(
+                    parent_url,
+                    other_endpoint._get_replaced_url(),
+                )
+            else:
+                return self._url_join(parent_url, other_endpoint._get_replaced_url())
+        else:
+            return self._url_join(
+                self.client._get_url(), other_endpoint._get_replaced_url()
+            )
+
+    def _get_endpoint_url(self) -> str:
+        return self._build_url(self)
 
     def _parse_many(
         self, model_type: Type[TModel], data: list[dict[str, Any]]
