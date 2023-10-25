@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "pyconnectwise"
+version = "0.5.1"
+authors = ["Health IT <dev@healthit.com.au>"]
+description = "A full-featured Python client for the ConnectWise APIs"
+homepage = "https://github.com/HealthITAU/pyconnectwise"
+license = "GPL-3.0-only"
+readme = "README.md"
+repository = "https://github.com/HealthITAU/pyconnectwise"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.10",
+]
+keywords = [
+    "ConnectWise",
+    "Manage",
+    "Automate",
+    "API",
+    "Python",
+    "Client",
+    "Annotated",
+    "Typed",
+    "MSP",
+]
+packages = [{ include = "pyconnectwise", from = "src" }]
+include = ["LICENSE", "README.md"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+jinja2 = "^3.1"
+pydantic = "^2.3"
+requests = "^2.31"
+typing-extensions = "^4.8.0"
+
+
+[tool.poetry.group.dev.dependencies]
+astunparse = "^1.6"
+black = "^23.7"
+isort = "^5.12"
+pytest = "^7.1"
+requests-mock = "^1.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
