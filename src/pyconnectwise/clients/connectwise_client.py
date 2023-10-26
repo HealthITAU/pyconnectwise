@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, Any, cast
 
 import requests
 from requests import Response
-from requests.exceptions import ConnectionError, HTTPError, RequestException, Timeout
+from requests.exceptions import Timeout
 
 from pyconnectwise.config import Config
 from pyconnectwise.exceptions import (
@@ -15,6 +15,7 @@ from pyconnectwise.exceptions import (
     MethodNotAllowedException,
     NotFoundException,
     PermissionsFailedException,
+    ServerError,
 )
 
 if TYPE_CHECKING:
@@ -79,22 +80,19 @@ class ConnectWiseClient(ABC):
                 headers=headers,
                 params=cast(dict[str, Any], params or {}),
             )
-        try:
-            response.raise_for_status()
-        except HTTPError as http_error:
-            msg = str(http_error)
+        if not response.ok:
             if response.status_code == 400:
-                raise MalformedRequestException(msg) from http_error
+                raise MalformedRequestException(response)
             if response.status_code == 401:
-                raise AuthenticationFailedException(msg) from http_error
+                raise AuthenticationFailedException(response)
             if response.status_code == 403:
-                raise PermissionsFailedException(msg) from http_error
+                raise PermissionsFailedException(response)
             if response.status_code == 404:
-                raise NotFoundException(msg) from http_error
+                raise NotFoundException(response)
             if response.status_code == 405:
-                raise MethodNotAllowedException(msg) from http_error
+                raise MethodNotAllowedException(response)
             if response.status_code == 409:
-                raise ConflictException(msg) from http_error
+                raise ConflictException(response)
             if response.status_code == 500:
                 # if timeout is mentioned anywhere in the response then we'll retry.
                 # Ideally we'd return immediately on any non-timeout errors (since
@@ -106,15 +104,7 @@ class ConnectWiseClient(ABC):
                         return self._make_request(
                             method, url, data, params, headers, retry_count
                         )
-                    raise Timeout(msg) from http_error
-                raise
-            raise
-        # Why catch and re-raise here?
-        except Timeout:
-            raise
-        except ConnectionError:
-            raise
-        except RequestException:
-            raise
+                    raise Timeout(response=response)
+                raise ServerError(response)
 
         return response

@@ -1,10 +1,11 @@
 import pytest
-from requests.exceptions import HTTPError, Timeout
+from requests.exceptions import Timeout
 from requests_mock import Mocker as RequestMocker
 from typing_extensions import override
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
+from pyconnectwise.exceptions import ServerError
 
 
 class FakeConnectWiseClient(ConnectWiseClient):
@@ -80,7 +81,7 @@ def test_one_timeout_500(requests_mock: RequestMocker):
             # These errors should bubble-up to the caller without retry.
             '{\r\n  "code": "ConnectWiseApi",\r\n  "message": "Error converting value \\"{...}\\" to type \'...\'. Path \'...\', line 1, position 1."\r\n}',
             "Internal Server Error",
-            HTTPError,
+            ServerError,
             False,
         ),
     ],
