@@ -2,7 +2,7 @@
 
 # pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python
 
-pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based off their OpenAPI schemas. 
+pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based off their OpenAPI schemas.
 
 This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.
 
@@ -14,7 +14,7 @@ Features:
 - **Non-coder friendly.** 100% annotated for full IDE auto-completion. Clients handle requests and authentication - just plug the right details in and go!
 - **Fully annotated.** This library has a strong focus on type safety and type hinting. Models are declared and parsed using [Pydantic](https://github.com/pydantic/pydantic)
 
-pyConnectWise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies. 
+pyConnectWise is currently in **pre-release**. This means that while it does work, you may come across issues and inconsistencies.
 
 As all Endpoint and Model code has been generated, not all of it has been tested. YMMV.
 
@@ -28,8 +28,8 @@ Known Issues:
 Roadmap:
 =============
 - **Automate API Support** - Done :white_check_mark:
-- **Robust error handling** - In Progress :construction: 
-- **Input model validation** - Planned :chart_with_upwards_trend: 
+- **Robust error handling** - In Progress :construction:
+- **Input model validation** - Planned :chart_with_upwards_trend:
 - **ScreenConnect (Control) API Support** - Planned :chart_with_upwards_trend:
 - **Batch requests** - Planned :chart_with_upwards_trend:
 
@@ -142,7 +142,7 @@ This also exists in the library. Endpoints provide an ```id``` method for settin
 
 ##### Example using ```/company/companies/{company_id}/sites```
 ```python
-# equivalent to GET /company/companies/250/sites  
+# equivalent to GET /company/companies/250/sites
 sites = manage_api_client.company.companies.id(250).sites.get()
 ```
 
@@ -168,7 +168,7 @@ paginated_companies.get_previous_page()
 # iterate over all companies on the current page
 for company in paginated_companies:
   # ... do things ...
-  
+
 # iterate over all companies in all pages
 # this works by yielding every item on the page, then fetching the next page and continuing until there's no data left
 for company in paginated_companies.all():
@@ -218,6 +218,9 @@ Contributions to the project are welcome. If you find any issues or have suggest
 When working on the project, please note that there's a few requirements you'll need to install in order to run the project locally. These requirements are stored in [requirements.txt](requirements.txt)
 
 You can install these requirements by opening a terminal, navigating to the repo's directory and running ```pip install -r requirements.txt```
+
+## Testing
+Run `pytest tests/`
 
 # Supporting the project
 :heart: the project and would like to show your support? Please consider donating to the following charities:
