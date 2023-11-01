@@ -1,12 +1,20 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyOtherCountEndpoint import SystemMycompanyOtherCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyOtherIdEndpoint import SystemMycompanyOtherIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemMycompanyOtherCountEndpoint import (
+    SystemMycompanyOtherCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMycompanyOtherIdEndpoint import (
+    SystemMycompanyOtherIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import Other
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemMycompanyOtherEndpoint(
@@ -14,14 +22,18 @@ class SystemMycompanyOtherEndpoint(
     IGettable[list[Other], ConnectWiseManageRequestParams],
     IPaginateable[Other, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "other", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "other", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Other])
         IPaginateable.__init__(self, Other)
 
-        self.count = self._register_child_endpoint(SystemMycompanyOtherCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemMycompanyOtherCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemMycompanyOtherIdEndpoint:
+    def id(self, id: int) -> SystemMycompanyOtherIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyOtherIdEndpoint object to move down the chain.
 
@@ -35,7 +47,10 @@ class SystemMycompanyOtherEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Other]:
         """
         Performs a GET request against the /system/myCompany/other endpoint and returns an initialized PaginatedResponse object.
@@ -52,9 +67,20 @@ class SystemMycompanyOtherEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Other, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Other,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Other]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Other]:
         """
         Performs a GET request against the /system/myCompany/other endpoint.
 
@@ -64,4 +90,6 @@ class SystemMycompanyOtherEndpoint(
         Returns:
             list[Other]: The parsed response data.
         """
-        return self._parse_many(Other, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Other, super()._make_request("GET", data=data, params=params).json()
+        )

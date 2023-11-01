@@ -1,14 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint import \
-    ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint import \
-    ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint import (
+    ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint import (
+    ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import PricingBreak
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
@@ -17,17 +24,23 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
     IPostable[PricingBreak, ConnectWiseManageRequestParams],
     IPaginateable[PricingBreak, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "breaks", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "breaks", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[PricingBreak])
         IPostable.__init__(self, PricingBreak)
         IPaginateable.__init__(self, PricingBreak)
 
         self.count = self._register_child_endpoint(
-            ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint(client, parent_endpoint=self)
+            ProcurementPricingschedulesIdDetailsIdBreaksCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint object to move down the chain.
 
@@ -36,12 +49,17 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
         Returns:
             ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint: The initialized ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint object.
         """
-        child = ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PricingBreak]:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint and returns an initialized PaginatedResponse object.
@@ -59,10 +77,19 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), PricingBreak, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            PricingBreak,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[PricingBreak]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[PricingBreak]:
         """
         Performs a GET request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint.
 
@@ -72,9 +99,15 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
         Returns:
             list[PricingBreak]: The parsed response data.
         """
-        return self._parse_many(PricingBreak, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            PricingBreak, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PricingBreak:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> PricingBreak:
         """
         Performs a POST request against the /procurement/pricingschedules/{id}/details/{id}/breaks endpoint.
 
@@ -84,4 +117,6 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
         Returns:
             PricingBreak: The parsed response data.
         """
-        return self._parse_one(PricingBreak, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            PricingBreak, super()._make_request("POST", data=data, params=params).json()
+        )

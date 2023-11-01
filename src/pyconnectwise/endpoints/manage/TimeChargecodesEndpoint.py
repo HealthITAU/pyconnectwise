@@ -1,13 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeChargecodesCountEndpoint import TimeChargecodesCountEndpoint
-from pyconnectwise.endpoints.manage.TimeChargecodesIdEndpoint import TimeChargecodesIdEndpoint
-from pyconnectwise.endpoints.manage.TimeChargecodesInfoEndpoint import TimeChargecodesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.TimeChargecodesCountEndpoint import (
+    TimeChargecodesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.TimeChargecodesIdEndpoint import (
+    TimeChargecodesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.TimeChargecodesInfoEndpoint import (
+    TimeChargecodesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import ChargeCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class TimeChargecodesEndpoint(
@@ -16,16 +27,22 @@ class TimeChargecodesEndpoint(
     IPostable[ChargeCode, ConnectWiseManageRequestParams],
     IPaginateable[ChargeCode, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "chargeCodes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "chargeCodes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ChargeCode])
         IPostable.__init__(self, ChargeCode)
         IPaginateable.__init__(self, ChargeCode)
 
-        self.count = self._register_child_endpoint(TimeChargecodesCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(TimeChargecodesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            TimeChargecodesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            TimeChargecodesInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> TimeChargecodesIdEndpoint:
+    def id(self, id: int) -> TimeChargecodesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeChargecodesIdEndpoint object to move down the chain.
 
@@ -39,7 +56,10 @@ class TimeChargecodesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ChargeCode]:
         """
         Performs a GET request against the /time/chargeCodes endpoint and returns an initialized PaginatedResponse object.
@@ -56,9 +76,20 @@ class TimeChargecodesEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), ChargeCode, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            ChargeCode,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ChargeCode]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[ChargeCode]:
         """
         Performs a GET request against the /time/chargeCodes endpoint.
 
@@ -68,9 +99,15 @@ class TimeChargecodesEndpoint(
         Returns:
             list[ChargeCode]: The parsed response data.
         """
-        return self._parse_many(ChargeCode, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ChargeCode, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ChargeCode:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ChargeCode:
         """
         Performs a POST request against the /time/chargeCodes endpoint.
 
@@ -80,4 +117,6 @@ class TimeChargecodesEndpoint(
         Returns:
             ChargeCode: The parsed response data.
         """
-        return self._parse_one(ChargeCode, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ChargeCode, super()._make_request("POST", data=data, params=params).json()
+        )

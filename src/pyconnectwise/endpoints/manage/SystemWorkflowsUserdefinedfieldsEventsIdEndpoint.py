@@ -1,27 +1,37 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint import \
-    SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint import (
+    SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IPostable,
+)
 from pyconnectwise.models.manage import WorkflowActionUserDefinedField
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(
-    ConnectWiseEndpoint, IPostable[WorkflowActionUserDefinedField, ConnectWiseManageRequestParams]
+    ConnectWiseEndpoint,
+    IPostable[WorkflowActionUserDefinedField, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, WorkflowActionUserDefinedField)
 
         self.actions = self._register_child_endpoint(
-            SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint(client, parent_endpoint=self)
+            SystemWorkflowsUserdefinedfieldsEventsIdActionsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> WorkflowActionUserDefinedField:
         """
         Performs a POST request against the /system/workflows/userdefinedfields/events/{id} endpoint.
@@ -33,5 +43,6 @@ class SystemWorkflowsUserdefinedfieldsEventsIdEndpoint(
             WorkflowActionUserDefinedField: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionUserDefinedField, super()._make_request("POST", data=data, params=params).json()
+            WorkflowActionUserDefinedField,
+            super()._make_request("POST", data=data, params=params).json(),
         )

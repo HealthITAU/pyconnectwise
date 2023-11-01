@@ -31,7 +31,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         private_key: str,
         codebase: str | None = None,
         config: Config | None = None,
-    ):
+    ) -> None:
         """
         Initializes the client with the given credentials and optionally a specific codebase.
         If no codebase is given, it tries to get it from the API.
@@ -64,7 +64,9 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
 
             if codebase_request is None:
                 # we need to except here
-                raise Exception("Could not retrieve codebase from API.")
+                raise Exception(  # noqa: TRY002, TRY003
+                    "Could not retrieve codebase from API."
+                )
             self.codebase: str = codebase_request
 
         # Initializing endpoints
@@ -90,7 +92,9 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         """
         return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
 
-    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str:
+    def _try_get_codebase_from_api(
+        self, manage_url: str, company_name: str, headers: dict[str, str]
+    ) -> str:
         """
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 
@@ -127,9 +131,8 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         Returns:
             dict[str, str]: Dictionary of headers including Content-Type, Client ID, and Authorization.
         """
-        headers = {
+        return {
             "Content-Type": "application/json",
             "clientId": self.client_id,
             "Authorization": self._get_auth_string(),
         }
-        return headers

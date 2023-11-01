@@ -17,7 +17,7 @@ class ConnectWiseModel(BaseModel):
     @classmethod
     def _get_field_names(cls) -> list[str]:
         field_names = []
-        for k, v in cls.__fields__.items():
+        for v in cls.__fields__.values():
             was_model = False
             for arg in get_args(v.annotation):
                 if inspect.isclass(arg) and issubclass(arg, ConnectWiseModel):
@@ -32,9 +32,9 @@ class ConnectWiseModel(BaseModel):
         return field_names
 
     @classmethod
-    def _get_field_names_and_types(cls) -> dict[str, str]:
+    def _get_field_names_and_types(cls) -> dict[str, str]:  # noqa: C901
         field_names_and_types = {}
-        for k, v in cls.__fields__.items():
+        for v in cls.__fields__.values():
             was_model = False
             field_type = "None"
             if (

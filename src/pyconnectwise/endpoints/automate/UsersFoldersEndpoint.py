@@ -1,19 +1,27 @@
-from typing import Any
-
-from pyconnectwise.endpoints.automate.UsersFoldersIdEndpoint import UsersFoldersIdEndpoint
+from pyconnectwise.endpoints.automate.UsersFoldersIdEndpoint import (
+    UsersFoldersIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IPostable,
+)
 from pyconnectwise.models.automate import AutomateUserFolder
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
-class UsersFoldersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUserFolder, ConnectWiseAutomateRequestParams]):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Folders", parent_endpoint=parent_endpoint)
+class UsersFoldersEndpoint(
+    ConnectWiseEndpoint, IPostable[AutomateUserFolder, ConnectWiseAutomateRequestParams]
+):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Folders", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, AutomateUserFolder)
 
-    def id(self, id: int) -> UsersFoldersIdEndpoint:
+    def id(self, id: int) -> UsersFoldersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized UsersFoldersIdEndpoint object to move down the chain.
 
@@ -27,7 +35,9 @@ class UsersFoldersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUserFolder, Co
         return child
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> AutomateUserFolder:
         """
         Performs a POST request against the /Users/Folders endpoint.
@@ -38,4 +48,7 @@ class UsersFoldersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUserFolder, Co
         Returns:
             AutomateUserFolder: The parsed response data.
         """
-        return self._parse_one(AutomateUserFolder, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AutomateUserFolder,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

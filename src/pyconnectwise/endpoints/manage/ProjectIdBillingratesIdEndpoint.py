@@ -1,10 +1,15 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ProjectBillingRate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProjectIdBillingratesIdEndpoint(
@@ -13,14 +18,19 @@ class ProjectIdBillingratesIdEndpoint(
     IPuttable[ProjectBillingRate, ConnectWiseManageRequestParams],
     IPaginateable[ProjectBillingRate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ProjectBillingRate)
         IPuttable.__init__(self, ProjectBillingRate)
         IPaginateable.__init__(self, ProjectBillingRate)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ProjectBillingRate]:
         """
         Performs a GET request against the /project/{id}/billingRates/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -38,10 +48,19 @@ class ProjectIdBillingratesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ProjectBillingRate, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ProjectBillingRate,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectBillingRate:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectBillingRate:
         """
         Performs a GET request against the /project/{id}/billingRates/{id} endpoint.
 
@@ -51,9 +70,16 @@ class ProjectIdBillingratesIdEndpoint(
         Returns:
             ProjectBillingRate: The parsed response data.
         """
-        return self._parse_one(ProjectBillingRate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectBillingRate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /project/{id}/billingRates/{id} endpoint.
 
@@ -63,7 +89,11 @@ class ProjectIdBillingratesIdEndpoint(
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectBillingRate:
+    def put(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectBillingRate:
         """
         Performs a PUT request against the /project/{id}/billingRates/{id} endpoint.
 
@@ -73,4 +103,7 @@ class ProjectIdBillingratesIdEndpoint(
         Returns:
             ProjectBillingRate: The parsed response data.
         """
-        return self._parse_one(ProjectBillingRate, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ProjectBillingRate,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )

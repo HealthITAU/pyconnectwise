@@ -1,10 +1,15 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.automate import LabTechVirusScannerDef
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class VirusscannerdefsEndpoint(
@@ -13,14 +18,19 @@ class VirusscannerdefsEndpoint(
     IPostable[LabTechVirusScannerDef, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechVirusScannerDef, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Virusscannerdefs", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Virusscannerdefs", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechVirusScannerDef])
         IPostable.__init__(self, LabTechVirusScannerDef)
         IPaginateable.__init__(self, LabTechVirusScannerDef)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechVirusScannerDef]:
         """
         Performs a GET request against the /Virusscannerdefs endpoint and returns an initialized PaginatedResponse object.
@@ -38,11 +48,18 @@ class VirusscannerdefsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechVirusScannerDef, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechVirusScannerDef,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechVirusScannerDef]:
         """
         Performs a GET request against the /Virusscannerdefs endpoint.
@@ -53,10 +70,15 @@ class VirusscannerdefsEndpoint(
         Returns:
             list[LabTechVirusScannerDef]: The parsed response data.
         """
-        return self._parse_many(LabTechVirusScannerDef, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechVirusScannerDef,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechVirusScannerDef:
         """
         Performs a POST request against the /Virusscannerdefs endpoint.
@@ -67,4 +89,7 @@ class VirusscannerdefsEndpoint(
         Returns:
             LabTechVirusScannerDef: The parsed response data.
         """
-        return self._parse_one(LabTechVirusScannerDef, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            LabTechVirusScannerDef,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

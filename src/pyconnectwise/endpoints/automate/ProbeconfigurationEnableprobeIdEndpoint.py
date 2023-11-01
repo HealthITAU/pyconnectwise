@@ -1,21 +1,28 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IPostable,
+)
 from pyconnectwise.models.automate import LabTechProbeConfiguration
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class ProbeconfigurationEnableprobeIdEndpoint(
-    ConnectWiseEndpoint, IPostable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams]
+    ConnectWiseEndpoint,
+    IPostable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, LabTechProbeConfiguration)
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechProbeConfiguration:
         """
         Performs a POST request against the /Probeconfiguration/Enableprobe/{id} endpoint.
@@ -27,5 +34,6 @@ class ProbeconfigurationEnableprobeIdEndpoint(
             LabTechProbeConfiguration: The parsed response data.
         """
         return self._parse_one(
-            LabTechProbeConfiguration, super()._make_request("POST", data=data, params=params).json()
+            LabTechProbeConfiguration,
+            super()._make_request("POST", data=data, params=params).json(),
         )

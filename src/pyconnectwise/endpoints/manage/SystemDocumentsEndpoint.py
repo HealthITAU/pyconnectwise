@@ -1,13 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumentsCountEndpoint import SystemDocumentsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumentsIdEndpoint import SystemDocumentsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemDocumentsUploadsampleEndpoint import SystemDocumentsUploadsampleEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemDocumentsCountEndpoint import (
+    SystemDocumentsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemDocumentsIdEndpoint import (
+    SystemDocumentsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemDocumentsUploadsampleEndpoint import (
+    SystemDocumentsUploadsampleEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import DocumentInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemDocumentsEndpoint(
@@ -16,18 +27,22 @@ class SystemDocumentsEndpoint(
     IPostable[DocumentInfo, ConnectWiseManageRequestParams],
     IPaginateable[DocumentInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "documents", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "documents", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[DocumentInfo])
         IPostable.__init__(self, DocumentInfo)
         IPaginateable.__init__(self, DocumentInfo)
 
-        self.count = self._register_child_endpoint(SystemDocumentsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemDocumentsCountEndpoint(client, parent_endpoint=self)
+        )
         self.uploadsample = self._register_child_endpoint(
             SystemDocumentsUploadsampleEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemDocumentsIdEndpoint:
+    def id(self, id: int) -> SystemDocumentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemDocumentsIdEndpoint object to move down the chain.
 
@@ -41,7 +56,10 @@ class SystemDocumentsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[DocumentInfo]:
         """
         Performs a GET request against the /system/documents endpoint and returns an initialized PaginatedResponse object.
@@ -59,10 +77,19 @@ class SystemDocumentsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), DocumentInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            DocumentInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[DocumentInfo]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[DocumentInfo]:
         """
         Performs a GET request against the /system/documents endpoint.
 
@@ -72,9 +99,15 @@ class SystemDocumentsEndpoint(
         Returns:
             list[DocumentInfo]: The parsed response data.
         """
-        return self._parse_many(DocumentInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DocumentInfo, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> DocumentInfo:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> DocumentInfo:
         """
         Performs a POST request against the /system/documents endpoint.
 
@@ -84,4 +117,6 @@ class SystemDocumentsEndpoint(
         Returns:
             DocumentInfo: The parsed response data.
         """
-        return self._parse_one(DocumentInfo, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            DocumentInfo, super()._make_request("POST", data=data, params=params).json()
+        )

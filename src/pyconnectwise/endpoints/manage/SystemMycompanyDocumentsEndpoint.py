@@ -1,11 +1,17 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyDocumentsIdEndpoint import SystemMycompanyDocumentsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemMycompanyDocumentsIdEndpoint import (
+    SystemMycompanyDocumentsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import DocumentSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemMycompanyDocumentsEndpoint(
@@ -13,12 +19,14 @@ class SystemMycompanyDocumentsEndpoint(
     IGettable[list[DocumentSetup], ConnectWiseManageRequestParams],
     IPaginateable[DocumentSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "documents", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "documents", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[DocumentSetup])
         IPaginateable.__init__(self, DocumentSetup)
 
-    def id(self, id: int) -> SystemMycompanyDocumentsIdEndpoint:
+    def id(self, id: int) -> SystemMycompanyDocumentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyDocumentsIdEndpoint object to move down the chain.
 
@@ -32,7 +40,10 @@ class SystemMycompanyDocumentsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[DocumentSetup]:
         """
         Performs a GET request against the /system/mycompany/documents endpoint and returns an initialized PaginatedResponse object.
@@ -50,11 +61,18 @@ class SystemMycompanyDocumentsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), DocumentSetup, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            DocumentSetup,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[DocumentSetup]:
         """
         Performs a GET request against the /system/mycompany/documents endpoint.
@@ -65,4 +83,6 @@ class SystemMycompanyDocumentsEndpoint(
         Returns:
             list[DocumentSetup]: The parsed response data.
         """
-        return self._parse_many(DocumentSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            DocumentSetup, super()._make_request("GET", data=data, params=params).json()
+        )

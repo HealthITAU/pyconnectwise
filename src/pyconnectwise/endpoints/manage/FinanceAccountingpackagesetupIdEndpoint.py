@@ -1,10 +1,17 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import AccountingPackageSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceAccountingpackagesetupIdEndpoint(
@@ -14,15 +21,20 @@ class FinanceAccountingpackagesetupIdEndpoint(
     IPatchable[AccountingPackageSetup, ConnectWiseManageRequestParams],
     IPaginateable[AccountingPackageSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, AccountingPackageSetup)
         IPuttable.__init__(self, AccountingPackageSetup)
         IPatchable.__init__(self, AccountingPackageSetup)
         IPaginateable.__init__(self, AccountingPackageSetup)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -40,11 +52,18 @@ class FinanceAccountingpackagesetupIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), AccountingPackageSetup, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            AccountingPackageSetup,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> AccountingPackageSetup:
         """
         Performs a GET request against the /finance/accountingPackageSetup/{id} endpoint.
@@ -55,10 +74,15 @@ class FinanceAccountingpackagesetupIdEndpoint(
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(AccountingPackageSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            AccountingPackageSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> AccountingPackageSetup:
         """
         Performs a PUT request against the /finance/accountingPackageSetup/{id} endpoint.
@@ -69,10 +93,15 @@ class FinanceAccountingpackagesetupIdEndpoint(
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(AccountingPackageSetup, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            AccountingPackageSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> AccountingPackageSetup:
         """
         Performs a PATCH request against the /finance/accountingPackageSetup/{id} endpoint.
@@ -83,4 +112,7 @@ class FinanceAccountingpackagesetupIdEndpoint(
         Returns:
             AccountingPackageSetup: The parsed response data.
         """
-        return self._parse_one(AccountingPackageSetup, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            AccountingPackageSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

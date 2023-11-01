@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import ManufacturerInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProcurementManufacturersIdInfoEndpoint(
@@ -12,13 +16,18 @@ class ProcurementManufacturersIdInfoEndpoint(
     IGettable[ManufacturerInfo, ConnectWiseManageRequestParams],
     IPaginateable[ManufacturerInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ManufacturerInfo)
         IPaginateable.__init__(self, ManufacturerInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ManufacturerInfo]:
         """
         Performs a GET request against the /procurement/manufacturers/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,10 +45,19 @@ class ProcurementManufacturersIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ManufacturerInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ManufacturerInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ManufacturerInfo:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ManufacturerInfo:
         """
         Performs a GET request against the /procurement/manufacturers/{id}/info endpoint.
 
@@ -49,4 +67,7 @@ class ProcurementManufacturersIdInfoEndpoint(
         Returns:
             ManufacturerInfo: The parsed response data.
         """
-        return self._parse_one(ManufacturerInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ManufacturerInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

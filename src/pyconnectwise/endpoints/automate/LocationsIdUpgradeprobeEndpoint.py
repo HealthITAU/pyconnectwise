@@ -1,16 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class LocationsIdUpgradeprobeEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Upgradeprobe", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Upgradeprobe", parent_endpoint=parent_endpoint
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
+    ) -> None:
         """
         Performs a POST request against the /Locations/{id}/Upgradeprobe endpoint.
 

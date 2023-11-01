@@ -1,12 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketsIdNotesCountEndpoint import ProjectTicketsIdNotesCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectTicketsIdNotesIdEndpoint import ProjectTicketsIdNotesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProjectTicketsIdNotesCountEndpoint import (
+    ProjectTicketsIdNotesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectTicketsIdNotesIdEndpoint import (
+    ProjectTicketsIdNotesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import TicketNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProjectTicketsIdNotesEndpoint(
@@ -15,15 +24,19 @@ class ProjectTicketsIdNotesEndpoint(
     IPostable[TicketNote, ConnectWiseManageRequestParams],
     IPaginateable[TicketNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "notes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[TicketNote])
         IPostable.__init__(self, TicketNote)
         IPaginateable.__init__(self, TicketNote)
 
-        self.count = self._register_child_endpoint(ProjectTicketsIdNotesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProjectTicketsIdNotesCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> ProjectTicketsIdNotesIdEndpoint:
+    def id(self, id: int) -> ProjectTicketsIdNotesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectTicketsIdNotesIdEndpoint object to move down the chain.
 
@@ -37,7 +50,10 @@ class ProjectTicketsIdNotesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[TicketNote]:
         """
         Performs a GET request against the /project/tickets/{id}/notes endpoint and returns an initialized PaginatedResponse object.
@@ -54,9 +70,20 @@ class ProjectTicketsIdNotesEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), TicketNote, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            TicketNote,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TicketNote]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[TicketNote]:
         """
         Performs a GET request against the /project/tickets/{id}/notes endpoint.
 
@@ -66,9 +93,15 @@ class ProjectTicketsIdNotesEndpoint(
         Returns:
             list[TicketNote]: The parsed response data.
         """
-        return self._parse_many(TicketNote, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TicketNote, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TicketNote:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TicketNote:
         """
         Performs a POST request against the /project/tickets/{id}/notes endpoint.
 
@@ -78,4 +111,6 @@ class ProjectTicketsIdNotesEndpoint(
         Returns:
             TicketNote: The parsed response data.
         """
-        return self._parse_one(TicketNote, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TicketNote, super()._make_request("POST", data=data, params=params).json()
+        )

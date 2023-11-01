@@ -1,11 +1,15 @@
-from typing import Any
-
 from pyconnectwise.endpoints.automate.DataviewsIdEndpoint import DataviewsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.automate import LabTechDataView
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class DataviewsEndpoint(
@@ -13,12 +17,14 @@ class DataviewsEndpoint(
     IGettable[list[LabTechDataView], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechDataView, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Dataviews", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Dataviews", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechDataView])
         IPaginateable.__init__(self, LabTechDataView)
 
-    def id(self, id: int) -> DataviewsIdEndpoint:
+    def id(self, id: int) -> DataviewsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized DataviewsIdEndpoint object to move down the chain.
 
@@ -32,7 +38,10 @@ class DataviewsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechDataView]:
         """
         Performs a GET request against the /Dataviews endpoint and returns an initialized PaginatedResponse object.
@@ -50,11 +59,18 @@ class DataviewsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechDataView, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechDataView,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechDataView]:
         """
         Performs a GET request against the /Dataviews endpoint.
@@ -65,4 +81,7 @@ class DataviewsEndpoint(
         Returns:
             list[LabTechDataView]: The parsed response data.
         """
-        return self._parse_many(LabTechDataView, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechDataView,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

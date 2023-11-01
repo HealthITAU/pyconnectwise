@@ -1,16 +1,14 @@
 from __future__ import annotations
-from requests import Response
-from typing import TypeVar, Type, TYPE_CHECKING, Any
-from abc import ABC, abstractmethod
+from typing import TypeVar, TYPE_CHECKING, Any
 
-
-from pyconnectwise.types import (
-    RequestData,
-    RequestMethod,
-    RequestParams,
-)
 
 if TYPE_CHECKING:
+    from pyconnectwise.types import (
+        RequestData,
+        RequestMethod,
+        RequestParams,
+    )
+    from requests import Response
     from pyconnectwise.clients.connectwise_client import ConnectWiseClient
     from pydantic import BaseModel
 
@@ -64,7 +62,7 @@ class ConnectWiseEndpoint:
         client: ConnectWiseClient,
         endpoint_url: str,
         parent_endpoint: ConnectWiseEndpoint | None = None,
-    ):
+    ) -> None:
         """
         Initialize a ConnectWiseEndpoint instance with the client and endpoint base.
 
@@ -93,7 +91,7 @@ class ConnectWiseEndpoint:
         self._child_endpoints.append(child_endpoint)
         return child_endpoint
 
-    def _url_join(self, *args) -> str:
+    def _url_join(self, *args) -> str:  # noqa: ANN002
         """
         Join URL parts into a single URL string.
 
@@ -114,7 +112,7 @@ class ConnectWiseEndpoint:
     def _make_request(
         self,
         method: RequestMethod,
-        endpoint: "ConnectWiseEndpoint" | None = None,
+        endpoint: ConnectWiseEndpoint | None = None,
         data: RequestData | None = None,
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
@@ -150,7 +148,7 @@ class ConnectWiseEndpoint:
                     parent_url,
                     other_endpoint._get_replaced_url(),
                 )
-            else:
+            else:  # noqa: RET505
                 return self._url_join(parent_url, other_endpoint._get_replaced_url())
         else:
             return self._url_join(
@@ -161,9 +159,9 @@ class ConnectWiseEndpoint:
         return self._build_url(self)
 
     def _parse_many(
-        self, model_type: Type[TModel], data: list[dict[str, Any]]
+        self, model_type: type[TModel], data: list[dict[str, Any]]
     ) -> list[TModel]:
         return [model_type.model_validate(d) for d in data]
 
-    def _parse_one(self, model_type: Type[TModel], data: dict[str, Any]) -> TModel:
+    def _parse_one(self, model_type: type[TModel], data: dict[str, Any]) -> TModel:
         return model_type.model_validate(data)

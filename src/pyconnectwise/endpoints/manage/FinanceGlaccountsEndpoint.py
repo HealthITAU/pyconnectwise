@@ -1,13 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlaccountsCountEndpoint import FinanceGlaccountsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlaccountsIdEndpoint import FinanceGlaccountsIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesEndpoint import FinanceGlaccountsMappedtypesEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceGlaccountsCountEndpoint import (
+    FinanceGlaccountsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceGlaccountsIdEndpoint import (
+    FinanceGlaccountsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceGlaccountsMappedtypesEndpoint import (
+    FinanceGlaccountsMappedtypesEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import GLAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class FinanceGlaccountsEndpoint(
@@ -16,18 +27,22 @@ class FinanceGlaccountsEndpoint(
     IPostable[GLAccount, ConnectWiseManageRequestParams],
     IPaginateable[GLAccount, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "glAccounts", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "glAccounts", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[GLAccount])
         IPostable.__init__(self, GLAccount)
         IPaginateable.__init__(self, GLAccount)
 
-        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceGlaccountsCountEndpoint(client, parent_endpoint=self)
+        )
         self.mapped_types = self._register_child_endpoint(
             FinanceGlaccountsMappedtypesEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceGlaccountsIdEndpoint:
+    def id(self, id: int) -> FinanceGlaccountsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceGlaccountsIdEndpoint object to move down the chain.
 
@@ -41,7 +56,10 @@ class FinanceGlaccountsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[GLAccount]:
         """
         Performs a GET request against the /finance/glAccounts endpoint and returns an initialized PaginatedResponse object.
@@ -58,9 +76,20 @@ class FinanceGlaccountsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), GLAccount, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            GLAccount,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[GLAccount]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[GLAccount]:
         """
         Performs a GET request against the /finance/glAccounts endpoint.
 
@@ -70,9 +99,15 @@ class FinanceGlaccountsEndpoint(
         Returns:
             list[GLAccount]: The parsed response data.
         """
-        return self._parse_many(GLAccount, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            GLAccount, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> GLAccount:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> GLAccount:
         """
         Performs a POST request against the /finance/glAccounts endpoint.
 
@@ -82,4 +117,6 @@ class FinanceGlaccountsEndpoint(
         Returns:
             GLAccount: The parsed response data.
         """
-        return self._parse_one(GLAccount, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            GLAccount, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -1,12 +1,20 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.TimeSheetsIdAuditsCountEndpoint import TimeSheetsIdAuditsCountEndpoint
-from pyconnectwise.endpoints.manage.TimeSheetsIdAuditsIdEndpoint import TimeSheetsIdAuditsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.TimeSheetsIdAuditsCountEndpoint import (
+    TimeSheetsIdAuditsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.TimeSheetsIdAuditsIdEndpoint import (
+    TimeSheetsIdAuditsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import TimeSheetAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class TimeSheetsIdAuditsEndpoint(
@@ -14,14 +22,18 @@ class TimeSheetsIdAuditsEndpoint(
     IGettable[list[TimeSheetAudit], ConnectWiseManageRequestParams],
     IPaginateable[TimeSheetAudit, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "audits", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "audits", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[TimeSheetAudit])
         IPaginateable.__init__(self, TimeSheetAudit)
 
-        self.count = self._register_child_endpoint(TimeSheetsIdAuditsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            TimeSheetsIdAuditsCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> TimeSheetsIdAuditsIdEndpoint:
+    def id(self, id: int) -> TimeSheetsIdAuditsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeSheetsIdAuditsIdEndpoint object to move down the chain.
 
@@ -35,7 +47,10 @@ class TimeSheetsIdAuditsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[TimeSheetAudit]:
         """
         Performs a GET request against the /time/sheets/{id}/audits endpoint and returns an initialized PaginatedResponse object.
@@ -53,11 +68,18 @@ class TimeSheetsIdAuditsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), TimeSheetAudit, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            TimeSheetAudit,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[TimeSheetAudit]:
         """
         Performs a GET request against the /time/sheets/{id}/audits endpoint.
@@ -68,4 +90,7 @@ class TimeSheetsIdAuditsEndpoint(
         Returns:
             list[TimeSheetAudit]: The parsed response data.
         """
-        return self._parse_many(TimeSheetAudit, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TimeSheetAudit,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

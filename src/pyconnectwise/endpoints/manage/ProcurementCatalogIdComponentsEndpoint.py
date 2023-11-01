@@ -1,14 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsCountEndpoint import \
-    ProcurementCatalogIdComponentsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsIdEndpoint import \
-    ProcurementCatalogIdComponentsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsCountEndpoint import (
+    ProcurementCatalogIdComponentsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementCatalogIdComponentsIdEndpoint import (
+    ProcurementCatalogIdComponentsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import CatalogComponent
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProcurementCatalogIdComponentsEndpoint(
@@ -17,8 +24,10 @@ class ProcurementCatalogIdComponentsEndpoint(
     IPostable[CatalogComponent, ConnectWiseManageRequestParams],
     IPaginateable[CatalogComponent, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "components", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "components", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CatalogComponent])
         IPostable.__init__(self, CatalogComponent)
         IPaginateable.__init__(self, CatalogComponent)
@@ -27,7 +36,7 @@ class ProcurementCatalogIdComponentsEndpoint(
             ProcurementCatalogIdComponentsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementCatalogIdComponentsIdEndpoint:
+    def id(self, id: int) -> ProcurementCatalogIdComponentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementCatalogIdComponentsIdEndpoint object to move down the chain.
 
@@ -36,12 +45,17 @@ class ProcurementCatalogIdComponentsEndpoint(
         Returns:
             ProcurementCatalogIdComponentsIdEndpoint: The initialized ProcurementCatalogIdComponentsIdEndpoint object.
         """
-        child = ProcurementCatalogIdComponentsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementCatalogIdComponentsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CatalogComponent]:
         """
         Performs a GET request against the /procurement/catalog/{id}/components endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +73,18 @@ class ProcurementCatalogIdComponentsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CatalogComponent, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CatalogComponent,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[CatalogComponent]:
         """
         Performs a GET request against the /procurement/catalog/{id}/components endpoint.
@@ -74,9 +95,16 @@ class ProcurementCatalogIdComponentsEndpoint(
         Returns:
             list[CatalogComponent]: The parsed response data.
         """
-        return self._parse_many(CatalogComponent, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CatalogComponent,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogComponent:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> CatalogComponent:
         """
         Performs a POST request against the /procurement/catalog/{id}/components endpoint.
 
@@ -86,4 +114,7 @@ class ProcurementCatalogIdComponentsEndpoint(
         Returns:
             CatalogComponent: The parsed response data.
         """
-        return self._parse_one(CatalogComponent, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CatalogComponent,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

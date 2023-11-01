@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import ConnectWiseHostedScreen
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemConnectwisehostedscreensIdEndpoint(
@@ -12,13 +16,18 @@ class SystemConnectwisehostedscreensIdEndpoint(
     IGettable[ConnectWiseHostedScreen, ConnectWiseManageRequestParams],
     IPaginateable[ConnectWiseHostedScreen, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ConnectWiseHostedScreen)
         IPaginateable.__init__(self, ConnectWiseHostedScreen)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ConnectWiseHostedScreen]:
         """
         Performs a GET request against the /system/connectWiseHostedScreens/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +45,18 @@ class SystemConnectwisehostedscreensIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ConnectWiseHostedScreen, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ConnectWiseHostedScreen,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ConnectWiseHostedScreen:
         """
         Performs a GET request against the /system/connectWiseHostedScreens/{id} endpoint.
@@ -51,4 +67,7 @@ class SystemConnectwisehostedscreensIdEndpoint(
         Returns:
             ConnectWiseHostedScreen: The parsed response data.
         """
-        return self._parse_one(ConnectWiseHostedScreen, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ConnectWiseHostedScreen,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

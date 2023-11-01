@@ -1,14 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdNotificationsCountEndpoint import \
-    SalesOrdersStatusesIdNotificationsCountEndpoint
-from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdNotificationsIdEndpoint import \
-    SalesOrdersStatusesIdNotificationsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdNotificationsCountEndpoint import (
+    SalesOrdersStatusesIdNotificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesOrdersStatusesIdNotificationsIdEndpoint import (
+    SalesOrdersStatusesIdNotificationsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import OrderStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SalesOrdersStatusesIdNotificationsEndpoint(
@@ -17,17 +24,21 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
     IPostable[OrderStatusNotification, ConnectWiseManageRequestParams],
     IPaginateable[OrderStatusNotification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "notifications", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "notifications", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[OrderStatusNotification])
         IPostable.__init__(self, OrderStatusNotification)
         IPaginateable.__init__(self, OrderStatusNotification)
 
         self.count = self._register_child_endpoint(
-            SalesOrdersStatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
+            SalesOrdersStatusesIdNotificationsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> SalesOrdersStatusesIdNotificationsIdEndpoint:
+    def id(self, id: int) -> SalesOrdersStatusesIdNotificationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOrdersStatusesIdNotificationsIdEndpoint object to move down the chain.
 
@@ -36,12 +47,17 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
         Returns:
             SalesOrdersStatusesIdNotificationsIdEndpoint: The initialized SalesOrdersStatusesIdNotificationsIdEndpoint object.
         """
-        child = SalesOrdersStatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = SalesOrdersStatusesIdNotificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[OrderStatusNotification]:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/notifications endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +75,18 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), OrderStatusNotification, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            OrderStatusNotification,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[OrderStatusNotification]:
         """
         Performs a GET request against the /sales/orders/statuses/{id}/notifications endpoint.
@@ -74,10 +97,15 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
         Returns:
             list[OrderStatusNotification]: The parsed response data.
         """
-        return self._parse_many(OrderStatusNotification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            OrderStatusNotification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> OrderStatusNotification:
         """
         Performs a POST request against the /sales/orders/statuses/{id}/notifications endpoint.
@@ -88,4 +116,7 @@ class SalesOrdersStatusesIdNotificationsEndpoint(
         Returns:
             OrderStatusNotification: The parsed response data.
         """
-        return self._parse_one(OrderStatusNotification, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            OrderStatusNotification,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

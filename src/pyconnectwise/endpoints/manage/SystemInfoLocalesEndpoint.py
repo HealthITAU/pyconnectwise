@@ -1,12 +1,20 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoLocalesCountEndpoint import SystemInfoLocalesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoLocalesIdEndpoint import SystemInfoLocalesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemInfoLocalesCountEndpoint import (
+    SystemInfoLocalesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemInfoLocalesIdEndpoint import (
+    SystemInfoLocalesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import LocaleInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemInfoLocalesEndpoint(
@@ -14,14 +22,18 @@ class SystemInfoLocalesEndpoint(
     IGettable[list[LocaleInfo], ConnectWiseManageRequestParams],
     IPaginateable[LocaleInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "locales", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "locales", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LocaleInfo])
         IPaginateable.__init__(self, LocaleInfo)
 
-        self.count = self._register_child_endpoint(SystemInfoLocalesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemInfoLocalesCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemInfoLocalesIdEndpoint:
+    def id(self, id: int) -> SystemInfoLocalesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemInfoLocalesIdEndpoint object to move down the chain.
 
@@ -35,7 +47,10 @@ class SystemInfoLocalesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[LocaleInfo]:
         """
         Performs a GET request against the /system/info/locales endpoint and returns an initialized PaginatedResponse object.
@@ -52,9 +67,20 @@ class SystemInfoLocalesEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), LocaleInfo, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            LocaleInfo,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[LocaleInfo]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[LocaleInfo]:
         """
         Performs a GET request against the /system/info/locales endpoint.
 
@@ -64,4 +90,6 @@ class SystemInfoLocalesEndpoint(
         Returns:
             list[LocaleInfo]: The parsed response data.
         """
-        return self._parse_many(LocaleInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LocaleInfo, super()._make_request("GET", data=data, params=params).json()
+        )

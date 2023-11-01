@@ -1,12 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesCommissionsCountEndpoint import SalesCommissionsCountEndpoint
-from pyconnectwise.endpoints.manage.SalesCommissionsIdEndpoint import SalesCommissionsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SalesCommissionsCountEndpoint import (
+    SalesCommissionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesCommissionsIdEndpoint import (
+    SalesCommissionsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import Commission
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SalesCommissionsEndpoint(
@@ -15,15 +24,19 @@ class SalesCommissionsEndpoint(
     IPostable[Commission, ConnectWiseManageRequestParams],
     IPaginateable[Commission, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "commissions", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "commissions", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Commission])
         IPostable.__init__(self, Commission)
         IPaginateable.__init__(self, Commission)
 
-        self.count = self._register_child_endpoint(SalesCommissionsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SalesCommissionsCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SalesCommissionsIdEndpoint:
+    def id(self, id: int) -> SalesCommissionsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesCommissionsIdEndpoint object to move down the chain.
 
@@ -37,7 +50,10 @@ class SalesCommissionsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Commission]:
         """
         Performs a GET request against the /sales/commissions endpoint and returns an initialized PaginatedResponse object.
@@ -54,9 +70,20 @@ class SalesCommissionsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Commission, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Commission,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Commission]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Commission]:
         """
         Performs a GET request against the /sales/commissions endpoint.
 
@@ -66,9 +93,15 @@ class SalesCommissionsEndpoint(
         Returns:
             list[Commission]: The parsed response data.
         """
-        return self._parse_many(Commission, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Commission, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Commission:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Commission:
         """
         Performs a POST request against the /sales/commissions endpoint.
 
@@ -78,4 +111,6 @@ class SalesCommissionsEndpoint(
         Returns:
             Commission: The parsed response data.
         """
-        return self._parse_one(Commission, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Commission, super()._make_request("POST", data=data, params=params).json()
+        )

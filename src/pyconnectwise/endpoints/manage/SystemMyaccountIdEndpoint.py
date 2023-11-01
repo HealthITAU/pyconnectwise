@@ -1,12 +1,23 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsEndpoint import SystemMyaccountIdDelegationsEndpoint
-from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsEndpoint import SystemMyaccountIdSkillsEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemMyaccountIdDelegationsEndpoint import (
+    SystemMyaccountIdDelegationsEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMyaccountIdSkillsEndpoint import (
+    SystemMyaccountIdSkillsEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import MyAccount
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemMyaccountIdEndpoint(
@@ -16,20 +27,27 @@ class SystemMyaccountIdEndpoint(
     IPatchable[MyAccount, ConnectWiseManageRequestParams],
     IPaginateable[MyAccount, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, MyAccount)
         IPuttable.__init__(self, MyAccount)
         IPatchable.__init__(self, MyAccount)
         IPaginateable.__init__(self, MyAccount)
 
-        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
+        self.skills = self._register_child_endpoint(
+            SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self)
+        )
         self.delegations = self._register_child_endpoint(
             SystemMyaccountIdDelegationsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[MyAccount]:
         """
         Performs a GET request against the /system/myAccount/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -46,9 +64,20 @@ class SystemMyaccountIdEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), MyAccount, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            MyAccount,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> MyAccount:
         """
         Performs a GET request against the /system/myAccount/{id} endpoint.
 
@@ -58,9 +87,15 @@ class SystemMyaccountIdEndpoint(
         Returns:
             MyAccount: The parsed response data.
         """
-        return self._parse_one(MyAccount, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            MyAccount, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
+    def put(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> MyAccount:
         """
         Performs a PUT request against the /system/myAccount/{id} endpoint.
 
@@ -70,9 +105,15 @@ class SystemMyaccountIdEndpoint(
         Returns:
             MyAccount: The parsed response data.
         """
-        return self._parse_one(MyAccount, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            MyAccount, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> MyAccount:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> MyAccount:
         """
         Performs a PATCH request against the /system/myAccount/{id} endpoint.
 
@@ -82,4 +123,6 @@ class SystemMyaccountIdEndpoint(
         Returns:
             MyAccount: The parsed response data.
         """
-        return self._parse_one(MyAccount, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            MyAccount, super()._make_request("PATCH", data=data, params=params).json()
+        )

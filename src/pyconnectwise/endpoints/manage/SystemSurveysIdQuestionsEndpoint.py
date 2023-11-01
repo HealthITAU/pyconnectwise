@@ -1,12 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsCountEndpoint import SystemSurveysIdQuestionsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsIdEndpoint import SystemSurveysIdQuestionsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsCountEndpoint import (
+    SystemSurveysIdQuestionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemSurveysIdQuestionsIdEndpoint import (
+    SystemSurveysIdQuestionsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import SurveyQuestion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemSurveysIdQuestionsEndpoint(
@@ -15,15 +24,19 @@ class SystemSurveysIdQuestionsEndpoint(
     IPostable[SurveyQuestion, ConnectWiseManageRequestParams],
     IPaginateable[SurveyQuestion, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "questions", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "questions", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[SurveyQuestion])
         IPostable.__init__(self, SurveyQuestion)
         IPaginateable.__init__(self, SurveyQuestion)
 
-        self.count = self._register_child_endpoint(SystemSurveysIdQuestionsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemSurveysIdQuestionsCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemSurveysIdQuestionsIdEndpoint:
+    def id(self, id: int) -> SystemSurveysIdQuestionsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemSurveysIdQuestionsIdEndpoint object to move down the chain.
 
@@ -37,7 +50,10 @@ class SystemSurveysIdQuestionsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[SurveyQuestion]:
         """
         Performs a GET request against the /system/surveys/{id}/questions endpoint and returns an initialized PaginatedResponse object.
@@ -55,11 +71,18 @@ class SystemSurveysIdQuestionsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), SurveyQuestion, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            SurveyQuestion,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[SurveyQuestion]:
         """
         Performs a GET request against the /system/surveys/{id}/questions endpoint.
@@ -70,9 +93,16 @@ class SystemSurveysIdQuestionsEndpoint(
         Returns:
             list[SurveyQuestion]: The parsed response data.
         """
-        return self._parse_many(SurveyQuestion, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SurveyQuestion,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SurveyQuestion:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> SurveyQuestion:
         """
         Performs a POST request against the /system/surveys/{id}/questions endpoint.
 
@@ -82,4 +112,7 @@ class SystemSurveysIdQuestionsEndpoint(
         Returns:
             SurveyQuestion: The parsed response data.
         """
-        return self._parse_one(SurveyQuestion, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SurveyQuestion,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

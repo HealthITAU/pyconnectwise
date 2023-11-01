@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.automate import LabTechDriveStats
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class DrivesIdDrivestatsMonthlyEndpoint(
@@ -12,13 +16,18 @@ class DrivesIdDrivestatsMonthlyEndpoint(
     IGettable[list[LabTechDriveStats], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechDriveStats, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Monthly", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Monthly", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechDriveStats])
         IPaginateable.__init__(self, LabTechDriveStats)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechDriveStats]:
         """
         Performs a GET request against the /Drives/{id}/Drivestats/Monthly endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +45,18 @@ class DrivesIdDrivestatsMonthlyEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechDriveStats, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechDriveStats,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechDriveStats]:
         """
         Performs a GET request against the /Drives/{id}/Drivestats/Monthly endpoint.
@@ -51,4 +67,7 @@ class DrivesIdDrivestatsMonthlyEndpoint(
         Returns:
             list[LabTechDriveStats]: The parsed response data.
         """
-        return self._parse_many(LabTechDriveStats, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechDriveStats,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

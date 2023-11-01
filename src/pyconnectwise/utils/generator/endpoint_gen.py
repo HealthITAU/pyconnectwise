@@ -12,7 +12,7 @@ from pyconnectwise.utils.generator.path_formatting import (
 from pyconnectwise.utils.naming import to_snake_case, ensure_not_reserved
 
 
-def generate_endpoint(
+def generate_endpoint(  # noqa: ANN201, C901
     endpoint_output_directory: str,
     model_output_directory: str,
     path: str,
@@ -30,7 +30,7 @@ def generate_endpoint(
     operations = list(path_info.keys())
 
     child_endpoints = list(
-        set(format_endpoint_path(child) for child in relationships.get(path, []))
+        {format_endpoint_path(child) for child in relationships.get(path, [])}
     )
 
     print(f"Generating {endpoint_class_name}")
@@ -45,7 +45,7 @@ def generate_endpoint(
 
         if "Id" in child_endpoint:
             id_child_endpoint_class_name = endpoint_class_name.replace(
-                "Endpoint", f"IdEndpoint"
+                "Endpoint", "IdEndpoint"
             )
             if endpoint_class_name == id_child_endpoint_class_name:
                 continue
@@ -107,7 +107,7 @@ def generate_endpoint(
                 op_definitions.append({"name": operation, "void": True})
             else:
                 resp_content = response.get("content")
-                schema_object = resp_content.get(list(resp_content)[0]).get("schema")
+                schema_object = resp_content.get(next(iter(resp_content))).get("schema")
                 schema_ref = None
                 is_array = False
 
@@ -134,7 +134,7 @@ def generate_endpoint(
 
                     for param in operation_params:
                         param_name = param.get("name")
-                        if param_name is not None:
+                        if param_name is not None:  # noqa: SIM102
                             if "page" in param_name:
                                 pagination_model_class = model_name
 
@@ -195,6 +195,7 @@ def generate_endpoint(
     )
 
     save_py_file(
-        os.path.join(endpoint_output_directory, endpoint_class_name), endpoint_code
+        os.path.join(endpoint_output_directory, endpoint_class_name),  # noqa: PTH118
+        endpoint_code,
     )
     return endpoint_class_name

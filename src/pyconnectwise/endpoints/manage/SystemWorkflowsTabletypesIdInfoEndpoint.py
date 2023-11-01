@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import WorkflowTableTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemWorkflowsTabletypesIdInfoEndpoint(
@@ -12,13 +16,18 @@ class SystemWorkflowsTabletypesIdInfoEndpoint(
     IGettable[WorkflowTableTypeInfo, ConnectWiseManageRequestParams],
     IPaginateable[WorkflowTableTypeInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, WorkflowTableTypeInfo)
         IPaginateable.__init__(self, WorkflowTableTypeInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[WorkflowTableTypeInfo]:
         """
         Performs a GET request against the /system/workflows/tableTypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +45,18 @@ class SystemWorkflowsTabletypesIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), WorkflowTableTypeInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            WorkflowTableTypeInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> WorkflowTableTypeInfo:
         """
         Performs a GET request against the /system/workflows/tableTypes/{id}/info endpoint.
@@ -51,4 +67,7 @@ class SystemWorkflowsTabletypesIdInfoEndpoint(
         Returns:
             WorkflowTableTypeInfo: The parsed response data.
         """
-        return self._parse_one(WorkflowTableTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            WorkflowTableTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

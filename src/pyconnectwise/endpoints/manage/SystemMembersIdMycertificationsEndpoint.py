@@ -1,14 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsCountEndpoint import \
-    SystemMembersIdMycertificationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsIdEndpoint import \
-    SystemMembersIdMycertificationsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsCountEndpoint import (
+    SystemMembersIdMycertificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsIdEndpoint import (
+    SystemMembersIdMycertificationsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import MemberCertification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemMembersIdMycertificationsEndpoint(
@@ -17,8 +24,10 @@ class SystemMembersIdMycertificationsEndpoint(
     IPostable[MemberCertification, ConnectWiseManageRequestParams],
     IPaginateable[MemberCertification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "mycertifications", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "mycertifications", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[MemberCertification])
         IPostable.__init__(self, MemberCertification)
         IPaginateable.__init__(self, MemberCertification)
@@ -27,7 +36,7 @@ class SystemMembersIdMycertificationsEndpoint(
             SystemMembersIdMycertificationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMembersIdMycertificationsIdEndpoint:
+    def id(self, id: int) -> SystemMembersIdMycertificationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdMycertificationsIdEndpoint object to move down the chain.
 
@@ -36,12 +45,17 @@ class SystemMembersIdMycertificationsEndpoint(
         Returns:
             SystemMembersIdMycertificationsIdEndpoint: The initialized SystemMembersIdMycertificationsIdEndpoint object.
         """
-        child = SystemMembersIdMycertificationsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemMembersIdMycertificationsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[MemberCertification]:
         """
         Performs a GET request against the /system/members/{id}/mycertifications endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +73,18 @@ class SystemMembersIdMycertificationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), MemberCertification, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            MemberCertification,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[MemberCertification]:
         """
         Performs a GET request against the /system/members/{id}/mycertifications endpoint.
@@ -74,10 +95,15 @@ class SystemMembersIdMycertificationsEndpoint(
         Returns:
             list[MemberCertification]: The parsed response data.
         """
-        return self._parse_many(MemberCertification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            MemberCertification,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> MemberCertification:
         """
         Performs a POST request against the /system/members/{id}/mycertifications endpoint.
@@ -88,4 +114,7 @@ class SystemMembersIdMycertificationsEndpoint(
         Returns:
             MemberCertification: The parsed response data.
         """
-        return self._parse_one(MemberCertification, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberCertification,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

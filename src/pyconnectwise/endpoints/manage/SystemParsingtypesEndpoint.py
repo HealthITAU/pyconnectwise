@@ -1,12 +1,20 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingtypesCountEndpoint import SystemParsingtypesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingtypesIdEndpoint import SystemParsingtypesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemParsingtypesCountEndpoint import (
+    SystemParsingtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemParsingtypesIdEndpoint import (
+    SystemParsingtypesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import ParsingType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemParsingtypesEndpoint(
@@ -14,14 +22,18 @@ class SystemParsingtypesEndpoint(
     IGettable[list[ParsingType], ConnectWiseManageRequestParams],
     IPaginateable[ParsingType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "parsingTypes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "parsingTypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ParsingType])
         IPaginateable.__init__(self, ParsingType)
 
-        self.count = self._register_child_endpoint(SystemParsingtypesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemParsingtypesCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemParsingtypesIdEndpoint:
+    def id(self, id: int) -> SystemParsingtypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemParsingtypesIdEndpoint object to move down the chain.
 
@@ -35,7 +47,10 @@ class SystemParsingtypesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ParsingType]:
         """
         Performs a GET request against the /system/parsingTypes endpoint and returns an initialized PaginatedResponse object.
@@ -53,10 +68,19 @@ class SystemParsingtypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ParsingType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ParsingType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ParsingType]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[ParsingType]:
         """
         Performs a GET request against the /system/parsingTypes endpoint.
 
@@ -66,4 +90,6 @@ class SystemParsingtypesEndpoint(
         Returns:
             list[ParsingType]: The parsed response data.
         """
-        return self._parse_many(ParsingType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ParsingType, super()._make_request("GET", data=data, params=params).json()
+        )

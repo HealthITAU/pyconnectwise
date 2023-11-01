@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import PersonasInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemInfoPersonasIdEndpoint(
@@ -12,13 +16,18 @@ class SystemInfoPersonasIdEndpoint(
     IGettable[PersonasInfo, ConnectWiseManageRequestParams],
     IPaginateable[PersonasInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, PersonasInfo)
         IPaginateable.__init__(self, PersonasInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PersonasInfo]:
         """
         Performs a GET request against the /system/info/personas/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -36,10 +45,19 @@ class SystemInfoPersonasIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), PersonasInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            PersonasInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PersonasInfo:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> PersonasInfo:
         """
         Performs a GET request against the /system/info/personas/{id} endpoint.
 
@@ -49,4 +67,6 @@ class SystemInfoPersonasIdEndpoint(
         Returns:
             PersonasInfo: The parsed response data.
         """
-        return self._parse_one(PersonasInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            PersonasInfo, super()._make_request("GET", data=data, params=params).json()
+        )

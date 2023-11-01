@@ -1,15 +1,23 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint import \
-    SystemWorkflowsIdNotifytypesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import SystemWorkflowsIdNotifytypesIdEndpoint
-from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import \
-    SystemWorkflowsIdNotifytypesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesCountEndpoint import (
+    SystemWorkflowsIdNotifytypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesIdEndpoint import (
+    SystemWorkflowsIdNotifytypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemWorkflowsIdNotifytypesInfoEndpoint import (
+    SystemWorkflowsIdNotifytypesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import WorkflowNotifyType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemWorkflowsIdNotifytypesEndpoint(
@@ -17,8 +25,10 @@ class SystemWorkflowsIdNotifytypesEndpoint(
     IGettable[list[WorkflowNotifyType], ConnectWiseManageRequestParams],
     IPaginateable[WorkflowNotifyType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "notifyTypes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "notifyTypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[WorkflowNotifyType])
         IPaginateable.__init__(self, WorkflowNotifyType)
 
@@ -29,7 +39,7 @@ class SystemWorkflowsIdNotifytypesEndpoint(
             SystemWorkflowsIdNotifytypesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemWorkflowsIdNotifytypesIdEndpoint:
+    def id(self, id: int) -> SystemWorkflowsIdNotifytypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsIdNotifytypesIdEndpoint object to move down the chain.
 
@@ -38,12 +48,17 @@ class SystemWorkflowsIdNotifytypesEndpoint(
         Returns:
             SystemWorkflowsIdNotifytypesIdEndpoint: The initialized SystemWorkflowsIdNotifytypesIdEndpoint object.
         """
-        child = SystemWorkflowsIdNotifytypesIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemWorkflowsIdNotifytypesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[WorkflowNotifyType]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes endpoint and returns an initialized PaginatedResponse object.
@@ -61,11 +76,18 @@ class SystemWorkflowsIdNotifytypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), WorkflowNotifyType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            WorkflowNotifyType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[WorkflowNotifyType]:
         """
         Performs a GET request against the /system/workflows/{id}/notifyTypes endpoint.
@@ -76,4 +98,7 @@ class SystemWorkflowsIdNotifytypesEndpoint(
         Returns:
             list[WorkflowNotifyType]: The parsed response data.
         """
-        return self._parse_many(WorkflowNotifyType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            WorkflowNotifyType,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

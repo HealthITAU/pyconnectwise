@@ -23,7 +23,9 @@ def cw_format_datetime(dt: datetime) -> str:
     return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def parse_link_headers(headers: CaseInsensitiveDict) -> dict[str, Any] | None:
+def parse_link_headers(  # noqa: C901
+    headers: CaseInsensitiveDict,
+) -> dict[str, Any] | None:
     """
     Parses link headers to extract pagination information.
 

@@ -1,18 +1,28 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IPostable,
+)
 from pyconnectwise.models.manage import SuccessResponse
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
-class ExpenseReportsIdReverseEndpoint(ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "reverse", parent_endpoint=parent_endpoint)
+class ExpenseReportsIdReverseEndpoint(
+    ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]
+):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "reverse", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, SuccessResponse)
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SuccessResponse:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> SuccessResponse:
         """
         Performs a POST request against the /expense/reports/{id}/reverse endpoint.
 
@@ -22,4 +32,7 @@ class ExpenseReportsIdReverseEndpoint(ConnectWiseEndpoint, IPostable[SuccessResp
         Returns:
             SuccessResponse: The parsed response data.
         """
-        return self._parse_one(SuccessResponse, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SuccessResponse,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

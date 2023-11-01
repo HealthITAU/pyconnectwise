@@ -1,12 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemCertificationsCountEndpoint import SystemCertificationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemCertificationsIdEndpoint import SystemCertificationsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemCertificationsCountEndpoint import (
+    SystemCertificationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemCertificationsIdEndpoint import (
+    SystemCertificationsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import Certification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemCertificationsEndpoint(
@@ -15,15 +24,19 @@ class SystemCertificationsEndpoint(
     IPostable[Certification, ConnectWiseManageRequestParams],
     IPaginateable[Certification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "certifications", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "certifications", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Certification])
         IPostable.__init__(self, Certification)
         IPaginateable.__init__(self, Certification)
 
-        self.count = self._register_child_endpoint(SystemCertificationsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemCertificationsCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemCertificationsIdEndpoint:
+    def id(self, id: int) -> SystemCertificationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemCertificationsIdEndpoint object to move down the chain.
 
@@ -37,7 +50,10 @@ class SystemCertificationsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Certification]:
         """
         Performs a GET request against the /system/certifications endpoint and returns an initialized PaginatedResponse object.
@@ -55,11 +71,18 @@ class SystemCertificationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), Certification, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            Certification,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[Certification]:
         """
         Performs a GET request against the /system/certifications endpoint.
@@ -70,9 +93,15 @@ class SystemCertificationsEndpoint(
         Returns:
             list[Certification]: The parsed response data.
         """
-        return self._parse_many(Certification, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Certification, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Certification:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Certification:
         """
         Performs a POST request against the /system/certifications endpoint.
 
@@ -82,4 +111,7 @@ class SystemCertificationsEndpoint(
         Returns:
             Certification: The parsed response data.
         """
-        return self._parse_one(Certification, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Certification,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,13 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogCountEndpoint import ProcurementCatalogCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogIdEndpoint import ProcurementCatalogIdEndpoint
-from pyconnectwise.endpoints.manage.ProcurementCatalogInfoEndpoint import ProcurementCatalogInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProcurementCatalogCountEndpoint import (
+    ProcurementCatalogCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementCatalogIdEndpoint import (
+    ProcurementCatalogIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementCatalogInfoEndpoint import (
+    ProcurementCatalogInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import CatalogItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProcurementCatalogEndpoint(
@@ -16,16 +27,22 @@ class ProcurementCatalogEndpoint(
     IPostable[CatalogItem, ConnectWiseManageRequestParams],
     IPaginateable[CatalogItem, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "catalog", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "catalog", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CatalogItem])
         IPostable.__init__(self, CatalogItem)
         IPaginateable.__init__(self, CatalogItem)
 
-        self.count = self._register_child_endpoint(ProcurementCatalogCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ProcurementCatalogInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ProcurementCatalogCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProcurementCatalogInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> ProcurementCatalogIdEndpoint:
+    def id(self, id: int) -> ProcurementCatalogIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementCatalogIdEndpoint object to move down the chain.
 
@@ -39,7 +56,10 @@ class ProcurementCatalogEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CatalogItem]:
         """
         Performs a GET request against the /procurement/catalog endpoint and returns an initialized PaginatedResponse object.
@@ -57,10 +77,19 @@ class ProcurementCatalogEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CatalogItem, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CatalogItem,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[CatalogItem]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[CatalogItem]:
         """
         Performs a GET request against the /procurement/catalog endpoint.
 
@@ -70,9 +99,15 @@ class ProcurementCatalogEndpoint(
         Returns:
             list[CatalogItem]: The parsed response data.
         """
-        return self._parse_many(CatalogItem, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CatalogItem, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogItem:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> CatalogItem:
         """
         Performs a POST request against the /procurement/catalog endpoint.
 
@@ -82,4 +117,6 @@ class ProcurementCatalogEndpoint(
         Returns:
             CatalogItem: The parsed response data.
         """
-        return self._parse_one(CatalogItem, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CatalogItem, super()._make_request("POST", data=data, params=params).json()
+        )

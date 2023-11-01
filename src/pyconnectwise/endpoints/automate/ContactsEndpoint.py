@@ -1,11 +1,16 @@
-from typing import Any
-
 from pyconnectwise.endpoints.automate.ContactsIdEndpoint import ContactsIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.automate import AutomateContact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class ContactsEndpoint(
@@ -14,13 +19,15 @@ class ContactsEndpoint(
     IPostable[AutomateContact, ConnectWiseAutomateRequestParams],
     IPaginateable[AutomateContact, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Contacts", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Contacts", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[AutomateContact])
         IPostable.__init__(self, AutomateContact)
         IPaginateable.__init__(self, AutomateContact)
 
-    def id(self, id: int) -> ContactsIdEndpoint:
+    def id(self, id: int) -> ContactsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ContactsIdEndpoint object to move down the chain.
 
@@ -34,7 +41,10 @@ class ContactsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[AutomateContact]:
         """
         Performs a GET request against the /Contacts endpoint and returns an initialized PaginatedResponse object.
@@ -52,11 +62,18 @@ class ContactsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), AutomateContact, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            AutomateContact,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[AutomateContact]:
         """
         Performs a GET request against the /Contacts endpoint.
@@ -67,9 +84,16 @@ class ContactsEndpoint(
         Returns:
             list[AutomateContact]: The parsed response data.
         """
-        return self._parse_many(AutomateContact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AutomateContact,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> AutomateContact:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
+    ) -> AutomateContact:
         """
         Performs a POST request against the /Contacts endpoint.
 
@@ -79,4 +103,7 @@ class ContactsEndpoint(
         Returns:
             AutomateContact: The parsed response data.
         """
-        return self._parse_one(AutomateContact, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AutomateContact,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,12 +1,23 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectStatusesIdInfoEndpoint import ProjectStatusesIdInfoEndpoint
-from pyconnectwise.endpoints.manage.ProjectStatusesIdUsagesEndpoint import ProjectStatusesIdUsagesEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProjectStatusesIdInfoEndpoint import (
+    ProjectStatusesIdInfoEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectStatusesIdUsagesEndpoint import (
+    ProjectStatusesIdUsagesEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ProjectStatus
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProjectStatusesIdEndpoint(
@@ -16,18 +27,27 @@ class ProjectStatusesIdEndpoint(
     IPatchable[ProjectStatus, ConnectWiseManageRequestParams],
     IPaginateable[ProjectStatus, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ProjectStatus)
         IPuttable.__init__(self, ProjectStatus)
         IPatchable.__init__(self, ProjectStatus)
         IPaginateable.__init__(self, ProjectStatus)
 
-        self.usages = self._register_child_endpoint(ProjectStatusesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ProjectStatusesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(
+            ProjectStatusesIdUsagesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ProjectStatusesIdInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ProjectStatus]:
         """
         Performs a GET request against the /project/statuses/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -45,10 +65,19 @@ class ProjectStatusesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ProjectStatus, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ProjectStatus,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectStatus:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectStatus:
         """
         Performs a GET request against the /project/statuses/{id} endpoint.
 
@@ -58,9 +87,15 @@ class ProjectStatusesIdEndpoint(
         Returns:
             ProjectStatus: The parsed response data.
         """
-        return self._parse_one(ProjectStatus, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectStatus, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /project/statuses/{id} endpoint.
 
@@ -70,7 +105,11 @@ class ProjectStatusesIdEndpoint(
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectStatus:
+    def put(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectStatus:
         """
         Performs a PUT request against the /project/statuses/{id} endpoint.
 
@@ -80,9 +119,15 @@ class ProjectStatusesIdEndpoint(
         Returns:
             ProjectStatus: The parsed response data.
         """
-        return self._parse_one(ProjectStatus, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ProjectStatus, super()._make_request("PUT", data=data, params=params).json()
+        )
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProjectStatus:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectStatus:
         """
         Performs a PATCH request against the /project/statuses/{id} endpoint.
 
@@ -92,4 +137,7 @@ class ProjectStatusesIdEndpoint(
         Returns:
             ProjectStatus: The parsed response data.
         """
-        return self._parse_one(ProjectStatus, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ProjectStatus,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

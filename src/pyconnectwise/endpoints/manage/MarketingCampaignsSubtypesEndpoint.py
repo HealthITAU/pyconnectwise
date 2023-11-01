@@ -1,13 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesCountEndpoint import \
-    MarketingCampaignsSubtypesCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesIdEndpoint import MarketingCampaignsSubtypesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesCountEndpoint import (
+    MarketingCampaignsSubtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsSubtypesIdEndpoint import (
+    MarketingCampaignsSubtypesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import CampaignSubTypeCampaignSubType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class MarketingCampaignsSubtypesEndpoint(
@@ -16,8 +24,10 @@ class MarketingCampaignsSubtypesEndpoint(
     IPostable[CampaignSubTypeCampaignSubType, ConnectWiseManageRequestParams],
     IPaginateable[CampaignSubTypeCampaignSubType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "subTypes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "subTypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CampaignSubTypeCampaignSubType])
         IPostable.__init__(self, CampaignSubTypeCampaignSubType)
         IPaginateable.__init__(self, CampaignSubTypeCampaignSubType)
@@ -26,7 +36,7 @@ class MarketingCampaignsSubtypesEndpoint(
             MarketingCampaignsSubtypesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> MarketingCampaignsSubtypesIdEndpoint:
+    def id(self, id: int) -> MarketingCampaignsSubtypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized MarketingCampaignsSubtypesIdEndpoint object to move down the chain.
 
@@ -40,7 +50,10 @@ class MarketingCampaignsSubtypesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CampaignSubTypeCampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/subTypes endpoint and returns an initialized PaginatedResponse object.
@@ -58,11 +71,18 @@ class MarketingCampaignsSubtypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CampaignSubTypeCampaignSubType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CampaignSubTypeCampaignSubType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[CampaignSubTypeCampaignSubType]:
         """
         Performs a GET request against the /marketing/campaigns/subTypes endpoint.
@@ -74,11 +94,14 @@ class MarketingCampaignsSubtypesEndpoint(
             list[CampaignSubTypeCampaignSubType]: The parsed response data.
         """
         return self._parse_many(
-            CampaignSubTypeCampaignSubType, super()._make_request("GET", data=data, params=params).json()
+            CampaignSubTypeCampaignSubType,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> CampaignSubTypeCampaignSubType:
         """
         Performs a POST request against the /marketing/campaigns/subTypes endpoint.
@@ -90,5 +113,6 @@ class MarketingCampaignsSubtypesEndpoint(
             CampaignSubTypeCampaignSubType: The parsed response data.
         """
         return self._parse_one(
-            CampaignSubTypeCampaignSubType, super()._make_request("POST", data=data, params=params).json()
+            CampaignSubTypeCampaignSubType,
+            super()._make_request("POST", data=data, params=params).json(),
         )

@@ -1,22 +1,23 @@
-from typing import Any
-
-from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataDailyaveragesEndpoint import \
-    MonitorsIdCollecteddataDailyaveragesEndpoint
-from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataMonthlyaveragesEndpoint import \
-    MonitorsIdCollecteddataMonthlyaveragesEndpoint
-from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataWeeklyaveragesEndpoint import \
-    MonitorsIdCollecteddataWeeklyaveragesEndpoint
-from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataYearlyaveragesEndpoint import \
-    MonitorsIdCollecteddataYearlyaveragesEndpoint
+from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataDailyaveragesEndpoint import (
+    MonitorsIdCollecteddataDailyaveragesEndpoint,
+)
+from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataMonthlyaveragesEndpoint import (
+    MonitorsIdCollecteddataMonthlyaveragesEndpoint,
+)
+from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataWeeklyaveragesEndpoint import (
+    MonitorsIdCollecteddataWeeklyaveragesEndpoint,
+)
+from pyconnectwise.endpoints.automate.MonitorsIdCollecteddataYearlyaveragesEndpoint import (
+    MonitorsIdCollecteddataYearlyaveragesEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
 
 
 class MonitorsIdCollecteddataEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Collecteddata", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Collecteddata", parent_endpoint=parent_endpoint
+        )
 
         self.monthlyaverages = self._register_child_endpoint(
             MonitorsIdCollecteddataMonthlyaveragesEndpoint(client, parent_endpoint=self)

@@ -1,24 +1,38 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.automate import LabTechStatusScanNetworkPortOption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
 class LookupsStatusscannetworkportoptionsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[list[LabTechStatusScanNetworkPortOption], ConnectWiseAutomateRequestParams],
+    IGettable[
+        list[LabTechStatusScanNetworkPortOption], ConnectWiseAutomateRequestParams
+    ],
     IPaginateable[LabTechStatusScanNetworkPortOption, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Statusscannetworkportoptions", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self,
+            client,
+            "Statusscannetworkportoptions",
+            parent_endpoint=parent_endpoint,
+        )
         IGettable.__init__(self, list[LabTechStatusScanNetworkPortOption])
         IPaginateable.__init__(self, LabTechStatusScanNetworkPortOption)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechStatusScanNetworkPortOption]:
         """
         Performs a GET request against the /Lookups/Statusscannetworkportoptions endpoint and returns an initialized PaginatedResponse object.
@@ -45,7 +59,9 @@ class LookupsStatusscannetworkportoptionsEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechStatusScanNetworkPortOption]:
         """
         Performs a GET request against the /Lookups/Statusscannetworkportoptions endpoint.
@@ -57,5 +73,6 @@ class LookupsStatusscannetworkportoptionsEndpoint(
             list[LabTechStatusScanNetworkPortOption]: The parsed response data.
         """
         return self._parse_many(
-            LabTechStatusScanNetworkPortOption, super()._make_request("GET", data=data, params=params).json()
+            LabTechStatusScanNetworkPortOption,
+            super()._make_request("GET", data=data, params=params).json(),
         )

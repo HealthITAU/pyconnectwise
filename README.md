@@ -35,19 +35,33 @@ Roadmap:
 
 How-to:
 =============
+- [pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python](#pyconnectwise---an-api-library-for-connectwise-manage-and-connectwise-automate-written-in-python)
+- [Features:](#features)
+- [Known Issues:](#known-issues)
+- [Roadmap:](#roadmap)
+- [How-to:](#how-to)
 - [Install](#install)
-- [Initializing the API Clients](#initialize-api-client)
-  - [ConnectWise Manage](#connectwise-manage)
-  - [ConnectWise Automate](#connectwise-automate)
+- [Initializing the API Clients](#initializing-the-api-clients)
+    - [ConnectWise Manage](#connectwise-manage)
+    - [ConnectWise Automate](#connectwise-automate)
 - [Working with Endpoints](#working-with-endpoints)
-  - [Get Many](#get-many)
-  - [Get One](#get-one)
-  - [Get With Params](#get-with-params)
-  - [Path Parameters](#child-endpoints)
+    - [Get many](#get-many)
+    - [Get one](#get-one)
+    - [Get with params](#get-with-params)
+- [Child Endpoints](#child-endpoints)
+        - [Example using ```/company/companies/{company_id}/sites```](#example-using-companycompaniescompany_idsites)
 - [Pagination](#pagination)
 - [Additional Configuration](#additional-configuration)
+    - [Implementation](#implementation)
+    - [Supported Options](#supported-options)
 - [Examples](#examples)
+    - [Get all agreements, then all additions for an agreement](#get-all-agreements-then-all-additions-for-an-agreement)
+    - [Get all service tickets with an ID \> 1000](#get-all-service-tickets-with-an-id--1000)
 - [Contributing](#contributing)
+  - [Preparing your development environment](#preparing-your-development-environment)
+    - [Quick dependencies install on apt-based systems (using pipx to manage python tools)](#quick-dependencies-install-on-apt-based-systems-using-pipx-to-manage-python-tools)
+    - [Setting up your development environment](#setting-up-your-development-environment)
+  - [Testing](#testing)
 - [Supporting the project](#supporting-the-project)
 
 # Install
@@ -219,8 +233,28 @@ When working on the project, please note that there's a few requirements you'll 
 
 You can install these requirements by opening a terminal, navigating to the repo's directory and running ```pip install -r requirements.txt```
 
+## Preparing your development environment
+Prerequisites:
+- Python 3.10+
+- [Poetry](https://python-poetry.org/docs/#installing-with-pipx)
+- [Pre-Commit](https://pre-commit.com/#install)
+
+### Quick dependencies install on apt-based systems (using pipx to manage python tools)
+```bash
+sudo apt install pipx
+pipx install poetry
+pipx install pre-commit
+```
+### Setting up your development environment
+```bash
+poetry install --with=dev
+pre-commit install
+```
+
 ## Testing
-Run `pytest tests/`
+```bash
+poetry run pytest
+```
 
 # Supporting the project
 :heart: the project and would like to show your support? Please consider donating to the following charities:

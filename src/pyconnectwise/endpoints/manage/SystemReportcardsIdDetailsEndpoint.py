@@ -1,13 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemReportcardsIdDetailsCountEndpoint import \
-    SystemReportcardsIdDetailsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemReportcardsIdDetailsIdEndpoint import SystemReportcardsIdDetailsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemReportcardsIdDetailsCountEndpoint import (
+    SystemReportcardsIdDetailsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemReportcardsIdDetailsIdEndpoint import (
+    SystemReportcardsIdDetailsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import ReportCardDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemReportcardsIdDetailsEndpoint(
@@ -16,8 +24,10 @@ class SystemReportcardsIdDetailsEndpoint(
     IPostable[ReportCardDetail, ConnectWiseManageRequestParams],
     IPaginateable[ReportCardDetail, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "details", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "details", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ReportCardDetail])
         IPostable.__init__(self, ReportCardDetail)
         IPaginateable.__init__(self, ReportCardDetail)
@@ -26,7 +36,7 @@ class SystemReportcardsIdDetailsEndpoint(
             SystemReportcardsIdDetailsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemReportcardsIdDetailsIdEndpoint:
+    def id(self, id: int) -> SystemReportcardsIdDetailsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemReportcardsIdDetailsIdEndpoint object to move down the chain.
 
@@ -40,7 +50,10 @@ class SystemReportcardsIdDetailsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ReportCardDetail]:
         """
         Performs a GET request against the /system/reportCards/{id}/details endpoint and returns an initialized PaginatedResponse object.
@@ -58,11 +71,18 @@ class SystemReportcardsIdDetailsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ReportCardDetail, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ReportCardDetail,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ReportCardDetail]:
         """
         Performs a GET request against the /system/reportCards/{id}/details endpoint.
@@ -73,9 +93,16 @@ class SystemReportcardsIdDetailsEndpoint(
         Returns:
             list[ReportCardDetail]: The parsed response data.
         """
-        return self._parse_many(ReportCardDetail, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ReportCardDetail,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ReportCardDetail:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ReportCardDetail:
         """
         Performs a POST request against the /system/reportCards/{id}/details endpoint.
 
@@ -85,4 +112,7 @@ class SystemReportcardsIdDetailsEndpoint(
         Returns:
             ReportCardDetail: The parsed response data.
         """
-        return self._parse_one(ReportCardDetail, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ReportCardDetail,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

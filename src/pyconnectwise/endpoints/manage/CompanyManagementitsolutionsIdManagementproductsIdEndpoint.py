@@ -1,22 +1,40 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ManagementItSolutionAgreementInterfaceParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
     ConnectWiseEndpoint,
-    IGettable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
-    IPuttable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
-    IPatchable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IGettable[
+        ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams
+    ],
+    IPuttable[
+        ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams
+    ],
+    IPatchable[
+        ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams
+    ],
     IDeleteable[ConnectWiseManageRequestParams],
-    IPaginateable[ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams],
+    IPaginateable[
+        ManagementItSolutionAgreementInterfaceParameter, ConnectWiseManageRequestParams
+    ],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
         IPuttable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
         IPatchable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
@@ -24,7 +42,10 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
         IPaginateable.__init__(self, ManagementItSolutionAgreementInterfaceParameter)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ManagementItSolutionAgreementInterfaceParameter]:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -51,7 +72,9 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a GET request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -68,7 +91,9 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
         )
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a PUT request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -85,7 +110,9 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
         )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a PATCH request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.
@@ -102,7 +129,9 @@ class CompanyManagementitsolutionsIdManagementproductsIdEndpoint(
         )
 
     def delete(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ManagementItSolutionAgreementInterfaceParameter:
         """
         Performs a DELETE request against the /company/managementItSolutions/{id}/managementProducts/{id} endpoint.

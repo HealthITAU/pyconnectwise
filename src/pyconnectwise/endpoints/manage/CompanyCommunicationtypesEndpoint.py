@@ -1,13 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesCountEndpoint import CompanyCommunicationtypesCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesIdEndpoint import CompanyCommunicationtypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyCommunicationtypesInfoEndpoint import CompanyCommunicationtypesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesCountEndpoint import (
+    CompanyCommunicationtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesIdEndpoint import (
+    CompanyCommunicationtypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyCommunicationtypesInfoEndpoint import (
+    CompanyCommunicationtypesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import CommunicationType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class CompanyCommunicationtypesEndpoint(
@@ -16,16 +27,22 @@ class CompanyCommunicationtypesEndpoint(
     IPostable[CommunicationType, ConnectWiseManageRequestParams],
     IPaginateable[CommunicationType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "communicationTypes", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "communicationTypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CommunicationType])
         IPostable.__init__(self, CommunicationType)
         IPaginateable.__init__(self, CommunicationType)
 
-        self.count = self._register_child_endpoint(CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyCommunicationtypesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            CompanyCommunicationtypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> CompanyCommunicationtypesIdEndpoint:
+    def id(self, id: int) -> CompanyCommunicationtypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyCommunicationtypesIdEndpoint object to move down the chain.
 
@@ -39,7 +56,10 @@ class CompanyCommunicationtypesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CommunicationType]:
         """
         Performs a GET request against the /company/communicationTypes endpoint and returns an initialized PaginatedResponse object.
@@ -57,11 +77,18 @@ class CompanyCommunicationtypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CommunicationType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CommunicationType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[CommunicationType]:
         """
         Performs a GET request against the /company/communicationTypes endpoint.
@@ -72,9 +99,16 @@ class CompanyCommunicationtypesEndpoint(
         Returns:
             list[CommunicationType]: The parsed response data.
         """
-        return self._parse_many(CommunicationType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CommunicationType,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CommunicationType:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> CommunicationType:
         """
         Performs a POST request against the /company/communicationTypes endpoint.
 
@@ -84,4 +118,7 @@ class CompanyCommunicationtypesEndpoint(
         Returns:
             CommunicationType: The parsed response data.
         """
-        return self._parse_one(CommunicationType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CommunicationType,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

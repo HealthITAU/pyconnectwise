@@ -1,15 +1,24 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesCountEndpoint import \
-    FinanceInvoiceemailtemplatesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesIdEndpoint import FinanceInvoiceemailtemplatesIdEndpoint
-from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesInfoEndpoint import \
-    FinanceInvoiceemailtemplatesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesCountEndpoint import (
+    FinanceInvoiceemailtemplatesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesIdEndpoint import (
+    FinanceInvoiceemailtemplatesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceInvoiceemailtemplatesInfoEndpoint import (
+    FinanceInvoiceemailtemplatesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import InvoiceEmailTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class FinanceInvoiceemailtemplatesEndpoint(
@@ -18,8 +27,10 @@ class FinanceInvoiceemailtemplatesEndpoint(
     IPostable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
     IPaginateable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "invoiceEmailTemplates", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "invoiceEmailTemplates", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[InvoiceEmailTemplate])
         IPostable.__init__(self, InvoiceEmailTemplate)
         IPaginateable.__init__(self, InvoiceEmailTemplate)
@@ -31,7 +42,7 @@ class FinanceInvoiceemailtemplatesEndpoint(
             FinanceInvoiceemailtemplatesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceInvoiceemailtemplatesIdEndpoint:
+    def id(self, id: int) -> FinanceInvoiceemailtemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceInvoiceemailtemplatesIdEndpoint object to move down the chain.
 
@@ -40,12 +51,17 @@ class FinanceInvoiceemailtemplatesEndpoint(
         Returns:
             FinanceInvoiceemailtemplatesIdEndpoint: The initialized FinanceInvoiceemailtemplatesIdEndpoint object.
         """
-        child = FinanceInvoiceemailtemplatesIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceInvoiceemailtemplatesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[InvoiceEmailTemplate]:
         """
         Performs a GET request against the /finance/invoiceEmailTemplates endpoint and returns an initialized PaginatedResponse object.
@@ -63,11 +79,18 @@ class FinanceInvoiceemailtemplatesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), InvoiceEmailTemplate, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            InvoiceEmailTemplate,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[InvoiceEmailTemplate]:
         """
         Performs a GET request against the /finance/invoiceEmailTemplates endpoint.
@@ -78,10 +101,15 @@ class FinanceInvoiceemailtemplatesEndpoint(
         Returns:
             list[InvoiceEmailTemplate]: The parsed response data.
         """
-        return self._parse_many(InvoiceEmailTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            InvoiceEmailTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> InvoiceEmailTemplate:
         """
         Performs a POST request against the /finance/invoiceEmailTemplates endpoint.
@@ -92,4 +120,7 @@ class FinanceInvoiceemailtemplatesEndpoint(
         Returns:
             InvoiceEmailTemplate: The parsed response data.
         """
-        return self._parse_one(InvoiceEmailTemplate, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            InvoiceEmailTemplate,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

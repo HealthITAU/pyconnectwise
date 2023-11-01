@@ -1,19 +1,28 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IPostable,
+)
 from pyconnectwise.models.automate import LabTechUserFavorite
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+)
 
 
-class UsersIdFavoritesEndpoint(ConnectWiseEndpoint, IPostable[LabTechUserFavorite, ConnectWiseAutomateRequestParams]):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Favorites", parent_endpoint=parent_endpoint)
+class UsersIdFavoritesEndpoint(
+    ConnectWiseEndpoint,
+    IPostable[LabTechUserFavorite, ConnectWiseAutomateRequestParams],
+):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "Favorites", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, LabTechUserFavorite)
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechUserFavorite:
         """
         Performs a POST request against the /Users/{id}/Favorites endpoint.
@@ -24,4 +33,7 @@ class UsersIdFavoritesEndpoint(ConnectWiseEndpoint, IPostable[LabTechUserFavorit
         Returns:
             LabTechUserFavorite: The parsed response data.
         """
-        return self._parse_one(LabTechUserFavorite, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            LabTechUserFavorite,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

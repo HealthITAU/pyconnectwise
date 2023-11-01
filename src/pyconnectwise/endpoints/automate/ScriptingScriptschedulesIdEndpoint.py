@@ -1,20 +1,30 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IPatchable,
+)
 from pyconnectwise.models.automate import AutomateScheduledScript
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    PatchRequestData,
+)
 
 
 class ScriptingScriptschedulesIdEndpoint(
-    ConnectWiseEndpoint, IPatchable[AutomateScheduledScript, ConnectWiseAutomateRequestParams]
+    ConnectWiseEndpoint,
+    IPatchable[AutomateScheduledScript, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IPatchable.__init__(self, AutomateScheduledScript)
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /Scripting/Scriptschedules/{id} endpoint.
 
@@ -25,7 +35,9 @@ class ScriptingScriptschedulesIdEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> AutomateScheduledScript:
         """
         Performs a PATCH request against the /Scripting/Scriptschedules/{id} endpoint.
@@ -36,4 +48,7 @@ class ScriptingScriptschedulesIdEndpoint(
         Returns:
             AutomateScheduledScript: The parsed response data.
         """
-        return self._parse_one(AutomateScheduledScript, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            AutomateScheduledScript,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

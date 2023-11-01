@@ -1,16 +1,17 @@
 from __future__ import annotations
-from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 from pyconnectwise.utils.helpers import parse_link_headers
-from typing import TYPE_CHECKING, Generic, TypeVar, Type, Iterable
-from pydantic import BaseModel
-from requests import Response
-from pyconnectwise.types import RequestParams
+from typing import TYPE_CHECKING, Generic, TypeVar
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from pyconnectwise.types import RequestParams
+    from requests import Response
+    from pydantic import BaseModel
 
 
 TModel = TypeVar("TModel", bound="BaseModel")
 
 if TYPE_CHECKING:
-    from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
     from pyconnectwise.interfaces import IPaginateable
 
 
@@ -32,12 +33,12 @@ class PaginatedResponse(Generic[TModel]):
     def __init__(
         self,
         response: Response,
-        response_model: Type[TModel],
+        response_model: type[TModel],
         endpoint: IPaginateable,
         page: int,
         page_size: int,
         params: RequestParams | None = None,
-    ):
+    ) -> None:
         """
         PaginatedResponse is a wrapper class for handling paginated responses from the
         ConnectWise API. It provides methods for navigating through the pages of the response
@@ -53,10 +54,10 @@ class PaginatedResponse(Generic[TModel]):
         """
         self._initialize(response, response_model, endpoint, page, page_size, params)
 
-    def _initialize(
+    def _initialize(  # noqa: ANN202
         self,
         response: Response,
-        response_model: Type[TModel],
+        response_model: type[TModel],
         endpoint: IPaginateable,
         page: int,
         page_size: int,
@@ -153,7 +154,7 @@ class PaginatedResponse(Generic[TModel]):
         )
         return self
 
-    def all(self) -> Iterable[TModel]:
+    def all(self) -> Iterable[TModel]:  # noqa: A003
         """
         Iterate through all items in the paginated response, across all pages.
 
@@ -161,11 +162,10 @@ class PaginatedResponse(Generic[TModel]):
             TModel: An instance of the model class for each item in the paginated response.
         """
         while self.has_data:
-            for item in self.data:
-                yield item
+            yield from self.data
             self.get_next_page()
 
-    def __iter__(self):
+    def __iter__(self):  # noqa: ANN204
         """
         Implement the iterator protocol for the PaginatedResponse class.
 
@@ -174,7 +174,7 @@ class PaginatedResponse(Generic[TModel]):
         """
         return self
 
-    def __dict__(self):
+    def __dict__(self):  # noqa: ANN204
         """
         Implement the iterator protocol for the PaginatedResponse class.
 
@@ -183,7 +183,7 @@ class PaginatedResponse(Generic[TModel]):
         """
         return self.data
 
-    def __next__(self):
+    def __next__(self):  # noqa: ANN204
         """
         Implement the iterator protocol by getting the next item in the data.
 
@@ -197,5 +197,5 @@ class PaginatedResponse(Generic[TModel]):
             result = self.data[self.index]
             self.index += 1
             return result
-        else:
+        else:  # noqa: RET505
             raise StopIteration

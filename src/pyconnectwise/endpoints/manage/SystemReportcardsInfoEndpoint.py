@@ -1,11 +1,17 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemReportcardsInfoCountEndpoint import SystemReportcardsInfoCountEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemReportcardsInfoCountEndpoint import (
+    SystemReportcardsInfoCountEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import ReportCardInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemReportcardsInfoEndpoint(
@@ -13,15 +19,22 @@ class SystemReportcardsInfoEndpoint(
     IGettable[list[ReportCardInfo], ConnectWiseManageRequestParams],
     IPaginateable[ReportCardInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ReportCardInfo])
         IPaginateable.__init__(self, ReportCardInfo)
 
-        self.count = self._register_child_endpoint(SystemReportcardsInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemReportcardsInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ReportCardInfo]:
         """
         Performs a GET request against the /system/reportCards/info endpoint and returns an initialized PaginatedResponse object.
@@ -39,11 +52,18 @@ class SystemReportcardsInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ReportCardInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ReportCardInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ReportCardInfo]:
         """
         Performs a GET request against the /system/reportCards/info endpoint.
@@ -54,4 +74,7 @@ class SystemReportcardsInfoEndpoint(
         Returns:
             list[ReportCardInfo]: The parsed response data.
         """
-        return self._parse_many(ReportCardInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ReportCardInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

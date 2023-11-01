@@ -1,14 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsCountEndpoint import \
-    ProcurementProductsIdPickingshippingdetailsCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsIdEndpoint import \
-    ProcurementProductsIdPickingshippingdetailsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsCountEndpoint import (
+    ProcurementProductsIdPickingshippingdetailsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementProductsIdPickingshippingdetailsIdEndpoint import (
+    ProcurementProductsIdPickingshippingdetailsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import ProductPickingShippingDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ProcurementProductsIdPickingshippingdetailsEndpoint(
@@ -17,17 +24,23 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
     IPostable[list[ProductPickingShippingDetail], ConnectWiseManageRequestParams],
     IPaginateable[ProductPickingShippingDetail, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "pickingShippingDetails", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "pickingShippingDetails", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ProductPickingShippingDetail])
         IPostable.__init__(self, list[ProductPickingShippingDetail])
         IPaginateable.__init__(self, ProductPickingShippingDetail)
 
         self.count = self._register_child_endpoint(
-            ProcurementProductsIdPickingshippingdetailsCountEndpoint(client, parent_endpoint=self)
+            ProcurementProductsIdPickingshippingdetailsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> ProcurementProductsIdPickingshippingdetailsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementProductsIdPickingshippingdetailsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementProductsIdPickingshippingdetailsIdEndpoint object to move down the chain.
 
@@ -36,12 +49,17 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
         Returns:
             ProcurementProductsIdPickingshippingdetailsIdEndpoint: The initialized ProcurementProductsIdPickingshippingdetailsIdEndpoint object.
         """
-        child = ProcurementProductsIdPickingshippingdetailsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementProductsIdPickingshippingdetailsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ProductPickingShippingDetail]:
         """
         Performs a GET request against the /procurement/products/{id}/pickingShippingDetails endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +77,18 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ProductPickingShippingDetail, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ProductPickingShippingDetail,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ProductPickingShippingDetail]:
         """
         Performs a GET request against the /procurement/products/{id}/pickingShippingDetails endpoint.
@@ -75,11 +100,14 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
             list[ProductPickingShippingDetail]: The parsed response data.
         """
         return self._parse_many(
-            ProductPickingShippingDetail, super()._make_request("GET", data=data, params=params).json()
+            ProductPickingShippingDetail,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ProductPickingShippingDetail]:
         """
         Performs a POST request against the /procurement/products/{id}/pickingShippingDetails endpoint.
@@ -91,5 +119,6 @@ class ProcurementProductsIdPickingshippingdetailsEndpoint(
             list[ProductPickingShippingDetail]: The parsed response data.
         """
         return self._parse_many(
-            ProductPickingShippingDetail, super()._make_request("POST", data=data, params=params).json()
+            ProductPickingShippingDetail,
+            super()._make_request("POST", data=data, params=params).json(),
         )

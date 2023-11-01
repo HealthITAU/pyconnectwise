@@ -1,10 +1,17 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import RmaStatusEmailTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
@@ -14,15 +21,20 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
     IPatchable[RmaStatusEmailTemplate, ConnectWiseManageRequestParams],
     IPaginateable[RmaStatusEmailTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, RmaStatusEmailTemplate)
         IPuttable.__init__(self, RmaStatusEmailTemplate)
         IPatchable.__init__(self, RmaStatusEmailTemplate)
         IPaginateable.__init__(self, RmaStatusEmailTemplate)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[RmaStatusEmailTemplate]:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/emailtemplates/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -40,11 +52,18 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), RmaStatusEmailTemplate, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            RmaStatusEmailTemplate,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> RmaStatusEmailTemplate:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/emailtemplates/{id} endpoint.
@@ -55,9 +74,16 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
         Returns:
             RmaStatusEmailTemplate: The parsed response data.
         """
-        return self._parse_one(RmaStatusEmailTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            RmaStatusEmailTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /procurement/rmaStatuses/{id}/emailtemplates/{id} endpoint.
 
@@ -68,7 +94,9 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> RmaStatusEmailTemplate:
         """
         Performs a PUT request against the /procurement/rmaStatuses/{id}/emailtemplates/{id} endpoint.
@@ -79,10 +107,15 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
         Returns:
             RmaStatusEmailTemplate: The parsed response data.
         """
-        return self._parse_one(RmaStatusEmailTemplate, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            RmaStatusEmailTemplate,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> RmaStatusEmailTemplate:
         """
         Performs a PATCH request against the /procurement/rmaStatuses/{id}/emailtemplates/{id} endpoint.
@@ -93,4 +126,7 @@ class ProcurementRmastatusesIdEmailtemplatesIdEndpoint(
         Returns:
             RmaStatusEmailTemplate: The parsed response data.
         """
-        return self._parse_one(RmaStatusEmailTemplate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            RmaStatusEmailTemplate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

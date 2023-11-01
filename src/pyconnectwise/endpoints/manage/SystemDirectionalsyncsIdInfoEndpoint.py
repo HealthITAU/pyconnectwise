@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import DirectionalSyncInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemDirectionalsyncsIdInfoEndpoint(
@@ -12,13 +16,18 @@ class SystemDirectionalsyncsIdInfoEndpoint(
     IGettable[DirectionalSyncInfo, ConnectWiseManageRequestParams],
     IPaginateable[DirectionalSyncInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, DirectionalSyncInfo)
         IPaginateable.__init__(self, DirectionalSyncInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[DirectionalSyncInfo]:
         """
         Performs a GET request against the /system/directionalSyncs/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +45,18 @@ class SystemDirectionalsyncsIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), DirectionalSyncInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            DirectionalSyncInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> DirectionalSyncInfo:
         """
         Performs a GET request against the /system/directionalSyncs/{id}/info endpoint.
@@ -51,4 +67,7 @@ class SystemDirectionalsyncsIdInfoEndpoint(
         Returns:
             DirectionalSyncInfo: The parsed response data.
         """
-        return self._parse_one(DirectionalSyncInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            DirectionalSyncInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

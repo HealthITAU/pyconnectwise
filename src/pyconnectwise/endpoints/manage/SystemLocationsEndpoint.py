@@ -1,12 +1,21 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemLocationsCountEndpoint import SystemLocationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemLocationsIdEndpoint import SystemLocationsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemLocationsCountEndpoint import (
+    SystemLocationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemLocationsIdEndpoint import (
+    SystemLocationsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import Location
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class SystemLocationsEndpoint(
@@ -15,15 +24,19 @@ class SystemLocationsEndpoint(
     IPostable[Location, ConnectWiseManageRequestParams],
     IPaginateable[Location, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "locations", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "locations", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Location])
         IPostable.__init__(self, Location)
         IPaginateable.__init__(self, Location)
 
-        self.count = self._register_child_endpoint(SystemLocationsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemLocationsCountEndpoint(client, parent_endpoint=self)
+        )
 
-    def id(self, id: int) -> SystemLocationsIdEndpoint:
+    def id(self, id: int) -> SystemLocationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemLocationsIdEndpoint object to move down the chain.
 
@@ -37,7 +50,10 @@ class SystemLocationsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Location]:
         """
         Performs a GET request against the /system/locations endpoint and returns an initialized PaginatedResponse object.
@@ -54,9 +70,20 @@ class SystemLocationsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Location, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Location,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Location]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Location]:
         """
         Performs a GET request against the /system/locations endpoint.
 
@@ -66,9 +93,15 @@ class SystemLocationsEndpoint(
         Returns:
             list[Location]: The parsed response data.
         """
-        return self._parse_many(Location, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Location, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Location:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Location:
         """
         Performs a POST request against the /system/locations endpoint.
 
@@ -78,4 +111,6 @@ class SystemLocationsEndpoint(
         Returns:
             Location: The parsed response data.
         """
-        return self._parse_one(Location, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Location, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -1,31 +1,45 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint import \
-    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import \
-    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint import (
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint import (
+    CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import PortalConfigurationPaymentProcessor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[list[PortalConfigurationPaymentProcessor], ConnectWiseManageRequestParams],
+    IGettable[
+        list[PortalConfigurationPaymentProcessor], ConnectWiseManageRequestParams
+    ],
     IPaginateable[PortalConfigurationPaymentProcessor, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "paymentProcessors", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "paymentProcessors", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[PortalConfigurationPaymentProcessor])
         IPaginateable.__init__(self, PortalConfigurationPaymentProcessor)
 
         self.count = self._register_child_endpoint(
-            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(client, parent_endpoint=self)
+            CompanyPortalconfigurationsInvoicesetupPaymentprocessorsCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
-    def id(self, id: int) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object to move down the chain.
 
@@ -34,12 +48,17 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
         Returns:
             CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint: The initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint and returns an initialized PaginatedResponse object.
@@ -66,7 +85,9 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[PortalConfigurationPaymentProcessor]:
         """
         Performs a GET request against the /company/portalConfigurations/invoiceSetup/paymentProcessors endpoint.
@@ -78,5 +99,6 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
             list[PortalConfigurationPaymentProcessor]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationPaymentProcessor, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationPaymentProcessor,
+            super()._make_request("GET", data=data, params=params).json(),
         )

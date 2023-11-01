@@ -1,12 +1,18 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportsetupIdEndpoint import \
-    CompanyCompaniesIdManagementreportsetupIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdManagementreportsetupIdEndpoint import (
+    CompanyCompaniesIdManagementreportsetupIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+    IPostable,
+)
 from pyconnectwise.models.manage import ManagementReportSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class CompanyCompaniesIdManagementreportsetupEndpoint(
@@ -15,13 +21,17 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
     IPostable[ManagementReportSetup, ConnectWiseManageRequestParams],
     IPaginateable[ManagementReportSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "managementReportSetup", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "managementReportSetup", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ManagementReportSetup])
         IPostable.__init__(self, ManagementReportSetup)
         IPaginateable.__init__(self, ManagementReportSetup)
 
-    def id(self, id: int) -> CompanyCompaniesIdManagementreportsetupIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyCompaniesIdManagementreportsetupIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdManagementreportsetupIdEndpoint object to move down the chain.
 
@@ -30,12 +40,17 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
         Returns:
             CompanyCompaniesIdManagementreportsetupIdEndpoint: The initialized CompanyCompaniesIdManagementreportsetupIdEndpoint object.
         """
-        child = CompanyCompaniesIdManagementreportsetupIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyCompaniesIdManagementreportsetupIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ManagementReportSetup]:
         """
         Performs a GET request against the /company/companies/{id}/managementReportSetup endpoint and returns an initialized PaginatedResponse object.
@@ -53,11 +68,18 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ManagementReportSetup, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ManagementReportSetup,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ManagementReportSetup]:
         """
         Performs a GET request against the /company/companies/{id}/managementReportSetup endpoint.
@@ -68,10 +90,15 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
         Returns:
             list[ManagementReportSetup]: The parsed response data.
         """
-        return self._parse_many(ManagementReportSetup, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ManagementReportSetup,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ManagementReportSetup:
         """
         Performs a POST request against the /company/companies/{id}/managementReportSetup endpoint.
@@ -82,4 +109,7 @@ class CompanyCompaniesIdManagementreportsetupEndpoint(
         Returns:
             ManagementReportSetup: The parsed response data.
         """
-        return self._parse_one(ManagementReportSetup, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ManagementReportSetup,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

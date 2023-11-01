@@ -1,24 +1,27 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint import \
-    ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint import \
-    ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint import (
+    ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint import (
+    ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint,
+)
 
 
 class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "emailtemplates", parent_endpoint=parent_endpoint)
-
-        self.count = self._register_child_endpoint(
-            ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint(client, parent_endpoint=self)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "emailtemplates", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
+        self.count = self._register_child_endpoint(
+            ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint(
+                client, parent_endpoint=self
+            )
+        )
+
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint object to move down the chain.
 
@@ -27,6 +30,8 @@ class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoi
         Returns:
             ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint: The initialized ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint object.
         """
-        child = ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child

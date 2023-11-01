@@ -1,10 +1,14 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import ScheduleEntryDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class ScheduleDetailsIdEndpoint(
@@ -12,13 +16,18 @@ class ScheduleDetailsIdEndpoint(
     IGettable[ScheduleEntryDetail, ConnectWiseManageRequestParams],
     IPaginateable[ScheduleEntryDetail, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ScheduleEntryDetail)
         IPaginateable.__init__(self, ScheduleEntryDetail)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ScheduleEntryDetail]:
         """
         Performs a GET request against the /schedule/details/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +45,18 @@ class ScheduleDetailsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ScheduleEntryDetail, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ScheduleEntryDetail,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ScheduleEntryDetail:
         """
         Performs a GET request against the /schedule/details/{id} endpoint.
@@ -51,4 +67,7 @@ class ScheduleDetailsIdEndpoint(
         Returns:
             ScheduleEntryDetail: The parsed response data.
         """
-        return self._parse_one(ScheduleEntryDetail, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ScheduleEntryDetail,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

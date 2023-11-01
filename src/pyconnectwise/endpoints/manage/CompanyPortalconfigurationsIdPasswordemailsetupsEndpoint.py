@@ -1,25 +1,38 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint import \
-    CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint import (
+    CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IGettable,
+    IPaginateable,
+)
 from pyconnectwise.models.manage import PortalConfigurationPasswordEmailSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseManageRequestParams,
+)
 
 
 class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[list[PortalConfigurationPasswordEmailSetup], ConnectWiseManageRequestParams],
-    IPaginateable[PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams],
+    IGettable[
+        list[PortalConfigurationPasswordEmailSetup], ConnectWiseManageRequestParams
+    ],
+    IPaginateable[
+        PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams
+    ],
 ):
-    def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "passwordEmailSetups", parent_endpoint=parent_endpoint)
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
+        ConnectWiseEndpoint.__init__(
+            self, client, "passwordEmailSetups", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[PortalConfigurationPasswordEmailSetup])
         IPaginateable.__init__(self, PortalConfigurationPasswordEmailSetup)
 
-    def id(self, id: int) -> CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint object to move down the chain.
 
@@ -28,12 +41,17 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
         Returns:
             CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(self.client, parent_endpoint=self)
+        child = CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PortalConfigurationPasswordEmailSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/passwordEmailSetups endpoint and returns an initialized PaginatedResponse object.
@@ -60,7 +78,9 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[PortalConfigurationPasswordEmailSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/passwordEmailSetups endpoint.
@@ -72,5 +92,6 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
             list[PortalConfigurationPasswordEmailSetup]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationPasswordEmailSetup, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationPasswordEmailSetup,
+            super()._make_request("GET", data=data, params=params).json(),
         )
