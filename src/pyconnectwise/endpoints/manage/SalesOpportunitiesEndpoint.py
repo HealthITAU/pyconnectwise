@@ -36,7 +36,7 @@ class SalesOpportunitiesEndpoint(
     IPostable[Opportunity, ConnectWiseManageRequestParams],
     IPaginateable[Opportunity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "opportunities", parent_endpoint=parent_endpoint
         )
@@ -60,7 +60,7 @@ class SalesOpportunitiesEndpoint(
             SalesOpportunitiesTypesEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesOpportunitiesIdEndpoint:
+    def id(self, id: int) -> SalesOpportunitiesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesIdEndpoint object to move down the chain.
 

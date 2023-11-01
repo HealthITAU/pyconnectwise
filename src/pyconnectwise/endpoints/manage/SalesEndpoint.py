@@ -23,7 +23,7 @@ from pyconnectwise.endpoints.manage.SalesStagesEndpoint import SalesStagesEndpoi
 
 
 class SalesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "sales", parent_endpoint=parent_endpoint
         )

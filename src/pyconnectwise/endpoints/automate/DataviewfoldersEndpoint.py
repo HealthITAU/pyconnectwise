@@ -19,14 +19,14 @@ class DataviewfoldersEndpoint(
     IGettable[list[LabTechDataViewFolder], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechDataViewFolder, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Dataviewfolders", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[LabTechDataViewFolder])
         IPaginateable.__init__(self, LabTechDataViewFolder)
 
-    def id(self, id: int) -> DataviewfoldersIdEndpoint:
+    def id(self, id: int) -> DataviewfoldersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized DataviewfoldersIdEndpoint object to move down the chain.
 

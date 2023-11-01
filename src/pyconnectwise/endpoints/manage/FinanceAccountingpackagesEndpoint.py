@@ -22,7 +22,7 @@ class FinanceAccountingpackagesEndpoint(
     IGettable[list[AccountingPackage], ConnectWiseManageRequestParams],
     IPaginateable[AccountingPackage, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "accountingPackages", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class FinanceAccountingpackagesEndpoint(
             FinanceAccountingpackagesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAccountingpackagesIdEndpoint:
+    def id(self, id: int) -> FinanceAccountingpackagesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingpackagesIdEndpoint object to move down the chain.
 

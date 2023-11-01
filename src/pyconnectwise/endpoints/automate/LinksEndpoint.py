@@ -16,7 +16,7 @@ class LinksEndpoint(
     IGettable[list[LabTechLink], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechLink, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Links", parent_endpoint=parent_endpoint
         )

@@ -30,7 +30,7 @@ class SystemLdapconfigurationsEndpoint(
     IPostable[LdapConfiguration, ConnectWiseManageRequestParams],
     IPaginateable[LdapConfiguration, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ldapConfigurations", parent_endpoint=parent_endpoint
         )
@@ -48,7 +48,7 @@ class SystemLdapconfigurationsEndpoint(
             SystemLdapconfigurationsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemLdapconfigurationsIdEndpoint:
+    def id(self, id: int) -> SystemLdapconfigurationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemLdapconfigurationsIdEndpoint object to move down the chain.
 

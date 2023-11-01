@@ -26,7 +26,7 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(
     IPatchable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
     IPaginateable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "opportunitySetups", parent_endpoint=parent_endpoint
         )
@@ -35,7 +35,9 @@ class CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(
         IPatchable.__init__(self, PortalConfigurationOpportunitySetup)
         IPaginateable.__init__(self, PortalConfigurationOpportunitySetup)
 
-    def id(self, id: int) -> CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint object to move down the chain.
 

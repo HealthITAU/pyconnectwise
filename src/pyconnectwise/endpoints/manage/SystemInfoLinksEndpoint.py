@@ -22,7 +22,7 @@ class SystemInfoLinksEndpoint(
     IGettable[list[LinkInfo], ConnectWiseManageRequestParams],
     IPaginateable[LinkInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "links", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemInfoLinksEndpoint(
             SystemInfoLinksCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemInfoLinksIdEndpoint:
+    def id(self, id: int) -> SystemInfoLinksIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemInfoLinksIdEndpoint object to move down the chain.
 

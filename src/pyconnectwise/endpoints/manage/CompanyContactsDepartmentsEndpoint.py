@@ -27,7 +27,7 @@ class CompanyContactsDepartmentsEndpoint(
     IPostable[ContactDepartment, ConnectWiseManageRequestParams],
     IPaginateable[ContactDepartment, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "departments", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class CompanyContactsDepartmentsEndpoint(
             CompanyContactsDepartmentsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyContactsDepartmentsIdEndpoint:
+    def id(self, id: int) -> CompanyContactsDepartmentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsDepartmentsIdEndpoint object to move down the chain.
 

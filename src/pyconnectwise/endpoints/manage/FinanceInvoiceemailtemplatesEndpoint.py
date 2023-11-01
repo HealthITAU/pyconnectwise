@@ -27,7 +27,7 @@ class FinanceInvoiceemailtemplatesEndpoint(
     IPostable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
     IPaginateable[InvoiceEmailTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "invoiceEmailTemplates", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class FinanceInvoiceemailtemplatesEndpoint(
             FinanceInvoiceemailtemplatesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceInvoiceemailtemplatesIdEndpoint:
+    def id(self, id: int) -> FinanceInvoiceemailtemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceInvoiceemailtemplatesIdEndpoint object to move down the chain.
 

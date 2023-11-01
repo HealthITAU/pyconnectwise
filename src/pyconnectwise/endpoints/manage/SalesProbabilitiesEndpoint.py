@@ -27,7 +27,7 @@ class SalesProbabilitiesEndpoint(
     IPostable[SalesProbability, ConnectWiseManageRequestParams],
     IPaginateable[SalesProbability, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "probabilities", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SalesProbabilitiesEndpoint(
             SalesProbabilitiesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesProbabilitiesIdEndpoint:
+    def id(self, id: int) -> SalesProbabilitiesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesProbabilitiesIdEndpoint object to move down the chain.
 

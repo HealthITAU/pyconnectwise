@@ -12,7 +12,7 @@ from pyconnectwise.types import (
 class UserprofilesEndpoint(
     ConnectWiseEndpoint, IGettable[LabTechUserProfile, ConnectWiseAutomateRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Userprofiles", parent_endpoint=parent_endpoint
         )

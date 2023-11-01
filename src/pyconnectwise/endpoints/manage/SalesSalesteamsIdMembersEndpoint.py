@@ -24,7 +24,7 @@ class SalesSalesteamsIdMembersEndpoint(
     IPostable[SalesTeamMember, ConnectWiseManageRequestParams],
     IPaginateable[SalesTeamMember, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "members", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SalesSalesteamsIdMembersEndpoint(
             SalesSalesteamsIdMembersCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesSalesteamsIdMembersIdEndpoint:
+    def id(self, id: int) -> SalesSalesteamsIdMembersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesSalesteamsIdMembersIdEndpoint object to move down the chain.
 

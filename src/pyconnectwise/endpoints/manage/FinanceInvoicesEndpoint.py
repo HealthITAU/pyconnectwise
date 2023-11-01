@@ -24,7 +24,7 @@ class FinanceInvoicesEndpoint(
     IPostable[Invoice, ConnectWiseManageRequestParams],
     IPaginateable[Invoice, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "invoices", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceInvoicesEndpoint(
             FinanceInvoicesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceInvoicesIdEndpoint:
+    def id(self, id: int) -> FinanceInvoicesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceInvoicesIdEndpoint object to move down the chain.
 

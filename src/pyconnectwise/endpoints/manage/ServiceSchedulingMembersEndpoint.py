@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.ServiceSchedulingMembersInfoEndpoint import 
 
 
 class ServiceSchedulingMembersEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "members", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class ServiceSchedulingMembersEndpoint(ConnectWiseEndpoint):
             ServiceSchedulingMembersInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceSchedulingMembersIdEndpoint:
+    def id(self, id: int) -> ServiceSchedulingMembersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceSchedulingMembersIdEndpoint object to move down the chain.
 

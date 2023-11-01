@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.SalesOpportunitiesIdForecastCopyIdEndpoint i
 
 
 class SalesOpportunitiesIdForecastCopyEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "copy", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> SalesOpportunitiesIdForecastCopyIdEndpoint:
+    def id(self, id: int) -> SalesOpportunitiesIdForecastCopyIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesIdForecastCopyIdEndpoint object to move down the chain.
 

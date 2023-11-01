@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.SystemMycompanyInfoServicesEndpoint import (
 
 
 class SystemMycompanyInfoEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "info", parent_endpoint=parent_endpoint
         )

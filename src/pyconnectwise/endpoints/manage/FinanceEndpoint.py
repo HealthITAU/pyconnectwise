@@ -73,7 +73,7 @@ from pyconnectwise.endpoints.manage.FinanceTaxintegrationsEndpoint import (
 
 
 class FinanceEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "finance", parent_endpoint=parent_endpoint
         )

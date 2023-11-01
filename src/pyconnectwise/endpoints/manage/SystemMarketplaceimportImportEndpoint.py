@@ -12,7 +12,7 @@ from pyconnectwise.types import (
 class SystemMarketplaceimportImportEndpoint(
     ConnectWiseEndpoint, IPostable[MarketplaceImport, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "import", parent_endpoint=parent_endpoint
         )

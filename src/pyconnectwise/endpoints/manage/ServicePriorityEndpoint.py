@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.ServicePriorityInfoEndpoint import (
 
 
 class ServicePriorityEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "priority", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class ServicePriorityEndpoint(ConnectWiseEndpoint):
             ServicePriorityInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServicePriorityIdEndpoint:
+    def id(self, id: int) -> ServicePriorityIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServicePriorityIdEndpoint object to move down the chain.
 

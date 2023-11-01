@@ -27,7 +27,7 @@ class ProjectTicketsEndpoint(
     IPostable[ProjectTicket, ConnectWiseManageRequestParams],
     IPaginateable[ProjectTicket, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "tickets", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ProjectTicketsEndpoint(
             ProjectTicketsSearchEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectTicketsIdEndpoint:
+    def id(self, id: int) -> ProjectTicketsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectTicketsIdEndpoint object to move down the chain.
 

@@ -3,7 +3,7 @@ from black import NothingChanged
 import isort
 
 
-def save_py_file(filepath: str, content: str):
+def save_py_file(filepath: str, content: str):  # noqa: ANN201
     """
     Save Python file
 
@@ -22,7 +22,7 @@ def save_py_file(filepath: str, content: str):
     """
     if ".py" not in filepath:
         filepath += ".py"
-    with open(filepath, "w") as f:
+    with open(filepath, "w") as f:  # noqa: PTH123
         try:
             formatted_content = black.format_file_contents(
                 content, fast=False, mode=black.FileMode(line_length=120)

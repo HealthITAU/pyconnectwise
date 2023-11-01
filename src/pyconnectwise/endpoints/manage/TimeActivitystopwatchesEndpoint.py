@@ -24,7 +24,7 @@ class TimeActivitystopwatchesEndpoint(
     IPostable[ActivityStopwatch, ConnectWiseManageRequestParams],
     IPaginateable[ActivityStopwatch, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "activitystopwatches", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class TimeActivitystopwatchesEndpoint(
             TimeActivitystopwatchesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeActivitystopwatchesIdEndpoint:
+    def id(self, id: int) -> TimeActivitystopwatchesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeActivitystopwatchesIdEndpoint object to move down the chain.
 

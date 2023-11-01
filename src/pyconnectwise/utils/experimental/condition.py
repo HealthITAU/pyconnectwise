@@ -4,9 +4,11 @@ from datetime import datetime
 from typing import Any
 import inspect
 import re
-from typing import TypeVar, Generic
-from collections.abc import Callable
+from typing import TypeVar, Generic, TYPE_CHECKING
 from pyconnectwise.utils.naming import to_camel_case
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 T = TypeVar("T")
 
@@ -18,7 +20,7 @@ class ValueType(Enum):
 
 
 class Condition(Generic[T]):
-    def __init__(self: Condition[T]):
+    def __init__(self: Condition[T]) -> None:
         self._condition_string: str = ""
         self._field = ""
 
@@ -43,60 +45,66 @@ class Condition(Generic[T]):
         self._condition_string += field
         return self
 
-    def equals(self: Condition[T], value: Any) -> Condition[T]:
+    def equals(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " = "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def not_equals(self: Condition[T], value: Any) -> Condition[T]:
+    def not_equals(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " = "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def less_than(self: Condition[T], value: Any) -> Condition[T]:
+    def less_than(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " < "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def less_than_or_equals(self: Condition[T], value: Any) -> Condition[T]:
+    def less_than_or_equals(
+        self: Condition[T], value: Any  # noqa: ANN401
+    ) -> Condition[T]:
         self._condition_string += " <= "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def greater_than(self: Condition[T], value: Any) -> Condition[T]:
+    def greater_than(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " > "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def greater_than_or_equals(self: Condition[T], value: Any) -> Condition[T]:
+    def greater_than_or_equals(
+        self: Condition[T], value: Any  # noqa: ANN401
+    ) -> Condition[T]:
         self._condition_string += " >= "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def contains(self: Condition[T], value: Any) -> Condition[T]:
+    def contains(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " CONTAINS "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def like(self: Condition[T], value: Any) -> Condition[T]:
+    def like(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " LIKE "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def in_(self: Condition[T], value: Any) -> Condition[T]:
+    def in_(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " IN "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def not_(self: Condition[T], value: Any) -> Condition[T]:
+    def not_(self: Condition[T], value: Any) -> Condition[T]:  # noqa: ANN401
         self._condition_string += " NOT "
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def __add_typed_value_to_string(self: Condition[T], value: Any, type: type):
+    def __add_typed_value_to_string(  # noqa: ANN202
+        self: Condition[T], value: Any, type: type  # noqa: ANN401, A002
+    ):
         if type is str:
             self._condition_string += f'"{value}"'
-        elif type is int:
+        elif type is int:  # noqa: SIM114
             self._condition_string += str(value)
         elif type is bool:
             self._condition_string += str(value)

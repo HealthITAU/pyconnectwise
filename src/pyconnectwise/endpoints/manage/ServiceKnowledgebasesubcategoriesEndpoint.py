@@ -24,7 +24,7 @@ class ServiceKnowledgebasesubcategoriesEndpoint(
     IPostable[KnowledgeBaseSubCategory, ConnectWiseManageRequestParams],
     IPaginateable[KnowledgeBaseSubCategory, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "knowledgeBaseSubCategories", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServiceKnowledgebasesubcategoriesEndpoint(
             ServiceKnowledgebasesubcategoriesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceKnowledgebasesubcategoriesIdEndpoint:
+    def id(self, id: int) -> ServiceKnowledgebasesubcategoriesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceKnowledgebasesubcategoriesIdEndpoint object to move down the chain.
 

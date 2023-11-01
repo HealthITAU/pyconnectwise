@@ -20,7 +20,7 @@ class SystemKpisEndpoint(
     IGettable[list[KPI], ConnectWiseManageRequestParams],
     IPaginateable[KPI, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "kpis", parent_endpoint=parent_endpoint
         )
@@ -31,7 +31,7 @@ class SystemKpisEndpoint(
             SystemKpisCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemKpisIdEndpoint:
+    def id(self, id: int) -> SystemKpisIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemKpisIdEndpoint object to move down the chain.
 

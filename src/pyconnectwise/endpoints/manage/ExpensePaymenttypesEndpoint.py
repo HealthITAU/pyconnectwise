@@ -27,7 +27,7 @@ class ExpensePaymenttypesEndpoint(
     IPostable[PaymentType, ConnectWiseManageRequestParams],
     IPaginateable[PaymentType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "paymentTypes", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ExpensePaymenttypesEndpoint(
             ExpensePaymenttypesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ExpensePaymenttypesIdEndpoint:
+    def id(self, id: int) -> ExpensePaymenttypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ExpensePaymenttypesIdEndpoint object to move down the chain.
 

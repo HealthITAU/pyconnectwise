@@ -24,7 +24,7 @@ class SystemPortalreportsEndpoint(
     IPostable[PortalReport, ConnectWiseManageRequestParams],
     IPaginateable[PortalReport, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "portalReports", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemPortalreportsEndpoint(
             SystemPortalreportsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemPortalreportsIdEndpoint:
+    def id(self, id: int) -> SystemPortalreportsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemPortalreportsIdEndpoint object to move down the chain.
 

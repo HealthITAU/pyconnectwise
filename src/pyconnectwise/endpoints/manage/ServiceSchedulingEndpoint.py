@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.ServiceSchedulingMembersEndpoint import (
 
 
 class ServiceSchedulingEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "scheduling", parent_endpoint=parent_endpoint
         )

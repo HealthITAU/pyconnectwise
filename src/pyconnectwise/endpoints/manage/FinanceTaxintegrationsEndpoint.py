@@ -22,7 +22,7 @@ class FinanceTaxintegrationsEndpoint(
     IGettable[list[TaxIntegration], ConnectWiseManageRequestParams],
     IPaginateable[TaxIntegration, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "taxIntegrations", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class FinanceTaxintegrationsEndpoint(
             FinanceTaxintegrationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceTaxintegrationsIdEndpoint:
+    def id(self, id: int) -> FinanceTaxintegrationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceTaxintegrationsIdEndpoint object to move down the chain.
 

@@ -24,7 +24,7 @@ class SystemMembersIdDelegationsEndpoint(
     IPostable[MemberDelegation, ConnectWiseManageRequestParams],
     IPaginateable[MemberDelegation, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "delegations", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemMembersIdDelegationsEndpoint(
             SystemMembersIdDelegationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMembersIdDelegationsIdEndpoint:
+    def id(self, id: int) -> SystemMembersIdDelegationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdDelegationsIdEndpoint object to move down the chain.
 

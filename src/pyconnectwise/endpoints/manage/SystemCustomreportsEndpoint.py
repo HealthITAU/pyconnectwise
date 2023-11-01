@@ -24,7 +24,7 @@ class SystemCustomreportsEndpoint(
     IPostable[CustomReport, ConnectWiseManageRequestParams],
     IPaginateable[CustomReport, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "customReports", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemCustomreportsEndpoint(
             SystemCustomreportsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemCustomreportsIdEndpoint:
+    def id(self, id: int) -> SystemCustomreportsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemCustomreportsIdEndpoint object to move down the chain.
 

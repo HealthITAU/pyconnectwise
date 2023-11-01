@@ -5,7 +5,7 @@ from astunparse import unparse
 import re
 
 
-def move_imports_to_bottom(filename):
+def move_imports_to_bottom(filename):  # noqa: ANN001, ANN201
     exceptions = [
         "pydantic",
         "typing",
@@ -14,7 +14,7 @@ def move_imports_to_bottom(filename):
         "__future__",
         "pyconnectwise.models.base.connectwise_model",
     ]
-    with open(filename) as file:
+    with open(filename) as file:  # noqa: PTH123
         source_code = file.read()
 
     module = parse(source_code)
@@ -23,7 +23,7 @@ def move_imports_to_bottom(filename):
     # Check each statement in the body of the module
     for i, statement in reversed(list(enumerate(body))):
         # If the statement is an import
-        if isinstance(statement, ast.Import) or isinstance(statement, ast.ImportFrom):
+        if isinstance(statement, (ast.Import, ast.ImportFrom)):  # noqa: SIM102
             # If the imported module is not in the list of exceptions
             if not any(ex in unparse(statement) for ex in exceptions):
                 # Remove the import statement from its current position and append it to the end of the body
@@ -35,15 +35,15 @@ def move_imports_to_bottom(filename):
     updated_source_code = re.sub(r"\n\s*\n", "\n\n", updated_source_code)
 
     # Writing back the updated source code to the file
-    with open(filename, "w") as file:
+    with open(filename, "w") as file:  # noqa: PTH123
         file.write(updated_source_code)
 
 
-def post_process_directory(dir_path):
+def post_process_directory(dir_path):  # noqa: ANN001, ANN201
     for root, _, files in os.walk(dir_path):
         for file in files:
             if file.endswith(".py"):
-                file_path = os.path.join(root, file)
+                file_path = os.path.join(root, file)  # noqa: PTH118
                 move_imports_to_bottom(file_path)
 
 

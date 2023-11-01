@@ -19,14 +19,14 @@ class SystemMycompanyDocumentsEndpoint(
     IGettable[list[DocumentSetup], ConnectWiseManageRequestParams],
     IPaginateable[DocumentSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "documents", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[DocumentSetup])
         IPaginateable.__init__(self, DocumentSetup)
 
-    def id(self, id: int) -> SystemMycompanyDocumentsIdEndpoint:
+    def id(self, id: int) -> SystemMycompanyDocumentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyDocumentsIdEndpoint object to move down the chain.
 

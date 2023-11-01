@@ -35,7 +35,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(
         ConnectWiseManageRequestParams,
     ],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "typeAssociations", parent_endpoint=parent_endpoint
         )
@@ -53,7 +53,7 @@ class CompanyCompaniesIdTypeassociationsEndpoint(
             )
         )
 
-    def id(self, id: int) -> CompanyCompaniesIdTypeassociationsIdEndpoint:
+    def id(self, id: int) -> CompanyCompaniesIdTypeassociationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdTypeassociationsIdEndpoint object to move down the chain.
 

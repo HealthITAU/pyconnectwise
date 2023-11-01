@@ -16,7 +16,7 @@ class RetiredassetsEndpoint(
     IGettable[list[LabTechRetiredAsset], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechRetiredAsset, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Retiredassets", parent_endpoint=parent_endpoint
         )

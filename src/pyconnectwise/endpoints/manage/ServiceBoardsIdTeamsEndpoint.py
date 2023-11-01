@@ -27,7 +27,7 @@ class ServiceBoardsIdTeamsEndpoint(
     IPostable[BoardTeam, ConnectWiseManageRequestParams],
     IPaginateable[BoardTeam, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "teams", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ServiceBoardsIdTeamsEndpoint(
             ServiceBoardsIdTeamsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceBoardsIdTeamsIdEndpoint:
+    def id(self, id: int) -> ServiceBoardsIdTeamsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceBoardsIdTeamsIdEndpoint object to move down the chain.
 

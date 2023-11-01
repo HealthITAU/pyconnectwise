@@ -24,7 +24,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
     ],
     IPaginateable[PortalConfigurationPaymentProcessor, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "paymentProcessors", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,7 @@ class CompanyPortalconfigurationsInvoicesetupPaymentprocessorsEndpoint(
         )
 
     def id(
-        self, id: int
+        self, id: int  # noqa: A002
     ) -> CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsInvoicesetupPaymentprocessorsIdEndpoint object to move down the chain.

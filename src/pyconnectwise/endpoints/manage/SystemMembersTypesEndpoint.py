@@ -27,7 +27,7 @@ class SystemMembersTypesEndpoint(
     IPostable[MemberType, ConnectWiseManageRequestParams],
     IPaginateable[MemberType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "types", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SystemMembersTypesEndpoint(
             SystemMembersTypesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMembersTypesIdEndpoint:
+    def id(self, id: int) -> SystemMembersTypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersTypesIdEndpoint object to move down the chain.
 

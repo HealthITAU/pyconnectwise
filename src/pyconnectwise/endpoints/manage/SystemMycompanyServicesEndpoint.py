@@ -19,14 +19,14 @@ class SystemMycompanyServicesEndpoint(
     IGettable[list[Service], ConnectWiseManageRequestParams],
     IPaginateable[Service, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "services", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[Service])
         IPaginateable.__init__(self, Service)
 
-    def id(self, id: int) -> SystemMycompanyServicesIdEndpoint:
+    def id(self, id: int) -> SystemMycompanyServicesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyServicesIdEndpoint object to move down the chain.
 

@@ -22,7 +22,7 @@ class SystemMycompanyCorporatestructurelevelsEndpoint(
     IGettable[list[CorporateStructureLevel], ConnectWiseManageRequestParams],
     IPaginateable[CorporateStructureLevel, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "corporateStructureLevels", parent_endpoint=parent_endpoint
         )
@@ -35,7 +35,9 @@ class SystemMycompanyCorporatestructurelevelsEndpoint(
             )
         )
 
-    def id(self, id: int) -> SystemMycompanyCorporatestructurelevelsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> SystemMycompanyCorporatestructurelevelsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyCorporatestructurelevelsIdEndpoint object to move down the chain.
 

@@ -22,7 +22,7 @@ class ProcurementSettingsEndpoint(
     IGettable[list[ProcurementSetting], ConnectWiseManageRequestParams],
     IPaginateable[ProcurementSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "settings", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ProcurementSettingsEndpoint(
             ProcurementSettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementSettingsIdEndpoint:
+    def id(self, id: int) -> ProcurementSettingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementSettingsIdEndpoint object to move down the chain.
 

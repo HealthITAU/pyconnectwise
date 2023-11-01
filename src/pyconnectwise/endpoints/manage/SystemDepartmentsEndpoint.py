@@ -24,7 +24,7 @@ class SystemDepartmentsEndpoint(
     IPostable[Department, ConnectWiseManageRequestParams],
     IPaginateable[Department, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "departments", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemDepartmentsEndpoint(
             SystemDepartmentsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemDepartmentsIdEndpoint:
+    def id(self, id: int) -> SystemDepartmentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemDepartmentsIdEndpoint object to move down the chain.
 

@@ -16,7 +16,7 @@ class ComputersIdDriversEndpoint(
     IGettable[list[LabTechComputerDriver], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechComputerDriver, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Drivers", parent_endpoint=parent_endpoint
         )

@@ -19,12 +19,12 @@ TRequestParams = TypeVar(
 
 
 class IMethodBase(ABC, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         self.model = model
 
 
 class IPaginateable(IMethodBase, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod
@@ -38,7 +38,7 @@ class IPaginateable(IMethodBase, Generic[TModel, TRequestParams]):
 
 
 class IGettable(IMethodBase, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod
@@ -51,7 +51,7 @@ class IGettable(IMethodBase, Generic[TModel, TRequestParams]):
 
 
 class IPostable(IMethodBase, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod
@@ -64,7 +64,7 @@ class IPostable(IMethodBase, Generic[TModel, TRequestParams]):
 
 
 class IPatchable(IMethodBase, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod
@@ -77,7 +77,7 @@ class IPatchable(IMethodBase, Generic[TModel, TRequestParams]):
 
 
 class IPuttable(IMethodBase, Generic[TModel, TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod
@@ -90,7 +90,7 @@ class IPuttable(IMethodBase, Generic[TModel, TRequestParams]):
 
 
 class IDeleteable(IMethodBase, Generic[TRequestParams]):
-    def __init__(self, model: TModel):
+    def __init__(self, model: TModel) -> None:
         super().__init__(model)
 
     @abstractmethod

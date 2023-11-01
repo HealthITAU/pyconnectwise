@@ -22,7 +22,7 @@ class FinanceInfoCurrencycodesEndpoint(
     IGettable[list[CurrencyCode], ConnectWiseManageRequestParams],
     IPaginateable[CurrencyCode, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "currencyCodes", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class FinanceInfoCurrencycodesEndpoint(
             FinanceInfoCurrencycodesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceInfoCurrencycodesIdEndpoint:
+    def id(self, id: int) -> FinanceInfoCurrencycodesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceInfoCurrencycodesIdEndpoint object to move down the chain.
 

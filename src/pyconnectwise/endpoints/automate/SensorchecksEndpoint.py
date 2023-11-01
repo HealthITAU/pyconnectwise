@@ -16,7 +16,7 @@ class SensorchecksEndpoint(
     IGettable[list[LabTechSensorCheck], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechSensorCheck, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Sensorchecks", parent_endpoint=parent_endpoint
         )

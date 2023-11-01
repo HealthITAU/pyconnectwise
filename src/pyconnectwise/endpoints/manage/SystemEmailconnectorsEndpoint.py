@@ -27,7 +27,7 @@ class SystemEmailconnectorsEndpoint(
     IPostable[EmailConnector, ConnectWiseManageRequestParams],
     IPaginateable[EmailConnector, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "emailConnectors", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SystemEmailconnectorsEndpoint(
             SystemEmailconnectorsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemEmailconnectorsIdEndpoint:
+    def id(self, id: int) -> SystemEmailconnectorsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemEmailconnectorsIdEndpoint object to move down the chain.
 

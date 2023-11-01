@@ -16,7 +16,7 @@ class ComputersSoftwareEndpoint(
     IGettable[list[LabTechComputerSoftware], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechComputerSoftware, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Software", parent_endpoint=parent_endpoint
         )

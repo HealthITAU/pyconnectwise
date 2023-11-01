@@ -16,7 +16,7 @@ class RoutersEndpoint(
     IGettable[list[LabTechRouter], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechRouter, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Routers", parent_endpoint=parent_endpoint
         )

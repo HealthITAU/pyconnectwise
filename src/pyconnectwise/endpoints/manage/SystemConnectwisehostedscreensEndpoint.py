@@ -22,7 +22,7 @@ class SystemConnectwisehostedscreensEndpoint(
     IGettable[list[ConnectWiseHostedScreen], ConnectWiseManageRequestParams],
     IPaginateable[ConnectWiseHostedScreen, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "connectWiseHostedScreens", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemConnectwisehostedscreensEndpoint(
             SystemConnectwisehostedscreensCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemConnectwisehostedscreensIdEndpoint:
+    def id(self, id: int) -> SystemConnectwisehostedscreensIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemConnectwisehostedscreensIdEndpoint object to move down the chain.
 

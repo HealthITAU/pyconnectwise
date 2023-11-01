@@ -22,7 +22,7 @@ class CompanyM365contactsyncPropertyEndpoint(
     ConnectWiseEndpoint,
     IPostable[M365ContactSyncProperty, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "property", parent_endpoint=parent_endpoint
         )

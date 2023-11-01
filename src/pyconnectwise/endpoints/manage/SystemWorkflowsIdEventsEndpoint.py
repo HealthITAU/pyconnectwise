@@ -24,7 +24,7 @@ class SystemWorkflowsIdEventsEndpoint(
     IPostable[WorkflowEvent, ConnectWiseManageRequestParams],
     IPaginateable[WorkflowEvent, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "events", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemWorkflowsIdEventsEndpoint(
             SystemWorkflowsIdEventsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemWorkflowsIdEventsIdEndpoint:
+    def id(self, id: int) -> SystemWorkflowsIdEventsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsIdEventsIdEndpoint object to move down the chain.
 

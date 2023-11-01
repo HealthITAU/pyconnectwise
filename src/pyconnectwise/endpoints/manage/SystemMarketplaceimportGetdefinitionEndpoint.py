@@ -5,12 +5,14 @@ from pyconnectwise.endpoints.manage.SystemMarketplaceimportGetdefinitionIdEndpoi
 
 
 class SystemMarketplaceimportGetdefinitionEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "getdefinition", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> SystemMarketplaceimportGetdefinitionIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> SystemMarketplaceimportGetdefinitionIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMarketplaceimportGetdefinitionIdEndpoint object to move down the chain.
 

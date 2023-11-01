@@ -27,7 +27,7 @@ class ProcurementRmastatusesEndpoint(
     IPostable[RmaStatus, ConnectWiseManageRequestParams],
     IPaginateable[RmaStatus, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "rmaStatuses", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ProcurementRmastatusesEndpoint(
             ProcurementRmastatusesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementRmastatusesIdEndpoint:
+    def id(self, id: int) -> ProcurementRmastatusesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementRmastatusesIdEndpoint object to move down the chain.
 

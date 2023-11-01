@@ -20,7 +20,7 @@ from pyconnectwise.endpoints.manage.SystemM365contactsyncNotifyerrorEndpoint imp
 
 
 class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "m365contactsync", parent_endpoint=parent_endpoint
         )
@@ -43,7 +43,7 @@ class SystemM365contactsyncEndpoint(ConnectWiseEndpoint):
             SystemM365contactsyncCheckvalidsyncEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemM365contactsyncIdEndpoint:
+    def id(self, id: int) -> SystemM365contactsyncIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemM365contactsyncIdEndpoint object to move down the chain.
 

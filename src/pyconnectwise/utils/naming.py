@@ -19,5 +19,5 @@ def to_title_case_preserve_case(string: str) -> str:
 def ensure_not_reserved(string: str) -> str:
     if iskeyword(string):
         return string + "_"
-    else:
+    else:  # noqa: RET505
         return string

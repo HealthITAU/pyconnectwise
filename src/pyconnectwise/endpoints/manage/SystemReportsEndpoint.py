@@ -19,14 +19,14 @@ class SystemReportsEndpoint(
     IGettable[list[Report], ConnectWiseManageRequestParams],
     IPaginateable[Report, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "reports", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[Report])
         IPaginateable.__init__(self, Report)
 
-    def id(self, id: int) -> SystemReportsIdEndpoint:
+    def id(self, id: int) -> SystemReportsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemReportsIdEndpoint object to move down the chain.
 

@@ -24,7 +24,7 @@ class ProcurementProductsEndpoint(
     IPostable[ProductItem, ConnectWiseManageRequestParams],
     IPaginateable[ProductItem, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "products", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProcurementProductsEndpoint(
             ProcurementProductsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementProductsIdEndpoint:
+    def id(self, id: int) -> ProcurementProductsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementProductsIdEndpoint object to move down the chain.
 

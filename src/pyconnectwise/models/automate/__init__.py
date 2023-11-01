@@ -3,9 +3,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime  # noqa: TCH003
 from typing import Any, Literal
-from uuid import UUID
+from uuid import UUID  # noqa: TCH003
 
 from pydantic import Field
 

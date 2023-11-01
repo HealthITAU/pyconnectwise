@@ -24,7 +24,7 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(
     IPostable[TaxCodeXRef, ConnectWiseManageRequestParams],
     IPaginateable[TaxCodeXRef, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "taxCodeXRefs", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceTaxcodesIdTaxcodexrefsEndpoint(
             FinanceTaxcodesIdTaxcodexrefsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceTaxcodesIdTaxcodexrefsIdEndpoint:
+    def id(self, id: int) -> FinanceTaxcodesIdTaxcodexrefsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceTaxcodesIdTaxcodexrefsIdEndpoint object to move down the chain.
 

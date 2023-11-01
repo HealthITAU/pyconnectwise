@@ -6,7 +6,7 @@ from pyconnectwise.endpoints.manage.ServiceSlasInfoEndpoint import (
 
 
 class ServiceSlasEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "slas", parent_endpoint=parent_endpoint
         )
@@ -15,7 +15,7 @@ class ServiceSlasEndpoint(ConnectWiseEndpoint):
             ServiceSlasInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceSlasIdEndpoint:
+    def id(self, id: int) -> ServiceSlasIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceSlasIdEndpoint object to move down the chain.
 

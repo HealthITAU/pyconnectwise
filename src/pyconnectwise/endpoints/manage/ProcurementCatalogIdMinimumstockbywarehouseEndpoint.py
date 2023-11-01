@@ -24,7 +24,7 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
     IPostable[MinimumStockByWarehouse, ConnectWiseManageRequestParams],
     IPaginateable[MinimumStockByWarehouse, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
             )
         )
 
-    def id(self, id: int) -> ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint object to move down the chain.
 

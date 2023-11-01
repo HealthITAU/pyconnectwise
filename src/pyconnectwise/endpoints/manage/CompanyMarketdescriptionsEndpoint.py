@@ -27,7 +27,7 @@ class CompanyMarketdescriptionsEndpoint(
     IPostable[MarketDescription, ConnectWiseManageRequestParams],
     IPaginateable[MarketDescription, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "marketDescriptions", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class CompanyMarketdescriptionsEndpoint(
             CompanyMarketdescriptionsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyMarketdescriptionsIdEndpoint:
+    def id(self, id: int) -> CompanyMarketdescriptionsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyMarketdescriptionsIdEndpoint object to move down the chain.
 

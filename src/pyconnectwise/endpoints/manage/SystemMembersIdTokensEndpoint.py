@@ -12,7 +12,7 @@ from pyconnectwise.types import (
 class SystemMembersIdTokensEndpoint(
     ConnectWiseEndpoint, IPostable[Token, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "tokens", parent_endpoint=parent_endpoint
         )

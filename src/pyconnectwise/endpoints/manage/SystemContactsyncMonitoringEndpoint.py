@@ -28,7 +28,7 @@ class SystemContactsyncMonitoringEndpoint(
     IGettable[list[M365ContactSyncMonitoring], ConnectWiseManageRequestParams],
     IPaginateable[M365ContactSyncMonitoring, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "monitoring", parent_endpoint=parent_endpoint
         )
@@ -47,7 +47,7 @@ class SystemContactsyncMonitoringEndpoint(
             SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemContactsyncMonitoringIdEndpoint:
+    def id(self, id: int) -> SystemContactsyncMonitoringIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemContactsyncMonitoringIdEndpoint object to move down the chain.
 

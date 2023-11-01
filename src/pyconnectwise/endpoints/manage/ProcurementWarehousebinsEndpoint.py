@@ -27,7 +27,7 @@ class ProcurementWarehousebinsEndpoint(
     IPostable[WarehouseBin, ConnectWiseManageRequestParams],
     IPaginateable[WarehouseBin, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "warehouseBins", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ProcurementWarehousebinsEndpoint(
             ProcurementWarehousebinsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementWarehousebinsIdEndpoint:
+    def id(self, id: int) -> ProcurementWarehousebinsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementWarehousebinsIdEndpoint object to move down the chain.
 

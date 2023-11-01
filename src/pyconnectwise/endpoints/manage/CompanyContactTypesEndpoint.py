@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.CompanyContactTypesIdEndpoint import (
 
 
 class CompanyContactTypesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "types", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> CompanyContactTypesIdEndpoint:
+    def id(self, id: int) -> CompanyContactTypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactTypesIdEndpoint object to move down the chain.
 

@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyBillingsetupsInfoEndpoint import (
 
 
 class CompanyBillingsetupsEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "billingSetups", parent_endpoint=parent_endpoint
         )

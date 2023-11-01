@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.SystemOnpremisesearchsettingIdEndpoint impor
 
 
 class SystemOnpremisesearchsettingEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "onPremiseSearchSetting", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class SystemOnpremisesearchsettingEndpoint(ConnectWiseEndpoint):
             SystemOnpremisesearchsettingCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemOnpremisesearchsettingIdEndpoint:
+    def id(self, id: int) -> SystemOnpremisesearchsettingIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemOnpremisesearchsettingIdEndpoint object to move down the chain.
 

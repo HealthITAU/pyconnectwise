@@ -28,7 +28,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(
         ManagedDevicesIntegrationCrossReference, ConnectWiseManageRequestParams
     ],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "crossReferences", parent_endpoint=parent_endpoint
         )
@@ -43,7 +43,7 @@ class CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(
         )
 
     def id(
-        self, id: int
+        self, id: int  # noqa: A002
     ) -> CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManageddevicesintegrationsIdCrossreferencesIdEndpoint object to move down the chain.

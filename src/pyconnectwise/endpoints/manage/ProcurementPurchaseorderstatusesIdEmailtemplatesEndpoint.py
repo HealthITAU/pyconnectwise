@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtempl
 
 
 class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "emailtemplates", parent_endpoint=parent_endpoint
         )
@@ -19,7 +19,9 @@ class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoi
             )
         )
 
-    def id(self, id: int) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint object to move down the chain.
 

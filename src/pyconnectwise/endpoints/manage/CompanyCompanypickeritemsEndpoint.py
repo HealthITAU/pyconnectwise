@@ -27,7 +27,7 @@ class CompanyCompanypickeritemsEndpoint(
     IPostable[CompanyPickerItem, ConnectWiseManageRequestParams],
     IPaginateable[CompanyPickerItem, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "companyPickerItems", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class CompanyCompanypickeritemsEndpoint(
             CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:
+    def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompanypickeritemsIdEndpoint object to move down the chain.
 

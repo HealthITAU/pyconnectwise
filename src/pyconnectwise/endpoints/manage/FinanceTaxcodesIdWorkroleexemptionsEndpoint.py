@@ -24,7 +24,7 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(
     IPostable[WorkRoleExemption, ConnectWiseManageRequestParams],
     IPaginateable[WorkRoleExemption, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "workRoleExemptions", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class FinanceTaxcodesIdWorkroleexemptionsEndpoint(
             )
         )
 
-    def id(self, id: int) -> FinanceTaxcodesIdWorkroleexemptionsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> FinanceTaxcodesIdWorkroleexemptionsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceTaxcodesIdWorkroleexemptionsIdEndpoint object to move down the chain.
 

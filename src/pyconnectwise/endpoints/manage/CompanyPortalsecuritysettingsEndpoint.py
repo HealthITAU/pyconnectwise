@@ -22,7 +22,7 @@ class CompanyPortalsecuritysettingsEndpoint(
     IGettable[list[PortalSecuritySetting], ConnectWiseManageRequestParams],
     IPaginateable[PortalSecuritySetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "portalSecuritySettings", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class CompanyPortalsecuritysettingsEndpoint(
             CompanyPortalsecuritysettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyPortalsecuritysettingsIdEndpoint:
+    def id(self, id: int) -> CompanyPortalsecuritysettingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalsecuritysettingsIdEndpoint object to move down the chain.
 

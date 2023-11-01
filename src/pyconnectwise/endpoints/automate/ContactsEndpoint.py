@@ -19,7 +19,7 @@ class ContactsEndpoint(
     IPostable[AutomateContact, ConnectWiseAutomateRequestParams],
     IPaginateable[AutomateContact, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Contacts", parent_endpoint=parent_endpoint
         )
@@ -27,7 +27,7 @@ class ContactsEndpoint(
         IPostable.__init__(self, AutomateContact)
         IPaginateable.__init__(self, AutomateContact)
 
-    def id(self, id: int) -> ContactsIdEndpoint:
+    def id(self, id: int) -> ContactsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ContactsIdEndpoint object to move down the chain.
 

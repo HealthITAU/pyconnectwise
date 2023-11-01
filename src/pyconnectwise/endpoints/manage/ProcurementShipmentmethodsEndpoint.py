@@ -27,7 +27,7 @@ class ProcurementShipmentmethodsEndpoint(
     IPostable[ShipmentMethod, ConnectWiseManageRequestParams],
     IPaginateable[ShipmentMethod, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "shipmentmethods", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ProcurementShipmentmethodsEndpoint(
             ProcurementShipmentmethodsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementShipmentmethodsIdEndpoint:
+    def id(self, id: int) -> ProcurementShipmentmethodsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementShipmentmethodsIdEndpoint object to move down the chain.
 

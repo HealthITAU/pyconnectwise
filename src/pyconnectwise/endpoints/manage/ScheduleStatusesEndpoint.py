@@ -24,7 +24,7 @@ class ScheduleStatusesEndpoint(
     IPostable[ScheduleStatus, ConnectWiseManageRequestParams],
     IPaginateable[ScheduleStatus, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "statuses", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ScheduleStatusesEndpoint(
             ScheduleStatusesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ScheduleStatusesIdEndpoint:
+    def id(self, id: int) -> ScheduleStatusesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ScheduleStatusesIdEndpoint object to move down the chain.
 

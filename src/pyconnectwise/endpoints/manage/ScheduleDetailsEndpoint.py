@@ -22,7 +22,7 @@ class ScheduleDetailsEndpoint(
     IGettable[list[ScheduleEntryDetail], ConnectWiseManageRequestParams],
     IPaginateable[ScheduleEntryDetail, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "details", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ScheduleDetailsEndpoint(
             ScheduleDetailsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ScheduleDetailsIdEndpoint:
+    def id(self, id: int) -> ScheduleDetailsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ScheduleDetailsIdEndpoint object to move down the chain.
 

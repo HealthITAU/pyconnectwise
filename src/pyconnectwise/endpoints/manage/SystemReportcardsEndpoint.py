@@ -27,7 +27,7 @@ class SystemReportcardsEndpoint(
     IPostable[ReportCard, ConnectWiseManageRequestParams],
     IPaginateable[ReportCard, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "reportCards", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SystemReportcardsEndpoint(
             SystemReportcardsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemReportcardsIdEndpoint:
+    def id(self, id: int) -> SystemReportcardsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemReportcardsIdEndpoint object to move down the chain.
 

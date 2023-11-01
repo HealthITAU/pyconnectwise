@@ -22,7 +22,7 @@ class ExpenseInfoTaxtypesEndpoint(
     IGettable[list[ExpenseTaxTypeInfo], ConnectWiseManageRequestParams],
     IPaginateable[ExpenseTaxTypeInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "taxTypes", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ExpenseInfoTaxtypesEndpoint(
             ExpenseInfoTaxtypesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ExpenseInfoTaxtypesIdEndpoint:
+    def id(self, id: int) -> ExpenseInfoTaxtypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ExpenseInfoTaxtypesIdEndpoint object to move down the chain.
 

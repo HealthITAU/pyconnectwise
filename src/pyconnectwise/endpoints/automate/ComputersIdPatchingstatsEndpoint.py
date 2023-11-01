@@ -16,7 +16,7 @@ class ComputersIdPatchingstatsEndpoint(
     IGettable[AutomateComputerPatchingStats, ConnectWiseAutomateRequestParams],
     IPaginateable[AutomateComputerPatchingStats, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Patchingstats", parent_endpoint=parent_endpoint
         )

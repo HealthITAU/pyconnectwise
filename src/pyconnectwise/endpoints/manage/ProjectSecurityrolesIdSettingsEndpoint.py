@@ -22,7 +22,7 @@ class ProjectSecurityrolesIdSettingsEndpoint(
     IGettable[list[ProjectSecurityRoleSetting], ConnectWiseManageRequestParams],
     IPaginateable[ProjectSecurityRoleSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "settings", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ProjectSecurityrolesIdSettingsEndpoint(
             ProjectSecurityrolesIdSettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectSecurityrolesIdSettingsIdEndpoint:
+    def id(self, id: int) -> ProjectSecurityrolesIdSettingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectSecurityrolesIdSettingsIdEndpoint object to move down the chain.
 

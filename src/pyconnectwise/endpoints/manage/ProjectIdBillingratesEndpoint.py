@@ -24,7 +24,7 @@ class ProjectIdBillingratesEndpoint(
     IPostable[ProjectBillingRate, ConnectWiseManageRequestParams],
     IPaginateable[ProjectBillingRate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "billingRates", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProjectIdBillingratesEndpoint(
             ProjectIdBillingratesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectIdBillingratesIdEndpoint:
+    def id(self, id: int) -> ProjectIdBillingratesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectIdBillingratesIdEndpoint object to move down the chain.
 

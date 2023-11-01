@@ -19,7 +19,7 @@ class SystemMymembersEndpoint(
     IGettable[MyMember, ConnectWiseManageRequestParams],
     IPaginateable[MyMember, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "myMembers", parent_endpoint=parent_endpoint
         )

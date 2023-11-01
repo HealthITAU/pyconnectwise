@@ -24,7 +24,7 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(
     IPostable[ServiceSignoffCustomField, ConnectWiseManageRequestParams],
     IPaginateable[ServiceSignoffCustomField, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "signoffcustomfields", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(
             )
         )
 
-    def id(self, id: int) -> ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint object to move down the chain.
 

@@ -22,7 +22,7 @@ class ServiceInfoBoardsEndpoint(
     IGettable[list[BoardInfo], ConnectWiseManageRequestParams],
     IPaginateable[BoardInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "boards", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ServiceInfoBoardsEndpoint(
             ServiceInfoBoardsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceInfoBoardsIdEndpoint:
+    def id(self, id: int) -> ServiceInfoBoardsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceInfoBoardsIdEndpoint object to move down the chain.
 

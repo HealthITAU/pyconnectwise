@@ -23,14 +23,16 @@ class CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(
         PortalConfigurationPasswordEmailSetup, ConnectWiseManageRequestParams
     ],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "passwordEmailSetups", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[PortalConfigurationPasswordEmailSetup])
         IPaginateable.__init__(self, PortalConfigurationPasswordEmailSetup)
 
-    def id(self, id: int) -> CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdPasswordemailsetupsIdEndpoint object to move down the chain.
 

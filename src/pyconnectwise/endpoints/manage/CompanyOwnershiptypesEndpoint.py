@@ -27,7 +27,7 @@ class CompanyOwnershiptypesEndpoint(
     IPostable[OwnershipType, ConnectWiseManageRequestParams],
     IPaginateable[OwnershipType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ownershipTypes", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class CompanyOwnershiptypesEndpoint(
             CompanyOwnershiptypesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyOwnershiptypesIdEndpoint:
+    def id(self, id: int) -> CompanyOwnershiptypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyOwnershiptypesIdEndpoint object to move down the chain.
 

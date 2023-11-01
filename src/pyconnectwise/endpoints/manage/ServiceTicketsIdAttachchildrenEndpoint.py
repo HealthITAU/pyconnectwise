@@ -12,7 +12,7 @@ from pyconnectwise.types import (
 class ServiceTicketsIdAttachchildrenEndpoint(
     ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "attachChildren", parent_endpoint=parent_endpoint
         )

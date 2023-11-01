@@ -24,7 +24,7 @@ class SystemMyaccountIdSkillsEndpoint(
     IPostable[MemberSkill, ConnectWiseManageRequestParams],
     IPaginateable[MemberSkill, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "skills", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemMyaccountIdSkillsEndpoint(
             SystemMyaccountIdSkillsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMyaccountIdSkillsIdEndpoint:
+    def id(self, id: int) -> SystemMyaccountIdSkillsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMyaccountIdSkillsIdEndpoint object to move down the chain.
 

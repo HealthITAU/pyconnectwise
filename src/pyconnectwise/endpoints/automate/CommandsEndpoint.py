@@ -17,14 +17,14 @@ class CommandsEndpoint(
     IGettable[list[LabTechCommand], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechCommand, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Commands", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[LabTechCommand])
         IPaginateable.__init__(self, LabTechCommand)
 
-    def id(self, id: int) -> CommandsIdEndpoint:
+    def id(self, id: int) -> CommandsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CommandsIdEndpoint object to move down the chain.
 

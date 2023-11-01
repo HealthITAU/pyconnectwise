@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.SystemGoogleemailsetupIdEndpoint import (
 
 
 class SystemGoogleemailsetupEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "googleemailsetup", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class SystemGoogleemailsetupEndpoint(ConnectWiseEndpoint):
             SystemGoogleemailsetupCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemGoogleemailsetupIdEndpoint:
+    def id(self, id: int) -> SystemGoogleemailsetupIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemGoogleemailsetupIdEndpoint object to move down the chain.
 

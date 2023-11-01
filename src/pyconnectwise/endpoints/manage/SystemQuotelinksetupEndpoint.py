@@ -27,7 +27,7 @@ class SystemQuotelinksetupEndpoint(
     IPostable[QuoteLink, ConnectWiseManageRequestParams],
     IPaginateable[QuoteLink, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "quoteLinkSetup", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SystemQuotelinksetupEndpoint(
             SystemQuotelinksetupTestconnectionEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemQuotelinksetupIdEndpoint:
+    def id(self, id: int) -> SystemQuotelinksetupIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemQuotelinksetupIdEndpoint object to move down the chain.
 

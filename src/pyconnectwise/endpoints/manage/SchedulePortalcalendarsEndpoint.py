@@ -22,7 +22,7 @@ class SchedulePortalcalendarsEndpoint(
     IGettable[list[PortalCalendar], ConnectWiseManageRequestParams],
     IPaginateable[PortalCalendar, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "portalcalendars", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SchedulePortalcalendarsEndpoint(
             SchedulePortalcalendarsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SchedulePortalcalendarsIdEndpoint:
+    def id(self, id: int) -> SchedulePortalcalendarsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SchedulePortalcalendarsIdEndpoint object to move down the chain.
 

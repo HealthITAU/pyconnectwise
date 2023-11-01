@@ -24,7 +24,7 @@ class ProjectTicketsIdNotesEndpoint(
     IPostable[TicketNote, ConnectWiseManageRequestParams],
     IPaginateable[TicketNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "notes", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProjectTicketsIdNotesEndpoint(
             ProjectTicketsIdNotesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectTicketsIdNotesIdEndpoint:
+    def id(self, id: int) -> ProjectTicketsIdNotesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectTicketsIdNotesIdEndpoint object to move down the chain.
 

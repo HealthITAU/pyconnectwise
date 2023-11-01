@@ -22,7 +22,7 @@ class SystemWorkflowsIdTriggersEndpoint(
     IGettable[list[WorkflowTrigger], ConnectWiseManageRequestParams],
     IPaginateable[WorkflowTrigger, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "triggers", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemWorkflowsIdTriggersEndpoint(
             SystemWorkflowsIdTriggersCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemWorkflowsIdTriggersIdEndpoint:
+    def id(self, id: int) -> SystemWorkflowsIdTriggersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsIdTriggersIdEndpoint object to move down the chain.
 

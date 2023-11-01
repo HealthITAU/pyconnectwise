@@ -24,7 +24,7 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
     IPostable[RmaStatusNotification, ConnectWiseManageRequestParams],
     IPaginateable[RmaStatusNotification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "notifications", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
             )
         )
 
-    def id(self, id: int) -> ProcurementRmastatusesIdNotificationsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementRmastatusesIdNotificationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementRmastatusesIdNotificationsIdEndpoint object to move down the chain.
 

@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.MarketingGroupsEndpoint import (
 
 
 class MarketingEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "marketing", parent_endpoint=parent_endpoint
         )

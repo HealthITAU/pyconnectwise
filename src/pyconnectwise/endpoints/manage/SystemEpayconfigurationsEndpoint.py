@@ -24,7 +24,7 @@ class SystemEpayconfigurationsEndpoint(
     IPostable[EPayConfiguration, ConnectWiseManageRequestParams],
     IPaginateable[EPayConfiguration, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ePayConfigurations", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemEpayconfigurationsEndpoint(
             SystemEpayconfigurationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemEpayconfigurationsIdEndpoint:
+    def id(self, id: int) -> SystemEpayconfigurationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemEpayconfigurationsIdEndpoint object to move down the chain.
 

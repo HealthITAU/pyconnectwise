@@ -6,7 +6,7 @@ from pyconnectwise.types import (
 
 
 class UsersIdChangepasswordEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Changepassword", parent_endpoint=parent_endpoint
         )

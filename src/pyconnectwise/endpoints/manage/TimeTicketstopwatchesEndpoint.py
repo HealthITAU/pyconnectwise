@@ -24,7 +24,7 @@ class TimeTicketstopwatchesEndpoint(
     IPostable[TicketStopwatch, ConnectWiseManageRequestParams],
     IPaginateable[TicketStopwatch, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ticketstopwatches", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class TimeTicketstopwatchesEndpoint(
             TimeTicketstopwatchesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeTicketstopwatchesIdEndpoint:
+    def id(self, id: int) -> TimeTicketstopwatchesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeTicketstopwatchesIdEndpoint object to move down the chain.
 

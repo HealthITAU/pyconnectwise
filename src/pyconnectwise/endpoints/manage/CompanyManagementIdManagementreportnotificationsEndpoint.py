@@ -24,7 +24,7 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(
     IPostable[ManagementReportNotification, ConnectWiseManageRequestParams],
     IPaginateable[ManagementReportNotification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self,
             client,
@@ -41,7 +41,9 @@ class CompanyManagementIdManagementreportnotificationsEndpoint(
             )
         )
 
-    def id(self, id: int) -> CompanyManagementIdManagementreportnotificationsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyManagementIdManagementreportnotificationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManagementIdManagementreportnotificationsIdEndpoint object to move down the chain.
 

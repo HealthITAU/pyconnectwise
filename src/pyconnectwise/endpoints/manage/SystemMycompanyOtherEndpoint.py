@@ -22,7 +22,7 @@ class SystemMycompanyOtherEndpoint(
     IGettable[list[Other], ConnectWiseManageRequestParams],
     IPaginateable[Other, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "other", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemMycompanyOtherEndpoint(
             SystemMycompanyOtherCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMycompanyOtherIdEndpoint:
+    def id(self, id: int) -> SystemMycompanyOtherIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyOtherIdEndpoint object to move down the chain.
 

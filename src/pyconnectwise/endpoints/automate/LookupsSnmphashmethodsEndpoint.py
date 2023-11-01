@@ -16,7 +16,7 @@ class LookupsSnmphashmethodsEndpoint(
     IGettable[list[LabTechHashMethod], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechHashMethod, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Snmphashmethods", parent_endpoint=parent_endpoint
         )

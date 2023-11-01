@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.ScheduleHolidaylistsIdHolidaysInfoEndpoint i
 
 
 class ScheduleHolidaylistsIdHolidaysEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "holidays", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class ScheduleHolidaylistsIdHolidaysEndpoint(ConnectWiseEndpoint):
             ScheduleHolidaylistsIdHolidaysInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ScheduleHolidaylistsIdHolidaysIdEndpoint:
+    def id(self, id: int) -> ScheduleHolidaylistsIdHolidaysIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ScheduleHolidaylistsIdHolidaysIdEndpoint object to move down the chain.
 

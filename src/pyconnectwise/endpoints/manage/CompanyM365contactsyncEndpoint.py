@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.CompanyM365contactsyncPropertyEndpoint impor
 
 
 class CompanyM365contactsyncEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "m365contactsync", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class CompanyM365contactsyncEndpoint(ConnectWiseEndpoint):
             CompanyM365contactsyncPropertyEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyM365contactsyncIdEndpoint:
+    def id(self, id: int) -> CompanyM365contactsyncIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyM365contactsyncIdEndpoint object to move down the chain.
 

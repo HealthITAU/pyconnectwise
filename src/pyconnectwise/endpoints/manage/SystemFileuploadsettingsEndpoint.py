@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.SystemFileuploadsettingsIdEndpoint import (
 
 
 class SystemFileuploadsettingsEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "fileuploadsettings", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class SystemFileuploadsettingsEndpoint(ConnectWiseEndpoint):
             SystemFileuploadsettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemFileuploadsettingsIdEndpoint:
+    def id(self, id: int) -> SystemFileuploadsettingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemFileuploadsettingsIdEndpoint object to move down the chain.
 

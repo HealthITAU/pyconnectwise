@@ -25,7 +25,7 @@ class TimeEntriesEndpoint(
     IPostable[TimeEntry, ConnectWiseManageRequestParams],
     IPaginateable[TimeEntry, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "entries", parent_endpoint=parent_endpoint
         )
@@ -40,7 +40,7 @@ class TimeEntriesEndpoint(
             TimeEntriesDefaultsEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeEntriesIdEndpoint:
+    def id(self, id: int) -> TimeEntriesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeEntriesIdEndpoint object to move down the chain.
 

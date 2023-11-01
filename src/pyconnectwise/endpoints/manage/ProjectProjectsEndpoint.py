@@ -24,7 +24,7 @@ class ProjectProjectsEndpoint(
     IPostable[Project, ConnectWiseManageRequestParams],
     IPaginateable[Project, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "projects", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProjectProjectsEndpoint(
             ProjectProjectsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectProjectsIdEndpoint:
+    def id(self, id: int) -> ProjectProjectsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjectsIdEndpoint object to move down the chain.
 

@@ -22,7 +22,7 @@ class SystemParsingvariablesEndpoint(
     IGettable[list[ParsingVariable], ConnectWiseManageRequestParams],
     IPaginateable[ParsingVariable, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "parsingVariables", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemParsingvariablesEndpoint(
             SystemParsingvariablesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemParsingvariablesIdEndpoint:
+    def id(self, id: int) -> SystemParsingvariablesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemParsingvariablesIdEndpoint object to move down the chain.
 

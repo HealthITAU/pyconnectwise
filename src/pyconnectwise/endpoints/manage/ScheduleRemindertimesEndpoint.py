@@ -22,7 +22,7 @@ class ScheduleRemindertimesEndpoint(
     IGettable[list[ScheduleReminderTime], ConnectWiseManageRequestParams],
     IPaginateable[ScheduleReminderTime, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "reminderTimes", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ScheduleRemindertimesEndpoint(
             ScheduleRemindertimesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ScheduleRemindertimesIdEndpoint:
+    def id(self, id: int) -> ScheduleRemindertimesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ScheduleRemindertimesIdEndpoint object to move down the chain.
 

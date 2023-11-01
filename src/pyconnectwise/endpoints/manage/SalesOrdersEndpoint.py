@@ -25,7 +25,7 @@ class SalesOrdersEndpoint(
     IPostable[Order, ConnectWiseManageRequestParams],
     IPaginateable[Order, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "orders", parent_endpoint=parent_endpoint
         )
@@ -40,7 +40,7 @@ class SalesOrdersEndpoint(
             SalesOrdersStatusesEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesOrdersIdEndpoint:
+    def id(self, id: int) -> SalesOrdersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOrdersIdEndpoint object to move down the chain.
 

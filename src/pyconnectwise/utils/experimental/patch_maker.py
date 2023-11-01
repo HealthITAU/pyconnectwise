@@ -14,7 +14,7 @@ class Patch:
         REPLACE = 2
         REMOVE = 3
 
-    def __init__(self, op: PatchOp, path: str, value: Any):
+    def __init__(self, op: PatchOp, path: str, value: Any) -> None:  # noqa: ANN401
         self.op = op.name.lower()
         self.path = path
         self.value = value

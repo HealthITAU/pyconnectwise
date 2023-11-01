@@ -16,7 +16,7 @@ class ServiceTicketsIdAllnotesEndpoint(
     IGettable[list[ServiceTicketNote], ConnectWiseManageRequestParams],
     IPaginateable[ServiceTicketNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "allNotes", parent_endpoint=parent_endpoint
         )

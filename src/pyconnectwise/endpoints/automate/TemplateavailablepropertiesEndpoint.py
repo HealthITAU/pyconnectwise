@@ -18,7 +18,7 @@ class TemplateavailablepropertiesEndpoint(
     IPostable[LabTechTemplateAvailableProperty, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechTemplateAvailableProperty, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Templateavailableproperties", parent_endpoint=parent_endpoint
         )

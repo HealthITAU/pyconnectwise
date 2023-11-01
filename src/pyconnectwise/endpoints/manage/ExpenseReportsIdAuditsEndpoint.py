@@ -22,7 +22,7 @@ class ExpenseReportsIdAuditsEndpoint(
     IGettable[list[ExpenseReportAudit], ConnectWiseManageRequestParams],
     IPaginateable[ExpenseReportAudit, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "audits", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ExpenseReportsIdAuditsEndpoint(
             ExpenseReportsIdAuditsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ExpenseReportsIdAuditsIdEndpoint:
+    def id(self, id: int) -> ExpenseReportsIdAuditsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ExpenseReportsIdAuditsIdEndpoint object to move down the chain.
 

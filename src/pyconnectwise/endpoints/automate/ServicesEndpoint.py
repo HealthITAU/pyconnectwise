@@ -3,12 +3,12 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 
 class ServicesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Services", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> ServicesIdEndpoint:
+    def id(self, id: int) -> ServicesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServicesIdEndpoint object to move down the chain.
 

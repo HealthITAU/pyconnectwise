@@ -24,7 +24,7 @@ class ServiceBoardsIdTypesEndpoint(
     IPostable[BoardType, ConnectWiseManageRequestParams],
     IPaginateable[BoardType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "types", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServiceBoardsIdTypesEndpoint(
             ServiceBoardsIdTypesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceBoardsIdTypesIdEndpoint:
+    def id(self, id: int) -> ServiceBoardsIdTypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceBoardsIdTypesIdEndpoint object to move down the chain.
 

@@ -27,7 +27,7 @@ class FinanceBillingstatusesEndpoint(
     IPostable[BillingStatus, ConnectWiseManageRequestParams],
     IPaginateable[BillingStatus, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "billingStatuses", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class FinanceBillingstatusesEndpoint(
             FinanceBillingstatusesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceBillingstatusesIdEndpoint:
+    def id(self, id: int) -> FinanceBillingstatusesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceBillingstatusesIdEndpoint object to move down the chain.
 

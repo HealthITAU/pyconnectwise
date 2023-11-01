@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyManagementIdLogDownloadEndpoint impor
 
 
 class CompanyManagementIdLogEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "log", parent_endpoint=parent_endpoint
         )

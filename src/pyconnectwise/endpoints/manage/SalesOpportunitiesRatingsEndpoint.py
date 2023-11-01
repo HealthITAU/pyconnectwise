@@ -27,7 +27,7 @@ class SalesOpportunitiesRatingsEndpoint(
     IPostable[OpportunityRating, ConnectWiseManageRequestParams],
     IPaginateable[OpportunityRating, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ratings", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SalesOpportunitiesRatingsEndpoint(
             SalesOpportunitiesRatingsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesOpportunitiesRatingsIdEndpoint:
+    def id(self, id: int) -> SalesOpportunitiesRatingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesRatingsIdEndpoint object to move down the chain.
 

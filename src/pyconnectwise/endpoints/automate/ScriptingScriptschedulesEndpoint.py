@@ -19,14 +19,14 @@ class ScriptingScriptschedulesEndpoint(
     IGettable[list[AutomateScheduledScript], ConnectWiseAutomateRequestParams],
     IPaginateable[AutomateScheduledScript, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Scriptschedules", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[AutomateScheduledScript])
         IPaginateable.__init__(self, AutomateScheduledScript)
 
-    def id(self, id: int) -> ScriptingScriptschedulesIdEndpoint:
+    def id(self, id: int) -> ScriptingScriptschedulesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ScriptingScriptschedulesIdEndpoint object to move down the chain.
 

@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyContactTypesEndpoint import (
 
 
 class CompanyContactEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "contact", parent_endpoint=parent_endpoint
         )

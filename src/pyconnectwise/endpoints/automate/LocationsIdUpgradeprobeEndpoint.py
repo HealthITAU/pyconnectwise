@@ -6,7 +6,7 @@ from pyconnectwise.types import (
 
 
 class LocationsIdUpgradeprobeEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Upgradeprobe", parent_endpoint=parent_endpoint
         )

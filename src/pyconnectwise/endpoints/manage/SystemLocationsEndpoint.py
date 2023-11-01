@@ -24,7 +24,7 @@ class SystemLocationsEndpoint(
     IPostable[Location, ConnectWiseManageRequestParams],
     IPaginateable[Location, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "locations", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemLocationsEndpoint(
             SystemLocationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemLocationsIdEndpoint:
+    def id(self, id: int) -> SystemLocationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemLocationsIdEndpoint object to move down the chain.
 

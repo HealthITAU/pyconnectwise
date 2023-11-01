@@ -24,7 +24,7 @@ class SystemIntegratortagsEndpoint(
     IPostable[IntegratorTag, ConnectWiseManageRequestParams],
     IPaginateable[IntegratorTag, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "integratorTags", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemIntegratortagsEndpoint(
             SystemIntegratortagsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemIntegratortagsIdEndpoint:
+    def id(self, id: int) -> SystemIntegratortagsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemIntegratortagsIdEndpoint object to move down the chain.
 

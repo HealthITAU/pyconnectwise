@@ -24,7 +24,7 @@ class ProcurementPricingschedulesEndpoint(
     IPostable[PricingSchedule, ConnectWiseManageRequestParams],
     IPaginateable[PricingSchedule, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "pricingschedules", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProcurementPricingschedulesEndpoint(
             ProcurementPricingschedulesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementPricingschedulesIdEndpoint:
+    def id(self, id: int) -> ProcurementPricingschedulesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPricingschedulesIdEndpoint object to move down the chain.
 

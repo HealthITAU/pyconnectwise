@@ -27,7 +27,7 @@ class TimeTimeperiodsetupsEndpoint(
     IPostable[TimePeriodSetup, ConnectWiseManageRequestParams],
     IPaginateable[TimePeriodSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "timePeriodSetups", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class TimeTimeperiodsetupsEndpoint(
             TimeTimeperiodsetupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:
+    def id(self, id: int) -> TimeTimeperiodsetupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeTimeperiodsetupsIdEndpoint object to move down the chain.
 

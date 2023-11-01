@@ -21,7 +21,7 @@ class ComputersIdScheduledscriptsEndpoint(
     IPostable[LabTechScheduledScript, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechScheduledScript, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Scheduledscripts", parent_endpoint=parent_endpoint
         )
@@ -29,7 +29,7 @@ class ComputersIdScheduledscriptsEndpoint(
         IPostable.__init__(self, LabTechScheduledScript)
         IPaginateable.__init__(self, LabTechScheduledScript)
 
-    def id(self, id: int) -> ComputersIdScheduledscriptsIdEndpoint:
+    def id(self, id: int) -> ComputersIdScheduledscriptsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ComputersIdScheduledscriptsIdEndpoint object to move down the chain.
 

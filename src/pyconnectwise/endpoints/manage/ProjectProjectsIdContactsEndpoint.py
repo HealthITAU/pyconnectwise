@@ -21,7 +21,7 @@ class ProjectProjectsIdContactsEndpoint(
     IPostable[ProjectContact, ConnectWiseManageRequestParams],
     IPaginateable[ProjectContact, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "contacts", parent_endpoint=parent_endpoint
         )
@@ -29,7 +29,7 @@ class ProjectProjectsIdContactsEndpoint(
         IPostable.__init__(self, ProjectContact)
         IPaginateable.__init__(self, ProjectContact)
 
-    def id(self, id: int) -> ProjectProjectsIdContactsIdEndpoint:
+    def id(self, id: int) -> ProjectProjectsIdContactsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjectsIdContactsIdEndpoint object to move down the chain.
 

@@ -24,7 +24,7 @@ class FinanceBillingsetupsIdRoutingsEndpoint(
     IPostable[BillingSetupRouting, ConnectWiseManageRequestParams],
     IPaginateable[BillingSetupRouting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "routings", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceBillingsetupsIdRoutingsEndpoint(
             FinanceBillingsetupsIdRoutingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceBillingsetupsIdRoutingsIdEndpoint:
+    def id(self, id: int) -> FinanceBillingsetupsIdRoutingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceBillingsetupsIdRoutingsIdEndpoint object to move down the chain.
 

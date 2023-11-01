@@ -22,7 +22,7 @@ class SystemExperimentsEndpoint(
     IGettable[list[Experiment], ConnectWiseManageRequestParams],
     IPaginateable[Experiment, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "experiments", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemExperimentsEndpoint(
             SystemExperimentsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemExperimentsIdEndpoint:
+    def id(self, id: int) -> SystemExperimentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemExperimentsIdEndpoint object to move down the chain.
 

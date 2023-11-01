@@ -25,7 +25,7 @@ class ServiceTemplatesEndpoint(
     IGettable[list[ServiceTemplate], ConnectWiseManageRequestParams],
     IPaginateable[ServiceTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "templates", parent_endpoint=parent_endpoint
         )
@@ -39,7 +39,7 @@ class ServiceTemplatesEndpoint(
             ServiceTemplatesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceTemplatesIdEndpoint:
+    def id(self, id: int) -> ServiceTemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceTemplatesIdEndpoint object to move down the chain.
 

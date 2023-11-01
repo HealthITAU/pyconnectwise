@@ -21,7 +21,7 @@ class FinanceAccountingpackagesetupIdEndpoint(
     IPatchable[AccountingPackageSetup, ConnectWiseManageRequestParams],
     IPaginateable[AccountingPackageSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "{id}", parent_endpoint=parent_endpoint
         )

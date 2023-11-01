@@ -24,7 +24,7 @@ class SystemConnectwisehostedsetupsEndpoint(
     IPostable[ConnectWiseHostedSetup, ConnectWiseManageRequestParams],
     IPaginateable[ConnectWiseHostedSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "connectwisehostedsetups", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemConnectwisehostedsetupsEndpoint(
             SystemConnectwisehostedsetupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemConnectwisehostedsetupsIdEndpoint:
+    def id(self, id: int) -> SystemConnectwisehostedsetupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemConnectwisehostedsetupsIdEndpoint object to move down the chain.
 

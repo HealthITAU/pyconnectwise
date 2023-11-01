@@ -27,7 +27,7 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(
     IPostable[PurchaseOrderLineItem, ConnectWiseManageRequestParams],
     IPaginateable[PurchaseOrderLineItem, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "lineitems", parent_endpoint=parent_endpoint
         )
@@ -46,7 +46,9 @@ class ProcurementPurchaseordersIdLineitemsEndpoint(
             )
         )
 
-    def id(self, id: int) -> ProcurementPurchaseordersIdLineitemsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementPurchaseordersIdLineitemsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseordersIdLineitemsIdEndpoint object to move down the chain.
 

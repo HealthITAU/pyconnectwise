@@ -24,7 +24,7 @@ class SystemSsoconfigurationsEndpoint(
     IPostable[SsoConfiguration, ConnectWiseManageRequestParams],
     IPaginateable[SsoConfiguration, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ssoConfigurations", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemSsoconfigurationsEndpoint(
             SystemSsoconfigurationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemSsoconfigurationsIdEndpoint:
+    def id(self, id: int) -> SystemSsoconfigurationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemSsoconfigurationsIdEndpoint object to move down the chain.
 

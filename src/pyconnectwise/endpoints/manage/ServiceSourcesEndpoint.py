@@ -27,7 +27,7 @@ class ServiceSourcesEndpoint(
     IPostable[Source, ConnectWiseManageRequestParams],
     IPaginateable[Source, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "sources", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class ServiceSourcesEndpoint(
             ServiceSourcesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceSourcesIdEndpoint:
+    def id(self, id: int) -> ServiceSourcesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceSourcesIdEndpoint object to move down the chain.
 

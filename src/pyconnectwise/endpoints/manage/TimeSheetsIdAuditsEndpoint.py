@@ -22,7 +22,7 @@ class TimeSheetsIdAuditsEndpoint(
     IGettable[list[TimeSheetAudit], ConnectWiseManageRequestParams],
     IPaginateable[TimeSheetAudit, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "audits", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class TimeSheetsIdAuditsEndpoint(
             TimeSheetsIdAuditsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeSheetsIdAuditsIdEndpoint:
+    def id(self, id: int) -> TimeSheetsIdAuditsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeSheetsIdAuditsIdEndpoint object to move down the chain.
 

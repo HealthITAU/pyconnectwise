@@ -24,7 +24,7 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(
     IPostable[WorkflowActionAutomateParameter, ConnectWiseManageRequestParams],
     IPaginateable[WorkflowActionAutomateParameter, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "automateParameters", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class SystemWorkflowactionsIdAutomateparametersEndpoint(
             )
         )
 
-    def id(self, id: int) -> SystemWorkflowactionsIdAutomateparametersIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> SystemWorkflowactionsIdAutomateparametersIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowactionsIdAutomateparametersIdEndpoint object to move down the chain.
 

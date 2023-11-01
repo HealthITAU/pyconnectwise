@@ -16,7 +16,7 @@ class ServiceBoardsIdUsagesListEndpoint(
     IGettable[list[Usage], ConnectWiseManageRequestParams],
     IPaginateable[Usage, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "list", parent_endpoint=parent_endpoint
         )

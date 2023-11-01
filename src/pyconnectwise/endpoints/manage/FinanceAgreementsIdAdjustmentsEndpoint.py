@@ -24,7 +24,7 @@ class FinanceAgreementsIdAdjustmentsEndpoint(
     IPostable[AgreementAdjustment, ConnectWiseManageRequestParams],
     IPaginateable[AgreementAdjustment, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "adjustments", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceAgreementsIdAdjustmentsEndpoint(
             FinanceAgreementsIdAdjustmentsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAgreementsIdAdjustmentsIdEndpoint:
+    def id(self, id: int) -> FinanceAgreementsIdAdjustmentsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdAdjustmentsIdEndpoint object to move down the chain.
 

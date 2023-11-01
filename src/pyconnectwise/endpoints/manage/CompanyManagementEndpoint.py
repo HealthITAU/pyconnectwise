@@ -22,7 +22,7 @@ class CompanyManagementEndpoint(
     IGettable[list[Management], ConnectWiseManageRequestParams],
     IPaginateable[Management, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "management", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class CompanyManagementEndpoint(
             CompanyManagementCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyManagementIdEndpoint:
+    def id(self, id: int) -> CompanyManagementIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyManagementIdEndpoint object to move down the chain.
 

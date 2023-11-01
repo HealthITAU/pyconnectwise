@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.CompanyCompanyfinanceIdEndpoint import (
 
 
 class CompanyCompanyfinanceEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "companyFinance", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> CompanyCompanyfinanceIdEndpoint:
+    def id(self, id: int) -> CompanyCompanyfinanceIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompanyfinanceIdEndpoint object to move down the chain.
 

@@ -21,7 +21,7 @@ class LocationsIdProbeconfigurationEndpoint(
     IPatchable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Probeconfiguration", parent_endpoint=parent_endpoint
         )

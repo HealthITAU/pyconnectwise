@@ -32,7 +32,7 @@ class ConnectWiseClient(ABC):
     def _get_url(self) -> str:
         pass
 
-    def _make_request(
+    def _make_request(  # noqa: C901
         self,
         method: RequestMethod,
         url: str,

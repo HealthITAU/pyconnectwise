@@ -24,7 +24,7 @@ class SystemAutosynctimeEndpoint(
     IPostable[AutoSyncTime, ConnectWiseManageRequestParams],
     IPaginateable[AutoSyncTime, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "autoSyncTime", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemAutosynctimeEndpoint(
             SystemAutosynctimeCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemAutosynctimeIdEndpoint:
+    def id(self, id: int) -> SystemAutosynctimeIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemAutosynctimeIdEndpoint object to move down the chain.
 

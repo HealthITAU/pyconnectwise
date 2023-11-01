@@ -19,14 +19,14 @@ class ComputersIdSoftwareEndpoint(
     IGettable[list[LabTechComputerSoftware], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechComputerSoftware, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Software", parent_endpoint=parent_endpoint
         )
         IGettable.__init__(self, list[LabTechComputerSoftware])
         IPaginateable.__init__(self, LabTechComputerSoftware)
 
-    def id(self, id: int) -> ComputersIdSoftwareIdEndpoint:
+    def id(self, id: int) -> ComputersIdSoftwareIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ComputersIdSoftwareIdEndpoint object to move down the chain.
 

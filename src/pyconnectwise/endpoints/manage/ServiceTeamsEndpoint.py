@@ -20,7 +20,7 @@ class ServiceTeamsEndpoint(
     IGettable[list[ServiceTeam], ConnectWiseManageRequestParams],
     IPaginateable[ServiceTeam, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "teams", parent_endpoint=parent_endpoint
         )
@@ -31,7 +31,7 @@ class ServiceTeamsEndpoint(
             ServiceTeamsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceTeamsIdEndpoint:
+    def id(self, id: int) -> ServiceTeamsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceTeamsIdEndpoint object to move down the chain.
 

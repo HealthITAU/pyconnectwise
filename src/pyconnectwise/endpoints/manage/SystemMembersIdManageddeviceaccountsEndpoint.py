@@ -19,7 +19,7 @@ class SystemMembersIdManageddeviceaccountsEndpoint(
     IGettable[list[ManagedDeviceAccount], ConnectWiseManageRequestParams],
     IPaginateable[ManagedDeviceAccount, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "managedDeviceAccounts", parent_endpoint=parent_endpoint
         )

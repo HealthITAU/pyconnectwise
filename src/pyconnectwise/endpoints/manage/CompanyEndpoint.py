@@ -89,7 +89,7 @@ from pyconnectwise.endpoints.manage.CompanyTracksEndpoint import CompanyTracksEn
 
 
 class CompanyEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "company", parent_endpoint=parent_endpoint
         )

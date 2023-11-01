@@ -24,7 +24,7 @@ class CompanyContactsIdTracksEndpoint(
     IPostable[ContactTrack, ConnectWiseManageRequestParams],
     IPaginateable[ContactTrack, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "tracks", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class CompanyContactsIdTracksEndpoint(
             CompanyContactsIdTracksCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyContactsIdTracksIdEndpoint:
+    def id(self, id: int) -> CompanyContactsIdTracksIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsIdTracksIdEndpoint object to move down the chain.
 

@@ -5,12 +5,14 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsUserdefinedfieldsEventsIdEndp
 
 
 class SystemWorkflowsUserdefinedfieldsEventsEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "events", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> SystemWorkflowsUserdefinedfieldsEventsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> SystemWorkflowsUserdefinedfieldsEventsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsUserdefinedfieldsEventsIdEndpoint object to move down the chain.
 

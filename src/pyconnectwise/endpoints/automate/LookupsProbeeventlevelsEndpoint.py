@@ -16,7 +16,7 @@ class LookupsProbeeventlevelsEndpoint(
     IGettable[list[LabTechProbeEventLevel], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechProbeEventLevel, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Probeeventlevels", parent_endpoint=parent_endpoint
         )

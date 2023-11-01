@@ -22,7 +22,7 @@ class ServiceSeveritiesEndpoint(
     IGettable[list[Severity], ConnectWiseManageRequestParams],
     IPaginateable[Severity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "severities", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ServiceSeveritiesEndpoint(
             ServiceSeveritiesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceSeveritiesIdEndpoint:
+    def id(self, id: int) -> ServiceSeveritiesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceSeveritiesIdEndpoint object to move down the chain.
 

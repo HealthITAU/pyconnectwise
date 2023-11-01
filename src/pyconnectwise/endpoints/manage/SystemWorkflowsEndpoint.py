@@ -30,7 +30,7 @@ class SystemWorkflowsEndpoint(
     IPostable[Workflow, ConnectWiseManageRequestParams],
     IPaginateable[Workflow, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "workflows", parent_endpoint=parent_endpoint
         )
@@ -48,7 +48,7 @@ class SystemWorkflowsEndpoint(
             SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemWorkflowsIdEndpoint:
+    def id(self, id: int) -> SystemWorkflowsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsIdEndpoint object to move down the chain.
 

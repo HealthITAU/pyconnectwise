@@ -22,7 +22,7 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
     IGettable[list[UnpostedInvoice], ConnectWiseManageRequestParams],
     IPaginateable[UnpostedInvoice, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "unpostedinvoices", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
             FinanceAccountingUnpostedinvoicesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAccountingUnpostedinvoicesIdEndpoint:
+    def id(self, id: int) -> FinanceAccountingUnpostedinvoicesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingUnpostedinvoicesIdEndpoint object to move down the chain.
 

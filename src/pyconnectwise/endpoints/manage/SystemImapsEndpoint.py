@@ -25,7 +25,7 @@ class SystemImapsEndpoint(
     IPostable[Imap, ConnectWiseManageRequestParams],
     IPaginateable[Imap, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "imaps", parent_endpoint=parent_endpoint
         )
@@ -40,7 +40,7 @@ class SystemImapsEndpoint(
             SystemImapsInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemImapsIdEndpoint:
+    def id(self, id: int) -> SystemImapsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemImapsIdEndpoint object to move down the chain.
 

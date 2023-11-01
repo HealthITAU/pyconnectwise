@@ -22,7 +22,7 @@ class ProjectStatusindicatorsEndpoint(
     IGettable[list[StatusIndicator], ConnectWiseManageRequestParams],
     IPaginateable[StatusIndicator, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "statusIndicators", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ProjectStatusindicatorsEndpoint(
             ProjectStatusindicatorsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectStatusindicatorsIdEndpoint:
+    def id(self, id: int) -> ProjectStatusindicatorsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectStatusindicatorsIdEndpoint object to move down the chain.
 

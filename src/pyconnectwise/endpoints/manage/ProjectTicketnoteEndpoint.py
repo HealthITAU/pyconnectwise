@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.ProjectTicketnoteIdEndpoint import (
 
 
 class ProjectTicketnoteEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ticketNote", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> ProjectTicketnoteIdEndpoint:
+    def id(self, id: int) -> ProjectTicketnoteIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectTicketnoteIdEndpoint object to move down the chain.
 

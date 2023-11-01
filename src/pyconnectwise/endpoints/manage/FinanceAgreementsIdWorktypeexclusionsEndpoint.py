@@ -24,7 +24,7 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(
     IPostable[AgreementWorkTypeExclusion, ConnectWiseManageRequestParams],
     IPaginateable[AgreementWorkTypeExclusion, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "workTypeExclusions", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class FinanceAgreementsIdWorktypeexclusionsEndpoint(
             )
         )
 
-    def id(self, id: int) -> FinanceAgreementsIdWorktypeexclusionsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> FinanceAgreementsIdWorktypeexclusionsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdWorktypeexclusionsIdEndpoint object to move down the chain.
 

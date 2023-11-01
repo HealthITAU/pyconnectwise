@@ -19,7 +19,7 @@ class FinanceGlaccountsMappedtypesEndpoint(
     IGettable[list[MappedType], ConnectWiseManageRequestParams],
     IPaginateable[MappedType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "mappedTypes", parent_endpoint=parent_endpoint
         )

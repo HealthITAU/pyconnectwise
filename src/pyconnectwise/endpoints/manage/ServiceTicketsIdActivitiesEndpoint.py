@@ -19,7 +19,7 @@ class ServiceTicketsIdActivitiesEndpoint(
     IGettable[list[ActivityReference], ConnectWiseManageRequestParams],
     IPaginateable[ActivityReference, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "activities", parent_endpoint=parent_endpoint
         )

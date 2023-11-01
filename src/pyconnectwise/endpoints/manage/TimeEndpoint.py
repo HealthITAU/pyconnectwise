@@ -23,7 +23,7 @@ from pyconnectwise.endpoints.manage.TimeWorktypesEndpoint import TimeWorktypesEn
 
 
 class TimeEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "time", parent_endpoint=parent_endpoint
         )

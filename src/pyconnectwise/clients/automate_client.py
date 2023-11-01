@@ -49,7 +49,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         username: str,
         password: str,
         config: Config | None = None,
-    ):
+    ) -> None:
         """
         Initializes the client with the given credentials and optionally a specific codebase.
         If no codebase is given, it tries to get it from the API.
@@ -125,7 +125,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         )
         return token
 
-    def _refresh_access_token_if_necessary(self):
+    def _refresh_access_token_if_necessary(self):  # noqa: ANN202
         if datetime.utcnow() > self.token_expiry_time:
             self.access_token = self._get_access_token()
 
@@ -137,9 +137,8 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
             dict[str, str]: Dictionary of headers including Content-Type, Client ID, and Authorization.
         """
         self._refresh_access_token_if_necessary()
-        headers = {
+        return {
             "Content-Type": "application/json",
             "clientId": self.client_id,
             "Authorization": f"Bearer {self.access_token}",
         }
-        return headers

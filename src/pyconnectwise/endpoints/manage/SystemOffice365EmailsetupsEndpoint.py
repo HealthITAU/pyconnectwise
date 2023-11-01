@@ -24,7 +24,7 @@ class SystemOffice365EmailsetupsEndpoint(
     IPostable[Office365EmailSetup, ConnectWiseManageRequestParams],
     IPaginateable[Office365EmailSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "emailSetups", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemOffice365EmailsetupsEndpoint(
             SystemOffice365EmailsetupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemOffice365EmailsetupsIdEndpoint:
+    def id(self, id: int) -> SystemOffice365EmailsetupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemOffice365EmailsetupsIdEndpoint object to move down the chain.
 

@@ -27,7 +27,7 @@ class SystemInouttypesEndpoint(
     IPostable[InOutType, ConnectWiseManageRequestParams],
     IPaginateable[InOutType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "inOutTypes", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SystemInouttypesEndpoint(
             SystemInouttypesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemInouttypesIdEndpoint:
+    def id(self, id: int) -> SystemInouttypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemInouttypesIdEndpoint object to move down the chain.
 

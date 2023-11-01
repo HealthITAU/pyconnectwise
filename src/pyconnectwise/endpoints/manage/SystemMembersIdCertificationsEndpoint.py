@@ -24,7 +24,7 @@ class SystemMembersIdCertificationsEndpoint(
     IPostable[MemberCertification, ConnectWiseManageRequestParams],
     IPaginateable[MemberCertification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "certifications", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemMembersIdCertificationsEndpoint(
             SystemMembersIdCertificationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMembersIdCertificationsIdEndpoint:
+    def id(self, id: int) -> SystemMembersIdCertificationsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdCertificationsIdEndpoint object to move down the chain.
 

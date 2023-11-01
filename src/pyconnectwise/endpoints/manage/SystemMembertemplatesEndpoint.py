@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.SystemMembertemplatesIdEndpoint import (
 
 
 class SystemMembertemplatesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "membertemplates", parent_endpoint=parent_endpoint
         )
@@ -17,7 +17,7 @@ class SystemMembertemplatesEndpoint(ConnectWiseEndpoint):
             SystemMembertemplatesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMembertemplatesIdEndpoint:
+    def id(self, id: int) -> SystemMembertemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemMembertemplatesIdEndpoint object to move down the chain.
 

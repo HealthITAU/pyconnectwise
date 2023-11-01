@@ -2,7 +2,7 @@ import json
 import argparse
 
 
-def normalize_schema_name(schema_name):
+def normalize_schema_name(schema_name):  # noqa: ANN001, ANN201
     """Extracts the part of the schema name after the last dot."""
     split = schema_name.split(".")
     if len(split) >= 2:
@@ -10,7 +10,7 @@ def normalize_schema_name(schema_name):
     return "".join(schema_name.split("."))
 
 
-def update_schema_references(data, name_mapping):
+def update_schema_references(data, name_mapping):  # noqa: ANN001, ANN201
     """Updates all $ref entries with the new names from the name_mapping."""
     if isinstance(data, dict):
         for key, value in data.items():
@@ -29,7 +29,7 @@ def update_schema_references(data, name_mapping):
             update_schema_references(item, name_mapping)
 
 
-def main():
+def main():  # noqa: ANN201
     # Parsing command-line arguments
     parser = argparse.ArgumentParser(description="Normalize OpenAPI JSON schema names.")
     parser.add_argument(
@@ -38,7 +38,7 @@ def main():
     args = parser.parse_args()
 
     # Loading the JSON file
-    with open(args.input) as file:
+    with open(args.input) as file:  # noqa: PTH123
         data = json.load(file)
 
     # Normalizing schema names and storing the old-new name mapping
@@ -53,7 +53,7 @@ def main():
     update_schema_references(data, name_mapping)
 
     # Writing the updated JSON back to the file
-    with open(args.input, "w") as file:
+    with open(args.input, "w") as file:  # noqa: PTH123
         json.dump(data, file, indent=4)
 
 

@@ -24,7 +24,7 @@ class FinanceDeliverymethodsEndpoint(
     IPostable[DeliveryMethod, ConnectWiseManageRequestParams],
     IPaginateable[DeliveryMethod, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "deliveryMethods", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceDeliverymethodsEndpoint(
             FinanceDeliverymethodsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceDeliverymethodsIdEndpoint:
+    def id(self, id: int) -> FinanceDeliverymethodsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceDeliverymethodsIdEndpoint object to move down the chain.
 

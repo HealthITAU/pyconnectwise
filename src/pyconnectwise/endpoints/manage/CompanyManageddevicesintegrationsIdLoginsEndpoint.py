@@ -24,7 +24,7 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(
     IPostable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
     IPaginateable[ManagedDevicesIntegrationLogin, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "logins", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class CompanyManageddevicesintegrationsIdLoginsEndpoint(
             )
         )
 
-    def id(self, id: int) -> CompanyManageddevicesintegrationsIdLoginsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyManageddevicesintegrationsIdLoginsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManageddevicesintegrationsIdLoginsIdEndpoint object to move down the chain.
 

@@ -16,7 +16,7 @@ class CompanyContactsIdPortalsecurityEndpoint(
     IGettable[list[PortalSecurity], ConnectWiseManageRequestParams],
     IPaginateable[PortalSecurity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "portalSecurity", parent_endpoint=parent_endpoint
         )

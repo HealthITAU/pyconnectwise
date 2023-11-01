@@ -16,7 +16,7 @@ class PatchinformationEndpoint(
     IGettable[LabTechPatchInformation, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechPatchInformation, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Patchinformation", parent_endpoint=parent_endpoint
         )

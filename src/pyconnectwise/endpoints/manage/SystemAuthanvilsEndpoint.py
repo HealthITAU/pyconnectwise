@@ -25,7 +25,7 @@ class SystemAuthanvilsEndpoint(
     IGettable[list[AuthAnvil], ConnectWiseManageRequestParams],
     IPaginateable[AuthAnvil, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "authAnvils", parent_endpoint=parent_endpoint
         )
@@ -39,7 +39,7 @@ class SystemAuthanvilsEndpoint(
             SystemAuthanvilsTestconnectionEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemAuthanvilsIdEndpoint:
+    def id(self, id: int) -> SystemAuthanvilsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemAuthanvilsIdEndpoint object to move down the chain.
 

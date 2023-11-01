@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.SystemOffice365EmailsetupsEndpoint import (
 
 
 class SystemOffice365Endpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "office365", parent_endpoint=parent_endpoint
         )

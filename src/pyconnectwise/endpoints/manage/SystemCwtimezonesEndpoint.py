@@ -22,7 +22,7 @@ class SystemCwtimezonesEndpoint(
     IGettable[list[CwTimeZone], ConnectWiseManageRequestParams],
     IPaginateable[CwTimeZone, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "cwTimeZones", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemCwtimezonesEndpoint(
             SystemCwtimezonesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemCwtimezonesIdEndpoint:
+    def id(self, id: int) -> SystemCwtimezonesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemCwtimezonesIdEndpoint object to move down the chain.
 

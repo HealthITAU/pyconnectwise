@@ -22,7 +22,7 @@ class ProcurementOnhandserialnumbersEndpoint(
     IGettable[list[OnHandSerialNumber], ConnectWiseManageRequestParams],
     IPaginateable[OnHandSerialNumber, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "onhandserialnumbers", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class ProcurementOnhandserialnumbersEndpoint(
             ProcurementOnhandserialnumbersCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementOnhandserialnumbersIdEndpoint:
+    def id(self, id: int) -> ProcurementOnhandserialnumbersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementOnhandserialnumbersIdEndpoint object to move down the chain.
 

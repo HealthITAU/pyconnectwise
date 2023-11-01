@@ -24,7 +24,7 @@ class FinanceAccountingBatchesEndpoint(
     IPostable[GLExport, ConnectWiseManageRequestParams],
     IPaginateable[AccountingBatch, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "batches", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class FinanceAccountingBatchesEndpoint(
             FinanceAccountingBatchesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAccountingBatchesIdEndpoint:
+    def id(self, id: int) -> FinanceAccountingBatchesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingBatchesIdEndpoint object to move down the chain.
 

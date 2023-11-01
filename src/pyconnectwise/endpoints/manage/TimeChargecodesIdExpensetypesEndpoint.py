@@ -24,7 +24,7 @@ class TimeChargecodesIdExpensetypesEndpoint(
     IPostable[ChargeCodeExpenseType, ConnectWiseManageRequestParams],
     IPaginateable[ChargeCodeExpenseType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "expenseTypes", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class TimeChargecodesIdExpensetypesEndpoint(
             TimeChargecodesIdExpensetypesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeChargecodesIdExpensetypesIdEndpoint:
+    def id(self, id: int) -> TimeChargecodesIdExpensetypesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeChargecodesIdExpensetypesIdEndpoint object to move down the chain.
 

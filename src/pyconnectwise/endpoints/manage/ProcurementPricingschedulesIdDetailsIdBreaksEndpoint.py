@@ -24,7 +24,7 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
     IPostable[PricingBreak, ConnectWiseManageRequestParams],
     IPaginateable[PricingBreak, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "breaks", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class ProcurementPricingschedulesIdDetailsIdBreaksEndpoint(
             )
         )
 
-    def id(self, id: int) -> ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPricingschedulesIdDetailsIdBreaksIdEndpoint object to move down the chain.
 

@@ -60,6 +60,30 @@ pythonpath = ["src"]
 
 [tool.ruff]
 target-version = "py310"
+# See: https://docs.astral.sh/ruff/rules/
+select = [
+    "A",
+    "ANN",
+    "ASYNC",
+    "B",
+    "C",
+    "E",
+    "F",
+    "FIX",
+    "FLY",
+    "N8",
+    "PERF",
+    "PTH",
+    "RET",
+    "RUF",
+    "SIM",
+    "TCH",
+    "TRY",
+]
+# ANN101,ANN102 annotating self,cls is silly
+# E501 is replaced by flake8-bugbear B950
+# E722 is replaced by flake8-bugbear B001
+ignore = ["ANN101", "ANN102", "E402", "E501", "E722"]
 
 src = ["src", "tests"]
 
@@ -68,3 +92,11 @@ line-length = 88
 
 [tool.ruff.isort]
 combine-as-imports = true
+
+[tool.ruff.per-file-ignores]
+# Auto-generated endpoints/models have a lot of id fields and such that need to
+# match the CW API
+"src/pyconnectwise/endpoints/**" = ["A003"]
+"src/pyconnectwise/models/**" = ["A003"]
+# Documenting return types on pytest tests is pointless
+"tests/**" = ["ANN201"]

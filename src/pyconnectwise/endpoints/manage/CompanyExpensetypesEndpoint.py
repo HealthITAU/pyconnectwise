@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.manage.CompanyExpensetypesInfoEndpoint import (
 
 
 class CompanyExpensetypesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "expenseTypes", parent_endpoint=parent_endpoint
         )

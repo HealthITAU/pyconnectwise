@@ -24,7 +24,7 @@ class CompanyManagementbackupsEndpoint(
     IPostable[ManagementBackup, ConnectWiseManageRequestParams],
     IPaginateable[ManagementBackup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "managementBackups", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class CompanyManagementbackupsEndpoint(
             CompanyManagementbackupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyManagementbackupsIdEndpoint:
+    def id(self, id: int) -> CompanyManagementbackupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyManagementbackupsIdEndpoint object to move down the chain.
 

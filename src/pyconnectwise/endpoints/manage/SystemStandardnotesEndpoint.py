@@ -24,7 +24,7 @@ class SystemStandardnotesEndpoint(
     IPostable[StandardNote, ConnectWiseManageRequestParams],
     IPaginateable[StandardNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "standardNotes", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemStandardnotesEndpoint(
             SystemStandardnotesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemStandardnotesIdEndpoint:
+    def id(self, id: int) -> SystemStandardnotesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemStandardnotesIdEndpoint object to move down the chain.
 

@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.ProjectBoardsIdEndpoint import (
 
 
 class ProjectBoardsEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "boards", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> ProjectBoardsIdEndpoint:
+    def id(self, id: int) -> ProjectBoardsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectBoardsIdEndpoint object to move down the chain.
 

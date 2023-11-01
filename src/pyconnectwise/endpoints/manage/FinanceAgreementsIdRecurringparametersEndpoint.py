@@ -5,12 +5,14 @@ from pyconnectwise.endpoints.manage.FinanceAgreementsIdRecurringparametersIdEndp
 
 
 class FinanceAgreementsIdRecurringparametersEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "recurringParameters", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> FinanceAgreementsIdRecurringparametersIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> FinanceAgreementsIdRecurringparametersIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementsIdRecurringparametersIdEndpoint object to move down the chain.
 

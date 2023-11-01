@@ -24,7 +24,7 @@ class ServiceSurveysIdQuestionsEndpoint(
     IPostable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
     IPaginateable[ServiceSurveyQuestion, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "questions", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServiceSurveysIdQuestionsEndpoint(
             ServiceSurveysIdQuestionsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceSurveysIdQuestionsIdEndpoint:
+    def id(self, id: int) -> ServiceSurveysIdQuestionsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceSurveysIdQuestionsIdEndpoint object to move down the chain.
 

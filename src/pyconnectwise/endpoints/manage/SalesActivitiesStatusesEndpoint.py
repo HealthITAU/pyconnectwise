@@ -27,7 +27,7 @@ class SalesActivitiesStatusesEndpoint(
     IPostable[ActivityStatus, ConnectWiseManageRequestParams],
     IPaginateable[ActivityStatus, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "statuses", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SalesActivitiesStatusesEndpoint(
             SalesActivitiesStatusesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesActivitiesStatusesIdEndpoint:
+    def id(self, id: int) -> SalesActivitiesStatusesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesActivitiesStatusesIdEndpoint object to move down the chain.
 

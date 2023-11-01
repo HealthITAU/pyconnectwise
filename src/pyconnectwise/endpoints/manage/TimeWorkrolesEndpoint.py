@@ -27,7 +27,7 @@ class TimeWorkrolesEndpoint(
     IPostable[WorkRole, ConnectWiseManageRequestParams],
     IPaginateable[WorkRole, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "workRoles", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class TimeWorkrolesEndpoint(
             TimeWorkrolesInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeWorkrolesIdEndpoint:
+    def id(self, id: int) -> TimeWorkrolesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeWorkrolesIdEndpoint object to move down the chain.
 

@@ -27,7 +27,7 @@ class SalesOpportunitiesIdForecastEndpoint(
     IPostable[Forecast, ConnectWiseManageRequestParams],
     IPaginateable[Forecast, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "forecast", parent_endpoint=parent_endpoint
         )
@@ -42,7 +42,7 @@ class SalesOpportunitiesIdForecastEndpoint(
             SalesOpportunitiesIdForecastCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SalesOpportunitiesIdForecastIdEndpoint:
+    def id(self, id: int) -> SalesOpportunitiesIdForecastIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesIdForecastIdEndpoint object to move down the chain.
 

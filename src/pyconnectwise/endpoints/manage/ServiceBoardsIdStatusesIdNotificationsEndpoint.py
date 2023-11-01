@@ -24,7 +24,7 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(
     IPostable[BoardStatusNotification, ConnectWiseManageRequestParams],
     IPaginateable[BoardStatusNotification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "notifications", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class ServiceBoardsIdStatusesIdNotificationsEndpoint(
             )
         )
 
-    def id(self, id: int) -> ServiceBoardsIdStatusesIdNotificationsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ServiceBoardsIdStatusesIdNotificationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceBoardsIdStatusesIdNotificationsIdEndpoint object to move down the chain.
 

@@ -24,7 +24,7 @@ class ProcurementDirectionalsyncsEndpoint(
     IPostable[DirectionalSync, ConnectWiseManageRequestParams],
     IPaginateable[DirectionalSync, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "directionalSyncs", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProcurementDirectionalsyncsEndpoint(
             ProcurementDirectionalsyncsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementDirectionalsyncsIdEndpoint:
+    def id(self, id: int) -> ProcurementDirectionalsyncsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementDirectionalsyncsIdEndpoint object to move down the chain.
 

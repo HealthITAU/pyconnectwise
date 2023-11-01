@@ -24,7 +24,7 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(
     IPostable[BoardAutoAssignResource, ConnectWiseManageRequestParams],
     IPaginateable[BoardAutoAssignResource, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "autoAssignResources", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,7 @@ class ServiceBoardsIdAutoassignresourcesEndpoint(
             )
         )
 
-    def id(self, id: int) -> ServiceBoardsIdAutoassignresourcesIdEndpoint:
+    def id(self, id: int) -> ServiceBoardsIdAutoassignresourcesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceBoardsIdAutoassignresourcesIdEndpoint object to move down the chain.
 

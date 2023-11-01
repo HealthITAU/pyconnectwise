@@ -21,7 +21,7 @@ class NetworkdevicesEndpoint(
     IPostable[LabTechNetworkDevice, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechNetworkDevice, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Networkdevices", parent_endpoint=parent_endpoint
         )
@@ -29,7 +29,7 @@ class NetworkdevicesEndpoint(
         IPostable.__init__(self, LabTechNetworkDevice)
         IPaginateable.__init__(self, LabTechNetworkDevice)
 
-    def id(self, id: int) -> NetworkdevicesIdEndpoint:
+    def id(self, id: int) -> NetworkdevicesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized NetworkdevicesIdEndpoint object to move down the chain.
 

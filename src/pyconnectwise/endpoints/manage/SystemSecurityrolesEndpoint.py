@@ -5,12 +5,12 @@ from pyconnectwise.endpoints.manage.SystemSecurityrolesIdEndpoint import (
 
 
 class SystemSecurityrolesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "securityRoles", parent_endpoint=parent_endpoint
         )
 
-    def id(self, id: int) -> SystemSecurityrolesIdEndpoint:
+    def id(self, id: int) -> SystemSecurityrolesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemSecurityrolesIdEndpoint object to move down the chain.
 

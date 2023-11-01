@@ -24,7 +24,7 @@ class ProcurementUnitofmeasuresEndpoint(
     IPostable[UnitOfMeasure, ConnectWiseManageRequestParams],
     IPaginateable[UnitOfMeasure, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "unitOfMeasures", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ProcurementUnitofmeasuresEndpoint(
             ProcurementUnitofmeasuresCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementUnitofmeasuresIdEndpoint:
+    def id(self, id: int) -> ProcurementUnitofmeasuresIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProcurementUnitofmeasuresIdEndpoint object to move down the chain.
 

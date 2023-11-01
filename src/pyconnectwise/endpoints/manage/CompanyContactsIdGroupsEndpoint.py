@@ -24,7 +24,7 @@ class CompanyContactsIdGroupsEndpoint(
     IPostable[ContactGroup, ConnectWiseManageRequestParams],
     IPaginateable[ContactGroup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "groups", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class CompanyContactsIdGroupsEndpoint(
             CompanyContactsIdGroupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyContactsIdGroupsIdEndpoint:
+    def id(self, id: int) -> CompanyContactsIdGroupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsIdGroupsIdEndpoint object to move down the chain.
 

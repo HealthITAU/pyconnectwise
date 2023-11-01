@@ -22,7 +22,7 @@ class CompanyPortalconfigurationsIdInvoicesetupsEndpoint(
     IGettable[list[PortalConfigurationInvoiceSetup], ConnectWiseManageRequestParams],
     IPaginateable[PortalConfigurationInvoiceSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "invoiceSetups", parent_endpoint=parent_endpoint
         )
@@ -35,7 +35,9 @@ class CompanyPortalconfigurationsIdInvoicesetupsEndpoint(
             )
         )
 
-    def id(self, id: int) -> CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdInvoicesetupsIdEndpoint object to move down the chain.
 

@@ -18,7 +18,7 @@ class UserauditsEndpoint(
     IPostable[LabTechUserAudit, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechUserAudit, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Useraudits", parent_endpoint=parent_endpoint
         )

@@ -22,7 +22,7 @@ class SystemSettingsEndpoint(
     IGettable[list[SystemSetting], ConnectWiseManageRequestParams],
     IPaginateable[SystemSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "settings", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemSettingsEndpoint(
             SystemSettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemSettingsIdEndpoint:
+    def id(self, id: int) -> SystemSettingsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemSettingsIdEndpoint object to move down the chain.
 

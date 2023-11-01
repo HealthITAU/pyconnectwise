@@ -24,7 +24,7 @@ class ServicePrioritiesEndpoint(
     IPostable[Priority, ConnectWiseManageRequestParams],
     IPaginateable[Priority, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "priorities", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServicePrioritiesEndpoint(
             ServicePrioritiesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServicePrioritiesIdEndpoint:
+    def id(self, id: int) -> ServicePrioritiesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServicePrioritiesIdEndpoint object to move down the chain.
 

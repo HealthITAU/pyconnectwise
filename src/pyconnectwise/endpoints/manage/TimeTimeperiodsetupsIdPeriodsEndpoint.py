@@ -22,7 +22,7 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(
     IGettable[list[TimePeriod], ConnectWiseManageRequestParams],
     IPaginateable[TimePeriod, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "periods", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class TimeTimeperiodsetupsIdPeriodsEndpoint(
             TimeTimeperiodsetupsIdPeriodsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> TimeTimeperiodsetupsIdPeriodsIdEndpoint:
+    def id(self, id: int) -> TimeTimeperiodsetupsIdPeriodsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized TimeTimeperiodsetupsIdPeriodsIdEndpoint object to move down the chain.
 

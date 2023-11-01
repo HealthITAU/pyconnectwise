@@ -24,7 +24,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
     IPostable[ProjectTemplateTask, ConnectWiseManageRequestParams],
     IPaginateable[ProjectTemplateTask, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "tasks", parent_endpoint=parent_endpoint
         )
@@ -39,7 +39,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsIdTasksEndpoint(
         )
 
     def id(
-        self, id: int
+        self, id: int  # noqa: A002
     ) -> ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjecttemplatesIdProjecttemplateticketsIdTasksIdEndpoint object to move down the chain.

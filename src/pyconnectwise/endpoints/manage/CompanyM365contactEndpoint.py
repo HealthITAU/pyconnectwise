@@ -22,7 +22,7 @@ class CompanyM365contactEndpoint(
     IGettable[list[M365Contact], ConnectWiseManageRequestParams],
     IPaginateable[M365Contact, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "m365contact", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class CompanyM365contactEndpoint(
             CompanyM365contactCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyM365contactIdEndpoint:
+    def id(self, id: int) -> CompanyM365contactIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized CompanyM365contactIdEndpoint object to move down the chain.
 

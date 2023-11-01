@@ -11,7 +11,7 @@ from pyconnectwise.endpoints.manage.ProcurementCategoriesIdSubcategoriesInfoEndp
 
 
 class ProcurementCategoriesIdSubcategoriesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "subcategories", parent_endpoint=parent_endpoint
         )
@@ -27,7 +27,9 @@ class ProcurementCategoriesIdSubcategoriesEndpoint(ConnectWiseEndpoint):
             )
         )
 
-    def id(self, id: int) -> ProcurementCategoriesIdSubcategoriesIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ProcurementCategoriesIdSubcategoriesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementCategoriesIdSubcategoriesIdEndpoint object to move down the chain.
 

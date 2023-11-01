@@ -16,7 +16,7 @@ class ComputersChassisEndpoint(
     IGettable[list[LabTechComputerChassis], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechComputerChassis, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Chassis", parent_endpoint=parent_endpoint
         )

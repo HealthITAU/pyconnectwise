@@ -24,7 +24,7 @@ class ServiceEmailtemplatesEndpoint(
     IPostable[ServiceEmailTemplate, ConnectWiseManageRequestParams],
     IPaginateable[ServiceEmailTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "emailTemplates", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServiceEmailtemplatesEndpoint(
             ServiceEmailtemplatesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceEmailtemplatesIdEndpoint:
+    def id(self, id: int) -> ServiceEmailtemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceEmailtemplatesIdEndpoint object to move down the chain.
 

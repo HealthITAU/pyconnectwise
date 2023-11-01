@@ -24,7 +24,7 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(
     IPostable[ExpenseTypeExemption, ConnectWiseManageRequestParams],
     IPaginateable[ExpenseTypeExemption, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "expenseTypeExemptions", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class FinanceTaxcodesIdExpensetypeexemptionsEndpoint(
             )
         )
 
-    def id(self, id: int) -> FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint object to move down the chain.
 

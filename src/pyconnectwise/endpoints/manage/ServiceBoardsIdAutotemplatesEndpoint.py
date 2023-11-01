@@ -24,7 +24,7 @@ class ServiceBoardsIdAutotemplatesEndpoint(
     IPostable[BoardAutoTemplate, ConnectWiseManageRequestParams],
     IPaginateable[BoardAutoTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "autoTemplates", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class ServiceBoardsIdAutotemplatesEndpoint(
             ServiceBoardsIdAutotemplatesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ServiceBoardsIdAutotemplatesIdEndpoint:
+    def id(self, id: int) -> ServiceBoardsIdAutotemplatesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceBoardsIdAutotemplatesIdEndpoint object to move down the chain.
 

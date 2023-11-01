@@ -24,7 +24,7 @@ class SystemMembersIdNotificationsettingsEndpoint(
     IPostable[MemberNotificationSetting, ConnectWiseManageRequestParams],
     IPaginateable[MemberNotificationSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "notificationSettings", parent_endpoint=parent_endpoint
         )
@@ -38,7 +38,9 @@ class SystemMembersIdNotificationsettingsEndpoint(
             )
         )
 
-    def id(self, id: int) -> SystemMembersIdNotificationsettingsIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> SystemMembersIdNotificationsettingsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdNotificationsettingsIdEndpoint object to move down the chain.
 

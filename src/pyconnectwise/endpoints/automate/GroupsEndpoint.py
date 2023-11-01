@@ -19,7 +19,7 @@ class GroupsEndpoint(
     IPostable[LabTechGroup, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechGroup, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Groups", parent_endpoint=parent_endpoint
         )
@@ -27,7 +27,7 @@ class GroupsEndpoint(
         IPostable.__init__(self, LabTechGroup)
         IPaginateable.__init__(self, LabTechGroup)
 
-    def id(self, id: int) -> GroupsIdEndpoint:
+    def id(self, id: int) -> GroupsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized GroupsIdEndpoint object to move down the chain.
 

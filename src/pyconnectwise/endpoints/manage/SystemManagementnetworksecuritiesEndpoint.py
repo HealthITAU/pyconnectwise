@@ -24,7 +24,7 @@ class SystemManagementnetworksecuritiesEndpoint(
     IPostable[ManagementNetworkSecurity, ConnectWiseManageRequestParams],
     IPaginateable[ManagementNetworkSecurity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "managementNetworkSecurities", parent_endpoint=parent_endpoint
         )
@@ -36,7 +36,7 @@ class SystemManagementnetworksecuritiesEndpoint(
             SystemManagementnetworksecuritiesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemManagementnetworksecuritiesIdEndpoint:
+    def id(self, id: int) -> SystemManagementnetworksecuritiesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemManagementnetworksecuritiesIdEndpoint object to move down the chain.
 

@@ -32,7 +32,7 @@ class ComputersEndpoint(
     IGettable[list[LabTechComputer], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechComputer, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Computers", parent_endpoint=parent_endpoint
         )
@@ -55,7 +55,7 @@ class ComputersEndpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ComputersIdEndpoint:
+    def id(self, id: int) -> ComputersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ComputersIdEndpoint object to move down the chain.
 

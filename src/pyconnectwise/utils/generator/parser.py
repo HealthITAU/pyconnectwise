@@ -6,7 +6,7 @@ from .client_gen import generate_automate_client, generate_manage_client
 from .endpoint_gen import generate_endpoint, normalize_path_parameters
 
 
-def capitalize_path(path):
+def capitalize_path(path):  # noqa: ANN001, ANN201
     segments = path.split("/")
     segments = [
         "{" + segment[1:] if segment.startswith("{") else segment.title()
@@ -15,15 +15,15 @@ def capitalize_path(path):
     return "/".join(segments)
 
 
-def merge_automate_specs(folder_path):
+def merge_automate_specs(folder_path):  # noqa: ANN001, ANN201
     merged_spec = {
         "openapi": "3.0.0",
         "info": {"version": "v1", "title": "Merged API"},
         "paths": {},
         "components": {"requestBodies": {}, "schemas": {}},
     }
-    for filename in glob.glob(f"{folder_path}/*.json"):
-        with open(filename) as f:
+    for filename in glob.glob(f"{folder_path}/*.json"):  # noqa: PTH207
+        with open(filename) as f:  # noqa: PTH123
             spec = json.load(f)
 
             # Merge paths
@@ -47,18 +47,17 @@ def merge_automate_specs(folder_path):
                 if "schemas" in spec["components"]:
                     for schema, schema_content in spec["components"]["schemas"].items():
                         merged_spec["components"]["schemas"][schema] = schema_content
-    with open("merged_spec.json", "w") as f:
+    with open("merged_spec.json", "w") as f:  # noqa: PTH123
         json.dump(merged_spec, f, indent=4)
     return merged_spec
 
 
-def load_schema(filename):
-    with open(filename) as f:
-        schema = json.load(f)
-    return schema
+def load_schema(filename):  # noqa: ANN001, ANN201
+    with open(filename) as f:  # noqa: PTH123
+        return json.load(f)
 
 
-def generate_manage_code(
+def generate_manage_code(  # noqa: ANN201
     schema_path: str,
     endpoint_output_path: str,
     model_output_path: str,
@@ -71,7 +70,7 @@ def generate_manage_code(
     pass
 
 
-def generate_automate_code(
+def generate_automate_code(  # noqa: ANN201
     schema_folder_path: str,
     endpoint_output_path: str,
     model_output_path: str,
@@ -122,7 +121,7 @@ def _parse_relationships(
     return dict(relationships), dict(top_level_endpoints)
 
 
-def _generate_manage(
+def _generate_manage(  # noqa: ANN202
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
@@ -131,11 +130,11 @@ def _generate_manage(
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []
-    for endpoint, child in relationships.items():
+    for endpoint in relationships:
         path = f"{endpoint}"
         path_info = {}
         if schema["paths"].get(path) is not None:
-            path_info = {key: value for key, value in schema["paths"][path].items()}
+            path_info = dict(schema["paths"][path].items())
         generate_endpoint(
             endpoint_output_path,
             model_output_path,
@@ -145,11 +144,11 @@ def _generate_manage(
             True,
         )
 
-    for endpoint, children in top_level_endpoints.items():
+    for endpoint in top_level_endpoints:
         path = f"/{endpoint}"
         path_info = {}
         if schema["paths"].get(path) is not None:
-            path_info = {key: value for key, value in schema["paths"][path].items()}
+            path_info = dict(schema["paths"][path].items())
         endpoint_class = generate_endpoint(
             endpoint_output_path,
             model_output_path,
@@ -163,7 +162,7 @@ def _generate_manage(
     generate_manage_client(client_output_path, client_top_level_endpoints)
 
 
-def _generate_automate(
+def _generate_automate(  # noqa: ANN202
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
@@ -172,11 +171,11 @@ def _generate_automate(
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []
-    for endpoint, child in relationships.items():
+    for endpoint in relationships:
         path = f"{endpoint}"
         path_info = {}
         if schema["paths"].get(path) is not None:
-            path_info = {key: value for key, value in schema["paths"][path].items()}
+            path_info = dict(schema["paths"][path].items())
         generate_endpoint(
             endpoint_output_path,
             model_output_path,
@@ -186,11 +185,11 @@ def _generate_automate(
             False,
         )
 
-    for endpoint, children in top_level_endpoints.items():
+    for endpoint in top_level_endpoints:
         path = f"/{endpoint}"
         path_info = {}
         if schema["paths"].get(path) is not None:
-            path_info = {key: value for key, value in schema["paths"][path].items()}
+            path_info = dict(schema["paths"][path].items())
 
         endpoint_class = generate_endpoint(
             endpoint_output_path,

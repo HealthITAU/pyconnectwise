@@ -22,7 +22,7 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(
     IGettable[list[AgreementTypeWorkRoleInfo], ConnectWiseManageRequestParams],
     IPaginateable[AgreementTypeWorkRoleInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "info", parent_endpoint=parent_endpoint
         )
@@ -35,7 +35,9 @@ class FinanceAgreementtypesIdWorkrolesInfoEndpoint(
             )
         )
 
-    def id(self, id: int) -> FinanceAgreementtypesIdWorkrolesInfoIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> FinanceAgreementtypesIdWorkrolesInfoIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementtypesIdWorkrolesInfoIdEndpoint object to move down the chain.
 

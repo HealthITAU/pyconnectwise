@@ -22,7 +22,7 @@ class SystemInfoLocalesEndpoint(
     IGettable[list[LocaleInfo], ConnectWiseManageRequestParams],
     IPaginateable[LocaleInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "locales", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemInfoLocalesEndpoint(
             SystemInfoLocalesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemInfoLocalesIdEndpoint:
+    def id(self, id: int) -> SystemInfoLocalesIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemInfoLocalesIdEndpoint object to move down the chain.
 

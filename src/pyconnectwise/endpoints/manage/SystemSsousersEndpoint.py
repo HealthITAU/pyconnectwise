@@ -22,7 +22,7 @@ class SystemSsousersEndpoint(
     IGettable[list[SsoUser], ConnectWiseManageRequestParams],
     IPaginateable[SsoUser, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "ssoUsers", parent_endpoint=parent_endpoint
         )
@@ -33,7 +33,7 @@ class SystemSsousersEndpoint(
             SystemSsousersCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemSsousersIdEndpoint:
+    def id(self, id: int) -> SystemSsousersIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized SystemSsousersIdEndpoint object to move down the chain.
 

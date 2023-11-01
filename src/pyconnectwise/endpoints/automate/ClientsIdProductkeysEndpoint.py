@@ -18,7 +18,7 @@ class ClientsIdProductkeysEndpoint(
     IPostable[LabTechProductKey, ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechProductKey, ConnectWiseAutomateRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "Productkeys", parent_endpoint=parent_endpoint
         )

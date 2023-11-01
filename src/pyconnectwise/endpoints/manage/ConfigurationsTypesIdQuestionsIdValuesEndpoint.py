@@ -8,7 +8,7 @@ from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesInfoEn
 
 
 class ConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None):
+    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(
             self, client, "values", parent_endpoint=parent_endpoint
         )
@@ -19,7 +19,9 @@ class ConfigurationsTypesIdQuestionsIdValuesEndpoint(ConnectWiseEndpoint):
             )
         )
 
-    def id(self, id: int) -> ConfigurationsTypesIdQuestionsIdValuesIdEndpoint:
+    def id(
+        self, id: int  # noqa: A002
+    ) -> ConfigurationsTypesIdQuestionsIdValuesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ConfigurationsTypesIdQuestionsIdValuesIdEndpoint object to move down the chain.
 
