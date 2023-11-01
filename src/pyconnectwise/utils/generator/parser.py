@@ -1,10 +1,9 @@
+import glob
 import json
-from .endpoint_gen import generate_endpoint, normalize_path_parameters
-from .client_gen import generate_manage_client, generate_automate_client
 from collections import defaultdict
 
-import json  # noqa: F811
-import glob
+from .client_gen import generate_automate_client, generate_manage_client
+from .endpoint_gen import generate_endpoint, normalize_path_parameters
 
 
 def capitalize_path(path):
@@ -131,7 +130,6 @@ def _generate_manage(
 ):
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
-    models = schema["components"]["schemas"]  # noqa: F841
     client_top_level_endpoints = []
     for endpoint, child in relationships.items():
         path = f"{endpoint}"
@@ -173,7 +171,6 @@ def _generate_automate(
 ):
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
-    models = schema["components"]["schemas"]  # noqa: F841
     client_top_level_endpoints = []
     for endpoint, child in relationships.items():
         path = f"{endpoint}"

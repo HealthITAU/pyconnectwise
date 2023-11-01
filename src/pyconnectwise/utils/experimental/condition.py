@@ -7,7 +7,6 @@ import re
 from typing import TypeVar, Generic
 from collections.abc import Callable
 from pyconnectwise.utils.naming import to_camel_case
-from datetime import datetime  # noqa: F811
 
 T = TypeVar("T")
 
