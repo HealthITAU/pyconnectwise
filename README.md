@@ -237,15 +237,18 @@ You can install these requirements by opening a terminal, navigating to the repo
 Prerequisites:
 - Python 3.10+
 - [Poetry](https://python-poetry.org/docs/#installing-with-pipx)
+- [Pre-Commit](https://pre-commit.com/#install)
 
 ### Quick dependencies install on apt-based systems (using pipx to manage python tools)
 ```bash
 sudo apt install pipx
 pipx install poetry
+pipx install pre-commit
 ```
 ### Setting up your development environment
 ```bash
 poetry install --with=dev
+pre-commit install
 ```
 
 ## Testing

@@ -21,7 +21,7 @@ class Condition(Generic[T]):
     def __init__(self: Condition[T]):
         self._condition_string: str = ""
         self._field = ""
-        
+
     def field(self: Condition[T], selector: Callable[[Type[T]], Any]) -> Condition[T]:
         field = ""
 
@@ -47,52 +47,52 @@ class Condition(Generic[T]):
         self._condition_string += " = "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def not_equals(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " = "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def less_than(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " < "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def less_than_or_equals(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " <= "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def greater_than(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " > "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def greater_than_or_equals(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " >= "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def contains(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " CONTAINS "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def like(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " LIKE "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def in_(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " IN "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def not_(self: Condition[T], value: Any) -> Condition[T]:
         self._condition_string += " NOT "
         self.__add_typed_value_to_string(value, type(value))
         return self
-    
+
     def __add_typed_value_to_string(self: Condition[T], value: Any, type: Type):
         if type is str:
             self._condition_string += f"\"{value}\""
@@ -150,7 +150,7 @@ class Condition(Generic[T]):
 
             self._condition_string += field
         return self
-    
+
     def wrap(self: Condition[T], condition: Callable[[Condition[T]], Condition[T]]) -> Condition[T]:
         self._condition_string += f"({condition(Condition[T]())})"
         return self

@@ -35,7 +35,7 @@ class {{ endpoint_class }}(ConnectWiseEndpoint{% for interface in interfaces %},
         )
         {%- endfor %}
         {%- endif %}
-    
+
     {% if has_id_child %}
     def id(self, id: int) -> {{ id_child_endpoint_class }}:
         \"""
@@ -152,10 +152,10 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         self.manage_url: str = manage_url
         self.public_key: str = public_key
         self.private_key: str = private_key
-        
+
         if config:
             self.config = config
-        
+
         # Retrieve codebase from the API if not provided
         if not codebase:
             codebase_request = self._try_get_codebase_from_api(
@@ -168,7 +168,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
                 # we need to except here
                 raise Exception("Could not retrieve codebase from API.")
             self.codebase: str = codebase_request
-            
+
 
         # Initializing endpoints
         {%- for endpoint in endpoints %}
@@ -271,13 +271,13 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         self.username: str = username
         self.password: str = password
         self.token_expiry_time: datetime = datetime.utcnow()
-        
+
         if config:
             self.config = config
 
         # Grab first access token
         self.access_token: str = self._get_access_token()
-                
+
         # Initializing endpoints
         {%- for endpoint in endpoints %}
         self.{{ endpoint.field_name }} = {{ endpoint.class_name }}(self)
@@ -301,7 +301,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         token = auth_resp_json["AccessToken"]
         self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
         return token
-    
+
     def _refresh_access_token_if_necessary(self):
         if datetime.utcnow() > self.token_expiry_time:
             self.access_token = self._get_access_token()
