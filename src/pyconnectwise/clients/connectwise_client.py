@@ -8,7 +8,7 @@ from requests import Response
 from requests.exceptions import ConnectionError, HTTPError, RequestException, Timeout
 
 from pyconnectwise.config import Config
-from pyconnectwise.exceptions import *
+from pyconnectwise.exceptions import *  # noqa: F403
 
 if TYPE_CHECKING:
     from pyconnectwise.types import RequestData, RequestMethod, RequestParams
@@ -77,17 +77,17 @@ class ConnectWiseClient(ABC):
         except HTTPError as http_error:
             msg = str(http_error)
             if response.status_code == 400:
-                raise MalformedRequestException(msg) from http_error
+                raise MalformedRequestException(msg) from http_error  # noqa: F405
             if response.status_code == 401:
-                raise AuthenticationFailedException(msg) from http_error
+                raise AuthenticationFailedException(msg) from http_error  # noqa: F405
             if response.status_code == 403:
-                raise PermissionsFailedException(msg) from http_error
+                raise PermissionsFailedException(msg) from http_error  # noqa: F405
             if response.status_code == 404:
-                raise NotFoundException(msg) from http_error
+                raise NotFoundException(msg) from http_error  # noqa: F405
             if response.status_code == 405:
-                raise MethodNotAllowedException(msg) from http_error
+                raise MethodNotAllowedException(msg) from http_error  # noqa: F405
             if response.status_code == 409:
-                raise ConflictException(msg) from http_error
+                raise ConflictException(msg) from http_error  # noqa: F405
             if response.status_code == 500:
                 # if timeout is mentioned anywhere in the response then we'll retry.
                 # Ideally we'd return immediately on any non-timeout errors (since

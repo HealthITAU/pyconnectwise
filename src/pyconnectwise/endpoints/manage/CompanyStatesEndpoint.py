@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyStatesCountEndpoint import (
     CompanyStatesCountEndpoint,
@@ -11,20 +9,15 @@ from pyconnectwise.endpoints.manage.CompanyStatesInfoEndpoint import (
     CompanyStatesInfoEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
-    IPatchable,
     IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.manage import State
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

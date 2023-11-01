@@ -1,4 +1,3 @@
-import base64
 from datetime import datetime
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient

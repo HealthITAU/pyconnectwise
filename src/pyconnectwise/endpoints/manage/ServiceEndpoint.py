@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ServiceBoardsEndpoint import ServiceBoardsEndpoint
 from pyconnectwise.endpoints.manage.ServiceCodesEndpoint import ServiceCodesEndpoint
@@ -54,21 +52,6 @@ from pyconnectwise.endpoints.manage.ServiceTicketlinksEndpoint import (
 from pyconnectwise.endpoints.manage.ServiceTicketsEndpoint import ServiceTicketsEndpoint
 from pyconnectwise.endpoints.manage.ServiceTicketsyncsEndpoint import (
     ServiceTicketsyncsEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
-)
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ExpenseClassificationsEndpoint import (
     ExpenseClassificationsEndpoint,
@@ -11,21 +9,6 @@ from pyconnectwise.endpoints.manage.ExpensePaymenttypesEndpoint import (
 )
 from pyconnectwise.endpoints.manage.ExpenseReportsEndpoint import ExpenseReportsEndpoint
 from pyconnectwise.endpoints.manage.ExpenseTypesEndpoint import ExpenseTypesEndpoint
-from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
-)
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
 
 
 class ExpenseEndpoint(ConnectWiseEndpoint):

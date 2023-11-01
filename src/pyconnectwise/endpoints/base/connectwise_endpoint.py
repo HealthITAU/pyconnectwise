@@ -1,7 +1,6 @@
 from __future__ import annotations
 from requests import Response
-from typing import TypeVar, Type, TYPE_CHECKING, Any
-from abc import ABC, abstractmethod
+from typing import TypeVar, TYPE_CHECKING, Any
 
 
 from pyconnectwise.types import (

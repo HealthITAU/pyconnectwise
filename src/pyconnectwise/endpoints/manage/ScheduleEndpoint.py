@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ScheduleCalendarsEndpoint import (
     ScheduleCalendarsEndpoint,
@@ -24,21 +22,6 @@ from pyconnectwise.endpoints.manage.ScheduleStatusesEndpoint import (
     ScheduleStatusesEndpoint,
 )
 from pyconnectwise.endpoints.manage.ScheduleTypesEndpoint import ScheduleTypesEndpoint
-from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
-)
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
 
 
 class ScheduleEndpoint(ConnectWiseEndpoint):

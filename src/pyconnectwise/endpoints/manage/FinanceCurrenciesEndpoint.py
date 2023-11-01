@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceCurrenciesCountEndpoint import (
     FinanceCurrenciesCountEndpoint,
@@ -11,20 +9,15 @@ from pyconnectwise.endpoints.manage.FinanceCurrenciesInfoEndpoint import (
     FinanceCurrenciesInfoEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
-    IPatchable,
     IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.manage import FinanceCurrency
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

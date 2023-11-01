@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsCountEndpoint import (
     ProjectTicketsIdConfigurationsCountEndpoint,
@@ -8,20 +6,15 @@ from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsIdEndpoint imp
     ProjectTicketsIdConfigurationsIdEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
-    IPatchable,
     IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.manage import ConfigurationReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

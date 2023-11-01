@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesCountEndpoint import (
     TimeSchedulestopwatchesCountEndpoint,
@@ -8,20 +6,15 @@ from pyconnectwise.endpoints.manage.TimeSchedulestopwatchesIdEndpoint import (
     TimeSchedulestopwatchesIdEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
-    IPatchable,
     IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.manage import ScheduleStopwatch
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

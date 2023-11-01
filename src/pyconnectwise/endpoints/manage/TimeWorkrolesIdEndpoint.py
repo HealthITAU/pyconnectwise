@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeWorkrolesIdInfoEndpoint import (
     TimeWorkrolesIdInfoEndpoint,
@@ -11,18 +9,15 @@ from pyconnectwise.endpoints.manage.TimeWorkrolesIdUsagesEndpoint import (
     TimeWorkrolesIdUsagesEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
     IPatchable,
-    IPostable,
     IPuttable,
 )
 from pyconnectwise.models.manage import WorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
     PatchRequestData,
 )

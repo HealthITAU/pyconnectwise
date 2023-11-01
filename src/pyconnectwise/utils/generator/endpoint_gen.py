@@ -45,7 +45,7 @@ def generate_endpoint(
 
         if "Id" in child_endpoint:
             id_child_endpoint_class_name = endpoint_class_name.replace(
-                "Endpoint", f"IdEndpoint"
+                "Endpoint", "IdEndpoint"
             )
             if endpoint_class_name == id_child_endpoint_class_name:
                 continue

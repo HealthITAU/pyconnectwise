@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemM365contactsyncIdInfoEndpoint import (
     SystemM365contactsyncIdInfoEndpoint,
@@ -9,21 +7,6 @@ from pyconnectwise.endpoints.manage.SystemM365contactsyncIdTestEndpoint import (
 )
 from pyconnectwise.endpoints.manage.SystemM365contactsyncIdViewauthEndpoint import (
     SystemM365contactsyncIdViewauthEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
-)
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

@@ -1,23 +1,13 @@
-from typing import Any
-
 from pyconnectwise.endpoints.automate.UsersFoldersEndpoint import UsersFoldersEndpoint
 from pyconnectwise.endpoints.automate.UsersIdEndpoint import UsersIdEndpoint
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
     IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.automate import AutomateUser
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
     ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

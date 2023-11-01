@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdInfoEndpoint import (
     CompanyContactsDepartmentsIdInfoEndpoint,
@@ -8,18 +6,15 @@ from pyconnectwise.endpoints.manage.CompanyContactsDepartmentsIdUsagesEndpoint i
     CompanyContactsDepartmentsIdUsagesEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
     IPatchable,
-    IPostable,
     IPuttable,
 )
 from pyconnectwise.models.manage import ContactDepartment
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
     PatchRequestData,
 )

@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesCountEndpoint import (
     FinanceAccountingUnpostedexpensesCountEndpoint,
@@ -8,20 +6,14 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdEndpoint 
     FinanceAccountingUnpostedexpensesIdEndpoint,
 )
 from pyconnectwise.interfaces import (
-    IDeleteable,
     IGettable,
     IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
 )
 from pyconnectwise.models.manage import UnpostedExpense
 from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
     JSON,
-    ConnectWiseAutomateRequestParams,
     ConnectWiseManageRequestParams,
-    PatchRequestData,
 )
 
 

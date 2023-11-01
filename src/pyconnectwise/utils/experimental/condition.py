@@ -4,10 +4,10 @@ from datetime import datetime
 from typing import Any
 import inspect
 import re
-from typing import TypeVar, Type, Generic
+from typing import TypeVar, Generic
 from collections.abc import Callable
 from pyconnectwise.utils.naming import to_camel_case
-from datetime import datetime
+from datetime import datetime  # noqa: F811
 
 T = TypeVar("T")
 

@@ -1,7 +1,6 @@
 from __future__ import annotations
-from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 from pyconnectwise.utils.helpers import parse_link_headers
-from typing import TYPE_CHECKING, Generic, TypeVar, Type
+from typing import TYPE_CHECKING, Generic, TypeVar
 from collections.abc import Iterable
 from pydantic import BaseModel
 from requests import Response
@@ -11,7 +10,6 @@ from pyconnectwise.types import RequestParams
 TModel = TypeVar("TModel", bound="BaseModel")
 
 if TYPE_CHECKING:
-    from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
     from pyconnectwise.interfaces import IPaginateable
 
 

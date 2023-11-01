@@ -1,5 +1,3 @@
-from typing import Any
-
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.TimeAccrualsEndpoint import TimeAccrualsEndpoint
 from pyconnectwise.endpoints.manage.TimeActivitystopwatchesEndpoint import (
@@ -22,21 +20,6 @@ from pyconnectwise.endpoints.manage.TimeTimeperiodsetupsEndpoint import (
 )
 from pyconnectwise.endpoints.manage.TimeWorkrolesEndpoint import TimeWorkrolesEndpoint
 from pyconnectwise.endpoints.manage.TimeWorktypesEndpoint import TimeWorktypesEndpoint
-from pyconnectwise.interfaces import (
-    IDeleteable,
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPostable,
-    IPuttable,
-)
-from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseAutomateRequestParams,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
 
 
 class TimeEndpoint(ConnectWiseEndpoint):
