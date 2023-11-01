@@ -1,14 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandCountEndpoint import \
-    ProcurementWarehousebinsIdInventoryonhandCountEndpoint
-from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandIdEndpoint import \
-    ProcurementWarehousebinsIdInventoryonhandIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandCountEndpoint import (
+    ProcurementWarehousebinsIdInventoryonhandCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProcurementWarehousebinsIdInventoryonhandIdEndpoint import (
+    ProcurementWarehousebinsIdInventoryonhandIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import InventoryOnHand
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProcurementWarehousebinsIdInventoryonhandEndpoint(
@@ -17,12 +31,16 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(
     IPaginateable[InventoryOnHand, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "inventoryOnHand", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "inventoryOnHand", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[InventoryOnHand])
         IPaginateable.__init__(self, InventoryOnHand)
 
         self.count = self._register_child_endpoint(
-            ProcurementWarehousebinsIdInventoryonhandCountEndpoint(client, parent_endpoint=self)
+            ProcurementWarehousebinsIdInventoryonhandCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> ProcurementWarehousebinsIdInventoryonhandIdEndpoint:
@@ -34,12 +52,17 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(
         Returns:
             ProcurementWarehousebinsIdInventoryonhandIdEndpoint: The initialized ProcurementWarehousebinsIdInventoryonhandIdEndpoint object.
         """
-        child = ProcurementWarehousebinsIdInventoryonhandIdEndpoint(self.client, parent_endpoint=self)
+        child = ProcurementWarehousebinsIdInventoryonhandIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[InventoryOnHand]:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/inventoryOnHand endpoint and returns an initialized PaginatedResponse object.
@@ -57,11 +80,18 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), InventoryOnHand, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            InventoryOnHand,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[InventoryOnHand]:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/inventoryOnHand endpoint.
@@ -72,4 +102,7 @@ class ProcurementWarehousebinsIdInventoryonhandEndpoint(
         Returns:
             list[InventoryOnHand]: The parsed response data.
         """
-        return self._parse_many(InventoryOnHand, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            InventoryOnHand,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

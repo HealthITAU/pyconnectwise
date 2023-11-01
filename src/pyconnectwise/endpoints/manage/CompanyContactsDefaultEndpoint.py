@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Contact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyContactsDefaultEndpoint(
@@ -13,12 +25,17 @@ class CompanyContactsDefaultEndpoint(
     IPaginateable[Contact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "default", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "default", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, Contact)
         IPaginateable.__init__(self, Contact)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Contact]:
         """
         Performs a GET request against the /company/contacts/default endpoint and returns an initialized PaginatedResponse object.
@@ -35,9 +52,20 @@ class CompanyContactsDefaultEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Contact, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Contact,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Contact:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Contact:
         """
         Performs a GET request against the /company/contacts/default endpoint.
 
@@ -47,4 +75,6 @@ class CompanyContactsDefaultEndpoint(
         Returns:
             Contact: The parsed response data.
         """
-        return self._parse_one(Contact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            Contact, super()._make_request("GET", data=data, params=params).json()
+        )

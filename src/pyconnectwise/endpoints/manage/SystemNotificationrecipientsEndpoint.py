@@ -1,13 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemNotificationrecipientsCountEndpoint import \
-    SystemNotificationrecipientsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemNotificationrecipientsIdEndpoint import SystemNotificationrecipientsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemNotificationrecipientsCountEndpoint import (
+    SystemNotificationrecipientsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemNotificationrecipientsIdEndpoint import (
+    SystemNotificationrecipientsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import NotificationRecipient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemNotificationrecipientsEndpoint(
@@ -16,7 +31,9 @@ class SystemNotificationrecipientsEndpoint(
     IPaginateable[NotificationRecipient, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "notificationRecipients", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "notificationRecipients", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[NotificationRecipient])
         IPaginateable.__init__(self, NotificationRecipient)
 
@@ -33,12 +50,17 @@ class SystemNotificationrecipientsEndpoint(
         Returns:
             SystemNotificationrecipientsIdEndpoint: The initialized SystemNotificationrecipientsIdEndpoint object.
         """
-        child = SystemNotificationrecipientsIdEndpoint(self.client, parent_endpoint=self)
+        child = SystemNotificationrecipientsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[NotificationRecipient]:
         """
         Performs a GET request against the /system/notificationRecipients endpoint and returns an initialized PaginatedResponse object.
@@ -56,11 +78,18 @@ class SystemNotificationrecipientsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), NotificationRecipient, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            NotificationRecipient,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[NotificationRecipient]:
         """
         Performs a GET request against the /system/notificationRecipients endpoint.
@@ -71,4 +100,7 @@ class SystemNotificationrecipientsEndpoint(
         Returns:
             list[NotificationRecipient]: The parsed response data.
         """
-        return self._parse_many(NotificationRecipient, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            NotificationRecipient,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

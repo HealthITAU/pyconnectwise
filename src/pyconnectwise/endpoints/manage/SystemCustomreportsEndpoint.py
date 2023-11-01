@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemCustomreportsCountEndpoint import SystemCustomreportsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemCustomreportsIdEndpoint import SystemCustomreportsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemCustomreportsCountEndpoint import (
+    SystemCustomreportsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemCustomreportsIdEndpoint import (
+    SystemCustomreportsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import CustomReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemCustomreportsEndpoint(
@@ -16,12 +32,16 @@ class SystemCustomreportsEndpoint(
     IPaginateable[CustomReport, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "customReports", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "customReports", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CustomReport])
         IPostable.__init__(self, CustomReport)
         IPaginateable.__init__(self, CustomReport)
 
-        self.count = self._register_child_endpoint(SystemCustomreportsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemCustomreportsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemCustomreportsIdEndpoint:
         """
@@ -37,7 +57,10 @@ class SystemCustomreportsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CustomReport]:
         """
         Performs a GET request against the /system/customReports endpoint and returns an initialized PaginatedResponse object.
@@ -55,10 +78,19 @@ class SystemCustomreportsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CustomReport, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CustomReport,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[CustomReport]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[CustomReport]:
         """
         Performs a GET request against the /system/customReports endpoint.
 
@@ -68,9 +100,15 @@ class SystemCustomreportsEndpoint(
         Returns:
             list[CustomReport]: The parsed response data.
         """
-        return self._parse_many(CustomReport, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CustomReport, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CustomReport:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> CustomReport:
         """
         Performs a POST request against the /system/customReports endpoint.
 
@@ -80,4 +118,6 @@ class SystemCustomreportsEndpoint(
         Returns:
             CustomReport: The parsed response data.
         """
-        return self._parse_one(CustomReport, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            CustomReport, super()._make_request("POST", data=data, params=params).json()
+        )

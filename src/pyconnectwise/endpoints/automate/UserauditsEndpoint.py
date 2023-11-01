@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechUserAudit
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class UserauditsEndpoint(
@@ -14,13 +26,18 @@ class UserauditsEndpoint(
     IPaginateable[LabTechUserAudit, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Useraudits", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Useraudits", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechUserAudit])
         IPostable.__init__(self, LabTechUserAudit)
         IPaginateable.__init__(self, LabTechUserAudit)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechUserAudit]:
         """
         Performs a GET request against the /Useraudits endpoint and returns an initialized PaginatedResponse object.
@@ -38,11 +55,18 @@ class UserauditsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechUserAudit, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechUserAudit,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechUserAudit]:
         """
         Performs a GET request against the /Useraudits endpoint.
@@ -53,10 +77,15 @@ class UserauditsEndpoint(
         Returns:
             list[LabTechUserAudit]: The parsed response data.
         """
-        return self._parse_many(LabTechUserAudit, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechUserAudit,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechUserAudit:
         """
         Performs a POST request against the /Useraudits endpoint.
@@ -67,4 +96,7 @@ class UserauditsEndpoint(
         Returns:
             LabTechUserAudit: The parsed response data.
         """
-        return self._parse_one(LabTechUserAudit, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            LabTechUserAudit,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

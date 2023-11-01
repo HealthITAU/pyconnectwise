@@ -1,16 +1,38 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.ComputersChassisEndpoint import ComputersChassisEndpoint
-from pyconnectwise.endpoints.automate.ComputersDrivesEndpoint import ComputersDrivesEndpoint
+from pyconnectwise.endpoints.automate.ComputersChassisEndpoint import (
+    ComputersChassisEndpoint,
+)
+from pyconnectwise.endpoints.automate.ComputersDrivesEndpoint import (
+    ComputersDrivesEndpoint,
+)
 from pyconnectwise.endpoints.automate.ComputersIdEndpoint import ComputersIdEndpoint
-from pyconnectwise.endpoints.automate.ComputersMaintenancemodesEndpoint import ComputersMaintenancemodesEndpoint
-from pyconnectwise.endpoints.automate.ComputersMemoryslotsEndpoint import ComputersMemoryslotsEndpoint
-from pyconnectwise.endpoints.automate.ComputersSoftwareEndpoint import ComputersSoftwareEndpoint
+from pyconnectwise.endpoints.automate.ComputersMaintenancemodesEndpoint import (
+    ComputersMaintenancemodesEndpoint,
+)
+from pyconnectwise.endpoints.automate.ComputersMemoryslotsEndpoint import (
+    ComputersMemoryslotsEndpoint,
+)
+from pyconnectwise.endpoints.automate.ComputersSoftwareEndpoint import (
+    ComputersSoftwareEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechComputer
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ComputersEndpoint(
@@ -19,14 +41,24 @@ class ComputersEndpoint(
     IPaginateable[LabTechComputer, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Computers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Computers", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechComputer])
         IPaginateable.__init__(self, LabTechComputer)
 
-        self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
-        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
-        self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
-        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
+        self.memoryslots = self._register_child_endpoint(
+            ComputersMemoryslotsEndpoint(client, parent_endpoint=self)
+        )
+        self.software = self._register_child_endpoint(
+            ComputersSoftwareEndpoint(client, parent_endpoint=self)
+        )
+        self.drives = self._register_child_endpoint(
+            ComputersDrivesEndpoint(client, parent_endpoint=self)
+        )
+        self.chassis = self._register_child_endpoint(
+            ComputersChassisEndpoint(client, parent_endpoint=self)
+        )
         self.maintenancemodes = self._register_child_endpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )
@@ -45,7 +77,10 @@ class ComputersEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechComputer]:
         """
         Performs a GET request against the /Computers endpoint and returns an initialized PaginatedResponse object.
@@ -63,11 +98,18 @@ class ComputersEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechComputer, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechComputer,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechComputer]:
         """
         Performs a GET request against the /Computers endpoint.
@@ -78,4 +120,7 @@ class ComputersEndpoint(
         Returns:
             list[LabTechComputer]: The parsed response data.
         """
-        return self._parse_many(LabTechComputer, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechComputer,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

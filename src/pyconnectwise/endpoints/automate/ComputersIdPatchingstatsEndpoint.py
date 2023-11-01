@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import AutomateComputerPatchingStats
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ComputersIdPatchingstatsEndpoint(
@@ -13,12 +25,17 @@ class ComputersIdPatchingstatsEndpoint(
     IPaginateable[AutomateComputerPatchingStats, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Patchingstats", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Patchingstats", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, AutomateComputerPatchingStats)
         IPaginateable.__init__(self, AutomateComputerPatchingStats)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[AutomateComputerPatchingStats]:
         """
         Performs a GET request against the /Computers/{id}/Patchingstats endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class ComputersIdPatchingstatsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), AutomateComputerPatchingStats, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            AutomateComputerPatchingStats,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> AutomateComputerPatchingStats:
         """
         Performs a GET request against the /Computers/{id}/Patchingstats endpoint.
@@ -52,5 +76,6 @@ class ComputersIdPatchingstatsEndpoint(
             AutomateComputerPatchingStats: The parsed response data.
         """
         return self._parse_one(
-            AutomateComputerPatchingStats, super()._make_request("GET", data=data, params=params).json()
+            AutomateComputerPatchingStats,
+            super()._make_request("GET", data=data, params=params).json(),
         )

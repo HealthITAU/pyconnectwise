@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechDocument
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ClientsIdDocumentsEndpoint(
@@ -13,12 +25,17 @@ class ClientsIdDocumentsEndpoint(
     IPaginateable[LabTechDocument, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Documents", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Documents", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechDocument])
         IPaginateable.__init__(self, LabTechDocument)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechDocument]:
         """
         Performs a GET request against the /Clients/{id}/Documents endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class ClientsIdDocumentsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechDocument, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechDocument,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechDocument]:
         """
         Performs a GET request against the /Clients/{id}/Documents endpoint.
@@ -51,4 +75,7 @@ class ClientsIdDocumentsEndpoint(
         Returns:
             list[LabTechDocument]: The parsed response data.
         """
-        return self._parse_many(LabTechDocument, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechDocument,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

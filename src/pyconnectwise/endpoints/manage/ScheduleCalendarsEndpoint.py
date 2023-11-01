@@ -1,13 +1,31 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ScheduleCalendarsCountEndpoint import ScheduleCalendarsCountEndpoint
-from pyconnectwise.endpoints.manage.ScheduleCalendarsIdEndpoint import ScheduleCalendarsIdEndpoint
-from pyconnectwise.endpoints.manage.ScheduleCalendarsInfoEndpoint import ScheduleCalendarsInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ScheduleCalendarsCountEndpoint import (
+    ScheduleCalendarsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleCalendarsIdEndpoint import (
+    ScheduleCalendarsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleCalendarsInfoEndpoint import (
+    ScheduleCalendarsInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Calendar
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ScheduleCalendarsEndpoint(
@@ -17,13 +35,19 @@ class ScheduleCalendarsEndpoint(
     IPaginateable[Calendar, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "calendars", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "calendars", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Calendar])
         IPostable.__init__(self, Calendar)
         IPaginateable.__init__(self, Calendar)
 
-        self.count = self._register_child_endpoint(ScheduleCalendarsCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ScheduleCalendarsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ScheduleCalendarsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ScheduleCalendarsInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ScheduleCalendarsIdEndpoint:
         """
@@ -39,7 +63,10 @@ class ScheduleCalendarsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Calendar]:
         """
         Performs a GET request against the /schedule/calendars endpoint and returns an initialized PaginatedResponse object.
@@ -56,9 +83,20 @@ class ScheduleCalendarsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Calendar, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Calendar,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Calendar]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Calendar]:
         """
         Performs a GET request against the /schedule/calendars endpoint.
 
@@ -68,9 +106,15 @@ class ScheduleCalendarsEndpoint(
         Returns:
             list[Calendar]: The parsed response data.
         """
-        return self._parse_many(Calendar, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Calendar, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Calendar:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Calendar:
         """
         Performs a POST request against the /schedule/calendars endpoint.
 
@@ -80,4 +124,6 @@ class ScheduleCalendarsEndpoint(
         Returns:
             Calendar: The parsed response data.
         """
-        return self._parse_one(Calendar, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Calendar, super()._make_request("POST", data=data, params=params).json()
+        )

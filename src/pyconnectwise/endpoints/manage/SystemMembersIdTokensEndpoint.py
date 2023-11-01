@@ -1,18 +1,38 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Token
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
-class SystemMembersIdTokensEndpoint(ConnectWiseEndpoint, IPostable[Token, ConnectWiseManageRequestParams]):
+class SystemMembersIdTokensEndpoint(
+    ConnectWiseEndpoint, IPostable[Token, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "tokens", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "tokens", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, Token)
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Token:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> Token:
         """
         Performs a POST request against the /system/members/{id}/tokens endpoint.
 
@@ -22,4 +42,6 @@ class SystemMembersIdTokensEndpoint(ConnectWiseEndpoint, IPostable[Token, Connec
         Returns:
             Token: The parsed response data.
         """
-        return self._parse_one(Token, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            Token, super()._make_request("POST", data=data, params=params).json()
+        )

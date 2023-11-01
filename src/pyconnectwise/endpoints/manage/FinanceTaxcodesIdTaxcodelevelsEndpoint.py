@@ -1,14 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodelevelsCountEndpoint import \
-    FinanceTaxcodesIdTaxcodelevelsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodelevelsIdEndpoint import \
-    FinanceTaxcodesIdTaxcodelevelsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodelevelsCountEndpoint import (
+    FinanceTaxcodesIdTaxcodelevelsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdTaxcodelevelsIdEndpoint import (
+    FinanceTaxcodesIdTaxcodelevelsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import TaxCodeLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceTaxcodesIdTaxcodelevelsEndpoint(
@@ -18,7 +32,9 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
     IPaginateable[TaxCodeLevel, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "taxCodeLevels", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "taxCodeLevels", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[TaxCodeLevel])
         IPostable.__init__(self, TaxCodeLevel)
         IPaginateable.__init__(self, TaxCodeLevel)
@@ -36,12 +52,17 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
         Returns:
             FinanceTaxcodesIdTaxcodelevelsIdEndpoint: The initialized FinanceTaxcodesIdTaxcodelevelsIdEndpoint object.
         """
-        child = FinanceTaxcodesIdTaxcodelevelsIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceTaxcodesIdTaxcodelevelsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[TaxCodeLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeLevels endpoint and returns an initialized PaginatedResponse object.
@@ -59,10 +80,19 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), TaxCodeLevel, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            TaxCodeLevel,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TaxCodeLevel]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[TaxCodeLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeLevels endpoint.
 
@@ -72,9 +102,15 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
         Returns:
             list[TaxCodeLevel]: The parsed response data.
         """
-        return self._parse_many(TaxCodeLevel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TaxCodeLevel, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxCodeLevel:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TaxCodeLevel:
         """
         Performs a POST request against the /finance/taxCodes/{id}/taxCodeLevels endpoint.
 
@@ -84,4 +120,6 @@ class FinanceTaxcodesIdTaxcodelevelsEndpoint(
         Returns:
             TaxCodeLevel: The parsed response data.
         """
-        return self._parse_one(TaxCodeLevel, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TaxCodeLevel, super()._make_request("POST", data=data, params=params).json()
+        )

@@ -1,14 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedCountEndpoint import \
-    MarketingCampaignsIdFormssubmittedCountEndpoint
-from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedIdEndpoint import \
-    MarketingCampaignsIdFormssubmittedIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedCountEndpoint import (
+    MarketingCampaignsIdFormssubmittedCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.MarketingCampaignsIdFormssubmittedIdEndpoint import (
+    MarketingCampaignsIdFormssubmittedIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import FormSubmitted
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class MarketingCampaignsIdFormssubmittedEndpoint(
@@ -18,13 +32,17 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
     IPaginateable[FormSubmitted, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "formsSubmitted", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "formsSubmitted", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[FormSubmitted])
         IPostable.__init__(self, FormSubmitted)
         IPaginateable.__init__(self, FormSubmitted)
 
         self.count = self._register_child_endpoint(
-            MarketingCampaignsIdFormssubmittedCountEndpoint(client, parent_endpoint=self)
+            MarketingCampaignsIdFormssubmittedCountEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def id(self, id: int) -> MarketingCampaignsIdFormssubmittedIdEndpoint:
@@ -36,12 +54,17 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
         Returns:
             MarketingCampaignsIdFormssubmittedIdEndpoint: The initialized MarketingCampaignsIdFormssubmittedIdEndpoint object.
         """
-        child = MarketingCampaignsIdFormssubmittedIdEndpoint(self.client, parent_endpoint=self)
+        child = MarketingCampaignsIdFormssubmittedIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[FormSubmitted]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/formsSubmitted endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +82,18 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), FormSubmitted, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            FormSubmitted,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[FormSubmitted]:
         """
         Performs a GET request against the /marketing/campaigns/{id}/formsSubmitted endpoint.
@@ -74,9 +104,15 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
         Returns:
             list[FormSubmitted]: The parsed response data.
         """
-        return self._parse_many(FormSubmitted, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            FormSubmitted, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> FormSubmitted:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> FormSubmitted:
         """
         Performs a POST request against the /marketing/campaigns/{id}/formsSubmitted endpoint.
 
@@ -86,4 +122,7 @@ class MarketingCampaignsIdFormssubmittedEndpoint(
         Returns:
             FormSubmitted: The parsed response data.
         """
-        return self._parse_one(FormSubmitted, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            FormSubmitted,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

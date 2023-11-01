@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import CompanyNoteTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyNotetypesInfoEndpoint(
@@ -13,12 +25,17 @@ class CompanyNotetypesInfoEndpoint(
     IPaginateable[CompanyNoteTypeInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[CompanyNoteTypeInfo])
         IPaginateable.__init__(self, CompanyNoteTypeInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[CompanyNoteTypeInfo]:
         """
         Performs a GET request against the /company/noteTypes/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class CompanyNotetypesInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), CompanyNoteTypeInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            CompanyNoteTypeInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[CompanyNoteTypeInfo]:
         """
         Performs a GET request against the /company/noteTypes/info endpoint.
@@ -51,4 +75,7 @@ class CompanyNotetypesInfoEndpoint(
         Returns:
             list[CompanyNoteTypeInfo]: The parsed response data.
         """
-        return self._parse_many(CompanyNoteTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            CompanyNoteTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

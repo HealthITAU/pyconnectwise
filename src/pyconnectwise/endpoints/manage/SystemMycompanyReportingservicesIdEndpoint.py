@@ -1,12 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMycompanyReportingservicesIdTestconnectionEndpoint import \
-    SystemMycompanyReportingservicesIdTestconnectionEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemMycompanyReportingservicesIdTestconnectionEndpoint import (
+    SystemMycompanyReportingservicesIdTestconnectionEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ReportingService
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemMycompanyReportingservicesIdEndpoint(
@@ -17,18 +30,25 @@ class SystemMycompanyReportingservicesIdEndpoint(
     IPaginateable[ReportingService, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ReportingService)
         IPuttable.__init__(self, ReportingService)
         IPatchable.__init__(self, ReportingService)
         IPaginateable.__init__(self, ReportingService)
 
         self.test_connection = self._register_child_endpoint(
-            SystemMycompanyReportingservicesIdTestconnectionEndpoint(client, parent_endpoint=self)
+            SystemMycompanyReportingservicesIdTestconnectionEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ReportingService]:
         """
         Performs a GET request against the /system/mycompany/reportingServices/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -46,10 +66,19 @@ class SystemMycompanyReportingservicesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ReportingService, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ReportingService,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ReportingService:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ReportingService:
         """
         Performs a GET request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -59,9 +88,16 @@ class SystemMycompanyReportingservicesIdEndpoint(
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ReportingService:
+    def put(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ReportingService:
         """
         Performs a PUT request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -71,9 +107,16 @@ class SystemMycompanyReportingservicesIdEndpoint(
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ReportingService:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ReportingService:
         """
         Performs a PATCH request against the /system/mycompany/reportingServices/{id} endpoint.
 
@@ -83,4 +126,7 @@ class SystemMycompanyReportingservicesIdEndpoint(
         Returns:
             ReportingService: The parsed response data.
         """
-        return self._parse_one(ReportingService, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ReportingService,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

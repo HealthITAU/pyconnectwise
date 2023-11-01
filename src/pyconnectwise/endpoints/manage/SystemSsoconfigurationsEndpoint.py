@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSsoconfigurationsCountEndpoint import SystemSsoconfigurationsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemSsoconfigurationsIdEndpoint import SystemSsoconfigurationsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemSsoconfigurationsCountEndpoint import (
+    SystemSsoconfigurationsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemSsoconfigurationsIdEndpoint import (
+    SystemSsoconfigurationsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import SsoConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemSsoconfigurationsEndpoint(
@@ -16,12 +32,16 @@ class SystemSsoconfigurationsEndpoint(
     IPaginateable[SsoConfiguration, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "ssoConfigurations", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "ssoConfigurations", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[SsoConfiguration])
         IPostable.__init__(self, SsoConfiguration)
         IPaginateable.__init__(self, SsoConfiguration)
 
-        self.count = self._register_child_endpoint(SystemSsoconfigurationsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemSsoconfigurationsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemSsoconfigurationsIdEndpoint:
         """
@@ -37,7 +57,10 @@ class SystemSsoconfigurationsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[SsoConfiguration]:
         """
         Performs a GET request against the /system/ssoConfigurations endpoint and returns an initialized PaginatedResponse object.
@@ -55,11 +78,18 @@ class SystemSsoconfigurationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), SsoConfiguration, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            SsoConfiguration,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[SsoConfiguration]:
         """
         Performs a GET request against the /system/ssoConfigurations endpoint.
@@ -70,9 +100,16 @@ class SystemSsoconfigurationsEndpoint(
         Returns:
             list[SsoConfiguration]: The parsed response data.
         """
-        return self._parse_many(SsoConfiguration, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SsoConfiguration,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SsoConfiguration:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> SsoConfiguration:
         """
         Performs a POST request against the /system/ssoConfigurations endpoint.
 
@@ -82,4 +119,7 @@ class SystemSsoconfigurationsEndpoint(
         Returns:
             SsoConfiguration: The parsed response data.
         """
-        return self._parse_one(SsoConfiguration, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SsoConfiguration,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,28 +1,61 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
-from pyconnectwise.models.manage import ContactContactTypeAssociationContactTypeAssociation
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
+from pyconnectwise.models.manage import (
+    ContactContactTypeAssociationContactTypeAssociation,
+)
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyContactsIdTypeassociationsIdEndpoint(
     ConnectWiseEndpoint,
-    IGettable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
-    IPuttable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
-    IPatchable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
-    IPaginateable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
+    IGettable[
+        ContactContactTypeAssociationContactTypeAssociation,
+        ConnectWiseManageRequestParams,
+    ],
+    IPuttable[
+        ContactContactTypeAssociationContactTypeAssociation,
+        ConnectWiseManageRequestParams,
+    ],
+    IPatchable[
+        ContactContactTypeAssociationContactTypeAssociation,
+        ConnectWiseManageRequestParams,
+    ],
+    IPaginateable[
+        ContactContactTypeAssociationContactTypeAssociation,
+        ConnectWiseManageRequestParams,
+    ],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
         IPuttable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
         IPatchable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
-        IPaginateable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
+        IPaginateable.__init__(
+            self, ContactContactTypeAssociationContactTypeAssociation
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -49,7 +82,9 @@ class CompanyContactsIdTypeassociationsIdEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
@@ -65,7 +100,11 @@ class CompanyContactsIdTypeassociationsIdEndpoint(
             super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
 
@@ -76,7 +115,9 @@ class CompanyContactsIdTypeassociationsIdEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a PUT request against the /company/contacts/{id}/typeAssociations/{id} endpoint.
@@ -93,7 +134,9 @@ class CompanyContactsIdTypeassociationsIdEndpoint(
         )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a PATCH request against the /company/contacts/{id}/typeAssociations/{id} endpoint.

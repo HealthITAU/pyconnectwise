@@ -1,18 +1,38 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyEntitytypesIdEndpoint import CompanyEntitytypesIdEndpoint
-from pyconnectwise.endpoints.manage.CompanyEntitytypesInfoEndpoint import CompanyEntitytypesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyEntitytypesIdEndpoint import (
+    CompanyEntitytypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyEntitytypesInfoEndpoint import (
+    CompanyEntitytypesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyEntitytypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "entitytypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "entitytypes", parent_endpoint=parent_endpoint
+        )
 
-        self.info = self._register_child_endpoint(CompanyEntitytypesInfoEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(
+            CompanyEntitytypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyEntitytypesIdEndpoint:
         """

@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechTemplateAvailableProperty
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class TemplateavailablepropertiesEndpoint(
@@ -14,13 +26,18 @@ class TemplateavailablepropertiesEndpoint(
     IPaginateable[LabTechTemplateAvailableProperty, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Templateavailableproperties", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Templateavailableproperties", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechTemplateAvailableProperty])
         IPostable.__init__(self, LabTechTemplateAvailableProperty)
         IPaginateable.__init__(self, LabTechTemplateAvailableProperty)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechTemplateAvailableProperty]:
         """
         Performs a GET request against the /Templateavailableproperties endpoint and returns an initialized PaginatedResponse object.
@@ -38,11 +55,18 @@ class TemplateavailablepropertiesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechTemplateAvailableProperty, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechTemplateAvailableProperty,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechTemplateAvailableProperty]:
         """
         Performs a GET request against the /Templateavailableproperties endpoint.
@@ -54,11 +78,14 @@ class TemplateavailablepropertiesEndpoint(
             list[LabTechTemplateAvailableProperty]: The parsed response data.
         """
         return self._parse_many(
-            LabTechTemplateAvailableProperty, super()._make_request("GET", data=data, params=params).json()
+            LabTechTemplateAvailableProperty,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechTemplateAvailableProperty:
         """
         Performs a POST request against the /Templateavailableproperties endpoint.
@@ -70,5 +97,6 @@ class TemplateavailablepropertiesEndpoint(
             LabTechTemplateAvailableProperty: The parsed response data.
         """
         return self._parse_one(
-            LabTechTemplateAvailableProperty, super()._make_request("POST", data=data, params=params).json()
+            LabTechTemplateAvailableProperty,
+            super()._make_request("POST", data=data, params=params).json(),
         )

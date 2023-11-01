@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyCountEndpoint import CompanyContactsyncCompanyCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyIdEndpoint import CompanyContactsyncCompanyIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyCountEndpoint import (
+    CompanyContactsyncCompanyCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyContactsyncCompanyIdEndpoint import (
+    CompanyContactsyncCompanyIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import M365ContactSyncCompany
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyContactsyncCompanyEndpoint(
@@ -15,11 +31,15 @@ class CompanyContactsyncCompanyEndpoint(
     IPaginateable[M365ContactSyncCompany, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "company", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "company", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[M365ContactSyncCompany])
         IPaginateable.__init__(self, M365ContactSyncCompany)
 
-        self.count = self._register_child_endpoint(CompanyContactsyncCompanyCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyContactsyncCompanyCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyContactsyncCompanyIdEndpoint:
         """
@@ -35,7 +55,10 @@ class CompanyContactsyncCompanyEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[M365ContactSyncCompany]:
         """
         Performs a GET request against the /company/contactsync/company endpoint and returns an initialized PaginatedResponse object.
@@ -53,11 +76,18 @@ class CompanyContactsyncCompanyEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), M365ContactSyncCompany, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            M365ContactSyncCompany,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[M365ContactSyncCompany]:
         """
         Performs a GET request against the /company/contactsync/company endpoint.
@@ -68,9 +98,16 @@ class CompanyContactsyncCompanyEndpoint(
         Returns:
             list[M365ContactSyncCompany]: The parsed response data.
         """
-        return self._parse_many(M365ContactSyncCompany, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            M365ContactSyncCompany,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /company/contactsync/company endpoint.
 

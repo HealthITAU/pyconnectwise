@@ -1,13 +1,31 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsCountEndpoint import SystemEmailconnectorsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdEndpoint import SystemEmailconnectorsIdEndpoint
-from pyconnectwise.endpoints.manage.SystemEmailconnectorsInfoEndpoint import SystemEmailconnectorsInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsCountEndpoint import (
+    SystemEmailconnectorsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsIdEndpoint import (
+    SystemEmailconnectorsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemEmailconnectorsInfoEndpoint import (
+    SystemEmailconnectorsInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import EmailConnector
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemEmailconnectorsEndpoint(
@@ -17,13 +35,19 @@ class SystemEmailconnectorsEndpoint(
     IPaginateable[EmailConnector, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "emailConnectors", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "emailConnectors", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[EmailConnector])
         IPostable.__init__(self, EmailConnector)
         IPaginateable.__init__(self, EmailConnector)
 
-        self.count = self._register_child_endpoint(SystemEmailconnectorsCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(SystemEmailconnectorsInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemEmailconnectorsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            SystemEmailconnectorsInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemEmailconnectorsIdEndpoint:
         """
@@ -39,7 +63,10 @@ class SystemEmailconnectorsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[EmailConnector]:
         """
         Performs a GET request against the /system/emailConnectors endpoint and returns an initialized PaginatedResponse object.
@@ -57,11 +84,18 @@ class SystemEmailconnectorsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), EmailConnector, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            EmailConnector,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[EmailConnector]:
         """
         Performs a GET request against the /system/emailConnectors endpoint.
@@ -72,9 +106,16 @@ class SystemEmailconnectorsEndpoint(
         Returns:
             list[EmailConnector]: The parsed response data.
         """
-        return self._parse_many(EmailConnector, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            EmailConnector,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> EmailConnector:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> EmailConnector:
         """
         Performs a POST request against the /system/emailConnectors endpoint.
 
@@ -84,4 +125,7 @@ class SystemEmailconnectorsEndpoint(
         Returns:
             EmailConnector: The parsed response data.
         """
-        return self._parse_one(EmailConnector, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            EmailConnector,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

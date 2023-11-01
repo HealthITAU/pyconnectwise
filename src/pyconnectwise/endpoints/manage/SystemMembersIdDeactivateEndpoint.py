@@ -1,21 +1,37 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import MemberDeactivation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemMembersIdDeactivateEndpoint(
     ConnectWiseEndpoint, IPostable[MemberDeactivation, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "deactivate", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "deactivate", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, MemberDeactivation)
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> MemberDeactivation:
         """
         Performs a POST request against the /system/members/{id}/deactivate endpoint.
@@ -26,4 +42,7 @@ class SystemMembersIdDeactivateEndpoint(
         Returns:
             MemberDeactivation: The parsed response data.
         """
-        return self._parse_one(MemberDeactivation, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            MemberDeactivation,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

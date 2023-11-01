@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingvariablesCountEndpoint import SystemParsingvariablesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemParsingvariablesIdEndpoint import SystemParsingvariablesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemParsingvariablesCountEndpoint import (
+    SystemParsingvariablesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemParsingvariablesIdEndpoint import (
+    SystemParsingvariablesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ParsingVariable
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemParsingvariablesEndpoint(
@@ -15,11 +31,15 @@ class SystemParsingvariablesEndpoint(
     IPaginateable[ParsingVariable, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "parsingVariables", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "parsingVariables", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ParsingVariable])
         IPaginateable.__init__(self, ParsingVariable)
 
-        self.count = self._register_child_endpoint(SystemParsingvariablesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemParsingvariablesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemParsingvariablesIdEndpoint:
         """
@@ -35,7 +55,10 @@ class SystemParsingvariablesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ParsingVariable]:
         """
         Performs a GET request against the /system/parsingVariables endpoint and returns an initialized PaginatedResponse object.
@@ -53,11 +76,18 @@ class SystemParsingvariablesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ParsingVariable, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ParsingVariable,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ParsingVariable]:
         """
         Performs a GET request against the /system/parsingVariables endpoint.
@@ -68,4 +98,7 @@ class SystemParsingvariablesEndpoint(
         Returns:
             list[ParsingVariable]: The parsed response data.
         """
-        return self._parse_many(ParsingVariable, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ParsingVariable,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

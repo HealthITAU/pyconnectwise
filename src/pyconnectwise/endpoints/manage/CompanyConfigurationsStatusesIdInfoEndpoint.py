@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ConfigurationStatusInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyConfigurationsStatusesIdInfoEndpoint(
@@ -13,12 +25,17 @@ class CompanyConfigurationsStatusesIdInfoEndpoint(
     IPaginateable[ConfigurationStatusInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ConfigurationStatusInfo)
         IPaginateable.__init__(self, ConfigurationStatusInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ConfigurationStatusInfo]:
         """
         Performs a GET request against the /company/configurations/statuses/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class CompanyConfigurationsStatusesIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ConfigurationStatusInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ConfigurationStatusInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ConfigurationStatusInfo:
         """
         Performs a GET request against the /company/configurations/statuses/{id}/info endpoint.
@@ -51,4 +75,7 @@ class CompanyConfigurationsStatusesIdInfoEndpoint(
         Returns:
             ConfigurationStatusInfo: The parsed response data.
         """
-        return self._parse_one(ConfigurationStatusInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ConfigurationStatusInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

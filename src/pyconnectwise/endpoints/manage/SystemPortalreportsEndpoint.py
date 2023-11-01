@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import SystemPortalreportsCountEndpoint
-from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import SystemPortalreportsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemPortalreportsCountEndpoint import (
+    SystemPortalreportsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemPortalreportsIdEndpoint import (
+    SystemPortalreportsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import PortalReport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemPortalreportsEndpoint(
@@ -16,12 +32,16 @@ class SystemPortalreportsEndpoint(
     IPaginateable[PortalReport, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "portalReports", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "portalReports", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[PortalReport])
         IPostable.__init__(self, PortalReport)
         IPaginateable.__init__(self, PortalReport)
 
-        self.count = self._register_child_endpoint(SystemPortalreportsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemPortalreportsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemPortalreportsIdEndpoint:
         """
@@ -37,7 +57,10 @@ class SystemPortalreportsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint and returns an initialized PaginatedResponse object.
@@ -55,10 +78,19 @@ class SystemPortalreportsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), PortalReport, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            PortalReport,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[PortalReport]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[PortalReport]:
         """
         Performs a GET request against the /system/portalReports endpoint.
 
@@ -68,9 +100,15 @@ class SystemPortalreportsEndpoint(
         Returns:
             list[PortalReport]: The parsed response data.
         """
-        return self._parse_many(PortalReport, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            PortalReport, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> PortalReport:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> PortalReport:
         """
         Performs a POST request against the /system/portalReports endpoint.
 
@@ -80,4 +118,6 @@ class SystemPortalreportsEndpoint(
         Returns:
             PortalReport: The parsed response data.
         """
-        return self._parse_one(PortalReport, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            PortalReport, super()._make_request("POST", data=data, params=params).json()
+        )

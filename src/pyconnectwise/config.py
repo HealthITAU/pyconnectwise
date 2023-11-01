@@ -1,6 +1,5 @@
 class Config:
-    def __init__(self,
-                 max_retries=3):
+    def __init__(self, max_retries=3):
         """
         Initializes a new instance of the Config class.
 

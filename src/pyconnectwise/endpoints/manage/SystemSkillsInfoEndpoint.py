@@ -1,11 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillsInfoCountEndpoint import SystemSkillsInfoCountEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemSkillsInfoCountEndpoint import (
+    SystemSkillsInfoCountEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import SkillInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemSkillsInfoEndpoint(
@@ -14,14 +28,21 @@ class SystemSkillsInfoEndpoint(
     IPaginateable[SkillInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[SkillInfo])
         IPaginateable.__init__(self, SkillInfo)
 
-        self.count = self._register_child_endpoint(SystemSkillsInfoCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemSkillsInfoCountEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[SkillInfo]:
         """
         Performs a GET request against the /system/skills/info endpoint and returns an initialized PaginatedResponse object.
@@ -38,9 +59,20 @@ class SystemSkillsInfoEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), SkillInfo, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            SkillInfo,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[SkillInfo]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[SkillInfo]:
         """
         Performs a GET request against the /system/skills/info endpoint.
 
@@ -50,4 +82,6 @@ class SystemSkillsInfoEndpoint(
         Returns:
             list[SkillInfo]: The parsed response data.
         """
-        return self._parse_many(SkillInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SkillInfo, super()._make_request("GET", data=data, params=params).json()
+        )

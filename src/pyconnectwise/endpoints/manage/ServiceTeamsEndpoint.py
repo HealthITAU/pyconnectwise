@@ -1,12 +1,26 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTeamsCountEndpoint import ServiceTeamsCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTeamsCountEndpoint import (
+    ServiceTeamsCountEndpoint,
+)
 from pyconnectwise.endpoints.manage.ServiceTeamsIdEndpoint import ServiceTeamsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ServiceTeam
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ServiceTeamsEndpoint(
@@ -15,11 +29,15 @@ class ServiceTeamsEndpoint(
     IPaginateable[ServiceTeam, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "teams", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "teams", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ServiceTeam])
         IPaginateable.__init__(self, ServiceTeam)
 
-        self.count = self._register_child_endpoint(ServiceTeamsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceTeamsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ServiceTeamsIdEndpoint:
         """
@@ -35,7 +53,10 @@ class ServiceTeamsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ServiceTeam]:
         """
         Performs a GET request against the /service/teams endpoint and returns an initialized PaginatedResponse object.
@@ -53,10 +74,19 @@ class ServiceTeamsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ServiceTeam, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ServiceTeam,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ServiceTeam]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[ServiceTeam]:
         """
         Performs a GET request against the /service/teams endpoint.
 
@@ -66,4 +96,6 @@ class ServiceTeamsEndpoint(
         Returns:
             list[ServiceTeam]: The parsed response data.
         """
-        return self._parse_many(ServiceTeam, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ServiceTeam, super()._make_request("GET", data=data, params=params).json()
+        )

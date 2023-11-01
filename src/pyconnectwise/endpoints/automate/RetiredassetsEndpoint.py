@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechRetiredAsset
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class RetiredassetsEndpoint(
@@ -13,12 +25,17 @@ class RetiredassetsEndpoint(
     IPaginateable[LabTechRetiredAsset, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Retiredassets", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Retiredassets", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechRetiredAsset])
         IPaginateable.__init__(self, LabTechRetiredAsset)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechRetiredAsset]:
         """
         Performs a GET request against the /Retiredassets endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class RetiredassetsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechRetiredAsset, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechRetiredAsset,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechRetiredAsset]:
         """
         Performs a GET request against the /Retiredassets endpoint.
@@ -51,4 +75,7 @@ class RetiredassetsEndpoint(
         Returns:
             list[LabTechRetiredAsset]: The parsed response data.
         """
-        return self._parse_many(LabTechRetiredAsset, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechRetiredAsset,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

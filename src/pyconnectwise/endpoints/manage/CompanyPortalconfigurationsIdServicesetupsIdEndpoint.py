@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import PortalConfigurationServiceSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
@@ -15,14 +27,19 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
     IPaginateable[PortalConfigurationServiceSetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, PortalConfigurationServiceSetup)
         IPuttable.__init__(self, PortalConfigurationServiceSetup)
         IPatchable.__init__(self, PortalConfigurationServiceSetup)
         IPaginateable.__init__(self, PortalConfigurationServiceSetup)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PortalConfigurationServiceSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -40,11 +57,18 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), PortalConfigurationServiceSetup, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            PortalConfigurationServiceSetup,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationServiceSetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
@@ -56,11 +80,14 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationServiceSetup,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationServiceSetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
@@ -72,11 +99,14 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup, super()._make_request("PUT", data=data, params=params).json()
+            PortalConfigurationServiceSetup,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationServiceSetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/serviceSetups/{id} endpoint.
@@ -88,5 +118,6 @@ class CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
             PortalConfigurationServiceSetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationServiceSetup, super()._make_request("PATCH", data=data, params=params).json()
+            PortalConfigurationServiceSetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

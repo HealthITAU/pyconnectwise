@@ -1,13 +1,31 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesCountEndpoint import ServiceBoardsIdSubtypesCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesIdEndpoint import ServiceBoardsIdSubtypesIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesInfoEndpoint import ServiceBoardsIdSubtypesInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesCountEndpoint import (
+    ServiceBoardsIdSubtypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesIdEndpoint import (
+    ServiceBoardsIdSubtypesIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceBoardsIdSubtypesInfoEndpoint import (
+    ServiceBoardsIdSubtypesInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import BoardSubType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ServiceBoardsIdSubtypesEndpoint(
@@ -17,13 +35,19 @@ class ServiceBoardsIdSubtypesEndpoint(
     IPaginateable[BoardSubType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "subtypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "subtypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[BoardSubType])
         IPostable.__init__(self, BoardSubType)
         IPaginateable.__init__(self, BoardSubType)
 
-        self.count = self._register_child_endpoint(ServiceBoardsIdSubtypesCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ServiceBoardsIdSubtypesInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceBoardsIdSubtypesCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ServiceBoardsIdSubtypesInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ServiceBoardsIdSubtypesIdEndpoint:
         """
@@ -39,7 +63,10 @@ class ServiceBoardsIdSubtypesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[BoardSubType]:
         """
         Performs a GET request against the /service/boards/{id}/subtypes endpoint and returns an initialized PaginatedResponse object.
@@ -57,10 +84,19 @@ class ServiceBoardsIdSubtypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), BoardSubType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            BoardSubType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[BoardSubType]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[BoardSubType]:
         """
         Performs a GET request against the /service/boards/{id}/subtypes endpoint.
 
@@ -70,9 +106,15 @@ class ServiceBoardsIdSubtypesEndpoint(
         Returns:
             list[BoardSubType]: The parsed response data.
         """
-        return self._parse_many(BoardSubType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            BoardSubType, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BoardSubType:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> BoardSubType:
         """
         Performs a POST request against the /service/boards/{id}/subtypes endpoint.
 
@@ -82,4 +124,6 @@ class ServiceBoardsIdSubtypesEndpoint(
         Returns:
             BoardSubType: The parsed response data.
         """
-        return self._parse_one(BoardSubType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            BoardSubType, super()._make_request("POST", data=data, params=params).json()
+        )

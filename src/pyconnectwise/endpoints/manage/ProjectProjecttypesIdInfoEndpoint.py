@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ProjectTypeInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProjectProjecttypesIdInfoEndpoint(
@@ -13,12 +25,17 @@ class ProjectProjecttypesIdInfoEndpoint(
     IPaginateable[ProjectTypeInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "info", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ProjectTypeInfo)
         IPaginateable.__init__(self, ProjectTypeInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ProjectTypeInfo]:
         """
         Performs a GET request against the /project/projectTypes/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -36,10 +53,19 @@ class ProjectProjecttypesIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ProjectTypeInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ProjectTypeInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectTypeInfo:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectTypeInfo:
         """
         Performs a GET request against the /project/projectTypes/{id}/info endpoint.
 
@@ -49,4 +75,7 @@ class ProjectProjecttypesIdInfoEndpoint(
         Returns:
             ProjectTypeInfo: The parsed response data.
         """
-        return self._parse_one(ProjectTypeInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ProjectTypeInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

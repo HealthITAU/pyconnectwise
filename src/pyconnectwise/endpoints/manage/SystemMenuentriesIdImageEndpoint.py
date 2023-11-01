@@ -1,16 +1,34 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemMenuentriesIdImageEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "image", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "image", parent_endpoint=parent_endpoint
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a GET request against the /system/menuentries/{id}/image endpoint.
 
@@ -20,7 +38,11 @@ class SystemMenuentriesIdImageEndpoint(ConnectWiseEndpoint):
         """
         super()._make_request("GET", data=data, params=params)
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a POST request against the /system/menuentries/{id}/image endpoint.
 

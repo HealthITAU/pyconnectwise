@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechComputerVideoCard
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ComputersIdVideocardsEndpoint(
@@ -13,12 +25,17 @@ class ComputersIdVideocardsEndpoint(
     IPaginateable[LabTechComputerVideoCard, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Videocards", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Videocards", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechComputerVideoCard])
         IPaginateable.__init__(self, LabTechComputerVideoCard)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechComputerVideoCard]:
         """
         Performs a GET request against the /Computers/{id}/Videocards endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class ComputersIdVideocardsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechComputerVideoCard, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechComputerVideoCard,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechComputerVideoCard]:
         """
         Performs a GET request against the /Computers/{id}/Videocards endpoint.
@@ -51,4 +75,7 @@ class ComputersIdVideocardsEndpoint(
         Returns:
             list[LabTechComputerVideoCard]: The parsed response data.
         """
-        return self._parse_many(LabTechComputerVideoCard, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechComputerVideoCard,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

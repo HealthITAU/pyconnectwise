@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechRemoteAgentSchedule
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class RemoteagentschedulesEndpoint(
@@ -14,13 +26,18 @@ class RemoteagentschedulesEndpoint(
     IPaginateable[LabTechRemoteAgentSchedule, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Remoteagentschedules", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Remoteagentschedules", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechRemoteAgentSchedule])
         IPostable.__init__(self, LabTechRemoteAgentSchedule)
         IPaginateable.__init__(self, LabTechRemoteAgentSchedule)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechRemoteAgentSchedule]:
         """
         Performs a GET request against the /Remoteagentschedules endpoint and returns an initialized PaginatedResponse object.
@@ -38,11 +55,18 @@ class RemoteagentschedulesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechRemoteAgentSchedule, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechRemoteAgentSchedule,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechRemoteAgentSchedule]:
         """
         Performs a GET request against the /Remoteagentschedules endpoint.
@@ -54,11 +78,14 @@ class RemoteagentschedulesEndpoint(
             list[LabTechRemoteAgentSchedule]: The parsed response data.
         """
         return self._parse_many(
-            LabTechRemoteAgentSchedule, super()._make_request("GET", data=data, params=params).json()
+            LabTechRemoteAgentSchedule,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechRemoteAgentSchedule:
         """
         Performs a POST request against the /Remoteagentschedules endpoint.
@@ -70,5 +97,6 @@ class RemoteagentschedulesEndpoint(
             LabTechRemoteAgentSchedule: The parsed response data.
         """
         return self._parse_one(
-            LabTechRemoteAgentSchedule, super()._make_request("POST", data=data, params=params).json()
+            LabTechRemoteAgentSchedule,
+            super()._make_request("POST", data=data, params=params).json(),
         )

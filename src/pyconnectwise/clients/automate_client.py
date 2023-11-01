@@ -7,18 +7,26 @@ from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
 from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
 from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
 from pyconnectwise.endpoints.automate.ContactsEndpoint import ContactsEndpoint
-from pyconnectwise.endpoints.automate.DataviewfoldersEndpoint import DataviewfoldersEndpoint
+from pyconnectwise.endpoints.automate.DataviewfoldersEndpoint import (
+    DataviewfoldersEndpoint,
+)
 from pyconnectwise.endpoints.automate.DataviewsEndpoint import DataviewsEndpoint
 from pyconnectwise.endpoints.automate.DrivesEndpoint import DrivesEndpoint
-from pyconnectwise.endpoints.automate.ExternalsystemcredentialsEndpoint import ExternalsystemcredentialsEndpoint
+from pyconnectwise.endpoints.automate.ExternalsystemcredentialsEndpoint import (
+    ExternalsystemcredentialsEndpoint,
+)
 from pyconnectwise.endpoints.automate.GroupsEndpoint import GroupsEndpoint
 from pyconnectwise.endpoints.automate.LocationsEndpoint import LocationsEndpoint
 from pyconnectwise.endpoints.automate.LookupsEndpoint import LookupsEndpoint
 from pyconnectwise.endpoints.automate.MonitorsEndpoint import MonitorsEndpoint
-from pyconnectwise.endpoints.automate.NetworkdevicesEndpoint import NetworkdevicesEndpoint
+from pyconnectwise.endpoints.automate.NetworkdevicesEndpoint import (
+    NetworkdevicesEndpoint,
+)
 from pyconnectwise.endpoints.automate.PatchactionsEndpoint import PatchactionsEndpoint
 from pyconnectwise.endpoints.automate.PermissionsEndpoint import PermissionsEndpoint
-from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import ProbeconfigurationEndpoint
+from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import (
+    ProbeconfigurationEndpoint,
+)
 from pyconnectwise.endpoints.automate.ScriptfoldersEndpoint import ScriptfoldersEndpoint
 from pyconnectwise.endpoints.automate.ScriptingEndpoint import ScriptingEndpoint
 from pyconnectwise.endpoints.automate.ScriptsEndpoint import ScriptsEndpoint
@@ -35,7 +43,14 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     and the configuration of all the available endpoints.
     """
 
-    def __init__(self, automate_url: str, client_id: str, username: str, password: str, config: Config | None = None):
+    def __init__(
+        self,
+        automate_url: str,
+        client_id: str,
+        username: str,
+        password: str,
+        config: Config | None = None,
+    ):
         """
         Initializes the client with the given credentials and optionally a specific codebase.
         If no codebase is given, it tries to get it from the API.
@@ -106,7 +121,9 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         )
         auth_resp_json = auth_response.json()
         token = auth_resp_json["AccessToken"]
-        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
+        self.token_expiry_time = datetime.fromisoformat(
+            auth_resp_json["ExpirationDate"]
+        )
         return token
 
     def _refresh_access_token_if_necessary(self):

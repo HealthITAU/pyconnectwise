@@ -1,18 +1,38 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import TeamMember
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
-class ServiceTeammembersEndpoint(ConnectWiseEndpoint, IPostable[TeamMember, ConnectWiseManageRequestParams]):
+class ServiceTeammembersEndpoint(
+    ConnectWiseEndpoint, IPostable[TeamMember, ConnectWiseManageRequestParams]
+):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "teamMembers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "teamMembers", parent_endpoint=parent_endpoint
+        )
         IPostable.__init__(self, TeamMember)
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TeamMember:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TeamMember:
         """
         Performs a POST request against the /service/teamMembers endpoint.
 
@@ -22,4 +42,6 @@ class ServiceTeammembersEndpoint(ConnectWiseEndpoint, IPostable[TeamMember, Conn
         Returns:
             TeamMember: The parsed response data.
         """
-        return self._parse_one(TeamMember, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TeamMember, super()._make_request("POST", data=data, params=params).json()
+        )

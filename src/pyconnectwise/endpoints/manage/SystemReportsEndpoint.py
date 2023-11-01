@@ -1,11 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemReportsIdEndpoint import SystemReportsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemReportsIdEndpoint import (
+    SystemReportsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Report
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemReportsEndpoint(
@@ -14,7 +28,9 @@ class SystemReportsEndpoint(
     IPaginateable[Report, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "reports", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "reports", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Report])
         IPaginateable.__init__(self, Report)
 
@@ -32,7 +48,10 @@ class SystemReportsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Report]:
         """
         Performs a GET request against the /system/reports endpoint and returns an initialized PaginatedResponse object.
@@ -49,9 +68,20 @@ class SystemReportsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Report, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Report,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Report]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Report]:
         """
         Performs a GET request against the /system/reports endpoint.
 
@@ -61,4 +91,6 @@ class SystemReportsEndpoint(
         Returns:
             list[Report]: The parsed response data.
         """
-        return self._parse_many(Report, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Report, super()._make_request("GET", data=data, params=params).json()
+        )

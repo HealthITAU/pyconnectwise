@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyTracksIdActionsCountEndpoint import CompanyTracksIdActionsCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyTracksIdActionsIdEndpoint import CompanyTracksIdActionsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyTracksIdActionsCountEndpoint import (
+    CompanyTracksIdActionsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyTracksIdActionsIdEndpoint import (
+    CompanyTracksIdActionsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import TrackAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyTracksIdActionsEndpoint(
@@ -16,12 +32,16 @@ class CompanyTracksIdActionsEndpoint(
     IPaginateable[TrackAction, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "actions", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "actions", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[TrackAction])
         IPostable.__init__(self, TrackAction)
         IPaginateable.__init__(self, TrackAction)
 
-        self.count = self._register_child_endpoint(CompanyTracksIdActionsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyTracksIdActionsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyTracksIdActionsIdEndpoint:
         """
@@ -37,7 +57,10 @@ class CompanyTracksIdActionsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[TrackAction]:
         """
         Performs a GET request against the /company/tracks/{id}/actions endpoint and returns an initialized PaginatedResponse object.
@@ -55,10 +78,19 @@ class CompanyTracksIdActionsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), TrackAction, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            TrackAction,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TrackAction]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[TrackAction]:
         """
         Performs a GET request against the /company/tracks/{id}/actions endpoint.
 
@@ -68,9 +100,15 @@ class CompanyTracksIdActionsEndpoint(
         Returns:
             list[TrackAction]: The parsed response data.
         """
-        return self._parse_many(TrackAction, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            TrackAction, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TrackAction:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TrackAction:
         """
         Performs a POST request against the /company/tracks/{id}/actions endpoint.
 
@@ -80,4 +118,6 @@ class CompanyTracksIdActionsEndpoint(
         Returns:
             TrackAction: The parsed response data.
         """
-        return self._parse_one(TrackAction, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            TrackAction, super()._make_request("POST", data=data, params=params).json()
+        )

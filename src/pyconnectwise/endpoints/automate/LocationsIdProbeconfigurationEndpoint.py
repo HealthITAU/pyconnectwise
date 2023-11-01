@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechProbeConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class LocationsIdProbeconfigurationEndpoint(
@@ -15,14 +27,19 @@ class LocationsIdProbeconfigurationEndpoint(
     IPaginateable[LabTechProbeConfiguration, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Probeconfiguration", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Probeconfiguration", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, LabTechProbeConfiguration)
         IPostable.__init__(self, LabTechProbeConfiguration)
         IPatchable.__init__(self, LabTechProbeConfiguration)
         IPaginateable.__init__(self, LabTechProbeConfiguration)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechProbeConfiguration]:
         """
         Performs a GET request against the /Locations/{id}/Probeconfiguration endpoint and returns an initialized PaginatedResponse object.
@@ -40,11 +57,18 @@ class LocationsIdProbeconfigurationEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechProbeConfiguration, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechProbeConfiguration,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechProbeConfiguration:
         """
         Performs a GET request against the /Locations/{id}/Probeconfiguration endpoint.
@@ -55,10 +79,15 @@ class LocationsIdProbeconfigurationEndpoint(
         Returns:
             LabTechProbeConfiguration: The parsed response data.
         """
-        return self._parse_one(LabTechProbeConfiguration, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            LabTechProbeConfiguration,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechProbeConfiguration:
         """
         Performs a POST request against the /Locations/{id}/Probeconfiguration endpoint.
@@ -70,10 +99,15 @@ class LocationsIdProbeconfigurationEndpoint(
             LabTechProbeConfiguration: The parsed response data.
         """
         return self._parse_one(
-            LabTechProbeConfiguration, super()._make_request("POST", data=data, params=params).json()
+            LabTechProbeConfiguration,
+            super()._make_request("POST", data=data, params=params).json(),
         )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /Locations/{id}/Probeconfiguration endpoint.
 
@@ -84,7 +118,9 @@ class LocationsIdProbeconfigurationEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechProbeConfiguration:
         """
         Performs a PATCH request against the /Locations/{id}/Probeconfiguration endpoint.
@@ -96,5 +132,6 @@ class LocationsIdProbeconfigurationEndpoint(
             LabTechProbeConfiguration: The parsed response data.
         """
         return self._parse_one(
-            LabTechProbeConfiguration, super()._make_request("PATCH", data=data, params=params).json()
+            LabTechProbeConfiguration,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

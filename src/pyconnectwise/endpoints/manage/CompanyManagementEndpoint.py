@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import CompanyManagementCountEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import CompanyManagementIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import (
+    CompanyManagementCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import (
+    CompanyManagementIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Management
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyManagementEndpoint(
@@ -15,11 +31,15 @@ class CompanyManagementEndpoint(
     IPaginateable[Management, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "management", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "management", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Management])
         IPaginateable.__init__(self, Management)
 
-        self.count = self._register_child_endpoint(CompanyManagementCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            CompanyManagementCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> CompanyManagementIdEndpoint:
         """
@@ -35,7 +55,10 @@ class CompanyManagementEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Management]:
         """
         Performs a GET request against the /company/management endpoint and returns an initialized PaginatedResponse object.
@@ -52,9 +75,20 @@ class CompanyManagementEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Management, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Management,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Management]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Management]:
         """
         Performs a GET request against the /company/management endpoint.
 
@@ -64,4 +98,6 @@ class CompanyManagementEndpoint(
         Returns:
             list[Management]: The parsed response data.
         """
-        return self._parse_many(Management, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Management, super()._make_request("GET", data=data, params=params).json()
+        )

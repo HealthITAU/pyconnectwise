@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import TaxableXRefLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
@@ -15,14 +27,19 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
     IPaginateable[TaxableXRefLevel, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, TaxableXRefLevel)
         IPuttable.__init__(self, TaxableXRefLevel)
         IPatchable.__init__(self, TaxableXRefLevel)
         IPaginateable.__init__(self, TaxableXRefLevel)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[TaxableXRefLevel]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -40,10 +57,19 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), TaxableXRefLevel, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            TaxableXRefLevel,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxableXRefLevel:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TaxableXRefLevel:
         """
         Performs a GET request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
@@ -53,9 +79,16 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
         Returns:
             TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevel, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            TaxableXRefLevel,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
@@ -65,7 +98,11 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxableXRefLevel:
+    def put(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TaxableXRefLevel:
         """
         Performs a PUT request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
@@ -75,9 +112,16 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
         Returns:
             TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevel, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            TaxableXRefLevel,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> TaxableXRefLevel:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> TaxableXRefLevel:
         """
         Performs a PATCH request against the /finance/taxCodes/{id}/taxCodeXRefs/{id}/taxableXRefLevels/{id} endpoint.
 
@@ -87,4 +131,7 @@ class FinanceTaxcodesIdTaxcodexrefsIdTaxablexreflevelsIdEndpoint(
         Returns:
             TaxableXRefLevel: The parsed response data.
         """
-        return self._parse_one(TaxableXRefLevel, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            TaxableXRefLevel,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

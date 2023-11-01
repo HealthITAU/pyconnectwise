@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillcategoriesCountEndpoint import SystemSkillcategoriesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemSkillcategoriesIdEndpoint import SystemSkillcategoriesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemSkillcategoriesCountEndpoint import (
+    SystemSkillcategoriesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemSkillcategoriesIdEndpoint import (
+    SystemSkillcategoriesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import SkillCategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemSkillcategoriesEndpoint(
@@ -16,12 +32,16 @@ class SystemSkillcategoriesEndpoint(
     IPaginateable[SkillCategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "skillCategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "skillCategories", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[SkillCategory])
         IPostable.__init__(self, SkillCategory)
         IPaginateable.__init__(self, SkillCategory)
 
-        self.count = self._register_child_endpoint(SystemSkillcategoriesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemSkillcategoriesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemSkillcategoriesIdEndpoint:
         """
@@ -37,7 +57,10 @@ class SystemSkillcategoriesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[SkillCategory]:
         """
         Performs a GET request against the /system/skillCategories endpoint and returns an initialized PaginatedResponse object.
@@ -55,11 +78,18 @@ class SystemSkillcategoriesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), SkillCategory, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            SkillCategory,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[SkillCategory]:
         """
         Performs a GET request against the /system/skillCategories endpoint.
@@ -70,9 +100,15 @@ class SystemSkillcategoriesEndpoint(
         Returns:
             list[SkillCategory]: The parsed response data.
         """
-        return self._parse_many(SkillCategory, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            SkillCategory, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SkillCategory:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> SkillCategory:
         """
         Performs a POST request against the /system/skillCategories endpoint.
 
@@ -82,4 +118,7 @@ class SystemSkillcategoriesEndpoint(
         Returns:
             SkillCategory: The parsed response data.
         """
-        return self._parse_one(SkillCategory, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            SkillCategory,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

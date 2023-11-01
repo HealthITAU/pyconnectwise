@@ -1,14 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint import \
-    ProjectSecurityrolesIdSettingsCountEndpoint
-from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import \
-    ProjectSecurityrolesIdSettingsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsCountEndpoint import (
+    ProjectSecurityrolesIdSettingsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ProjectSecurityrolesIdSettingsIdEndpoint import (
+    ProjectSecurityrolesIdSettingsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ProjectSecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProjectSecurityrolesIdSettingsEndpoint(
@@ -17,7 +31,9 @@ class ProjectSecurityrolesIdSettingsEndpoint(
     IPaginateable[ProjectSecurityRoleSetting, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "settings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "settings", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ProjectSecurityRoleSetting])
         IPaginateable.__init__(self, ProjectSecurityRoleSetting)
 
@@ -34,12 +50,17 @@ class ProjectSecurityrolesIdSettingsEndpoint(
         Returns:
             ProjectSecurityrolesIdSettingsIdEndpoint: The initialized ProjectSecurityrolesIdSettingsIdEndpoint object.
         """
-        child = ProjectSecurityrolesIdSettingsIdEndpoint(self.client, parent_endpoint=self)
+        child = ProjectSecurityrolesIdSettingsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ProjectSecurityRoleSetting]:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings endpoint and returns an initialized PaginatedResponse object.
@@ -57,11 +78,18 @@ class ProjectSecurityrolesIdSettingsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ProjectSecurityRoleSetting, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ProjectSecurityRoleSetting,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ProjectSecurityRoleSetting]:
         """
         Performs a GET request against the /project/securityRoles/{id}/settings endpoint.
@@ -73,5 +101,6 @@ class ProjectSecurityrolesIdSettingsEndpoint(
             list[ProjectSecurityRoleSetting]: The parsed response data.
         """
         return self._parse_many(
-            ProjectSecurityRoleSetting, super()._make_request("GET", data=data, params=params).json()
+            ProjectSecurityRoleSetting,
+            super()._make_request("GET", data=data, params=params).json(),
         )

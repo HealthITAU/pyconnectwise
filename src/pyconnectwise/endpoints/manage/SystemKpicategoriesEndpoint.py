@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemKpicategoriesCountEndpoint import SystemKpicategoriesCountEndpoint
-from pyconnectwise.endpoints.manage.SystemKpicategoriesIdEndpoint import SystemKpicategoriesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemKpicategoriesCountEndpoint import (
+    SystemKpicategoriesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemKpicategoriesIdEndpoint import (
+    SystemKpicategoriesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import KPICategory
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemKpicategoriesEndpoint(
@@ -15,11 +31,15 @@ class SystemKpicategoriesEndpoint(
     IPaginateable[KPICategory, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "kpiCategories", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "kpiCategories", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[KPICategory])
         IPaginateable.__init__(self, KPICategory)
 
-        self.count = self._register_child_endpoint(SystemKpicategoriesCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            SystemKpicategoriesCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemKpicategoriesIdEndpoint:
         """
@@ -35,7 +55,10 @@ class SystemKpicategoriesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[KPICategory]:
         """
         Performs a GET request against the /system/kpiCategories endpoint and returns an initialized PaginatedResponse object.
@@ -53,10 +76,19 @@ class SystemKpicategoriesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), KPICategory, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            KPICategory,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[KPICategory]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[KPICategory]:
         """
         Performs a GET request against the /system/kpiCategories endpoint.
 
@@ -66,4 +98,6 @@ class SystemKpicategoriesEndpoint(
         Returns:
             list[KPICategory]: The parsed response data.
         """
-        return self._parse_many(KPICategory, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            KPICategory, super()._make_request("GET", data=data, params=params).json()
+        )

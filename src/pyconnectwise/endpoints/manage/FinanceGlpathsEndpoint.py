@@ -1,12 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlpathsCountEndpoint import FinanceGlpathsCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceGlpathsIdEndpoint import FinanceGlpathsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceGlpathsCountEndpoint import (
+    FinanceGlpathsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceGlpathsIdEndpoint import (
+    FinanceGlpathsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import GLPath
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceGlpathsEndpoint(
@@ -16,12 +32,16 @@ class FinanceGlpathsEndpoint(
     IPaginateable[GLPath, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "glpaths", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "glpaths", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[GLPath])
         IPostable.__init__(self, GLPath)
         IPaginateable.__init__(self, GLPath)
 
-        self.count = self._register_child_endpoint(FinanceGlpathsCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceGlpathsCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> FinanceGlpathsIdEndpoint:
         """
@@ -37,7 +57,10 @@ class FinanceGlpathsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[GLPath]:
         """
         Performs a GET request against the /finance/glpaths endpoint and returns an initialized PaginatedResponse object.
@@ -54,9 +77,20 @@ class FinanceGlpathsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), GLPath, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            GLPath,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[GLPath]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[GLPath]:
         """
         Performs a GET request against the /finance/glpaths endpoint.
 
@@ -66,9 +100,15 @@ class FinanceGlpathsEndpoint(
         Returns:
             list[GLPath]: The parsed response data.
         """
-        return self._parse_many(GLPath, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            GLPath, super()._make_request("GET", data=data, params=params).json()
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> GLPath:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> GLPath:
         """
         Performs a POST request against the /finance/glpaths endpoint.
 
@@ -78,4 +118,6 @@ class FinanceGlpathsEndpoint(
         Returns:
             GLPath: The parsed response data.
         """
-        return self._parse_one(GLPath, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            GLPath, super()._make_request("POST", data=data, params=params).json()
+        )

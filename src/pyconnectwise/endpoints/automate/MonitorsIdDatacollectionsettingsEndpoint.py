@@ -1,24 +1,43 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechMonitorDataCollectionSettings
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class MonitorsIdDatacollectionsettingsEndpoint(
     ConnectWiseEndpoint,
     IGettable[LabTechMonitorDataCollectionSettings, ConnectWiseAutomateRequestParams],
-    IPaginateable[LabTechMonitorDataCollectionSettings, ConnectWiseAutomateRequestParams],
+    IPaginateable[
+        LabTechMonitorDataCollectionSettings, ConnectWiseAutomateRequestParams
+    ],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Datacollectionsettings", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Datacollectionsettings", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, LabTechMonitorDataCollectionSettings)
         IPaginateable.__init__(self, LabTechMonitorDataCollectionSettings)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechMonitorDataCollectionSettings]:
         """
         Performs a GET request against the /Monitors/{id}/Datacollectionsettings endpoint and returns an initialized PaginatedResponse object.
@@ -45,7 +64,9 @@ class MonitorsIdDatacollectionsettingsEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechMonitorDataCollectionSettings:
         """
         Performs a GET request against the /Monitors/{id}/Datacollectionsettings endpoint.
@@ -57,5 +78,6 @@ class MonitorsIdDatacollectionsettingsEndpoint(
             LabTechMonitorDataCollectionSettings: The parsed response data.
         """
         return self._parse_one(
-            LabTechMonitorDataCollectionSettings, super()._make_request("GET", data=data, params=params).json()
+            LabTechMonitorDataCollectionSettings,
+            super()._make_request("GET", data=data, params=params).json(),
         )

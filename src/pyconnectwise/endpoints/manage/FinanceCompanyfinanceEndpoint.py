@@ -1,18 +1,38 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceCompanyfinanceCountEndpoint import FinanceCompanyfinanceCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceCompanyfinanceIdEndpoint import FinanceCompanyfinanceIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceCompanyfinanceCountEndpoint import (
+    FinanceCompanyfinanceCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceCompanyfinanceIdEndpoint import (
+    FinanceCompanyfinanceIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceCompanyfinanceEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "companyFinance", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "companyFinance", parent_endpoint=parent_endpoint
+        )
 
-        self.count = self._register_child_endpoint(FinanceCompanyfinanceCountEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            FinanceCompanyfinanceCountEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> FinanceCompanyfinanceIdEndpoint:
         """

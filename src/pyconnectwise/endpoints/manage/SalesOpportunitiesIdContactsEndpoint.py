@@ -1,13 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdContactsCountEndpoint import \
-    SalesOpportunitiesIdContactsCountEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdContactsIdEndpoint import SalesOpportunitiesIdContactsIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdContactsCountEndpoint import (
+    SalesOpportunitiesIdContactsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdContactsIdEndpoint import (
+    SalesOpportunitiesIdContactsIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import OpportunityContact
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SalesOpportunitiesIdContactsEndpoint(
@@ -17,7 +32,9 @@ class SalesOpportunitiesIdContactsEndpoint(
     IPaginateable[OpportunityContact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "contacts", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "contacts", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[OpportunityContact])
         IPostable.__init__(self, OpportunityContact)
         IPaginateable.__init__(self, OpportunityContact)
@@ -35,12 +52,17 @@ class SalesOpportunitiesIdContactsEndpoint(
         Returns:
             SalesOpportunitiesIdContactsIdEndpoint: The initialized SalesOpportunitiesIdContactsIdEndpoint object.
         """
-        child = SalesOpportunitiesIdContactsIdEndpoint(self.client, parent_endpoint=self)
+        child = SalesOpportunitiesIdContactsIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[OpportunityContact]:
         """
         Performs a GET request against the /sales/opportunities/{id}/contacts endpoint and returns an initialized PaginatedResponse object.
@@ -58,11 +80,18 @@ class SalesOpportunitiesIdContactsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), OpportunityContact, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            OpportunityContact,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[OpportunityContact]:
         """
         Performs a GET request against the /sales/opportunities/{id}/contacts endpoint.
@@ -73,10 +102,15 @@ class SalesOpportunitiesIdContactsEndpoint(
         Returns:
             list[OpportunityContact]: The parsed response data.
         """
-        return self._parse_many(OpportunityContact, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            OpportunityContact,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> OpportunityContact:
         """
         Performs a POST request against the /sales/opportunities/{id}/contacts endpoint.
@@ -87,4 +121,7 @@ class SalesOpportunitiesIdContactsEndpoint(
         Returns:
             OpportunityContact: The parsed response data.
         """
-        return self._parse_one(OpportunityContact, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            OpportunityContact,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

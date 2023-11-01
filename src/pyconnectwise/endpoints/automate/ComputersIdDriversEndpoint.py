@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechComputerDriver
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ComputersIdDriversEndpoint(
@@ -13,12 +25,17 @@ class ComputersIdDriversEndpoint(
     IPaginateable[LabTechComputerDriver, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Drivers", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Drivers", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechComputerDriver])
         IPaginateable.__init__(self, LabTechComputerDriver)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechComputerDriver]:
         """
         Performs a GET request against the /Computers/{id}/Drivers endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class ComputersIdDriversEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechComputerDriver, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechComputerDriver,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechComputerDriver]:
         """
         Performs a GET request against the /Computers/{id}/Drivers endpoint.
@@ -51,4 +75,7 @@ class ComputersIdDriversEndpoint(
         Returns:
             list[LabTechComputerDriver]: The parsed response data.
         """
-        return self._parse_many(LabTechComputerDriver, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechComputerDriver,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

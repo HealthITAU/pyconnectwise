@@ -1,13 +1,31 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsCountEndpoint import ScheduleColorsCountEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsIdEndpoint import ScheduleColorsIdEndpoint
-from pyconnectwise.endpoints.manage.ScheduleColorsResetEndpoint import ScheduleColorsResetEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ScheduleColorsCountEndpoint import (
+    ScheduleColorsCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleColorsIdEndpoint import (
+    ScheduleColorsIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ScheduleColorsResetEndpoint import (
+    ScheduleColorsResetEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ScheduleColor
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ScheduleColorsEndpoint(
@@ -16,12 +34,18 @@ class ScheduleColorsEndpoint(
     IPaginateable[ScheduleColor, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "colors", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "colors", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ScheduleColor])
         IPaginateable.__init__(self, ScheduleColor)
 
-        self.count = self._register_child_endpoint(ScheduleColorsCountEndpoint(client, parent_endpoint=self))
-        self.reset = self._register_child_endpoint(ScheduleColorsResetEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ScheduleColorsCountEndpoint(client, parent_endpoint=self)
+        )
+        self.reset = self._register_child_endpoint(
+            ScheduleColorsResetEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ScheduleColorsIdEndpoint:
         """
@@ -37,7 +61,10 @@ class ScheduleColorsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ScheduleColor]:
         """
         Performs a GET request against the /schedule/colors endpoint and returns an initialized PaginatedResponse object.
@@ -55,11 +82,18 @@ class ScheduleColorsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ScheduleColor, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ScheduleColor,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ScheduleColor]:
         """
         Performs a GET request against the /schedule/colors endpoint.
@@ -70,4 +104,6 @@ class ScheduleColorsEndpoint(
         Returns:
             list[ScheduleColor]: The parsed response data.
         """
-        return self._parse_many(ScheduleColor, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ScheduleColor, super()._make_request("GET", data=data, params=params).json()
+        )

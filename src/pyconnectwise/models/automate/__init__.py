@@ -13,38 +13,38 @@ from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 
 
 class LabTechQueryOptionOrderBy(ConnectWiseModel):
-    name: str | None = Field(default=None, alias='Name')
-    type: Literal['Undefined', 'Ascending', 'Descending'] | None = Field(
-        default=None, alias='Type'
+    name: str | None = Field(default=None, alias="Name")
+    type: Literal["Undefined", "Ascending", "Descending"] | None = Field(
+        default=None, alias="Type"
     )
 
 
 class LabTechQueryOptionExpand(ConnectWiseModel):
-    field_name: str | None = Field(default=None, alias='FieldName')
-    page: int | None = Field(default=None, alias='Page')
-    page_size: int | None = Field(default=None, alias='PageSize')
-    condition: str | None = Field(default=None, alias='Condition')
+    field_name: str | None = Field(default=None, alias="FieldName")
+    page: int | None = Field(default=None, alias="Page")
+    page_size: int | None = Field(default=None, alias="PageSize")
+    condition: str | None = Field(default=None, alias="Condition")
     expands: dict[str, LabTechQueryOptionExpand] | None = Field(
-        default=None, alias='Expands'
+        default=None, alias="Expands"
     )
-    order_by: LabTechQueryOptionOrderBy | None = Field(default=None, alias='OrderBy')
-    included_fields: list[str] | None = Field(default=None, alias='IncludedFields')
-    excluded_fields: list[str] | None = Field(default=None, alias='ExcludedFields')
+    order_by: LabTechQueryOptionOrderBy | None = Field(default=None, alias="OrderBy")
+    included_fields: list[str] | None = Field(default=None, alias="IncludedFields")
+    excluded_fields: list[str] | None = Field(default=None, alias="ExcludedFields")
 
 
 class AutomateAccountInformation(ConnectWiseModel):
-    is_trial_account: bool | None = Field(default=None, alias='IsTrialAccount')
+    is_trial_account: bool | None = Field(default=None, alias="IsTrialAccount")
 
 
 class AutomateAlertClient(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateAlertComputer(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    computer_status: str | None = Field(default=None, alias='ComputerStatus')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    computer_status: str | None = Field(default=None, alias="ComputerStatus")
 
 
 class AutomateAlertDevice(AutomateAlertClient):
@@ -64,114 +64,114 @@ class AutomateAlertSeverityItem(AutomateAlertClient):
 
 
 class AutomateAlertTemplate(ConnectWiseModel):
-    template_id: int | None = Field(default=None, alias='TemplateId')
-    template_name: str | None = Field(default=None, alias='TemplateName')
+    template_id: int | None = Field(default=None, alias="TemplateId")
+    template_name: str | None = Field(default=None, alias="TemplateName")
 
 
 class AutomateAuthService(ConnectWiseModel):
-    service_id: int | None = Field(default=None, alias='ServiceId')
-    service_name: str | None = Field(default=None, alias='ServiceName')
-    service_uri: str | None = Field(default=None, alias='ServiceURI')
-    service_type: int | None = Field(default=None, alias='ServiceType')
-    client_id: str | None = Field(default=None, alias='ClientId')
-    is_default: bool | None = Field(default=None, alias='IsDefault')
-    is_automatic: bool | None = Field(default=None, alias='IsAutomatic')
-    service_guid: str | None = Field(default=None, alias='ServiceGuid')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
+    service_id: int | None = Field(default=None, alias="ServiceId")
+    service_name: str | None = Field(default=None, alias="ServiceName")
+    service_uri: str | None = Field(default=None, alias="ServiceURI")
+    service_type: int | None = Field(default=None, alias="ServiceType")
+    client_id: str | None = Field(default=None, alias="ClientId")
+    is_default: bool | None = Field(default=None, alias="IsDefault")
+    is_automatic: bool | None = Field(default=None, alias="IsAutomatic")
+    service_guid: str | None = Field(default=None, alias="ServiceGuid")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
     is_local_login_enabled: bool | None = Field(
-        default=None, alias='IsLocalLoginEnabled'
+        default=None, alias="IsLocalLoginEnabled"
     )
-    authentication_type: int | None = Field(default=None, alias='AuthenticationType')
+    authentication_type: int | None = Field(default=None, alias="AuthenticationType")
 
 
 class AutomateTokenCredentials(ConnectWiseModel):
-    username: str | None = Field(default=None, alias='Username')
-    password: str | None = Field(default=None, alias='Password')
-    two_factor_passcode: str | None = Field(default=None, alias='TwoFactorPasscode')
+    username: str | None = Field(default=None, alias="Username")
+    password: str | None = Field(default=None, alias="Password")
+    two_factor_passcode: str | None = Field(default=None, alias="TwoFactorPasscode")
 
 
 class AutomateTokenResult(ConnectWiseModel):
-    access_token: str | None = Field(default=None, alias='AccessToken')
-    token_type: str | None = Field(default=None, alias='TokenType')
-    expiration_date: datetime | None = Field(default=None, alias='ExpirationDate')
+    access_token: str | None = Field(default=None, alias="AccessToken")
+    token_type: str | None = Field(default=None, alias="TokenType")
+    expiration_date: datetime | None = Field(default=None, alias="ExpirationDate")
     absolute_expiration_date: datetime | None = Field(
-        default=None, alias='AbsoluteExpirationDate'
+        default=None, alias="AbsoluteExpirationDate"
     )
-    user_id: str | None = Field(default=None, alias='UserId')
-    internal_user_name: str | None = Field(default=None, alias='InternalUserName')
+    user_id: str | None = Field(default=None, alias="UserId")
+    internal_user_name: str | None = Field(default=None, alias="InternalUserName")
     is_two_factor_required: bool | None = Field(
-        default=None, alias='IsTwoFactorRequired'
+        default=None, alias="IsTwoFactorRequired"
     )
     is_internal_two_factor_required: bool | None = Field(
-        default=None, alias='IsInternalTwoFactorRequired'
+        default=None, alias="IsInternalTwoFactorRequired"
     )
-    sso_access_token: str | None = Field(default=None, alias='SSOAccessToken')
+    sso_access_token: str | None = Field(default=None, alias="SSOAccessToken")
 
 
 class AutomatePkceRequest(ConnectWiseModel):
-    authorization_code: str | None = Field(default=None, alias='AuthorizationCode')
-    code_verifier: str | None = Field(default=None, alias='CodeVerifier')
-    client_id: str | None = Field(default=None, alias='ClientId')
-    redirect_uri: str | None = Field(default=None, alias='RedirectUri')
+    authorization_code: str | None = Field(default=None, alias="AuthorizationCode")
+    code_verifier: str | None = Field(default=None, alias="CodeVerifier")
+    client_id: str | None = Field(default=None, alias="ClientId")
+    redirect_uri: str | None = Field(default=None, alias="RedirectUri")
 
 
 class AutomateDisableTokenRequest(ConnectWiseModel):
-    security_token: str | None = Field(default=None, alias='SecurityToken')
+    security_token: str | None = Field(default=None, alias="SecurityToken")
 
 
 class LabTechAuthServiceCredentials(ConnectWiseModel):
-    service_id: int | None = Field(default=None, alias='ServiceId')
-    service_token: str | None = Field(default=None, alias='ServiceToken')
+    service_id: int | None = Field(default=None, alias="ServiceId")
+    service_token: str | None = Field(default=None, alias="ServiceToken")
 
 
 class AutomateWindowsUpdateCategory(ConnectWiseModel):
-    category_id: int | None = Field(default=None, alias='CategoryId')
-    category_name: str | None = Field(default=None, alias='CategoryName')
+    category_id: int | None = Field(default=None, alias="CategoryId")
+    category_name: str | None = Field(default=None, alias="CategoryName")
 
 
 class LabTechPatchOperation(ConnectWiseModel):
-    op: str | None = Field(default=None, alias='Op')
-    path: str | None = Field(default=None, alias='Path')
-    value: dict[str, Any] | None = Field(default=None, alias='Value')
+    op: str | None = Field(default=None, alias="Op")
+    path: str | None = Field(default=None, alias="Path")
+    value: dict[str, Any] | None = Field(default=None, alias="Value")
 
 
 class AutomateApprovalPolicyStats(ConnectWiseModel):
-    approval_policy_id: int | None = Field(default=None, alias='ApprovalPolicyId')
-    approval_policy_name: str | None = Field(default=None, alias='ApprovalPolicyName')
+    approval_policy_id: int | None = Field(default=None, alias="ApprovalPolicyId")
+    approval_policy_name: str | None = Field(default=None, alias="ApprovalPolicyName")
     pending_approval_count: int | None = Field(
-        default=None, alias='PendingApprovalCount'
+        default=None, alias="PendingApprovalCount"
     )
 
 
 class AutomateContactAssociatedComputer(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
-    has_primary_contact: bool | None = Field(default=None, alias='HasPrimaryContact')
-    is_primary_contact: bool | None = Field(default=None, alias='IsPrimaryContact')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
+    has_primary_contact: bool | None = Field(default=None, alias="HasPrimaryContact")
+    is_primary_contact: bool | None = Field(default=None, alias="IsPrimaryContact")
     can_user_set_primary_status: bool | None = Field(
-        default=None, alias='CanUserSetPrimaryStatus'
+        default=None, alias="CanUserSetPrimaryStatus"
     )
-    client_name: str | None = Field(default=None, alias='ClientName')
-    location_name: str | None = Field(default=None, alias='LocationName')
+    client_name: str | None = Field(default=None, alias="ClientName")
+    location_name: str | None = Field(default=None, alias="LocationName")
 
 
 class AutomateSetComputerPrimaryContactRequest(ConnectWiseModel):
-    is_primary_contact: bool | None = Field(default=None, alias='IsPrimaryContact')
+    is_primary_contact: bool | None = Field(default=None, alias="IsPrimaryContact")
 
 
 class LabTechUserAuthLinkStatus(ConnectWiseModel):
-    service_id: int | None = Field(default=None, alias='ServiceId')
-    is_sso_enabled: bool | None = Field(default=None, alias='IsSsoEnabled')
+    service_id: int | None = Field(default=None, alias="ServiceId")
+    is_sso_enabled: bool | None = Field(default=None, alias="IsSsoEnabled")
     is_local_login_enabled: bool | None = Field(
-        default=None, alias='IsLocalLoginEnabled'
+        default=None, alias="IsLocalLoginEnabled"
     )
-    is_eligible_for_sso: bool | None = Field(default=None, alias='IsEligibleForSso')
-    is_account_linked: bool | None = Field(default=None, alias='IsAccountLinked')
+    is_eligible_for_sso: bool | None = Field(default=None, alias="IsEligibleForSso")
+    is_account_linked: bool | None = Field(default=None, alias="IsAccountLinked")
 
 
 class AutomateComputerServiceItem(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateComputerProcessItem(AutomateComputerServiceItem):
@@ -183,567 +183,567 @@ class AutomateServerFileItem(AutomateComputerServiceItem):
 
 
 class LabTechAVTemplatePolicy(ConnectWiseModel):
-    template_policy_id: str | None = Field(default=None, alias='TemplatePolicyId')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    guid: str | None = Field(default=None, alias='GUID')
+    template_policy_id: str | None = Field(default=None, alias="TemplatePolicyId")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    guid: str | None = Field(default=None, alias="GUID")
 
 
 class LabTechAVTemplatePolicyData(ConnectWiseModel):
-    template_policy_id: str | None = Field(default=None, alias='TemplatePolicyId')
-    plugin_guid: str | None = Field(default=None, alias='PluginGUID')
-    data: str | None = Field(default=None, alias='Data')
+    template_policy_id: str | None = Field(default=None, alias="TemplatePolicyId")
+    plugin_guid: str | None = Field(default=None, alias="PluginGUID")
+    data: str | None = Field(default=None, alias="Data")
 
 
 class AutomateAiAssistSettingBatchRequest(ConnectWiseModel):
     ai_assist_setting_guids: list[UUID] | None = Field(
-        default=None, alias='AiAssistSettingGuids'
+        default=None, alias="AiAssistSettingGuids"
     )
 
 
 class AutomateHotfixOperatingSystemCombination(ConnectWiseModel):
     hotfix_id: UUID | None = Field(
-        default=None, alias='HotfixId', example='00000000-0000-0000-0000-000000000000'
+        default=None, alias="HotfixId", example="00000000-0000-0000-0000-000000000000"
     )
-    operating_system: str | None = Field(default=None, alias='OperatingSystem')
+    operating_system: str | None = Field(default=None, alias="OperatingSystem")
 
 
 class AutomateWindowsApprovalPolicyPatch(ConnectWiseModel):
-    approval_action_id: int | None = Field(default=None, alias='ApprovalActionId')
+    approval_action_id: int | None = Field(default=None, alias="ApprovalActionId")
     hotfix_id: UUID | None = Field(
-        default=None, alias='HotfixId', example='00000000-0000-0000-0000-000000000000'
+        default=None, alias="HotfixId", example="00000000-0000-0000-0000-000000000000"
     )
-    operating_system: str | None = Field(default=None, alias='OperatingSystem')
+    operating_system: str | None = Field(default=None, alias="OperatingSystem")
 
 
 class AutomateApprovalPolicyThirdPartyPatchSetting(ConnectWiseModel):
-    patch_approval: int | None = Field(default=None, alias='PatchApproval')
+    patch_approval: int | None = Field(default=None, alias="PatchApproval")
     lt_product_key: UUID | None = Field(
         default=None,
-        alias='LTProductKey',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="LTProductKey",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    version: str | None = Field(default=None, alias='Version')
+    version: str | None = Field(default=None, alias="Version")
 
 
 class AutomateBinaryExtensionBatchRequest(ConnectWiseModel):
     binary_extension_ids: list[int] | None = Field(
-        default=None, alias='BinaryExtensionIds'
+        default=None, alias="BinaryExtensionIds"
     )
 
 
 class AutomateWebClientAccessBatchRequest(ConnectWiseModel):
-    request_type: Literal['Invite', 'Reset'] | None = Field(
-        default=None, alias='RequestType'
+    request_type: Literal["Invite", "Reset"] | None = Field(
+        default=None, alias="RequestType"
     )
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateResponseResult(ConnectWiseModel):
-    result_status: int | None = Field(default=None, alias='ResultStatus')
-    reason_code: int | None = Field(default=None, alias='ReasonCode')
-    message: str | None = Field(default=None, alias='Message')
+    result_status: int | None = Field(default=None, alias="ResultStatus")
+    reason_code: int | None = Field(default=None, alias="ReasonCode")
+    message: str | None = Field(default=None, alias="Message")
 
 
 class AutomateContactPermissionBatchRequest(ConnectWiseModel):
-    request_type: Literal['Add', 'Remove'] | None = Field(
-        default=None, alias='RequestType'
+    request_type: Literal["Add", "Remove"] | None = Field(
+        default=None, alias="RequestType"
     )
-    contact_ids: list[int] | None = Field(default=None, alias='ContactIds')
-    permissions: list[str] | None = Field(default=None, alias='Permissions')
+    contact_ids: list[int] | None = Field(default=None, alias="ContactIds")
+    permissions: list[str] | None = Field(default=None, alias="Permissions")
 
 
 class AutomateContactPermissionBatchResult(ConnectWiseModel):
-    contact_id: int | None = Field(default=None, alias='ContactId')
+    contact_id: int | None = Field(default=None, alias="ContactId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateGeneratePasswordResetTokenBatchRequest(ConnectWiseModel):
-    user_ids: list[int] | None = Field(default=None, alias='UserIds')
+    user_ids: list[int] | None = Field(default=None, alias="UserIds")
 
 
 class AutomateExecuteResendInventoryCommandBatchRequest(ConnectWiseModel):
-    inventory_types: list[int] | None = Field(default=None, alias='InventoryTypes')
+    inventory_types: list[int] | None = Field(default=None, alias="InventoryTypes")
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateDeleteIpRestrictionsBatchRequest(ConnectWiseModel):
     ip_restrictions_ids: list[UUID] | None = Field(
-        default=None, alias='IpRestrictionsIds'
+        default=None, alias="IpRestrictionsIds"
     )
 
 
 class AutomateDeleteIpRestrictionsBatchResult(ConnectWiseModel):
     ip_restrictions_id: UUID | None = Field(
         default=None,
-        alias='IpRestrictionsId',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="IpRestrictionsId",
+        example="00000000-0000-0000-0000-000000000000",
     )
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateIpRestrictionRule(ConnectWiseModel):
     ip_address_guid: UUID | None = Field(
         default=None,
-        alias='IpAddressGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="IpAddressGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    name: str | None = Field(default=None, alias='Name')
-    ip_address: str | None = Field(default=None, alias='IpAddress')
+    name: str | None = Field(default=None, alias="Name")
+    ip_address: str | None = Field(default=None, alias="IpAddress")
     windows_client_access: bool | None = Field(
-        default=None, alias='WindowsClientAccess'
+        default=None, alias="WindowsClientAccess"
     )
-    web_client_access: bool | None = Field(default=None, alias='WebClientAccess')
-    created_by: str | None = Field(default=None, alias='CreatedBy')
-    create_date: datetime | None = Field(default=None, alias='CreateDate')
-    updated_by: str | None = Field(default=None, alias='UpdatedBy')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
+    web_client_access: bool | None = Field(default=None, alias="WebClientAccess")
+    created_by: str | None = Field(default=None, alias="CreatedBy")
+    create_date: datetime | None = Field(default=None, alias="CreateDate")
+    updated_by: str | None = Field(default=None, alias="UpdatedBy")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
 
 
 class AutomateAddIpRestrictionsBatchResult(ConnectWiseModel):
     ip_address_guid: UUID | None = Field(
         default=None,
-        alias='IpAddressGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="IpAddressGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    name: str | None = Field(default=None, alias='Name')
-    ip_address: str | None = Field(default=None, alias='IpAddress')
+    name: str | None = Field(default=None, alias="Name")
+    ip_address: str | None = Field(default=None, alias="IpAddress")
     windows_client_access: bool | None = Field(
-        default=None, alias='WindowsClientAccess'
+        default=None, alias="WindowsClientAccess"
     )
-    web_client_access: bool | None = Field(default=None, alias='WebClientAccess')
+    web_client_access: bool | None = Field(default=None, alias="WebClientAccess")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateMaintenanceModeQueueBatchRequest(ConnectWiseModel):
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
-    duration_in_minutes: int | None = Field(default=None, alias='DurationInMinutes')
-    mode: str | None = Field(default=None, alias='Mode')
-    comments: str | None = Field(default=None, alias='Comments')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
+    duration_in_minutes: int | None = Field(default=None, alias="DurationInMinutes")
+    mode: str | None = Field(default=None, alias="Mode")
+    comments: str | None = Field(default=None, alias="Comments")
 
 
 class AutomateSetMasterModeBatchRequest(ConnectWiseModel):
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
-    master_mode_type: str | None = Field(default=None, alias='MasterModeType')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
+    master_mode_type: str | None = Field(default=None, alias="MasterModeType")
 
 
 class AutomateExecuteProbeBatchRequest(ConnectWiseModel):
-    probe_ids: list[int] | None = Field(default=None, alias='ProbeIds')
+    probe_ids: list[int] | None = Field(default=None, alias="ProbeIds")
 
 
 class AutomateExecuteProbeCommandResult(ConnectWiseModel):
-    probe_id: int | None = Field(default=None, alias='ProbeId')
+    probe_id: int | None = Field(default=None, alias="ProbeId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateDeleteRemoteMonitorsBatchRequest(ConnectWiseModel):
-    group_id: int | None = Field(default=None, alias='GroupId')
-    remote_monitor_ids: list[int] | None = Field(default=None, alias='RemoteMonitorIds')
+    group_id: int | None = Field(default=None, alias="GroupId")
+    remote_monitor_ids: list[int] | None = Field(default=None, alias="RemoteMonitorIds")
 
 
 class AutomateDeleteRemoteMonitorBatchResult(ConnectWiseModel):
-    remote_monitor_id: int | None = Field(default=None, alias='RemoteMonitorId')
+    remote_monitor_id: int | None = Field(default=None, alias="RemoteMonitorId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateScheduledScriptOfflineActionFlags(ConnectWiseModel):
-    skips_offline_agents: bool | None = Field(default=None, alias='SkipsOfflineAgents')
-    wakes_offline_agents: bool | None = Field(default=None, alias='WakesOfflineAgents')
+    skips_offline_agents: bool | None = Field(default=None, alias="SkipsOfflineAgents")
+    wakes_offline_agents: bool | None = Field(default=None, alias="WakesOfflineAgents")
     only_runs_on_offline_agents: bool | None = Field(
-        default=None, alias='OnlyRunsOnOfflineAgents'
+        default=None, alias="OnlyRunsOnOfflineAgents"
     )
 
 
 class AutomateScriptScheduleFrequency(ConnectWiseModel):
     script_schedule_frequency_id: int | None = Field(
-        default=None, alias='ScriptScheduleFrequencyId'
+        default=None, alias="ScriptScheduleFrequencyId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateMinutelyScheduleFrequency(ConnectWiseModel):
-    minutely_interval: int | None = Field(default=None, alias='MinutelyInterval')
-    exclusion_start_time: str | None = Field(default=None, alias='ExclusionStartTime')
-    exclusion_end_time: str | None = Field(default=None, alias='ExclusionEndTime')
+    minutely_interval: int | None = Field(default=None, alias="MinutelyInterval")
+    exclusion_start_time: str | None = Field(default=None, alias="ExclusionStartTime")
+    exclusion_end_time: str | None = Field(default=None, alias="ExclusionEndTime")
 
 
 class AutomateHourlyScheduleFrequency(ConnectWiseModel):
-    hourly_interval: int | None = Field(default=None, alias='HourlyInterval')
-    exclusion_start_time: str | None = Field(default=None, alias='ExclusionStartTime')
-    exclusion_end_time: str | None = Field(default=None, alias='ExclusionEndTime')
+    hourly_interval: int | None = Field(default=None, alias="HourlyInterval")
+    exclusion_start_time: str | None = Field(default=None, alias="ExclusionStartTime")
+    exclusion_end_time: str | None = Field(default=None, alias="ExclusionEndTime")
 
 
 class AutomateMonthlyScheduleFrequency(ConnectWiseModel):
-    runs_at: str | None = Field(default=None, alias='RunsAt')
-    monthly_interval: int | None = Field(default=None, alias='MonthlyInterval')
-    day: int | None = Field(default=None, alias='Day')
+    runs_at: str | None = Field(default=None, alias="RunsAt")
+    monthly_interval: int | None = Field(default=None, alias="MonthlyInterval")
+    day: int | None = Field(default=None, alias="Day")
 
 
 class AutomateDistributionWindowType(ConnectWiseModel):
     distribution_window_type_id: int | None = Field(
-        default=None, alias='DistributionWindowTypeId'
+        default=None, alias="DistributionWindowTypeId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateDaysOfWeekSettings(ConnectWiseModel):
-    sunday: bool | None = Field(default=None, alias='Sunday')
-    monday: bool | None = Field(default=None, alias='Monday')
-    tuesday: bool | None = Field(default=None, alias='Tuesday')
-    wednesday: bool | None = Field(default=None, alias='Wednesday')
-    thursday: bool | None = Field(default=None, alias='Thursday')
-    friday: bool | None = Field(default=None, alias='Friday')
-    saturday: bool | None = Field(default=None, alias='Saturday')
+    sunday: bool | None = Field(default=None, alias="Sunday")
+    monday: bool | None = Field(default=None, alias="Monday")
+    tuesday: bool | None = Field(default=None, alias="Tuesday")
+    wednesday: bool | None = Field(default=None, alias="Wednesday")
+    thursday: bool | None = Field(default=None, alias="Thursday")
+    friday: bool | None = Field(default=None, alias="Friday")
+    saturday: bool | None = Field(default=None, alias="Saturday")
 
 
 class AutomateWeeksOfMonthSettings(ConnectWiseModel):
-    first: bool | None = Field(default=None, alias='First')
-    second: bool | None = Field(default=None, alias='Second')
-    third: bool | None = Field(default=None, alias='Third')
-    fourth: bool | None = Field(default=None, alias='Fourth')
-    last: bool | None = Field(default=None, alias='Last')
+    first: bool | None = Field(default=None, alias="First")
+    second: bool | None = Field(default=None, alias="Second")
+    third: bool | None = Field(default=None, alias="Third")
+    fourth: bool | None = Field(default=None, alias="Fourth")
+    last: bool | None = Field(default=None, alias="Last")
 
 
 class AutomateDailyScriptRepeatFrequency(ConnectWiseModel):
     daily_script_repeat_frequency_id: int | None = Field(
-        default=None, alias='DailyScriptRepeatFrequencyId'
+        default=None, alias="DailyScriptRepeatFrequencyId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateScheduleScriptBatchResult(ConnectWiseModel):
-    entity_id: int | None = Field(default=None, alias='EntityId')
+    entity_id: int | None = Field(default=None, alias="EntityId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateDeleteScriptBatchRequest(ConnectWiseModel):
-    script_ids: list[int] | None = Field(default=None, alias='ScriptIds')
+    script_ids: list[int] | None = Field(default=None, alias="ScriptIds")
 
 
 class AutomateDeleteScriptBatchResult(ConnectWiseModel):
-    script_id: int | None = Field(default=None, alias='ScriptId')
+    script_id: int | None = Field(default=None, alias="ScriptId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateDeleteSearchesBatchRequest(ConnectWiseModel):
-    search_ids: list[int] | None = Field(default=None, alias='SearchIds')
+    search_ids: list[int] | None = Field(default=None, alias="SearchIds")
 
 
 class AutomateDeleteSearchesBatchResult(ConnectWiseModel):
-    search_id: int | None = Field(default=None, alias='SearchId')
-    search_name: str | None = Field(default=None, alias='SearchName')
+    search_id: int | None = Field(default=None, alias="SearchId")
+    search_name: str | None = Field(default=None, alias="SearchName")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateSendToSearchesBatchRequest(ConnectWiseModel):
-    search_ids: list[int] | None = Field(default=None, alias='SearchIds')
-    folder_id: int | None = Field(default=None, alias='FolderId')
+    search_ids: list[int] | None = Field(default=None, alias="SearchIds")
+    folder_id: int | None = Field(default=None, alias="FolderId")
 
 
 class AutomateSendToBatchResult(ConnectWiseModel):
-    search_id: int | None = Field(default=None, alias='SearchId')
+    search_id: int | None = Field(default=None, alias="SearchId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateSendToCommandBatchRequest(ConnectWiseModel):
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
     target_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='TargetType')
-    target_id: int | None = Field(default=None, alias='TargetId')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="TargetType")
+    target_id: int | None = Field(default=None, alias="TargetId")
 
 
 class AutomateExecuteComputersBatchRequest(ConnectWiseModel):
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateExecuteRebootCommandBatchRequest(ConnectWiseModel):
-    reboot_type: int | None = Field(default=None, alias='RebootType')
+    reboot_type: int | None = Field(default=None, alias="RebootType")
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateExecuteComputerCommandResult(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    command_id: int | None = Field(default=None, alias='CommandId')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    command_id: int | None = Field(default=None, alias="CommandId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateExecuteToggleProbeCommandBatchRequest(ConnectWiseModel):
-    computer_ids: list[int] | None = Field(default=None, alias='ComputerIds')
-    enable_probe: bool | None = Field(default=None, alias='EnableProbe')
+    computer_ids: list[int] | None = Field(default=None, alias="ComputerIds")
+    enable_probe: bool | None = Field(default=None, alias="EnableProbe")
 
 
 class AutomateToggleServiceUserLocalAccountCredentials(ConnectWiseModel):
-    username: str | None = Field(default=None, alias='Username')
-    password: str | None = Field(default=None, alias='Password')
+    username: str | None = Field(default=None, alias="Username")
+    password: str | None = Field(default=None, alias="Password")
 
 
 class AutomateUserClassMembershipRequest(ConnectWiseModel):
-    user_ids: list[int] | None = Field(default=None, alias='UserIds')
-    user_class_ids: list[int] | None = Field(default=None, alias='UserClassIds')
+    user_ids: list[int] | None = Field(default=None, alias="UserIds")
+    user_class_ids: list[int] | None = Field(default=None, alias="UserClassIds")
 
 
 class AutomateUsersGroupMembershipBatchRequest(ConnectWiseModel):
-    user_ids: list[int] | None = Field(default=None, alias='UserIds')
-    group_ids: list[int] | None = Field(default=None, alias='GroupIds')
+    user_ids: list[int] | None = Field(default=None, alias="UserIds")
+    group_ids: list[int] | None = Field(default=None, alias="GroupIds")
 
 
 class AutomateUsersUnlockRequest(AutomateGeneratePasswordResetTokenBatchRequest):
@@ -751,185 +751,185 @@ class AutomateUsersUnlockRequest(AutomateGeneratePasswordResetTokenBatchRequest)
 
 
 class AutomateWebExtensionBatchRequest(ConnectWiseModel):
-    web_extension_ids: list[int] | None = Field(default=None, alias='WebExtensionIds')
+    web_extension_ids: list[int] | None = Field(default=None, alias="WebExtensionIds")
 
 
 class AutomateRunStyle(ConnectWiseModel):
-    run_style_id: int | None = Field(default=None, alias='RunStyleId')
-    name: str | None = Field(default=None, alias='Name')
+    run_style_id: int | None = Field(default=None, alias="RunStyleId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class LabTechCacheControl(ConnectWiseModel):
-    cache_id: str | None = Field(default=None, alias='CacheId')
-    custom_commands: datetime | None = Field(default=None, alias='CustomCommands')
-    custom_menus: datetime | None = Field(default=None, alias='CustomMenus')
-    huds: datetime | None = Field(default=None, alias='Huds')
-    apps: datetime | None = Field(default=None, alias='Apps')
-    user_folders: datetime | None = Field(default=None, alias='UserFolders')
-    users: datetime | None = Field(default=None, alias='Users')
-    schedules: datetime | None = Field(default=None, alias='Schedules')
-    templates: datetime | None = Field(default=None, alias='Templates')
-    data_view_folders: datetime | None = Field(default=None, alias='DataViewFolders')
-    dataviews: datetime | None = Field(default=None, alias='Dataviews')
-    report_folders: datetime | None = Field(default=None, alias='ReportFolders')
-    reports: datetime | None = Field(default=None, alias='Reports')
-    links: datetime | None = Field(default=None, alias='Links')
-    script_folders: datetime | None = Field(default=None, alias='ScriptFolders')
-    scripts: datetime | None = Field(default=None, alias='Scripts')
-    sensor_checks: datetime | None = Field(default=None, alias='SensorChecks')
-    audit_actions: datetime | None = Field(default=None, alias='AuditActions')
-    remote_commands: datetime | None = Field(default=None, alias='RemoteCommands')
-    contacts: datetime | None = Field(default=None, alias='Contacts')
-    time_category: datetime | None = Field(default=None, alias='TimeCategory')
-    ticket_data: datetime | None = Field(default=None, alias='TicketData')
-    ticket_category: datetime | None = Field(default=None, alias='TicketCategory')
-    functions: datetime | None = Field(default=None, alias='Functions')
-    redirectors: datetime | None = Field(default=None, alias='Redirectors')
-    virus_scanners: datetime | None = Field(default=None, alias='VirusScanners')
+    cache_id: str | None = Field(default=None, alias="CacheId")
+    custom_commands: datetime | None = Field(default=None, alias="CustomCommands")
+    custom_menus: datetime | None = Field(default=None, alias="CustomMenus")
+    huds: datetime | None = Field(default=None, alias="Huds")
+    apps: datetime | None = Field(default=None, alias="Apps")
+    user_folders: datetime | None = Field(default=None, alias="UserFolders")
+    users: datetime | None = Field(default=None, alias="Users")
+    schedules: datetime | None = Field(default=None, alias="Schedules")
+    templates: datetime | None = Field(default=None, alias="Templates")
+    data_view_folders: datetime | None = Field(default=None, alias="DataViewFolders")
+    dataviews: datetime | None = Field(default=None, alias="Dataviews")
+    report_folders: datetime | None = Field(default=None, alias="ReportFolders")
+    reports: datetime | None = Field(default=None, alias="Reports")
+    links: datetime | None = Field(default=None, alias="Links")
+    script_folders: datetime | None = Field(default=None, alias="ScriptFolders")
+    scripts: datetime | None = Field(default=None, alias="Scripts")
+    sensor_checks: datetime | None = Field(default=None, alias="SensorChecks")
+    audit_actions: datetime | None = Field(default=None, alias="AuditActions")
+    remote_commands: datetime | None = Field(default=None, alias="RemoteCommands")
+    contacts: datetime | None = Field(default=None, alias="Contacts")
+    time_category: datetime | None = Field(default=None, alias="TimeCategory")
+    ticket_data: datetime | None = Field(default=None, alias="TicketData")
+    ticket_category: datetime | None = Field(default=None, alias="TicketCategory")
+    functions: datetime | None = Field(default=None, alias="Functions")
+    redirectors: datetime | None = Field(default=None, alias="Redirectors")
+    virus_scanners: datetime | None = Field(default=None, alias="VirusScanners")
     control_center_config: datetime | None = Field(
-        default=None, alias='ControlCenterConfig'
+        default=None, alias="ControlCenterConfig"
     )
-    properties: datetime | None = Field(default=None, alias='Properties')
-    config: datetime | None = Field(default=None, alias='Config')
-    regions: datetime | None = Field(default=None, alias='Regions')
-    config_outlook: datetime | None = Field(default=None, alias='ConfigOutlook')
-    computers: datetime | None = Field(default=None, alias='Computers')
-    locations: datetime | None = Field(default=None, alias='Locations')
-    clients: datetime | None = Field(default=None, alias='Clients')
-    groups: datetime | None = Field(default=None, alias='Groups')
-    agents: datetime | None = Field(default=None, alias='Agents')
-    permissions: datetime | None = Field(default=None, alias='Permissions')
+    properties: datetime | None = Field(default=None, alias="Properties")
+    config: datetime | None = Field(default=None, alias="Config")
+    regions: datetime | None = Field(default=None, alias="Regions")
+    config_outlook: datetime | None = Field(default=None, alias="ConfigOutlook")
+    computers: datetime | None = Field(default=None, alias="Computers")
+    locations: datetime | None = Field(default=None, alias="Locations")
+    clients: datetime | None = Field(default=None, alias="Clients")
+    groups: datetime | None = Field(default=None, alias="Groups")
+    agents: datetime | None = Field(default=None, alias="Agents")
+    permissions: datetime | None = Field(default=None, alias="Permissions")
     write_config_control: datetime | None = Field(
-        default=None, alias='WriteConfigControl'
+        default=None, alias="WriteConfigControl"
     )
-    alert_templates: datetime | None = Field(default=None, alias='AlertTemplates')
-    role_definitions: datetime | None = Field(default=None, alias='RoleDefinitions')
+    alert_templates: datetime | None = Field(default=None, alias="AlertTemplates")
+    role_definitions: datetime | None = Field(default=None, alias="RoleDefinitions")
 
 
 class LabTechComputerChassis(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    product_name: str | None = Field(default=None, alias='ProductName')
-    version: str | None = Field(default=None, alias='Version')
-    serial_number: str | None = Field(default=None, alias='SerialNumber')
-    uuid: str | None = Field(default=None, alias='UUID')
-    sku_number: str | None = Field(default=None, alias='SkuNumber')
-    family: str | None = Field(default=None, alias='Family')
-    chassis_type: str | None = Field(default=None, alias='ChassisType')
-    chassis_lock: bool | None = Field(default=None, alias='ChassisLock')
-    asset_tag: str | None = Field(default=None, alias='AssetTag')
-    height_units: int | None = Field(default=None, alias='HeightUnits')
-    system_boot_state: int | None = Field(default=None, alias='SystemBootState')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    product_name: str | None = Field(default=None, alias="ProductName")
+    version: str | None = Field(default=None, alias="Version")
+    serial_number: str | None = Field(default=None, alias="SerialNumber")
+    uuid: str | None = Field(default=None, alias="UUID")
+    sku_number: str | None = Field(default=None, alias="SkuNumber")
+    family: str | None = Field(default=None, alias="Family")
+    chassis_type: str | None = Field(default=None, alias="ChassisType")
+    chassis_lock: bool | None = Field(default=None, alias="ChassisLock")
+    asset_tag: str | None = Field(default=None, alias="AssetTag")
+    height_units: int | None = Field(default=None, alias="HeightUnits")
+    system_boot_state: int | None = Field(default=None, alias="SystemBootState")
     power_supply_boot_state: int | None = Field(
-        default=None, alias='PowerSupplyBootState'
+        default=None, alias="PowerSupplyBootState"
     )
-    thermal_boot_state: int | None = Field(default=None, alias='ThermalBootState')
-    main_board_product: str | None = Field(default=None, alias='MainBoardProduct')
+    thermal_boot_state: int | None = Field(default=None, alias="ThermalBootState")
+    main_board_product: str | None = Field(default=None, alias="MainBoardProduct")
     main_board_serial_number: str | None = Field(
-        default=None, alias='MainBoardSerialNumber'
+        default=None, alias="MainBoardSerialNumber"
     )
-    main_board_version: str | None = Field(default=None, alias='MainBoardVersion')
+    main_board_version: str | None = Field(default=None, alias="MainBoardVersion")
     main_board_manufacturer: str | None = Field(
-        default=None, alias='MainBoardManufacturer'
+        default=None, alias="MainBoardManufacturer"
     )
-    last_update: datetime | None = Field(default=None, alias='LastUpdate')
+    last_update: datetime | None = Field(default=None, alias="LastUpdate")
 
 
 class AutomateFilterByComputerPermissionsRequest(ConnectWiseModel):
     computer_permissions: list[str] | None = Field(
-        default=None, alias='ComputerPermissions'
+        default=None, alias="ComputerPermissions"
     )
 
 
 class LabTechRouter(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    manufacturer_name: str | None = Field(default=None, alias='ManufacturerName')
-    model: str | None = Field(default=None, alias='Model')
-    version: str | None = Field(default=None, alias='Version')
-    port_type: str | None = Field(default=None, alias='PortType')
-    username: str | None = Field(default=None, alias='Username')
-    password: str | None = Field(default=None, alias='Password')
-    guid: str | None = Field(default=None, alias='Guid')
+    id: int | None = Field(default=None, alias="Id")
+    manufacturer_name: str | None = Field(default=None, alias="ManufacturerName")
+    model: str | None = Field(default=None, alias="Model")
+    version: str | None = Field(default=None, alias="Version")
+    port_type: str | None = Field(default=None, alias="PortType")
+    username: str | None = Field(default=None, alias="Username")
+    password: str | None = Field(default=None, alias="Password")
+    guid: str | None = Field(default=None, alias="Guid")
 
 
 class LabTechMaintenanceWindowDefinition(ConnectWiseModel):
     maintenance_window_definition_id: int | None = Field(
-        default=None, alias='MaintenanceWindowDefinitionId'
+        default=None, alias="MaintenanceWindowDefinitionId"
     )
-    name: str | None = Field(default=None, alias='Name')
-    comment: str | None = Field(default=None, alias='Comment')
+    name: str | None = Field(default=None, alias="Name")
+    comment: str | None = Field(default=None, alias="Comment")
 
 
 class LabTechDeploymentLogin(ConnectWiseModel):
-    deployment_login_id: int | None = Field(default=None, alias='DeploymentLoginId')
-    title: str | None = Field(default=None, alias='Title')
+    deployment_login_id: int | None = Field(default=None, alias="DeploymentLoginId")
+    title: str | None = Field(default=None, alias="Title")
 
 
 class LabTechContactWebPermissions(ConnectWiseModel):
-    tickets: bool | None = Field(default=None, alias='Tickets')
-    remote_access: bool | None = Field(default=None, alias='RemoteAccess')
-    install_agent: bool | None = Field(default=None, alias='InstallAgent')
-    reboot: bool | None = Field(default=None, alias='Reboot')
-    shutdown: bool | None = Field(default=None, alias='Shutdown')
-    wake_on_lan: bool | None = Field(default=None, alias='WakeOnLAN')
+    tickets: bool | None = Field(default=None, alias="Tickets")
+    remote_access: bool | None = Field(default=None, alias="RemoteAccess")
+    install_agent: bool | None = Field(default=None, alias="InstallAgent")
+    reboot: bool | None = Field(default=None, alias="Reboot")
+    shutdown: bool | None = Field(default=None, alias="Shutdown")
+    wake_on_lan: bool | None = Field(default=None, alias="WakeOnLAN")
     multi_factor_required: bool | None = Field(
-        default=None, alias='MultiFactorRequired'
+        default=None, alias="MultiFactorRequired"
     )
 
 
 class LabTechSchedule(ConnectWiseModel):
     day_id: Literal[
-        'Everyday',
-        'Sunday',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-    ] | None = Field(default=None, alias='DayId')
-    day_name: str | None = Field(default=None, alias='DayName')
-    repeat_every_hour: int | None = Field(default=None, alias='RepeatEveryHour')
-    date: datetime | None = Field(default=None, alias='Date')
+        "Everyday",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+    ] | None = Field(default=None, alias="DayId")
+    day_name: str | None = Field(default=None, alias="DayName")
+    repeat_every_hour: int | None = Field(default=None, alias="RepeatEveryHour")
+    date: datetime | None = Field(default=None, alias="Date")
 
 
 class LabTechComputerMenu(ConnectWiseModel):
-    menu_id: str | None = Field(default=None, alias='MenuID')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    text: str | None = Field(default=None, alias='Text')
-    image_url: str | None = Field(default=None, alias='ImageURL')
-    root_only: int | None = Field(default=None, alias='RootOnly')
-    action: str | None = Field(default=None, alias='Action')
-    msg_title: str | None = Field(default=None, alias='MsgTitle')
-    msg_body: str | None = Field(default=None, alias='MsgBody')
-    msg_height: int | None = Field(default=None, alias='MsgHeight')
-    msg_width: int | None = Field(default=None, alias='MsgWidth')
-    ur_lor_exe: str | None = Field(default=None, alias='URLorEXE')
-    script_id: int | None = Field(default=None, alias='ScriptID')
-    parameters: str | None = Field(default=None, alias='Parameters')
+    menu_id: str | None = Field(default=None, alias="MenuID")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    text: str | None = Field(default=None, alias="Text")
+    image_url: str | None = Field(default=None, alias="ImageURL")
+    root_only: int | None = Field(default=None, alias="RootOnly")
+    action: str | None = Field(default=None, alias="Action")
+    msg_title: str | None = Field(default=None, alias="MsgTitle")
+    msg_body: str | None = Field(default=None, alias="MsgBody")
+    msg_height: int | None = Field(default=None, alias="MsgHeight")
+    msg_width: int | None = Field(default=None, alias="MsgWidth")
+    ur_lor_exe: str | None = Field(default=None, alias="URLorEXE")
+    script_id: int | None = Field(default=None, alias="ScriptID")
+    parameters: str | None = Field(default=None, alias="Parameters")
 
 
 class LabTechTemplateProperty(ConnectWiseModel):
-    template_id: str | None = Field(default=None, alias='TemplateID')
-    property_name: str | None = Field(default=None, alias='PropertyName')
-    property_value: str | None = Field(default=None, alias='PropertyValue')
-    property_description: str | None = Field(default=None, alias='PropertyDescription')
+    template_id: str | None = Field(default=None, alias="TemplateID")
+    property_name: str | None = Field(default=None, alias="PropertyName")
+    property_value: str | None = Field(default=None, alias="PropertyValue")
+    property_description: str | None = Field(default=None, alias="PropertyDescription")
 
 
 class LabTechGroupPartial(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='ID')
-    parent_id: int | None = Field(default=None, alias='ParentId')
-    name: str | None = Field(default=None, alias='Name')
+    id: int | None = Field(default=None, alias="ID")
+    parent_id: int | None = Field(default=None, alias="ParentId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class LabTechMaintenanceWindow(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
+    id: str | None = Field(default=None, alias="Id")
 
 
 class LabTechLoggedInUser(ConnectWiseModel):
-    logged_in_user_name: str | None = Field(default=None, alias='LoggedInUserName')
-    console_id: int | None = Field(default=None, alias='ConsoleId')
+    logged_in_user_name: str | None = Field(default=None, alias="LoggedInUserName")
+    console_id: int | None = Field(default=None, alias="ConsoleId")
 
 
 class LabTechVirusScannerDef(AutomateComputerServiceItem):
@@ -945,25 +945,25 @@ class LabTechSearchFolder(AutomateComputerServiceItem):
 
 
 class LabTechComputerPermissions(ConnectWiseModel):
-    edit_config: bool | None = Field(default=None, alias='EditConfig')
-    edit_info: bool | None = Field(default=None, alias='EditInfo')
-    send_commands: bool | None = Field(default=None, alias='SendCommands')
-    allow_remote_control: bool | None = Field(default=None, alias='AllowRemoteControl')
-    allow_redir: bool | None = Field(default=None, alias='AllowRedir')
-    allow_file_explorer: bool | None = Field(default=None, alias='AllowFileExplorer')
-    allow_registry_edit: bool | None = Field(default=None, alias='AllowRegistryEdit')
-    command_prompt: bool | None = Field(default=None, alias='CommandPrompt')
-    sniff_network: bool | None = Field(default=None, alias='SniffNetwork')
-    install: bool | None = Field(default=None, alias='Install')
-    history: bool | None = Field(default=None, alias='History')
-    view_commands: bool | None = Field(default=None, alias='ViewCommands')
-    monitor_delete: bool | None = Field(default=None, alias='MonitorDelete')
-    monitor_add: bool | None = Field(default=None, alias='MonitorAdd')
-    monitor_edit: bool | None = Field(default=None, alias='MonitorEdit')
-    clear_alerts: bool | None = Field(default=None, alias='ClearAlerts')
-    schedule_scripts: bool | None = Field(default=None, alias='ScheduleScripts')
+    edit_config: bool | None = Field(default=None, alias="EditConfig")
+    edit_info: bool | None = Field(default=None, alias="EditInfo")
+    send_commands: bool | None = Field(default=None, alias="SendCommands")
+    allow_remote_control: bool | None = Field(default=None, alias="AllowRemoteControl")
+    allow_redir: bool | None = Field(default=None, alias="AllowRedir")
+    allow_file_explorer: bool | None = Field(default=None, alias="AllowFileExplorer")
+    allow_registry_edit: bool | None = Field(default=None, alias="AllowRegistryEdit")
+    command_prompt: bool | None = Field(default=None, alias="CommandPrompt")
+    sniff_network: bool | None = Field(default=None, alias="SniffNetwork")
+    install: bool | None = Field(default=None, alias="Install")
+    history: bool | None = Field(default=None, alias="History")
+    view_commands: bool | None = Field(default=None, alias="ViewCommands")
+    monitor_delete: bool | None = Field(default=None, alias="MonitorDelete")
+    monitor_add: bool | None = Field(default=None, alias="MonitorAdd")
+    monitor_edit: bool | None = Field(default=None, alias="MonitorEdit")
+    clear_alerts: bool | None = Field(default=None, alias="ClearAlerts")
+    schedule_scripts: bool | None = Field(default=None, alias="ScheduleScripts")
     delete_schedule_scripts: bool | None = Field(
-        default=None, alias='DeleteScheduleScripts'
+        default=None, alias="DeleteScheduleScripts"
     )
 
 
@@ -972,38 +972,38 @@ class LabTechNetworkDeviceType(AutomateAlertClient):
 
 
 class LabTechAlertAction(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    comment: str | None = Field(default=None, alias='Comment')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    comment: str | None = Field(default=None, alias="Comment")
 
 
 class LabTechExternalSystemCredentials(ConnectWiseModel):
-    credentials_id: int | None = Field(default=None, alias='CredentialsId')
-    client_id: int | None = Field(default=None, alias='ClientId')
-    title: str | None = Field(default=None, alias='Title')
-    expiration_date: datetime | None = Field(default=None, alias='ExpirationDate')
-    is_active: bool | None = Field(default=None, alias='IsActive')
+    credentials_id: int | None = Field(default=None, alias="CredentialsId")
+    client_id: int | None = Field(default=None, alias="ClientId")
+    title: str | None = Field(default=None, alias="Title")
+    expiration_date: datetime | None = Field(default=None, alias="ExpirationDate")
+    is_active: bool | None = Field(default=None, alias="IsActive")
 
 
 class LabTechAgentDeploymentReadinessCheck(ConnectWiseModel):
     agent_deployment_readiness_check_id: int | None = Field(
-        default=None, alias='AgentDeploymentReadinessCheckId'
+        default=None, alias="AgentDeploymentReadinessCheckId"
     )
-    network_device_id: int | None = Field(default=None, alias='NetworkDeviceId')
+    network_device_id: int | None = Field(default=None, alias="NetworkDeviceId")
     agent_deployment_readiness_check_status_id: int | None = Field(
-        default=None, alias='AgentDeploymentReadinessCheckStatusId'
+        default=None, alias="AgentDeploymentReadinessCheckStatusId"
     )
     readiness_check_status: str | None = Field(
-        default=None, alias='ReadinessCheckStatus'
+        default=None, alias="ReadinessCheckStatus"
     )
     deployment_attempt_count: int | None = Field(
-        default=None, alias='DeploymentAttemptCount'
+        default=None, alias="DeploymentAttemptCount"
     )
     date_last_checked_for_readiness: datetime | None = Field(
-        default=None, alias='DateLastCheckedForReadiness'
+        default=None, alias="DateLastCheckedForReadiness"
     )
     date_last_deployment_attempted: datetime | None = Field(
-        default=None, alias='DateLastDeploymentAttempted'
+        default=None, alias="DateLastDeploymentAttempted"
     )
 
 
@@ -1016,313 +1016,313 @@ class LabTechTicketPriority(AutomateAlertClient):
 
 
 class LabTechTicketCategory(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    parent_category_id: int | None = Field(default=None, alias='ParentCategoryId')
-    keywords: str | None = Field(default=None, alias='Keywords')
-    description: str | None = Field(default=None, alias='Description')
-    image: str | None = Field(default=None, alias='Image')
-    is_visible_in_list: bool | None = Field(default=None, alias='IsVisibleInList')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    parent_category_id: int | None = Field(default=None, alias="ParentCategoryId")
+    keywords: str | None = Field(default=None, alias="Keywords")
+    description: str | None = Field(default=None, alias="Description")
+    image: str | None = Field(default=None, alias="Image")
+    is_visible_in_list: bool | None = Field(default=None, alias="IsVisibleInList")
 
 
 class LabTechUserPermissions(ConnectWiseModel):
-    super_admin: bool | None = Field(default=None, alias='SuperAdmin')
-    system_config: bool | None = Field(default=None, alias='SystemConfig')
-    class_config: bool | None = Field(default=None, alias='ClassConfig')
-    create_tickets: bool | None = Field(default=None, alias='CreateTickets')
-    shared_links: bool | None = Field(default=None, alias='SharedLinks')
-    template_read: bool | None = Field(default=None, alias='TemplateRead')
-    template_edit: bool | None = Field(default=None, alias='TemplateEdit')
-    template_delete: bool | None = Field(default=None, alias='TemplateDelete')
-    client_read: bool | None = Field(default=None, alias='ClientRead')
-    client_edit: bool | None = Field(default=None, alias='ClientEdit')
-    client_delete: bool | None = Field(default=None, alias='ClientDelete')
-    report_read: bool | None = Field(default=None, alias='ReportRead')
-    report_edit: bool | None = Field(default=None, alias='ReportEdit')
-    report_delete: bool | None = Field(default=None, alias='ReportDelete')
-    contact_read: bool | None = Field(default=None, alias='ContactRead')
-    contact_edit: bool | None = Field(default=None, alias='ContactEdit')
-    contact_delete: bool | None = Field(default=None, alias='ContactDelete')
-    user_read: bool | None = Field(default=None, alias='UserRead')
-    user_edit: bool | None = Field(default=None, alias='UserEdit')
-    user_delete: bool | None = Field(default=None, alias='UserDelete')
-    tool_read: bool | None = Field(default=None, alias='ToolRead')
-    tool_edit: bool | None = Field(default=None, alias='ToolEdit')
-    tool_delete: bool | None = Field(default=None, alias='ToolDelete')
-    script_read: bool | None = Field(default=None, alias='ScriptRead')
-    script_edit: bool | None = Field(default=None, alias='ScriptEdit')
-    script_delete: bool | None = Field(default=None, alias='ScriptDelete')
-    manage_groups: bool | None = Field(default=None, alias='ManageGroups')
-    dash_ticketing: bool | None = Field(default=None, alias='DashTicketing')
-    dash_time: bool | None = Field(default=None, alias='DashTime')
-    dash_manage: bool | None = Field(default=None, alias='DashManage')
-    dash_trending: bool | None = Field(default=None, alias='DashTrending')
-    dash_overview: bool | None = Field(default=None, alias='DashOverview')
-    hud_update: bool | None = Field(default=None, alias='HUDUpdate')
-    hud_show_all: bool | None = Field(default=None, alias='HUDShowAll')
-    data_view_update: bool | None = Field(default=None, alias='DataViewUpdate')
-    data_view_delete: bool | None = Field(default=None, alias='DataViewDelete')
-    data_view_show_all: bool | None = Field(default=None, alias='DataViewShowAll')
-    users_show_all: bool | None = Field(default=None, alias='UsersShowAll')
-    user_class_create: bool | None = Field(default=None, alias='UserClassCreate')
-    user_class_update: bool | None = Field(default=None, alias='UserClassUpdate')
-    patch_manager_config: bool | None = Field(default=None, alias='PatchManagerConfig')
-    reports_create: bool | None = Field(default=None, alias='ReportsCreate')
+    super_admin: bool | None = Field(default=None, alias="SuperAdmin")
+    system_config: bool | None = Field(default=None, alias="SystemConfig")
+    class_config: bool | None = Field(default=None, alias="ClassConfig")
+    create_tickets: bool | None = Field(default=None, alias="CreateTickets")
+    shared_links: bool | None = Field(default=None, alias="SharedLinks")
+    template_read: bool | None = Field(default=None, alias="TemplateRead")
+    template_edit: bool | None = Field(default=None, alias="TemplateEdit")
+    template_delete: bool | None = Field(default=None, alias="TemplateDelete")
+    client_read: bool | None = Field(default=None, alias="ClientRead")
+    client_edit: bool | None = Field(default=None, alias="ClientEdit")
+    client_delete: bool | None = Field(default=None, alias="ClientDelete")
+    report_read: bool | None = Field(default=None, alias="ReportRead")
+    report_edit: bool | None = Field(default=None, alias="ReportEdit")
+    report_delete: bool | None = Field(default=None, alias="ReportDelete")
+    contact_read: bool | None = Field(default=None, alias="ContactRead")
+    contact_edit: bool | None = Field(default=None, alias="ContactEdit")
+    contact_delete: bool | None = Field(default=None, alias="ContactDelete")
+    user_read: bool | None = Field(default=None, alias="UserRead")
+    user_edit: bool | None = Field(default=None, alias="UserEdit")
+    user_delete: bool | None = Field(default=None, alias="UserDelete")
+    tool_read: bool | None = Field(default=None, alias="ToolRead")
+    tool_edit: bool | None = Field(default=None, alias="ToolEdit")
+    tool_delete: bool | None = Field(default=None, alias="ToolDelete")
+    script_read: bool | None = Field(default=None, alias="ScriptRead")
+    script_edit: bool | None = Field(default=None, alias="ScriptEdit")
+    script_delete: bool | None = Field(default=None, alias="ScriptDelete")
+    manage_groups: bool | None = Field(default=None, alias="ManageGroups")
+    dash_ticketing: bool | None = Field(default=None, alias="DashTicketing")
+    dash_time: bool | None = Field(default=None, alias="DashTime")
+    dash_manage: bool | None = Field(default=None, alias="DashManage")
+    dash_trending: bool | None = Field(default=None, alias="DashTrending")
+    dash_overview: bool | None = Field(default=None, alias="DashOverview")
+    hud_update: bool | None = Field(default=None, alias="HUDUpdate")
+    hud_show_all: bool | None = Field(default=None, alias="HUDShowAll")
+    data_view_update: bool | None = Field(default=None, alias="DataViewUpdate")
+    data_view_delete: bool | None = Field(default=None, alias="DataViewDelete")
+    data_view_show_all: bool | None = Field(default=None, alias="DataViewShowAll")
+    users_show_all: bool | None = Field(default=None, alias="UsersShowAll")
+    user_class_create: bool | None = Field(default=None, alias="UserClassCreate")
+    user_class_update: bool | None = Field(default=None, alias="UserClassUpdate")
+    patch_manager_config: bool | None = Field(default=None, alias="PatchManagerConfig")
+    reports_create: bool | None = Field(default=None, alias="ReportsCreate")
     probe_template_execute: bool | None = Field(
-        default=None, alias='ProbeTemplateExecute'
+        default=None, alias="ProbeTemplateExecute"
     )
     scheduled_scripts_update: bool | None = Field(
-        default=None, alias='ScheduledScriptsUpdate'
+        default=None, alias="ScheduledScriptsUpdate"
     )
-    clients_show_all: bool | None = Field(default=None, alias='ClientsShowAll')
-    show_passwords: bool | None = Field(default=None, alias='ShowPasswords')
-    locations_show_all: bool | None = Field(default=None, alias='LocationsShowAll')
-    computers_create: bool | None = Field(default=None, alias='ComputersCreate')
-    computers_update: bool | None = Field(default=None, alias='ComputersUpdate')
-    computers_delete: bool | None = Field(default=None, alias='ComputersDelete')
-    computers_show_all: bool | None = Field(default=None, alias='ComputersShowAll')
+    clients_show_all: bool | None = Field(default=None, alias="ClientsShowAll")
+    show_passwords: bool | None = Field(default=None, alias="ShowPasswords")
+    locations_show_all: bool | None = Field(default=None, alias="LocationsShowAll")
+    computers_create: bool | None = Field(default=None, alias="ComputersCreate")
+    computers_update: bool | None = Field(default=None, alias="ComputersUpdate")
+    computers_delete: bool | None = Field(default=None, alias="ComputersDelete")
+    computers_show_all: bool | None = Field(default=None, alias="ComputersShowAll")
     computers_force_update: bool | None = Field(
-        default=None, alias='ComputersForceUpdate'
+        default=None, alias="ComputersForceUpdate"
     )
     network_device_update: bool | None = Field(
-        default=None, alias='NetworkDeviceUpdate'
+        default=None, alias="NetworkDeviceUpdate"
     )
     network_device_delete: bool | None = Field(
-        default=None, alias='NetworkDeviceDelete'
+        default=None, alias="NetworkDeviceDelete"
     )
     network_device_show_all: bool | None = Field(
-        default=None, alias='NetworkDeviceShowAll'
+        default=None, alias="NetworkDeviceShowAll"
     )
     retired_assets_delete: bool | None = Field(
-        default=None, alias='RetiredAssetsDelete'
+        default=None, alias="RetiredAssetsDelete"
     )
-    groups_create: bool | None = Field(default=None, alias='GroupsCreate')
-    groups_delete: bool | None = Field(default=None, alias='GroupsDelete')
-    groups_show_all: bool | None = Field(default=None, alias='GroupsShowAll')
+    groups_create: bool | None = Field(default=None, alias="GroupsCreate")
+    groups_delete: bool | None = Field(default=None, alias="GroupsDelete")
+    groups_show_all: bool | None = Field(default=None, alias="GroupsShowAll")
     groups_schedule_script: bool | None = Field(
-        default=None, alias='GroupsScheduleScript'
+        default=None, alias="GroupsScheduleScript"
     )
     group_monitors_update: bool | None = Field(
-        default=None, alias='GroupMonitorsUpdate'
+        default=None, alias="GroupMonitorsUpdate"
     )
-    group_info_update: bool | None = Field(default=None, alias='GroupInfoUpdate')
+    group_info_update: bool | None = Field(default=None, alias="GroupInfoUpdate")
     group_managed_services: bool | None = Field(
-        default=None, alias='GroupManagedServices'
+        default=None, alias="GroupManagedServices"
     )
     remote_monitors_create: bool | None = Field(
-        default=None, alias='RemoteMonitorsCreate'
+        default=None, alias="RemoteMonitorsCreate"
     )
     remote_monitors_delete: bool | None = Field(
-        default=None, alias='RemoteMonitorsDelete'
+        default=None, alias="RemoteMonitorsDelete"
     )
     internal_monitors_create: bool | None = Field(
-        default=None, alias='InternalMonitorsCreate'
+        default=None, alias="InternalMonitorsCreate"
     )
     internal_monitors_update: bool | None = Field(
-        default=None, alias='InternalMonitorsUpdate'
+        default=None, alias="InternalMonitorsUpdate"
     )
     internal_monitors_delete: bool | None = Field(
-        default=None, alias='InternalMonitorsDelete'
+        default=None, alias="InternalMonitorsDelete"
     )
-    alerts_update: bool | None = Field(default=None, alias='AlertsUpdate')
-    alerts_delete_all: bool | None = Field(default=None, alias='AlertsDeleteAll')
-    tickets_read: bool | None = Field(default=None, alias='TicketsRead')
-    tickets_update: bool | None = Field(default=None, alias='TicketsUpdate')
-    tickets_delete: bool | None = Field(default=None, alias='TicketsDelete')
-    tickets_request: bool | None = Field(default=None, alias='TicketsRequest')
-    searches_read: bool | None = Field(default=None, alias='SearchesRead')
-    searches_update: bool | None = Field(default=None, alias='SearchesUpdate')
-    searches_delete: bool | None = Field(default=None, alias='SearchesDelete')
-    patch_manager_read: bool | None = Field(default=None, alias='PatchManagerRead')
-    patch_manager_update: bool | None = Field(default=None, alias='PatchManagerUpdate')
-    language_pack_editor: bool | None = Field(default=None, alias='LanguagePackEditor')
+    alerts_update: bool | None = Field(default=None, alias="AlertsUpdate")
+    alerts_delete_all: bool | None = Field(default=None, alias="AlertsDeleteAll")
+    tickets_read: bool | None = Field(default=None, alias="TicketsRead")
+    tickets_update: bool | None = Field(default=None, alias="TicketsUpdate")
+    tickets_delete: bool | None = Field(default=None, alias="TicketsDelete")
+    tickets_request: bool | None = Field(default=None, alias="TicketsRequest")
+    searches_read: bool | None = Field(default=None, alias="SearchesRead")
+    searches_update: bool | None = Field(default=None, alias="SearchesUpdate")
+    searches_delete: bool | None = Field(default=None, alias="SearchesDelete")
+    patch_manager_read: bool | None = Field(default=None, alias="PatchManagerRead")
+    patch_manager_update: bool | None = Field(default=None, alias="PatchManagerUpdate")
+    language_pack_editor: bool | None = Field(default=None, alias="LanguagePackEditor")
     managed_service_catalog: bool | None = Field(
-        default=None, alias='ManagedServiceCatalog'
+        default=None, alias="ManagedServiceCatalog"
     )
     navigation_menu_update: bool | None = Field(
-        default=None, alias='NavigationMenuUpdate'
+        default=None, alias="NavigationMenuUpdate"
     )
-    rss_feed_read: bool | None = Field(default=None, alias='RSSFeedRead')
-    rss_feed_update: bool | None = Field(default=None, alias='RSSFeedUpdate')
-    links_delete: bool | None = Field(default=None, alias='LinksDelete')
-    plugin_manager: bool | None = Field(default=None, alias='PluginManager')
-    solution_center: bool | None = Field(default=None, alias='SolutionCenter')
-    database_execute: bool | None = Field(default=None, alias='DatabaseExecute')
-    server_status: bool | None = Field(default=None, alias='ServerStatus')
-    manage_audits: bool | None = Field(default=None, alias='ManageAudits')
+    rss_feed_read: bool | None = Field(default=None, alias="RSSFeedRead")
+    rss_feed_update: bool | None = Field(default=None, alias="RSSFeedUpdate")
+    links_delete: bool | None = Field(default=None, alias="LinksDelete")
+    plugin_manager: bool | None = Field(default=None, alias="PluginManager")
+    solution_center: bool | None = Field(default=None, alias="SolutionCenter")
+    database_execute: bool | None = Field(default=None, alias="DatabaseExecute")
+    server_status: bool | None = Field(default=None, alias="ServerStatus")
+    manage_audits: bool | None = Field(default=None, alias="ManageAudits")
     manage_remote_commands: bool | None = Field(
-        default=None, alias='ManageRemoteCommands'
+        default=None, alias="ManageRemoteCommands"
     )
-    manage_service_logs: bool | None = Field(default=None, alias='ManageServiceLogs')
-    manage_outdated: bool | None = Field(default=None, alias='ManageOutdated')
+    manage_service_logs: bool | None = Field(default=None, alias="ManageServiceLogs")
+    manage_outdated: bool | None = Field(default=None, alias="ManageOutdated")
     manage_offline_computers: bool | None = Field(
-        default=None, alias='ManageOfflineComputers'
+        default=None, alias="ManageOfflineComputers"
     )
     manage_schedule_client_scripts: bool | None = Field(
-        default=None, alias='ManageScheduleClientScripts'
+        default=None, alias="ManageScheduleClientScripts"
     )
-    dashboard_config: bool | None = Field(default=None, alias='DashboardConfig')
+    dashboard_config: bool | None = Field(default=None, alias="DashboardConfig")
     config_application_list: bool | None = Field(
-        default=None, alias='ConfigApplicationList'
+        default=None, alias="ConfigApplicationList"
     )
     config_event_black_list: bool | None = Field(
-        default=None, alias='ConfigEventBlackList'
+        default=None, alias="ConfigEventBlackList"
     )
-    quick_connect: bool | None = Field(default=None, alias='QuickConnect')
-    permissions_update: bool | None = Field(default=None, alias='PermissionsUpdate')
-    user_class_read: bool | None = Field(default=None, alias='UserClassRead')
-    user_class_delete: bool | None = Field(default=None, alias='UserClassDelete')
+    quick_connect: bool | None = Field(default=None, alias="QuickConnect")
+    permissions_update: bool | None = Field(default=None, alias="PermissionsUpdate")
+    user_class_read: bool | None = Field(default=None, alias="UserClassRead")
+    user_class_delete: bool | None = Field(default=None, alias="UserClassDelete")
 
 
 class LabTechUserFolder(ConnectWiseModel):
-    user_folder_id: str | None = Field(default=None, alias='UserFolderId')
-    name: str | None = Field(default=None, alias='Name')
-    is_sso_enabled: bool | None = Field(default=None, alias='IsSsoEnabled')
+    user_folder_id: str | None = Field(default=None, alias="UserFolderId")
+    name: str | None = Field(default=None, alias="Name")
+    is_sso_enabled: bool | None = Field(default=None, alias="IsSsoEnabled")
 
 
 class LabTechUserSingleSignOnStatus(ConnectWiseModel):
-    sso_status_id: int | None = Field(default=None, alias='SsoStatusId')
-    status_name: str | None = Field(default=None, alias='StatusName')
+    sso_status_id: int | None = Field(default=None, alias="SsoStatusId")
+    status_name: str | None = Field(default=None, alias="StatusName")
 
 
 class LabTechComputerMonitorHistory(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    failure_rate: float | None = Field(default=None, alias='FailureRate')
-    last_success_data: str | None = Field(default=None, alias='LastSuccessData')
-    last_warning_data: str | None = Field(default=None, alias='LastWarningData')
-    last_fail_data: str | None = Field(default=None, alias='LastFailData')
+    id: int | None = Field(default=None, alias="Id")
+    failure_rate: float | None = Field(default=None, alias="FailureRate")
+    last_success_data: str | None = Field(default=None, alias="LastSuccessData")
+    last_warning_data: str | None = Field(default=None, alias="LastWarningData")
+    last_fail_data: str | None = Field(default=None, alias="LastFailData")
 
 
 class LabTechCommand(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    level: int | None = Field(default=None, alias='Level')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    level: int | None = Field(default=None, alias="Level")
 
 
 class AutomateCommandHistory(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    date_executed: datetime | None = Field(default=None, alias='DateExecuted')
-    command_id: int | None = Field(default=None, alias='CommandId')
-    command: str | None = Field(default=None, alias='Command')
-    status: str | None = Field(default=None, alias='Status')
-    output: str | None = Field(default=None, alias='Output')
-    parameters: str | None = Field(default=None, alias='Parameters')
-    user: str | None = Field(default=None, alias='User')
-    date_finished: datetime | None = Field(default=None, alias='DateFinished')
+    id: int | None = Field(default=None, alias="Id")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    date_executed: datetime | None = Field(default=None, alias="DateExecuted")
+    command_id: int | None = Field(default=None, alias="CommandId")
+    command: str | None = Field(default=None, alias="Command")
+    status: str | None = Field(default=None, alias="Status")
+    output: str | None = Field(default=None, alias="Output")
+    parameters: str | None = Field(default=None, alias="Parameters")
+    user: str | None = Field(default=None, alias="User")
+    date_finished: datetime | None = Field(default=None, alias="DateFinished")
 
 
 class AutomateCommandPromptCommand(ConnectWiseModel):
-    run_as_admin: bool | None = Field(default=None, alias='RunAsAdmin')
-    use_power_shell: bool | None = Field(default=None, alias='UsePowerShell')
-    command_text: str | None = Field(default=None, alias='CommandText')
-    directory: str | None = Field(default=None, alias='Directory')
+    run_as_admin: bool | None = Field(default=None, alias="RunAsAdmin")
+    use_power_shell: bool | None = Field(default=None, alias="UsePowerShell")
+    command_text: str | None = Field(default=None, alias="CommandText")
+    directory: str | None = Field(default=None, alias="Directory")
 
 
 class AutomateClientPermissionsResult(ConnectWiseModel):
-    client_id: int | None = Field(default=None, alias='ClientId')
-    permissions: list[str] | None = Field(default=None, alias='Permissions')
+    client_id: int | None = Field(default=None, alias="ClientId")
+    permissions: list[str] | None = Field(default=None, alias="Permissions")
 
 
 class LabTechComputerBios(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    vendor: str | None = Field(default=None, alias='Vendor')
-    version: str | None = Field(default=None, alias='Version')
-    date: datetime | None = Field(default=None, alias='Date')
-    size: int | None = Field(default=None, alias='Size')
-    system_bios_version: float | None = Field(default=None, alias='SystemBiosVersion')
-    embctl_version: float | None = Field(default=None, alias='EMBCTLVersion')
-    sm_bios_version: float | None = Field(default=None, alias='SmBiosVersion')
-    dmi_version: int | None = Field(default=None, alias='DmiVersion')
-    supports_acpi: bool | None = Field(default=None, alias='SupportsAcpi')
-    supports_apm: bool | None = Field(default=None, alias='SupportsApm')
-    supports_agp: bool | None = Field(default=None, alias='SupportsAgp')
-    supports_pcmcia: bool | None = Field(default=None, alias='SupportsPcmcia')
-    has_smart_battery: bool | None = Field(default=None, alias='HasSmartBattery')
-    supports_uefi: bool | None = Field(default=None, alias='SupportsUefi')
-    supports_legacy_usb: bool | None = Field(default=None, alias='SupportsLegacyUsb')
-    supports_pci: bool | None = Field(default=None, alias='SupportsPci')
-    supports_vlvesa: bool | None = Field(default=None, alias='SupportsVlvesa')
-    supports_escd: bool | None = Field(default=None, alias='SupportsEscd')
-    supports_net_boot: bool | None = Field(default=None, alias='SupportsNetBoot')
-    supports_i2_o_boot: bool | None = Field(default=None, alias='SupportsI2OBoot')
-    is_virtual_machine: bool | None = Field(default=None, alias='IsVirtualMachine')
-    power_on_reason: str | None = Field(default=None, alias='PowerOnReason')
-    bios_char: int | None = Field(default=None, alias='BiosChar')
-    is_portable: bool | None = Field(default=None, alias='IsPortable')
-    vm_host: str | None = Field(default=None, alias='VmHost')
-    vm_type: str | None = Field(default=None, alias='VmType')
-    vm_name: str | None = Field(default=None, alias='VmName')
-    date_updated: datetime | None = Field(default=None, alias='DateUpdated')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    vendor: str | None = Field(default=None, alias="Vendor")
+    version: str | None = Field(default=None, alias="Version")
+    date: datetime | None = Field(default=None, alias="Date")
+    size: int | None = Field(default=None, alias="Size")
+    system_bios_version: float | None = Field(default=None, alias="SystemBiosVersion")
+    embctl_version: float | None = Field(default=None, alias="EMBCTLVersion")
+    sm_bios_version: float | None = Field(default=None, alias="SmBiosVersion")
+    dmi_version: int | None = Field(default=None, alias="DmiVersion")
+    supports_acpi: bool | None = Field(default=None, alias="SupportsAcpi")
+    supports_apm: bool | None = Field(default=None, alias="SupportsApm")
+    supports_agp: bool | None = Field(default=None, alias="SupportsAgp")
+    supports_pcmcia: bool | None = Field(default=None, alias="SupportsPcmcia")
+    has_smart_battery: bool | None = Field(default=None, alias="HasSmartBattery")
+    supports_uefi: bool | None = Field(default=None, alias="SupportsUefi")
+    supports_legacy_usb: bool | None = Field(default=None, alias="SupportsLegacyUsb")
+    supports_pci: bool | None = Field(default=None, alias="SupportsPci")
+    supports_vlvesa: bool | None = Field(default=None, alias="SupportsVlvesa")
+    supports_escd: bool | None = Field(default=None, alias="SupportsEscd")
+    supports_net_boot: bool | None = Field(default=None, alias="SupportsNetBoot")
+    supports_i2_o_boot: bool | None = Field(default=None, alias="SupportsI2OBoot")
+    is_virtual_machine: bool | None = Field(default=None, alias="IsVirtualMachine")
+    power_on_reason: str | None = Field(default=None, alias="PowerOnReason")
+    bios_char: int | None = Field(default=None, alias="BiosChar")
+    is_portable: bool | None = Field(default=None, alias="IsPortable")
+    vm_host: str | None = Field(default=None, alias="VmHost")
+    vm_type: str | None = Field(default=None, alias="VmType")
+    vm_name: str | None = Field(default=None, alias="VmName")
+    date_updated: datetime | None = Field(default=None, alias="DateUpdated")
 
 
 class LabTechComputerDriver(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    state: str | None = Field(default=None, alias='State')
-    startup: str | None = Field(default=None, alias='Startup')
-    path_name: str | None = Field(default=None, alias='PathName')
-    service_type: str | None = Field(default=None, alias='ServiceType')
-    username: str | None = Field(default=None, alias='Username')
+    id: int | None = Field(default=None, alias="Id")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    state: str | None = Field(default=None, alias="State")
+    startup: str | None = Field(default=None, alias="Startup")
+    path_name: str | None = Field(default=None, alias="PathName")
+    service_type: str | None = Field(default=None, alias="ServiceType")
+    username: str | None = Field(default=None, alias="Username")
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
-    run_levels: str | None = Field(default=None, alias='RunLevels')
+    run_levels: str | None = Field(default=None, alias="RunLevels")
 
 
 class LabTechComputerDrive(ConnectWiseModel):
-    drive_id: int | None = Field(default=None, alias='DriveId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    letter: str | None = Field(default=None, alias='Letter')
-    size: int | None = Field(default=None, alias='Size')
-    free_space: int | None = Field(default=None, alias='FreeSpace')
-    file_system: str | None = Field(default=None, alias='FileSystem')
-    model: str | None = Field(default=None, alias='Model')
-    smart_status: str | None = Field(default=None, alias='SmartStatus')
-    is_missing: bool | None = Field(default=None, alias='IsMissing')
+    drive_id: int | None = Field(default=None, alias="DriveId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    letter: str | None = Field(default=None, alias="Letter")
+    size: int | None = Field(default=None, alias="Size")
+    free_space: int | None = Field(default=None, alias="FreeSpace")
+    file_system: str | None = Field(default=None, alias="FileSystem")
+    model: str | None = Field(default=None, alias="Model")
+    smart_status: str | None = Field(default=None, alias="SmartStatus")
+    is_missing: bool | None = Field(default=None, alias="IsMissing")
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
-    volume_name: str | None = Field(default=None, alias='VolumeName')
-    backup_flag: int | None = Field(default=None, alias='BackupFlag')
-    is_solid_state: bool | None = Field(default=None, alias='IsSolidState')
-    is_internal: bool | None = Field(default=None, alias='IsInternal')
+    volume_name: str | None = Field(default=None, alias="VolumeName")
+    backup_flag: int | None = Field(default=None, alias="BackupFlag")
+    is_solid_state: bool | None = Field(default=None, alias="IsSolidState")
+    is_internal: bool | None = Field(default=None, alias="IsInternal")
     maximum_history_days_available: int | None = Field(
-        default=None, alias='MaximumHistoryDaysAvailable'
+        default=None, alias="MaximumHistoryDaysAvailable"
     )
 
 
 class LabTechSmartAttribute(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class LabTechComputerEffectivePatchingPolicy(ConnectWiseModel):
-    approval_policy_count: int | None = Field(default=None, alias='ApprovalPolicyCount')
+    approval_policy_count: int | None = Field(default=None, alias="ApprovalPolicyCount")
     microsoft_update_policy_name: str | None = Field(
-        default=None, alias='MicrosoftUpdatePolicyName'
+        default=None, alias="MicrosoftUpdatePolicyName"
     )
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    reboot_policy_name: str | None = Field(default=None, alias='RebootPolicyName')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    reboot_policy_name: str | None = Field(default=None, alias="RebootPolicyName")
     third_party_update_policy_name: str | None = Field(
-        default=None, alias='ThirdPartyUpdatePolicyName'
+        default=None, alias="ThirdPartyUpdatePolicyName"
     )
 
 
 class AutomateMaintenanceModeQueueEntry(ConnectWiseModel):
     maintenance_mode_queue_id: int | None = Field(
-        default=None, alias='MaintenanceModeQueueId'
+        default=None, alias="MaintenanceModeQueueId"
     )
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
-    duration_in_minutes: int | None = Field(default=None, alias='DurationInMinutes')
-    mode: str | None = Field(default=None, alias='Mode')
-    user_id: int | None = Field(default=None, alias='UserId')
-    comments: str | None = Field(default=None, alias='Comments')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
+    duration_in_minutes: int | None = Field(default=None, alias="DurationInMinutes")
+    mode: str | None = Field(default=None, alias="Mode")
+    user_id: int | None = Field(default=None, alias="UserId")
+    comments: str | None = Field(default=None, alias="Comments")
 
 
 class LabTechPolicyApprovalSetting(AutomateAlertClient):
@@ -1330,95 +1330,95 @@ class LabTechPolicyApprovalSetting(AutomateAlertClient):
 
 
 class MicrosoftSafeWaitHandle(ConnectWiseModel):
-    is_invalid: bool | None = Field(default=None, alias='IsInvalid')
-    is_closed: bool | None = Field(default=None, alias='IsClosed')
+    is_invalid: bool | None = Field(default=None, alias="IsInvalid")
+    is_closed: bool | None = Field(default=None, alias="IsClosed")
 
 
 class LabTechComputerOperatingSystem(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    major_version: int | None = Field(default=None, alias='MajorVersion')
-    minor_version: int | None = Field(default=None, alias='MinorVersion')
-    version: str | None = Field(default=None, alias='Version')
-    dot_net_version: str | None = Field(default=None, alias='DotNetVersion')
-    service_pack: str | None = Field(default=None, alias='ServicePack')
-    service_pack_name: str | None = Field(default=None, alias='ServicePackName')
-    product_type: int | None = Field(default=None, alias='ProductType')
-    suite: int | None = Field(default=None, alias='Suite')
-    product_info: int | None = Field(default=None, alias='ProductInfo')
-    is_licensed: bool | None = Field(default=None, alias='IsLicensed')
-    is_tablet: bool | None = Field(default=None, alias='IsTablet')
-    is_starter: bool | None = Field(default=None, alias='IsStarter')
-    is_media_center: bool | None = Field(default=None, alias='IsMediaCenter')
-    base_folder: str | None = Field(default=None, alias='BaseFolder')
-    system_drive: str | None = Field(default=None, alias='SystemDrive')
-    has_gui: bool | None = Field(default=None, alias='HasGui')
-    is64_bit: bool | None = Field(default=None, alias='Is64Bit')
-    domain: str | None = Field(default=None, alias='Domain')
-    is_domain_controller: bool | None = Field(default=None, alias='IsDomainController')
-    is_server: bool | None = Field(default=None, alias='IsServer')
-    install_date: datetime | None = Field(default=None, alias='InstallDate')
-    date_updated: datetime | None = Field(default=None, alias='DateUpdated')
-    release_id: int | None = Field(default=None, alias='ReleaseId')
-    edition: str | None = Field(default=None, alias='Edition')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    major_version: int | None = Field(default=None, alias="MajorVersion")
+    minor_version: int | None = Field(default=None, alias="MinorVersion")
+    version: str | None = Field(default=None, alias="Version")
+    dot_net_version: str | None = Field(default=None, alias="DotNetVersion")
+    service_pack: str | None = Field(default=None, alias="ServicePack")
+    service_pack_name: str | None = Field(default=None, alias="ServicePackName")
+    product_type: int | None = Field(default=None, alias="ProductType")
+    suite: int | None = Field(default=None, alias="Suite")
+    product_info: int | None = Field(default=None, alias="ProductInfo")
+    is_licensed: bool | None = Field(default=None, alias="IsLicensed")
+    is_tablet: bool | None = Field(default=None, alias="IsTablet")
+    is_starter: bool | None = Field(default=None, alias="IsStarter")
+    is_media_center: bool | None = Field(default=None, alias="IsMediaCenter")
+    base_folder: str | None = Field(default=None, alias="BaseFolder")
+    system_drive: str | None = Field(default=None, alias="SystemDrive")
+    has_gui: bool | None = Field(default=None, alias="HasGui")
+    is64_bit: bool | None = Field(default=None, alias="Is64Bit")
+    domain: str | None = Field(default=None, alias="Domain")
+    is_domain_controller: bool | None = Field(default=None, alias="IsDomainController")
+    is_server: bool | None = Field(default=None, alias="IsServer")
+    install_date: datetime | None = Field(default=None, alias="InstallDate")
+    date_updated: datetime | None = Field(default=None, alias="DateUpdated")
+    release_id: int | None = Field(default=None, alias="ReleaseId")
+    edition: str | None = Field(default=None, alias="Edition")
     branch_readiness_level: int | None = Field(
-        default=None, alias='BranchReadinessLevel'
+        default=None, alias="BranchReadinessLevel"
     )
 
 
 class LabTechComputerPatchingPolicy(ConnectWiseModel):
-    approval_policy_count: int | None = Field(default=None, alias='ApprovalPolicyCount')
-    group_id: int | None = Field(default=None, alias='GroupId')
+    approval_policy_count: int | None = Field(default=None, alias="ApprovalPolicyCount")
+    group_id: int | None = Field(default=None, alias="GroupId")
     microsoft_update_policy_name: str | None = Field(
-        default=None, alias='MicrosoftUpdatePolicyName'
+        default=None, alias="MicrosoftUpdatePolicyName"
     )
-    name: str | None = Field(default=None, alias='Name')
-    override_id: int | None = Field(default=None, alias='OverrideId')
-    priority: int | None = Field(default=None, alias='Priority')
-    reboot_policy_name: str | None = Field(default=None, alias='RebootPolicyName')
+    name: str | None = Field(default=None, alias="Name")
+    override_id: int | None = Field(default=None, alias="OverrideId")
+    priority: int | None = Field(default=None, alias="Priority")
+    reboot_policy_name: str | None = Field(default=None, alias="RebootPolicyName")
     third_party_update_policy_name: str | None = Field(
-        default=None, alias='ThirdPartyUpdatePolicyName'
+        default=None, alias="ThirdPartyUpdatePolicyName"
     )
 
 
 class LabTechComputerPrinter(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    port_name: str | None = Field(default=None, alias='PortName')
-    resolution: str | None = Field(default=None, alias='Resolution')
-    paper_types: list[str] | None = Field(default=None, alias='PaperTypes')
-    features: list[str] | None = Field(default=None, alias='Features')
+    id: int | None = Field(default=None, alias="Id")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    port_name: str | None = Field(default=None, alias="PortName")
+    resolution: str | None = Field(default=None, alias="Resolution")
+    paper_types: list[str] | None = Field(default=None, alias="PaperTypes")
+    features: list[str] | None = Field(default=None, alias="Features")
 
 
 class LabTechComputerRunningScript(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    script_id: int | None = Field(default=None, alias='ScriptId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    status: Literal['Running', 'Completed'] | None = Field(default=None, alias='Status')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
+    id: int | None = Field(default=None, alias="Id")
+    script_id: int | None = Field(default=None, alias="ScriptId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    status: Literal["Running", "Completed"] | None = Field(default=None, alias="Status")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
 
 
 class LabTechComputerDevice(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    pnp_device_id: str | None = Field(default=None, alias='PnpDeviceId')
-    device_name: str | None = Field(default=None, alias='DeviceName')
-    device_type: str | None = Field(default=None, alias='DeviceType')
-    driver_version: str | None = Field(default=None, alias='DriverVersion')
-    driver_date: datetime | None = Field(default=None, alias='DriverDate')
-    driver_name: str | None = Field(default=None, alias='DriverName')
-    driver_file: str | None = Field(default=None, alias='DriverFile')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    pnp_device_id: str | None = Field(default=None, alias="PnpDeviceId")
+    device_name: str | None = Field(default=None, alias="DeviceName")
+    device_type: str | None = Field(default=None, alias="DeviceType")
+    driver_version: str | None = Field(default=None, alias="DriverVersion")
+    driver_date: datetime | None = Field(default=None, alias="DriverDate")
+    driver_name: str | None = Field(default=None, alias="DriverName")
+    driver_file: str | None = Field(default=None, alias="DriverFile")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
 
 
 class LabTechMaintenanceMode(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerID')
-    time_start: datetime | None = Field(default=None, alias='TimeStart')
-    duration: int | None = Field(default=None, alias='Duration')
-    mode: int | None = Field(default=None, alias='Mode')
-    user_id: int | None = Field(default=None, alias='UserID')
+    computer_id: int | None = Field(default=None, alias="ComputerID")
+    time_start: datetime | None = Field(default=None, alias="TimeStart")
+    duration: int | None = Field(default=None, alias="Duration")
+    mode: int | None = Field(default=None, alias="Mode")
+    user_id: int | None = Field(default=None, alias="UserID")
 
 
 class LabTechMemoryFormFactor(AutomateAlertClient):
@@ -1438,9 +1438,9 @@ class LabTechProcessorFamily(AutomateAlertClient):
 
 
 class LabTechComputerProcessorCache(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    size: int | None = Field(default=None, alias='Size')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    size: int | None = Field(default=None, alias="Size")
 
 
 class LabTechServiceClassification(AutomateAlertClient):
@@ -1460,57 +1460,57 @@ class LabTechVideoCardMemory(AutomateAlertClient):
 
 
 class LabTechComputerScheduledTask(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    command: str | None = Field(default=None, alias='Command')
-    is_interactive: bool | None = Field(default=None, alias='IsInteractive')
-    start_time: str | None = Field(default=None, alias='StartTime')
-    does_repeat: bool | None = Field(default=None, alias='DoesRepeat')
-    days_of_week: list[str] | None = Field(default=None, alias='DaysOfWeek')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    command: str | None = Field(default=None, alias="Command")
+    is_interactive: bool | None = Field(default=None, alias="IsInteractive")
+    start_time: str | None = Field(default=None, alias="StartTime")
+    does_repeat: bool | None = Field(default=None, alias="DoesRepeat")
+    days_of_week: list[str] | None = Field(default=None, alias="DaysOfWeek")
 
 
 class LabTechComputerScriptHistory(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    script_id: int | None = Field(default=None, alias='ScriptId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    user: str | None = Field(default=None, alias='User')
-    status: Literal['Running', 'Completed'] | None = Field(default=None, alias='Status')
-    state: Literal['Failure', 'Information', 'Success'] | None = Field(
-        default=None, alias='State'
+    id: int | None = Field(default=None, alias="Id")
+    script_id: int | None = Field(default=None, alias="ScriptId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    user: str | None = Field(default=None, alias="User")
+    status: Literal["Running", "Completed"] | None = Field(default=None, alias="Status")
+    state: Literal["Failure", "Information", "Success"] | None = Field(
+        default=None, alias="State"
     )
-    history_date: datetime | None = Field(default=None, alias='HistoryDate')
-    diagnostic_message: str | None = Field(default=None, alias='DiagnosticMessage')
+    history_date: datetime | None = Field(default=None, alias="HistoryDate")
+    diagnostic_message: str | None = Field(default=None, alias="DiagnosticMessage")
 
 
 class LabTechSensorDeviceType(ConnectWiseModel):
-    device_type: int | None = Field(default=None, alias='DeviceType')
-    name: str | None = Field(default=None, alias='Name')
-    indicator: str | None = Field(default=None, alias='Indicator')
+    device_type: int | None = Field(default=None, alias="DeviceType")
+    name: str | None = Field(default=None, alias="Name")
+    indicator: str | None = Field(default=None, alias="Indicator")
 
 
 class LabTechSoftwareUninstallInfo(ConnectWiseModel):
-    uninstall_path: str | None = Field(default=None, alias='UninstallPath')
+    uninstall_path: str | None = Field(default=None, alias="UninstallPath")
 
 
 class LabTechSoftwareClassificationInfo(ConnectWiseModel):
-    software_names: list[str] | None = Field(default=None, alias='SoftwareNames')
+    software_names: list[str] | None = Field(default=None, alias="SoftwareNames")
 
 
 class LabTechComputerSystemSlot(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    id: int | None = Field(default=None, alias='Id')
-    slot_handle: int | None = Field(default=None, alias='SlotHandle')
-    slot_name: str | None = Field(default=None, alias='SlotName')
-    slot_type: str | None = Field(default=None, alias='SlotType')
-    bus_width: str | None = Field(default=None, alias='BusWidth')
-    in_use: str | None = Field(default=None, alias='InUse')
-    length: str | None = Field(default=None, alias='Length')
-    supports3_volts: bool | None = Field(default=None, alias='Supports3Volts')
-    supports5_volts: bool | None = Field(default=None, alias='Supports5Volts')
-    is_hot_pluggable: bool | None = Field(default=None, alias='IsHotPluggable')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    id: int | None = Field(default=None, alias="Id")
+    slot_handle: int | None = Field(default=None, alias="SlotHandle")
+    slot_name: str | None = Field(default=None, alias="SlotName")
+    slot_type: str | None = Field(default=None, alias="SlotType")
+    bus_width: str | None = Field(default=None, alias="BusWidth")
+    in_use: str | None = Field(default=None, alias="InUse")
+    length: str | None = Field(default=None, alias="Length")
+    supports3_volts: bool | None = Field(default=None, alias="Supports3Volts")
+    supports5_volts: bool | None = Field(default=None, alias="Supports5Volts")
+    is_hot_pluggable: bool | None = Field(default=None, alias="IsHotPluggable")
     supports_power_management: bool | None = Field(
-        default=None, alias='SupportsPowerManagement'
+        default=None, alias="SupportsPowerManagement"
     )
 
 
@@ -1527,25 +1527,25 @@ class LabTechThirdPartyPolicyApproval(AutomateAlertClient):
 
 
 class LabTechComputerUps(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    ups_id: int | None = Field(default=None, alias='UpsId')
-    ups_name: str | None = Field(default=None, alias='UpsName')
-    charge_remaining: int | None = Field(default=None, alias='ChargeRemaining')
-    remaining_run_time: int | None = Field(default=None, alias='RemainingRunTime')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    ups_id: int | None = Field(default=None, alias="UpsId")
+    ups_name: str | None = Field(default=None, alias="UpsName")
+    charge_remaining: int | None = Field(default=None, alias="ChargeRemaining")
+    remaining_run_time: int | None = Field(default=None, alias="RemainingRunTime")
 
 
 class AutomateDatabaseInformation(ConnectWiseModel):
-    database_id: int | None = Field(default=None, alias='DatabaseId')
-    database_version: str | None = Field(default=None, alias='DatabaseVersion')
-    uptime: str | None = Field(default=None, alias='Uptime')
-    current_connections: int | None = Field(default=None, alias='CurrentConnections')
-    max_connections: int | None = Field(default=None, alias='MaxConnections')
-    peak_connections: int | None = Field(default=None, alias='PeakConnections')
-    running_queries: int | None = Field(default=None, alias='RunningQueries')
-    last_backup_file_path: str | None = Field(default=None, alias='LastBackupFilePath')
-    last_backup_date: datetime | None = Field(default=None, alias='LastBackupDate')
-    last_backup_size: str | None = Field(default=None, alias='LastBackupSize')
-    last_backup_status: int | None = Field(default=None, alias='LastBackupStatus')
+    database_id: int | None = Field(default=None, alias="DatabaseId")
+    database_version: str | None = Field(default=None, alias="DatabaseVersion")
+    uptime: str | None = Field(default=None, alias="Uptime")
+    current_connections: int | None = Field(default=None, alias="CurrentConnections")
+    max_connections: int | None = Field(default=None, alias="MaxConnections")
+    peak_connections: int | None = Field(default=None, alias="PeakConnections")
+    running_queries: int | None = Field(default=None, alias="RunningQueries")
+    last_backup_file_path: str | None = Field(default=None, alias="LastBackupFilePath")
+    last_backup_date: datetime | None = Field(default=None, alias="LastBackupDate")
+    last_backup_size: str | None = Field(default=None, alias="LastBackupSize")
+    last_backup_status: int | None = Field(default=None, alias="LastBackupStatus")
 
 
 class LabTechDataViewFolder(AutomateComputerServiceItem):
@@ -1553,133 +1553,133 @@ class LabTechDataViewFolder(AutomateComputerServiceItem):
 
 
 class LabTechDataView(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    folder_id: int | None = Field(default=None, alias='FolderId')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    folder_id: int | None = Field(default=None, alias="FolderId")
 
 
 class AutomateClient(ConnectWiseModel):
-    client_id: int | None = Field(default=None, alias='ClientId')
-    name: str | None = Field(default=None, alias='Name')
+    client_id: int | None = Field(default=None, alias="ClientId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateLocation(ConnectWiseModel):
-    location_id: int | None = Field(default=None, alias='LocationId')
-    name: str | None = Field(default=None, alias='Name')
-    client: AutomateClient | None = Field(default=None, alias='Client')
+    location_id: int | None = Field(default=None, alias="LocationId")
+    name: str | None = Field(default=None, alias="Name")
+    client: AutomateClient | None = Field(default=None, alias="Client")
 
 
 class AutomateExtraFieldDisplayFormat(ConnectWiseModel):
     extra_field_display_format_id: int | None = Field(
-        default=None, alias='ExtraFieldDisplayFormatId'
+        default=None, alias="ExtraFieldDisplayFormatId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateExtraFieldLocation(ConnectWiseModel):
     extra_field_location_id: int | None = Field(
-        default=None, alias='ExtraFieldLocationId'
+        default=None, alias="ExtraFieldLocationId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateExtraFieldTitleFormat(ConnectWiseModel):
     extra_field_title_format_id: int | None = Field(
-        default=None, alias='ExtraFieldTitleFormatId'
+        default=None, alias="ExtraFieldTitleFormatId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateTextFieldSettings(ConnectWiseModel):
-    is_masked: bool | None = Field(default=None, alias='IsMasked')
-    value: str | None = Field(default=None, alias='Value')
-    default_value: str | None = Field(default=None, alias='DefaultValue')
+    is_masked: bool | None = Field(default=None, alias="IsMasked")
+    value: str | None = Field(default=None, alias="Value")
+    default_value: str | None = Field(default=None, alias="DefaultValue")
 
 
 class AutomateDropdownSettings(ConnectWiseModel):
     available_options: dict[str, str] | None = Field(
-        default=None, alias='AvailableOptions'
+        default=None, alias="AvailableOptions"
     )
-    selected_value: str | None = Field(default=None, alias='SelectedValue')
-    default_value: str | None = Field(default=None, alias='DefaultValue')
+    selected_value: str | None = Field(default=None, alias="SelectedValue")
+    default_value: str | None = Field(default=None, alias="DefaultValue")
 
 
 class AutomateCheckboxSettings(ConnectWiseModel):
-    is_checked: bool | None = Field(default=None, alias='IsChecked')
-    default_value: bool | None = Field(default=None, alias='DefaultValue')
+    is_checked: bool | None = Field(default=None, alias="IsChecked")
+    default_value: bool | None = Field(default=None, alias="DefaultValue")
 
 
 class AutomateExecuteDeviceCommandsRequest(ConnectWiseModel):
-    device_id_list: list[int] | None = Field(default=None, alias='DeviceIdList')
+    device_id_list: list[int] | None = Field(default=None, alias="DeviceIdList")
 
 
 class AutomateExecuteDeviceCommandResult(ConnectWiseModel):
-    device_id: int | None = Field(default=None, alias='DeviceId')
+    device_id: int | None = Field(default=None, alias="DeviceId")
     result_details: AutomateResponseResult | None = Field(
-        default=None, alias='ResultDetails'
+        default=None, alias="ResultDetails"
     )
 
 
 class AutomateComputerPatchingStats(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    overall_compliance: float | None = Field(default=None, alias='OverallCompliance')
-    installed_patch_count: int | None = Field(default=None, alias='InstalledPatchCount')
-    missing_patch_count: int | None = Field(default=None, alias='MissingPatchCount')
-    failed_patch_count: int | None = Field(default=None, alias='FailedPatchCount')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    overall_compliance: float | None = Field(default=None, alias="OverallCompliance")
+    installed_patch_count: int | None = Field(default=None, alias="InstalledPatchCount")
+    missing_patch_count: int | None = Field(default=None, alias="MissingPatchCount")
+    failed_patch_count: int | None = Field(default=None, alias="FailedPatchCount")
     compliant_software_count: int | None = Field(
-        default=None, alias='CompliantSoftwareCount'
+        default=None, alias="CompliantSoftwareCount"
     )
     non_compliant_software_count: int | None = Field(
-        default=None, alias='NonCompliantSoftwareCount'
+        default=None, alias="NonCompliantSoftwareCount"
     )
-    failed_software_count: int | None = Field(default=None, alias='FailedSoftwareCount')
+    failed_software_count: int | None = Field(default=None, alias="FailedSoftwareCount")
     incorrect_software_count: int | None = Field(
-        default=None, alias='IncorrectSoftwareCount'
+        default=None, alias="IncorrectSoftwareCount"
     )
-    stage: str | None = Field(default=None, alias='Stage')
-    no_patch_inventory: bool | None = Field(default=None, alias='NoPatchInventory')
-    wsus_enabled: bool | None = Field(default=None, alias='WSUSEnabled')
-    patch_job_running: bool | None = Field(default=None, alias='PatchJobRunning')
+    stage: str | None = Field(default=None, alias="Stage")
+    no_patch_inventory: bool | None = Field(default=None, alias="NoPatchInventory")
+    wsus_enabled: bool | None = Field(default=None, alias="WSUSEnabled")
+    patch_job_running: bool | None = Field(default=None, alias="PatchJobRunning")
     daytime_patching_enabled: bool | None = Field(
-        default=None, alias='DaytimePatchingEnabled'
+        default=None, alias="DaytimePatchingEnabled"
     )
-    wua_out_of_date: bool | None = Field(default=None, alias='WUAOutOfDate')
+    wua_out_of_date: bool | None = Field(default=None, alias="WUAOutOfDate")
     missing_baseline_patches: bool | None = Field(
-        default=None, alias='MissingBaselinePatches'
+        default=None, alias="MissingBaselinePatches"
     )
-    wua_version: str | None = Field(default=None, alias='WUAVersion')
+    wua_version: str | None = Field(default=None, alias="WUAVersion")
     last_install_window: datetime | None = Field(
-        default=None, alias='LastInstallWindow'
+        default=None, alias="LastInstallWindow"
     )
     next_install_window: datetime | None = Field(
-        default=None, alias='NextInstallWindow'
+        default=None, alias="NextInstallWindow"
     )
     last_software_window: datetime | None = Field(
-        default=None, alias='LastSoftwareWindow'
+        default=None, alias="LastSoftwareWindow"
     )
     next_software_window: datetime | None = Field(
-        default=None, alias='NextSoftwareWindow'
+        default=None, alias="NextSoftwareWindow"
     )
-    last_patched_date: datetime | None = Field(default=None, alias='LastPatchedDate')
+    last_patched_date: datetime | None = Field(default=None, alias="LastPatchedDate")
     last_microsoft_patched_date: datetime | None = Field(
-        default=None, alias='LastMicrosoftPatchedDate'
+        default=None, alias="LastMicrosoftPatchedDate"
     )
     last_third_party_patched_date: datetime | None = Field(
-        default=None, alias='LastThirdPartyPatchedDate'
+        default=None, alias="LastThirdPartyPatchedDate"
     )
     last_patch_inventory: datetime | None = Field(
-        default=None, alias='LastPatchInventory'
+        default=None, alias="LastPatchInventory"
     )
-    is_microsoft_managed: bool | None = Field(default=None, alias='IsMicrosoftManaged')
+    is_microsoft_managed: bool | None = Field(default=None, alias="IsMicrosoftManaged")
     is_third_party_managed: bool | None = Field(
-        default=None, alias='IsThirdPartyManaged'
+        default=None, alias="IsThirdPartyManaged"
     )
 
 
 class AutomateExecuteDeviceScriptRequest(ConnectWiseModel):
-    script_id: int | None = Field(default=None, alias='ScriptId')
-    parameter_list: list[str] | None = Field(default=None, alias='ParameterList')
-    device_id_list: list[int] | None = Field(default=None, alias='DeviceIdList')
+    script_id: int | None = Field(default=None, alias="ScriptId")
+    parameter_list: list[str] | None = Field(default=None, alias="ParameterList")
+    device_id_list: list[int] | None = Field(default=None, alias="DeviceIdList")
 
 
 class AutomateExecuteDeviceScriptResult(AutomateExecuteDeviceCommandResult):
@@ -1687,87 +1687,87 @@ class AutomateExecuteDeviceScriptResult(AutomateExecuteDeviceCommandResult):
 
 
 class AutomateDevicesSummaryData(ConnectWiseModel):
-    compliance_score: float | None = Field(default=None, alias='ComplianceScore')
+    compliance_score: float | None = Field(default=None, alias="ComplianceScore")
     devices_affecting_compliance_count: int | None = Field(
-        default=None, alias='DevicesAffectingComplianceCount'
+        default=None, alias="DevicesAffectingComplianceCount"
     )
     devices_affecting_pilot_stage_compliance_count: int | None = Field(
-        default=None, alias='DevicesAffectingPilotStageComplianceCount'
+        default=None, alias="DevicesAffectingPilotStageComplianceCount"
     )
     devices_affecting_production_stage_compliance_count: int | None = Field(
-        default=None, alias='DevicesAffectingProductionStageComplianceCount'
+        default=None, alias="DevicesAffectingProductionStageComplianceCount"
     )
     devices_affecting_test_stage_compliance_count: int | None = Field(
-        default=None, alias='DevicesAffectingTestStageComplianceCount'
+        default=None, alias="DevicesAffectingTestStageComplianceCount"
     )
     devices_needing_attention_count: int | None = Field(
-        default=None, alias='DevicesNeedingAttentionCount'
+        default=None, alias="DevicesNeedingAttentionCount"
     )
-    enabled_wsus_count: int | None = Field(default=None, alias='EnabledWsusCount')
-    entity_id: int | None = Field(default=None, alias='EntityId')
-    entity_name: str | None = Field(default=None, alias='EntityName')
+    enabled_wsus_count: int | None = Field(default=None, alias="EnabledWsusCount")
+    entity_id: int | None = Field(default=None, alias="EntityId")
+    entity_name: str | None = Field(default=None, alias="EntityName")
     in_daytime_patching_count: int | None = Field(
-        default=None, alias='InDaytimePatchingCount'
+        default=None, alias="InDaytimePatchingCount"
     )
     last_patch_job_failed_count: int | None = Field(
-        default=None, alias='LastPatchJobFailedCount'
+        default=None, alias="LastPatchJobFailedCount"
     )
     missing_baseline_patches_count: int | None = Field(
-        default=None, alias='MissingBaselinePatchesCount'
+        default=None, alias="MissingBaselinePatchesCount"
     )
     missing_patch_inventory_count: int | None = Field(
-        default=None, alias='MissingPatchInventoryCount'
+        default=None, alias="MissingPatchInventoryCount"
     )
-    out_of_date_wua_count: int | None = Field(default=None, alias='OutOfDateWuaCount')
-    pending_reboot_count: int | None = Field(default=None, alias='PendingRebootCount')
-    pending_update_count: int | None = Field(default=None, alias='PendingUpdateCount')
+    out_of_date_wua_count: int | None = Field(default=None, alias="OutOfDateWuaCount")
+    pending_reboot_count: int | None = Field(default=None, alias="PendingRebootCount")
+    pending_update_count: int | None = Field(default=None, alias="PendingUpdateCount")
     pilot_stage_compliance_score: float | None = Field(
-        default=None, alias='PilotStageComplianceScore'
+        default=None, alias="PilotStageComplianceScore"
     )
     production_stage_compliance_score: float | None = Field(
-        default=None, alias='ProductionStageComplianceScore'
+        default=None, alias="ProductionStageComplianceScore"
     )
     running_patch_installation_count: int | None = Field(
-        default=None, alias='RunningPatchInstallationCount'
+        default=None, alias="RunningPatchInstallationCount"
     )
     servers_affecting_compliance_count: int | None = Field(
-        default=None, alias='ServersAffectingComplianceCount'
+        default=None, alias="ServersAffectingComplianceCount"
     )
     servers_compliance_score: float | None = Field(
-        default=None, alias='ServersComplianceScore'
+        default=None, alias="ServersComplianceScore"
     )
     test_stage_compliance_score: float | None = Field(
-        default=None, alias='TestStageComplianceScore'
+        default=None, alias="TestStageComplianceScore"
     )
     workstations_affecting_compliance_count: int | None = Field(
-        default=None, alias='WorkstationsAffectingComplianceCount'
+        default=None, alias="WorkstationsAffectingComplianceCount"
     )
     workstations_compliance_score: float | None = Field(
-        default=None, alias='WorkstationsComplianceScore'
+        default=None, alias="WorkstationsComplianceScore"
     )
 
 
 class LabTechDocument(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    client_id: int | None = Field(default=None, alias='ClientId')
-    name: str | None = Field(default=None, alias='Name')
-    size: int | None = Field(default=None, alias='Size')
-    data: str | None = Field(default=None, alias='Data')
-    last_user: str | None = Field(default=None, alias='LastUser')
-    last_edit_date: datetime | None = Field(default=None, alias='LastEditDate')
+    id: int | None = Field(default=None, alias="Id")
+    client_id: int | None = Field(default=None, alias="ClientId")
+    name: str | None = Field(default=None, alias="Name")
+    size: int | None = Field(default=None, alias="Size")
+    data: str | None = Field(default=None, alias="Data")
+    last_user: str | None = Field(default=None, alias="LastUser")
+    last_edit_date: datetime | None = Field(default=None, alias="LastEditDate")
 
 
 class LabTechDriveStats(ConnectWiseModel):
-    drive_id: int | None = Field(default=None, alias='DriveId')
-    free_space_percentage: int | None = Field(default=None, alias='FreeSpacePercentage')
+    drive_id: int | None = Field(default=None, alias="DriveId")
+    free_space_percentage: int | None = Field(default=None, alias="FreeSpacePercentage")
     fragmented_space_percentage: int | None = Field(
-        default=None, alias='FragmentedSpacePercentage'
+        default=None, alias="FragmentedSpacePercentage"
     )
-    event_date: datetime | None = Field(default=None, alias='EventDate')
-    sample_count: int | None = Field(default=None, alias='SampleCount')
-    week: int | None = Field(default=None, alias='Week')
-    month: int | None = Field(default=None, alias='Month')
-    year: int | None = Field(default=None, alias='Year')
+    event_date: datetime | None = Field(default=None, alias="EventDate")
+    sample_count: int | None = Field(default=None, alias="SampleCount")
+    week: int | None = Field(default=None, alias="Week")
+    month: int | None = Field(default=None, alias="Month")
+    year: int | None = Field(default=None, alias="Year")
 
 
 class LabTechEventLogType(AutomateAlertClient):
@@ -1775,14 +1775,14 @@ class LabTechEventLogType(AutomateAlertClient):
 
 
 class AutomateSessionViewerUser(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    permissions: str | None = Field(default=None, alias='Permissions')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    permissions: str | None = Field(default=None, alias="Permissions")
 
 
 class AutomateUserClass(ConnectWiseModel):
-    user_class_id: int | None = Field(default=None, alias='UserClassId')
-    name: str | None = Field(default=None, alias='Name')
+    user_class_id: int | None = Field(default=None, alias="UserClassId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateUserClassUserPermissions(LabTechUserPermissions):
@@ -1791,89 +1791,89 @@ class AutomateUserClassUserPermissions(LabTechUserPermissions):
 
 class AutomateBinaryExtensionPermission(ConnectWiseModel):
     extension_permission_id: int | None = Field(
-        default=None, alias='ExtensionPermissionId'
+        default=None, alias="ExtensionPermissionId"
     )
     extension_guid: UUID | None = Field(
         default=None,
-        alias='ExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="ExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    extension_name: str | None = Field(default=None, alias='ExtensionName')
-    permission_id: int | None = Field(default=None, alias='PermissionId')
-    permission_name: str | None = Field(default=None, alias='PermissionName')
+    extension_name: str | None = Field(default=None, alias="ExtensionName")
+    permission_id: int | None = Field(default=None, alias="PermissionId")
+    permission_name: str | None = Field(default=None, alias="PermissionName")
 
 
 class AutomateWebExtensionPermission(ConnectWiseModel):
     web_extension_permission_id: int | None = Field(
-        default=None, alias='WebExtensionPermissionId'
+        default=None, alias="WebExtensionPermissionId"
     )
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
-    permission_key: str | None = Field(default=None, alias='PermissionKey')
-    permission_name: str | None = Field(default=None, alias='PermissionName')
-    description: str | None = Field(default=None, alias='Description')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
+    permission_key: str | None = Field(default=None, alias="PermissionKey")
+    permission_name: str | None = Field(default=None, alias="PermissionName")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateExtraFieldSectionResetRequest(ConnectWiseModel):
-    section: str | None = Field(default=None, alias='Section')
+    section: str | None = Field(default=None, alias="Section")
 
 
 class LabTechFeatureFlag(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
 
 
 class LabTechGroupComputer(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    group_id: str | None = Field(default=None, alias='GroupId')
-    computer_id: str | None = Field(default=None, alias='ComputerId')
+    id: str | None = Field(default=None, alias="Id")
+    group_id: str | None = Field(default=None, alias="GroupId")
+    computer_id: str | None = Field(default=None, alias="ComputerId")
 
 
 class LabTechGroupContact(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    group_id: str | None = Field(default=None, alias='GroupId')
-    contact_id: str | None = Field(default=None, alias='ContactId')
+    id: str | None = Field(default=None, alias="Id")
+    group_id: str | None = Field(default=None, alias="GroupId")
+    contact_id: str | None = Field(default=None, alias="ContactId")
 
 
 class AutomateRemoveEntitiesFromGroupRequest(ConnectWiseModel):
-    group_id: int | None = Field(default=None, alias='GroupId')
+    group_id: int | None = Field(default=None, alias="GroupId")
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class LabTechGroupNetworkDevice(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    group_id: str | None = Field(default=None, alias='GroupId')
-    device_id: str | None = Field(default=None, alias='DeviceId')
+    id: str | None = Field(default=None, alias="Id")
+    group_id: str | None = Field(default=None, alias="GroupId")
+    device_id: str | None = Field(default=None, alias="DeviceId")
 
 
 class AutomateWindowsUpdateAgentMode(AutomateAlertClient):
@@ -1881,12 +1881,12 @@ class AutomateWindowsUpdateAgentMode(AutomateAlertClient):
 
 
 class AutomateWindows10UpdatePolicySettings(ConnectWiseModel):
-    service_branch: str | None = Field(default=None, alias='ServiceBranch')
+    service_branch: str | None = Field(default=None, alias="ServiceBranch")
     feature_update_deferment: int | None = Field(
-        default=None, alias='FeatureUpdateDeferment'
+        default=None, alias="FeatureUpdateDeferment"
     )
     quality_update_deferment: int | None = Field(
-        default=None, alias='QualityUpdateDeferment'
+        default=None, alias="QualityUpdateDeferment"
     )
 
 
@@ -1903,9 +1903,9 @@ class AutomatePatchRebootMode(AutomateAlertClient):
 
 
 class AutomateSearch(ConnectWiseModel):
-    search_id: int | None = Field(default=None, alias='SearchId')
-    name: str | None = Field(default=None, alias='Name')
-    folder_name: str | None = Field(default=None, alias='FolderName')
+    search_id: int | None = Field(default=None, alias="SearchId")
+    name: str | None = Field(default=None, alias="Name")
+    folder_name: str | None = Field(default=None, alias="FolderName")
 
 
 class AutomatePolicyScheduleType(AutomateAlertClient):
@@ -1914,87 +1914,87 @@ class AutomatePolicyScheduleType(AutomateAlertClient):
 
 class AutomateDatesScheduleSettings(ConnectWiseModel):
     monthly_occurrence: list[str] | None = Field(
-        default=None, alias='MonthlyOccurrence'
+        default=None, alias="MonthlyOccurrence"
     )
-    dates: list[int] | None = Field(default=None, alias='Dates')
-    last_day_of_month: bool | None = Field(default=None, alias='LastDayOfMonth')
+    dates: list[int] | None = Field(default=None, alias="Dates")
+    last_day_of_month: bool | None = Field(default=None, alias="LastDayOfMonth")
 
 
 class AutomateDaysScheduleSettings(ConnectWiseModel):
     monthly_occurrence: list[str] | None = Field(
-        default=None, alias='MonthlyOccurrence'
+        default=None, alias="MonthlyOccurrence"
     )
-    weekly_occurrence: list[str] | None = Field(default=None, alias='WeeklyOccurrence')
-    daily_occurrence: list[str] | None = Field(default=None, alias='DailyOccurrence')
+    weekly_occurrence: list[str] | None = Field(default=None, alias="WeeklyOccurrence")
+    daily_occurrence: list[str] | None = Field(default=None, alias="DailyOccurrence")
 
 
 class AutomatePatchingPolicyScript(ConnectWiseModel):
-    run_script: bool | None = Field(default=None, alias='RunScript')
+    run_script: bool | None = Field(default=None, alias="RunScript")
     script_guid: UUID | None = Field(
-        default=None, alias='ScriptGuid', example='00000000-0000-0000-0000-000000000000'
+        default=None, alias="ScriptGuid", example="00000000-0000-0000-0000-000000000000"
     )
-    script_name: str | None = Field(default=None, alias='ScriptName')
+    script_name: str | None = Field(default=None, alias="ScriptName")
     cancel_action_on_script_failure: bool | None = Field(
-        default=None, alias='CancelActionOnScriptFailure'
+        default=None, alias="CancelActionOnScriptFailure"
     )
 
 
 class AutomateSearchTargetType(ConnectWiseModel):
-    search_target_type_id: int | None = Field(default=None, alias='SearchTargetTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    search_target_type_id: int | None = Field(default=None, alias="SearchTargetTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateGroupTreeItem(ConnectWiseModel):
-    group_id: int | None = Field(default=None, alias='GroupId')
-    parent_id: int | None = Field(default=None, alias='ParentId')
-    name: str | None = Field(default=None, alias='Name')
-    full_name: str | None = Field(default=None, alias='FullName')
+    group_id: int | None = Field(default=None, alias="GroupId")
+    parent_id: int | None = Field(default=None, alias="ParentId")
+    name: str | None = Field(default=None, alias="Name")
+    full_name: str | None = Field(default=None, alias="FullName")
     user_has_direct_access: bool | None = Field(
-        default=None, alias='UserHasDirectAccess'
+        default=None, alias="UserHasDirectAccess"
     )
     is_limited_to_computer_auto_join_search: bool | None = Field(
-        default=None, alias='IsLimitedToComputerAutoJoinSearch'
+        default=None, alias="IsLimitedToComputerAutoJoinSearch"
     )
     is_limited_to_network_device_auto_join_search: bool | None = Field(
-        default=None, alias='IsLimitedToNetworkDeviceAutoJoinSearch'
+        default=None, alias="IsLimitedToNetworkDeviceAutoJoinSearch"
     )
     is_limited_to_contact_auto_join_search: bool | None = Field(
-        default=None, alias='IsLimitedToContactAutoJoinSearch'
+        default=None, alias="IsLimitedToContactAutoJoinSearch"
     )
     parent_groups: list[AutomateGroupTreeItem] | None = Field(
-        default=None, alias='ParentGroups'
+        default=None, alias="ParentGroups"
     )
     child_groups: list[AutomateGroupTreeItem] | None = Field(
-        default=None, alias='ChildGroups'
+        default=None, alias="ChildGroups"
     )
     direct_computer_membership_count: int | None = Field(
-        default=None, alias='DirectComputerMembershipCount'
+        default=None, alias="DirectComputerMembershipCount"
     )
     indirect_computer_membership_count: int | None = Field(
-        default=None, alias='IndirectComputerMembershipCount'
+        default=None, alias="IndirectComputerMembershipCount"
     )
 
 
 class AutomateComputerSearchInformation(ConnectWiseModel):
-    is_modifiable: bool | None = Field(default=None, alias='IsModifiable')
-    searches: list[AutomateSearch] | None = Field(default=None, alias='Searches')
+    is_modifiable: bool | None = Field(default=None, alias="IsModifiable")
+    searches: list[AutomateSearch] | None = Field(default=None, alias="Searches")
 
 
 class AutomateMaintenanceWindow(ConnectWiseModel):
-    maintenance_window_id: int | None = Field(default=None, alias='MaintenanceWindowId')
-    name: str | None = Field(default=None, alias='Name')
+    maintenance_window_id: int | None = Field(default=None, alias="MaintenanceWindowId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateGroupType(ConnectWiseModel):
-    group_type_id: int | None = Field(default=None, alias='GroupTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    group_type_id: int | None = Field(default=None, alias="GroupTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateRemoteAgentTemplate(ConnectWiseModel):
     remote_agent_template_id: int | None = Field(
-        default=None, alias='RemoteAgentTemplateId'
+        default=None, alias="RemoteAgentTemplateId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateTicketCategory(AutomateWindowsUpdateCategory):
@@ -2002,84 +2002,84 @@ class AutomateTicketCategory(AutomateWindowsUpdateCategory):
 
 
 class AutomateMembershipConfiguration(ConnectWiseModel):
-    membership_type: str | None = Field(default=None, alias='MembershipType')
-    computer_search_name: str | None = Field(default=None, alias='ComputerSearchName')
+    membership_type: str | None = Field(default=None, alias="MembershipType")
+    computer_search_name: str | None = Field(default=None, alias="ComputerSearchName")
     is_limited_to_computer_search: bool | None = Field(
-        default=None, alias='IsLimitedToComputerSearch'
+        default=None, alias="IsLimitedToComputerSearch"
     )
     network_device_search_name: str | None = Field(
-        default=None, alias='NetworkDeviceSearchName'
+        default=None, alias="NetworkDeviceSearchName"
     )
     is_limited_to_network_device_search: bool | None = Field(
-        default=None, alias='IsLimitedToNetworkDeviceSearch'
+        default=None, alias="IsLimitedToNetworkDeviceSearch"
     )
-    contact_search_name: str | None = Field(default=None, alias='ContactSearchName')
+    contact_search_name: str | None = Field(default=None, alias="ContactSearchName")
     is_limited_to_contact_search: bool | None = Field(
-        default=None, alias='IsLimitedToContactSearch'
+        default=None, alias="IsLimitedToContactSearch"
     )
     includes_contact_associated_computers: bool | None = Field(
-        default=None, alias='IncludesContactAssociatedComputers'
+        default=None, alias="IncludesContactAssociatedComputers"
     )
 
 
 class AutomateIpRestrictionStatus(ConnectWiseModel):
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
 
 
 class LabTechLicensedProduct(ConnectWiseModel):
-    cd_key: str | None = Field(default=None, alias='CdKey')
-    current_license_usage: int | None = Field(default=None, alias='CurrentLicenseUsage')
-    data: str | None = Field(default=None, alias='Data')
-    is_license_active: bool | None = Field(default=None, alias='IsLicenseActive')
-    license_file: str | None = Field(default=None, alias='LicenseFile')
-    max_license_usage: int | None = Field(default=None, alias='MaxLicenseUsage')
-    product_id: int | None = Field(default=None, alias='ProductId')
-    product_sku: str | None = Field(default=None, alias='ProductSku')
+    cd_key: str | None = Field(default=None, alias="CdKey")
+    current_license_usage: int | None = Field(default=None, alias="CurrentLicenseUsage")
+    data: str | None = Field(default=None, alias="Data")
+    is_license_active: bool | None = Field(default=None, alias="IsLicenseActive")
+    license_file: str | None = Field(default=None, alias="LicenseFile")
+    max_license_usage: int | None = Field(default=None, alias="MaxLicenseUsage")
+    product_id: int | None = Field(default=None, alias="ProductId")
+    product_sku: str | None = Field(default=None, alias="ProductSku")
 
 
 class LabTechLink(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    url: str | None = Field(default=None, alias='URL')
-    category: str | None = Field(default=None, alias='Category')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    url: str | None = Field(default=None, alias="URL")
+    category: str | None = Field(default=None, alias="Category")
 
 
 class LabTechNetworkMapNode(ConnectWiseModel):
-    device_id: int | None = Field(default=None, alias='DeviceId')
-    device_name: str | None = Field(default=None, alias='DeviceName')
-    device_friendly_name: str | None = Field(default=None, alias='DeviceFriendlyName')
-    description: str | None = Field(default=None, alias='Description')
-    device_type: str | None = Field(default=None, alias='DeviceType')
+    device_id: int | None = Field(default=None, alias="DeviceId")
+    device_name: str | None = Field(default=None, alias="DeviceName")
+    device_friendly_name: str | None = Field(default=None, alias="DeviceFriendlyName")
+    description: str | None = Field(default=None, alias="Description")
+    device_type: str | None = Field(default=None, alias="DeviceType")
     child_node_list: list[LabTechNetworkMapNode] | None = Field(
-        default=None, alias='ChildNodeList'
+        default=None, alias="ChildNodeList"
     )
-    device_mac_address: str | None = Field(default=None, alias='DeviceMacAddress')
-    ip_address: str | None = Field(default=None, alias='IpAddress')
-    status: str | None = Field(default=None, alias='Status')
+    device_mac_address: str | None = Field(default=None, alias="DeviceMacAddress")
+    ip_address: str | None = Field(default=None, alias="IpAddress")
+    status: str | None = Field(default=None, alias="Status")
     device_classification: Literal[
-        'Unknown', 'Computer', 'NetworkDevice', 'InternetConnection', 'BlackBox'
-    ] | None = Field(default=None, alias='DeviceClassification')
+        "Unknown", "Computer", "NetworkDevice", "InternetConnection", "BlackBox"
+    ] | None = Field(default=None, alias="DeviceClassification")
 
 
 class LabTechNetworkMapNodeDetails(ConnectWiseModel):
-    device_id: int | None = Field(default=None, alias='DeviceId')
-    device_type: str | None = Field(default=None, alias='DeviceType')
-    uptime: int | None = Field(default=None, alias='Uptime')
-    ignore_device_scan: bool | None = Field(default=None, alias='IgnoreDeviceScan')
-    asset_date: datetime | None = Field(default=None, alias='AssetDate')
+    device_id: int | None = Field(default=None, alias="DeviceId")
+    device_type: str | None = Field(default=None, alias="DeviceType")
+    uptime: int | None = Field(default=None, alias="Uptime")
+    ignore_device_scan: bool | None = Field(default=None, alias="IgnoreDeviceScan")
+    asset_date: datetime | None = Field(default=None, alias="AssetDate")
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
-    last_contact_date: datetime | None = Field(default=None, alias='LastContactDate')
-    ip_address: str | None = Field(default=None, alias='IpAddress')
-    device_mac_address: str | None = Field(default=None, alias='DeviceMacAddress')
-    operating_system: str | None = Field(default=None, alias='OperatingSystem')
-    model: str | None = Field(default=None, alias='Model')
-    location_probe: str | None = Field(default=None, alias='LocationProbe')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    uplink_port: str | None = Field(default=None, alias='UplinkPort')
-    uplink_name: str | None = Field(default=None, alias='UplinkName')
-    uplink_ip_address: str | None = Field(default=None, alias='UplinkIpAddress')
+    last_contact_date: datetime | None = Field(default=None, alias="LastContactDate")
+    ip_address: str | None = Field(default=None, alias="IpAddress")
+    device_mac_address: str | None = Field(default=None, alias="DeviceMacAddress")
+    operating_system: str | None = Field(default=None, alias="OperatingSystem")
+    model: str | None = Field(default=None, alias="Model")
+    location_probe: str | None = Field(default=None, alias="LocationProbe")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    uplink_port: str | None = Field(default=None, alias="UplinkPort")
+    uplink_name: str | None = Field(default=None, alias="UplinkName")
+    uplink_ip_address: str | None = Field(default=None, alias="UplinkIpAddress")
 
 
 class LabTechEncryptionMethod(AutomateAlertClient):
@@ -2091,15 +2091,15 @@ class LabTechHashMethod(AutomateAlertClient):
 
 
 class LabTechScanFrequencyCategory(ConnectWiseModel):
-    category_id: int | None = Field(default=None, alias='CategoryId')
-    description: str | None = Field(default=None, alias='Description')
+    category_id: int | None = Field(default=None, alias="CategoryId")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class LabTechStatusScanNetworkPortOption(ConnectWiseModel):
     status_scan_network_port_option_id: int | None = Field(
-        default=None, alias='StatusScanNetworkPortOptionId'
+        default=None, alias="StatusScanNetworkPortOptionId"
     )
-    description: str | None = Field(default=None, alias='Description')
+    description: str | None = Field(default=None, alias="Description")
 
 
 class LabTechProbeEventLevel(AutomateAlertClient):
@@ -2111,102 +2111,102 @@ class AutomateMaintenanceWindowDefinition(LabTechMaintenanceWindowDefinition):
 
 
 class LabTechProductKey(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    client_id: int | None = Field(default=None, alias='ClientId')
-    product_name: str | None = Field(default=None, alias='ProductName')
-    serial_number: str | None = Field(default=None, alias='SerialNumber')
-    license_key: str | None = Field(default=None, alias='LicenseKey')
-    does_expire: bool | None = Field(default=None, alias='DoesExpire')
-    expiration_date: datetime | None = Field(default=None, alias='ExpirationDate')
-    notes: str | None = Field(default=None, alias='Notes')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
+    id: int | None = Field(default=None, alias="Id")
+    client_id: int | None = Field(default=None, alias="ClientId")
+    product_name: str | None = Field(default=None, alias="ProductName")
+    serial_number: str | None = Field(default=None, alias="SerialNumber")
+    license_key: str | None = Field(default=None, alias="LicenseKey")
+    does_expire: bool | None = Field(default=None, alias="DoesExpire")
+    expiration_date: datetime | None = Field(default=None, alias="ExpirationDate")
+    notes: str | None = Field(default=None, alias="Notes")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
 
 
 class AutomateManagementPackQuickSettingsRequest(ConnectWiseModel):
     is_core_services_enabled: bool | None = Field(
-        default=None, alias='IsCoreServicesEnabled'
+        default=None, alias="IsCoreServicesEnabled"
     )
-    is_database_enabled: bool | None = Field(default=None, alias='IsDatabaseEnabled')
+    is_database_enabled: bool | None = Field(default=None, alias="IsDatabaseEnabled")
     is_messaging_services_enabled: bool | None = Field(
-        default=None, alias='IsMessagingServicesEnabled'
+        default=None, alias="IsMessagingServicesEnabled"
     )
     is_network_ports_enabled: bool | None = Field(
-        default=None, alias='IsNetworkPortsEnabled'
+        default=None, alias="IsNetworkPortsEnabled"
     )
     is_websites_and_proxies_enabled: bool | None = Field(
-        default=None, alias='IsWebsitesAndProxiesEnabled'
+        default=None, alias="IsWebsitesAndProxiesEnabled"
     )
-    alert_level: str | None = Field(default=None, alias='AlertLevel')
+    alert_level: str | None = Field(default=None, alias="AlertLevel")
 
 
 class AutomateManagementPackStatus(ConnectWiseModel):
-    is_installed: bool | None = Field(default=None, alias='IsInstalled')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
-    alert_level: str | None = Field(default=None, alias='AlertLevel')
+    is_installed: bool | None = Field(default=None, alias="IsInstalled")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
+    alert_level: str | None = Field(default=None, alias="AlertLevel")
 
 
 class AutomateCommandMenuItemBase(ConnectWiseModel):
-    command_key: str | None = Field(default=None, alias='CommandKey')
-    display_name: str | None = Field(default=None, alias='DisplayName')
-    display_order: int | None = Field(default=None, alias='DisplayOrder')
-    route: str | None = Field(default=None, alias='Route')
-    require_confirmation: bool | None = Field(default=None, alias='RequireConfirmation')
+    command_key: str | None = Field(default=None, alias="CommandKey")
+    display_name: str | None = Field(default=None, alias="DisplayName")
+    display_order: int | None = Field(default=None, alias="DisplayOrder")
+    route: str | None = Field(default=None, alias="Route")
+    require_confirmation: bool | None = Field(default=None, alias="RequireConfirmation")
 
 
 class AutomateWindowsUpdateAgentSettings(ConnectWiseModel):
     use_windows_update_agent_mode: bool | None = Field(
-        default=None, alias='UseWindowsUpdateAgentMode'
+        default=None, alias="UseWindowsUpdateAgentMode"
     )
-    mode: str | None = Field(default=None, alias='Mode')
+    mode: str | None = Field(default=None, alias="Mode")
     disable_user_interface: bool | None = Field(
-        default=None, alias='DisableUserInterface'
+        default=None, alias="DisableUserInterface"
     )
 
 
 class AutomateMicrosoftUpdatePolicyOptions(ConnectWiseModel):
     install_missing_baseline_patches: bool | None = Field(
-        default=None, alias='InstallMissingBaselinePatches'
+        default=None, alias="InstallMissingBaselinePatches"
     )
 
 
 class AutomatePatchTuesdayScheduleSettings(ConnectWiseModel):
-    delay_in_days: int | None = Field(default=None, alias='DelayInDays')
+    delay_in_days: int | None = Field(default=None, alias="DelayInDays")
 
 
 class AutomateDaytimePatchingOptions(ConnectWiseModel):
     allow_daytime_patching: bool | None = Field(
-        default=None, alias='AllowDaytimePatching'
+        default=None, alias="AllowDaytimePatching"
     )
     require_minimum_uptime: bool | None = Field(
-        default=None, alias='RequireMinimumUptime'
+        default=None, alias="RequireMinimumUptime"
     )
-    minimum_uptime: str | None = Field(default=None, alias='MinimumUptime')
-    update_only: bool | None = Field(default=None, alias='UpdateOnly')
-    prompt_interval: str | None = Field(default=None, alias='PromptInterval')
-    prompt_deadline: int | None = Field(default=None, alias='PromptDeadline')
-    prompt_message: str | None = Field(default=None, alias='PromptMessage')
+    minimum_uptime: str | None = Field(default=None, alias="MinimumUptime")
+    update_only: bool | None = Field(default=None, alias="UpdateOnly")
+    prompt_interval: str | None = Field(default=None, alias="PromptInterval")
+    prompt_deadline: int | None = Field(default=None, alias="PromptDeadline")
+    prompt_message: str | None = Field(default=None, alias="PromptMessage")
 
 
 class AutomateServiceBranchSettings(ConnectWiseModel):
-    use_service_branch: bool | None = Field(default=None, alias='UseServiceBranch')
-    is_targeted: bool | None = Field(default=None, alias='IsTargeted')
+    use_service_branch: bool | None = Field(default=None, alias="UseServiceBranch")
+    is_targeted: bool | None = Field(default=None, alias="IsTargeted")
 
 
 class AutomateUpdateDefermentSettings(ConnectWiseModel):
-    use_deferment: bool | None = Field(default=None, alias='UseDeferment')
-    deferment_period_days: int | None = Field(default=None, alias='DefermentPeriodDays')
+    use_deferment: bool | None = Field(default=None, alias="UseDeferment")
+    deferment_period_days: int | None = Field(default=None, alias="DefermentPeriodDays")
 
 
 class AutomatePatchingGroup(ConnectWiseModel):
-    group_id: int | None = Field(default=None, alias='GroupId')
-    group_name: str | None = Field(default=None, alias='GroupName')
+    group_id: int | None = Field(default=None, alias="GroupId")
+    group_name: str | None = Field(default=None, alias="GroupName")
 
 
 class LabTechMonitorAlertTarget(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    comp_id: int | None = Field(default=None, alias='CompId')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    comp_id: int | None = Field(default=None, alias="CompId")
 
 
 class LabTechMonitorState(AutomateAlertClient):
@@ -2214,10 +2214,10 @@ class LabTechMonitorState(AutomateAlertClient):
 
 
 class LabTechReportCategory(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    icon: str | None = Field(default=None, alias='Icon')
-    title_text: str | None = Field(default=None, alias='TitleText')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    icon: str | None = Field(default=None, alias="Icon")
+    title_text: str | None = Field(default=None, alias="TitleText")
 
 
 class LabTechMonitorRoutine(AutomateAlertClient):
@@ -2225,10 +2225,10 @@ class LabTechMonitorRoutine(AutomateAlertClient):
 
 
 class LabTechMonitorAlertMessages(ConnectWiseModel):
-    success_subject: str | None = Field(default=None, alias='SuccessSubject')
-    success_message: str | None = Field(default=None, alias='SuccessMessage')
-    failure_subject: str | None = Field(default=None, alias='FailureSubject')
-    failure_message: str | None = Field(default=None, alias='FailureMessage')
+    success_subject: str | None = Field(default=None, alias="SuccessSubject")
+    success_message: str | None = Field(default=None, alias="SuccessMessage")
+    failure_subject: str | None = Field(default=None, alias="FailureSubject")
+    failure_message: str | None = Field(default=None, alias="FailureMessage")
 
 
 class LabTechInternalMonitorAlertStyle(AutomateAlertClient):
@@ -2256,23 +2256,23 @@ class LabTechMonitorComparerSettingsResultFormat(AutomateAlertClient):
 
 
 class LabTechMonitorPluginOwner(ConnectWiseModel):
-    control_guid: str | None = Field(default=None, alias='ControlGUID')
-    plugin_name: str | None = Field(default=None, alias='PluginName')
+    control_guid: str | None = Field(default=None, alias="ControlGUID")
+    plugin_name: str | None = Field(default=None, alias="PluginName")
     alteration_instructions: str | None = Field(
-        default=None, alias='AlterationInstructions'
+        default=None, alias="AlterationInstructions"
     )
 
 
 class LabTechScriptFolder(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    parent_id: str | None = Field(default=None, alias='ParentId')
-    name: str | None = Field(default=None, alias='Name')
-    guid: str | None = Field(default=None, alias='GUID')
+    id: str | None = Field(default=None, alias="Id")
+    parent_id: str | None = Field(default=None, alias="ParentId")
+    name: str | None = Field(default=None, alias="Name")
+    guid: str | None = Field(default=None, alias="GUID")
     sub_folders: list[LabTechScriptFolder] | None = Field(
-        default=None, alias='SubFolders'
+        default=None, alias="SubFolders"
     )
     parent_folder: LabTechScriptFolder | None = Field(
-        default=None, alias='ParentFolder'
+        default=None, alias="ParentFolder"
     )
 
 
@@ -2281,54 +2281,54 @@ class LabTechMonitorRoutineParametersFormat(AutomateAlertClient):
 
 
 class LabTechUnformattedMonitorRoutineParameters(ConnectWiseModel):
-    where: str | None = Field(default=None, alias='Where')
-    what: str | None = Field(default=None, alias='What')
-    data_out: str | None = Field(default=None, alias='DataOut')
-    id_field: str | None = Field(default=None, alias='IdField')
+    where: str | None = Field(default=None, alias="Where")
+    what: str | None = Field(default=None, alias="What")
+    data_out: str | None = Field(default=None, alias="DataOut")
+    id_field: str | None = Field(default=None, alias="IdField")
 
 
 class LabTechInternalDatabaseQueryParameters(ConnectWiseModel):
-    field_to_check: str | None = Field(default=None, alias='FieldToCheck')
-    table_or_view_to_query: str | None = Field(default=None, alias='TableOrViewToQuery')
+    field_to_check: str | None = Field(default=None, alias="FieldToCheck")
+    table_or_view_to_query: str | None = Field(default=None, alias="TableOrViewToQuery")
     additional_conditions: str | None = Field(
-        default=None, alias='AdditionalConditions'
+        default=None, alias="AdditionalConditions"
     )
-    identity_field: str | None = Field(default=None, alias='IdentityField')
+    identity_field: str | None = Field(default=None, alias="IdentityField")
 
 
 class LabTechGetNetworkResponseParameters(ConnectWiseModel):
-    target: str | None = Field(default=None, alias='Target')
-    port: str | None = Field(default=None, alias='Port')
-    payload: str | None = Field(default=None, alias='Payload')
+    target: str | None = Field(default=None, alias="Target")
+    port: str | None = Field(default=None, alias="Port")
+    payload: str | None = Field(default=None, alias="Payload")
 
 
 class LabTechPerformanceCounterQueryParameters(ConnectWiseModel):
-    performance_object: str | None = Field(default=None, alias='PerformanceObject')
-    performance_counter: str | None = Field(default=None, alias='PerformanceCounter')
-    instance: str | None = Field(default=None, alias='Instance')
+    performance_object: str | None = Field(default=None, alias="PerformanceObject")
+    performance_counter: str | None = Field(default=None, alias="PerformanceCounter")
+    instance: str | None = Field(default=None, alias="Instance")
 
 
 class LabTechNetworkDeviceWbemQueryParameters(ConnectWiseModel):
-    namespace: str | None = Field(default=None, alias='Namespace')
-    query: str | None = Field(default=None, alias='Query')
+    namespace: str | None = Field(default=None, alias="Namespace")
+    query: str | None = Field(default=None, alias="Query")
 
 
 class LabTechGetPluginCommandResultParameters(ConnectWiseModel):
-    command_number: int | None = Field(default=None, alias='CommandNumber')
-    data: str | None = Field(default=None, alias='Data')
+    command_number: int | None = Field(default=None, alias="CommandNumber")
+    data: str | None = Field(default=None, alias="Data")
 
 
 class LabTechFileOrDirectoryQueryParameters(ConnectWiseModel):
-    directory: str | None = Field(default=None, alias='Directory')
-    file: str | None = Field(default=None, alias='File')
+    directory: str | None = Field(default=None, alias="Directory")
+    file: str | None = Field(default=None, alias="File")
 
 
 class LabTechGetExecutableResultParameters(ConnectWiseModel):
     fully_qualified_executable_string: str | None = Field(
-        default=None, alias='FullyQualifiedExecutableString'
+        default=None, alias="FullyQualifiedExecutableString"
     )
     result_transform_regular_expression: str | None = Field(
-        default=None, alias='ResultTransformRegularExpression'
+        default=None, alias="ResultTransformRegularExpression"
     )
 
 
@@ -2337,33 +2337,33 @@ class LabTechMonitorComparerValueFormat(AutomateAlertClient):
 
 
 class LabTechMonitorComparerMultiValueFormat(ConnectWiseModel):
-    values: list[str] | None = Field(default=None, alias='Values')
+    values: list[str] | None = Field(default=None, alias="Values")
 
 
 class LabTechMonitorComparerSingleValueFormat(ConnectWiseModel):
-    value: str | None = Field(default=None, alias='Value')
+    value: str | None = Field(default=None, alias="Value")
 
 
 class LabTechScriptMetadata(ConnectWiseModel):
-    extra_data_fields: str | None = Field(default=None, alias='ExtraDataFields')
-    parameters: str | None = Field(default=None, alias='Parameters')
-    globals: str | None = Field(default=None, alias='Globals')
-    script_version: int | None = Field(default=None, alias='ScriptVersion')
-    script_guid: str | None = Field(default=None, alias='ScriptGuid')
+    extra_data_fields: str | None = Field(default=None, alias="ExtraDataFields")
+    parameters: str | None = Field(default=None, alias="Parameters")
+    globals: str | None = Field(default=None, alias="Globals")
+    script_version: int | None = Field(default=None, alias="ScriptVersion")
+    script_guid: str | None = Field(default=None, alias="ScriptGuid")
 
 
 class LabTechScriptStep(ConnectWiseModel):
-    script_section: int | None = Field(default=None, alias='ScriptSection')
-    function_id: int | None = Field(default=None, alias='FunctionId')
-    param1: str | None = Field(default=None, alias='Param1')
-    param2: str | None = Field(default=None, alias='Param2')
-    param3: str | None = Field(default=None, alias='Param3')
-    param4: str | None = Field(default=None, alias='Param4')
-    param5: str | None = Field(default=None, alias='Param5')
-    sort: int | None = Field(default=None, alias='Sort')
-    continue_: int | None = Field(default=None, alias='Continue')
-    os_limit: int | None = Field(default=None, alias='OsLimit')
-    indentation: int | None = Field(default=None, alias='Indentation')
+    script_section: int | None = Field(default=None, alias="ScriptSection")
+    function_id: int | None = Field(default=None, alias="FunctionId")
+    param1: str | None = Field(default=None, alias="Param1")
+    param2: str | None = Field(default=None, alias="Param2")
+    param3: str | None = Field(default=None, alias="Param3")
+    param4: str | None = Field(default=None, alias="Param4")
+    param5: str | None = Field(default=None, alias="Param5")
+    sort: int | None = Field(default=None, alias="Sort")
+    continue_: int | None = Field(default=None, alias="Continue")
+    os_limit: int | None = Field(default=None, alias="OsLimit")
+    indentation: int | None = Field(default=None, alias="Indentation")
 
 
 class LabTechSnmpOidQuerySnmpVersion(AutomateAlertClient):
@@ -2387,159 +2387,159 @@ class LabTechRegistryValueQueryRegistryHive(AutomateAlertClient):
 
 
 class LabTechEventLogQueryEventLevelFilter(ConnectWiseModel):
-    match_verbose: bool | None = Field(default=None, alias='MatchVerbose')
-    match_informational: bool | None = Field(default=None, alias='MatchInformational')
-    match_warning: bool | None = Field(default=None, alias='MatchWarning')
-    match_error: bool | None = Field(default=None, alias='MatchError')
-    match_critical: bool | None = Field(default=None, alias='MatchCritical')
+    match_verbose: bool | None = Field(default=None, alias="MatchVerbose")
+    match_informational: bool | None = Field(default=None, alias="MatchInformational")
+    match_warning: bool | None = Field(default=None, alias="MatchWarning")
+    match_error: bool | None = Field(default=None, alias="MatchError")
+    match_critical: bool | None = Field(default=None, alias="MatchCritical")
 
 
 class LabTechMonitorDataCollectionSettings(ConnectWiseModel):
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    unit_label: str | None = Field(default=None, alias='UnitLabel')
-    graph_title: str | None = Field(default=None, alias='GraphTitle')
-    graph_vertical_limit: int | None = Field(default=None, alias='GraphVerticalLimit')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    unit_label: str | None = Field(default=None, alias="UnitLabel")
+    graph_title: str | None = Field(default=None, alias="GraphTitle")
+    graph_vertical_limit: int | None = Field(default=None, alias="GraphVerticalLimit")
 
 
 class AutomateMonitorCount(ConnectWiseModel):
     internal_monitor_total_count: int | None = Field(
-        default=None, alias='InternalMonitorTotalCount'
+        default=None, alias="InternalMonitorTotalCount"
     )
     internal_monitor_total_disable_count: int | None = Field(
-        default=None, alias='InternalMonitorTotalDisableCount'
+        default=None, alias="InternalMonitorTotalDisableCount"
     )
     internal_monitor_total_detected_count: int | None = Field(
-        default=None, alias='InternalMonitorTotalDetectedCount'
+        default=None, alias="InternalMonitorTotalDetectedCount"
     )
     remote_monitor_total_count: int | None = Field(
-        default=None, alias='RemoteMonitorTotalCount'
+        default=None, alias="RemoteMonitorTotalCount"
     )
     remote_monitor_total_failure_count: int | None = Field(
-        default=None, alias='RemoteMonitorTotalFailureCount'
+        default=None, alias="RemoteMonitorTotalFailureCount"
     )
     remote_monitor_total_warning_count: int | None = Field(
-        default=None, alias='RemoteMonitorTotalWarningCount'
+        default=None, alias="RemoteMonitorTotalWarningCount"
     )
 
 
 class LabTechMonitorStatistic(ConnectWiseModel):
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    last_fail_time: datetime | None = Field(default=None, alias='LastFailTime')
-    last_fail_message: str | None = Field(default=None, alias='LastFailMessage')
-    last_success_time: datetime | None = Field(default=None, alias='LastSuccessTime')
-    last_success_message: str | None = Field(default=None, alias='LastSuccessMessage')
-    last_warning_time: datetime | None = Field(default=None, alias='LastWarningTime')
-    last_warning_message: str | None = Field(default=None, alias='LastWarningMessage')
-    monitor_start_time: datetime | None = Field(default=None, alias='MonitorStartTime')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    last_fail_time: datetime | None = Field(default=None, alias="LastFailTime")
+    last_fail_message: str | None = Field(default=None, alias="LastFailMessage")
+    last_success_time: datetime | None = Field(default=None, alias="LastSuccessTime")
+    last_success_message: str | None = Field(default=None, alias="LastSuccessMessage")
+    last_warning_time: datetime | None = Field(default=None, alias="LastWarningTime")
+    last_warning_message: str | None = Field(default=None, alias="LastWarningMessage")
+    monitor_start_time: datetime | None = Field(default=None, alias="MonitorStartTime")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
 
 
 class AutomateNonCompliantSummaryData(ConnectWiseModel):
-    low_severity_count: int | None = Field(default=None, alias='LowSeverityCount')
+    low_severity_count: int | None = Field(default=None, alias="LowSeverityCount")
     moderate_severity_count: int | None = Field(
-        default=None, alias='ModerateSeverityCount'
+        default=None, alias="ModerateSeverityCount"
     )
     important_severity_count: int | None = Field(
-        default=None, alias='ImportantSeverityCount'
+        default=None, alias="ImportantSeverityCount"
     )
     critical_severity_count: int | None = Field(
-        default=None, alias='CriticalSeverityCount'
+        default=None, alias="CriticalSeverityCount"
     )
     unspecified_severity_count: int | None = Field(
-        default=None, alias='UnspecifiedSeverityCount'
+        default=None, alias="UnspecifiedSeverityCount"
     )
-    low_cvss_count: int | None = Field(default=None, alias='LowCvssCount')
-    medium_cvss_count: int | None = Field(default=None, alias='MediumCvssCount')
-    high_cvss_count: int | None = Field(default=None, alias='HighCvssCount')
+    low_cvss_count: int | None = Field(default=None, alias="LowCvssCount")
+    medium_cvss_count: int | None = Field(default=None, alias="MediumCvssCount")
+    high_cvss_count: int | None = Field(default=None, alias="HighCvssCount")
     total_non_compliant_count: int | None = Field(
-        default=None, alias='TotalNonCompliantCount'
+        default=None, alias="TotalNonCompliantCount"
     )
 
 
 class AutomatePasswordResetConfigurationResponse(ConnectWiseModel):
     can_generate_password_reset_token: bool | None = Field(
-        default=None, alias='CanGeneratePasswordResetToken'
+        default=None, alias="CanGeneratePasswordResetToken"
     )
 
 
 class AutomatePasswordResetTokenRequest(ConnectWiseModel):
-    username: str | None = Field(default=None, alias='Username')
-    password_reset_token: str | None = Field(default=None, alias='PasswordResetToken')
+    username: str | None = Field(default=None, alias="Username")
+    password_reset_token: str | None = Field(default=None, alias="PasswordResetToken")
 
 
 class AutomatePasswordResetTokenResponse(ConnectWiseModel):
-    is_valid: bool | None = Field(default=None, alias='IsValid')
+    is_valid: bool | None = Field(default=None, alias="IsValid")
 
 
 class AutomateValidatePasswordResetRequest(ConnectWiseModel):
-    password_reset_token: str | None = Field(default=None, alias='PasswordResetToken')
+    password_reset_token: str | None = Field(default=None, alias="PasswordResetToken")
 
 
 class LabTechPatchActionArgs(ConnectWiseModel):
-    entity_type: int | None = Field(default=None, alias='EntityType')
-    entity_id: int | None = Field(default=None, alias='EntityId')
+    entity_type: int | None = Field(default=None, alias="EntityType")
+    entity_id: int | None = Field(default=None, alias="EntityId")
 
 
 class AutomatePatchActionInformation(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
     product_key_id_list: list[str] | None = Field(
-        default=None, alias='ProductKeyIdList'
+        default=None, alias="ProductKeyIdList"
     )
 
 
 class LabTechPatchesSummaryData(ConnectWiseModel):
-    entity_id: int | None = Field(default=None, alias='EntityId')
-    entity_name: str | None = Field(default=None, alias='EntityName')
+    entity_id: int | None = Field(default=None, alias="EntityId")
+    entity_name: str | None = Field(default=None, alias="EntityName")
     test_stage_failed_patches_count: int | None = Field(
-        default=None, alias='TestStageFailedPatchesCount'
+        default=None, alias="TestStageFailedPatchesCount"
     )
     test_stage_not_attempted_patches_count: int | None = Field(
-        default=None, alias='TestStageNotAttemptedPatchesCount'
+        default=None, alias="TestStageNotAttemptedPatchesCount"
     )
     test_stage_installed_patches_count: int | None = Field(
-        default=None, alias='TestStageInstalledPatchesCount'
+        default=None, alias="TestStageInstalledPatchesCount"
     )
     pilot_stage_failed_patches_count: int | None = Field(
-        default=None, alias='PilotStageFailedPatchesCount'
+        default=None, alias="PilotStageFailedPatchesCount"
     )
     pilot_stage_not_attempted_patches_count: int | None = Field(
-        default=None, alias='PilotStageNotAttemptedPatchesCount'
+        default=None, alias="PilotStageNotAttemptedPatchesCount"
     )
     pilot_stage_installed_patches_count: int | None = Field(
-        default=None, alias='PilotStageInstalledPatchesCount'
+        default=None, alias="PilotStageInstalledPatchesCount"
     )
     production_stage_failed_patches_count: int | None = Field(
-        default=None, alias='ProductionStageFailedPatchesCount'
+        default=None, alias="ProductionStageFailedPatchesCount"
     )
     production_stage_not_attempted_patches_count: int | None = Field(
-        default=None, alias='ProductionStageNotAttemptedPatchesCount'
+        default=None, alias="ProductionStageNotAttemptedPatchesCount"
     )
     production_stage_installed_patches_count: int | None = Field(
-        default=None, alias='ProductionStageInstalledPatchesCount'
+        default=None, alias="ProductionStageInstalledPatchesCount"
     )
 
 
 class LabTechPatchInformation(ConnectWiseModel):
     web_server_patch_version: str | None = Field(
-        default=None, alias='WebServerPatchVersion'
+        default=None, alias="WebServerPatchVersion"
     )
     db_agent_server_patch_version: str | None = Field(
-        default=None, alias='DBAgentServerPatchVersion'
+        default=None, alias="DBAgentServerPatchVersion"
     )
     control_center_patch_version: str | None = Field(
-        default=None, alias='ControlCenterPatchVersion'
+        default=None, alias="ControlCenterPatchVersion"
     )
     remote_agent_patch_version: str | None = Field(
-        default=None, alias='RemoteAgentPatchVersion'
+        default=None, alias="RemoteAgentPatchVersion"
     )
     linux_agent_patch_version: str | None = Field(
-        default=None, alias='LinuxAgentPatchVersion'
+        default=None, alias="LinuxAgentPatchVersion"
     )
     mac_agent_patch_version: str | None = Field(
-        default=None, alias='MacAgentPatchVersion'
+        default=None, alias="MacAgentPatchVersion"
     )
-    last_patched_date: datetime | None = Field(default=None, alias='LastPatchedDate')
+    last_patched_date: datetime | None = Field(default=None, alias="LastPatchedDate")
 
 
 class LabTechPatchStage(AutomateAlertClient):
@@ -2556,185 +2556,185 @@ class AutomateProbeCommandStatus(AutomateAlertClient):
 
 class AutomateProbeCommandHistoryEntry(ConnectWiseModel):
     probe_command_history_id: int | None = Field(
-        default=None, alias='ProbeCommandHistoryId'
+        default=None, alias="ProbeCommandHistoryId"
     )
-    probe_id: int | None = Field(default=None, alias='ProbeId')
-    date_executed: datetime | None = Field(default=None, alias='DateExecuted')
-    status: AutomateProbeCommandStatus | None = Field(default=None, alias='Status')
+    probe_id: int | None = Field(default=None, alias="ProbeId")
+    date_executed: datetime | None = Field(default=None, alias="DateExecuted")
+    status: AutomateProbeCommandStatus | None = Field(default=None, alias="Status")
     probe_remote_command: AutomateProbeRemoteCommand | None = Field(
-        default=None, alias='ProbeRemoteCommand'
+        default=None, alias="ProbeRemoteCommand"
     )
-    output: str | None = Field(default=None, alias='Output')
-    user: str | None = Field(default=None, alias='User')
-    date_finished: datetime | None = Field(default=None, alias='DateFinished')
+    output: str | None = Field(default=None, alias="Output")
+    user: str | None = Field(default=None, alias="User")
+    date_finished: datetime | None = Field(default=None, alias="DateFinished")
 
 
 class LabTechProbeConfigurationCredentials(ConnectWiseModel):
     probe_configuration_credentials_id: int | None = Field(
-        default=None, alias='ProbeConfigurationCredentialsId'
+        default=None, alias="ProbeConfigurationCredentialsId"
     )
     probe_configuration_id: int | None = Field(
-        default=None, alias='ProbeConfigurationId'
+        default=None, alias="ProbeConfigurationId"
     )
-    credential_id: int | None = Field(default=None, alias='CredentialId')
-    attempt_sequence: int | None = Field(default=None, alias='AttemptSequence')
-    credentials_alias: str | None = Field(default=None, alias='CredentialsAlias')
+    credential_id: int | None = Field(default=None, alias="CredentialId")
+    attempt_sequence: int | None = Field(default=None, alias="AttemptSequence")
+    credentials_alias: str | None = Field(default=None, alias="CredentialsAlias")
     credential_details: LabTechExternalSystemCredentials | None = Field(
-        default=None, alias='CredentialDetails'
+        default=None, alias="CredentialDetails"
     )
 
 
 class LabTechSnmpSettings(ConnectWiseModel):
-    community_strings_get: str | None = Field(default=None, alias='CommunityStringsGet')
-    timeout_in_seconds: int | None = Field(default=None, alias='TimeoutInSeconds')
+    community_strings_get: str | None = Field(default=None, alias="CommunityStringsGet")
+    timeout_in_seconds: int | None = Field(default=None, alias="TimeoutInSeconds")
 
 
 class LabTechSyslogServerSettings(ConnectWiseModel):
     syslog_server_listening_port: int | None = Field(
-        default=None, alias='SyslogServerListeningPort'
+        default=None, alias="SyslogServerListeningPort"
     )
     syslog_server_ip_filter: str | None = Field(
-        default=None, alias='SyslogServerIpFilter'
+        default=None, alias="SyslogServerIpFilter"
     )
 
 
 class LabTechTftpServerSettings(ConnectWiseModel):
-    tftp_server_ip_filter: str | None = Field(default=None, alias='TftpServerIpFilter')
+    tftp_server_ip_filter: str | None = Field(default=None, alias="TftpServerIpFilter")
     tftp_server_listening_port: int | None = Field(
-        default=None, alias='TftpServerListeningPort'
+        default=None, alias="TftpServerListeningPort"
     )
-    allow_tftp_uploads: bool | None = Field(default=None, alias='AllowTftpUploads')
+    allow_tftp_uploads: bool | None = Field(default=None, alias="AllowTftpUploads")
 
 
 class LabTechProbeSubnet(ConnectWiseModel):
-    probe_subnet_id: int | None = Field(default=None, alias='ProbeSubnetId')
+    probe_subnet_id: int | None = Field(default=None, alias="ProbeSubnetId")
     probe_configuration_id: int | None = Field(
-        default=None, alias='ProbeConfigurationId'
+        default=None, alias="ProbeConfigurationId"
     )
-    network: str | None = Field(default=None, alias='Network')
-    subnet_mask: str | None = Field(default=None, alias='SubnetMask')
-    label: str | None = Field(default=None, alias='Label')
+    network: str | None = Field(default=None, alias="Network")
+    subnet_mask: str | None = Field(default=None, alias="SubnetMask")
+    label: str | None = Field(default=None, alias="Label")
 
 
 class LabTechProbeExcludedIpAddressRange(ConnectWiseModel):
-    excluded_ip_range_id: int | None = Field(default=None, alias='ExcludedIpRangeId')
-    probe_subnet_id: int | None = Field(default=None, alias='ProbeSubnetId')
-    excluded_ip_range: str | None = Field(default=None, alias='ExcludedIpRange')
+    excluded_ip_range_id: int | None = Field(default=None, alias="ExcludedIpRangeId")
+    probe_subnet_id: int | None = Field(default=None, alias="ProbeSubnetId")
+    excluded_ip_range: str | None = Field(default=None, alias="ExcludedIpRange")
 
 
 class LabTechProbeSnmpAuthentication(ConnectWiseModel):
     snmp_authentication_id: int | None = Field(
-        default=None, alias='SnmpAuthenticationId'
+        default=None, alias="SnmpAuthenticationId"
     )
     probe_snmp_configuration_id: int | None = Field(
-        default=None, alias='ProbeSnmpConfigurationId'
+        default=None, alias="ProbeSnmpConfigurationId"
     )
     authentication_secret: str | None = Field(
-        default=None, alias='AuthenticationSecret'
+        default=None, alias="AuthenticationSecret"
     )
-    hash_method: LabTechHashMethod | None = Field(default=None, alias='HashMethod')
+    hash_method: LabTechHashMethod | None = Field(default=None, alias="HashMethod")
 
 
 class LabTechProbeSnmpEncryption(ConnectWiseModel):
-    snmp_encryption_id: int | None = Field(default=None, alias='SnmpEncryptionId')
+    snmp_encryption_id: int | None = Field(default=None, alias="SnmpEncryptionId")
     probe_snmp_configuration_id: int | None = Field(
-        default=None, alias='ProbeSnmpConfigurationId'
+        default=None, alias="ProbeSnmpConfigurationId"
     )
-    encryption_password: str | None = Field(default=None, alias='EncryptionPassword')
+    encryption_password: str | None = Field(default=None, alias="EncryptionPassword")
     encryption_method: LabTechEncryptionMethod | None = Field(
-        default=None, alias='EncryptionMethod'
+        default=None, alias="EncryptionMethod"
     )
 
 
 class LabTechNetMapPluginStatus(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
     is_net_map_plugin_enabled: bool | None = Field(
-        default=None, alias='IsNetMapPluginEnabled'
+        default=None, alias="IsNetMapPluginEnabled"
     )
 
 
 class LabTechProbeDiscoveryScanStatus(ConnectWiseModel):
     probe_discovery_scan_status_id: int | None = Field(
-        default=None, alias='ProbeDiscoveryScanStatusId'
+        default=None, alias="ProbeDiscoveryScanStatusId"
     )
-    location_id: int | None = Field(default=None, alias='LocationId')
-    probe_id: int | None = Field(default=None, alias='ProbeId')
+    location_id: int | None = Field(default=None, alias="LocationId")
+    probe_id: int | None = Field(default=None, alias="ProbeId")
     is_discovery_scan_running: bool | None = Field(
-        default=None, alias='IsDiscoveryScanRunning'
+        default=None, alias="IsDiscoveryScanRunning"
     )
     discovery_scan_start: datetime | None = Field(
-        default=None, alias='DiscoveryScanStart'
+        default=None, alias="DiscoveryScanStart"
     )
     last_discovery_scan: datetime | None = Field(
-        default=None, alias='LastDiscoveryScan'
+        default=None, alias="LastDiscoveryScan"
     )
 
 
 class LabTechProbeEvent(ConnectWiseModel):
-    probe_id: int | None = Field(default=None, alias='ProbeId')
-    event_level: LabTechProbeEventLevel | None = Field(default=None, alias='EventLevel')
-    message: str | None = Field(default=None, alias='Message')
-    event_time: datetime | None = Field(default=None, alias='EventTime')
+    probe_id: int | None = Field(default=None, alias="ProbeId")
+    event_level: LabTechProbeEventLevel | None = Field(default=None, alias="EventLevel")
+    message: str | None = Field(default=None, alias="Message")
+    event_time: datetime | None = Field(default=None, alias="EventTime")
 
 
 class LabTechProbeSummary(ConnectWiseModel):
-    current_probe_id: int | None = Field(default=None, alias='CurrentProbeId')
-    total_devices: int | None = Field(default=None, alias='TotalDevices')
-    offline_devices: int | None = Field(default=None, alias='OfflineDevices')
-    missing_agents: int | None = Field(default=None, alias='MissingAgents')
+    current_probe_id: int | None = Field(default=None, alias="CurrentProbeId")
+    total_devices: int | None = Field(default=None, alias="TotalDevices")
+    offline_devices: int | None = Field(default=None, alias="OfflineDevices")
+    missing_agents: int | None = Field(default=None, alias="MissingAgents")
     last_discovery_scan: datetime | None = Field(
-        default=None, alias='LastDiscoveryScan'
+        default=None, alias="LastDiscoveryScan"
     )
     agent_deployment_enabled: bool | None = Field(
-        default=None, alias='AgentDeploymentEnabled'
+        default=None, alias="AgentDeploymentEnabled"
     )
     has_max_tile_permissions: bool | None = Field(
-        default=None, alias='HasMaxTilePermissions'
+        default=None, alias="HasMaxTilePermissions"
     )
-    is_generation_two: bool | None = Field(default=None, alias='IsGenerationTwo')
+    is_generation_two: bool | None = Field(default=None, alias="IsGenerationTwo")
 
 
 class AutomateDisableServerPatchRebootWorkstationSettings(ConnectWiseModel):
-    prompt_message: str | None = Field(default=None, alias='PromptMessage')
-    prompt_interval: str | None = Field(default=None, alias='PromptInterval')
-    reboot_deadline: str | None = Field(default=None, alias='RebootDeadline')
+    prompt_message: str | None = Field(default=None, alias="PromptMessage")
+    prompt_interval: str | None = Field(default=None, alias="PromptInterval")
+    reboot_deadline: str | None = Field(default=None, alias="RebootDeadline")
     reboot_deadline_prompt_message: str | None = Field(
-        default=None, alias='RebootDeadlinePromptMessage'
+        default=None, alias="RebootDeadlinePromptMessage"
     )
     reboot_deadline_prompt_duration: str | None = Field(
-        default=None, alias='RebootDeadlinePromptDuration'
+        default=None, alias="RebootDeadlinePromptDuration"
     )
     send_wake_on_lan_packet: bool | None = Field(
-        default=None, alias='SendWakeOnLanPacket'
+        default=None, alias="SendWakeOnLanPacket"
     )
     reboot_if_no_user_logged_in: bool | None = Field(
-        default=None, alias='RebootIfNoUserLoggedIn'
+        default=None, alias="RebootIfNoUserLoggedIn"
     )
 
 
 class AutomatePostPatchInstallTriggerSettings(ConnectWiseModel):
     limit_to_microsoft_update_policy_window: bool | None = Field(
-        default=None, alias='LimitToMicrosoftUpdatePolicyWindow'
+        default=None, alias="LimitToMicrosoftUpdatePolicyWindow"
     )
-    window_extension: str | None = Field(default=None, alias='WindowExtension')
+    window_extension: str | None = Field(default=None, alias="WindowExtension")
 
 
 class AutomateRebootPolicyPromptSettings(ConnectWiseModel):
-    use_prompt: bool | None = Field(default=None, alias='UsePrompt')
+    use_prompt: bool | None = Field(default=None, alias="UsePrompt")
     requires_confirmation: bool | None = Field(
-        default=None, alias='RequiresConfirmation'
+        default=None, alias="RequiresConfirmation"
     )
     reboot_if_no_user_logged_on: bool | None = Field(
-        default=None, alias='RebootIfNoUserLoggedOn'
+        default=None, alias="RebootIfNoUserLoggedOn"
     )
 
 
 class AutomateRebootPolicyMaintenanceModeOptions(ConnectWiseModel):
-    set_window: bool | None = Field(default=None, alias='SetWindow')
+    set_window: bool | None = Field(default=None, alias="SetWindow")
     window_ignore_types: list[str] | None = Field(
-        default=None, alias='WindowIgnoreTypes'
+        default=None, alias="WindowIgnoreTypes"
     )
-    window_duration: str | None = Field(default=None, alias='WindowDuration')
+    window_duration: str | None = Field(default=None, alias="WindowDuration")
 
 
 class AutomateReportCategory(AutomateWindowsUpdateCategory):
@@ -2743,188 +2743,188 @@ class AutomateReportCategory(AutomateWindowsUpdateCategory):
 
 class AutomateRecordedActionType(ConnectWiseModel):
     recorded_action_type_id: int | None = Field(
-        default=None, alias='RecordedActionTypeId'
+        default=None, alias="RecordedActionTypeId"
     )
 
 
 class AutomateRecordedActionSource(ConnectWiseModel):
     recorded_action_source_id: int | None = Field(
-        default=None, alias='RecordedActionSourceId'
+        default=None, alias="RecordedActionSourceId"
     )
 
 
 class AutomateInstallerRequest(ConnectWiseModel):
-    location_id: int | None = Field(default=None, alias='LocationId')
-    installer_type: int | None = Field(default=None, alias='InstallerType')
+    location_id: int | None = Field(default=None, alias="LocationId")
+    installer_type: int | None = Field(default=None, alias="InstallerType")
 
 
 class AutomateScriptState(ConnectWiseModel):
-    state_id: int | None = Field(default=None, alias='StateId')
-    name: str | None = Field(default=None, alias='Name')
+    state_id: int | None = Field(default=None, alias="StateId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateRunningScriptTargetType(ConnectWiseModel):
-    target_type_id: int | None = Field(default=None, alias='TargetTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    target_type_id: int | None = Field(default=None, alias="TargetTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateComputer(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    friendly_name: str | None = Field(default=None, alias='FriendlyName')
-    is_online: bool | None = Field(default=None, alias='IsOnline')
-    location: AutomateLocation | None = Field(default=None, alias='Location')
-    client: AutomateClient | None = Field(default=None, alias='Client')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    friendly_name: str | None = Field(default=None, alias="FriendlyName")
+    is_online: bool | None = Field(default=None, alias="IsOnline")
+    location: AutomateLocation | None = Field(default=None, alias="Location")
+    client: AutomateClient | None = Field(default=None, alias="Client")
 
 
 class AutomateUserClassAccess(ConnectWiseModel):
-    user_class_id: int | None = Field(default=None, alias='UserClassId')
-    name: str | None = Field(default=None, alias='Name')
-    can_execute: bool | None = Field(default=None, alias='CanExecute')
-    can_edit: bool | None = Field(default=None, alias='CanEdit')
+    user_class_id: int | None = Field(default=None, alias="UserClassId")
+    name: str | None = Field(default=None, alias="Name")
+    can_execute: bool | None = Field(default=None, alias="CanExecute")
+    can_edit: bool | None = Field(default=None, alias="CanEdit")
 
 
 class AutomateScriptFolder(ConnectWiseModel):
-    script_folder_id: int | None = Field(default=None, alias='ScriptFolderId')
-    name: str | None = Field(default=None, alias='Name')
+    script_folder_id: int | None = Field(default=None, alias="ScriptFolderId")
+    name: str | None = Field(default=None, alias="Name")
     child_folders: list[AutomateScriptFolder] | None = Field(
-        default=None, alias='ChildFolders'
+        default=None, alias="ChildFolders"
     )
 
 
 class AutomateScriptTarget(ConnectWiseModel):
-    script_target_type_id: int | None = Field(default=None, alias='ScriptTargetTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    script_target_type_id: int | None = Field(default=None, alias="ScriptTargetTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateScriptOptions(ConnectWiseModel):
-    is_isolated_script: bool | None = Field(default=None, alias='IsIsolatedScript')
+    is_isolated_script: bool | None = Field(default=None, alias="IsIsolatedScript")
     is_maintenance_script: bool | None = Field(
-        default=None, alias='IsMaintenanceScript'
+        default=None, alias="IsMaintenanceScript"
     )
-    is_function_script: bool | None = Field(default=None, alias='IsFunctionScript')
-    is_offline_script: bool | None = Field(default=None, alias='IsOfflineScript')
-    is_system_script: bool | None = Field(default=None, alias='IsSystemScript')
+    is_function_script: bool | None = Field(default=None, alias="IsFunctionScript")
+    is_offline_script: bool | None = Field(default=None, alias="IsOfflineScript")
+    is_system_script: bool | None = Field(default=None, alias="IsSystemScript")
 
 
 class AutomateSourceType(ConnectWiseModel):
-    source_type_id: int | None = Field(default=None, alias='SourceTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    source_type_id: int | None = Field(default=None, alias="SourceTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateTicketEntryCategory(ConnectWiseModel):
-    ticket_category_id: int | None = Field(default=None, alias='TicketCategoryId')
-    name: str | None = Field(default=None, alias='Name')
+    ticket_category_id: int | None = Field(default=None, alias="TicketCategoryId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateCloseTicketTrigger(ConnectWiseModel):
     close_ticket_trigger_type_id: int | None = Field(
-        default=None, alias='CloseTicketTriggerTypeId'
+        default=None, alias="CloseTicketTriggerTypeId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateTimeEntryCategory(ConnectWiseModel):
-    time_category_id: int | None = Field(default=None, alias='TimeCategoryId')
-    name: str | None = Field(default=None, alias='Name')
+    time_category_id: int | None = Field(default=None, alias="TimeCategoryId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateStopTimerTrigger(ConnectWiseModel):
     stop_timer_trigger_type_id: int | None = Field(
-        default=None, alias='StopTimerTriggerTypeId'
+        default=None, alias="StopTimerTriggerTypeId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateTimeEntryTechnician(ConnectWiseModel):
-    user_id: int | None = Field(default=None, alias='UserId')
-    name: str | None = Field(default=None, alias='Name')
+    user_id: int | None = Field(default=None, alias="UserId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateScriptFunctionBase(ConnectWiseModel):
-    script_function_id: int | None = Field(default=None, alias='ScriptFunctionId')
+    script_function_id: int | None = Field(default=None, alias="ScriptFunctionId")
 
 
 class LabTechScheduledScript(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    script_id: int | None = Field(default=None, alias='ScriptId')
-    client_id: int | None = Field(default=None, alias='ClientId')
-    location_id: int | None = Field(default=None, alias='LocationId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    group_id: int | None = Field(default=None, alias='GroupId')
-    include_subgroups: bool | None = Field(default=None, alias='IncludeSubgroups')
-    search_id: int | None = Field(default=None, alias='SearchId')
-    disabled: bool | None = Field(default=None, alias='Disabled')
+    id: int | None = Field(default=None, alias="Id")
+    script_id: int | None = Field(default=None, alias="ScriptId")
+    client_id: int | None = Field(default=None, alias="ClientId")
+    location_id: int | None = Field(default=None, alias="LocationId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    group_id: int | None = Field(default=None, alias="GroupId")
+    include_subgroups: bool | None = Field(default=None, alias="IncludeSubgroups")
+    search_id: int | None = Field(default=None, alias="SearchId")
+    disabled: bool | None = Field(default=None, alias="Disabled")
     effective_start_date: datetime | None = Field(
-        default=None, alias='EffectiveStartDate'
+        default=None, alias="EffectiveStartDate"
     )
-    effective_end_date: datetime | None = Field(default=None, alias='EffectiveEndDate')
+    effective_end_date: datetime | None = Field(default=None, alias="EffectiveEndDate")
     effective_occurrences: int | None = Field(
-        default=None, alias='EffectiveOccurrences'
+        default=None, alias="EffectiveOccurrences"
     )
     distribution_window_type: int | None = Field(
-        default=None, alias='DistributionWindowType'
+        default=None, alias="DistributionWindowType"
     )
     distribution_window_amount: int | None = Field(
-        default=None, alias='DistributionWindowAmount'
+        default=None, alias="DistributionWindowAmount"
     )
-    next_run: datetime | None = Field(default=None, alias='NextRun')
-    next_schedule: datetime | None = Field(default=None, alias='NextSchedule')
-    schedule_type: int | None = Field(default=None, alias='ScheduleType')
-    exclude_time_start: str | None = Field(default=None, alias='ExcludeTimeStart')
-    exclude_time_end: str | None = Field(default=None, alias='ExcludeTimeEnd')
-    interval: int | None = Field(default=None, alias='Interval')
+    next_run: datetime | None = Field(default=None, alias="NextRun")
+    next_schedule: datetime | None = Field(default=None, alias="NextSchedule")
+    schedule_type: int | None = Field(default=None, alias="ScheduleType")
+    exclude_time_start: str | None = Field(default=None, alias="ExcludeTimeStart")
+    exclude_time_end: str | None = Field(default=None, alias="ExcludeTimeEnd")
+    interval: int | None = Field(default=None, alias="Interval")
     schedule_week_of_month: int | None = Field(
-        default=None, alias='ScheduleWeekOfMonth'
+        default=None, alias="ScheduleWeekOfMonth"
     )
-    schedule_day_of_week: int | None = Field(default=None, alias='ScheduleDayOfWeek')
-    repeat_type: int | None = Field(default=None, alias='RepeatType')
-    repeat_amount: int | None = Field(default=None, alias='RepeatAmount')
-    repeat_stop_after: int | None = Field(default=None, alias='RepeatStopAfter')
-    skip_offline: bool | None = Field(default=None, alias='SkipOffline')
-    offline_only: bool | None = Field(default=None, alias='OfflineOnly')
-    wake_offline: bool | None = Field(default=None, alias='WakeOffline')
-    wake_script: bool | None = Field(default=None, alias='WakeScript')
-    disable_time_zone: bool | None = Field(default=None, alias='DisableTimeZone')
-    run_script_on_probe: bool | None = Field(default=None, alias='RunScriptOnProbe')
-    parameters: str | None = Field(default=None, alias='Parameters')
-    priority: int | None = Field(default=None, alias='Priority')
-    time_zone_add: float | None = Field(default=None, alias='TimeZoneAdd')
-    user: str | None = Field(default=None, alias='User')
-    last_update: datetime | None = Field(default=None, alias='LastUpdate')
+    schedule_day_of_week: int | None = Field(default=None, alias="ScheduleDayOfWeek")
+    repeat_type: int | None = Field(default=None, alias="RepeatType")
+    repeat_amount: int | None = Field(default=None, alias="RepeatAmount")
+    repeat_stop_after: int | None = Field(default=None, alias="RepeatStopAfter")
+    skip_offline: bool | None = Field(default=None, alias="SkipOffline")
+    offline_only: bool | None = Field(default=None, alias="OfflineOnly")
+    wake_offline: bool | None = Field(default=None, alias="WakeOffline")
+    wake_script: bool | None = Field(default=None, alias="WakeScript")
+    disable_time_zone: bool | None = Field(default=None, alias="DisableTimeZone")
+    run_script_on_probe: bool | None = Field(default=None, alias="RunScriptOnProbe")
+    parameters: str | None = Field(default=None, alias="Parameters")
+    priority: int | None = Field(default=None, alias="Priority")
+    time_zone_add: float | None = Field(default=None, alias="TimeZoneAdd")
+    user: str | None = Field(default=None, alias="User")
+    last_update: datetime | None = Field(default=None, alias="LastUpdate")
 
 
 class AutomateScheduleTargetType(ConnectWiseModel):
     schedule_target_type_id: int | None = Field(
-        default=None, alias='ScheduleTargetTypeId'
+        default=None, alias="ScheduleTargetTypeId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateNetworkDevice(ConnectWiseModel):
-    network_device_id: int | None = Field(default=None, alias='NetworkDeviceId')
-    name: str | None = Field(default=None, alias='Name')
-    friendly_name: str | None = Field(default=None, alias='FriendlyName')
+    network_device_id: int | None = Field(default=None, alias="NetworkDeviceId")
+    name: str | None = Field(default=None, alias="Name")
+    friendly_name: str | None = Field(default=None, alias="FriendlyName")
 
 
 class AutomateTemplateSettings(ConnectWiseModel):
     remote_agent_template: AutomateRemoteAgentTemplate | None = Field(
-        default=None, alias='RemoteAgentTemplate'
+        default=None, alias="RemoteAgentTemplate"
     )
-    priority: int | None = Field(default=None, alias='Priority')
+    priority: int | None = Field(default=None, alias="Priority")
 
 
 class AutomateLinkingSettings(ConnectWiseModel):
-    group_link_type_id: int | None = Field(default=None, alias='GroupLinkTypeId')
-    group_link_type_name: str | None = Field(default=None, alias='GroupLinkTypeName')
-    linked_entity_id: int | None = Field(default=None, alias='LinkedEntityId')
-    linked_entity_name: str | None = Field(default=None, alias='LinkedEntityName')
-    is_synchronized: bool | None = Field(default=None, alias='IsSynchronized')
+    group_link_type_id: int | None = Field(default=None, alias="GroupLinkTypeId")
+    group_link_type_name: str | None = Field(default=None, alias="GroupLinkTypeName")
+    linked_entity_id: int | None = Field(default=None, alias="LinkedEntityId")
+    linked_entity_name: str | None = Field(default=None, alias="LinkedEntityName")
+    is_synchronized: bool | None = Field(default=None, alias="IsSynchronized")
 
 
 class AutomateMasterStatus(ConnectWiseModel):
-    master_status_type_id: int | None = Field(default=None, alias='MasterStatusTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    master_status_type_id: int | None = Field(default=None, alias="MasterStatusTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateMaintenanceWindowSettings(AutomateMaintenanceWindow):
@@ -2933,24 +2933,24 @@ class AutomateMaintenanceWindowSettings(AutomateMaintenanceWindow):
 
 class AutomateContactSource(ConnectWiseModel):
     contact_source_type_id: int | None = Field(
-        default=None, alias='ContactSourceTypeId'
+        default=None, alias="ContactSourceTypeId"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateSearchSettings(ConnectWiseModel):
-    auto_join_search_id: int | None = Field(default=None, alias='AutoJoinSearchId')
-    name: str | None = Field(default=None, alias='Name')
-    is_limited_to_search: bool | None = Field(default=None, alias='IsLimitedToSearch')
+    auto_join_search_id: int | None = Field(default=None, alias="AutoJoinSearchId")
+    name: str | None = Field(default=None, alias="Name")
+    is_limited_to_search: bool | None = Field(default=None, alias="IsLimitedToSearch")
 
 
 class AutomateContactSearchSettings(ConnectWiseModel):
     should_include_associated_computers: bool | None = Field(
-        default=None, alias='ShouldIncludeAssociatedComputers'
+        default=None, alias="ShouldIncludeAssociatedComputers"
     )
-    auto_join_search_id: int | None = Field(default=None, alias='AutoJoinSearchId')
-    name: str | None = Field(default=None, alias='Name')
-    is_limited_to_search: bool | None = Field(default=None, alias='IsLimitedToSearch')
+    auto_join_search_id: int | None = Field(default=None, alias="AutoJoinSearchId")
+    name: str | None = Field(default=None, alias="Name")
+    is_limited_to_search: bool | None = Field(default=None, alias="IsLimitedToSearch")
 
 
 class AutomateScriptFunctionTarget(AutomateRunningScriptTargetType):
@@ -2958,9 +2958,9 @@ class AutomateScriptFunctionTarget(AutomateRunningScriptTargetType):
 
 
 class AutomateScriptFunctionParameter(ConnectWiseModel):
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    type: str | None = Field(default=None, alias='Type')
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    type: str | None = Field(default=None, alias="Type")
 
 
 class AutomateGroupItem(AutomateAlertClient):
@@ -3016,252 +3016,252 @@ class AutomateAdvancedSearchDataLookup(AutomateComputerServiceItem):
 
 
 class AutomateFilterCriteria(ConnectWiseModel):
-    left_operand: str | None = Field(default=None, alias='LeftOperand')
+    left_operand: str | None = Field(default=None, alias="LeftOperand")
     operator: Literal[
-        'IsTrue',
-        'IsFalse',
-        'Equals',
-        'GreaterThan',
-        'GreaterThanEqual',
-        'LessThan',
-        'LessThanEqual',
-        'TextLike',
-        'NotEqual',
-        'NotTextLike',
-        'Contains',
-        'NotContains',
-        'IsAssigned',
-        'IsNotAssigned',
-        'HasRole',
-        'NotHasRole',
-    ] | None = Field(default=None, alias='Operator')
-    right_operand: dict[str, Any] | None = Field(default=None, alias='RightOperand')
+        "IsTrue",
+        "IsFalse",
+        "Equals",
+        "GreaterThan",
+        "GreaterThanEqual",
+        "LessThan",
+        "LessThanEqual",
+        "TextLike",
+        "NotEqual",
+        "NotTextLike",
+        "Contains",
+        "NotContains",
+        "IsAssigned",
+        "IsNotAssigned",
+        "HasRole",
+        "NotHasRole",
+    ] | None = Field(default=None, alias="Operator")
+    right_operand: dict[str, Any] | None = Field(default=None, alias="RightOperand")
 
 
 class LabTechSensorCheck(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
     sensor_check_type: Literal[
-        'SystemAverages', 'SystemCounts', 'Trends', 'PerDayCounts'
-    ] | None = Field(default=None, alias='SensorCheckType')
+        "SystemAverages", "SystemCounts", "Trends", "PerDayCounts"
+    ] | None = Field(default=None, alias="SensorCheckType")
 
 
 class AutomateServerInformation(ConnectWiseModel):
-    server_id: int | None = Field(default=None, alias='ServerId')
-    operating_system: str | None = Field(default=None, alias='OperatingSystem')
-    mac_address: str | None = Field(default=None, alias='MacAddress')
-    machine_name: str | None = Field(default=None, alias='MachineName')
-    cpu_name: str | None = Field(default=None, alias='CPUName')
-    cpu_sockets: int | None = Field(default=None, alias='CPUSockets')
-    cpu_cores: int | None = Field(default=None, alias='CPUCores')
-    logical_processors: int | None = Field(default=None, alias='LogicalProcessors')
-    memory_total: int | None = Field(default=None, alias='MemoryTotal')
-    is_database_server: bool | None = Field(default=None, alias='IsDatabaseServer')
-    is_web_server: bool | None = Field(default=None, alias='IsWebServer')
+    server_id: int | None = Field(default=None, alias="ServerId")
+    operating_system: str | None = Field(default=None, alias="OperatingSystem")
+    mac_address: str | None = Field(default=None, alias="MacAddress")
+    machine_name: str | None = Field(default=None, alias="MachineName")
+    cpu_name: str | None = Field(default=None, alias="CPUName")
+    cpu_sockets: int | None = Field(default=None, alias="CPUSockets")
+    cpu_cores: int | None = Field(default=None, alias="CPUCores")
+    logical_processors: int | None = Field(default=None, alias="LogicalProcessors")
+    memory_total: int | None = Field(default=None, alias="MemoryTotal")
+    is_database_server: bool | None = Field(default=None, alias="IsDatabaseServer")
+    is_web_server: bool | None = Field(default=None, alias="IsWebServer")
 
 
 class AutomateImplicitClientUpgradeRequest(ConnectWiseModel):
-    implicit_token: str | None = Field(default=None, alias='ImplicitToken')
+    implicit_token: str | None = Field(default=None, alias="ImplicitToken")
 
 
 class AutomateRegisterSsoRequest(ConnectWiseModel):
-    registration_token: str | None = Field(default=None, alias='RegistrationToken')
+    registration_token: str | None = Field(default=None, alias="RegistrationToken")
     enabled_user_folders: list[int] | None = Field(
-        default=None, alias='EnabledUserFolders'
+        default=None, alias="EnabledUserFolders"
     )
 
 
 class AutomateUnregisterSsoRequest(ConnectWiseModel):
-    client_id: str | None = Field(default=None, alias='ClientId')
+    client_id: str | None = Field(default=None, alias="ClientId")
 
 
 class LabTechDriveStatistics(ConnectWiseModel):
-    drive_id: int | None = Field(default=None, alias='DriveId')
+    drive_id: int | None = Field(default=None, alias="DriveId")
     percentage_used_difference: float | None = Field(
-        default=None, alias='PercentageUsedDifference'
+        default=None, alias="PercentageUsedDifference"
     )
 
 
 class AutomateAgentStatistics(ConnectWiseModel):
     total_agents_purchased: int | None = Field(
-        default=None, alias='TotalAgentsPurchased'
+        default=None, alias="TotalAgentsPurchased"
     )
-    total_agents_deployed: int | None = Field(default=None, alias='TotalAgentsDeployed')
+    total_agents_deployed: int | None = Field(default=None, alias="TotalAgentsDeployed")
 
 
 class AutomateScriptAutomationTimeResult(ConnectWiseModel):
-    successful_scripts: int | None = Field(default=None, alias='SuccessfulScripts')
+    successful_scripts: int | None = Field(default=None, alias="SuccessfulScripts")
     automation_time_minutes: int | None = Field(
-        default=None, alias='AutomationTimeMinutes'
+        default=None, alias="AutomationTimeMinutes"
     )
-    automation_value: int | None = Field(default=None, alias='AutomationValue')
+    automation_value: int | None = Field(default=None, alias="AutomationValue")
 
 
 class AutomateScriptAutomationTimeUserResult(ConnectWiseModel):
-    name: str | None = Field(default=None, alias='Name')
-    successful_scripts: int | None = Field(default=None, alias='SuccessfulScripts')
+    name: str | None = Field(default=None, alias="Name")
+    successful_scripts: int | None = Field(default=None, alias="SuccessfulScripts")
     automation_time_minutes: int | None = Field(
-        default=None, alias='AutomationTimeMinutes'
+        default=None, alias="AutomationTimeMinutes"
     )
-    automation_value: int | None = Field(default=None, alias='AutomationValue')
+    automation_value: int | None = Field(default=None, alias="AutomationValue")
 
 
 class AutomateGetComputerStatisticsRequest(ConnectWiseModel):
-    number_of_days: int | None = Field(default=None, alias='NumberOfDays')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
-    entity_type: str | None = Field(default=None, alias='EntityType')
+    number_of_days: int | None = Field(default=None, alias="NumberOfDays")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
+    entity_type: str | None = Field(default=None, alias="EntityType")
 
 
 class AutomateGetScriptStatisticsResponse(ConnectWiseModel):
-    script_history_count: int | None = Field(default=None, alias='ScriptHistoryCount')
-    script_pending_count: int | None = Field(default=None, alias='ScriptPendingCount')
-    script_running_count: int | None = Field(default=None, alias='ScriptRunningCount')
-    script_failure_count: int | None = Field(default=None, alias='ScriptFailureCount')
-    script_success_count: int | None = Field(default=None, alias='ScriptSuccessCount')
+    script_history_count: int | None = Field(default=None, alias="ScriptHistoryCount")
+    script_pending_count: int | None = Field(default=None, alias="ScriptPendingCount")
+    script_running_count: int | None = Field(default=None, alias="ScriptRunningCount")
+    script_failure_count: int | None = Field(default=None, alias="ScriptFailureCount")
+    script_success_count: int | None = Field(default=None, alias="ScriptSuccessCount")
 
 
 class AutomateGetCommandStatisticsResponse(ConnectWiseModel):
-    command_pending_count: int | None = Field(default=None, alias='CommandPendingCount')
-    command_failure_count: int | None = Field(default=None, alias='CommandFailureCount')
+    command_pending_count: int | None = Field(default=None, alias="CommandPendingCount")
+    command_failure_count: int | None = Field(default=None, alias="CommandFailureCount")
 
 
 class AutomateIndividualScriptStatisticsResponse(ConnectWiseModel):
-    success_count: int | None = Field(default=None, alias='SuccessCount')
-    total_run_count: int | None = Field(default=None, alias='TotalRunCount')
-    last_run_target: str | None = Field(default=None, alias='LastRunTarget')
-    last_run_date: datetime | None = Field(default=None, alias='LastRunDate')
-    total_value: int | None = Field(default=None, alias='TotalValue')
+    success_count: int | None = Field(default=None, alias="SuccessCount")
+    total_run_count: int | None = Field(default=None, alias="TotalRunCount")
+    last_run_target: str | None = Field(default=None, alias="LastRunTarget")
+    last_run_date: datetime | None = Field(default=None, alias="LastRunDate")
+    total_value: int | None = Field(default=None, alias="TotalValue")
     last_history_date_available: datetime | None = Field(
-        default=None, alias='LastHistoryDateAvailable'
+        default=None, alias="LastHistoryDateAvailable"
     )
-    last_run_status: str | None = Field(default=None, alias='LastRunStatus')
+    last_run_status: str | None = Field(default=None, alias="LastRunStatus")
 
 
 class AutomateWorkflowStep(ConnectWiseModel):
-    workflow_step_id: int | None = Field(default=None, alias='WorkflowStepId')
-    description: str | None = Field(default=None, alias='Description')
-    is_required: bool | None = Field(default=None, alias='IsRequired')
-    prerequisite_id: int | None = Field(default=None, alias='PrerequisiteId')
+    workflow_step_id: int | None = Field(default=None, alias="WorkflowStepId")
+    description: str | None = Field(default=None, alias="Description")
+    is_required: bool | None = Field(default=None, alias="IsRequired")
+    prerequisite_id: int | None = Field(default=None, alias="PrerequisiteId")
 
 
 class AutomateWorkflowStatus(ConnectWiseModel):
-    workflow_status_id: int | None = Field(default=None, alias='WorkflowStatusId')
-    description: str | None = Field(default=None, alias='Description')
+    workflow_status_id: int | None = Field(default=None, alias="WorkflowStatusId")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateWorkflowMetadata(ConnectWiseModel):
     system_workflow_progress_metadata_id: int | None = Field(
-        default=None, alias='SystemWorkflowProgressMetadataId'
+        default=None, alias="SystemWorkflowProgressMetadataId"
     )
-    metadata_key: str | None = Field(default=None, alias='MetadataKey')
-    metadata_value: str | None = Field(default=None, alias='MetadataValue')
+    metadata_key: str | None = Field(default=None, alias="MetadataKey")
+    metadata_value: str | None = Field(default=None, alias="MetadataValue")
 
 
 class LabTechTemplateAvailableProperty(ConnectWiseModel):
-    property_id: str | None = Field(default=None, alias='PropertyId')
-    property_name: str | None = Field(default=None, alias='PropertyName')
-    property_description: str | None = Field(default=None, alias='PropertyDescription')
-    property_guid: str | None = Field(default=None, alias='PropertyGuid')
+    property_id: str | None = Field(default=None, alias="PropertyId")
+    property_name: str | None = Field(default=None, alias="PropertyName")
+    property_description: str | None = Field(default=None, alias="PropertyDescription")
+    property_guid: str | None = Field(default=None, alias="PropertyGuid")
 
 
 class AutomateThirdPartyPatchesSummaryData(ConnectWiseModel):
     third_party_compliance_score: float | None = Field(
-        default=None, alias='ThirdPartyComplianceScore'
+        default=None, alias="ThirdPartyComplianceScore"
     )
     third_party_server_compliance_score: float | None = Field(
-        default=None, alias='ThirdPartyServerComplianceScore'
+        default=None, alias="ThirdPartyServerComplianceScore"
     )
     third_party_workstation_compliance_score: float | None = Field(
-        default=None, alias='ThirdPartyWorkstationComplianceScore'
+        default=None, alias="ThirdPartyWorkstationComplianceScore"
     )
     devices_affecting_compliance_count: int | None = Field(
-        default=None, alias='DevicesAffectingComplianceCount'
+        default=None, alias="DevicesAffectingComplianceCount"
     )
     servers_affecting_compliance_count: int | None = Field(
-        default=None, alias='ServersAffectingComplianceCount'
+        default=None, alias="ServersAffectingComplianceCount"
     )
     workstations_affecting_compliance_count: int | None = Field(
-        default=None, alias='WorkstationsAffectingComplianceCount'
+        default=None, alias="WorkstationsAffectingComplianceCount"
     )
-    approved_count: int | None = Field(default=None, alias='ApprovedCount')
-    compliant_count: int | None = Field(default=None, alias='CompliantCount')
-    failed_count: int | None = Field(default=None, alias='FailedCount')
+    approved_count: int | None = Field(default=None, alias="ApprovedCount")
+    compliant_count: int | None = Field(default=None, alias="CompliantCount")
+    failed_count: int | None = Field(default=None, alias="FailedCount")
     incorrect_version_count: int | None = Field(
-        default=None, alias='IncorrectVersionCount'
+        default=None, alias="IncorrectVersionCount"
     )
-    non_compliant_count: int | None = Field(default=None, alias='NonCompliantCount')
-    not_attempted_count: int | None = Field(default=None, alias='NotAttemptedCount')
+    non_compliant_count: int | None = Field(default=None, alias="NonCompliantCount")
+    not_attempted_count: int | None = Field(default=None, alias="NotAttemptedCount")
 
 
 class AutomateThirdPartyPatchVersion(ConnectWiseModel):
     lt_product_key: UUID | None = Field(
         default=None,
-        alias='LTProductKey',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="LTProductKey",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    versions: list[str] | None = Field(default=None, alias='Versions')
+    versions: list[str] | None = Field(default=None, alias="Versions")
 
 
 class AutomateUserBinaryExtensionPermission(ConnectWiseModel):
-    has_permission: bool | None = Field(default=None, alias='HasPermission')
+    has_permission: bool | None = Field(default=None, alias="HasPermission")
     extension_permission_id: int | None = Field(
-        default=None, alias='ExtensionPermissionId'
+        default=None, alias="ExtensionPermissionId"
     )
     extension_guid: UUID | None = Field(
         default=None,
-        alias='ExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="ExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    extension_name: str | None = Field(default=None, alias='ExtensionName')
-    permission_id: int | None = Field(default=None, alias='PermissionId')
-    permission_name: str | None = Field(default=None, alias='PermissionName')
+    extension_name: str | None = Field(default=None, alias="ExtensionName")
+    permission_id: int | None = Field(default=None, alias="PermissionId")
+    permission_name: str | None = Field(default=None, alias="PermissionName")
 
 
 class AutomateUserExtensionClaimType(ConnectWiseModel):
-    has_claim: bool | None = Field(default=None, alias='HasClaim')
+    has_claim: bool | None = Field(default=None, alias="HasClaim")
     extension_claim_type_id: int | None = Field(
-        default=None, alias='ExtensionClaimTypeId'
+        default=None, alias="ExtensionClaimTypeId"
     )
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
-    display_name: str | None = Field(default=None, alias='DisplayName')
-    claim_key: str | None = Field(default=None, alias='ClaimKey')
-    description: str | None = Field(default=None, alias='Description')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
+    display_name: str | None = Field(default=None, alias="DisplayName")
+    claim_key: str | None = Field(default=None, alias="ClaimKey")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateSsoUser(ConnectWiseModel):
-    partner_id: str | None = Field(default=None, alias='PartnerId')
-    id: str | None = Field(default=None, alias='Id')
-    user_name: str | None = Field(default=None, alias='UserName')
-    email: str | None = Field(default=None, alias='Email')
-    first_name: str | None = Field(default=None, alias='FirstName')
-    last_name: str | None = Field(default=None, alias='LastName')
-    login_scheme: str | None = Field(default=None, alias='LoginScheme')
-    email_confirmed: bool | None = Field(default=None, alias='EmailConfirmed')
-    is_disabled: bool | None = Field(default=None, alias='IsDisabled')
-    created: int | None = Field(default=None, alias='Created')
-    updated: int | None = Field(default=None, alias='Updated')
+    partner_id: str | None = Field(default=None, alias="PartnerId")
+    id: str | None = Field(default=None, alias="Id")
+    user_name: str | None = Field(default=None, alias="UserName")
+    email: str | None = Field(default=None, alias="Email")
+    first_name: str | None = Field(default=None, alias="FirstName")
+    last_name: str | None = Field(default=None, alias="LastName")
+    login_scheme: str | None = Field(default=None, alias="LoginScheme")
+    email_confirmed: bool | None = Field(default=None, alias="EmailConfirmed")
+    is_disabled: bool | None = Field(default=None, alias="IsDisabled")
+    created: int | None = Field(default=None, alias="Created")
+    updated: int | None = Field(default=None, alias="Updated")
 
 
 class AutomateLinkToSsoRequest(ConnectWiseModel):
-    service_identifier: str | None = Field(default=None, alias='ServiceIdentifier')
+    service_identifier: str | None = Field(default=None, alias="ServiceIdentifier")
 
 
 class AutomateChangePasswordRequest(ConnectWiseModel):
-    old_password: str | None = Field(default=None, alias='OldPassword')
-    new_password: str | None = Field(default=None, alias='NewPassword')
+    old_password: str | None = Field(default=None, alias="OldPassword")
+    new_password: str | None = Field(default=None, alias="NewPassword")
 
 
 class AutomateUserPasswordResetRequest(ConnectWiseModel):
-    username: str | None = Field(default=None, alias='Username')
-    password_reset_token: str | None = Field(default=None, alias='PasswordResetToken')
-    new_password: str | None = Field(default=None, alias='NewPassword')
+    username: str | None = Field(default=None, alias="Username")
+    password_reset_token: str | None = Field(default=None, alias="PasswordResetToken")
+    new_password: str | None = Field(default=None, alias="NewPassword")
 
 
 class LabTechAuditAction(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    level: int | None = Field(default=None, alias='Level')
-    extension_name: str | None = Field(default=None, alias='ExtensionName')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    level: int | None = Field(default=None, alias="Level")
+    extension_name: str | None = Field(default=None, alias="ExtensionName")
 
 
 class LabTechAuditSource(AutomateAlertClient):
@@ -3269,53 +3269,53 @@ class LabTechAuditSource(AutomateAlertClient):
 
 
 class LabTechAPIAuthLinkInformation(ConnectWiseModel):
-    nonce: str | None = Field(default=None, alias='Nonce')
+    nonce: str | None = Field(default=None, alias="Nonce")
 
 
 class AutomateUserAvatar(ConnectWiseModel):
-    file_data: str | None = Field(default=None, alias='FileData')
+    file_data: str | None = Field(default=None, alias="FileData")
 
 
 class AutomateExtensionClaimViewModel(ConnectWiseModel):
     extension_claim_type_id: int | None = Field(
-        default=None, alias='ExtensionClaimTypeId'
+        default=None, alias="ExtensionClaimTypeId"
     )
-    display_name: str | None = Field(default=None, alias='DisplayName')
-    description: str | None = Field(default=None, alias='Description')
-    is_assigned: bool | None = Field(default=None, alias='IsAssigned')
-    is_default_claim: bool | None = Field(default=None, alias='IsDefaultClaim')
+    display_name: str | None = Field(default=None, alias="DisplayName")
+    description: str | None = Field(default=None, alias="Description")
+    is_assigned: bool | None = Field(default=None, alias="IsAssigned")
+    is_default_claim: bool | None = Field(default=None, alias="IsDefaultClaim")
 
 
 class AutomateAssignedWebExtension(ConnectWiseModel):
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
-    assigned_claims: list[int] | None = Field(default=None, alias='AssignedClaims')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
+    assigned_claims: list[int] | None = Field(default=None, alias="AssignedClaims")
 
 
 class LabTechUserFavorite(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    user_id: int | None = Field(default=None, alias='UserId')
+    id: int | None = Field(default=None, alias="Id")
+    user_id: int | None = Field(default=None, alias="UserId")
     additional_identifier: str | None = Field(
-        default=None, alias='AdditionalIdentifier'
+        default=None, alias="AdditionalIdentifier"
     )
-    order: int | None = Field(default=None, alias='Order')
-    item_guid: str | None = Field(default=None, alias='ItemGUID')
+    order: int | None = Field(default=None, alias="Order")
+    item_guid: str | None = Field(default=None, alias="ItemGUID")
 
 
 class AutomateUserFolder(ConnectWiseModel):
-    user_folder_id: int | None = Field(default=None, alias='UserFolderId')
-    name: str | None = Field(default=None, alias='Name')
-    is_sso_enabled: bool | None = Field(default=None, alias='IsSsoEnabled')
+    user_folder_id: int | None = Field(default=None, alias="UserFolderId")
+    name: str | None = Field(default=None, alias="Name")
+    is_sso_enabled: bool | None = Field(default=None, alias="IsSsoEnabled")
 
 
 class LabTechUserProfile(ConnectWiseModel):
-    is_super_admin: bool | None = Field(default=None, alias='IsSuperAdmin')
-    is_folder_limited: bool | None = Field(default=None, alias='IsFolderLimited')
-    user_class_id_list: list[int] | None = Field(default=None, alias='UserClassIdList')
+    is_super_admin: bool | None = Field(default=None, alias="IsSuperAdmin")
+    is_folder_limited: bool | None = Field(default=None, alias="IsFolderLimited")
+    user_class_id_list: list[int] | None = Field(default=None, alias="UserClassIdList")
 
 
 class AutomateTicketLevel(ConnectWiseModel):
-    ticket_level_id: int | None = Field(default=None, alias='TicketLevelId')
-    name: str | None = Field(default=None, alias='Name')
+    ticket_level_id: int | None = Field(default=None, alias="TicketLevelId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateUserSingleSignOnStatus(LabTechUserSingleSignOnStatus):
@@ -3323,61 +3323,61 @@ class AutomateUserSingleSignOnStatus(LabTechUserSingleSignOnStatus):
 
 
 class LabTechUserSetting(ConnectWiseModel):
-    user_id: int | None = Field(default=None, alias='UserId')
-    name: str | None = Field(default=None, alias='Name')
-    value: str | None = Field(default=None, alias='Value')
+    user_id: int | None = Field(default=None, alias="UserId")
+    name: str | None = Field(default=None, alias="Name")
+    value: str | None = Field(default=None, alias="Value")
 
 
 class AutomateUserLockoutInfo(ConnectWiseModel):
-    user_name: str | None = Field(default=None, alias='UserName')
-    user_id: int | None = Field(default=None, alias='UserId')
-    last_ip_address: str | None = Field(default=None, alias='LastIPAddress')
-    is_locked: bool | None = Field(default=None, alias='IsLocked')
-    failed_login_count: int | None = Field(default=None, alias='FailedLoginCount')
-    last_fail_date_utc: datetime | None = Field(default=None, alias='LastFailDateUtc')
+    user_name: str | None = Field(default=None, alias="UserName")
+    user_id: int | None = Field(default=None, alias="UserId")
+    last_ip_address: str | None = Field(default=None, alias="LastIPAddress")
+    is_locked: bool | None = Field(default=None, alias="IsLocked")
+    failed_login_count: int | None = Field(default=None, alias="FailedLoginCount")
+    last_fail_date_utc: datetime | None = Field(default=None, alias="LastFailDateUtc")
     lock_out_expiration_date_utc: datetime | None = Field(
-        default=None, alias='LockOutExpirationDateUtc'
+        default=None, alias="LockOutExpirationDateUtc"
     )
 
 
 class AutomateGroupPermissionSettings(ConnectWiseModel):
-    is_inherited: bool | None = Field(default=None, alias='IsInherited')
+    is_inherited: bool | None = Field(default=None, alias="IsInherited")
     computer_permission_settings: dict[str, list[str]] | None = Field(
-        default=None, alias='ComputerPermissionSettings'
+        default=None, alias="ComputerPermissionSettings"
     )
 
 
 class AutomateMonitorAlertPolicy(ConnectWiseModel):
     effective_policy_type_id: int | None = Field(
-        default=None, alias='EffectivePolicyTypeId'
+        default=None, alias="EffectivePolicyTypeId"
     )
     effective_policy_type_name: str | None = Field(
-        default=None, alias='EffectivePolicyTypeName'
+        default=None, alias="EffectivePolicyTypeName"
     )
     is_alert_template_overridden: bool | None = Field(
-        default=None, alias='IsAlertTemplateOverridden'
+        default=None, alias="IsAlertTemplateOverridden"
     )
-    alert_template_id: int | None = Field(default=None, alias='AlertTemplateId')
-    alert_template_name: str | None = Field(default=None, alias='AlertTemplateName')
+    alert_template_id: int | None = Field(default=None, alias="AlertTemplateId")
+    alert_template_name: str | None = Field(default=None, alias="AlertTemplateName")
     alert_template_description: str | None = Field(
-        default=None, alias='AlertTemplateDescription'
+        default=None, alias="AlertTemplateDescription"
     )
     is_ticket_category_overridden: bool | None = Field(
-        default=None, alias='IsTicketCategoryOverridden'
+        default=None, alias="IsTicketCategoryOverridden"
     )
-    ticket_category_id: int | None = Field(default=None, alias='TicketCategoryId')
-    ticket_category_name: str | None = Field(default=None, alias='TicketCategoryName')
+    ticket_category_id: int | None = Field(default=None, alias="TicketCategoryId")
+    ticket_category_name: str | None = Field(default=None, alias="TicketCategoryName")
     inheritance_source_name: str | None = Field(
-        default=None, alias='InheritanceSourceName'
+        default=None, alias="InheritanceSourceName"
     )
 
 
 class AutomateAlertingOverride(ConnectWiseModel):
     alert_template: AutomateAlertTemplate | None = Field(
-        default=None, alias='AlertTemplate'
+        default=None, alias="AlertTemplate"
     )
     ticket_category: AutomateTicketCategory | None = Field(
-        default=None, alias='TicketCategory'
+        default=None, alias="TicketCategory"
     )
 
 
@@ -3386,28 +3386,28 @@ class AutomateTargetType(AutomateRunningScriptTargetType):
 
 
 class AutomateAlertStyleType(ConnectWiseModel):
-    alert_style_type_id: int | None = Field(default=None, alias='AlertStyleTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    alert_style_type_id: int | None = Field(default=None, alias="AlertStyleTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateAlertScript(ConnectWiseModel):
-    alert_script_id: int | None = Field(default=None, alias='AlertScriptId')
-    name: str | None = Field(default=None, alias='Name')
+    alert_script_id: int | None = Field(default=None, alias="AlertScriptId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateCheckType(ConnectWiseModel):
-    check_type_id: int | None = Field(default=None, alias='CheckTypeId')
-    legacy_check_type_id: int | None = Field(default=None, alias='LegacyCheckTypeId')
-    name: str | None = Field(default=None, alias='Name')
+    check_type_id: int | None = Field(default=None, alias="CheckTypeId")
+    legacy_check_type_id: int | None = Field(default=None, alias="LegacyCheckTypeId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateCheckInterval(ConnectWiseModel):
-    interval_in_seconds: int | None = Field(default=None, alias='IntervalInSeconds')
-    name: str | None = Field(default=None, alias='Name')
+    interval_in_seconds: int | None = Field(default=None, alias="IntervalInSeconds")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomatePingSettings(ConnectWiseModel):
-    server_address: str | None = Field(default=None, alias='ServerAddress')
+    server_address: str | None = Field(default=None, alias="ServerAddress")
 
 
 class AutomateLatencySettings(AutomatePingSettings):
@@ -3415,9 +3415,9 @@ class AutomateLatencySettings(AutomatePingSettings):
 
 
 class AutomateTcpSettings(ConnectWiseModel):
-    server_address: str | None = Field(default=None, alias='ServerAddress')
-    port: int | None = Field(default=None, alias='Port')
-    data_to_send: str | None = Field(default=None, alias='DataToSend')
+    server_address: str | None = Field(default=None, alias="ServerAddress")
+    port: int | None = Field(default=None, alias="Port")
+    data_to_send: str | None = Field(default=None, alias="DataToSend")
 
 
 class AutomateUdpSettings(AutomateTcpSettings):
@@ -3425,10 +3425,10 @@ class AutomateUdpSettings(AutomateTcpSettings):
 
 
 class AutomateSnmpSettings(ConnectWiseModel):
-    server_address: str | None = Field(default=None, alias='ServerAddress')
-    community_string: str | None = Field(default=None, alias='CommunityString')
-    oid: str | None = Field(default=None, alias='Oid')
-    should_use_snmp_v2: bool | None = Field(default=None, alias='ShouldUseSnmpV2')
+    server_address: str | None = Field(default=None, alias="ServerAddress")
+    community_string: str | None = Field(default=None, alias="CommunityString")
+    oid: str | None = Field(default=None, alias="Oid")
+    should_use_snmp_v2: bool | None = Field(default=None, alias="ShouldUseSnmpV2")
 
 
 class AutomatePerformanceCounterSettings(LabTechPerformanceCounterQueryParameters):
@@ -3436,195 +3436,195 @@ class AutomatePerformanceCounterSettings(LabTechPerformanceCounterQueryParameter
 
 
 class AutomateFileOrDirectorySettings(ConnectWiseModel):
-    path: str | None = Field(default=None, alias='Path')
+    path: str | None = Field(default=None, alias="Path")
 
 
 class AutomateServiceSettings(ConnectWiseModel):
-    service_name: str | None = Field(default=None, alias='ServiceName')
+    service_name: str | None = Field(default=None, alias="ServiceName")
 
 
 class AutomateDiskSpaceSettings(ConnectWiseModel):
-    drive_letter: str | None = Field(default=None, alias='DriveLetter')
+    drive_letter: str | None = Field(default=None, alias="DriveLetter")
 
 
 class AutomateRegistrySettings(ConnectWiseModel):
-    registry_hive_type_id: int | None = Field(default=None, alias='RegistryHiveTypeId')
-    registry_key: str | None = Field(default=None, alias='RegistryKey')
-    value_name: str | None = Field(default=None, alias='ValueName')
+    registry_hive_type_id: int | None = Field(default=None, alias="RegistryHiveTypeId")
+    registry_key: str | None = Field(default=None, alias="RegistryKey")
+    value_name: str | None = Field(default=None, alias="ValueName")
 
 
 class AutomateProcessSettings(ConnectWiseModel):
-    process_name: str | None = Field(default=None, alias='ProcessName')
+    process_name: str | None = Field(default=None, alias="ProcessName")
 
 
 class AutomateEventLogSettings(ConnectWiseModel):
-    log_file_name: str | None = Field(default=None, alias='LogFileName')
-    event_type_id: int | None = Field(default=None, alias='EventTypeId')
-    source: str | None = Field(default=None, alias='Source')
-    event_id: str | None = Field(default=None, alias='EventId')
-    message_regex: str | None = Field(default=None, alias='MessageRegex')
+    log_file_name: str | None = Field(default=None, alias="LogFileName")
+    event_type_id: int | None = Field(default=None, alias="EventTypeId")
+    source: str | None = Field(default=None, alias="Source")
+    event_id: str | None = Field(default=None, alias="EventId")
+    message_regex: str | None = Field(default=None, alias="MessageRegex")
 
 
 class AutomateExecutableSettings(ConnectWiseModel):
     executable_invocation: str | None = Field(
-        default=None, alias='ExecutableInvocation'
+        default=None, alias="ExecutableInvocation"
     )
 
 
 class AutomateWmiSettings(ConnectWiseModel):
-    wmi_query: str | None = Field(default=None, alias='WmiQuery')
+    wmi_query: str | None = Field(default=None, alias="WmiQuery")
 
 
 class AutomateBandwidthSettings(ConnectWiseModel):
-    ip_address: str | None = Field(default=None, alias='IpAddress')
-    snmp_version_id: int | None = Field(default=None, alias='SnmpVersionId')
-    community_string: str | None = Field(default=None, alias='CommunityString')
-    data_to_watch_id: int | None = Field(default=None, alias='DataToWatchId')
-    index_to_watch: str | None = Field(default=None, alias='IndexToWatch')
-    snmp_v3_user_name: str | None = Field(default=None, alias='SnmpV3UserName')
-    snmp_v3_auth_password: str | None = Field(default=None, alias='SnmpV3AuthPassword')
-    snmp_v3_auth_method_id: int | None = Field(default=None, alias='SnmpV3AuthMethodId')
+    ip_address: str | None = Field(default=None, alias="IpAddress")
+    snmp_version_id: int | None = Field(default=None, alias="SnmpVersionId")
+    community_string: str | None = Field(default=None, alias="CommunityString")
+    data_to_watch_id: int | None = Field(default=None, alias="DataToWatchId")
+    index_to_watch: str | None = Field(default=None, alias="IndexToWatch")
+    snmp_v3_user_name: str | None = Field(default=None, alias="SnmpV3UserName")
+    snmp_v3_auth_password: str | None = Field(default=None, alias="SnmpV3AuthPassword")
+    snmp_v3_auth_method_id: int | None = Field(default=None, alias="SnmpV3AuthMethodId")
     snmp_v3_encryption_password: str | None = Field(
-        default=None, alias='SnmpV3EncryptionPassword'
+        default=None, alias="SnmpV3EncryptionPassword"
     )
     snmp_v3_encryption_method_id: int | None = Field(
-        default=None, alias='SnmpV3EncryptionMethodId'
+        default=None, alias="SnmpV3EncryptionMethodId"
     )
 
 
 class AutomateSensorSettings(ConnectWiseModel):
-    sensor_number: int | None = Field(default=None, alias='SensorNumber')
-    sensor_type_id: int | None = Field(default=None, alias='SensorTypeId')
+    sensor_number: int | None = Field(default=None, alias="SensorNumber")
+    sensor_type_id: int | None = Field(default=None, alias="SensorTypeId")
 
 
 class AutomateStateCondition(ConnectWiseModel):
-    conditional_type_id: int | None = Field(default=None, alias='ConditionalTypeId')
-    comparand: str | None = Field(default=None, alias='Comparand')
+    conditional_type_id: int | None = Field(default=None, alias="ConditionalTypeId")
+    comparand: str | None = Field(default=None, alias="Comparand")
 
 
 class AutomateSubmittableScriptFolder(ConnectWiseModel):
-    script_folder_id: int | None = Field(default=None, alias='ScriptFolderId')
-    name: str | None = Field(default=None, alias='Name')
+    script_folder_id: int | None = Field(default=None, alias="ScriptFolderId")
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateScriptSettingsViewModel(ConnectWiseModel):
     user_classes: list[AutomateUserClass] | None = Field(
-        default=None, alias='UserClasses'
+        default=None, alias="UserClasses"
     )
     ticket_categories: list[AutomateTicketEntryCategory] | None = Field(
-        default=None, alias='TicketCategories'
+        default=None, alias="TicketCategories"
     )
     close_ticket_triggers: list[AutomateCloseTicketTrigger] | None = Field(
-        default=None, alias='CloseTicketTriggers'
+        default=None, alias="CloseTicketTriggers"
     )
-    users: list[AutomateTimeEntryTechnician] | None = Field(default=None, alias='Users')
+    users: list[AutomateTimeEntryTechnician] | None = Field(default=None, alias="Users")
     stop_timer_triggers: list[AutomateStopTimerTrigger] | None = Field(
-        default=None, alias='StopTimerTriggers'
+        default=None, alias="StopTimerTriggers"
     )
     ticket_time_categories: list[AutomateTimeEntryCategory] | None = Field(
-        default=None, alias='TicketTimeCategories'
+        default=None, alias="TicketTimeCategories"
     )
 
 
 class AutomateScriptStepsViewModel(ConnectWiseModel):
     disallowed_script_function_ids: list[int] | None = Field(
-        default=None, alias='DisallowedScriptFunctionIds'
+        default=None, alias="DisallowedScriptFunctionIds"
     )
 
 
 class AutomateScriptSummary(ConnectWiseModel):
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    folder: AutomateScriptFolder | None = Field(default=None, alias='Folder')
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    folder: AutomateScriptFolder | None = Field(default=None, alias="Folder")
     script_target_type: AutomateScriptTarget | None = Field(
-        default=None, alias='ScriptTargetType'
+        default=None, alias="ScriptTargetType"
     )
     script_options: AutomateScriptOptions | None = Field(
-        default=None, alias='ScriptOptions'
+        default=None, alias="ScriptOptions"
     )
-    automation_minutes: int | None = Field(default=None, alias='AutomationMinutes')
+    automation_minutes: int | None = Field(default=None, alias="AutomationMinutes")
 
 
 class AutomateRemoteCommand(ConnectWiseModel):
-    remote_command_id: int | None = Field(default=None, alias='RemoteCommandId')
-    parameters: str | None = Field(default=None, alias='Parameters')
+    remote_command_id: int | None = Field(default=None, alias="RemoteCommandId")
+    parameters: str | None = Field(default=None, alias="Parameters")
 
 
 class AutomateWebExtensionArea(ConnectWiseModel):
-    web_extension_area_id: int | None = Field(default=None, alias='WebExtensionAreaId')
+    web_extension_area_id: int | None = Field(default=None, alias="WebExtensionAreaId")
     web_extension_area_name: str | None = Field(
-        default=None, alias='WebExtensionAreaName'
+        default=None, alias="WebExtensionAreaName"
     )
     web_extension_screen_id: int | None = Field(
-        default=None, alias='WebExtensionScreenId'
+        default=None, alias="WebExtensionScreenId"
     )
 
 
 class AutomateExtensionClaimType(ConnectWiseModel):
     extension_claim_type_id: int | None = Field(
-        default=None, alias='ExtensionClaimTypeId'
+        default=None, alias="ExtensionClaimTypeId"
     )
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
-    display_name: str | None = Field(default=None, alias='DisplayName')
-    claim_key: str | None = Field(default=None, alias='ClaimKey')
-    description: str | None = Field(default=None, alias='Description')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
+    display_name: str | None = Field(default=None, alias="DisplayName")
+    claim_key: str | None = Field(default=None, alias="ClaimKey")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateWebExtensionTileSize(ConnectWiseModel):
-    tile_size_id: int | None = Field(default=None, alias='TileSizeId')
-    description: str | None = Field(default=None, alias='Description')
+    tile_size_id: int | None = Field(default=None, alias="TileSizeId")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateWebExtensionUrlOpenType(ConnectWiseModel):
-    url_open_type_id: int | None = Field(default=None, alias='UrlOpenTypeId')
-    description: str | None = Field(default=None, alias='Description')
+    url_open_type_id: int | None = Field(default=None, alias="UrlOpenTypeId")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateExtensionSolution(ConnectWiseModel):
-    extension_solution_id: int | None = Field(default=None, alias='ExtensionSolutionId')
+    extension_solution_id: int | None = Field(default=None, alias="ExtensionSolutionId")
     solution_guid: UUID | None = Field(
         default=None,
-        alias='SolutionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="SolutionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    solution_name: str | None = Field(default=None, alias='SolutionName')
-    is_installed: bool | None = Field(default=None, alias='IsInstalled')
-    installed_version: str | None = Field(default=None, alias='InstalledVersion')
-    latest_version: str | None = Field(default=None, alias='LatestVersion')
+    solution_name: str | None = Field(default=None, alias="SolutionName")
+    is_installed: bool | None = Field(default=None, alias="IsInstalled")
+    installed_version: str | None = Field(default=None, alias="InstalledVersion")
+    latest_version: str | None = Field(default=None, alias="LatestVersion")
 
 
 class AutomateExtensionStatus(ConnectWiseModel):
-    extension_status_id: int | None = Field(default=None, alias='ExtensionStatusId')
-    description: str | None = Field(default=None, alias='Description')
+    extension_status_id: int | None = Field(default=None, alias="ExtensionStatusId")
+    description: str | None = Field(default=None, alias="Description")
 
 
 class AutomateWindowsReleaseStats(ConnectWiseModel):
-    release_id: int | None = Field(default=None, alias='ReleaseId')
-    release_count: int | None = Field(default=None, alias='ReleaseCount')
+    release_id: int | None = Field(default=None, alias="ReleaseId")
+    release_count: int | None = Field(default=None, alias="ReleaseCount")
 
 
 class SystemString(ConnectWiseModel):
-    key: str | None = Field(default=None, alias='Key')
-    value: str | None = Field(default=None, alias='Value')
+    key: str | None = Field(default=None, alias="Key")
+    value: str | None = Field(default=None, alias="Value")
 
 
 class AutomateCommandMenuItemBase1(ConnectWiseModel):
-    display_name: str | None = Field(default=None, alias='DisplayName')
-    display_order: int | None = Field(default=None, alias='DisplayOrder')
-    menu_key: str | None = Field(default=None, alias='MenuKey')
+    display_name: str | None = Field(default=None, alias="DisplayName")
+    display_order: int | None = Field(default=None, alias="DisplayOrder")
+    menu_key: str | None = Field(default=None, alias="MenuKey")
     sub_menus: list[AutomateCommandMenuItemBase1] | None = Field(
-        default=None, alias='SubMenus'
+        default=None, alias="SubMenus"
     )
     menu_items: list[AutomateCommandMenuItemBase] | None = Field(
-        default=None, alias='MenuItems'
+        default=None, alias="MenuItems"
     )
 
 
 class LabTechProbeCommandHistoryEntry(ConnectWiseModel):
     result_set: list[AutomateProbeCommandHistoryEntry] | None = Field(
-        default=None, alias='ResultSet'
+        default=None, alias="ResultSet"
     )
-    total_record_count: int | None = Field(default=None, alias='TotalRecordCount')
+    total_record_count: int | None = Field(default=None, alias="TotalRecordCount")
 
 
 class AutomateString(AutomateComputerServiceItem):
@@ -3633,9 +3633,9 @@ class AutomateString(AutomateComputerServiceItem):
 
 class AutomateGuid(ConnectWiseModel):
     id: UUID | None = Field(
-        default=None, alias='Id', example='00000000-0000-0000-0000-000000000000'
+        default=None, alias="Id", example="00000000-0000-0000-0000-000000000000"
     )
-    name: str | None = Field(default=None, alias='Name')
+    name: str | None = Field(default=None, alias="Name")
 
 
 class AutomateInt32(AutomateAlertClient):
@@ -3643,90 +3643,90 @@ class AutomateInt32(AutomateAlertClient):
 
 
 class LabTechQueryOptions(ConnectWiseModel):
-    order_by: LabTechQueryOptionOrderBy | None = Field(default=None, alias='OrderBy')
-    page: int | None = Field(default=None, alias='Page')
-    page_size: int | None = Field(default=None, alias='PageSize')
-    condition: str | None = Field(default=None, alias='Condition')
+    order_by: LabTechQueryOptionOrderBy | None = Field(default=None, alias="OrderBy")
+    page: int | None = Field(default=None, alias="Page")
+    page_size: int | None = Field(default=None, alias="PageSize")
+    condition: str | None = Field(default=None, alias="Condition")
     expands: dict[str, LabTechQueryOptionExpand] | None = Field(
-        default=None, alias='Expands'
+        default=None, alias="Expands"
     )
-    included_fields: list[str] | None = Field(default=None, alias='IncludedFields')
-    excluded_fields: list[str] | None = Field(default=None, alias='ExcludedFields')
-    ids: list[str] | None = Field(default=None, alias='Ids')
-    timeout: int | None = Field(default=None, alias='Timeout')
+    included_fields: list[str] | None = Field(default=None, alias="IncludedFields")
+    excluded_fields: list[str] | None = Field(default=None, alias="ExcludedFields")
+    ids: list[str] | None = Field(default=None, alias="Ids")
+    timeout: int | None = Field(default=None, alias="Timeout")
 
 
 class AutomateAlert(ConnectWiseModel):
-    alert_id: int | None = Field(default=None, alias='AlertId')
-    client: AutomateAlertClient | None = Field(default=None, alias='Client')
-    computer: AutomateAlertComputer | None = Field(default=None, alias='Computer')
-    device: AutomateAlertDevice | None = Field(default=None, alias='Device')
-    location: AutomateAlertLocation | None = Field(default=None, alias='Location')
-    monitor: AutomateAlertMonitor | None = Field(default=None, alias='Monitor')
-    alert_date: datetime | None = Field(default=None, alias='AlertDate')
-    severity: AutomateAlertSeverityItem | None = Field(default=None, alias='Severity')
-    source: str | None = Field(default=None, alias='Source')
-    message: str | None = Field(default=None, alias='Message')
-    field_name: str | None = Field(default=None, alias='FieldName')
-    alert_age: str | None = Field(default=None, alias='AlertAge')
+    alert_id: int | None = Field(default=None, alias="AlertId")
+    client: AutomateAlertClient | None = Field(default=None, alias="Client")
+    computer: AutomateAlertComputer | None = Field(default=None, alias="Computer")
+    device: AutomateAlertDevice | None = Field(default=None, alias="Device")
+    location: AutomateAlertLocation | None = Field(default=None, alias="Location")
+    monitor: AutomateAlertMonitor | None = Field(default=None, alias="Monitor")
+    alert_date: datetime | None = Field(default=None, alias="AlertDate")
+    severity: AutomateAlertSeverityItem | None = Field(default=None, alias="Severity")
+    source: str | None = Field(default=None, alias="Source")
+    message: str | None = Field(default=None, alias="Message")
+    field_name: str | None = Field(default=None, alias="FieldName")
+    alert_age: str | None = Field(default=None, alias="AlertAge")
 
 
 class AutomateAuthInformation(ConnectWiseModel):
-    allow_direct: bool | None = Field(default=None, alias='AllowDirect')
+    allow_direct: bool | None = Field(default=None, alias="AllowDirect")
     allow_service_registration: bool | None = Field(
-        default=None, alias='AllowServiceRegistration'
+        default=None, alias="AllowServiceRegistration"
     )
-    automate_redirect_uri: str | None = Field(default=None, alias='AutomateRedirectUri')
-    services: list[AutomateAuthService] | None = Field(default=None, alias='Services')
+    automate_redirect_uri: str | None = Field(default=None, alias="AutomateRedirectUri")
+    services: list[AutomateAuthService] | None = Field(default=None, alias="Services")
 
 
 class AutomateAutomaticApprovalSettings(ConnectWiseModel):
-    cvss_lower_bound: int | None = Field(default=None, alias='CvssLowerBound')
-    severities: list[str] | None = Field(default=None, alias='Severities')
+    cvss_lower_bound: int | None = Field(default=None, alias="CvssLowerBound")
+    severities: list[str] | None = Field(default=None, alias="Severities")
     categories: list[AutomateWindowsUpdateCategory] | None = Field(
-        default=None, alias='Categories'
+        default=None, alias="Categories"
     )
-    titles: list[str] | None = Field(default=None, alias='Titles')
+    titles: list[str] | None = Field(default=None, alias="Titles")
 
 
 class AutomateAutomaticPolicySettings(ConnectWiseModel):
-    severities: list[str] | None = Field(default=None, alias='Severities')
+    severities: list[str] | None = Field(default=None, alias="Severities")
     categories: list[AutomateWindowsUpdateCategory] | None = Field(
-        default=None, alias='Categories'
+        default=None, alias="Categories"
     )
-    titles: list[str] | None = Field(default=None, alias='Titles')
+    titles: list[str] | None = Field(default=None, alias="Titles")
 
 
 class AutomateAuditAnalyticsBundle(ConnectWiseModel):
-    audit_action_id: int | None = Field(default=None, alias='AuditActionId')
-    external_id: int | None = Field(default=None, alias='ExternalId')
-    secondary_identifier: str | None = Field(default=None, alias='SecondaryIdentifier')
+    audit_action_id: int | None = Field(default=None, alias="AuditActionId")
+    external_id: int | None = Field(default=None, alias="ExternalId")
+    secondary_identifier: str | None = Field(default=None, alias="SecondaryIdentifier")
     unsanitized_base_message: str | None = Field(
-        default=None, alias='UnsanitizedBaseMessage'
+        default=None, alias="UnsanitizedBaseMessage"
     )
     extra_log_values: list[SystemString] | None = Field(
-        default=None, alias='ExtraLogValues'
+        default=None, alias="ExtraLogValues"
     )
     sanitized_analytics_description: str | None = Field(
-        default=None, alias='SanitizedAnalyticsDescription'
+        default=None, alias="SanitizedAnalyticsDescription"
     )
 
 
 class AutomateAdvanceStageRequest(ConnectWiseModel):
     hotfixes_to_advance: list[AutomateHotfixOperatingSystemCombination] | None = Field(
-        default=None, alias='HotfixesToAdvance'
+        default=None, alias="HotfixesToAdvance"
     )
 
 
 class AutomateWindowsApprovalPolicyPatchBatchRequest(ConnectWiseModel):
     patch_policies: list[AutomateWindowsApprovalPolicyPatch] | None = Field(
-        default=None, alias='PatchPolicies'
+        default=None, alias="PatchPolicies"
     )
 
 
 class AutomateApprovalPolicyThirdPartyPatchRequest(ConnectWiseModel):
     patch_policies: list[AutomateApprovalPolicyThirdPartyPatchSetting] | None = Field(
-        default=None, alias='PatchPolicies'
+        default=None, alias="PatchPolicies"
     )
 
 
@@ -3737,2907 +3737,2907 @@ class AutomateWebClientAccessBatchResult(AutomateContactPermissionBatchResult):
 class AutomateContactPermissionBatchResponse(ConnectWiseModel):
     contact_permission_results: list[
         AutomateContactPermissionBatchResult
-    ] | None = Field(default=None, alias='ContactPermissionResults')
+    ] | None = Field(default=None, alias="ContactPermissionResults")
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateDeleteIpRestrictionsBatchResponse(ConnectWiseModel):
     ip_restrictions_results: list[
         AutomateDeleteIpRestrictionsBatchResult
-    ] | None = Field(default=None, alias='IpRestrictionsResults')
+    ] | None = Field(default=None, alias="IpRestrictionsResults")
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateAddIpRestrictionsBatchRequest(ConnectWiseModel):
     ip_restriction_rules: list[AutomateIpRestrictionRule] | None = Field(
-        default=None, alias='IpRestrictionRules'
+        default=None, alias="IpRestrictionRules"
     )
 
 
 class AutomateAddIpRestrictionsBatchResponse(ConnectWiseModel):
     ip_restrictions_results: list[AutomateAddIpRestrictionsBatchResult] | None = Field(
-        default=None, alias='IpRestrictionsResults'
+        default=None, alias="IpRestrictionsResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateExecuteProbeBatchResponse(ConnectWiseModel):
     probe_command_results: list[AutomateExecuteProbeCommandResult] | None = Field(
-        default=None, alias='ProbeCommandResults'
+        default=None, alias="ProbeCommandResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateDeleteRemoteMonitorBatchResponse(ConnectWiseModel):
     remote_monitor_results: list[AutomateDeleteRemoteMonitorBatchResult] | None = Field(
-        default=None, alias='RemoteMonitorResults'
+        default=None, alias="RemoteMonitorResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateDistributionWindow(ConnectWiseModel):
     distribution_window_type: AutomateDistributionWindowType | None = Field(
-        default=None, alias='DistributionWindowType'
+        default=None, alias="DistributionWindowType"
     )
-    amount: int | None = Field(default=None, alias='Amount')
+    amount: int | None = Field(default=None, alias="Amount")
 
 
 class AutomateWeeklyScheduleFrequency(ConnectWiseModel):
-    runs_at: str | None = Field(default=None, alias='RunsAt')
+    runs_at: str | None = Field(default=None, alias="RunsAt")
     weeks_of_month_settings: AutomateWeeksOfMonthSettings | None = Field(
-        default=None, alias='WeeksOfMonthSettings'
+        default=None, alias="WeeksOfMonthSettings"
     )
     days_of_week_settings: AutomateDaysOfWeekSettings | None = Field(
-        default=None, alias='DaysOfWeekSettings'
+        default=None, alias="DaysOfWeekSettings"
     )
 
 
 class AutomateDailyRepeatSettings(ConnectWiseModel):
     daily_script_repeat_frequency: AutomateDailyScriptRepeatFrequency | None = Field(
-        default=None, alias='DailyScriptRepeatFrequency'
+        default=None, alias="DailyScriptRepeatFrequency"
     )
-    daily_repeat_interval: int | None = Field(default=None, alias='DailyRepeatInterval')
-    maximum_repetitions: int | None = Field(default=None, alias='MaximumRepetitions')
+    daily_repeat_interval: int | None = Field(default=None, alias="DailyRepeatInterval")
+    maximum_repetitions: int | None = Field(default=None, alias="MaximumRepetitions")
 
 
 class AutomateScheduleScriptBatchResponse(ConnectWiseModel):
     script_results: list[AutomateScheduleScriptBatchResult] | None = Field(
-        default=None, alias='ScriptResults'
+        default=None, alias="ScriptResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateDeleteScriptBatchResponse(ConnectWiseModel):
     script_results: list[AutomateDeleteScriptBatchResult] | None = Field(
-        default=None, alias='ScriptResults'
+        default=None, alias="ScriptResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateSearchesBatchResponse(ConnectWiseModel):
     searches_results: list[AutomateDeleteSearchesBatchResult] | None = Field(
-        default=None, alias='SearchesResults'
+        default=None, alias="SearchesResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateSendToSearchesBatchResponse(ConnectWiseModel):
     search_results: list[AutomateSendToBatchResult] | None = Field(
-        default=None, alias='SearchResults'
+        default=None, alias="SearchResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateExecuteComputersBatchResponse(ConnectWiseModel):
     computer_command_result_list: list[
         AutomateExecuteComputerCommandResult
-    ] | None = Field(default=None, alias='ComputerCommandResultList')
+    ] | None = Field(default=None, alias="ComputerCommandResultList")
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateExecuteToggleServiceUserCommandBatchRequest(ConnectWiseModel):
-    use_local_account: bool | None = Field(default=None, alias='UseLocalAccount')
+    use_local_account: bool | None = Field(default=None, alias="UseLocalAccount")
     local_account_credentials: AutomateToggleServiceUserLocalAccountCredentials | None = Field(
-        default=None, alias='LocalAccountCredentials'
+        default=None, alias="LocalAccountCredentials"
     )
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateBinaryExtension(ConnectWiseModel):
-    category: str | None = Field(default=None, alias='Category')
-    description: str | None = Field(default=None, alias='Description')
-    file_data: str | None = Field(default=None, alias='FileData')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
+    category: str | None = Field(default=None, alias="Category")
+    description: str | None = Field(default=None, alias="Description")
+    file_data: str | None = Field(default=None, alias="FileData")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
     is_loaded_in_automation_server: bool | None = Field(
-        default=None, alias='IsLoadedInAutomationServer'
+        default=None, alias="IsLoadedInAutomationServer"
     )
-    is_loaded_in_iis: bool | None = Field(default=None, alias='IsLoadedInIIS')
+    is_loaded_in_iis: bool | None = Field(default=None, alias="IsLoadedInIIS")
     is_remote_agent_extension: bool | None = Field(
-        default=None, alias='IsRemoteAgentExtension'
+        default=None, alias="IsRemoteAgentExtension"
     )
-    release_date: datetime | None = Field(default=None, alias='ReleaseDate')
-    run_style: AutomateRunStyle | None = Field(default=None, alias='RunStyle')
-    author: str | None = Field(default=None, alias='Author')
-    file_checksum: str | None = Field(default=None, alias='FileChecksum')
-    file_name: str | None = Field(default=None, alias='FileName')
-    extension_name: str | None = Field(default=None, alias='ExtensionName')
+    release_date: datetime | None = Field(default=None, alias="ReleaseDate")
+    run_style: AutomateRunStyle | None = Field(default=None, alias="RunStyle")
+    author: str | None = Field(default=None, alias="Author")
+    file_checksum: str | None = Field(default=None, alias="FileChecksum")
+    file_name: str | None = Field(default=None, alias="FileName")
+    extension_name: str | None = Field(default=None, alias="ExtensionName")
     extension_guid: UUID | None = Field(
         default=None,
-        alias='ExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="ExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    extension_id: int | None = Field(default=None, alias='ExtensionId')
-    version: str | None = Field(default=None, alias='Version')
+    extension_id: int | None = Field(default=None, alias="ExtensionId")
+    version: str | None = Field(default=None, alias="Version")
 
 
 class LabTechRemoteAgentSchedule(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    update_config: LabTechSchedule | None = Field(default=None, alias='UpdateConfig')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    update_config: LabTechSchedule | None = Field(default=None, alias="UpdateConfig")
     hardware_inventory: LabTechSchedule | None = Field(
-        default=None, alias='HardwareInventory'
+        default=None, alias="HardwareInventory"
     )
     system_inventory: LabTechSchedule | None = Field(
-        default=None, alias='SystemInventory'
+        default=None, alias="SystemInventory"
     )
     drive_inventory: LabTechSchedule | None = Field(
-        default=None, alias='DriveInventory'
+        default=None, alias="DriveInventory"
     )
     process_inventory: LabTechSchedule | None = Field(
-        default=None, alias='ProcessInventory'
+        default=None, alias="ProcessInventory"
     )
     maleware_inventory: LabTechSchedule | None = Field(
-        default=None, alias='MalewareInventory'
+        default=None, alias="MalewareInventory"
     )
     software_inventory: LabTechSchedule | None = Field(
-        default=None, alias='SoftwareInventory'
+        default=None, alias="SoftwareInventory"
     )
     event_inventory: LabTechSchedule | None = Field(
-        default=None, alias='EventInventory'
+        default=None, alias="EventInventory"
     )
     printer_inventory: LabTechSchedule | None = Field(
-        default=None, alias='PrinterInventory'
+        default=None, alias="PrinterInventory"
     )
     network_inventory: LabTechSchedule | None = Field(
-        default=None, alias='NetworkInventory'
+        default=None, alias="NetworkInventory"
     )
     network_analysis: LabTechSchedule | None = Field(
-        default=None, alias='NetworkAnalysis'
+        default=None, alias="NetworkAnalysis"
     )
     hotfix_inventory: LabTechSchedule | None = Field(
-        default=None, alias='HotfixInventory'
+        default=None, alias="HotfixInventory"
     )
     service_inventory: LabTechSchedule | None = Field(
-        default=None, alias='ServiceInventory'
+        default=None, alias="ServiceInventory"
     )
     network_probe_inventory: LabTechSchedule | None = Field(
-        default=None, alias='NetworkProbeInventory'
+        default=None, alias="NetworkProbeInventory"
     )
-    last_update: datetime | None = Field(default=None, alias='LastUpdate')
-    last_user: str | None = Field(default=None, alias='LastUser')
+    last_update: datetime | None = Field(default=None, alias="LastUpdate")
+    last_user: str | None = Field(default=None, alias="LastUser")
 
 
 class LabTechSearch(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
     search_folder: LabTechSearchFolder | None = Field(
-        default=None, alias='SearchFolder'
+        default=None, alias="SearchFolder"
     )
-    is_read_only: bool | None = Field(default=None, alias='IsReadOnly')
+    is_read_only: bool | None = Field(default=None, alias="IsReadOnly")
     search_type: Literal[
-        'AdvancedComputers',
-        'AdvancedNetDevices',
-        'AdvancedContacts',
-        'AdvancedMobileDevices',
-    ] | None = Field(default=None, alias='SearchType')
+        "AdvancedComputers",
+        "AdvancedNetDevices",
+        "AdvancedContacts",
+        "AdvancedMobileDevices",
+    ] | None = Field(default=None, alias="SearchType")
 
 
 class LabTechUserClass(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
     permissions: LabTechUserPermissions | None = Field(
-        default=None, alias='Permissions'
+        default=None, alias="Permissions"
     )
 
 
 class LabTechUser(ConnectWiseModel):
-    user_id: str | None = Field(default=None, alias='UserId')
-    folder: LabTechUserFolder | None = Field(default=None, alias='Folder')
-    name: str | None = Field(default=None, alias='Name')
-    email_address: str | None = Field(default=None, alias='EmailAddress')
+    user_id: str | None = Field(default=None, alias="UserId")
+    folder: LabTechUserFolder | None = Field(default=None, alias="Folder")
+    name: str | None = Field(default=None, alias="Name")
+    email_address: str | None = Field(default=None, alias="EmailAddress")
     sso_status: LabTechUserSingleSignOnStatus | None = Field(
-        default=None, alias='SsoStatus'
+        default=None, alias="SsoStatus"
     )
 
 
 class LabTechComputerMonitor(ConnectWiseModel):
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    device_id: int | None = Field(default=None, alias='DeviceId')
-    name: str | None = Field(default=None, alias='Name')
-    state: str | None = Field(default=None, alias='State')
-    last_scanned: datetime | None = Field(default=None, alias='LastScanned')
-    last_failed: datetime | None = Field(default=None, alias='LastFailed')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    device_id: int | None = Field(default=None, alias="DeviceId")
+    name: str | None = Field(default=None, alias="Name")
+    state: str | None = Field(default=None, alias="State")
+    last_scanned: datetime | None = Field(default=None, alias="LastScanned")
+    last_failed: datetime | None = Field(default=None, alias="LastFailed")
     last_inventory_date: datetime | None = Field(
-        default=None, alias='LastInventoryDate'
+        default=None, alias="LastInventoryDate"
     )
-    alert_action: LabTechAlertAction | None = Field(default=None, alias='AlertAction')
+    alert_action: LabTechAlertAction | None = Field(default=None, alias="AlertAction")
     monitor_history: LabTechComputerMonitorHistory | None = Field(
-        default=None, alias='MonitorHistory'
+        default=None, alias="MonitorHistory"
     )
 
 
 class LabTechTicketComment(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    body: str | None = Field(default=None, alias='Body')
-    created_date: datetime | None = Field(default=None, alias='CreatedDate')
-    from_: str | None = Field(default=None, alias='From')
-    user: LabTechUser | None = Field(default=None, alias='User')
+    id: str | None = Field(default=None, alias="Id")
+    body: str | None = Field(default=None, alias="Body")
+    created_date: datetime | None = Field(default=None, alias="CreatedDate")
+    from_: str | None = Field(default=None, alias="From")
+    user: LabTechUser | None = Field(default=None, alias="User")
 
 
 class LabTechCommandExecute(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    command: LabTechCommand | None = Field(default=None, alias='Command')
-    status: str | None = Field(default=None, alias='Status')
-    parameters: list[str] | None = Field(default=None, alias='Parameters')
-    output: str | None = Field(default=None, alias='Output')
-    fastalk: bool | None = Field(default=None, alias='Fastalk')
+    id: int | None = Field(default=None, alias="Id")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    command: LabTechCommand | None = Field(default=None, alias="Command")
+    status: str | None = Field(default=None, alias="Status")
+    parameters: list[str] | None = Field(default=None, alias="Parameters")
+    output: str | None = Field(default=None, alias="Output")
+    fastalk: bool | None = Field(default=None, alias="Fastalk")
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
 
 
 class LabTechSmartData(ConnectWiseModel):
-    drive_id: int | None = Field(default=None, alias='DriveId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    attribute: LabTechSmartAttribute | None = Field(default=None, alias='Attribute')
-    value: int | None = Field(default=None, alias='Value')
-    worst: int | None = Field(default=None, alias='Worst')
-    threshold: int | None = Field(default=None, alias='Threshold')
-    raw_value: int | None = Field(default=None, alias='RawValue')
+    drive_id: int | None = Field(default=None, alias="DriveId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    attribute: LabTechSmartAttribute | None = Field(default=None, alias="Attribute")
+    value: int | None = Field(default=None, alias="Value")
+    worst: int | None = Field(default=None, alias="Worst")
+    threshold: int | None = Field(default=None, alias="Threshold")
+    raw_value: int | None = Field(default=None, alias="RawValue")
 
 
 class LabTechComputerMicrosoftUpdateData(ConnectWiseModel):
-    category: str | None = Field(default=None, alias='Category')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    install_date: datetime | None = Field(default=None, alias='InstallDate')
-    install_state: str | None = Field(default=None, alias='InstallState')
-    is_compliant: bool | None = Field(default=None, alias='IsCompliant')
-    is_failed: bool | None = Field(default=None, alias='IsFailed')
-    is_installed: bool | None = Field(default=None, alias='IsInstalled')
-    is_non_compliant: bool | None = Field(default=None, alias='IsNonCompliant')
-    knowledge_base_id: int | None = Field(default=None, alias='KnowledgeBaseId')
-    microsoft_update_id: str | None = Field(default=None, alias='MicrosoftUpdateId')
+    category: str | None = Field(default=None, alias="Category")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    install_date: datetime | None = Field(default=None, alias="InstallDate")
+    install_state: str | None = Field(default=None, alias="InstallState")
+    is_compliant: bool | None = Field(default=None, alias="IsCompliant")
+    is_failed: bool | None = Field(default=None, alias="IsFailed")
+    is_installed: bool | None = Field(default=None, alias="IsInstalled")
+    is_non_compliant: bool | None = Field(default=None, alias="IsNonCompliant")
+    knowledge_base_id: int | None = Field(default=None, alias="KnowledgeBaseId")
+    microsoft_update_id: str | None = Field(default=None, alias="MicrosoftUpdateId")
     policy_approval: LabTechPolicyApprovalSetting | None = Field(
-        default=None, alias='PolicyApproval'
+        default=None, alias="PolicyApproval"
     )
-    release_date: datetime | None = Field(default=None, alias='ReleaseDate')
-    severity: str | None = Field(default=None, alias='Severity')
-    title: str | None = Field(default=None, alias='Title')
-    cvss: float | None = Field(default=None, alias='Cvss')
+    release_date: datetime | None = Field(default=None, alias="ReleaseDate")
+    severity: str | None = Field(default=None, alias="Severity")
+    title: str | None = Field(default=None, alias="Title")
+    cvss: float | None = Field(default=None, alias="Cvss")
 
 
 class SystemWaitHandle(ConnectWiseModel):
     safe_wait_handle: MicrosoftSafeWaitHandle | None = Field(
-        default=None, alias='SafeWaitHandle'
+        default=None, alias="SafeWaitHandle"
     )
 
 
 class LabTechComputerMemorySlot(ConnectWiseModel):
-    slot_handle: int | None = Field(default=None, alias='SlotHandle')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    slot_name: str | None = Field(default=None, alias='SlotName')
-    bank: str | None = Field(default=None, alias='Bank')
+    slot_handle: int | None = Field(default=None, alias="SlotHandle")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    slot_name: str | None = Field(default=None, alias="SlotName")
+    bank: str | None = Field(default=None, alias="Bank")
     form_factor: LabTechMemoryFormFactor | None = Field(
-        default=None, alias='FormFactor'
+        default=None, alias="FormFactor"
     )
-    total_width: int | None = Field(default=None, alias='TotalWidth')
-    data_width: int | None = Field(default=None, alias='DataWidth')
-    size: int | None = Field(default=None, alias='Size')
-    type: LabTechMemoryType | None = Field(default=None, alias='Type')
-    speed: int | None = Field(default=None, alias='Speed')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    serial_number: str | None = Field(default=None, alias='SerialNumber')
-    part_number: str | None = Field(default=None, alias='PartNumber')
-    asset_tag: str | None = Field(default=None, alias='AssetTag')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
+    total_width: int | None = Field(default=None, alias="TotalWidth")
+    data_width: int | None = Field(default=None, alias="DataWidth")
+    size: int | None = Field(default=None, alias="Size")
+    type: LabTechMemoryType | None = Field(default=None, alias="Type")
+    speed: int | None = Field(default=None, alias="Speed")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    serial_number: str | None = Field(default=None, alias="SerialNumber")
+    part_number: str | None = Field(default=None, alias="PartNumber")
+    asset_tag: str | None = Field(default=None, alias="AssetTag")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
 
 
 class LabTechComputerProcessor(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    processor_handle: int | None = Field(default=None, alias='ProcessorHandle')
-    socket: LabTechProcessorSocket | None = Field(default=None, alias='Socket')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
-    family: LabTechProcessorFamily | None = Field(default=None, alias='Family')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    speed: int | None = Field(default=None, alias='Speed')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    processor_handle: int | None = Field(default=None, alias="ProcessorHandle")
+    socket: LabTechProcessorSocket | None = Field(default=None, alias="Socket")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
+    family: LabTechProcessorFamily | None = Field(default=None, alias="Family")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    speed: int | None = Field(default=None, alias="Speed")
     cache_list: list[LabTechComputerProcessorCache] | None = Field(
-        default=None, alias='CacheList'
+        default=None, alias="CacheList"
     )
-    serial_number: str | None = Field(default=None, alias='SerialNumber')
-    part_number: str | None = Field(default=None, alias='PartNumber')
-    cores: int | None = Field(default=None, alias='Cores')
-    threads: int | None = Field(default=None, alias='Threads')
-    is64_bit: bool | None = Field(default=None, alias='Is64Bit')
-    dep: bool | None = Field(default=None, alias='DEP')
-    is_virtualized: bool | None = Field(default=None, alias='IsVirtualized')
-    has_power_control: bool | None = Field(default=None, alias='HasPowerControl')
-    has_hardware_thread: bool | None = Field(default=None, alias='HasHardwareThread')
-    processor_name: str | None = Field(default=None, alias='ProcessorName')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
+    serial_number: str | None = Field(default=None, alias="SerialNumber")
+    part_number: str | None = Field(default=None, alias="PartNumber")
+    cores: int | None = Field(default=None, alias="Cores")
+    threads: int | None = Field(default=None, alias="Threads")
+    is64_bit: bool | None = Field(default=None, alias="Is64Bit")
+    dep: bool | None = Field(default=None, alias="DEP")
+    is_virtualized: bool | None = Field(default=None, alias="IsVirtualized")
+    has_power_control: bool | None = Field(default=None, alias="HasPowerControl")
+    has_hardware_thread: bool | None = Field(default=None, alias="HasHardwareThread")
+    processor_name: str | None = Field(default=None, alias="ProcessorName")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
 
 
 class LabTechComputerService(ConnectWiseModel):
-    computer_service_id: int | None = Field(default=None, alias='ComputerServiceId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    state: str | None = Field(default=None, alias='State')
-    startup: str | None = Field(default=None, alias='Startup')
-    path_name: str | None = Field(default=None, alias='PathName')
-    service_type: str | None = Field(default=None, alias='ServiceType')
-    username: str | None = Field(default=None, alias='Username')
+    computer_service_id: int | None = Field(default=None, alias="ComputerServiceId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    state: str | None = Field(default=None, alias="State")
+    startup: str | None = Field(default=None, alias="Startup")
+    path_name: str | None = Field(default=None, alias="PathName")
+    service_type: str | None = Field(default=None, alias="ServiceType")
+    username: str | None = Field(default=None, alias="Username")
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
-    run_levels: str | None = Field(default=None, alias='RunLevels')
+    run_levels: str | None = Field(default=None, alias="RunLevels")
     classification: LabTechServiceClassification | None = Field(
-        default=None, alias='Classification'
+        default=None, alias="Classification"
     )
 
 
 class LabTechComputerSoftware(ConnectWiseModel):
-    application_id: int | None = Field(default=None, alias='ApplicationId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    name: str | None = Field(default=None, alias='Name')
-    installation_path: str | None = Field(default=None, alias='InstallationPath')
-    date_installed: datetime | None = Field(default=None, alias='DateInstalled')
-    size: int | None = Field(default=None, alias='Size')
-    uninstaller_path: str | None = Field(default=None, alias='UninstallerPath')
-    version: str | None = Field(default=None, alias='Version')
+    application_id: int | None = Field(default=None, alias="ApplicationId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    name: str | None = Field(default=None, alias="Name")
+    installation_path: str | None = Field(default=None, alias="InstallationPath")
+    date_installed: datetime | None = Field(default=None, alias="DateInstalled")
+    size: int | None = Field(default=None, alias="Size")
+    uninstaller_path: str | None = Field(default=None, alias="UninstallerPath")
+    version: str | None = Field(default=None, alias="Version")
     classification: LabTechSoftwareClassification | None = Field(
-        default=None, alias='Classification'
+        default=None, alias="Classification"
     )
     date_last_inventoried: datetime | None = Field(
-        default=None, alias='DateLastInventoried'
+        default=None, alias="DateLastInventoried"
     )
-    client_id: int | None = Field(default=None, alias='ClientId')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
+    client_id: int | None = Field(default=None, alias="ClientId")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
 
 
 class LabTechComputerVideoCard(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    pnp_device_id: str | None = Field(default=None, alias='PnpDeviceId')
-    video_processor: str | None = Field(default=None, alias='VideoProcessor')
-    mode: str | None = Field(default=None, alias='Mode')
-    memory: str | None = Field(default=None, alias='Memory')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    pnp_device_id: str | None = Field(default=None, alias="PnpDeviceId")
+    video_processor: str | None = Field(default=None, alias="VideoProcessor")
+    mode: str | None = Field(default=None, alias="Mode")
+    memory: str | None = Field(default=None, alias="Memory")
     architecture: LabTechVideoCardArchitecture | None = Field(
-        default=None, alias='Architecture'
+        default=None, alias="Architecture"
     )
-    memory_type: LabTechVideoCardMemory | None = Field(default=None, alias='MemoryType')
-    dac_adapter: str | None = Field(default=None, alias='DACAdapter')
-    bits_per_pixel: int | None = Field(default=None, alias='BitsPerPixel')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
+    memory_type: LabTechVideoCardMemory | None = Field(default=None, alias="MemoryType")
+    dac_adapter: str | None = Field(default=None, alias="DACAdapter")
+    bits_per_pixel: int | None = Field(default=None, alias="BitsPerPixel")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
 
 
 class LabTechComputerSensor(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    sensor_id: int | None = Field(default=None, alias='SensorId')
-    sensor_name: str | None = Field(default=None, alias='SensorName')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    sensor_id: int | None = Field(default=None, alias="SensorId")
+    sensor_name: str | None = Field(default=None, alias="SensorName")
     device_type: LabTechSensorDeviceType | None = Field(
-        default=None, alias='DeviceType'
+        default=None, alias="DeviceType"
     )
-    monitor: str | None = Field(default=None, alias='Monitor')
-    value: float | None = Field(default=None, alias='Value')
-    max_value: float | None = Field(default=None, alias='MaxValue')
+    monitor: str | None = Field(default=None, alias="Monitor")
+    value: float | None = Field(default=None, alias="Value")
+    max_value: float | None = Field(default=None, alias="MaxValue")
 
 
 class LabTechComputerThirdPartyPatch(ConnectWiseModel):
-    approved_version: str | None = Field(default=None, alias='ApprovedVersion')
-    available_version: str | None = Field(default=None, alias='AvailableVersion')
+    approved_version: str | None = Field(default=None, alias="ApprovedVersion")
+    available_version: str | None = Field(default=None, alias="AvailableVersion")
     compliance_state: LabTechPatchComplianceState | None = Field(
-        default=None, alias='ComplianceState'
+        default=None, alias="ComplianceState"
     )
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    display_title: str | None = Field(default=None, alias='DisplayTitle')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    display_title: str | None = Field(default=None, alias="DisplayTitle")
     install_action: LabTechThirdParyInstallAction | None = Field(
-        default=None, alias='InstallAction'
+        default=None, alias="InstallAction"
     )
-    install_date: datetime | None = Field(default=None, alias='InstallDate')
-    install_state: str | None = Field(default=None, alias='InstallState')
-    installed_version: str | None = Field(default=None, alias='InstalledVersion')
-    is64_bit: bool | None = Field(default=None, alias='Is64Bit')
-    is_compliant: bool | None = Field(default=None, alias='IsCompliant')
-    is_failed: bool | None = Field(default=None, alias='IsFailed')
-    is_installed: bool | None = Field(default=None, alias='IsInstalled')
-    is_non_compliant: bool | None = Field(default=None, alias='IsNonCompliant')
-    manufacturer: str | None = Field(default=None, alias='Manufacturer')
-    patch_id: str | None = Field(default=None, alias='PatchId')
+    install_date: datetime | None = Field(default=None, alias="InstallDate")
+    install_state: str | None = Field(default=None, alias="InstallState")
+    installed_version: str | None = Field(default=None, alias="InstalledVersion")
+    is64_bit: bool | None = Field(default=None, alias="Is64Bit")
+    is_compliant: bool | None = Field(default=None, alias="IsCompliant")
+    is_failed: bool | None = Field(default=None, alias="IsFailed")
+    is_installed: bool | None = Field(default=None, alias="IsInstalled")
+    is_non_compliant: bool | None = Field(default=None, alias="IsNonCompliant")
+    manufacturer: str | None = Field(default=None, alias="Manufacturer")
+    patch_id: str | None = Field(default=None, alias="PatchId")
     policy_approval: LabTechThirdPartyPolicyApproval | None = Field(
-        default=None, alias='PolicyApproval'
+        default=None, alias="PolicyApproval"
     )
-    software_id: str | None = Field(default=None, alias='SoftwareId')
-    title: str | None = Field(default=None, alias='Title')
+    software_id: str | None = Field(default=None, alias="SoftwareId")
+    title: str | None = Field(default=None, alias="Title")
 
 
 class AutomateDeploymentLogin(ConnectWiseModel):
-    deployment_login_id: int | None = Field(default=None, alias='DeploymentLoginId')
-    client: AutomateClient | None = Field(default=None, alias='Client')
-    location: AutomateLocation | None = Field(default=None, alias='Location')
-    title: str | None = Field(default=None, alias='Title')
-    username: str | None = Field(default=None, alias='Username')
-    password: str | None = Field(default=None, alias='Password')
-    url: str | None = Field(default=None, alias='Url')
-    notes: str | None = Field(default=None, alias='Notes')
+    deployment_login_id: int | None = Field(default=None, alias="DeploymentLoginId")
+    client: AutomateClient | None = Field(default=None, alias="Client")
+    location: AutomateLocation | None = Field(default=None, alias="Location")
+    title: str | None = Field(default=None, alias="Title")
+    username: str | None = Field(default=None, alias="Username")
+    password: str | None = Field(default=None, alias="Password")
+    url: str | None = Field(default=None, alias="Url")
+    notes: str | None = Field(default=None, alias="Notes")
 
 
 class AutomateExtraField(ConnectWiseModel):
-    target_id: int | None = Field(default=None, alias='TargetId')
+    target_id: int | None = Field(default=None, alias="TargetId")
     extra_field_definition_id: int | None = Field(
-        default=None, alias='ExtraFieldDefinitionId'
+        default=None, alias="ExtraFieldDefinitionId"
     )
-    title: str | None = Field(default=None, alias='Title')
+    title: str | None = Field(default=None, alias="Title")
     display_format: AutomateExtraFieldDisplayFormat | None = Field(
-        default=None, alias='DisplayFormat'
+        default=None, alias="DisplayFormat"
     )
-    location: AutomateExtraFieldLocation | None = Field(default=None, alias='Location')
+    location: AutomateExtraFieldLocation | None = Field(default=None, alias="Location")
     title_format: AutomateExtraFieldTitleFormat | None = Field(
-        default=None, alias='TitleFormat'
+        default=None, alias="TitleFormat"
     )
-    section: str | None = Field(default=None, alias='Section')
-    tooltip: str | None = Field(default=None, alias='Tooltip')
-    is_read_only: bool | None = Field(default=None, alias='IsReadOnly')
+    section: str | None = Field(default=None, alias="Section")
+    tooltip: str | None = Field(default=None, alias="Tooltip")
+    is_read_only: bool | None = Field(default=None, alias="IsReadOnly")
     text_field_settings: AutomateTextFieldSettings | None = Field(
-        default=None, alias='TextFieldSettings'
+        default=None, alias="TextFieldSettings"
     )
     dropdown_settings: AutomateDropdownSettings | None = Field(
-        default=None, alias='DropdownSettings'
+        default=None, alias="DropdownSettings"
     )
     checkbox_settings: AutomateCheckboxSettings | None = Field(
-        default=None, alias='CheckboxSettings'
+        default=None, alias="CheckboxSettings"
     )
 
 
 class AutomateExecuteDeviceCommandResponse(ConnectWiseModel):
     command_result_list: list[AutomateExecuteDeviceCommandResult] | None = Field(
-        default=None, alias='CommandResultList'
+        default=None, alias="CommandResultList"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateExecuteDeviceScriptResponse(ConnectWiseModel):
     script_result_list: list[AutomateExecuteDeviceScriptResult] | None = Field(
-        default=None, alias='ScriptResultList'
+        default=None, alias="ScriptResultList"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class LabTechEventLog(ConnectWiseModel):
-    blacklist_id: int | None = Field(default=None, alias='BlacklistId')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    event_id: int | None = Field(default=None, alias='EventId')
-    last_date: datetime | None = Field(default=None, alias='LastDate')
-    log_name: str | None = Field(default=None, alias='LogName')
-    log_type: LabTechEventLogType | None = Field(default=None, alias='LogType')
-    message: str | None = Field(default=None, alias='Message')
-    source: str | None = Field(default=None, alias='Source')
-    time_generated: datetime | None = Field(default=None, alias='TimeGenerated')
+    blacklist_id: int | None = Field(default=None, alias="BlacklistId")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    event_id: int | None = Field(default=None, alias="EventId")
+    last_date: datetime | None = Field(default=None, alias="LastDate")
+    log_name: str | None = Field(default=None, alias="LogName")
+    log_type: LabTechEventLogType | None = Field(default=None, alias="LogType")
+    message: str | None = Field(default=None, alias="Message")
+    source: str | None = Field(default=None, alias="Source")
+    time_generated: datetime | None = Field(default=None, alias="TimeGenerated")
 
 
 class AutomateSessionViewerSettings(ConnectWiseModel):
-    domain: str | None = Field(default=None, alias='Domain')
-    port: int | None = Field(default=None, alias='Port')
-    api_token: str | None = Field(default=None, alias='ApiToken')
-    instance_id: str | None = Field(default=None, alias='InstanceId')
-    extension_id: str | None = Field(default=None, alias='ExtensionId')
-    enable_wcc_element: bool | None = Field(default=None, alias='EnableWccElement')
-    user: AutomateSessionViewerUser | None = Field(default=None, alias='User')
+    domain: str | None = Field(default=None, alias="Domain")
+    port: int | None = Field(default=None, alias="Port")
+    api_token: str | None = Field(default=None, alias="ApiToken")
+    instance_id: str | None = Field(default=None, alias="InstanceId")
+    extension_id: str | None = Field(default=None, alias="ExtensionId")
+    enable_wcc_element: bool | None = Field(default=None, alias="EnableWccElement")
+    user: AutomateSessionViewerUser | None = Field(default=None, alias="User")
 
 
 class AutomateExtraFieldDefinition(ConnectWiseModel):
-    sort_oder: int | None = Field(default=None, alias='SortOder')
-    is_encrypted: bool | None = Field(default=None, alias='IsEncrypted')
-    is_restricted: bool | None = Field(default=None, alias='IsRestricted')
+    sort_oder: int | None = Field(default=None, alias="SortOder")
+    is_encrypted: bool | None = Field(default=None, alias="IsEncrypted")
+    is_restricted: bool | None = Field(default=None, alias="IsRestricted")
     read_user_classes: list[AutomateUserClass] | None = Field(
-        default=None, alias='ReadUserClasses'
+        default=None, alias="ReadUserClasses"
     )
     edit_user_classes: list[AutomateUserClass] | None = Field(
-        default=None, alias='EditUserClasses'
+        default=None, alias="EditUserClasses"
     )
     extra_field_definition_id: int | None = Field(
-        default=None, alias='ExtraFieldDefinitionId'
+        default=None, alias="ExtraFieldDefinitionId"
     )
-    title: str | None = Field(default=None, alias='Title')
+    title: str | None = Field(default=None, alias="Title")
     display_format: AutomateExtraFieldDisplayFormat | None = Field(
-        default=None, alias='DisplayFormat'
+        default=None, alias="DisplayFormat"
     )
-    location: AutomateExtraFieldLocation | None = Field(default=None, alias='Location')
+    location: AutomateExtraFieldLocation | None = Field(default=None, alias="Location")
     title_format: AutomateExtraFieldTitleFormat | None = Field(
-        default=None, alias='TitleFormat'
+        default=None, alias="TitleFormat"
     )
-    section: str | None = Field(default=None, alias='Section')
-    tooltip: str | None = Field(default=None, alias='Tooltip')
-    is_read_only: bool | None = Field(default=None, alias='IsReadOnly')
+    section: str | None = Field(default=None, alias="Section")
+    tooltip: str | None = Field(default=None, alias="Tooltip")
+    is_read_only: bool | None = Field(default=None, alias="IsReadOnly")
     text_field_settings: AutomateTextFieldSettings | None = Field(
-        default=None, alias='TextFieldSettings'
+        default=None, alias="TextFieldSettings"
     )
     dropdown_settings: AutomateDropdownSettings | None = Field(
-        default=None, alias='DropdownSettings'
+        default=None, alias="DropdownSettings"
     )
     checkbox_settings: AutomateCheckboxSettings | None = Field(
-        default=None, alias='CheckboxSettings'
+        default=None, alias="CheckboxSettings"
     )
 
 
 class AutomateGroupAutoJoinSettings(ConnectWiseModel):
     computer_auto_join_search: AutomateSearch | None = Field(
-        default=None, alias='ComputerAutoJoinSearch'
+        default=None, alias="ComputerAutoJoinSearch"
     )
     is_limited_to_computer_auto_join: bool | None = Field(
-        default=None, alias='IsLimitedToComputerAutoJoin'
+        default=None, alias="IsLimitedToComputerAutoJoin"
     )
 
 
 class AutomatePatchingPolicySchedule(ConnectWiseModel):
-    use_schedule: bool | None = Field(default=None, alias='UseSchedule')
-    window_start: str | None = Field(default=None, alias='WindowStart')
-    window_duration: str | None = Field(default=None, alias='WindowDuration')
-    policy_schedule_type: str | None = Field(default=None, alias='PolicyScheduleType')
+    use_schedule: bool | None = Field(default=None, alias="UseSchedule")
+    window_start: str | None = Field(default=None, alias="WindowStart")
+    window_duration: str | None = Field(default=None, alias="WindowDuration")
+    policy_schedule_type: str | None = Field(default=None, alias="PolicyScheduleType")
     dates_settings: AutomateDatesScheduleSettings | None = Field(
-        default=None, alias='DatesSettings'
+        default=None, alias="DatesSettings"
     )
     days_settings: AutomateDaysScheduleSettings | None = Field(
-        default=None, alias='DaysSettings'
+        default=None, alias="DaysSettings"
     )
     patch_tuesday_settings: AutomatePatchTuesdayScheduleSettings | None = Field(
-        default=None, alias='PatchTuesdaySettings'
+        default=None, alias="PatchTuesdaySettings"
     )
 
 
 class AutomatePatchingPolicyScriptOptions(ConnectWiseModel):
     before_script_options: AutomatePatchingPolicyScript | None = Field(
-        default=None, alias='BeforeScriptOptions'
+        default=None, alias="BeforeScriptOptions"
     )
     after_script_options: AutomatePatchingPolicyScript | None = Field(
-        default=None, alias='AfterScriptOptions'
+        default=None, alias="AfterScriptOptions"
     )
 
 
 class AutomateGroupTypeInformation(ConnectWiseModel):
     inherited_group_type_id: int | None = Field(
-        default=None, alias='InheritedGroupTypeId'
+        default=None, alias="InheritedGroupTypeId"
     )
-    is_modifiable: bool | None = Field(default=None, alias='IsModifiable')
+    is_modifiable: bool | None = Field(default=None, alias="IsModifiable")
     group_types: list[AutomateGroupType] | None = Field(
-        default=None, alias='GroupTypes'
+        default=None, alias="GroupTypes"
     )
 
 
 class AutomateRemoteAgentTemplateInformation(ConnectWiseModel):
     inherited_remote_agent_template_id: int | None = Field(
-        default=None, alias='InheritedRemoteAgentTemplateId'
+        default=None, alias="InheritedRemoteAgentTemplateId"
     )
-    is_modifiable: bool | None = Field(default=None, alias='IsModifiable')
+    is_modifiable: bool | None = Field(default=None, alias="IsModifiable")
     remote_agent_templates: list[AutomateRemoteAgentTemplate] | None = Field(
-        default=None, alias='RemoteAgentTemplates'
+        default=None, alias="RemoteAgentTemplates"
     )
 
 
 class AutomateInternalMonitorSubscriptionViewModel(ConnectWiseModel):
     alert_templates: list[AutomateAlertTemplate] | None = Field(
-        default=None, alias='AlertTemplates'
+        default=None, alias="AlertTemplates"
     )
     ticket_categories: list[AutomateTicketCategory] | None = Field(
-        default=None, alias='TicketCategories'
+        default=None, alias="TicketCategories"
     )
-    is_group_subscribed: bool | None = Field(default=None, alias='IsGroupSubscribed')
+    is_group_subscribed: bool | None = Field(default=None, alias="IsGroupSubscribed")
     is_subscription_inherited: bool | None = Field(
-        default=None, alias='IsSubscriptionInherited'
+        default=None, alias="IsSubscriptionInherited"
     )
-    is_override_applied: bool | None = Field(default=None, alias='IsOverrideApplied')
+    is_override_applied: bool | None = Field(default=None, alias="IsOverrideApplied")
     monitor_alert_template_id: int | None = Field(
-        default=None, alias='MonitorAlertTemplateId'
+        default=None, alias="MonitorAlertTemplateId"
     )
     monitor_ticket_category_id: int | None = Field(
-        default=None, alias='MonitorTicketCategoryId'
+        default=None, alias="MonitorTicketCategoryId"
     )
     overridden_alert_template_id: int | None = Field(
-        default=None, alias='OverriddenAlertTemplateId'
+        default=None, alias="OverriddenAlertTemplateId"
     )
     overridden_ticket_category_id: int | None = Field(
-        default=None, alias='OverriddenTicketCategoryId'
+        default=None, alias="OverriddenTicketCategoryId"
     )
 
 
 class LabTechScanFrequency(ConnectWiseModel):
-    scan_frequency_id: int | None = Field(default=None, alias='ScanFrequencyId')
-    frequency_in_minutes: int | None = Field(default=None, alias='FrequencyInMinutes')
-    display_name: str | None = Field(default=None, alias='DisplayName')
+    scan_frequency_id: int | None = Field(default=None, alias="ScanFrequencyId")
+    frequency_in_minutes: int | None = Field(default=None, alias="FrequencyInMinutes")
+    display_name: str | None = Field(default=None, alias="DisplayName")
     frequency_category: LabTechScanFrequencyCategory | None = Field(
-        default=None, alias='FrequencyCategory'
+        default=None, alias="FrequencyCategory"
     )
 
 
 class LabTechManagedLicense(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    client_id: int | None = Field(default=None, alias='ClientId')
-    name: str | None = Field(default=None, alias='Name')
-    search_string: str | None = Field(default=None, alias='SearchString')
-    license_count: int | None = Field(default=None, alias='LicenseCount')
-    installed_count: int | None = Field(default=None, alias='InstalledCount')
-    product_key: LabTechProductKey | None = Field(default=None, alias='ProductKey')
+    id: int | None = Field(default=None, alias="Id")
+    client_id: int | None = Field(default=None, alias="ClientId")
+    name: str | None = Field(default=None, alias="Name")
+    search_string: str | None = Field(default=None, alias="SearchString")
+    license_count: int | None = Field(default=None, alias="LicenseCount")
+    installed_count: int | None = Field(default=None, alias="InstalledCount")
+    product_key: LabTechProductKey | None = Field(default=None, alias="ProductKey")
 
 
 class AutomateManagementPackQuickSettingsResponse(ConnectWiseModel):
     core_services_status: AutomateManagementPackStatus | None = Field(
-        default=None, alias='CoreServicesStatus'
+        default=None, alias="CoreServicesStatus"
     )
     database_status: AutomateManagementPackStatus | None = Field(
-        default=None, alias='DatabaseStatus'
+        default=None, alias="DatabaseStatus"
     )
     messaging_services_status: AutomateManagementPackStatus | None = Field(
-        default=None, alias='MessagingServicesStatus'
+        default=None, alias="MessagingServicesStatus"
     )
     network_port_status: AutomateManagementPackStatus | None = Field(
-        default=None, alias='NetworkPortStatus'
+        default=None, alias="NetworkPortStatus"
     )
     websites_and_proxies_status: AutomateManagementPackStatus | None = Field(
-        default=None, alias='WebsitesAndProxiesStatus'
+        default=None, alias="WebsitesAndProxiesStatus"
     )
 
 
 class AutomatePatchingPolicyWorkstationOptions(ConnectWiseModel):
     send_wake_on_lan_packet: bool | None = Field(
-        default=None, alias='SendWakeOnLanPacket'
+        default=None, alias="SendWakeOnLanPacket"
     )
     create_windows_restore_point: bool | None = Field(
-        default=None, alias='CreateWindowsRestorePoint'
+        default=None, alias="CreateWindowsRestorePoint"
     )
     daytime_patching_options: AutomateDaytimePatchingOptions | None = Field(
-        default=None, alias='DaytimePatchingOptions'
+        default=None, alias="DaytimePatchingOptions"
     )
 
 
 class AutomateMicrosoftUpdatePolicyWindows10Options(ConnectWiseModel):
     service_branch_settings: AutomateServiceBranchSettings | None = Field(
-        default=None, alias='ServiceBranchSettings'
+        default=None, alias="ServiceBranchSettings"
     )
     feature_update_deferment_settings: AutomateUpdateDefermentSettings | None = Field(
-        default=None, alias='FeatureUpdateDefermentSettings'
+        default=None, alias="FeatureUpdateDefermentSettings"
     )
     quality_update_deferment_settings: AutomateUpdateDefermentSettings | None = Field(
-        default=None, alias='QualityUpdateDefermentSettings'
+        default=None, alias="QualityUpdateDefermentSettings"
     )
 
 
 class LabTechMonitorAlertStyle(ConnectWiseModel):
     internal_monitor_alert_style: LabTechInternalMonitorAlertStyle | None = Field(
-        default=None, alias='InternalMonitorAlertStyle'
+        default=None, alias="InternalMonitorAlertStyle"
     )
     remote_monitor_alert_style: LabTechRemoteMonitorAlertStyle | None = Field(
-        default=None, alias='RemoteMonitorAlertStyle'
+        default=None, alias="RemoteMonitorAlertStyle"
     )
 
 
 class LabTechScriptData(ConnectWiseModel):
     script_metadata: LabTechScriptMetadata | None = Field(
-        default=None, alias='ScriptMetadata'
+        default=None, alias="ScriptMetadata"
     )
     script_steps: list[LabTechScriptStep] | None = Field(
-        default=None, alias='ScriptSteps'
+        default=None, alias="ScriptSteps"
     )
 
 
 class LabTechSnmpOidQueryParameters(ConnectWiseModel):
-    ip_address: str | None = Field(default=None, alias='IpAddress')
+    ip_address: str | None = Field(default=None, alias="IpAddress")
     snmp_version: LabTechSnmpOidQuerySnmpVersion | None = Field(
-        default=None, alias='SnmpVersion'
+        default=None, alias="SnmpVersion"
     )
-    community: str | None = Field(default=None, alias='Community')
-    username: str | None = Field(default=None, alias='Username')
+    community: str | None = Field(default=None, alias="Community")
+    username: str | None = Field(default=None, alias="Username")
     encryption_method: LabTechSnmpOidQueryEncryptionMethod | None = Field(
-        default=None, alias='EncryptionMethod'
+        default=None, alias="EncryptionMethod"
     )
-    encryption_password: str | None = Field(default=None, alias='EncryptionPassword')
+    encryption_password: str | None = Field(default=None, alias="EncryptionPassword")
     authentication_method: LabTechSnmpOidQueryAuthenticationMethod | None = Field(
-        default=None, alias='AuthenticationMethod'
+        default=None, alias="AuthenticationMethod"
     )
     authentication_password: str | None = Field(
-        default=None, alias='AuthenticationPassword'
+        default=None, alias="AuthenticationPassword"
     )
-    object_identifier: str | None = Field(default=None, alias='ObjectIdentifier')
+    object_identifier: str | None = Field(default=None, alias="ObjectIdentifier")
 
 
 class LabTechHardwareSensorQueryParameters(ConnectWiseModel):
     sensor: LabTechHardwareSensorQuerySensor | None = Field(
-        default=None, alias='Sensor'
+        default=None, alias="Sensor"
     )
-    sensor_number: str | None = Field(default=None, alias='SensorNumber')
+    sensor_number: str | None = Field(default=None, alias="SensorNumber")
 
 
 class LabTechRegistryValueQueryParameters(ConnectWiseModel):
     hive: LabTechRegistryValueQueryRegistryHive | None = Field(
-        default=None, alias='Hive'
+        default=None, alias="Hive"
     )
-    key: str | None = Field(default=None, alias='Key')
-    value: str | None = Field(default=None, alias='Value')
+    key: str | None = Field(default=None, alias="Key")
+    value: str | None = Field(default=None, alias="Value")
 
 
 class LabTechEventLogQueryParameters(ConnectWiseModel):
-    log: str | None = Field(default=None, alias='Log')
+    log: str | None = Field(default=None, alias="Log")
     level_filter: LabTechEventLogQueryEventLevelFilter | None = Field(
-        default=None, alias='LevelFilter'
+        default=None, alias="LevelFilter"
     )
-    keywords: int | None = Field(default=None, alias='Keywords')
-    source: str | None = Field(default=None, alias='Source')
-    event_id: int | None = Field(default=None, alias='EventId')
+    keywords: int | None = Field(default=None, alias="Keywords")
+    source: str | None = Field(default=None, alias="Source")
+    event_id: int | None = Field(default=None, alias="EventId")
     regular_expression_filter: str | None = Field(
-        default=None, alias='RegularExpressionFilter'
+        default=None, alias="RegularExpressionFilter"
     )
 
 
 class AutomateExecutePatchActionRequest(ConnectWiseModel):
     patch_action_detail_list: list[AutomatePatchActionInformation] | None = Field(
-        default=None, alias='PatchActionDetailList'
+        default=None, alias="PatchActionDetailList"
     )
 
 
 class LabTechProbeCommand(ConnectWiseModel):
-    probe_command_id: int | None = Field(default=None, alias='ProbeCommandId')
-    probe_id: int | None = Field(default=None, alias='ProbeId')
-    command: AutomateProbeRemoteCommand | None = Field(default=None, alias='Command')
-    status: AutomateProbeCommandStatus | None = Field(default=None, alias='Status')
-    parameters: list[str] | None = Field(default=None, alias='Parameters')
-    output: str | None = Field(default=None, alias='Output')
-    is_fastalk: bool | None = Field(default=None, alias='IsFastalk')
-    date_updated: datetime | None = Field(default=None, alias='DateUpdated')
+    probe_command_id: int | None = Field(default=None, alias="ProbeCommandId")
+    probe_id: int | None = Field(default=None, alias="ProbeId")
+    command: AutomateProbeRemoteCommand | None = Field(default=None, alias="Command")
+    status: AutomateProbeCommandStatus | None = Field(default=None, alias="Status")
+    parameters: list[str] | None = Field(default=None, alias="Parameters")
+    output: str | None = Field(default=None, alias="Output")
+    is_fastalk: bool | None = Field(default=None, alias="IsFastalk")
+    date_updated: datetime | None = Field(default=None, alias="DateUpdated")
 
 
 class LabTechNewProbeConfiguration(ConnectWiseModel):
-    is_agent_push_enabled: bool | None = Field(default=None, alias='IsAgentPushEnabled')
+    is_agent_push_enabled: bool | None = Field(default=None, alias="IsAgentPushEnabled")
     is_automated_deployment_enabled: bool | None = Field(
-        default=None, alias='IsAutomatedDeploymentEnabled'
+        default=None, alias="IsAutomatedDeploymentEnabled"
     )
     is_data_collection_enabled: bool | None = Field(
-        default=None, alias='IsDataCollectionEnabled'
+        default=None, alias="IsDataCollectionEnabled"
     )
     is_snmp_trap_server_enabled: bool | None = Field(
-        default=None, alias='IsSnmpTrapServerEnabled'
+        default=None, alias="IsSnmpTrapServerEnabled"
     )
     is_syslog_server_enabled: bool | None = Field(
-        default=None, alias='IsSyslogServerEnabled'
+        default=None, alias="IsSyslogServerEnabled"
     )
     is_tftp_server_enabled: bool | None = Field(
-        default=None, alias='IsTftpServerEnabled'
+        default=None, alias="IsTftpServerEnabled"
     )
     credentials_list: list[LabTechProbeConfigurationCredentials] | None = Field(
-        default=None, alias='CredentialsList'
+        default=None, alias="CredentialsList"
     )
 
 
 class LabTechDiscoveryScanSettings(ConnectWiseModel):
     discovery_scan_frequency: LabTechScanFrequency | None = Field(
-        default=None, alias='DiscoveryScanFrequency'
+        default=None, alias="DiscoveryScanFrequency"
     )
     limit_discovery_to_scan_window: bool | None = Field(
-        default=None, alias='LimitDiscoveryToScanWindow'
+        default=None, alias="LimitDiscoveryToScanWindow"
     )
     discovery_window_start: str | None = Field(
-        default=None, alias='DiscoveryWindowStart'
+        default=None, alias="DiscoveryWindowStart"
     )
-    discovery_window_end: str | None = Field(default=None, alias='DiscoveryWindowEnd')
+    discovery_window_end: str | None = Field(default=None, alias="DiscoveryWindowEnd")
     is_mac_addres_scanning_enabled: bool | None = Field(
-        default=None, alias='IsMacAddresScanningEnabled'
+        default=None, alias="IsMacAddresScanningEnabled"
     )
     concurrent_thread_count: int | None = Field(
-        default=None, alias='ConcurrentThreadCount'
+        default=None, alias="ConcurrentThreadCount"
     )
 
 
 class LabTechStatusScanSettings(ConnectWiseModel):
     status_scan_frequency: LabTechScanFrequency | None = Field(
-        default=None, alias='StatusScanFrequency'
+        default=None, alias="StatusScanFrequency"
     )
     status_scan_network_port_list: str | None = Field(
-        default=None, alias='StatusScanNetworkPortList'
+        default=None, alias="StatusScanNetworkPortList"
     )
     network_port_option: LabTechStatusScanNetworkPortOption | None = Field(
-        default=None, alias='NetworkPortOption'
+        default=None, alias="NetworkPortOption"
     )
 
 
 class LabTechProbeConfigurationDefaults(ConnectWiseModel):
     probe_default_setting_id: int | None = Field(
-        default=None, alias='ProbeDefaultSettingId'
+        default=None, alias="ProbeDefaultSettingId"
     )
     community_string_get_list: str | None = Field(
-        default=None, alias='CommunityStringGetList'
+        default=None, alias="CommunityStringGetList"
     )
     snmp_timeout_in_seconds: int | None = Field(
-        default=None, alias='SnmpTimeoutInSeconds'
+        default=None, alias="SnmpTimeoutInSeconds"
     )
     agent_deployment_attempt_maximum: int | None = Field(
-        default=None, alias='AgentDeploymentAttemptMaximum'
+        default=None, alias="AgentDeploymentAttemptMaximum"
     )
     discovery_settings: LabTechDiscoveryScanSettings | None = Field(
-        default=None, alias='DiscoverySettings'
+        default=None, alias="DiscoverySettings"
     )
     status_settings: LabTechStatusScanSettings | None = Field(
-        default=None, alias='StatusSettings'
+        default=None, alias="StatusSettings"
     )
     snmp_settings: LabTechSnmpSettings | None = Field(
-        default=None, alias='SnmpSettings'
+        default=None, alias="SnmpSettings"
     )
     is_data_collection_enabled: bool | None = Field(
-        default=None, alias='IsDataCollectionEnabled'
+        default=None, alias="IsDataCollectionEnabled"
     )
     snmp_trap_server_listening_port: int | None = Field(
-        default=None, alias='SnmpTrapServerListeningPort'
+        default=None, alias="SnmpTrapServerListeningPort"
     )
     syslog_settings: LabTechSyslogServerSettings | None = Field(
-        default=None, alias='SyslogSettings'
+        default=None, alias="SyslogSettings"
     )
     tftp_settings: LabTechTftpServerSettings | None = Field(
-        default=None, alias='TftpSettings'
+        default=None, alias="TftpSettings"
     )
 
 
 class LabTechProbeSnmpV3Configuration(ConnectWiseModel):
     probe_snmp_configuration_id: int | None = Field(
-        default=None, alias='ProbeSnmpConfigurationId'
+        default=None, alias="ProbeSnmpConfigurationId"
     )
-    snmp_v3_username: str | None = Field(default=None, alias='SnmpV3Username')
+    snmp_v3_username: str | None = Field(default=None, alias="SnmpV3Username")
     authentication: LabTechProbeSnmpAuthentication | None = Field(
-        default=None, alias='Authentication'
+        default=None, alias="Authentication"
     )
     encryption: LabTechProbeSnmpEncryption | None = Field(
-        default=None, alias='Encryption'
+        default=None, alias="Encryption"
     )
 
 
 class AutomatePromptWithoutDeadlineSettings(ConnectWiseModel):
-    reboot_trigger_type: str | None = Field(default=None, alias='RebootTriggerType')
+    reboot_trigger_type: str | None = Field(default=None, alias="RebootTriggerType")
     post_patch_install_trigger_settings: AutomatePostPatchInstallTriggerSettings | None = Field(
-        default=None, alias='PostPatchInstallTriggerSettings'
+        default=None, alias="PostPatchInstallTriggerSettings"
     )
     schedule_trigger_settings: AutomatePatchingPolicySchedule | None = Field(
-        default=None, alias='ScheduleTriggerSettings'
+        default=None, alias="ScheduleTriggerSettings"
     )
     prompt_settings: AutomateRebootPolicyPromptSettings | None = Field(
-        default=None, alias='PromptSettings'
+        default=None, alias="PromptSettings"
     )
     reboot_prior_to_patch_job_installs: bool | None = Field(
-        default=None, alias='RebootPriorToPatchJobInstalls'
+        default=None, alias="RebootPriorToPatchJobInstalls"
     )
     maintenance_mode_options: AutomateRebootPolicyMaintenanceModeOptions | None = Field(
-        default=None, alias='MaintenanceModeOptions'
+        default=None, alias="MaintenanceModeOptions"
     )
     script_options: AutomatePatchingPolicyScriptOptions | None = Field(
-        default=None, alias='ScriptOptions'
+        default=None, alias="ScriptOptions"
     )
 
 
 class AutomateDisableServerPatchRebootServerSettings(ConnectWiseModel):
     alert_template: AutomateAlertTemplate | None = Field(
-        default=None, alias='AlertTemplate'
+        default=None, alias="AlertTemplate"
     )
-    alert_message: str | None = Field(default=None, alias='AlertMessage')
+    alert_message: str | None = Field(default=None, alias="AlertMessage")
     ticket_category: AutomateTicketCategory | None = Field(
-        default=None, alias='TicketCategory'
+        default=None, alias="TicketCategory"
     )
     report_category: AutomateReportCategory | None = Field(
-        default=None, alias='ReportCategory'
+        default=None, alias="ReportCategory"
     )
 
 
 class AutomateRecordedAction(ConnectWiseModel):
-    type: AutomateRecordedActionType | None = Field(default=None, alias='Type')
-    object_id: int | None = Field(default=None, alias='ObjectId')
-    secondary_identifier: str | None = Field(default=None, alias='SecondaryIdentifier')
-    description: str | None = Field(default=None, alias='Description')
-    source: AutomateRecordedActionSource | None = Field(default=None, alias='Source')
+    type: AutomateRecordedActionType | None = Field(default=None, alias="Type")
+    object_id: int | None = Field(default=None, alias="ObjectId")
+    secondary_identifier: str | None = Field(default=None, alias="SecondaryIdentifier")
+    description: str | None = Field(default=None, alias="Description")
+    source: AutomateRecordedActionSource | None = Field(default=None, alias="Source")
 
 
 class AutomateRunningScriptTarget(ConnectWiseModel):
     target_type: AutomateRunningScriptTargetType | None = Field(
-        default=None, alias='TargetType'
+        default=None, alias="TargetType"
     )
-    computer: AutomateComputer | None = Field(default=None, alias='Computer')
-    client: AutomateClient | None = Field(default=None, alias='Client')
+    computer: AutomateComputer | None = Field(default=None, alias="Computer")
+    client: AutomateClient | None = Field(default=None, alias="Client")
 
 
 class AutomateScriptSource(ConnectWiseModel):
-    source_type: AutomateSourceType | None = Field(default=None, alias='SourceType')
-    name: str | None = Field(default=None, alias='Name')
-    alternative_name: str | None = Field(default=None, alias='AlternativeName')
+    source_type: AutomateSourceType | None = Field(default=None, alias="SourceType")
+    name: str | None = Field(default=None, alias="Name")
+    alternative_name: str | None = Field(default=None, alias="AlternativeName")
 
 
 class AutomateTicketEntrySettings(ConnectWiseModel):
-    ticket_subject: str | None = Field(default=None, alias='TicketSubject')
-    ticket_requestor: str | None = Field(default=None, alias='TicketRequestor')
+    ticket_subject: str | None = Field(default=None, alias="TicketSubject")
+    ticket_requestor: str | None = Field(default=None, alias="TicketRequestor")
     ticket_category: AutomateTicketEntryCategory | None = Field(
-        default=None, alias='TicketCategory'
+        default=None, alias="TicketCategory"
     )
     close_ticket_trigger: AutomateCloseTicketTrigger | None = Field(
-        default=None, alias='CloseTicketTrigger'
+        default=None, alias="CloseTicketTrigger"
     )
 
 
 class AutomateTimeEntrySettings(ConnectWiseModel):
-    ticket_id: str | None = Field(default=None, alias='TicketId')
-    minutes_to_log: str | None = Field(default=None, alias='MinutesToLog')
+    ticket_id: str | None = Field(default=None, alias="TicketId")
+    minutes_to_log: str | None = Field(default=None, alias="MinutesToLog")
     time_category: AutomateTimeEntryCategory | None = Field(
-        default=None, alias='TimeCategory'
+        default=None, alias="TimeCategory"
     )
     stop_timer_trigger: AutomateStopTimerTrigger | None = Field(
-        default=None, alias='StopTimerTrigger'
+        default=None, alias="StopTimerTrigger"
     )
-    notes: str | None = Field(default=None, alias='Notes')
+    notes: str | None = Field(default=None, alias="Notes")
     technician: AutomateTimeEntryTechnician | None = Field(
-        default=None, alias='Technician'
+        default=None, alias="Technician"
     )
 
 
 class AutomateScriptStep(ConnectWiseModel):
-    operating_system: int | None = Field(default=None, alias='OperatingSystem')
-    is_enabled: bool | None = Field(default=None, alias='IsEnabled')
+    operating_system: int | None = Field(default=None, alias="OperatingSystem")
+    is_enabled: bool | None = Field(default=None, alias="IsEnabled")
     should_continue_on_failure: bool | None = Field(
-        default=None, alias='ShouldContinueOnFailure'
+        default=None, alias="ShouldContinueOnFailure"
     )
-    indentation_level: int | None = Field(default=None, alias='IndentationLevel')
-    function: AutomateScriptFunctionBase | None = Field(default=None, alias='Function')
+    indentation_level: int | None = Field(default=None, alias="IndentationLevel")
+    function: AutomateScriptFunctionBase | None = Field(default=None, alias="Function")
 
 
 class AutomateContact(ConnectWiseModel):
-    contact_id: int | None = Field(default=None, alias='ContactId')
-    first_name: str | None = Field(default=None, alias='FirstName')
-    last_name: str | None = Field(default=None, alias='LastName')
-    email_address: str | None = Field(default=None, alias='EmailAddress')
-    phone_number: str | None = Field(default=None, alias='PhoneNumber')
-    mobile_number: str | None = Field(default=None, alias='MobileNumber')
-    pager_number: str | None = Field(default=None, alias='PagerNumber')
-    fax_number: str | None = Field(default=None, alias='FaxNumber')
-    address1: str | None = Field(default=None, alias='Address1')
-    address2: str | None = Field(default=None, alias='Address2')
-    city: str | None = Field(default=None, alias='City')
-    state: str | None = Field(default=None, alias='State')
-    zip_code: str | None = Field(default=None, alias='ZipCode')
-    client: AutomateClient | None = Field(default=None, alias='Client')
-    location: AutomateLocation | None = Field(default=None, alias='Location')
-    password: str | None = Field(default=None, alias='Password')
-    permissions: list[str] | None = Field(default=None, alias='Permissions')
-    is_managed: bool | None = Field(default=None, alias='IsManaged')
-    is_activated: bool | None = Field(default=None, alias='IsActivated')
-    date_created: datetime | None = Field(default=None, alias='DateCreated')
-    last_update_date: datetime | None = Field(default=None, alias='LastUpdateDate')
+    contact_id: int | None = Field(default=None, alias="ContactId")
+    first_name: str | None = Field(default=None, alias="FirstName")
+    last_name: str | None = Field(default=None, alias="LastName")
+    email_address: str | None = Field(default=None, alias="EmailAddress")
+    phone_number: str | None = Field(default=None, alias="PhoneNumber")
+    mobile_number: str | None = Field(default=None, alias="MobileNumber")
+    pager_number: str | None = Field(default=None, alias="PagerNumber")
+    fax_number: str | None = Field(default=None, alias="FaxNumber")
+    address1: str | None = Field(default=None, alias="Address1")
+    address2: str | None = Field(default=None, alias="Address2")
+    city: str | None = Field(default=None, alias="City")
+    state: str | None = Field(default=None, alias="State")
+    zip_code: str | None = Field(default=None, alias="ZipCode")
+    client: AutomateClient | None = Field(default=None, alias="Client")
+    location: AutomateLocation | None = Field(default=None, alias="Location")
+    password: str | None = Field(default=None, alias="Password")
+    permissions: list[str] | None = Field(default=None, alias="Permissions")
+    is_managed: bool | None = Field(default=None, alias="IsManaged")
+    is_activated: bool | None = Field(default=None, alias="IsActivated")
+    date_created: datetime | None = Field(default=None, alias="DateCreated")
+    last_update_date: datetime | None = Field(default=None, alias="LastUpdateDate")
     plugin_data: dict[str, dict[str, dict[str, Any]]] | None = Field(
-        default=None, alias='PluginData'
+        default=None, alias="PluginData"
     )
-    source: AutomateContactSource | None = Field(default=None, alias='Source')
+    source: AutomateContactSource | None = Field(default=None, alias="Source")
 
 
 class AutomateAutoJoinSettings(ConnectWiseModel):
     computer_search_settings: AutomateSearchSettings | None = Field(
-        default=None, alias='ComputerSearchSettings'
+        default=None, alias="ComputerSearchSettings"
     )
     network_device_search_settings: AutomateSearchSettings | None = Field(
-        default=None, alias='NetworkDeviceSearchSettings'
+        default=None, alias="NetworkDeviceSearchSettings"
     )
     contact_search_settings: AutomateContactSearchSettings | None = Field(
-        default=None, alias='ContactSearchSettings'
+        default=None, alias="ContactSearchSettings"
     )
 
 
 class AutomateScriptFunction(ConnectWiseModel):
-    function_id: int | None = Field(default=None, alias='FunctionId')
-    name: str | None = Field(default=None, alias='Name')
+    function_id: int | None = Field(default=None, alias="FunctionId")
+    name: str | None = Field(default=None, alias="Name")
     is_conditional_function: bool | None = Field(
-        default=None, alias='IsConditionalFunction'
+        default=None, alias="IsConditionalFunction"
     )
-    description: str | None = Field(default=None, alias='Description')
+    description: str | None = Field(default=None, alias="Description")
     target_type: AutomateScriptFunctionTarget | None = Field(
-        default=None, alias='TargetType'
+        default=None, alias="TargetType"
     )
     parameters: list[AutomateScriptFunctionParameter] | None = Field(
-        default=None, alias='Parameters'
+        default=None, alias="Parameters"
     )
 
 
 class AutomateSearchAttributes(ConnectWiseModel):
-    key: str | None = Field(default=None, alias='Key')
-    text: str | None = Field(default=None, alias='Text')
-    description: str | None = Field(default=None, alias='Description')
+    key: str | None = Field(default=None, alias="Key")
+    text: str | None = Field(default=None, alias="Text")
+    description: str | None = Field(default=None, alias="Description")
     data_type: Literal[
-        'TypeBoolean',
-        'TypeNumber',
-        'TypeText',
-        'TypeVersion',
-        'TypeDate',
-        'TypeAssigned',
-        'TypeEquality',
-        'TypeRole',
-    ] | None = Field(default=None, alias='DataType')
-    data_look_up_type: Literal['None', 'Static', 'Dynamic'] | None = Field(
-        default=None, alias='DataLookUpType'
+        "TypeBoolean",
+        "TypeNumber",
+        "TypeText",
+        "TypeVersion",
+        "TypeDate",
+        "TypeAssigned",
+        "TypeEquality",
+        "TypeRole",
+    ] | None = Field(default=None, alias="DataType")
+    data_look_up_type: Literal["None", "Static", "Dynamic"] | None = Field(
+        default=None, alias="DataLookUpType"
     )
     data_lookup: list[AutomateSearchValueLookUp] | None = Field(
-        default=None, alias='DataLookup'
+        default=None, alias="DataLookup"
     )
-    collection_node: str | None = Field(default=None, alias='CollectionNode')
+    collection_node: str | None = Field(default=None, alias="CollectionNode")
 
 
 class AutomateAdvancedSearchDynamicLookup(ConnectWiseModel):
-    search_key: str | None = Field(default=None, alias='SearchKey')
+    search_key: str | None = Field(default=None, alias="SearchKey")
     advanced_search_data_lookups: list[AutomateAdvancedSearchDataLookup] | None = Field(
-        default=None, alias='AdvancedSearchDataLookups'
+        default=None, alias="AdvancedSearchDataLookups"
     )
 
 
 class AutomateAdvancedSearchFilter(ConnectWiseModel):
     node_type: Literal[
-        'AndNode', 'OrNode', 'ComparisonNode', 'AnyMeetsNode', 'NotNode'
-    ] | None = Field(default=None, alias='NodeType')
-    node_name: str | None = Field(default=None, alias='NodeName')
+        "AndNode", "OrNode", "ComparisonNode", "AnyMeetsNode", "NotNode"
+    ] | None = Field(default=None, alias="NodeType")
+    node_name: str | None = Field(default=None, alias="NodeName")
     filter_criterias: list[AutomateFilterCriteria] | None = Field(
-        default=None, alias='FilterCriterias'
+        default=None, alias="FilterCriterias"
     )
     child_nodes: list[AutomateAdvancedSearchFilter] | None = Field(
-        default=None, alias='ChildNodes'
+        default=None, alias="ChildNodes"
     )
 
 
 class AutomateAdvancedSearchDetails(ConnectWiseModel):
-    search: AutomateSearch | None = Field(default=None, alias='Search')
+    search: AutomateSearch | None = Field(default=None, alias="Search")
     advanced_search_filter: AutomateAdvancedSearchFilter | None = Field(
-        default=None, alias='AdvancedSearchFilter'
+        default=None, alias="AdvancedSearchFilter"
     )
 
 
 class AutomateScriptAutomationTimeCategoryResponse(ConnectWiseModel):
     total: AutomateScriptAutomationTimeResult | None = Field(
-        default=None, alias='Total'
+        default=None, alias="Total"
     )
     system: AutomateScriptAutomationTimeResult | None = Field(
-        default=None, alias='System'
+        default=None, alias="System"
     )
     users: AutomateScriptAutomationTimeResult | None = Field(
-        default=None, alias='Users'
+        default=None, alias="Users"
     )
     maximum_history_days_available: int | None = Field(
-        default=None, alias='MaximumHistoryDaysAvailable'
+        default=None, alias="MaximumHistoryDaysAvailable"
     )
 
 
 class AutomateScriptAutomationTimeUserResponse(ConnectWiseModel):
     user_list: list[AutomateScriptAutomationTimeUserResult] | None = Field(
-        default=None, alias='UserList'
+        default=None, alias="UserList"
     )
     maximum_history_days_available: int | None = Field(
-        default=None, alias='MaximumHistoryDaysAvailable'
+        default=None, alias="MaximumHistoryDaysAvailable"
     )
 
 
 class AutomateSystemWorkflowProgressEntry(ConnectWiseModel):
     system_workflow_progress_id: int | None = Field(
-        default=None, alias='SystemWorkflowProgressId'
+        default=None, alias="SystemWorkflowProgressId"
     )
-    description: str | None = Field(default=None, alias='Description')
+    description: str | None = Field(default=None, alias="Description")
     workflow_step: AutomateWorkflowStep | None = Field(
-        default=None, alias='WorkflowStep'
+        default=None, alias="WorkflowStep"
     )
     workflow_status: AutomateWorkflowStatus | None = Field(
-        default=None, alias='WorkflowStatus'
+        default=None, alias="WorkflowStatus"
     )
     workflow_metadata: list[AutomateWorkflowMetadata] | None = Field(
-        default=None, alias='WorkflowMetadata'
+        default=None, alias="WorkflowMetadata"
     )
 
 
 class AutomateUserAccess(ConnectWiseModel):
-    user_id: int | None = Field(default=None, alias='UserId')
-    user_permissions: list[str] | None = Field(default=None, alias='UserPermissions')
+    user_id: int | None = Field(default=None, alias="UserId")
+    user_permissions: list[str] | None = Field(default=None, alias="UserPermissions")
     plugin_permissions: list[AutomateUserBinaryExtensionPermission] | None = Field(
-        default=None, alias='PluginPermissions'
+        default=None, alias="PluginPermissions"
     )
     web_extension_claims: list[AutomateUserExtensionClaimType] | None = Field(
-        default=None, alias='WebExtensionClaims'
+        default=None, alias="WebExtensionClaims"
     )
 
 
 class LabTechUserAudit(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    user: LabTechUser | None = Field(default=None, alias='User')
-    message: str | None = Field(default=None, alias='Message')
-    date_created: datetime | None = Field(default=None, alias='DateCreated')
-    external_id: int | None = Field(default=None, alias='ExternalId')
-    audit_action: LabTechAuditAction | None = Field(default=None, alias='AuditAction')
-    source: LabTechAuditSource | None = Field(default=None, alias='Source')
-    secondary_identifier: str | None = Field(default=None, alias='SecondaryIdentifier')
+    id: int | None = Field(default=None, alias="Id")
+    user: LabTechUser | None = Field(default=None, alias="User")
+    message: str | None = Field(default=None, alias="Message")
+    date_created: datetime | None = Field(default=None, alias="DateCreated")
+    external_id: int | None = Field(default=None, alias="ExternalId")
+    audit_action: LabTechAuditAction | None = Field(default=None, alias="AuditAction")
+    source: LabTechAuditSource | None = Field(default=None, alias="Source")
+    secondary_identifier: str | None = Field(default=None, alias="SecondaryIdentifier")
 
 
 class AutomateUserClassWebExtensionViewModel(ConnectWiseModel):
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
-    web_extension_name: str | None = Field(default=None, alias='WebExtensionName')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
+    web_extension_name: str | None = Field(default=None, alias="WebExtensionName")
     extension_claims: list[AutomateExtensionClaimViewModel] | None = Field(
-        default=None, alias='ExtensionClaims'
+        default=None, alias="ExtensionClaims"
     )
 
 
 class AutomateUserClassWebExtensionRequest(ConnectWiseModel):
     assigned_extensions: list[AutomateAssignedWebExtension] | None = Field(
-        default=None, alias='AssignedExtensions'
+        default=None, alias="AssignedExtensions"
     )
 
 
 class AutomateGroupInternalMonitorInfo(ConnectWiseModel):
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    monitor_name: str | None = Field(default=None, alias='MonitorName')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    monitor_name: str | None = Field(default=None, alias="MonitorName")
     is_monitor_globally_applied: bool | None = Field(
-        default=None, alias='IsMonitorGloballyApplied'
+        default=None, alias="IsMonitorGloballyApplied"
     )
     is_subscription_inherited: bool | None = Field(
-        default=None, alias='IsSubscriptionInherited'
+        default=None, alias="IsSubscriptionInherited"
     )
-    is_group_subscribed: bool | None = Field(default=None, alias='IsGroupSubscribed')
-    monitor_interval: str | None = Field(default=None, alias='MonitorInterval')
+    is_group_subscribed: bool | None = Field(default=None, alias="IsGroupSubscribed")
+    monitor_interval: str | None = Field(default=None, alias="MonitorInterval")
     monitor_next_scan_date: datetime | None = Field(
-        default=None, alias='MonitorNextScanDate'
+        default=None, alias="MonitorNextScanDate"
     )
     effective_alert_policy: AutomateMonitorAlertPolicy | None = Field(
-        default=None, alias='EffectiveAlertPolicy'
+        default=None, alias="EffectiveAlertPolicy"
     )
 
 
 class AutomateUpdateGroupMonitorSubscriptionRequest(ConnectWiseModel):
-    is_subscribed: bool | None = Field(default=None, alias='IsSubscribed')
-    overrides: AutomateAlertingOverride | None = Field(default=None, alias='Overrides')
+    is_subscribed: bool | None = Field(default=None, alias="IsSubscribed")
+    overrides: AutomateAlertingOverride | None = Field(default=None, alias="Overrides")
 
 
 class AutomateAlertingSettings(ConnectWiseModel):
-    is_alerting_enabled: bool | None = Field(default=None, alias='IsAlertingEnabled')
+    is_alerting_enabled: bool | None = Field(default=None, alias="IsAlertingEnabled")
     alert_template: AutomateAlertTemplate | None = Field(
-        default=None, alias='AlertTemplate'
+        default=None, alias="AlertTemplate"
     )
     alert_style_type: AutomateAlertStyleType | None = Field(
-        default=None, alias='AlertStyleType'
+        default=None, alias="AlertStyleType"
     )
-    alert_success_subject: str | None = Field(default=None, alias='AlertSuccessSubject')
-    alert_success_message: str | None = Field(default=None, alias='AlertSuccessMessage')
-    alert_failure_subject: str | None = Field(default=None, alias='AlertFailureSubject')
-    alert_failure_message: str | None = Field(default=None, alias='AlertFailureMessage')
-    should_run_script: bool | None = Field(default=None, alias='ShouldRunScript')
-    alert_script: AutomateAlertScript | None = Field(default=None, alias='AlertScript')
+    alert_success_subject: str | None = Field(default=None, alias="AlertSuccessSubject")
+    alert_success_message: str | None = Field(default=None, alias="AlertSuccessMessage")
+    alert_failure_subject: str | None = Field(default=None, alias="AlertFailureSubject")
+    alert_failure_message: str | None = Field(default=None, alias="AlertFailureMessage")
+    should_run_script: bool | None = Field(default=None, alias="ShouldRunScript")
+    alert_script: AutomateAlertScript | None = Field(default=None, alias="AlertScript")
     ticket_category: AutomateTicketCategory | None = Field(
-        default=None, alias='TicketCategory'
+        default=None, alias="TicketCategory"
     )
     report_category: AutomateReportCategory | None = Field(
-        default=None, alias='ReportCategory'
+        default=None, alias="ReportCategory"
     )
 
 
 class AutomateCondition(ConnectWiseModel):
-    condition_type_id: int | None = Field(default=None, alias='ConditionTypeId')
-    comparand: str | None = Field(default=None, alias='Comparand')
+    condition_type_id: int | None = Field(default=None, alias="ConditionTypeId")
+    comparand: str | None = Field(default=None, alias="Comparand")
     normal_state_condition: AutomateStateCondition | None = Field(
-        default=None, alias='NormalStateCondition'
+        default=None, alias="NormalStateCondition"
     )
     warning_state_condition: AutomateStateCondition | None = Field(
-        default=None, alias='WarningStateCondition'
+        default=None, alias="WarningStateCondition"
     )
     error_state_condition: AutomateStateCondition | None = Field(
-        default=None, alias='ErrorStateCondition'
+        default=None, alias="ErrorStateCondition"
     )
 
 
 class AutomateCreateScriptFromCommandsRequest(ConnectWiseModel):
-    script_folder_id: int | None = Field(default=None, alias='ScriptFolderId')
-    commands: list[AutomateRemoteCommand] | None = Field(default=None, alias='Commands')
+    script_folder_id: int | None = Field(default=None, alias="ScriptFolderId")
+    commands: list[AutomateRemoteCommand] | None = Field(default=None, alias="Commands")
 
 
 class AutomateWebExtensionTile(ConnectWiseModel):
     tile_guid: UUID | None = Field(
-        default=None, alias='TileGuid', example='00000000-0000-0000-0000-000000000000'
+        default=None, alias="TileGuid", example="00000000-0000-0000-0000-000000000000"
     )
     normal_tile_source_url: str | None = Field(
-        default=None, alias='NormalTileSourceUrl'
+        default=None, alias="NormalTileSourceUrl"
     )
     normal_tile_header_url: str | None = Field(
-        default=None, alias='NormalTileHeaderUrl'
+        default=None, alias="NormalTileHeaderUrl"
     )
-    max_tile_source_url: str | None = Field(default=None, alias='MaxTileSourceUrl')
-    tile_title: str | None = Field(default=None, alias='TileTitle')
+    max_tile_source_url: str | None = Field(default=None, alias="MaxTileSourceUrl")
+    tile_title: str | None = Field(default=None, alias="TileTitle")
     tile_size: AutomateWebExtensionTileSize | None = Field(
-        default=None, alias='TileSize'
+        default=None, alias="TileSize"
     )
     web_extension_control_id: int | None = Field(
-        default=None, alias='WebExtensionControlId'
+        default=None, alias="WebExtensionControlId"
     )
     web_extension_control_name: str | None = Field(
-        default=None, alias='WebExtensionControlName'
+        default=None, alias="WebExtensionControlName"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
-        default=None, alias='ExtensionClaimType'
+        default=None, alias="ExtensionClaimType"
     )
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     web_extension_area_control_type_ids: list[int] | None = Field(
-        default=None, alias='WebExtensionAreaControlTypeIds'
+        default=None, alias="WebExtensionAreaControlTypeIds"
     )
 
 
 class AutomateWebExtensionRedirect(ConnectWiseModel):
     redirect_guid: UUID | None = Field(
         default=None,
-        alias='RedirectGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="RedirectGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    source_url: str | None = Field(default=None, alias='SourceUrl')
+    source_url: str | None = Field(default=None, alias="SourceUrl")
     web_extension_control_id: int | None = Field(
-        default=None, alias='WebExtensionControlId'
+        default=None, alias="WebExtensionControlId"
     )
     web_extension_control_name: str | None = Field(
-        default=None, alias='WebExtensionControlName'
+        default=None, alias="WebExtensionControlName"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
-        default=None, alias='ExtensionClaimType'
+        default=None, alias="ExtensionClaimType"
     )
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     web_extension_area_control_type_ids: list[int] | None = Field(
-        default=None, alias='WebExtensionAreaControlTypeIds'
+        default=None, alias="WebExtensionAreaControlTypeIds"
     )
 
 
 class AutomateWebExtensionInlineFrame(ConnectWiseModel):
     inline_frame_guid: UUID | None = Field(
         default=None,
-        alias='InlineFrameGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="InlineFrameGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    source_url: str | None = Field(default=None, alias='SourceUrl')
+    source_url: str | None = Field(default=None, alias="SourceUrl")
     web_extension_control_id: int | None = Field(
-        default=None, alias='WebExtensionControlId'
+        default=None, alias="WebExtensionControlId"
     )
     web_extension_control_name: str | None = Field(
-        default=None, alias='WebExtensionControlName'
+        default=None, alias="WebExtensionControlName"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
-        default=None, alias='ExtensionClaimType'
+        default=None, alias="ExtensionClaimType"
     )
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     web_extension_area_control_type_ids: list[int] | None = Field(
-        default=None, alias='WebExtensionAreaControlTypeIds'
+        default=None, alias="WebExtensionAreaControlTypeIds"
     )
 
 
 class AutomateWebExtensionClickAction(ConnectWiseModel):
-    click_action_id: int | None = Field(default=None, alias='ClickActionId')
-    url: str | None = Field(default=None, alias='Url')
+    click_action_id: int | None = Field(default=None, alias="ClickActionId")
+    url: str | None = Field(default=None, alias="Url")
     url_open_type: AutomateWebExtensionUrlOpenType | None = Field(
-        default=None, alias='UrlOpenType'
+        default=None, alias="UrlOpenType"
     )
 
 
 class AutomateWebExtensionMenuItem(ConnectWiseModel):
     web_extension_menu_item_id: int | None = Field(
-        default=None, alias='WebExtensionMenuItemId'
+        default=None, alias="WebExtensionMenuItemId"
     )
     web_extension_menu_item_parent_id: int | None = Field(
-        default=None, alias='WebExtensionMenuItemParentId'
+        default=None, alias="WebExtensionMenuItemParentId"
     )
-    menu_text: str | None = Field(default=None, alias='MenuText')
+    menu_text: str | None = Field(default=None, alias="MenuText")
     click_action: AutomateWebExtensionClickAction | None = Field(
-        default=None, alias='ClickAction'
+        default=None, alias="ClickAction"
     )
     menu_items: list[AutomateWebExtensionMenuItem] | None = Field(
-        default=None, alias='MenuItems'
+        default=None, alias="MenuItems"
     )
 
 
 class AutomateWindowsServiceBranchStats(ConnectWiseModel):
     server_release_counts: list[AutomateWindowsReleaseStats] | None = Field(
-        default=None, alias='ServerReleaseCounts'
+        default=None, alias="ServerReleaseCounts"
     )
     server_no_channel_count: int | None = Field(
-        default=None, alias='ServerNoChannelCount'
+        default=None, alias="ServerNoChannelCount"
     )
     server_semi_annual_channel_count: int | None = Field(
-        default=None, alias='ServerSemiAnnualChannelCount'
+        default=None, alias="ServerSemiAnnualChannelCount"
     )
     server_semi_annual_channel_targeted_count: int | None = Field(
-        default=None, alias='ServerSemiAnnualChannelTargetedCount'
+        default=None, alias="ServerSemiAnnualChannelTargetedCount"
     )
     workstation_release_counts: list[AutomateWindowsReleaseStats] | None = Field(
-        default=None, alias='WorkstationReleaseCounts'
+        default=None, alias="WorkstationReleaseCounts"
     )
     workstation_no_channel_count: int | None = Field(
-        default=None, alias='WorkstationNoChannelCount'
+        default=None, alias="WorkstationNoChannelCount"
     )
     workstation_semi_annual_channel_count: int | None = Field(
-        default=None, alias='WorkstationSemiAnnualChannelCount'
+        default=None, alias="WorkstationSemiAnnualChannelCount"
     )
     workstation_semi_annual_channel_targeted_count: int | None = Field(
-        default=None, alias='WorkstationSemiAnnualChannelTargetedCount'
+        default=None, alias="WorkstationSemiAnnualChannelTargetedCount"
     )
 
 
 class AutomateApprovalPolicy(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    is_default_policy: bool | None = Field(default=None, alias='IsDefaultPolicy')
-    has_staging: bool | None = Field(default=None, alias='HasStaging')
-    test_duration: int | None = Field(default=None, alias='TestDuration')
-    pilot_duration: int | None = Field(default=None, alias='PilotDuration')
+    id: int | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    is_default_policy: bool | None = Field(default=None, alias="IsDefaultPolicy")
+    has_staging: bool | None = Field(default=None, alias="HasStaging")
+    test_duration: int | None = Field(default=None, alias="TestDuration")
+    pilot_duration: int | None = Field(default=None, alias="PilotDuration")
     automatic_approval_settings: AutomateAutomaticApprovalSettings | None = Field(
-        default=None, alias='AutomaticApprovalSettings'
+        default=None, alias="AutomaticApprovalSettings"
     )
     automatic_ignore_settings: AutomateAutomaticPolicySettings | None = Field(
-        default=None, alias='AutomaticIgnoreSettings'
+        default=None, alias="AutomaticIgnoreSettings"
     )
     automatic_deny_settings: AutomateAutomaticPolicySettings | None = Field(
-        default=None, alias='AutomaticDenySettings'
+        default=None, alias="AutomaticDenySettings"
     )
 
 
 class AutomateWebClientAccessBatchResponse(ConnectWiseModel):
     web_client_access_results: list[AutomateWebClientAccessBatchResult] | None = Field(
-        default=None, alias='WebClientAccessResults'
+        default=None, alias="WebClientAccessResults"
     )
     contains_unsuccessful_results: bool | None = Field(
-        default=None, alias='ContainsUnsuccessfulResults'
+        default=None, alias="ContainsUnsuccessfulResults"
     )
 
 
 class AutomateDailyScheduleFrequency(ConnectWiseModel):
-    runs_at: str | None = Field(default=None, alias='RunsAt')
-    daily_interval: int | None = Field(default=None, alias='DailyInterval')
+    runs_at: str | None = Field(default=None, alias="RunsAt")
+    daily_interval: int | None = Field(default=None, alias="DailyInterval")
     days_of_week_settings: AutomateDaysOfWeekSettings | None = Field(
-        default=None, alias='DaysOfWeekSettings'
+        default=None, alias="DaysOfWeekSettings"
     )
     daily_repeat_settings: AutomateDailyRepeatSettings | None = Field(
-        default=None, alias='DailyRepeatSettings'
+        default=None, alias="DailyRepeatSettings"
     )
 
 
 class LabTechRemoteAgentTemplate(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    template_guid: str | None = Field(default=None, alias='TemplateGUID')
-    server_address: str | None = Field(default=None, alias='ServerAddress')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    template_guid: str | None = Field(default=None, alias="TemplateGUID")
+    server_address: str | None = Field(default=None, alias="ServerAddress")
     event_log_inventory_mode: Literal[
-        'InventoryOnlyUsesSchedule',
-        'ImmediatelySendErrors',
-        'ImmediatelySendErrorsAndWarnings',
-        'ImmediatelySendAllButSecurity',
-        'ImmediatelySendAll',
-    ] | None = Field(default=None, alias='EventLogInventoryMode')
+        "InventoryOnlyUsesSchedule",
+        "ImmediatelySendErrors",
+        "ImmediatelySendErrorsAndWarnings",
+        "ImmediatelySendAllButSecurity",
+        "ImmediatelySendAll",
+    ] | None = Field(default=None, alias="EventLogInventoryMode")
     windows_update: Literal[
-        'DoNothing',
-        'EnableWindowsUpdateDefaults',
-        'SetToDownloadOnly',
-        'DisableWindowsUpdate',
-        'LabtechModeLabtechModeUIAccessDisabled',
-    ] | None = Field(default=None, alias='WindowsUpdate')
+        "DoNothing",
+        "EnableWindowsUpdateDefaults",
+        "SetToDownloadOnly",
+        "DisableWindowsUpdate",
+        "LabtechModeLabtechModeUIAccessDisabled",
+    ] | None = Field(default=None, alias="WindowsUpdate")
     ssl_accept_expired_certificates: bool | None = Field(
-        default=None, alias='SSLAcceptExpiredCertificates'
+        default=None, alias="SSLAcceptExpiredCertificates"
     )
     ssl_access_untrusted_certificate_authorities: bool | None = Field(
-        default=None, alias='SSLAccessUntrustedCertificateAuthorities'
+        default=None, alias="SSLAccessUntrustedCertificateAuthorities"
     )
     ssl_accept_mismatched_names: bool | None = Field(
-        default=None, alias='SSLAcceptMismatchedNames'
+        default=None, alias="SSLAcceptMismatchedNames"
     )
     ssl_accept_revoked_certificates: bool | None = Field(
-        default=None, alias='SSLAcceptRevokedCertificates'
+        default=None, alias="SSLAcceptRevokedCertificates"
     )
-    ssl_accept_all: bool | None = Field(default=None, alias='SSLAcceptAll')
-    default_language_pack: str | None = Field(default=None, alias='DefaultLanguagePack')
-    heartbeat_enabled: bool | None = Field(default=None, alias='HeartbeatEnabled')
-    heartbeat_frequency: int | None = Field(default=None, alias='HeartbeatFrequency')
+    ssl_accept_all: bool | None = Field(default=None, alias="SSLAcceptAll")
+    default_language_pack: str | None = Field(default=None, alias="DefaultLanguagePack")
+    heartbeat_enabled: bool | None = Field(default=None, alias="HeartbeatEnabled")
+    heartbeat_frequency: int | None = Field(default=None, alias="HeartbeatFrequency")
     remote_agent_log_debug: bool | None = Field(
-        default=None, alias='RemoteAgentLogDebug'
+        default=None, alias="RemoteAgentLogDebug"
     )
-    schedule: LabTechRemoteAgentSchedule | None = Field(default=None, alias='Schedule')
+    schedule: LabTechRemoteAgentSchedule | None = Field(default=None, alias="Schedule")
     agent_update_window: LabTechSchedule | None = Field(
-        default=None, alias='AgentUpdateWindow'
+        default=None, alias="AgentUpdateWindow"
     )
-    temp_directory: str | None = Field(default=None, alias='TempDirectory')
-    cache_directory: str | None = Field(default=None, alias='CacheDirectory')
-    cache_username: str | None = Field(default=None, alias='CacheUsername')
-    cache_password: str | None = Field(default=None, alias='CachePassword')
-    cache_patch: bool | None = Field(default=None, alias='CachePatch')
-    cache_software: bool | None = Field(default=None, alias='CacheSoftware')
-    cache_update: bool | None = Field(default=None, alias='CacheUpdate')
-    tray_title: str | None = Field(default=None, alias='TrayTitle')
-    remote_agent_name: str | None = Field(default=None, alias='RemoteAgentName')
-    show_tray: bool | None = Field(default=None, alias='ShowTray')
+    temp_directory: str | None = Field(default=None, alias="TempDirectory")
+    cache_directory: str | None = Field(default=None, alias="CacheDirectory")
+    cache_username: str | None = Field(default=None, alias="CacheUsername")
+    cache_password: str | None = Field(default=None, alias="CachePassword")
+    cache_patch: bool | None = Field(default=None, alias="CachePatch")
+    cache_software: bool | None = Field(default=None, alias="CacheSoftware")
+    cache_update: bool | None = Field(default=None, alias="CacheUpdate")
+    tray_title: str | None = Field(default=None, alias="TrayTitle")
+    remote_agent_name: str | None = Field(default=None, alias="RemoteAgentName")
+    show_tray: bool | None = Field(default=None, alias="ShowTray")
     tray_disable_powered_by: bool | None = Field(
-        default=None, alias='TrayDisablePoweredBy'
+        default=None, alias="TrayDisablePoweredBy"
     )
-    tray_icon: str | None = Field(default=None, alias='TrayIcon')
+    tray_icon: str | None = Field(default=None, alias="TrayIcon")
     agent_reboot_mode: Literal[
-        'Now', 'Ask', 'AskThenAllow', 'AskThenDeny', 'Deny'
-    ] | None = Field(default=None, alias='AgentRebootMode')
+        "Now", "Ask", "AskThenAllow", "AskThenDeny", "Deny"
+    ] | None = Field(default=None, alias="AgentRebootMode")
     remote_access_mode: Literal[
-        'Silent', 'Ask', 'AskThenAllow', 'AskThenDeny', 'Deny'
-    ] | None = Field(default=None, alias='RemoteAccessMode')
+        "Silent", "Ask", "AskThenAllow", "AskThenDeny", "Deny"
+    ] | None = Field(default=None, alias="RemoteAccessMode")
     file_explorer_access_mode: Literal[
-        'Now', 'Ask', 'AskThenAllow', 'AskThenDeny', 'Deny'
-    ] | None = Field(default=None, alias='FileExplorerAccessMode')
+        "Now", "Ask", "AskThenAllow", "AskThenDeny", "Deny"
+    ] | None = Field(default=None, alias="FileExplorerAccessMode")
     registry_editor_access_mode: Literal[
-        'Now', 'Ask', 'AskThenAllow', 'AskThenDeny', 'Deny'
-    ] | None = Field(default=None, alias='RegistryEditorAccessMode')
+        "Now", "Ask", "AskThenAllow", "AskThenDeny", "Deny"
+    ] | None = Field(default=None, alias="RegistryEditorAccessMode")
     screen_capture_access_mode: Literal[
-        'Now', 'Ask', 'AskThenAllow', 'AskThenDeny', 'Deny'
-    ] | None = Field(default=None, alias='ScreenCaptureAccessMode')
+        "Now", "Ask", "AskThenAllow", "AskThenDeny", "Deny"
+    ] | None = Field(default=None, alias="ScreenCaptureAccessMode")
     disallow_user_close_tray: bool | None = Field(
-        default=None, alias='DisallowUserCloseTray'
+        default=None, alias="DisallowUserCloseTray"
     )
     allow_user_disable_remote_access: bool | None = Field(
-        default=None, alias='AllowUserDisableRemoteAccess'
+        default=None, alias="AllowUserDisableRemoteAccess"
     )
-    tray_help_url: str | None = Field(default=None, alias='TrayHelpURL')
+    tray_help_url: str | None = Field(default=None, alias="TrayHelpURL")
     tray_custom_menu_title: str | None = Field(
-        default=None, alias='TrayCustomMenuTitle'
+        default=None, alias="TrayCustomMenuTitle"
     )
-    tray_custom_menu_url: str | None = Field(default=None, alias='TrayCustomMenuURL')
-    tray_show_custom_menu: bool | None = Field(default=None, alias='TrayShowCustomMenu')
-    tray_show_help: bool | None = Field(default=None, alias='TrayShowHelp')
+    tray_custom_menu_url: str | None = Field(default=None, alias="TrayCustomMenuURL")
+    tray_show_custom_menu: bool | None = Field(default=None, alias="TrayShowCustomMenu")
+    tray_show_help: bool | None = Field(default=None, alias="TrayShowHelp")
     tray_menus: list[LabTechComputerMenu] | None = Field(
-        default=None, alias='TrayMenus'
+        default=None, alias="TrayMenus"
     )
     tray_reboot_log_off_notification_text: str | None = Field(
-        default=None, alias='TrayRebootLogOffNotificationText'
+        default=None, alias="TrayRebootLogOffNotificationText"
     )
     tray_shutdown_notification_text: str | None = Field(
-        default=None, alias='TrayShutdownNotificationText'
+        default=None, alias="TrayShutdownNotificationText"
     )
     tray_remote_access_notification_text: str | None = Field(
-        default=None, alias='TrayRemoteAccessNotificationText'
+        default=None, alias="TrayRemoteAccessNotificationText"
     )
     tray_file_explorer_access_notification_text: str | None = Field(
-        default=None, alias='TrayFileExplorerAccessNotificationText'
+        default=None, alias="TrayFileExplorerAccessNotificationText"
     )
     tray_registry_editor_access_notification_text: str | None = Field(
-        default=None, alias='TrayRegistryEditorAccessNotificationText'
+        default=None, alias="TrayRegistryEditorAccessNotificationText"
     )
     tray_screen_capture_access_notification_text: str | None = Field(
-        default=None, alias='TrayScreenCaptureAccessNotificationText'
+        default=None, alias="TrayScreenCaptureAccessNotificationText"
     )
-    service_ticket_title: str | None = Field(default=None, alias='ServiceTicketTitle')
+    service_ticket_title: str | None = Field(default=None, alias="ServiceTicketTitle")
     tray_ticket_from_label_text: str | None = Field(
-        default=None, alias='TrayTicketFromLabelText'
+        default=None, alias="TrayTicketFromLabelText"
     )
     tray_ticket_subject_label_text: str | None = Field(
-        default=None, alias='TrayTicketSubjectLabelText'
+        default=None, alias="TrayTicketSubjectLabelText"
     )
     tray_show_service_ticket_menu: bool | None = Field(
-        default=None, alias='TrayShowServiceTicketMenu'
+        default=None, alias="TrayShowServiceTicketMenu"
     )
     tray_show_messages_and_tickets: bool | None = Field(
-        default=None, alias='TrayShowMessagesAndTickets'
+        default=None, alias="TrayShowMessagesAndTickets"
     )
     tray_ticket_verify_email: bool | None = Field(
-        default=None, alias='TrayTicketVerifyEmail'
+        default=None, alias="TrayTicketVerifyEmail"
     )
-    support_url: str | None = Field(default=None, alias='SupportURL')
-    rss_feed_address1: str | None = Field(default=None, alias='RSSFeedAddress1')
-    rss_feed_address2: str | None = Field(default=None, alias='RSSFeedAddress2')
-    rss_feed_address3: str | None = Field(default=None, alias='RSSFeedAddress3')
-    rss_feed_address4: str | None = Field(default=None, alias='RSSFeedAddress4')
-    enable_rss: bool | None = Field(default=None, alias='EnableRSS')
+    support_url: str | None = Field(default=None, alias="SupportURL")
+    rss_feed_address1: str | None = Field(default=None, alias="RSSFeedAddress1")
+    rss_feed_address2: str | None = Field(default=None, alias="RSSFeedAddress2")
+    rss_feed_address3: str | None = Field(default=None, alias="RSSFeedAddress3")
+    rss_feed_address4: str | None = Field(default=None, alias="RSSFeedAddress4")
+    enable_rss: bool | None = Field(default=None, alias="EnableRSS")
     tray_chat_notification_text: str | None = Field(
-        default=None, alias='TrayChatNotificationText'
+        default=None, alias="TrayChatNotificationText"
     )
     tray_chat_notification_title: str | None = Field(
-        default=None, alias='TrayChatNotificationTitle'
+        default=None, alias="TrayChatNotificationTitle"
     )
     tray_interrupt_user_with_chat: bool | None = Field(
-        default=None, alias='TrayInterruptUserWithChat'
+        default=None, alias="TrayInterruptUserWithChat"
     )
-    proxy_server_url: str | None = Field(default=None, alias='ProxyServerURL')
-    proxy_server_user: str | None = Field(default=None, alias='ProxyServerUser')
-    proxy_server_password: str | None = Field(default=None, alias='ProxyServerPassword')
+    proxy_server_url: str | None = Field(default=None, alias="ProxyServerURL")
+    proxy_server_user: str | None = Field(default=None, alias="ProxyServerUser")
+    proxy_server_password: str | None = Field(default=None, alias="ProxyServerPassword")
     tray_notification_title: str | None = Field(
-        default=None, alias='TrayNotificationTitle'
+        default=None, alias="TrayNotificationTitle"
     )
     tray_new_message_notification_text: str | None = Field(
-        default=None, alias='TrayNewMessageNotificationText'
+        default=None, alias="TrayNewMessageNotificationText"
     )
     tray_new_rss_feed_notification_text: str | None = Field(
-        default=None, alias='TrayNewRSSFeedNotificationText'
+        default=None, alias="TrayNewRSSFeedNotificationText"
     )
     tray_remote_access_notification_title: str | None = Field(
-        default=None, alias='TrayRemoteAccessNotificationTitle'
+        default=None, alias="TrayRemoteAccessNotificationTitle"
     )
     tray_system_message_notification_title: str | None = Field(
-        default=None, alias='TraySystemMessageNotificationTitle'
+        default=None, alias="TraySystemMessageNotificationTitle"
     )
-    backup_server_url: str | None = Field(default=None, alias='BackupServerURL')
-    backup_server_user: str | None = Field(default=None, alias='BackupServerUser')
+    backup_server_url: str | None = Field(default=None, alias="BackupServerURL")
+    backup_server_user: str | None = Field(default=None, alias="BackupServerUser")
     backup_server_password: str | None = Field(
-        default=None, alias='BackupServerPassword'
+        default=None, alias="BackupServerPassword"
     )
     network_access_storage_path: str | None = Field(
-        default=None, alias='NetworkAccessStoragePath'
+        default=None, alias="NetworkAccessStoragePath"
     )
     template_properties: list[LabTechTemplateProperty] | None = Field(
-        default=None, alias='TemplateProperties'
+        default=None, alias="TemplateProperties"
     )
     antivirus_template: LabTechAVTemplatePolicy | None = Field(
-        default=None, alias='AntivirusTemplate'
+        default=None, alias="AntivirusTemplate"
     )
 
 
 class LabTechUserClassComputerPermissions(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    user_class: LabTechUserClass | None = Field(default=None, alias='UserClass')
+    id: str | None = Field(default=None, alias="Id")
+    user_class: LabTechUserClass | None = Field(default=None, alias="UserClass")
     permissions: LabTechComputerPermissions | None = Field(
-        default=None, alias='Permissions'
+        default=None, alias="Permissions"
     )
 
 
 class SystemCancellationToken(ConnectWiseModel):
     is_cancellation_requested: bool | None = Field(
-        default=None, alias='IsCancellationRequested'
+        default=None, alias="IsCancellationRequested"
     )
-    can_be_canceled: bool | None = Field(default=None, alias='CanBeCanceled')
-    wait_handle: SystemWaitHandle | None = Field(default=None, alias='WaitHandle')
+    can_be_canceled: bool | None = Field(default=None, alias="CanBeCanceled")
+    wait_handle: SystemWaitHandle | None = Field(default=None, alias="WaitHandle")
 
 
 class AutomateMicrosoftUpdatePolicy(ConnectWiseModel):
-    policy_id: int | None = Field(default=None, alias='PolicyId')
-    policy_name: str | None = Field(default=None, alias='PolicyName')
+    policy_id: int | None = Field(default=None, alias="PolicyId")
+    policy_name: str | None = Field(default=None, alias="PolicyName")
     schedule_settings: AutomatePatchingPolicySchedule | None = Field(
-        default=None, alias='ScheduleSettings'
+        default=None, alias="ScheduleSettings"
     )
     windows_update_agent_settings: AutomateWindowsUpdateAgentSettings | None = Field(
-        default=None, alias='WindowsUpdateAgentSettings'
+        default=None, alias="WindowsUpdateAgentSettings"
     )
     policy_options: AutomateMicrosoftUpdatePolicyOptions | None = Field(
-        default=None, alias='PolicyOptions'
+        default=None, alias="PolicyOptions"
     )
     workstation_options: AutomatePatchingPolicyWorkstationOptions | None = Field(
-        default=None, alias='WorkstationOptions'
+        default=None, alias="WorkstationOptions"
     )
     windows10_update_options: AutomateMicrosoftUpdatePolicyWindows10Options | None = (
-        Field(default=None, alias='Windows10UpdateOptions')
+        Field(default=None, alias="Windows10UpdateOptions")
     )
     script_options: AutomatePatchingPolicyScriptOptions | None = Field(
-        default=None, alias='ScriptOptions'
+        default=None, alias="ScriptOptions"
     )
 
 
 class AutomateThirdPartyUpdatePolicy(ConnectWiseModel):
-    policy_id: int | None = Field(default=None, alias='PolicyId')
-    policy_name: str | None = Field(default=None, alias='PolicyName')
+    policy_id: int | None = Field(default=None, alias="PolicyId")
+    policy_name: str | None = Field(default=None, alias="PolicyName")
     patching_policy_schedule: AutomatePatchingPolicySchedule | None = Field(
-        default=None, alias='PatchingPolicySchedule'
+        default=None, alias="PatchingPolicySchedule"
     )
     workstation_options: AutomatePatchingPolicyWorkstationOptions | None = Field(
-        default=None, alias='WorkstationOptions'
+        default=None, alias="WorkstationOptions"
     )
     script_options: AutomatePatchingPolicyScriptOptions | None = Field(
-        default=None, alias='ScriptOptions'
+        default=None, alias="ScriptOptions"
     )
 
 
 class AutomateGroupConfigurationViewModel(ConnectWiseModel):
     group_type_information: AutomateGroupTypeInformation | None = Field(
-        default=None, alias='GroupTypeInformation'
+        default=None, alias="GroupTypeInformation"
     )
     remote_agent_template_information: AutomateRemoteAgentTemplateInformation | None = (
-        Field(default=None, alias='RemoteAgentTemplateInformation')
+        Field(default=None, alias="RemoteAgentTemplateInformation")
     )
     computer_search_information: AutomateComputerSearchInformation | None = Field(
-        default=None, alias='ComputerSearchInformation'
+        default=None, alias="ComputerSearchInformation"
     )
     network_device_searches: list[AutomateSearch] | None = Field(
-        default=None, alias='NetworkDeviceSearches'
+        default=None, alias="NetworkDeviceSearches"
     )
     contact_searches: list[AutomateSearch] | None = Field(
-        default=None, alias='ContactSearches'
+        default=None, alias="ContactSearches"
     )
-    clients: list[AutomateClient] | None = Field(default=None, alias='Clients')
-    locations: list[AutomateLocation] | None = Field(default=None, alias='Locations')
+    clients: list[AutomateClient] | None = Field(default=None, alias="Clients")
+    locations: list[AutomateLocation] | None = Field(default=None, alias="Locations")
     maintenance_windows: list[AutomateMaintenanceWindow] | None = Field(
-        default=None, alias='MaintenanceWindows'
+        default=None, alias="MaintenanceWindows"
     )
     user_classes: list[AutomateUserClass] | None = Field(
-        default=None, alias='UserClasses'
+        default=None, alias="UserClasses"
     )
 
 
 class LabTechScript(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    folder: LabTechScriptFolder | None = Field(default=None, alias='Folder')
-    name: str | None = Field(default=None, alias='Name')
-    comments: str | None = Field(default=None, alias='Comments')
-    is_computer_script: bool | None = Field(default=None, alias='IsComputerScript')
-    is_location_script: bool | None = Field(default=None, alias='IsLocationScript')
+    id: str | None = Field(default=None, alias="Id")
+    folder: LabTechScriptFolder | None = Field(default=None, alias="Folder")
+    name: str | None = Field(default=None, alias="Name")
+    comments: str | None = Field(default=None, alias="Comments")
+    is_computer_script: bool | None = Field(default=None, alias="IsComputerScript")
+    is_location_script: bool | None = Field(default=None, alias="IsLocationScript")
     is_maintenance_script: bool | None = Field(
-        default=None, alias='IsMaintenanceScript'
+        default=None, alias="IsMaintenanceScript"
     )
-    is_function_script: bool | None = Field(default=None, alias='IsFunctionScript')
-    is_offline: bool | None = Field(default=None, alias='IsOffline')
+    is_function_script: bool | None = Field(default=None, alias="IsFunctionScript")
+    is_offline: bool | None = Field(default=None, alias="IsOffline")
     ignore_for_mobile_devices: bool | None = Field(
-        default=None, alias='IgnoreForMobileDevices'
+        default=None, alias="IgnoreForMobileDevices"
     )
-    is_public_sharable: bool | None = Field(default=None, alias='IsPublicSharable')
-    is_user_response: bool | None = Field(default=None, alias='IsUserResponse')
-    is_system_script: bool | None = Field(default=None, alias='IsSystemScript')
+    is_public_sharable: bool | None = Field(default=None, alias="IsPublicSharable")
+    is_user_response: bool | None = Field(default=None, alias="IsUserResponse")
+    is_system_script: bool | None = Field(default=None, alias="IsSystemScript")
     is_mobile_device_script: bool | None = Field(
-        default=None, alias='IsMobileDeviceScript'
+        default=None, alias="IsMobileDeviceScript"
     )
     is_network_device_script: bool | None = Field(
-        default=None, alias='IsNetworkDeviceScript'
+        default=None, alias="IsNetworkDeviceScript"
     )
-    is_contact_script: bool | None = Field(default=None, alias='IsContactScript')
-    version: int | None = Field(default=None, alias='Version')
-    guid: str | None = Field(default=None, alias='GUID')
-    parameters: list[str] | None = Field(default=None, alias='Parameters')
-    edit_permission: list[int] | None = Field(default=None, alias='EditPermission')
-    permission: list[int] | None = Field(default=None, alias='Permission')
-    automation_time: int | None = Field(default=None, alias='AutomationTime')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
-    updated_by: str | None = Field(default=None, alias='UpdatedBy')
-    full_folder_path: str | None = Field(default=None, alias='FullFolderPath')
-    script_data: LabTechScriptData | None = Field(default=None, alias='ScriptData')
+    is_contact_script: bool | None = Field(default=None, alias="IsContactScript")
+    version: int | None = Field(default=None, alias="Version")
+    guid: str | None = Field(default=None, alias="GUID")
+    parameters: list[str] | None = Field(default=None, alias="Parameters")
+    edit_permission: list[int] | None = Field(default=None, alias="EditPermission")
+    permission: list[int] | None = Field(default=None, alias="Permission")
+    automation_time: int | None = Field(default=None, alias="AutomationTime")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
+    updated_by: str | None = Field(default=None, alias="UpdatedBy")
+    full_folder_path: str | None = Field(default=None, alias="FullFolderPath")
+    script_data: LabTechScriptData | None = Field(default=None, alias="ScriptData")
 
 
 class LabTechMonitorRoutineParameters(ConnectWiseModel):
     format: LabTechMonitorRoutineParametersFormat | None = Field(
-        default=None, alias='Format'
+        default=None, alias="Format"
     )
     unformatted_monitor_parameters: LabTechUnformattedMonitorRoutineParameters | None = Field(
-        default=None, alias='UnformattedMonitorParameters'
+        default=None, alias="UnformattedMonitorParameters"
     )
     internal_database_query_parameters: LabTechInternalDatabaseQueryParameters | None = Field(
-        default=None, alias='InternalDatabaseQueryParameters'
+        default=None, alias="InternalDatabaseQueryParameters"
     )
-    latency_target: str | None = Field(default=None, alias='LatencyTarget')
+    latency_target: str | None = Field(default=None, alias="LatencyTarget")
     get_network_response_parameters: LabTechGetNetworkResponseParameters | None = Field(
-        default=None, alias='GetNetworkResponseParameters'
+        default=None, alias="GetNetworkResponseParameters"
     )
     snmp_oid_query_parameters: LabTechSnmpOidQueryParameters | None = Field(
-        default=None, alias='SnmpOidQueryParameters'
+        default=None, alias="SnmpOidQueryParameters"
     )
     performance_counter_query_parameters: LabTechPerformanceCounterQueryParameters | None = Field(
-        default=None, alias='PerformanceCounterQueryParameters'
+        default=None, alias="PerformanceCounterQueryParameters"
     )
     hardware_sensor_query_parameters: LabTechHardwareSensorQueryParameters | None = (
-        Field(default=None, alias='HardwareSensorQueryParameters')
+        Field(default=None, alias="HardwareSensorQueryParameters")
     )
     network_device_wbem_query_parameters: LabTechNetworkDeviceWbemQueryParameters | None = Field(
-        default=None, alias='NetworkDeviceWbemQueryParameters'
+        default=None, alias="NetworkDeviceWbemQueryParameters"
     )
     get_plugin_command_result_parameters: LabTechGetPluginCommandResultParameters | None = Field(
-        default=None, alias='GetPluginCommandResultParameters'
+        default=None, alias="GetPluginCommandResultParameters"
     )
     file_or_directory_query_parameters: LabTechFileOrDirectoryQueryParameters | None = (
-        Field(default=None, alias='FileOrDirectoryQueryParameters')
+        Field(default=None, alias="FileOrDirectoryQueryParameters")
     )
-    service_name: str | None = Field(default=None, alias='ServiceName')
-    volume_mountpoint: str | None = Field(default=None, alias='VolumeMountpoint')
+    service_name: str | None = Field(default=None, alias="ServiceName")
+    volume_mountpoint: str | None = Field(default=None, alias="VolumeMountpoint")
     registry_value_query_parameters: LabTechRegistryValueQueryParameters | None = Field(
-        default=None, alias='RegistryValueQueryParameters'
+        default=None, alias="RegistryValueQueryParameters"
     )
-    process_name: str | None = Field(default=None, alias='ProcessName')
+    process_name: str | None = Field(default=None, alias="ProcessName")
     event_log_listener_parameters: LabTechEventLogQueryParameters | None = Field(
-        default=None, alias='EventLogListenerParameters'
+        default=None, alias="EventLogListenerParameters"
     )
     get_executable_result_parameters: LabTechGetExecutableResultParameters | None = (
-        Field(default=None, alias='GetExecutableResultParameters')
+        Field(default=None, alias="GetExecutableResultParameters")
     )
-    wmi_query: str | None = Field(default=None, alias='WmiQuery')
+    wmi_query: str | None = Field(default=None, alias="WmiQuery")
 
 
 class LabTechProbeConfiguration(ConnectWiseModel):
     probe_configuration_id: int | None = Field(
-        default=None, alias='ProbeConfigurationId'
+        default=None, alias="ProbeConfigurationId"
     )
-    location_id: int | None = Field(default=None, alias='LocationId')
+    location_id: int | None = Field(default=None, alias="LocationId")
     agent_deployment_attempt_maximum: int | None = Field(
-        default=None, alias='AgentDeploymentAttemptMaximum'
+        default=None, alias="AgentDeploymentAttemptMaximum"
     )
     automated_deployment_enabled: bool | None = Field(
-        default=None, alias='AutomatedDeploymentEnabled'
+        default=None, alias="AutomatedDeploymentEnabled"
     )
     discovery_settings: LabTechDiscoveryScanSettings | None = Field(
-        default=None, alias='DiscoverySettings'
+        default=None, alias="DiscoverySettings"
     )
     status_settings: LabTechStatusScanSettings | None = Field(
-        default=None, alias='StatusSettings'
+        default=None, alias="StatusSettings"
     )
     snmp_settings: LabTechSnmpSettings | None = Field(
-        default=None, alias='SnmpSettings'
+        default=None, alias="SnmpSettings"
     )
     is_data_collection_enabled: bool | None = Field(
-        default=None, alias='IsDataCollectionEnabled'
+        default=None, alias="IsDataCollectionEnabled"
     )
     snmp_trap_server_listening_port: int | None = Field(
-        default=None, alias='SnmpTrapServerListeningPort'
+        default=None, alias="SnmpTrapServerListeningPort"
     )
     syslog_settings: LabTechSyslogServerSettings | None = Field(
-        default=None, alias='SyslogSettings'
+        default=None, alias="SyslogSettings"
     )
     tftp_settings: LabTechTftpServerSettings | None = Field(
-        default=None, alias='TftpSettings'
+        default=None, alias="TftpSettings"
     )
 
 
 class LabTechProbeSnmpConfiguration(ConnectWiseModel):
     probe_snmp_configuration_id: int | None = Field(
-        default=None, alias='ProbeSnmpConfigurationId'
+        default=None, alias="ProbeSnmpConfigurationId"
     )
     probe_configuration_id: int | None = Field(
-        default=None, alias='ProbeConfigurationId'
+        default=None, alias="ProbeConfigurationId"
     )
     snmp_timeout_in_seconds: int | None = Field(
-        default=None, alias='SnmpTimeoutInSeconds'
+        default=None, alias="SnmpTimeoutInSeconds"
     )
     community_string_get_list: str | None = Field(
-        default=None, alias='CommunityStringGetList'
+        default=None, alias="CommunityStringGetList"
     )
     snmp_v3_settings: LabTechProbeSnmpV3Configuration | None = Field(
-        default=None, alias='SnmpV3Settings'
+        default=None, alias="SnmpV3Settings"
     )
 
 
 class AutomateDisableServerPatchRebootSettings(ConnectWiseModel):
     server_settings: AutomateDisableServerPatchRebootServerSettings | None = Field(
-        default=None, alias='ServerSettings'
+        default=None, alias="ServerSettings"
     )
     workstation_settings: AutomateDisableServerPatchRebootWorkstationSettings | None = (
-        Field(default=None, alias='WorkstationSettings')
+        Field(default=None, alias="WorkstationSettings")
     )
 
 
 class AutomateScript(ConnectWiseModel):
-    script_id: int | None = Field(default=None, alias='ScriptId')
+    script_id: int | None = Field(default=None, alias="ScriptId")
     ticket_entry_settings: AutomateTicketEntrySettings | None = Field(
-        default=None, alias='TicketEntrySettings'
+        default=None, alias="TicketEntrySettings"
     )
     time_entry_settings: AutomateTimeEntrySettings | None = Field(
-        default=None, alias='TimeEntrySettings'
+        default=None, alias="TimeEntrySettings"
     )
     user_class_access_settings: list[AutomateUserClassAccess] | None = Field(
-        default=None, alias='UserClassAccessSettings'
+        default=None, alias="UserClassAccessSettings"
     )
-    is_protected: bool | None = Field(default=None, alias='IsProtected')
+    is_protected: bool | None = Field(default=None, alias="IsProtected")
     uses_enhanced_logging: bool | None = Field(
-        default=None, alias='UsesEnhancedLogging'
+        default=None, alias="UsesEnhancedLogging"
     )
-    steps: list[AutomateScriptStep] | None = Field(default=None, alias='Steps')
+    steps: list[AutomateScriptStep] | None = Field(default=None, alias="Steps")
     global_variables: dict[str, str] | None = Field(
-        default=None, alias='GlobalVariables'
+        default=None, alias="GlobalVariables"
     )
-    parameters: list[str] | None = Field(default=None, alias='Parameters')
-    name: str | None = Field(default=None, alias='Name')
-    description: str | None = Field(default=None, alias='Description')
-    folder: AutomateScriptFolder | None = Field(default=None, alias='Folder')
+    parameters: list[str] | None = Field(default=None, alias="Parameters")
+    name: str | None = Field(default=None, alias="Name")
+    description: str | None = Field(default=None, alias="Description")
+    folder: AutomateScriptFolder | None = Field(default=None, alias="Folder")
     script_target_type: AutomateScriptTarget | None = Field(
-        default=None, alias='ScriptTargetType'
+        default=None, alias="ScriptTargetType"
     )
     script_options: AutomateScriptOptions | None = Field(
-        default=None, alias='ScriptOptions'
+        default=None, alias="ScriptOptions"
     )
-    automation_minutes: int | None = Field(default=None, alias='AutomationMinutes')
+    automation_minutes: int | None = Field(default=None, alias="AutomationMinutes")
 
 
 class AutomateGroup(ConnectWiseModel):
-    group_id: int | None = Field(default=None, alias='GroupId')
-    name: str | None = Field(default=None, alias='Name')
-    full_name: str | None = Field(default=None, alias='FullName')
-    description: str | None = Field(default=None, alias='Description')
-    group_type: AutomateGroupType | None = Field(default=None, alias='GroupType')
+    group_id: int | None = Field(default=None, alias="GroupId")
+    name: str | None = Field(default=None, alias="Name")
+    full_name: str | None = Field(default=None, alias="FullName")
+    description: str | None = Field(default=None, alias="Description")
+    group_type: AutomateGroupType | None = Field(default=None, alias="GroupType")
     template_settings: AutomateTemplateSettings | None = Field(
-        default=None, alias='TemplateSettings'
+        default=None, alias="TemplateSettings"
     )
     auto_join_settings: AutomateAutoJoinSettings | None = Field(
-        default=None, alias='AutoJoinSettings'
+        default=None, alias="AutoJoinSettings"
     )
     linking_settings: AutomateLinkingSettings | None = Field(
-        default=None, alias='LinkingSettings'
+        default=None, alias="LinkingSettings"
     )
     master_status: AutomateMasterStatus | None = Field(
-        default=None, alias='MasterStatus'
+        default=None, alias="MasterStatus"
     )
     maintenance_window_settings: AutomateMaintenanceWindowSettings | None = Field(
-        default=None, alias='MaintenanceWindowSettings'
+        default=None, alias="MaintenanceWindowSettings"
     )
 
 
 class AutomateMonitor(ConnectWiseModel):
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    name: str | None = Field(default=None, alias='Name')
-    groups: list[AutomateGroup] | None = Field(default=None, alias='Groups')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    name: str | None = Field(default=None, alias="Name")
+    groups: list[AutomateGroup] | None = Field(default=None, alias="Groups")
     target_computer: AutomateComputer | None = Field(
-        default=None, alias='TargetComputer'
+        default=None, alias="TargetComputer"
     )
 
 
 class AutomateSearchLookUpBase(ConnectWiseModel):
-    search_node: str | None = Field(default=None, alias='SearchNode')
-    is_leaf_node: bool | None = Field(default=None, alias='IsLeafNode')
+    search_node: str | None = Field(default=None, alias="SearchNode")
+    is_leaf_node: bool | None = Field(default=None, alias="IsLeafNode")
     child_nodes: list[AutomateSearchLookUpBase] | None = Field(
-        default=None, alias='ChildNodes'
+        default=None, alias="ChildNodes"
     )
     attributes: AutomateSearchAttributes | None = Field(
-        default=None, alias='Attributes'
+        default=None, alias="Attributes"
     )
 
 
 class AutomateUser(ConnectWiseModel):
-    user_id: int | None = Field(default=None, alias='UserId')
-    name: str | None = Field(default=None, alias='Name')
-    first_name: str | None = Field(default=None, alias='FirstName')
-    last_name: str | None = Field(default=None, alias='LastName')
+    user_id: int | None = Field(default=None, alias="UserId")
+    name: str | None = Field(default=None, alias="Name")
+    first_name: str | None = Field(default=None, alias="FirstName")
+    last_name: str | None = Field(default=None, alias="LastName")
     last_successful_login: datetime | None = Field(
-        default=None, alias='LastSuccessfulLogin'
+        default=None, alias="LastSuccessfulLogin"
     )
-    password: str | None = Field(default=None, alias='Password')
-    folder: AutomateUserFolder | None = Field(default=None, alias='Folder')
-    email_address: str | None = Field(default=None, alias='EmailAddress')
-    auditing_level: int | None = Field(default=None, alias='AuditingLevel')
-    command_level: int | None = Field(default=None, alias='CommandLevel')
+    password: str | None = Field(default=None, alias="Password")
+    folder: AutomateUserFolder | None = Field(default=None, alias="Folder")
+    email_address: str | None = Field(default=None, alias="EmailAddress")
+    auditing_level: int | None = Field(default=None, alias="AuditingLevel")
+    command_level: int | None = Field(default=None, alias="CommandLevel")
     uses_ticket_based_security: bool | None = Field(
-        default=None, alias='UsesTicketBasedSecurity'
+        default=None, alias="UsesTicketBasedSecurity"
     )
     new_ticket_display_limit: int | None = Field(
-        default=None, alias='NewTicketDisplayLimit'
+        default=None, alias="NewTicketDisplayLimit"
     )
-    open_ticket_limit: int | None = Field(default=None, alias='OpenTicketLimit')
-    is_integrator: bool | None = Field(default=None, alias='IsIntegrator')
-    is_locked: bool | None = Field(default=None, alias='IsLocked')
-    is_ticket_router: bool | None = Field(default=None, alias='IsTicketRouter')
-    is_ticket_supervisor: bool | None = Field(default=None, alias='IsTicketSupervisor')
-    ticket_level: AutomateTicketLevel | None = Field(default=None, alias='TicketLevel')
+    open_ticket_limit: int | None = Field(default=None, alias="OpenTicketLimit")
+    is_integrator: bool | None = Field(default=None, alias="IsIntegrator")
+    is_locked: bool | None = Field(default=None, alias="IsLocked")
+    is_ticket_router: bool | None = Field(default=None, alias="IsTicketRouter")
+    is_ticket_supervisor: bool | None = Field(default=None, alias="IsTicketSupervisor")
+    ticket_level: AutomateTicketLevel | None = Field(default=None, alias="TicketLevel")
     requires_login_report: bool | None = Field(
-        default=None, alias='RequiresLoginReport'
+        default=None, alias="RequiresLoginReport"
     )
     requires_logout_report: bool | None = Field(
-        default=None, alias='RequiresLogoutReport'
+        default=None, alias="RequiresLogoutReport"
     )
-    last_updated: datetime | None = Field(default=None, alias='LastUpdated')
+    last_updated: datetime | None = Field(default=None, alias="LastUpdated")
     primary_clients: list[AutomateClient] | None = Field(
-        default=None, alias='PrimaryClients'
+        default=None, alias="PrimaryClients"
     )
     user_classes: list[AutomateUserClass] | None = Field(
-        default=None, alias='UserClasses'
+        default=None, alias="UserClasses"
     )
     associated_groups: list[AutomateGroup] | None = Field(
-        default=None, alias='AssociatedGroups'
+        default=None, alias="AssociatedGroups"
     )
     sso_status: AutomateUserSingleSignOnStatus | None = Field(
-        default=None, alias='SsoStatus'
+        default=None, alias="SsoStatus"
     )
-    sso_email: str | None = Field(default=None, alias='SsoEmail')
+    sso_email: str | None = Field(default=None, alias="SsoEmail")
     allow_legacy_api_access: bool | None = Field(
-        default=None, alias='AllowLegacyApiAccess'
+        default=None, alias="AllowLegacyApiAccess"
     )
 
 
 class AutomateConfiguration(ConnectWiseModel):
-    check_type: AutomateCheckType | None = Field(default=None, alias='CheckType')
-    interval: AutomateCheckInterval | None = Field(default=None, alias='Interval')
-    condition: AutomateCondition | None = Field(default=None, alias='Condition')
+    check_type: AutomateCheckType | None = Field(default=None, alias="CheckType")
+    interval: AutomateCheckInterval | None = Field(default=None, alias="Interval")
+    condition: AutomateCondition | None = Field(default=None, alias="Condition")
     ping_settings: AutomatePingSettings | None = Field(
-        default=None, alias='PingSettings'
+        default=None, alias="PingSettings"
     )
     latency_settings: AutomateLatencySettings | None = Field(
-        default=None, alias='LatencySettings'
+        default=None, alias="LatencySettings"
     )
-    tcp_settings: AutomateTcpSettings | None = Field(default=None, alias='TcpSettings')
-    udp_settings: AutomateUdpSettings | None = Field(default=None, alias='UdpSettings')
+    tcp_settings: AutomateTcpSettings | None = Field(default=None, alias="TcpSettings")
+    udp_settings: AutomateUdpSettings | None = Field(default=None, alias="UdpSettings")
     snmp_settings: AutomateSnmpSettings | None = Field(
-        default=None, alias='SnmpSettings'
+        default=None, alias="SnmpSettings"
     )
     performance_counter_settings: AutomatePerformanceCounterSettings | None = Field(
-        default=None, alias='PerformanceCounterSettings'
+        default=None, alias="PerformanceCounterSettings"
     )
     file_or_directory_settings: AutomateFileOrDirectorySettings | None = Field(
-        default=None, alias='FileOrDirectorySettings'
+        default=None, alias="FileOrDirectorySettings"
     )
     service_settings: AutomateServiceSettings | None = Field(
-        default=None, alias='ServiceSettings'
+        default=None, alias="ServiceSettings"
     )
     disk_space_settings: AutomateDiskSpaceSettings | None = Field(
-        default=None, alias='DiskSpaceSettings'
+        default=None, alias="DiskSpaceSettings"
     )
     registry_settings: AutomateRegistrySettings | None = Field(
-        default=None, alias='RegistrySettings'
+        default=None, alias="RegistrySettings"
     )
     process_settings: AutomateProcessSettings | None = Field(
-        default=None, alias='ProcessSettings'
+        default=None, alias="ProcessSettings"
     )
     event_log_settings: AutomateEventLogSettings | None = Field(
-        default=None, alias='EventLogSettings'
+        default=None, alias="EventLogSettings"
     )
     executable_settings: AutomateExecutableSettings | None = Field(
-        default=None, alias='ExecutableSettings'
+        default=None, alias="ExecutableSettings"
     )
-    wmi_settings: AutomateWmiSettings | None = Field(default=None, alias='WmiSettings')
+    wmi_settings: AutomateWmiSettings | None = Field(default=None, alias="WmiSettings")
     bandwidth_settings: AutomateBandwidthSettings | None = Field(
-        default=None, alias='BandwidthSettings'
+        default=None, alias="BandwidthSettings"
     )
     sensor_settings: AutomateSensorSettings | None = Field(
-        default=None, alias='SensorSettings'
+        default=None, alias="SensorSettings"
     )
 
 
 class AutomateWebExtensionClickButton(ConnectWiseModel):
-    icon_url: str | None = Field(default=None, alias='IconUrl')
-    button_text: str | None = Field(default=None, alias='ButtonText')
+    icon_url: str | None = Field(default=None, alias="IconUrl")
+    button_text: str | None = Field(default=None, alias="ButtonText")
     click_action: AutomateWebExtensionClickAction | None = Field(
-        default=None, alias='ClickAction'
+        default=None, alias="ClickAction"
     )
-    allows_multi_select: bool | None = Field(default=None, alias='AllowsMultiSelect')
+    allows_multi_select: bool | None = Field(default=None, alias="AllowsMultiSelect")
     web_extension_control_id: int | None = Field(
-        default=None, alias='WebExtensionControlId'
+        default=None, alias="WebExtensionControlId"
     )
     web_extension_control_name: str | None = Field(
-        default=None, alias='WebExtensionControlName'
+        default=None, alias="WebExtensionControlName"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
-        default=None, alias='ExtensionClaimType'
+        default=None, alias="ExtensionClaimType"
     )
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     web_extension_area_control_type_ids: list[int] | None = Field(
-        default=None, alias='WebExtensionAreaControlTypeIds'
+        default=None, alias="WebExtensionAreaControlTypeIds"
     )
 
 
 class AutomateWebExtensionMenuButton(ConnectWiseModel):
-    icon_url: str | None = Field(default=None, alias='IconUrl')
-    button_text: str | None = Field(default=None, alias='ButtonText')
+    icon_url: str | None = Field(default=None, alias="IconUrl")
+    button_text: str | None = Field(default=None, alias="ButtonText")
     menu_items: list[AutomateWebExtensionMenuItem] | None = Field(
-        default=None, alias='MenuItems'
+        default=None, alias="MenuItems"
     )
-    allows_multi_select: bool | None = Field(default=None, alias='AllowsMultiSelect')
+    allows_multi_select: bool | None = Field(default=None, alias="AllowsMultiSelect")
     web_extension_control_id: int | None = Field(
-        default=None, alias='WebExtensionControlId'
+        default=None, alias="WebExtensionControlId"
     )
     web_extension_control_name: str | None = Field(
-        default=None, alias='WebExtensionControlName'
+        default=None, alias="WebExtensionControlName"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
-        default=None, alias='ExtensionClaimType'
+        default=None, alias="ExtensionClaimType"
     )
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     web_extension_area_control_type_ids: list[int] | None = Field(
-        default=None, alias='WebExtensionAreaControlTypeIds'
+        default=None, alias="WebExtensionAreaControlTypeIds"
     )
 
 
 class AutomateWebExtension(ConnectWiseModel):
-    web_extension_id: int | None = Field(default=None, alias='WebExtensionId')
+    web_extension_id: int | None = Field(default=None, alias="WebExtensionId")
     extension_solution: AutomateExtensionSolution | None = Field(
-        default=None, alias='ExtensionSolution'
+        default=None, alias="ExtensionSolution"
     )
     extension_status: AutomateExtensionStatus | None = Field(
-        default=None, alias='ExtensionStatus'
+        default=None, alias="ExtensionStatus"
     )
     web_extension_guid: UUID | None = Field(
         default=None,
-        alias='WebExtensionGuid',
-        example='00000000-0000-0000-0000-000000000000',
+        alias="WebExtensionGuid",
+        example="00000000-0000-0000-0000-000000000000",
     )
-    web_extension_name: str | None = Field(default=None, alias='WebExtensionName')
-    author: str | None = Field(default=None, alias='Author')
-    description: str | None = Field(default=None, alias='Description')
-    version: str | None = Field(default=None, alias='Version')
-    file_url: str | None = Field(default=None, alias='FileUrl')
-    filename: str | None = Field(default=None, alias='Filename')
-    file_check_sum: str | None = Field(default=None, alias='FileCheckSum')
-    has_static_files: bool | None = Field(default=None, alias='HasStaticFiles')
-    has_graph_files: bool | None = Field(default=None, alias='HasGraphFiles')
-    is_core_extension: bool | None = Field(default=None, alias='IsCoreExtension')
+    web_extension_name: str | None = Field(default=None, alias="WebExtensionName")
+    author: str | None = Field(default=None, alias="Author")
+    description: str | None = Field(default=None, alias="Description")
+    version: str | None = Field(default=None, alias="Version")
+    file_url: str | None = Field(default=None, alias="FileUrl")
+    filename: str | None = Field(default=None, alias="Filename")
+    file_check_sum: str | None = Field(default=None, alias="FileCheckSum")
+    has_static_files: bool | None = Field(default=None, alias="HasStaticFiles")
+    has_graph_files: bool | None = Field(default=None, alias="HasGraphFiles")
+    is_core_extension: bool | None = Field(default=None, alias="IsCoreExtension")
     extension_claim_types: list[AutomateExtensionClaimType] | None = Field(
-        default=None, alias='ExtensionClaimTypes'
+        default=None, alias="ExtensionClaimTypes"
     )
     redirects: list[AutomateWebExtensionRedirect] | None = Field(
-        default=None, alias='Redirects'
+        default=None, alias="Redirects"
     )
-    tiles: list[AutomateWebExtensionTile] | None = Field(default=None, alias='Tiles')
+    tiles: list[AutomateWebExtensionTile] | None = Field(default=None, alias="Tiles")
     inline_frames: list[AutomateWebExtensionInlineFrame] | None = Field(
-        default=None, alias='InlineFrames'
+        default=None, alias="InlineFrames"
     )
     menu_buttons: list[AutomateWebExtensionMenuButton] | None = Field(
-        default=None, alias='MenuButtons'
+        default=None, alias="MenuButtons"
     )
     click_buttons: list[AutomateWebExtensionClickButton] | None = Field(
-        default=None, alias='ClickButtons'
+        default=None, alias="ClickButtons"
     )
 
 
 class AutomateScriptScheduleSettings(ConnectWiseModel):
     script_schedule_frequency: AutomateScriptScheduleFrequency | None = Field(
-        default=None, alias='ScriptScheduleFrequency'
+        default=None, alias="ScriptScheduleFrequency"
     )
     minutely_settings: AutomateMinutelyScheduleFrequency | None = Field(
-        default=None, alias='MinutelySettings'
+        default=None, alias="MinutelySettings"
     )
     hourly_settings: AutomateHourlyScheduleFrequency | None = Field(
-        default=None, alias='HourlySettings'
+        default=None, alias="HourlySettings"
     )
     daily_settings: AutomateDailyScheduleFrequency | None = Field(
-        default=None, alias='DailySettings'
+        default=None, alias="DailySettings"
     )
     weekly_settings: AutomateWeeklyScheduleFrequency | None = Field(
-        default=None, alias='WeeklySettings'
+        default=None, alias="WeeklySettings"
     )
     monthly_settings: AutomateMonthlyScheduleFrequency | None = Field(
-        default=None, alias='MonthlySettings'
+        default=None, alias="MonthlySettings"
     )
 
 
 class AutomateRebootPolicy(ConnectWiseModel):
-    policy_id: int | None = Field(default=None, alias='PolicyId')
-    policy_name: str | None = Field(default=None, alias='PolicyName')
-    reboot_policy_type: str | None = Field(default=None, alias='RebootPolicyType')
+    policy_id: int | None = Field(default=None, alias="PolicyId")
+    policy_name: str | None = Field(default=None, alias="PolicyName")
+    reboot_policy_type: str | None = Field(default=None, alias="RebootPolicyType")
     disable_server_patch_reboot_settings: AutomateDisableServerPatchRebootSettings | None = Field(
-        default=None, alias='DisableServerPatchRebootSettings'
+        default=None, alias="DisableServerPatchRebootSettings"
     )
     prompt_without_deadline_settings: AutomatePromptWithoutDeadlineSettings | None = (
-        Field(default=None, alias='PromptWithoutDeadlineSettings')
+        Field(default=None, alias="PromptWithoutDeadlineSettings")
     )
 
 
 class AutomateLocalOverridePolicy(ConnectWiseModel):
     approval_policies: list[AutomateApprovalPolicy] | None = Field(
-        default=None, alias='ApprovalPolicies'
+        default=None, alias="ApprovalPolicies"
     )
-    computer_id: int | None = Field(default=None, alias='ComputerId')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
     microsoft_update_policy: AutomateMicrosoftUpdatePolicy | None = Field(
-        default=None, alias='MicrosoftUpdatePolicy'
+        default=None, alias="MicrosoftUpdatePolicy"
     )
     reboot_policy: AutomateRebootPolicy | None = Field(
-        default=None, alias='RebootPolicy'
+        default=None, alias="RebootPolicy"
     )
     third_party_update_policy: AutomateThirdPartyUpdatePolicy | None = Field(
-        default=None, alias='ThirdPartyUpdatePolicy'
+        default=None, alias="ThirdPartyUpdatePolicy"
     )
 
 
 class AutomateRunningScript(ConnectWiseModel):
-    script_instance_id: int | None = Field(default=None, alias='ScriptInstanceId')
-    target: AutomateRunningScriptTarget | None = Field(default=None, alias='Target')
-    script: AutomateScript | None = Field(default=None, alias='Script')
-    source: AutomateScriptSource | None = Field(default=None, alias='Source')
-    state: AutomateScriptState | None = Field(default=None, alias='State')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
+    script_instance_id: int | None = Field(default=None, alias="ScriptInstanceId")
+    target: AutomateRunningScriptTarget | None = Field(default=None, alias="Target")
+    script: AutomateScript | None = Field(default=None, alias="Script")
+    source: AutomateScriptSource | None = Field(default=None, alias="Source")
+    state: AutomateScriptState | None = Field(default=None, alias="State")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
 
 
 class AutomateScheduledScriptTarget(ConnectWiseModel):
     schedule_target_type: AutomateScheduleTargetType | None = Field(
-        default=None, alias='ScheduleTargetType'
+        default=None, alias="ScheduleTargetType"
     )
-    group: AutomateGroup | None = Field(default=None, alias='Group')
-    client: AutomateClient | None = Field(default=None, alias='Client')
-    location: AutomateLocation | None = Field(default=None, alias='Location')
-    computer: AutomateComputer | None = Field(default=None, alias='Computer')
+    group: AutomateGroup | None = Field(default=None, alias="Group")
+    client: AutomateClient | None = Field(default=None, alias="Client")
+    location: AutomateLocation | None = Field(default=None, alias="Location")
+    computer: AutomateComputer | None = Field(default=None, alias="Computer")
     network_device: AutomateNetworkDevice | None = Field(
-        default=None, alias='NetworkDevice'
+        default=None, alias="NetworkDevice"
     )
-    contact: AutomateContact | None = Field(default=None, alias='Contact')
+    contact: AutomateContact | None = Field(default=None, alias="Contact")
 
 
 class AutomateScriptReferences(ConnectWiseModel):
-    schedule_count: int | None = Field(default=None, alias='ScheduleCount')
+    schedule_count: int | None = Field(default=None, alias="ScheduleCount")
     internal_monitors: list[AutomateMonitor] | None = Field(
-        default=None, alias='InternalMonitors'
+        default=None, alias="InternalMonitors"
     )
     remote_monitors: list[AutomateMonitor] | None = Field(
-        default=None, alias='RemoteMonitors'
+        default=None, alias="RemoteMonitors"
     )
     alert_templates: list[AutomateAlertTemplate] | None = Field(
-        default=None, alias='AlertTemplates'
+        default=None, alias="AlertTemplates"
     )
 
 
 class AutomateAdvancedSearchLookUp(ConnectWiseModel):
     look_up_nodes: list[AutomateSearchLookUpBase] | None = Field(
-        default=None, alias='LookUpNodes'
+        default=None, alias="LookUpNodes"
     )
-    collection_nodes: list[str] | None = Field(default=None, alias='CollectionNodes')
+    collection_nodes: list[str] | None = Field(default=None, alias="CollectionNodes")
 
 
 class AutomateRemoteMonitorTemplate(ConnectWiseModel):
-    limiting_search: AutomateSearch | None = Field(default=None, alias='LimitingSearch')
-    group_id: int | None = Field(default=None, alias='GroupId')
-    target_type: AutomateTargetType | None = Field(default=None, alias='TargetType')
-    install_count: int | None = Field(default=None, alias='InstallCount')
-    sub_type: str | None = Field(default=None, alias='SubType')
-    details: str | None = Field(default=None, alias='Details')
-    last_edited_by: str | None = Field(default=None, alias='LastEditedBy')
-    last_edited_time: datetime | None = Field(default=None, alias='LastEditedTime')
-    remote_monitor_id: int | None = Field(default=None, alias='RemoteMonitorId')
-    name: str | None = Field(default=None, alias='Name')
+    limiting_search: AutomateSearch | None = Field(default=None, alias="LimitingSearch")
+    group_id: int | None = Field(default=None, alias="GroupId")
+    target_type: AutomateTargetType | None = Field(default=None, alias="TargetType")
+    install_count: int | None = Field(default=None, alias="InstallCount")
+    sub_type: str | None = Field(default=None, alias="SubType")
+    details: str | None = Field(default=None, alias="Details")
+    last_edited_by: str | None = Field(default=None, alias="LastEditedBy")
+    last_edited_time: datetime | None = Field(default=None, alias="LastEditedTime")
+    remote_monitor_id: int | None = Field(default=None, alias="RemoteMonitorId")
+    name: str | None = Field(default=None, alias="Name")
     alerting_settings: AutomateAlertingSettings | None = Field(
-        default=None, alias='AlertingSettings'
+        default=None, alias="AlertingSettings"
     )
     configuration: AutomateConfiguration | None = Field(
-        default=None, alias='Configuration'
+        default=None, alias="Configuration"
     )
 
 
 class AutomatePatchingPolicies(ConnectWiseModel):
     microsoft_update_policy: AutomateMicrosoftUpdatePolicy | None = Field(
-        default=None, alias='MicrosoftUpdatePolicy'
+        default=None, alias="MicrosoftUpdatePolicy"
     )
     reboot_policy: AutomateRebootPolicy | None = Field(
-        default=None, alias='RebootPolicy'
+        default=None, alias="RebootPolicy"
     )
     third_party_update_policy: AutomateThirdPartyUpdatePolicy | None = Field(
-        default=None, alias='ThirdPartyUpdatePolicy'
+        default=None, alias="ThirdPartyUpdatePolicy"
     )
     approval_policies: list[AutomateApprovalPolicy] | None = Field(
-        default=None, alias='ApprovalPolicies'
+        default=None, alias="ApprovalPolicies"
     )
 
 
 class AutomateWebExtensionAreaControls(ConnectWiseModel):
     web_extension_area: AutomateWebExtensionArea | None = Field(
-        default=None, alias='WebExtensionArea'
+        default=None, alias="WebExtensionArea"
     )
     click_buttons: list[AutomateWebExtensionClickButton] | None = Field(
-        default=None, alias='ClickButtons'
+        default=None, alias="ClickButtons"
     )
     menu_buttons: list[AutomateWebExtensionMenuButton] | None = Field(
-        default=None, alias='MenuButtons'
+        default=None, alias="MenuButtons"
     )
-    tiles: list[AutomateWebExtensionTile] | None = Field(default=None, alias='Tiles')
+    tiles: list[AutomateWebExtensionTile] | None = Field(default=None, alias="Tiles")
     redirects: list[AutomateWebExtensionRedirect] | None = Field(
-        default=None, alias='Redirects'
+        default=None, alias="Redirects"
     )
     inline_frames: list[AutomateWebExtensionInlineFrame] | None = Field(
-        default=None, alias='InlineFrames'
+        default=None, alias="InlineFrames"
     )
 
 
 class AutomateScheduleScriptBatchRequest(ConnectWiseModel):
     entity_type: Literal[
-        'System',
-        'Computer',
-        'Site',
-        'Company',
-        'Probe',
-        'NetworkDevice',
-        'Ticket',
-        'Group',
-        'MobileDevice',
-        'Vendor',
-        'VendorProduct',
-        'Possibility',
-        'Opportunity',
-        'Contact',
-        'User',
-        'Script',
-        'Plugin',
-        'Service',
-        'ServiceBundle',
-        'Search',
-        'SearchFolder',
-        'Dataview',
-        'DataviewFolder',
-        'UserFolder',
-        'UserClass',
-        'ScriptFolder',
-        'RemoteMonitorTemplate',
-        'ExtraField',
-    ] | None = Field(default=None, alias='EntityType')
-    entity_ids: list[int] | None = Field(default=None, alias='EntityIds')
-    script_id: int | None = Field(default=None, alias='ScriptId')
-    script_guid: str | None = Field(default=None, alias='ScriptGuid')
+        "System",
+        "Computer",
+        "Site",
+        "Company",
+        "Probe",
+        "NetworkDevice",
+        "Ticket",
+        "Group",
+        "MobileDevice",
+        "Vendor",
+        "VendorProduct",
+        "Possibility",
+        "Opportunity",
+        "Contact",
+        "User",
+        "Script",
+        "Plugin",
+        "Service",
+        "ServiceBundle",
+        "Search",
+        "SearchFolder",
+        "Dataview",
+        "DataviewFolder",
+        "UserFolder",
+        "UserClass",
+        "ScriptFolder",
+        "RemoteMonitorTemplate",
+        "ExtraField",
+    ] | None = Field(default=None, alias="EntityType")
+    entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
+    script_id: int | None = Field(default=None, alias="ScriptId")
+    script_guid: str | None = Field(default=None, alias="ScriptGuid")
     schedule: AutomateScriptScheduleSettings | None = Field(
-        default=None, alias='Schedule'
+        default=None, alias="Schedule"
     )
-    parameters: list[SystemString] | None = Field(default=None, alias='Parameters')
-    use_agent_time: bool | None = Field(default=None, alias='UseAgentTime')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
-    expire_date: datetime | None = Field(default=None, alias='ExpireDate')
+    parameters: list[SystemString] | None = Field(default=None, alias="Parameters")
+    use_agent_time: bool | None = Field(default=None, alias="UseAgentTime")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
+    expire_date: datetime | None = Field(default=None, alias="ExpireDate")
     offline_action_flags: AutomateScheduledScriptOfflineActionFlags | None = Field(
-        default=None, alias='OfflineActionFlags'
+        default=None, alias="OfflineActionFlags"
     )
     distribution_window: AutomateDistributionWindow | None = Field(
-        default=None, alias='DistributionWindow'
+        default=None, alias="DistributionWindow"
     )
-    priority: int | None = Field(default=None, alias='Priority')
-    include_sub_groups: bool | None = Field(default=None, alias='IncludeSubGroups')
+    priority: int | None = Field(default=None, alias="Priority")
+    include_sub_groups: bool | None = Field(default=None, alias="IncludeSubGroups")
 
 
 class AutomateGroupPatchingPolicy(ConnectWiseModel):
     approval_policies: list[AutomateApprovalPolicy] | None = Field(
-        default=None, alias='ApprovalPolicies'
+        default=None, alias="ApprovalPolicies"
     )
-    group_id: int | None = Field(default=None, alias='GroupId')
-    group_name: str | None = Field(default=None, alias='GroupName')
-    is_manual: bool | None = Field(default=None, alias='IsManual')
-    is_patching_group: bool | None = Field(default=None, alias='IsPatchingGroup')
+    group_id: int | None = Field(default=None, alias="GroupId")
+    group_name: str | None = Field(default=None, alias="GroupName")
+    is_manual: bool | None = Field(default=None, alias="IsManual")
+    is_patching_group: bool | None = Field(default=None, alias="IsPatchingGroup")
     microsoft_update_policy: AutomateMicrosoftUpdatePolicy | None = Field(
-        default=None, alias='MicrosoftUpdatePolicy'
+        default=None, alias="MicrosoftUpdatePolicy"
     )
-    priority: int | None = Field(default=None, alias='Priority')
+    priority: int | None = Field(default=None, alias="Priority")
     reboot_policy: AutomateRebootPolicy | None = Field(
-        default=None, alias='RebootPolicy'
+        default=None, alias="RebootPolicy"
     )
     third_party_update_policy: AutomateThirdPartyUpdatePolicy | None = Field(
-        default=None, alias='ThirdPartyUpdatePolicy'
+        default=None, alias="ThirdPartyUpdatePolicy"
     )
     auto_join_settings: AutomateGroupAutoJoinSettings | None = Field(
-        default=None, alias='AutoJoinSettings'
+        default=None, alias="AutoJoinSettings"
     )
     windows_computer_count: int | None = Field(
-        default=None, alias='WindowsComputerCount'
+        default=None, alias="WindowsComputerCount"
     )
 
 
 class AutomateScheduledScript(ConnectWiseModel):
-    scheduled_script_id: int | None = Field(default=None, alias='ScheduledScriptId')
-    script: AutomateScript | None = Field(default=None, alias='Script')
+    scheduled_script_id: int | None = Field(default=None, alias="ScheduledScriptId")
+    script: AutomateScript | None = Field(default=None, alias="Script")
     schedule_target: AutomateScheduledScriptTarget | None = Field(
-        default=None, alias='ScheduleTarget'
+        default=None, alias="ScheduleTarget"
     )
     schedule: AutomateScriptScheduleSettings | None = Field(
-        default=None, alias='Schedule'
+        default=None, alias="Schedule"
     )
-    limiting_search: AutomateSearch | None = Field(default=None, alias='LimitingSearch')
+    limiting_search: AutomateSearch | None = Field(default=None, alias="LimitingSearch")
     offline_action_flags: AutomateScheduledScriptOfflineActionFlags | None = Field(
-        default=None, alias='OfflineActionFlags'
+        default=None, alias="OfflineActionFlags"
     )
     distribution_window: AutomateDistributionWindow | None = Field(
-        default=None, alias='DistributionWindow'
+        default=None, alias="DistributionWindow"
     )
-    parameters: list[SystemString] | None = Field(default=None, alias='Parameters')
-    use_agent_time: bool | None = Field(default=None, alias='UseAgentTime')
-    scheduled_by: str | None = Field(default=None, alias='ScheduledBy')
-    occurrences: int | None = Field(default=None, alias='Occurrences')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
-    expire_date: datetime | None = Field(default=None, alias='ExpireDate')
-    next_run_date: datetime | None = Field(default=None, alias='NextRunDate')
-    is_disabled: bool | None = Field(default=None, alias='IsDisabled')
-    priority: int | None = Field(default=None, alias='Priority')
-    include_sub_groups: bool | None = Field(default=None, alias='IncludeSubGroups')
-    is_inherited: bool | None = Field(default=None, alias='IsInherited')
+    parameters: list[SystemString] | None = Field(default=None, alias="Parameters")
+    use_agent_time: bool | None = Field(default=None, alias="UseAgentTime")
+    scheduled_by: str | None = Field(default=None, alias="ScheduledBy")
+    occurrences: int | None = Field(default=None, alias="Occurrences")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
+    expire_date: datetime | None = Field(default=None, alias="ExpireDate")
+    next_run_date: datetime | None = Field(default=None, alias="NextRunDate")
+    is_disabled: bool | None = Field(default=None, alias="IsDisabled")
+    priority: int | None = Field(default=None, alias="Priority")
+    include_sub_groups: bool | None = Field(default=None, alias="IncludeSubGroups")
+    is_inherited: bool | None = Field(default=None, alias="IsInherited")
 
 
 class LabTechClient(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    name: str | None = Field(default=None, alias='Name')
-    company: str | None = Field(default=None, alias='Company')
-    first_name: str | None = Field(default=None, alias='FirstName')
-    last_name: str | None = Field(default=None, alias='LastName')
-    address1: str | None = Field(default=None, alias='Address1')
-    address2: str | None = Field(default=None, alias='Address2')
-    city: str | None = Field(default=None, alias='City')
-    state: str | None = Field(default=None, alias='State')
-    zip_code: str | None = Field(default=None, alias='ZipCode')
-    phone_number: str | None = Field(default=None, alias='PhoneNumber')
-    fax_number: str | None = Field(default=None, alias='FaxNumber')
-    comment: str | None = Field(default=None, alias='Comment')
-    country: str | None = Field(default=None, alias='Country')
-    external_id: str | None = Field(default=None, alias='ExternalId')
+    id: str | None = Field(default=None, alias="Id")
+    name: str | None = Field(default=None, alias="Name")
+    company: str | None = Field(default=None, alias="Company")
+    first_name: str | None = Field(default=None, alias="FirstName")
+    last_name: str | None = Field(default=None, alias="LastName")
+    address1: str | None = Field(default=None, alias="Address1")
+    address2: str | None = Field(default=None, alias="Address2")
+    city: str | None = Field(default=None, alias="City")
+    state: str | None = Field(default=None, alias="State")
+    zip_code: str | None = Field(default=None, alias="ZipCode")
+    phone_number: str | None = Field(default=None, alias="PhoneNumber")
+    fax_number: str | None = Field(default=None, alias="FaxNumber")
+    comment: str | None = Field(default=None, alias="Comment")
+    country: str | None = Field(default=None, alias="Country")
+    external_id: str | None = Field(default=None, alias="ExternalId")
     uses_in_house_support_staff: bool | None = Field(
-        default=None, alias='UsesInHouseSupportStaff'
+        default=None, alias="UsesInHouseSupportStaff"
     )
     new_ticket_notification_email: str | None = Field(
-        default=None, alias='NewTicketNotificationEmail'
+        default=None, alias="NewTicketNotificationEmail"
     )
     is_hidden_from_all_inclusive_group: bool | None = Field(
-        default=None, alias='IsHiddenFromAllInclusiveGroup'
+        default=None, alias="IsHiddenFromAllInclusiveGroup"
     )
-    locations: list[LabTechLocation] | None = Field(default=None, alias='Locations')
+    locations: list[LabTechLocation] | None = Field(default=None, alias="Locations")
 
 
 class LabTechLocation(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    name: str | None = Field(default=None, alias='Name')
-    address1: str | None = Field(default=None, alias='Address1')
-    address2: str | None = Field(default=None, alias='Address2')
-    city: str | None = Field(default=None, alias='City')
-    state: str | None = Field(default=None, alias='State')
-    zip_code: str | None = Field(default=None, alias='ZipCode')
-    country: str | None = Field(default=None, alias='Country')
-    phone_number: str | None = Field(default=None, alias='PhoneNumber')
-    fax_number: str | None = Field(default=None, alias='FaxNumber')
-    contact: LabTechContact | None = Field(default=None, alias='Contact')
-    comments: str | None = Field(default=None, alias='Comments')
-    router_port: int | None = Field(default=None, alias='RouterPort')
-    script_drive: str | None = Field(default=None, alias='ScriptDrive')
-    script_username: str | None = Field(default=None, alias='ScriptUsername')
-    script_password: str | None = Field(default=None, alias='ScriptPassword')
-    script_router_address: str | None = Field(default=None, alias='ScriptRouterAddress')
-    script_extra1: str | None = Field(default=None, alias='ScriptExtra1')
-    script_extra2: str | None = Field(default=None, alias='ScriptExtra2')
-    probe_id: int | None = Field(default=None, alias='ProbeId')
-    external_id: int | None = Field(default=None, alias='ExternalId')
-    router: LabTechRouter | None = Field(default=None, alias='Router')
+    id: int | None = Field(default=None, alias="Id")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    name: str | None = Field(default=None, alias="Name")
+    address1: str | None = Field(default=None, alias="Address1")
+    address2: str | None = Field(default=None, alias="Address2")
+    city: str | None = Field(default=None, alias="City")
+    state: str | None = Field(default=None, alias="State")
+    zip_code: str | None = Field(default=None, alias="ZipCode")
+    country: str | None = Field(default=None, alias="Country")
+    phone_number: str | None = Field(default=None, alias="PhoneNumber")
+    fax_number: str | None = Field(default=None, alias="FaxNumber")
+    contact: LabTechContact | None = Field(default=None, alias="Contact")
+    comments: str | None = Field(default=None, alias="Comments")
+    router_port: int | None = Field(default=None, alias="RouterPort")
+    script_drive: str | None = Field(default=None, alias="ScriptDrive")
+    script_username: str | None = Field(default=None, alias="ScriptUsername")
+    script_password: str | None = Field(default=None, alias="ScriptPassword")
+    script_router_address: str | None = Field(default=None, alias="ScriptRouterAddress")
+    script_extra1: str | None = Field(default=None, alias="ScriptExtra1")
+    script_extra2: str | None = Field(default=None, alias="ScriptExtra2")
+    probe_id: int | None = Field(default=None, alias="ProbeId")
+    external_id: int | None = Field(default=None, alias="ExternalId")
+    router: LabTechRouter | None = Field(default=None, alias="Router")
     deployment_template: LabTechRemoteAgentTemplate | None = Field(
-        default=None, alias='DeploymentTemplate'
+        default=None, alias="DeploymentTemplate"
     )
     maintenance_window: LabTechMaintenanceWindowDefinition | None = Field(
-        default=None, alias='MaintenanceWindow'
+        default=None, alias="MaintenanceWindow"
     )
     default_deployment_group: LabTechGroup | None = Field(
-        default=None, alias='DefaultDeploymentGroup'
+        default=None, alias="DefaultDeploymentGroup"
     )
     default_deployment_login: LabTechDeploymentLogin | None = Field(
-        default=None, alias='DefaultDeploymentLogin'
+        default=None, alias="DefaultDeploymentLogin"
     )
 
 
 class LabTechContact(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    first_name: str | None = Field(default=None, alias='FirstName')
-    last_name: str | None = Field(default=None, alias='LastName')
-    address1: str | None = Field(default=None, alias='Address1')
-    address2: str | None = Field(default=None, alias='Address2')
-    city: str | None = Field(default=None, alias='City')
-    state: str | None = Field(default=None, alias='State')
-    zip_code: str | None = Field(default=None, alias='ZipCode')
-    phone_number: str | None = Field(default=None, alias='PhoneNumber')
-    mobile_number: str | None = Field(default=None, alias='MobileNumber')
-    fax_number: str | None = Field(default=None, alias='FaxNumber')
-    pager_number: str | None = Field(default=None, alias='PagerNumber')
-    email: str | None = Field(default=None, alias='Email')
-    external_id: str | None = Field(default=None, alias='ExternalId')
+    id: str | None = Field(default=None, alias="Id")
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    first_name: str | None = Field(default=None, alias="FirstName")
+    last_name: str | None = Field(default=None, alias="LastName")
+    address1: str | None = Field(default=None, alias="Address1")
+    address2: str | None = Field(default=None, alias="Address2")
+    city: str | None = Field(default=None, alias="City")
+    state: str | None = Field(default=None, alias="State")
+    zip_code: str | None = Field(default=None, alias="ZipCode")
+    phone_number: str | None = Field(default=None, alias="PhoneNumber")
+    mobile_number: str | None = Field(default=None, alias="MobileNumber")
+    fax_number: str | None = Field(default=None, alias="FaxNumber")
+    pager_number: str | None = Field(default=None, alias="PagerNumber")
+    email: str | None = Field(default=None, alias="Email")
+    external_id: str | None = Field(default=None, alias="ExternalId")
     web_permissions: LabTechContactWebPermissions | None = Field(
-        default=None, alias='WebPermissions'
+        default=None, alias="WebPermissions"
     )
-    created_date: datetime | None = Field(default=None, alias='CreatedDate')
+    created_date: datetime | None = Field(default=None, alias="CreatedDate")
     associated_computers: list[LabTechComputer] | None = Field(
-        default=None, alias='AssociatedComputers'
+        default=None, alias="AssociatedComputers"
     )
 
 
 class LabTechGroup(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    parent_id: str | None = Field(default=None, alias='ParentId')
-    sub_groups: list[int] | None = Field(default=None, alias='SubGroups')
-    parent_groups: list[int] | None = Field(default=None, alias='ParentGroups')
-    parents: list[LabTechGroupPartial] | None = Field(default=None, alias='Parents')
-    depth: int | None = Field(default=None, alias='Depth')
-    name: str | None = Field(default=None, alias='Name')
-    full_name: str | None = Field(default=None, alias='FullName')
-    type_id: int | None = Field(default=None, alias='TypeId')
-    type_name: str | None = Field(default=None, alias='TypeName')
-    template_priority: int | None = Field(default=None, alias='TemplatePriority')
-    guid: str | None = Field(default=None, alias='GUID')
+    id: str | None = Field(default=None, alias="Id")
+    parent_id: str | None = Field(default=None, alias="ParentId")
+    sub_groups: list[int] | None = Field(default=None, alias="SubGroups")
+    parent_groups: list[int] | None = Field(default=None, alias="ParentGroups")
+    parents: list[LabTechGroupPartial] | None = Field(default=None, alias="Parents")
+    depth: int | None = Field(default=None, alias="Depth")
+    name: str | None = Field(default=None, alias="Name")
+    full_name: str | None = Field(default=None, alias="FullName")
+    type_id: int | None = Field(default=None, alias="TypeId")
+    type_name: str | None = Field(default=None, alias="TypeName")
+    template_priority: int | None = Field(default=None, alias="TemplatePriority")
+    guid: str | None = Field(default=None, alias="GUID")
     computers_auto_join_search: LabTechSearch | None = Field(
-        default=None, alias='ComputersAutoJoinSearch'
+        default=None, alias="ComputersAutoJoinSearch"
     )
     network_devices_auto_join_search: LabTechSearch | None = Field(
-        default=None, alias='NetworkDevicesAutoJoinSearch'
+        default=None, alias="NetworkDevicesAutoJoinSearch"
     )
     contacts_auto_join_search: LabTechSearch | None = Field(
-        default=None, alias='ContactsAutoJoinSearch'
+        default=None, alias="ContactsAutoJoinSearch"
     )
     maintenance_window: LabTechMaintenanceWindow | None = Field(
-        default=None, alias='MaintenanceWindow'
+        default=None, alias="MaintenanceWindow"
     )
     maintenance_window_last_applied: datetime | None = Field(
-        default=None, alias='MaintenanceWindowLastApplied'
+        default=None, alias="MaintenanceWindowLastApplied"
     )
     computers_limit_to_search: bool | None = Field(
-        default=None, alias='ComputersLimitToSearch'
+        default=None, alias="ComputersLimitToSearch"
     )
     network_devices_limit_to_search: bool | None = Field(
-        default=None, alias='NetworkDevicesLimitToSearch'
+        default=None, alias="NetworkDevicesLimitToSearch"
     )
     contacts_limit_to_search: bool | None = Field(
-        default=None, alias='ContactsLimitToSearch'
+        default=None, alias="ContactsLimitToSearch"
     )
     contacts_join_computers: bool | None = Field(
-        default=None, alias='ContactsJoinComputers'
+        default=None, alias="ContactsJoinComputers"
     )
     remote_agent_template: LabTechRemoteAgentTemplate | None = Field(
-        default=None, alias='RemoteAgentTemplate'
+        default=None, alias="RemoteAgentTemplate"
     )
-    client_to_sync: LabTechClient | None = Field(default=None, alias='ClientToSync')
+    client_to_sync: LabTechClient | None = Field(default=None, alias="ClientToSync")
     location_to_sync: LabTechLocation | None = Field(
-        default=None, alias='LocationToSync'
+        default=None, alias="LocationToSync"
     )
-    comments: str | None = Field(default=None, alias='Comments')
+    comments: str | None = Field(default=None, alias="Comments")
     computer_permissions: list[LabTechUserClassComputerPermissions] | None = Field(
-        default=None, alias='ComputerPermissions'
+        default=None, alias="ComputerPermissions"
     )
-    computers: list[LabTechComputer] | None = Field(default=None, alias='Computers')
+    computers: list[LabTechComputer] | None = Field(default=None, alias="Computers")
     network_devices: list[LabTechNetworkDevice] | None = Field(
-        default=None, alias='NetworkDevices'
+        default=None, alias="NetworkDevices"
     )
-    contacts: list[LabTechContact] | None = Field(default=None, alias='Contacts')
+    contacts: list[LabTechContact] | None = Field(default=None, alias="Contacts")
 
 
 class LabTechComputer(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    contact: LabTechContact | None = Field(default=None, alias='Contact')
-    is_fas_talk: bool | None = Field(default=None, alias='IsFasTalk')
-    is_master: bool | None = Field(default=None, alias='IsMaster')
-    is_network_probe: bool | None = Field(default=None, alias='IsNetworkProbe')
-    is_heartbeat_enabled: bool | None = Field(default=None, alias='IsHeartbeatEnabled')
+    id: str | None = Field(default=None, alias="Id")
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    contact: LabTechContact | None = Field(default=None, alias="Contact")
+    is_fas_talk: bool | None = Field(default=None, alias="IsFasTalk")
+    is_master: bool | None = Field(default=None, alias="IsMaster")
+    is_network_probe: bool | None = Field(default=None, alias="IsNetworkProbe")
+    is_heartbeat_enabled: bool | None = Field(default=None, alias="IsHeartbeatEnabled")
     is_maintenance_mode_enabled: bool | None = Field(
-        default=None, alias='IsMaintenanceModeEnabled'
+        default=None, alias="IsMaintenanceModeEnabled"
     )
-    is_tunnel_supported: bool | None = Field(default=None, alias='IsTunnelSupported')
-    is_virtual_machine: bool | None = Field(default=None, alias='IsVirtualMachine')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
-    operating_system_name: str | None = Field(default=None, alias='OperatingSystemName')
+    is_tunnel_supported: bool | None = Field(default=None, alias="IsTunnelSupported")
+    is_virtual_machine: bool | None = Field(default=None, alias="IsVirtualMachine")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
+    operating_system_name: str | None = Field(default=None, alias="OperatingSystemName")
     operating_system_version: str | None = Field(
-        default=None, alias='OperatingSystemVersion'
+        default=None, alias="OperatingSystemVersion"
     )
-    domain_name: str | None = Field(default=None, alias='DomainName')
+    domain_name: str | None = Field(default=None, alias="DomainName")
     remote_agent_last_inventory: datetime | None = Field(
-        default=None, alias='RemoteAgentLastInventory'
+        default=None, alias="RemoteAgentLastInventory"
     )
-    utc_offset: int | None = Field(default=None, alias='UTCOffset')
-    open_ports_tcp: list[int] | None = Field(default=None, alias='OpenPortsTCP')
-    open_ports_udp: list[int] | None = Field(default=None, alias='OpenPortsUDP')
-    comment: str | None = Field(default=None, alias='Comment')
-    remote_agent_version: str | None = Field(default=None, alias='RemoteAgentVersion')
+    utc_offset: int | None = Field(default=None, alias="UTCOffset")
+    open_ports_tcp: list[int] | None = Field(default=None, alias="OpenPortsTCP")
+    open_ports_udp: list[int] | None = Field(default=None, alias="OpenPortsUDP")
+    comment: str | None = Field(default=None, alias="Comment")
+    remote_agent_version: str | None = Field(default=None, alias="RemoteAgentVersion")
     remote_agent_last_contact: datetime | None = Field(
-        default=None, alias='RemoteAgentLastContact'
+        default=None, alias="RemoteAgentLastContact"
     )
     domain_name_servers: list[str] | None = Field(
-        default=None, alias='DomainNameServers'
+        default=None, alias="DomainNameServers"
     )
     last_inventory_received: datetime | None = Field(
-        default=None, alias='LastInventoryReceived'
+        default=None, alias="LastInventoryReceived"
     )
     windows_update_date: datetime | None = Field(
-        default=None, alias='WindowsUpdateDate'
+        default=None, alias="WindowsUpdateDate"
     )
     antivirus_definition_date: datetime | None = Field(
-        default=None, alias='AntivirusDefinitionDate'
+        default=None, alias="AntivirusDefinitionDate"
     )
-    last_heartbeat: datetime | None = Field(default=None, alias='LastHeartbeat')
-    total_memory: int | None = Field(default=None, alias='TotalMemory')
-    free_memory: int | None = Field(default=None, alias='FreeMemory')
-    cpu_usage: int | None = Field(default=None, alias='CpuUsage')
-    local_ip_address: str | None = Field(default=None, alias='LocalIPAddress')
-    gateway_ip_address: str | None = Field(default=None, alias='GatewayIPAddress')
-    system_uptime: int | None = Field(default=None, alias='SystemUptime')
-    last_startup: datetime | None = Field(default=None, alias='LastStartup')
-    mac_address: str | None = Field(default=None, alias='MACAddress')
-    date_added: datetime | None = Field(default=None, alias='DateAdded')
-    user_idle_time: int | None = Field(default=None, alias='UserIdleTime')
+    last_heartbeat: datetime | None = Field(default=None, alias="LastHeartbeat")
+    total_memory: int | None = Field(default=None, alias="TotalMemory")
+    free_memory: int | None = Field(default=None, alias="FreeMemory")
+    cpu_usage: int | None = Field(default=None, alias="CpuUsage")
+    local_ip_address: str | None = Field(default=None, alias="LocalIPAddress")
+    gateway_ip_address: str | None = Field(default=None, alias="GatewayIPAddress")
+    system_uptime: int | None = Field(default=None, alias="SystemUptime")
+    last_startup: datetime | None = Field(default=None, alias="LastStartup")
+    mac_address: str | None = Field(default=None, alias="MACAddress")
+    date_added: datetime | None = Field(default=None, alias="DateAdded")
+    user_idle_time: int | None = Field(default=None, alias="UserIdleTime")
     logged_in_users: list[LabTechLoggedInUser] | None = Field(
-        default=None, alias='LoggedInUsers'
+        default=None, alias="LoggedInUsers"
     )
-    last_user_name: str | None = Field(default=None, alias='LastUserName')
-    tickets: list[LabTechTicket] | None = Field(default=None, alias='Tickets')
-    groups: list[LabTechGroup] | None = Field(default=None, alias='Groups')
-    bandwidth: int | None = Field(default=None, alias='Bandwidth')
-    bandwidth_display: str | None = Field(default=None, alias='BandwidthDisplay')
-    asset_date: datetime | None = Field(default=None, alias='AssetDate')
-    asset_tag: str | None = Field(default=None, alias='AssetTag')
-    warranty_end_date: datetime | None = Field(default=None, alias='WarrantyEndDate')
-    type: str | None = Field(default=None, alias='Type')
-    status: str | None = Field(default=None, alias='Status')
-    master_mode: str | None = Field(default=None, alias='MasterMode')
+    last_user_name: str | None = Field(default=None, alias="LastUserName")
+    tickets: list[LabTechTicket] | None = Field(default=None, alias="Tickets")
+    groups: list[LabTechGroup] | None = Field(default=None, alias="Groups")
+    bandwidth: int | None = Field(default=None, alias="Bandwidth")
+    bandwidth_display: str | None = Field(default=None, alias="BandwidthDisplay")
+    asset_date: datetime | None = Field(default=None, alias="AssetDate")
+    asset_tag: str | None = Field(default=None, alias="AssetTag")
+    warranty_end_date: datetime | None = Field(default=None, alias="WarrantyEndDate")
+    type: str | None = Field(default=None, alias="Type")
+    status: str | None = Field(default=None, alias="Status")
+    master_mode: str | None = Field(default=None, alias="MasterMode")
     virus_scanner: LabTechVirusScannerDef | None = Field(
-        default=None, alias='VirusScanner'
+        default=None, alias="VirusScanner"
     )
-    friendly_name: str | None = Field(default=None, alias='FriendlyName')
-    is_locked_down: bool | None = Field(default=None, alias='IsLockedDown')
-    is_system_account: bool | None = Field(default=None, alias='IsSystemAccount')
-    is_reboot_needed: bool | None = Field(default=None, alias='IsRebootNeeded')
-    is_virtual_host: bool | None = Field(default=None, alias='IsVirtualHost')
-    is_heartbeat_running: bool | None = Field(default=None, alias='IsHeartbeatRunning')
-    has_intel_vpro: bool | None = Field(default=None, alias='HasIntelVPRO')
-    has_intel_amt: bool | None = Field(default=None, alias='HasIntelAMT')
-    has_h_pi_lo: bool | None = Field(default=None, alias='HasHPiLO')
-    temp_files: str | None = Field(default=None, alias='TempFiles')
-    serial_number: str | None = Field(default=None, alias='SerialNumber')
-    cpu_score: float | None = Field(default=None, alias='CpuScore')
-    d3_d_score: float | None = Field(default=None, alias='D3DScore')
-    disk_score: float | None = Field(default=None, alias='DiskScore')
-    graphics_score: float | None = Field(default=None, alias='GraphicsScore')
-    memory_score: float | None = Field(default=None, alias='MemoryScore')
-    power_profiles: list[str] | None = Field(default=None, alias='PowerProfiles')
-    current_power_profile: str | None = Field(default=None, alias='CurrentPowerProfile')
-    bios_manufacturer: str | None = Field(default=None, alias='BiosManufacturer')
-    bios_flash: str | None = Field(default=None, alias='BiosFlash')
-    primary_contact_name: str | None = Field(default=None, alias='PrimaryContactName')
+    friendly_name: str | None = Field(default=None, alias="FriendlyName")
+    is_locked_down: bool | None = Field(default=None, alias="IsLockedDown")
+    is_system_account: bool | None = Field(default=None, alias="IsSystemAccount")
+    is_reboot_needed: bool | None = Field(default=None, alias="IsRebootNeeded")
+    is_virtual_host: bool | None = Field(default=None, alias="IsVirtualHost")
+    is_heartbeat_running: bool | None = Field(default=None, alias="IsHeartbeatRunning")
+    has_intel_vpro: bool | None = Field(default=None, alias="HasIntelVPRO")
+    has_intel_amt: bool | None = Field(default=None, alias="HasIntelAMT")
+    has_h_pi_lo: bool | None = Field(default=None, alias="HasHPiLO")
+    temp_files: str | None = Field(default=None, alias="TempFiles")
+    serial_number: str | None = Field(default=None, alias="SerialNumber")
+    cpu_score: float | None = Field(default=None, alias="CpuScore")
+    d3_d_score: float | None = Field(default=None, alias="D3DScore")
+    disk_score: float | None = Field(default=None, alias="DiskScore")
+    graphics_score: float | None = Field(default=None, alias="GraphicsScore")
+    memory_score: float | None = Field(default=None, alias="MemoryScore")
+    power_profiles: list[str] | None = Field(default=None, alias="PowerProfiles")
+    current_power_profile: str | None = Field(default=None, alias="CurrentPowerProfile")
+    bios_manufacturer: str | None = Field(default=None, alias="BiosManufacturer")
+    bios_flash: str | None = Field(default=None, alias="BiosFlash")
+    primary_contact_name: str | None = Field(default=None, alias="PrimaryContactName")
     comment_priority: LabTechCommentPriority | None = Field(
-        default=None, alias='CommentPriority'
+        default=None, alias="CommentPriority"
     )
-    irq: list[int] | None = Field(default=None, alias='IRQ')
-    address: list[int] | None = Field(default=None, alias='Address')
-    dma: list[int] | None = Field(default=None, alias='DMA')
-    hardware_ports: list[str] | None = Field(default=None, alias='HardwarePorts')
-    user_accounts: list[str] | None = Field(default=None, alias='UserAccounts')
+    irq: list[int] | None = Field(default=None, alias="IRQ")
+    address: list[int] | None = Field(default=None, alias="Address")
+    dma: list[int] | None = Field(default=None, alias="DMA")
+    hardware_ports: list[str] | None = Field(default=None, alias="HardwarePorts")
+    user_accounts: list[str] | None = Field(default=None, alias="UserAccounts")
 
 
 class LabTechNetworkDevice(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    local_ip_address: str | None = Field(default=None, alias='LocalIPAddress')
-    name: str | None = Field(default=None, alias='Name')
-    friendly_name: str | None = Field(default=None, alias='FriendlyName')
-    open_ports_tcp: list[int] | None = Field(default=None, alias='OpenPortsTCP')
+    id: str | None = Field(default=None, alias="Id")
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    local_ip_address: str | None = Field(default=None, alias="LocalIPAddress")
+    name: str | None = Field(default=None, alias="Name")
+    friendly_name: str | None = Field(default=None, alias="FriendlyName")
+    open_ports_tcp: list[int] | None = Field(default=None, alias="OpenPortsTCP")
     device_type: LabTechNetworkDeviceType | None = Field(
-        default=None, alias='DeviceType'
+        default=None, alias="DeviceType"
     )
     detection_template_name: str | None = Field(
-        default=None, alias='DetectionTemplateName'
+        default=None, alias="DetectionTemplateName"
     )
-    last_updated: datetime | None = Field(default=None, alias='LastUpdated')
-    mac_address: str | None = Field(default=None, alias='MACAddress')
-    status: str | None = Field(default=None, alias='Status')
-    contact: LabTechContact | None = Field(default=None, alias='Contact')
-    alert_action: LabTechAlertAction | None = Field(default=None, alias='AlertAction')
-    alert_message: str | None = Field(default=None, alias='AlertMessage')
-    alert_when_offline: bool | None = Field(default=None, alias='AlertWhenOffline')
-    date_added: datetime | None = Field(default=None, alias='DateAdded')
-    snmp_community_get: str | None = Field(default=None, alias='SNMPCommunityGet')
-    snmp_community_set: str | None = Field(default=None, alias='SNMPCommunitySet')
-    is_snm_pv1_supported: bool | None = Field(default=None, alias='IsSNMPv1Supported')
-    is_snm_pv2c_supported: bool | None = Field(default=None, alias='IsSNMPv2cSupported')
-    is_snm_pv3_supported: bool | None = Field(default=None, alias='IsSNMPv3Supported')
-    is_low_on_toner: bool | None = Field(default=None, alias='IsLowOnToner')
-    is_low_on_paper: bool | None = Field(default=None, alias='IsLowOnPaper')
-    is_high_bandwidth: bool | None = Field(default=None, alias='IsHighBandwidth')
-    flags_display: str | None = Field(default=None, alias='FlagsDisplay')
-    manufacturer_name: str | None = Field(default=None, alias='ManufacturerName')
-    model_name: str | None = Field(default=None, alias='ModelName')
-    description: str | None = Field(default=None, alias='Description')
-    uptime: int | None = Field(default=None, alias='Uptime')
-    uptime_display: str | None = Field(default=None, alias='UptimeDisplay')
-    data_out: int | None = Field(default=None, alias='DataOut')
-    data_out_display: str | None = Field(default=None, alias='DataOutDisplay')
-    data_in: int | None = Field(default=None, alias='DataIn')
-    data_in_display: str | None = Field(default=None, alias='DataInDisplay')
-    asset_date: datetime | None = Field(default=None, alias='AssetDate')
-    last_contact: datetime | None = Field(default=None, alias='LastContact')
-    nas_percent: str | None = Field(default=None, alias='NasPercent')
-    groups: list[LabTechGroup] | None = Field(default=None, alias='Groups')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    is_synced_to_manage: bool | None = Field(default=None, alias='IsSyncedToManage')
-    snmp_tree: list[int] | None = Field(default=None, alias='SnmpTree')
+    last_updated: datetime | None = Field(default=None, alias="LastUpdated")
+    mac_address: str | None = Field(default=None, alias="MACAddress")
+    status: str | None = Field(default=None, alias="Status")
+    contact: LabTechContact | None = Field(default=None, alias="Contact")
+    alert_action: LabTechAlertAction | None = Field(default=None, alias="AlertAction")
+    alert_message: str | None = Field(default=None, alias="AlertMessage")
+    alert_when_offline: bool | None = Field(default=None, alias="AlertWhenOffline")
+    date_added: datetime | None = Field(default=None, alias="DateAdded")
+    snmp_community_get: str | None = Field(default=None, alias="SNMPCommunityGet")
+    snmp_community_set: str | None = Field(default=None, alias="SNMPCommunitySet")
+    is_snm_pv1_supported: bool | None = Field(default=None, alias="IsSNMPv1Supported")
+    is_snm_pv2c_supported: bool | None = Field(default=None, alias="IsSNMPv2cSupported")
+    is_snm_pv3_supported: bool | None = Field(default=None, alias="IsSNMPv3Supported")
+    is_low_on_toner: bool | None = Field(default=None, alias="IsLowOnToner")
+    is_low_on_paper: bool | None = Field(default=None, alias="IsLowOnPaper")
+    is_high_bandwidth: bool | None = Field(default=None, alias="IsHighBandwidth")
+    flags_display: str | None = Field(default=None, alias="FlagsDisplay")
+    manufacturer_name: str | None = Field(default=None, alias="ManufacturerName")
+    model_name: str | None = Field(default=None, alias="ModelName")
+    description: str | None = Field(default=None, alias="Description")
+    uptime: int | None = Field(default=None, alias="Uptime")
+    uptime_display: str | None = Field(default=None, alias="UptimeDisplay")
+    data_out: int | None = Field(default=None, alias="DataOut")
+    data_out_display: str | None = Field(default=None, alias="DataOutDisplay")
+    data_in: int | None = Field(default=None, alias="DataIn")
+    data_in_display: str | None = Field(default=None, alias="DataInDisplay")
+    asset_date: datetime | None = Field(default=None, alias="AssetDate")
+    last_contact: datetime | None = Field(default=None, alias="LastContact")
+    nas_percent: str | None = Field(default=None, alias="NasPercent")
+    groups: list[LabTechGroup] | None = Field(default=None, alias="Groups")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    is_synced_to_manage: bool | None = Field(default=None, alias="IsSyncedToManage")
+    snmp_tree: list[int] | None = Field(default=None, alias="SnmpTree")
     external_system_credentials: LabTechExternalSystemCredentials | None = Field(
-        default=None, alias='ExternalSystemCredentials'
+        default=None, alias="ExternalSystemCredentials"
     )
-    interface_count: int | None = Field(default=None, alias='InterfaceCount')
-    probe_id: int | None = Field(default=None, alias='ProbeId')
-    probe_name: str | None = Field(default=None, alias='ProbeName')
+    interface_count: int | None = Field(default=None, alias="InterfaceCount")
+    probe_id: int | None = Field(default=None, alias="ProbeId")
+    probe_name: str | None = Field(default=None, alias="ProbeName")
     agent_deployment_readiness_check: LabTechAgentDeploymentReadinessCheck | None = (
-        Field(default=None, alias='AgentDeploymentReadinessCheck')
+        Field(default=None, alias="AgentDeploymentReadinessCheck")
     )
 
 
 class LabTechTicket(ConnectWiseModel):
-    ticket_id: int | None = Field(default=None, alias='TicketId')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    computer: LabTechComputer | None = Field(default=None, alias='Computer')
-    status: LabTechTicketStatus | None = Field(default=None, alias='Status')
-    subject: str | None = Field(default=None, alias='Subject')
-    priority: LabTechTicketPriority | None = Field(default=None, alias='Priority')
-    user: LabTechUser | None = Field(default=None, alias='User')
-    due_date: datetime | None = Field(default=None, alias='DueDate')
-    start_date: datetime | None = Field(default=None, alias='StartDate')
-    contact_date: datetime | None = Field(default=None, alias='ContactDate')
-    update_date: datetime | None = Field(default=None, alias='UpdateDate')
-    from_: str | None = Field(default=None, alias='From')
-    cc: str | None = Field(default=None, alias='CC')
-    support_level: int | None = Field(default=None, alias='SupportLevel')
-    category: LabTechTicketCategory | None = Field(default=None, alias='Category')
-    category_id: int | None = Field(default=None, alias='CategoryId')
-    category_name: str | None = Field(default=None, alias='CategoryName')
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    external_id: int | None = Field(default=None, alias='ExternalId')
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
-    guid: str | None = Field(default=None, alias='Guid')
-    agent: LabTechComputerMonitor | None = Field(default=None, alias='Agent')
+    ticket_id: int | None = Field(default=None, alias="TicketId")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    computer: LabTechComputer | None = Field(default=None, alias="Computer")
+    status: LabTechTicketStatus | None = Field(default=None, alias="Status")
+    subject: str | None = Field(default=None, alias="Subject")
+    priority: LabTechTicketPriority | None = Field(default=None, alias="Priority")
+    user: LabTechUser | None = Field(default=None, alias="User")
+    due_date: datetime | None = Field(default=None, alias="DueDate")
+    start_date: datetime | None = Field(default=None, alias="StartDate")
+    contact_date: datetime | None = Field(default=None, alias="ContactDate")
+    update_date: datetime | None = Field(default=None, alias="UpdateDate")
+    from_: str | None = Field(default=None, alias="From")
+    cc: str | None = Field(default=None, alias="CC")
+    support_level: int | None = Field(default=None, alias="SupportLevel")
+    category: LabTechTicketCategory | None = Field(default=None, alias="Category")
+    category_id: int | None = Field(default=None, alias="CategoryId")
+    category_name: str | None = Field(default=None, alias="CategoryName")
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    external_id: int | None = Field(default=None, alias="ExternalId")
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
+    guid: str | None = Field(default=None, alias="Guid")
+    agent: LabTechComputerMonitor | None = Field(default=None, alias="Agent")
     network_device: LabTechNetworkDevice | None = Field(
-        default=None, alias='NetworkDevice'
+        default=None, alias="NetworkDevice"
     )
-    comments: list[LabTechTicketComment] | None = Field(default=None, alias='Comments')
+    comments: list[LabTechTicketComment] | None = Field(default=None, alias="Comments")
 
 
 class LabTechMonitorAlertSuspension(ConnectWiseModel):
-    id: int | None = Field(default=None, alias='Id')
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    monitor: LabTechMonitor | None = Field(default=None, alias='Monitor')
-    suspension_date: datetime | None = Field(default=None, alias='SuspensionDate')
+    id: int | None = Field(default=None, alias="Id")
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    monitor: LabTechMonitor | None = Field(default=None, alias="Monitor")
+    suspension_date: datetime | None = Field(default=None, alias="SuspensionDate")
 
 
 class LabTechMonitor(ConnectWiseModel):
-    alert_action: LabTechAlertAction | None = Field(default=None, alias='AlertAction')
+    alert_action: LabTechAlertAction | None = Field(default=None, alias="AlertAction")
     alert_style: LabTechMonitorAlertStyle | None = Field(
-        default=None, alias='AlertStyle'
+        default=None, alias="AlertStyle"
     )
     comparer_settings: LabTechMonitorComparerSettings | None = Field(
-        default=None, alias='ComparerSettings'
+        default=None, alias="ComparerSettings"
     )
-    control_guid: str | None = Field(default=None, alias='ControlGuid')
-    failure_count: int | None = Field(default=None, alias='FailureCount')
-    id_field: str | None = Field(default=None, alias='IdField')
-    interval: int | None = Field(default=None, alias='Interval')
-    installed: bool | None = Field(default=None, alias='Installed')
-    is_internal_monitor: bool | None = Field(default=None, alias='IsInternalMonitor')
+    control_guid: str | None = Field(default=None, alias="ControlGuid")
+    failure_count: int | None = Field(default=None, alias="FailureCount")
+    id_field: str | None = Field(default=None, alias="IdField")
+    interval: int | None = Field(default=None, alias="Interval")
+    installed: bool | None = Field(default=None, alias="Installed")
+    is_internal_monitor: bool | None = Field(default=None, alias="IsInternalMonitor")
     is_network_device_monitor: bool | None = Field(
-        default=None, alias='IsNetworkDeviceMonitor'
+        default=None, alias="IsNetworkDeviceMonitor"
     )
-    last_checked: datetime | None = Field(default=None, alias='LastChecked')
-    last_failed: datetime | None = Field(default=None, alias='LastFailed')
-    last_status: str | None = Field(default=None, alias='LastStatus')
-    guid: str | None = Field(default=None, alias='Guid')
+    last_checked: datetime | None = Field(default=None, alias="LastChecked")
+    last_failed: datetime | None = Field(default=None, alias="LastFailed")
+    last_status: str | None = Field(default=None, alias="LastStatus")
+    guid: str | None = Field(default=None, alias="Guid")
     monitor_alert_target: LabTechMonitorAlertTarget | None = Field(
-        default=None, alias='MonitorAlertTarget'
+        default=None, alias="MonitorAlertTarget"
     )
-    monitor_id: int | None = Field(default=None, alias='MonitorId')
+    monitor_id: int | None = Field(default=None, alias="MonitorId")
     monitor_owner: LabTechMonitorOwner | None = Field(
-        default=None, alias='MonitorOwner'
+        default=None, alias="MonitorOwner"
     )
     monitor_state: LabTechMonitorState | None = Field(
-        default=None, alias='MonitorState'
+        default=None, alias="MonitorState"
     )
-    local_state: LabTechMonitorState | None = Field(default=None, alias='LocalState')
-    name: str | None = Field(default=None, alias='Name')
-    pending_update: bool | None = Field(default=None, alias='PendingUpdate')
+    local_state: LabTechMonitorState | None = Field(default=None, alias="LocalState")
+    name: str | None = Field(default=None, alias="Name")
+    pending_update: bool | None = Field(default=None, alias="PendingUpdate")
     report_category: LabTechReportCategory | None = Field(
-        default=None, alias='ReportCategory'
+        default=None, alias="ReportCategory"
     )
     ticket_category: LabTechTicketCategory | None = Field(
-        default=None, alias='TicketCategory'
+        default=None, alias="TicketCategory"
     )
-    warning_count: int | None = Field(default=None, alias='WarningCount')
-    script: LabTechScript | None = Field(default=None, alias='Script')
-    version: int | None = Field(default=None, alias='Version')
+    warning_count: int | None = Field(default=None, alias="WarningCount")
+    script: LabTechScript | None = Field(default=None, alias="Script")
+    version: int | None = Field(default=None, alias="Version")
     routine_parameters: LabTechMonitorRoutineParameters | None = Field(
-        default=None, alias='RoutineParameters'
+        default=None, alias="RoutineParameters"
     )
-    routine: LabTechMonitorRoutine | None = Field(default=None, alias='Routine')
+    routine: LabTechMonitorRoutine | None = Field(default=None, alias="Routine")
     alert_messages: LabTechMonitorAlertMessages | None = Field(
-        default=None, alias='AlertMessages'
+        default=None, alias="AlertMessages"
     )
-    targets: LabTechMonitorTarget | None = Field(default=None, alias='Targets')
-    is_global_monitor: bool | None = Field(default=None, alias='IsGlobalMonitor')
-    is_overridden: bool | None = Field(default=None, alias='IsOverridden')
-    is_collecting_data: bool | None = Field(default=None, alias='IsCollectingData')
+    targets: LabTechMonitorTarget | None = Field(default=None, alias="Targets")
+    is_global_monitor: bool | None = Field(default=None, alias="IsGlobalMonitor")
+    is_overridden: bool | None = Field(default=None, alias="IsOverridden")
+    is_collecting_data: bool | None = Field(default=None, alias="IsCollectingData")
     affected_entities: LabTechMonitorAffectedEntities | None = Field(
-        default=None, alias='AffectedEntities'
+        default=None, alias="AffectedEntities"
     )
 
 
 class LabTechMonitorComparerSettings(ConnectWiseModel):
-    comparer: LabTechMonitorComparer | None = Field(default=None, alias='Comparer')
+    comparer: LabTechMonitorComparer | None = Field(default=None, alias="Comparer")
     format: LabTechMonitorComparerSettingsFormat | None = Field(
-        default=None, alias='Format'
+        default=None, alias="Format"
     )
-    value: LabTechMonitorComparerValue | None = Field(default=None, alias='Value')
+    value: LabTechMonitorComparerValue | None = Field(default=None, alias="Value")
     smoothing_coefficient: float | None = Field(
-        default=None, alias='SmoothingCoefficient'
+        default=None, alias="SmoothingCoefficient"
     )
-    is_expression: bool | None = Field(default=None, alias='IsExpression')
+    is_expression: bool | None = Field(default=None, alias="IsExpression")
     smoothing_style: LabTechMonitorComparerSettingsSmoothingStyle | None = Field(
-        default=None, alias='SmoothingStyle'
+        default=None, alias="SmoothingStyle"
     )
     language_overrides: dict[str, str] | None = Field(
-        default=None, alias='LanguageOverrides'
+        default=None, alias="LanguageOverrides"
     )
     result_format: LabTechMonitorComparerSettingsResultFormat | None = Field(
-        default=None, alias='ResultFormat'
+        default=None, alias="ResultFormat"
     )
 
 
 class LabTechMonitorOwner(ConnectWiseModel):
-    owner_type: int | None = Field(default=None, alias='OwnerType')
-    description: str | None = Field(default=None, alias='Description')
-    owning_group: LabTechGroup | None = Field(default=None, alias='OwningGroup')
-    owning_script: LabTechScript | None = Field(default=None, alias='OwningScript')
+    owner_type: int | None = Field(default=None, alias="OwnerType")
+    description: str | None = Field(default=None, alias="Description")
+    owning_group: LabTechGroup | None = Field(default=None, alias="OwningGroup")
+    owning_script: LabTechScript | None = Field(default=None, alias="OwningScript")
     owning_plugin: LabTechMonitorPluginOwner | None = Field(
-        default=None, alias='OwningPlugin'
+        default=None, alias="OwningPlugin"
     )
 
 
 class LabTechMonitorTarget(ConnectWiseModel):
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    computer: LabTechComputer | None = Field(default=None, alias='Computer')
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    computer: LabTechComputer | None = Field(default=None, alias="Computer")
     network_device: LabTechNetworkDevice | None = Field(
-        default=None, alias='NetworkDevice'
+        default=None, alias="NetworkDevice"
     )
-    group_ids: list[int] | None = Field(default=None, alias='GroupIds')
+    group_ids: list[int] | None = Field(default=None, alias="GroupIds")
 
 
 class LabTechMonitorAffectedEntities(ConnectWiseModel):
     remote_monitor_affected_location: LabTechLocation | None = Field(
-        default=None, alias='RemoteMonitorAffectedLocation'
+        default=None, alias="RemoteMonitorAffectedLocation"
     )
     remote_monitor_affected_client: LabTechClient | None = Field(
-        default=None, alias='RemoteMonitorAffectedClient'
+        default=None, alias="RemoteMonitorAffectedClient"
     )
     internal_monitor_affected_locations: list[LabTechLocation] | None = Field(
-        default=None, alias='InternalMonitorAffectedLocations'
+        default=None, alias="InternalMonitorAffectedLocations"
     )
     internal_monitor_affected_clients: list[LabTechClient] | None = Field(
-        default=None, alias='InternalMonitorAffectedClients'
+        default=None, alias="InternalMonitorAffectedClients"
     )
 
 
 class LabTechMonitorComparerValue(ConnectWiseModel):
     format: LabTechMonitorComparerValueFormat | None = Field(
-        default=None, alias='Format'
+        default=None, alias="Format"
     )
     multi_value_format: LabTechMonitorComparerMultiValueFormat | None = Field(
-        default=None, alias='MultiValueFormat'
+        default=None, alias="MultiValueFormat"
     )
     state_based_value_format: LabTechMonitorComparerStateBasedValueFormat | None = (
-        Field(default=None, alias='StateBasedValueFormat')
+        Field(default=None, alias="StateBasedValueFormat")
     )
     single_value_format: LabTechMonitorComparerSingleValueFormat | None = Field(
-        default=None, alias='SingleValueFormat'
+        default=None, alias="SingleValueFormat"
     )
 
 
 class LabTechMonitorComparerStateBasedValueFormat(ConnectWiseModel):
     normal_comparer: LabTechMonitorComparerSettings | None = Field(
-        default=None, alias='NormalComparer'
+        default=None, alias="NormalComparer"
     )
     warning_comparer: LabTechMonitorComparerSettings | None = Field(
-        default=None, alias='WarningComparer'
+        default=None, alias="WarningComparer"
     )
     error_comparer: LabTechMonitorComparerSettings | None = Field(
-        default=None, alias='ErrorComparer'
+        default=None, alias="ErrorComparer"
     )
 
 
 class LabTechPatchManagerDevice(ConnectWiseModel):
-    computer_id: int | None = Field(default=None, alias='ComputerId')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
-    stage: LabTechPatchStage | None = Field(default=None, alias='Stage')
-    operating_system_name: str | None = Field(default=None, alias='OperatingSystemName')
+    computer_id: int | None = Field(default=None, alias="ComputerId")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
+    stage: LabTechPatchStage | None = Field(default=None, alias="Stage")
+    operating_system_name: str | None = Field(default=None, alias="OperatingSystemName")
     normalized_operating_system_name: str | None = Field(
-        default=None, alias='NormalizedOperatingSystemName'
+        default=None, alias="NormalizedOperatingSystemName"
     )
-    company: LabTechClient | None = Field(default=None, alias='Company')
-    site: LabTechLocation | None = Field(default=None, alias='Site')
+    company: LabTechClient | None = Field(default=None, alias="Company")
+    site: LabTechLocation | None = Field(default=None, alias="Site")
     last_microsoft_window: datetime | None = Field(
-        default=None, alias='LastMicrosoftWindow'
+        default=None, alias="LastMicrosoftWindow"
     )
     last_third_party_window: datetime | None = Field(
-        default=None, alias='LastThirdPartyWindow'
+        default=None, alias="LastThirdPartyWindow"
     )
     next_microsoft_window: datetime | None = Field(
-        default=None, alias='NextMicrosoftWindow'
+        default=None, alias="NextMicrosoftWindow"
     )
     next_third_party_window: datetime | None = Field(
-        default=None, alias='NextThirdPartyWindow'
+        default=None, alias="NextThirdPartyWindow"
     )
     did_last_patch_job_fail: bool | None = Field(
-        default=None, alias='DidLastPatchJobFail'
+        default=None, alias="DidLastPatchJobFail"
     )
     is_daytime_patching_enabled: bool | None = Field(
-        default=None, alias='IsDaytimePatchingEnabled'
+        default=None, alias="IsDaytimePatchingEnabled"
     )
-    is_missing_baseline: bool | None = Field(default=None, alias='IsMissingBaseline')
+    is_missing_baseline: bool | None = Field(default=None, alias="IsMissingBaseline")
     is_missing_patch_inventory: bool | None = Field(
-        default=None, alias='IsMissingPatchInventory'
+        default=None, alias="IsMissingPatchInventory"
     )
-    is_patch_job_running: bool | None = Field(default=None, alias='IsPatchJobRunning')
-    is_pending_update: bool | None = Field(default=None, alias='IsPendingUpdate')
-    is_reboot_pending: bool | None = Field(default=None, alias='IsRebootPending')
-    is_wsus_enabled: bool | None = Field(default=None, alias='IsWsusEnabled')
-    is_wua_out_of_date: bool | None = Field(default=None, alias='IsWuaOutOfDate')
-    missing_patch_count: int | None = Field(default=None, alias='MissingPatchCount')
+    is_patch_job_running: bool | None = Field(default=None, alias="IsPatchJobRunning")
+    is_pending_update: bool | None = Field(default=None, alias="IsPendingUpdate")
+    is_reboot_pending: bool | None = Field(default=None, alias="IsRebootPending")
+    is_wsus_enabled: bool | None = Field(default=None, alias="IsWsusEnabled")
+    is_wua_out_of_date: bool | None = Field(default=None, alias="IsWuaOutOfDate")
+    missing_patch_count: int | None = Field(default=None, alias="MissingPatchCount")
     microsoft_compliance_percent: float | None = Field(
-        default=None, alias='MicrosoftCompliancePercent'
+        default=None, alias="MicrosoftCompliancePercent"
     )
     third_party_compliance_percent: float | None = Field(
-        default=None, alias='ThirdPartyCompliancePercent'
+        default=None, alias="ThirdPartyCompliancePercent"
     )
-    has_approved_patches: bool | None = Field(default=None, alias='HasApprovedPatches')
+    has_approved_patches: bool | None = Field(default=None, alias="HasApprovedPatches")
     has_approved_microsoft_patches: bool | None = Field(
-        default=None, alias='HasApprovedMicrosoftPatches'
+        default=None, alias="HasApprovedMicrosoftPatches"
     )
     has_approved_third_party_patches: bool | None = Field(
-        default=None, alias='HasApprovedThirdPartyPatches'
+        default=None, alias="HasApprovedThirdPartyPatches"
     )
-    release_id: int | None = Field(default=None, alias='ReleaseId')
+    release_id: int | None = Field(default=None, alias="ReleaseId")
 
 
 class LabTechRetiredAsset(ConnectWiseModel):
-    id: str | None = Field(default=None, alias='Id')
-    client: LabTechClient | None = Field(default=None, alias='Client')
-    location: LabTechLocation | None = Field(default=None, alias='Location')
-    computer_name: str | None = Field(default=None, alias='ComputerName')
-    operating_system_name: str | None = Field(default=None, alias='OperatingSystemName')
+    id: str | None = Field(default=None, alias="Id")
+    client: LabTechClient | None = Field(default=None, alias="Client")
+    location: LabTechLocation | None = Field(default=None, alias="Location")
+    computer_name: str | None = Field(default=None, alias="ComputerName")
+    operating_system_name: str | None = Field(default=None, alias="OperatingSystemName")
     operating_system_version: str | None = Field(
-        default=None, alias='OperatingSystemVersion'
+        default=None, alias="OperatingSystemVersion"
     )
-    comment: str | None = Field(default=None, alias='Comment')
-    local_ip_address: str | None = Field(default=None, alias='LocalIPAddress')
-    gateway_ip_address: str | None = Field(default=None, alias='GatewayIPAddress')
-    asset_tag: str | None = Field(default=None, alias='AssetTag')
-    asset_date: datetime | None = Field(default=None, alias='AssetDate')
-    retired_date: datetime | None = Field(default=None, alias='RetiredDate')
-    retire_comment: str | None = Field(default=None, alias='RetireComment')
-    computer_id: str | None = Field(default=None, alias='ComputerId')
+    comment: str | None = Field(default=None, alias="Comment")
+    local_ip_address: str | None = Field(default=None, alias="LocalIPAddress")
+    gateway_ip_address: str | None = Field(default=None, alias="GatewayIPAddress")
+    asset_tag: str | None = Field(default=None, alias="AssetTag")
+    asset_date: datetime | None = Field(default=None, alias="AssetDate")
+    retired_date: datetime | None = Field(default=None, alias="RetiredDate")
+    retire_comment: str | None = Field(default=None, alias="RetireComment")
+    computer_id: str | None = Field(default=None, alias="ComputerId")
 
 
 LabTechQueryOptionExpand.model_rebuild()

@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import InvoiceInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceInfoInvoiceIdEndpoint(
@@ -13,12 +25,17 @@ class FinanceInfoInvoiceIdEndpoint(
     IPaginateable[InvoiceInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, InvoiceInfo)
         IPaginateable.__init__(self, InvoiceInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[InvoiceInfo]:
         """
         Performs a GET request against the /finance/info/invoice/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -36,10 +53,19 @@ class FinanceInfoInvoiceIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), InvoiceInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            InvoiceInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> InvoiceInfo:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> InvoiceInfo:
         """
         Performs a GET request against the /finance/info/invoice/{id} endpoint.
 
@@ -49,4 +75,6 @@ class FinanceInfoInvoiceIdEndpoint(
         Returns:
             InvoiceInfo: The parsed response data.
         """
-        return self._parse_one(InvoiceInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            InvoiceInfo, super()._make_request("GET", data=data, params=params).json()
+        )

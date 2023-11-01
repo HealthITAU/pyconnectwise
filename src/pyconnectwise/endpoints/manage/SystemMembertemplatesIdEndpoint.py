@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import MemberTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemMembertemplatesIdEndpoint(
@@ -14,13 +26,18 @@ class SystemMembertemplatesIdEndpoint(
     IPaginateable[MemberTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, MemberTemplate)
         IPatchable.__init__(self, MemberTemplate)
         IPaginateable.__init__(self, MemberTemplate)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[MemberTemplate]:
         """
         Performs a GET request against the /system/membertemplates/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -38,10 +55,19 @@ class SystemMembertemplatesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), MemberTemplate, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            MemberTemplate,
+            self,
+            page,
+            page_size,
+            params,
         )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MemberTemplate:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> MemberTemplate:
         """
         Performs a GET request against the /system/membertemplates/{id} endpoint.
 
@@ -51,9 +77,16 @@ class SystemMembertemplatesIdEndpoint(
         Returns:
             MemberTemplate: The parsed response data.
         """
-        return self._parse_one(MemberTemplate, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            MemberTemplate,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> MemberTemplate:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> MemberTemplate:
         """
         Performs a PATCH request against the /system/membertemplates/{id} endpoint.
 
@@ -63,4 +96,7 @@ class SystemMembertemplatesIdEndpoint(
         Returns:
             MemberTemplate: The parsed response data.
         """
-        return self._parse_one(MemberTemplate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            MemberTemplate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

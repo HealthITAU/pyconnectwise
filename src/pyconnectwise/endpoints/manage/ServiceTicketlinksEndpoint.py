@@ -1,13 +1,31 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketlinksCountEndpoint import ServiceTicketlinksCountEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketlinksIdEndpoint import ServiceTicketlinksIdEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketlinksInfoEndpoint import ServiceTicketlinksInfoEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.ServiceTicketlinksCountEndpoint import (
+    ServiceTicketlinksCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceTicketlinksIdEndpoint import (
+    ServiceTicketlinksIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.ServiceTicketlinksInfoEndpoint import (
+    ServiceTicketlinksInfoEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ServiceTicketLink
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ServiceTicketlinksEndpoint(
@@ -17,13 +35,19 @@ class ServiceTicketlinksEndpoint(
     IPaginateable[ServiceTicketLink, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "ticketLinks", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "ticketLinks", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[ServiceTicketLink])
         IPostable.__init__(self, ServiceTicketLink)
         IPaginateable.__init__(self, ServiceTicketLink)
 
-        self.count = self._register_child_endpoint(ServiceTicketlinksCountEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ServiceTicketlinksInfoEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(
+            ServiceTicketlinksCountEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            ServiceTicketlinksInfoEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> ServiceTicketlinksIdEndpoint:
         """
@@ -39,7 +63,10 @@ class ServiceTicketlinksEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ServiceTicketLink]:
         """
         Performs a GET request against the /service/ticketLinks endpoint and returns an initialized PaginatedResponse object.
@@ -57,11 +84,18 @@ class ServiceTicketlinksEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ServiceTicketLink, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ServiceTicketLink,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[ServiceTicketLink]:
         """
         Performs a GET request against the /service/ticketLinks endpoint.
@@ -72,9 +106,16 @@ class ServiceTicketlinksEndpoint(
         Returns:
             list[ServiceTicketLink]: The parsed response data.
         """
-        return self._parse_many(ServiceTicketLink, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            ServiceTicketLink,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ServiceTicketLink:
+    def post(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ServiceTicketLink:
         """
         Performs a POST request against the /service/ticketLinks endpoint.
 
@@ -84,4 +125,7 @@ class ServiceTicketlinksEndpoint(
         Returns:
             ServiceTicketLink: The parsed response data.
         """
-        return self._parse_one(ServiceTicketLink, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            ServiceTicketLink,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

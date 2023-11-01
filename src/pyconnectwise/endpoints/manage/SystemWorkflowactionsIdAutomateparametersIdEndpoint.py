@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import WorkflowActionAutomateParameter
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
@@ -15,14 +27,19 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
     IPaginateable[WorkflowActionAutomateParameter, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, WorkflowActionAutomateParameter)
         IPuttable.__init__(self, WorkflowActionAutomateParameter)
         IPatchable.__init__(self, WorkflowActionAutomateParameter)
         IPaginateable.__init__(self, WorkflowActionAutomateParameter)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[WorkflowActionAutomateParameter]:
         """
         Performs a GET request against the /system/workflowActions/{id}/automateParameters/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -40,11 +57,18 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), WorkflowActionAutomateParameter, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            WorkflowActionAutomateParameter,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> WorkflowActionAutomateParameter:
         """
         Performs a GET request against the /system/workflowActions/{id}/automateParameters/{id} endpoint.
@@ -56,10 +80,15 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
             WorkflowActionAutomateParameter: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionAutomateParameter, super()._make_request("GET", data=data, params=params).json()
+            WorkflowActionAutomateParameter,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /system/workflowActions/{id}/automateParameters/{id} endpoint.
 
@@ -70,7 +99,9 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> WorkflowActionAutomateParameter:
         """
         Performs a PUT request against the /system/workflowActions/{id}/automateParameters/{id} endpoint.
@@ -82,11 +113,14 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
             WorkflowActionAutomateParameter: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionAutomateParameter, super()._make_request("PUT", data=data, params=params).json()
+            WorkflowActionAutomateParameter,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> WorkflowActionAutomateParameter:
         """
         Performs a PATCH request against the /system/workflowActions/{id}/automateParameters/{id} endpoint.
@@ -98,5 +132,6 @@ class SystemWorkflowactionsIdAutomateparametersIdEndpoint(
             WorkflowActionAutomateParameter: The parsed response data.
         """
         return self._parse_one(
-            WorkflowActionAutomateParameter, super()._make_request("PATCH", data=data, params=params).json()
+            WorkflowActionAutomateParameter,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

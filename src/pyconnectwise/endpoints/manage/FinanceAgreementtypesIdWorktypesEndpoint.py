@@ -1,14 +1,28 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesCountEndpoint import \
-    FinanceAgreementtypesIdWorktypesCountEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesIdEndpoint import \
-    FinanceAgreementtypesIdWorktypesIdEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesCountEndpoint import (
+    FinanceAgreementtypesIdWorktypesCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.FinanceAgreementtypesIdWorktypesIdEndpoint import (
+    FinanceAgreementtypesIdWorktypesIdEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import AgreementTypeWorkType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceAgreementtypesIdWorktypesEndpoint(
@@ -18,7 +32,9 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
     IPaginateable[AgreementTypeWorkType, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "worktypes", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "worktypes", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[AgreementTypeWorkType])
         IPostable.__init__(self, AgreementTypeWorkType)
         IPaginateable.__init__(self, AgreementTypeWorkType)
@@ -36,12 +52,17 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
         Returns:
             FinanceAgreementtypesIdWorktypesIdEndpoint: The initialized FinanceAgreementtypesIdWorktypesIdEndpoint object.
         """
-        child = FinanceAgreementtypesIdWorktypesIdEndpoint(self.client, parent_endpoint=self)
+        child = FinanceAgreementtypesIdWorktypesIdEndpoint(
+            self.client, parent_endpoint=self
+        )
         child._id = id
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[AgreementTypeWorkType]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/worktypes endpoint and returns an initialized PaginatedResponse object.
@@ -59,11 +80,18 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), AgreementTypeWorkType, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            AgreementTypeWorkType,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[AgreementTypeWorkType]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/worktypes endpoint.
@@ -74,10 +102,15 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
         Returns:
             list[AgreementTypeWorkType]: The parsed response data.
         """
-        return self._parse_many(AgreementTypeWorkType, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            AgreementTypeWorkType,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> AgreementTypeWorkType:
         """
         Performs a POST request against the /finance/agreementTypes/{id}/worktypes endpoint.
@@ -88,4 +121,7 @@ class FinanceAgreementtypesIdWorktypesEndpoint(
         Returns:
             AgreementTypeWorkType: The parsed response data.
         """
-        return self._parse_one(AgreementTypeWorkType, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            AgreementTypeWorkType,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

@@ -1,11 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdUsagesListEndpoint import CompanyCompaniesIdUsagesListEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdUsagesListEndpoint import (
+    CompanyCompaniesIdUsagesListEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import Usage
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyCompaniesIdUsagesEndpoint(
@@ -14,14 +28,21 @@ class CompanyCompaniesIdUsagesEndpoint(
     IPaginateable[Usage, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "usages", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "usages", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[Usage])
         IPaginateable.__init__(self, Usage)
 
-        self.list = self._register_child_endpoint(CompanyCompaniesIdUsagesListEndpoint(client, parent_endpoint=self))
+        self.list = self._register_child_endpoint(
+            CompanyCompaniesIdUsagesListEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[Usage]:
         """
         Performs a GET request against the /company/companies/{id}/usages endpoint and returns an initialized PaginatedResponse object.
@@ -38,9 +59,20 @@ class CompanyCompaniesIdUsagesEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), Usage, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params),
+            Usage,
+            self,
+            page,
+            page_size,
+            params,
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Usage]:
+    def get(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> list[Usage]:
         """
         Performs a GET request against the /company/companies/{id}/usages endpoint.
 
@@ -50,4 +82,6 @@ class CompanyCompaniesIdUsagesEndpoint(
         Returns:
             list[Usage]: The parsed response data.
         """
-        return self._parse_many(Usage, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            Usage, super()._make_request("GET", data=data, params=params).json()
+        )

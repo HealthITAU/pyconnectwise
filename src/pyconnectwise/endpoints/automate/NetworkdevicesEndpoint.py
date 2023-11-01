@@ -1,11 +1,25 @@
 from typing import Any
 
-from pyconnectwise.endpoints.automate.NetworkdevicesIdEndpoint import NetworkdevicesIdEndpoint
+from pyconnectwise.endpoints.automate.NetworkdevicesIdEndpoint import (
+    NetworkdevicesIdEndpoint,
+)
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.automate import LabTechNetworkDevice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class NetworkdevicesEndpoint(
@@ -15,7 +29,9 @@ class NetworkdevicesEndpoint(
     IPaginateable[LabTechNetworkDevice, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "Networkdevices", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "Networkdevices", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[LabTechNetworkDevice])
         IPostable.__init__(self, LabTechNetworkDevice)
         IPaginateable.__init__(self, LabTechNetworkDevice)
@@ -34,7 +50,10 @@ class NetworkdevicesEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> PaginatedResponse[LabTechNetworkDevice]:
         """
         Performs a GET request against the /Networkdevices endpoint and returns an initialized PaginatedResponse object.
@@ -52,11 +71,18 @@ class NetworkdevicesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), LabTechNetworkDevice, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            LabTechNetworkDevice,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> list[LabTechNetworkDevice]:
         """
         Performs a GET request against the /Networkdevices endpoint.
@@ -67,10 +93,15 @@ class NetworkdevicesEndpoint(
         Returns:
             list[LabTechNetworkDevice]: The parsed response data.
         """
-        return self._parse_many(LabTechNetworkDevice, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_many(
+            LabTechNetworkDevice,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
     def post(
-        self, data: JSON | None = None, params: ConnectWiseAutomateRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseAutomateRequestParams | None = None,
     ) -> LabTechNetworkDevice:
         """
         Performs a POST request against the /Networkdevices endpoint.
@@ -81,4 +112,7 @@ class NetworkdevicesEndpoint(
         Returns:
             LabTechNetworkDevice: The parsed response data.
         """
-        return self._parse_one(LabTechNetworkDevice, super()._make_request("POST", data=data, params=params).json())
+        return self._parse_one(
+            LabTechNetworkDevice,
+            super()._make_request("POST", data=data, params=params).json(),
+        )

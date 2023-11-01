@@ -1,20 +1,38 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ProjectBillingRate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class ProjectBillingratesIdBillingratesIdEndpoint(
     ConnectWiseEndpoint, IPatchable[ProjectBillingRate, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IPatchable.__init__(self, ProjectBillingRate)
 
-    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProjectBillingRate:
+    def patch(
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> ProjectBillingRate:
         """
         Performs a PATCH request against the /project/billingRates/{id}/billingRates/{id} endpoint.
 
@@ -24,4 +42,7 @@ class ProjectBillingratesIdBillingratesIdEndpoint(
         Returns:
             ProjectBillingRate: The parsed response data.
         """
-        return self._parse_one(ProjectBillingRate, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ProjectBillingRate,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

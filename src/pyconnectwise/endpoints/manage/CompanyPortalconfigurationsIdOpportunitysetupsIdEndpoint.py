@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import PortalConfigurationOpportunitySetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
@@ -15,14 +27,19 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
     IPaginateable[PortalConfigurationOpportunitySetup, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, PortalConfigurationOpportunitySetup)
         IPuttable.__init__(self, PortalConfigurationOpportunitySetup)
         IPatchable.__init__(self, PortalConfigurationOpportunitySetup)
         IPaginateable.__init__(self, PortalConfigurationOpportunitySetup)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[PortalConfigurationOpportunitySetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -49,7 +66,9 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint.
@@ -61,11 +80,14 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("GET", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("GET", data=data, params=params).json(),
         )
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PUT request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint.
@@ -77,11 +99,14 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("PUT", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("PUT", data=data, params=params).json(),
         )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PortalConfigurationOpportunitySetup:
         """
         Performs a PATCH request against the /company/portalConfigurations/{id}/opportunitySetups/{id} endpoint.
@@ -93,5 +118,6 @@ class CompanyPortalconfigurationsIdOpportunitysetupsIdEndpoint(
             PortalConfigurationOpportunitySetup: The parsed response data.
         """
         return self._parse_one(
-            PortalConfigurationOpportunitySetup, super()._make_request("PATCH", data=data, params=params).json()
+            PortalConfigurationOpportunitySetup,
+            super()._make_request("PATCH", data=data, params=params).json(),
         )

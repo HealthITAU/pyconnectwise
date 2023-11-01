@@ -1,12 +1,25 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint import \
-    FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint import (
+    FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import ExpenseTypeExemption
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
@@ -17,18 +30,25 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
     IPaginateable[ExpenseTypeExemption, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, ExpenseTypeExemption)
         IPuttable.__init__(self, ExpenseTypeExemption)
         IPatchable.__init__(self, ExpenseTypeExemption)
         IPaginateable.__init__(self, ExpenseTypeExemption)
 
         self.taxable_expense_type_levels = self._register_child_endpoint(
-            FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint(client, parent_endpoint=self)
+            FinanceTaxcodesIdExpensetypeexemptionsIdTaxableexpensetypelevelsEndpoint(
+                client, parent_endpoint=self
+            )
         )
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[ExpenseTypeExemption]:
         """
         Performs a GET request against the /finance/taxCodes/{id}/expenseTypeExemptions/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -46,11 +66,18 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), ExpenseTypeExemption, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            ExpenseTypeExemption,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ExpenseTypeExemption:
         """
         Performs a GET request against the /finance/taxCodes/{id}/expenseTypeExemptions/{id} endpoint.
@@ -61,9 +88,16 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
         Returns:
             ExpenseTypeExemption: The parsed response data.
         """
-        return self._parse_one(ExpenseTypeExemption, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            ExpenseTypeExemption,
+            super()._make_request("GET", data=data, params=params).json(),
+        )
 
-    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+    def delete(
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
+    ) -> None:
         """
         Performs a DELETE request against the /finance/taxCodes/{id}/expenseTypeExemptions/{id} endpoint.
 
@@ -74,7 +108,9 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
         super()._make_request("DELETE", data=data, params=params)
 
     def put(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ExpenseTypeExemption:
         """
         Performs a PUT request against the /finance/taxCodes/{id}/expenseTypeExemptions/{id} endpoint.
@@ -85,10 +121,15 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
         Returns:
             ExpenseTypeExemption: The parsed response data.
         """
-        return self._parse_one(ExpenseTypeExemption, super()._make_request("PUT", data=data, params=params).json())
+        return self._parse_one(
+            ExpenseTypeExemption,
+            super()._make_request("PUT", data=data, params=params).json(),
+        )
 
     def patch(
-        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: PatchRequestData,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> ExpenseTypeExemption:
         """
         Performs a PATCH request against the /finance/taxCodes/{id}/expenseTypeExemptions/{id} endpoint.
@@ -99,4 +140,7 @@ class FinanceTaxcodesIdExpensetypeexemptionsIdEndpoint(
         Returns:
             ExpenseTypeExemption: The parsed response data.
         """
-        return self._parse_one(ExpenseTypeExemption, super()._make_request("PATCH", data=data, params=params).json())
+        return self._parse_one(
+            ExpenseTypeExemption,
+            super()._make_request("PATCH", data=data, params=params).json(),
+        )

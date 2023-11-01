@@ -1,10 +1,22 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import DepartmentLocationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemInfoDepartmentlocationsIdEndpoint(
@@ -13,12 +25,17 @@ class SystemInfoDepartmentlocationsIdEndpoint(
     IPaginateable[DepartmentLocationInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "{id}", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, DepartmentLocationInfo)
         IPaginateable.__init__(self, DepartmentLocationInfo)
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[DepartmentLocationInfo]:
         """
         Performs a GET request against the /system/info/departmentlocations/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -36,11 +53,18 @@ class SystemInfoDepartmentlocationsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), DepartmentLocationInfo, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            DepartmentLocationInfo,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> DepartmentLocationInfo:
         """
         Performs a GET request against the /system/info/departmentlocations/{id} endpoint.
@@ -51,4 +75,7 @@ class SystemInfoDepartmentlocationsIdEndpoint(
         Returns:
             DepartmentLocationInfo: The parsed response data.
         """
-        return self._parse_one(DepartmentLocationInfo, super()._make_request("GET", data=data, params=params).json())
+        return self._parse_one(
+            DepartmentLocationInfo,
+            super()._make_request("GET", data=data, params=params).json(),
+        )

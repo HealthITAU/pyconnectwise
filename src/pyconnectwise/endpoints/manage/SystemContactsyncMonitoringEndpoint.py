@@ -1,17 +1,34 @@
 from typing import Any
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringCountEndpoint import \
-    SystemContactsyncMonitoringCountEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringIdEndpoint import SystemContactsyncMonitoringIdEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringNotificationtypeEndpoint import \
-    SystemContactsyncMonitoringNotificationtypeEndpoint
-from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeEndpoint import \
-    SystemContactsyncMonitoringTypeEndpoint
-from pyconnectwise.interfaces import IDeleteable, IGettable, IPaginateable, IPatchable, IPostable, IPuttable
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringCountEndpoint import (
+    SystemContactsyncMonitoringCountEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringIdEndpoint import (
+    SystemContactsyncMonitoringIdEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringNotificationtypeEndpoint import (
+    SystemContactsyncMonitoringNotificationtypeEndpoint,
+)
+from pyconnectwise.endpoints.manage.SystemContactsyncMonitoringTypeEndpoint import (
+    SystemContactsyncMonitoringTypeEndpoint,
+)
+from pyconnectwise.interfaces import (
+    IDeleteable,
+    IGettable,
+    IPaginateable,
+    IPatchable,
+    IPostable,
+    IPuttable,
+)
 from pyconnectwise.models.manage import M365ContactSyncMonitoring
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseAutomateRequestParams, ConnectWiseManageRequestParams, PatchRequestData
+from pyconnectwise.types import (
+    JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
+    PatchRequestData,
+)
 
 
 class SystemContactsyncMonitoringEndpoint(
@@ -20,17 +37,23 @@ class SystemContactsyncMonitoringEndpoint(
     IPaginateable[M365ContactSyncMonitoring, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None):
-        ConnectWiseEndpoint.__init__(self, client, "monitoring", parent_endpoint=parent_endpoint)
+        ConnectWiseEndpoint.__init__(
+            self, client, "monitoring", parent_endpoint=parent_endpoint
+        )
         IGettable.__init__(self, list[M365ContactSyncMonitoring])
         IPaginateable.__init__(self, M365ContactSyncMonitoring)
 
         self.notificationtype = self._register_child_endpoint(
-            SystemContactsyncMonitoringNotificationtypeEndpoint(client, parent_endpoint=self)
+            SystemContactsyncMonitoringNotificationtypeEndpoint(
+                client, parent_endpoint=self
+            )
         )
         self.count = self._register_child_endpoint(
             SystemContactsyncMonitoringCountEndpoint(client, parent_endpoint=self)
         )
-        self.type = self._register_child_endpoint(SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self))
+        self.type = self._register_child_endpoint(
+            SystemContactsyncMonitoringTypeEndpoint(client, parent_endpoint=self)
+        )
 
     def id(self, id: int) -> SystemContactsyncMonitoringIdEndpoint:
         """
@@ -46,7 +69,10 @@ class SystemContactsyncMonitoringEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self,
+        page: int,
+        page_size: int,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> PaginatedResponse[M365ContactSyncMonitoring]:
         """
         Performs a GET request against the /system/contactsync/monitoring endpoint and returns an initialized PaginatedResponse object.
@@ -64,11 +90,18 @@ class SystemContactsyncMonitoringEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params), M365ContactSyncMonitoring, self, page, page_size, params
+            super()._make_request("GET", params=params),
+            M365ContactSyncMonitoring,
+            self,
+            page,
+            page_size,
+            params,
         )
 
     def get(
-        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+        self,
+        data: JSON | None = None,
+        params: ConnectWiseManageRequestParams | None = None,
     ) -> list[M365ContactSyncMonitoring]:
         """
         Performs a GET request against the /system/contactsync/monitoring endpoint.
@@ -80,5 +113,6 @@ class SystemContactsyncMonitoringEndpoint(
             list[M365ContactSyncMonitoring]: The parsed response data.
         """
         return self._parse_many(
-            M365ContactSyncMonitoring, super()._make_request("GET", data=data, params=params).json()
+            M365ContactSyncMonitoring,
+            super()._make_request("GET", data=data, params=params).json(),
         )
