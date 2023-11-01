@@ -43,8 +43,17 @@ astunparse = "^1.6"
 black = "^23.7"
 isort = "^5.12"
 pytest = "^7.1"
+pytest-timeout = "^2.1"
 requests-mock = "^1.11"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "--strict-markers --strict-config"
+norecursedirs = [".git", ".tox", ".env", ".venv"]
+testpaths = ["tests"]
+timeout = 60
+pythonpath = ["src"]
