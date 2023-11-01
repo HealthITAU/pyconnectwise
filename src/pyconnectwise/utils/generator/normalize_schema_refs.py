@@ -38,7 +38,7 @@ def main():
     args = parser.parse_args()
 
     # Loading the JSON file
-    with open(args.input, "r") as file:
+    with open(args.input) as file:
         data = json.load(file)
 
     # Normalizing schema names and storing the old-new name mapping

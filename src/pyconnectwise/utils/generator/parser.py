@@ -26,7 +26,7 @@ def merge_automate_specs(folder_path):
         "components": {"requestBodies": {}, "schemas": {}},
     }
     for filename in glob.glob(f"{folder_path}/*.json"):
-        with open(filename, "r") as f:
+        with open(filename) as f:
             spec = json.load(f)
 
             # Merge paths
@@ -56,7 +56,7 @@ def merge_automate_specs(folder_path):
 
 
 def load_schema(filename):
-    with open(filename, "r") as f:
+    with open(filename) as f:
         schema = json.load(f)
     return schema
 

@@ -30,7 +30,7 @@ def generate_endpoint(
     operations = list(path_info.keys())
 
     child_endpoints = list(
-        set(format_endpoint_path(child) for child in relationships.get(path, []))
+        {format_endpoint_path(child) for child in relationships.get(path, [])}
     )
 
     print(f"Generating {endpoint_class_name}")

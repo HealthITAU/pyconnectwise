@@ -4,7 +4,8 @@ from datetime import datetime
 from typing import Any
 import inspect
 import re
-from typing import TypeVar, Callable, Type, Generic
+from typing import TypeVar, Type, Generic
+from collections.abc import Callable
 from pyconnectwise.utils.naming import to_camel_case
 from datetime import datetime
 
@@ -22,7 +23,7 @@ class Condition(Generic[T]):
         self._condition_string: str = ""
         self._field = ""
 
-    def field(self: Condition[T], selector: Callable[[Type[T]], Any]) -> Condition[T]:
+    def field(self: Condition[T], selector: Callable[[type[T]], Any]) -> Condition[T]:
         field = ""
 
         frame = inspect.currentframe()
@@ -93,7 +94,7 @@ class Condition(Generic[T]):
         self.__add_typed_value_to_string(value, type(value))
         return self
 
-    def __add_typed_value_to_string(self: Condition[T], value: Any, type: Type):
+    def __add_typed_value_to_string(self: Condition[T], value: Any, type: type):
         if type is str:
             self._condition_string += f'"{value}"'
         elif type is int:
@@ -106,7 +107,7 @@ class Condition(Generic[T]):
             self._condition_string += f'"{value}"'
 
     def and_(
-        self: Condition[T], selector: Callable[[Type[T]], Any] | None = None
+        self: Condition[T], selector: Callable[[type[T]], Any] | None = None
     ) -> Condition[T]:
         self._condition_string += " AND "
 
@@ -131,7 +132,7 @@ class Condition(Generic[T]):
         return self
 
     def or_(
-        self: Condition[T], selector: Callable[[Type[T]], Any] | None = None
+        self: Condition[T], selector: Callable[[type[T]], Any] | None = None
     ) -> Condition[T]:
         self._condition_string += " OR "
 

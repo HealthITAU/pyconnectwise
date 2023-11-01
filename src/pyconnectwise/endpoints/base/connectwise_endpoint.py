@@ -114,7 +114,7 @@ class ConnectWiseEndpoint:
     def _make_request(
         self,
         method: RequestMethod,
-        endpoint: "ConnectWiseEndpoint" | None = None,
+        endpoint: ConnectWiseEndpoint | None = None,
         data: RequestData | None = None,
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
@@ -161,9 +161,9 @@ class ConnectWiseEndpoint:
         return self._build_url(self)
 
     def _parse_many(
-        self, model_type: Type[TModel], data: list[dict[str, Any]]
+        self, model_type: type[TModel], data: list[dict[str, Any]]
     ) -> list[TModel]:
         return [model_type.model_validate(d) for d in data]
 
-    def _parse_one(self, model_type: Type[TModel], data: dict[str, Any]) -> TModel:
+    def _parse_one(self, model_type: type[TModel], data: dict[str, Any]) -> TModel:
         return model_type.model_validate(data)

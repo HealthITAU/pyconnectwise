@@ -14,7 +14,7 @@ def move_imports_to_bottom(filename):
         "__future__",
         "pyconnectwise.models.base.connectwise_model",
     ]
-    with open(filename, "r") as file:
+    with open(filename) as file:
         source_code = file.read()
 
     module = parse(source_code)

@@ -1,7 +1,8 @@
 from __future__ import annotations
 from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 from pyconnectwise.utils.helpers import parse_link_headers
-from typing import TYPE_CHECKING, Generic, TypeVar, Type, Iterable
+from typing import TYPE_CHECKING, Generic, TypeVar, Type
+from collections.abc import Iterable
 from pydantic import BaseModel
 from requests import Response
 from pyconnectwise.types import RequestParams
@@ -32,7 +33,7 @@ class PaginatedResponse(Generic[TModel]):
     def __init__(
         self,
         response: Response,
-        response_model: Type[TModel],
+        response_model: type[TModel],
         endpoint: IPaginateable,
         page: int,
         page_size: int,
@@ -56,7 +57,7 @@ class PaginatedResponse(Generic[TModel]):
     def _initialize(
         self,
         response: Response,
-        response_model: Type[TModel],
+        response_model: type[TModel],
         endpoint: IPaginateable,
         page: int,
         page_size: int,
@@ -161,8 +162,7 @@ class PaginatedResponse(Generic[TModel]):
             TModel: An instance of the model class for each item in the paginated response.
         """
         while self.has_data:
-            for item in self.data:
-                yield item
+            yield from self.data
             self.get_next_page()
 
     def __iter__(self):
