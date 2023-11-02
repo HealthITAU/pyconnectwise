@@ -51,3 +51,7 @@ repos:
     rev: "1.6.0"
     hooks:
       - id: poetry-check
+
+ci:
+  autofix_prs: true
+  autofix_commit_msg: [pre-commit.ci] automatic pre-commit fixes
