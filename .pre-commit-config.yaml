@@ -54,4 +54,4 @@ repos:
 
 ci:
   autofix_prs: true
-  autofix_commit_msg: [pre-commit.ci] automatic pre-commit fixes
+  autofix_commit_msg: "[pre-commit.ci] automatic pre-commit fixes"
