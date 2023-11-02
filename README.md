@@ -29,19 +29,15 @@ Known Issues:
 
 Roadmap:
 =============
-- **Automate API Support** - Done :white_check_mark:
-- **Robust error handling** - In Progress :construction:
-- **Input model validation** - Planned :chart_with_upwards_trend:
-- **ScreenConnect (Control) API Support** - Planned :chart_with_upwards_trend:
-- **Batch requests** - Planned :chart_with_upwards_trend:
+- **Automate API Support** - :white_check_mark: Done
+- **Robust error handling** - :white_check_mark: Done
+- **Tests** - :construction: In Progress
+- **Input model validation** - :chart_with_upwards_trend: Planned
+- **ScreenConnect (Control) API Support** - :chart_with_upwards_trend: Planned
+- **Batch requests** - :chart_with_upwards_trend: Planned
 
 How-to:
 =============
-- [pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python](#pyconnectwise---an-api-library-for-connectwise-manage-and-connectwise-automate-written-in-python)
-- [Features:](#features)
-- [Known Issues:](#known-issues)
-- [Roadmap:](#roadmap)
-- [How-to:](#how-to)
 - [Install](#install)
 - [Initializing the API Clients](#initializing-the-api-clients)
     - [ConnectWise Manage](#connectwise-manage)
@@ -67,7 +63,7 @@ How-to:
 - [Supporting the project](#supporting-the-project)
 
 # Install
-Open a terminal and run ```pip install pyconnectwise```
+Open a terminal and run ```pip install pyconnectwise``` or ```poetry add pyconnectwise```
 
 # Initializing the API Clients
 
