@@ -1,5 +1,6 @@
 from typing import Literal, TypeAlias
-from typing_extensions import TypedDict, NotRequired
+
+from typing_extensions import NotRequired, TypedDict
 
 Literals: TypeAlias = str | int | float | bool
 JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | Literals | None

@@ -1,9 +1,12 @@
 from __future__ import annotations
-from pydantic import BaseModel, ConfigDict
-from pyconnectwise.utils.naming import to_camel_case
-from typing import get_origin, get_args, Union
-from types import UnionType
+
 import inspect
+from types import UnionType
+from typing import Union, get_args, get_origin
+
+from pydantic import BaseModel, ConfigDict
+
+from pyconnectwise.utils.naming import to_camel_case
 
 
 class ConnectWiseModel(BaseModel):

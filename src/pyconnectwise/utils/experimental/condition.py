@@ -1,10 +1,11 @@
 from __future__ import annotations
-from enum import Enum
-from datetime import datetime
-from typing import Any
+
 import inspect
 import re
-from typing import TypeVar, Generic, TYPE_CHECKING
+from datetime import datetime
+from enum import Enum
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
+
 from pyconnectwise.utils.naming import to_camel_case
 
 if TYPE_CHECKING:

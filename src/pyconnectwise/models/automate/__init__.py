@@ -203,7 +203,9 @@ class AutomateAiAssistSettingBatchRequest(ConnectWiseModel):
 
 class AutomateHotfixOperatingSystemCombination(ConnectWiseModel):
     hotfix_id: UUID | None = Field(
-        default=None, alias="HotfixId", example="00000000-0000-0000-0000-000000000000"
+        default=None,
+        alias="HotfixId",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     operating_system: str | None = Field(default=None, alias="OperatingSystem")
 
@@ -211,7 +213,9 @@ class AutomateHotfixOperatingSystemCombination(ConnectWiseModel):
 class AutomateWindowsApprovalPolicyPatch(ConnectWiseModel):
     approval_action_id: int | None = Field(default=None, alias="ApprovalActionId")
     hotfix_id: UUID | None = Field(
-        default=None, alias="HotfixId", example="00000000-0000-0000-0000-000000000000"
+        default=None,
+        alias="HotfixId",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     operating_system: str | None = Field(default=None, alias="OperatingSystem")
 
@@ -221,7 +225,7 @@ class AutomateApprovalPolicyThirdPartyPatchSetting(ConnectWiseModel):
     lt_product_key: UUID | None = Field(
         default=None,
         alias="LTProductKey",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     version: str | None = Field(default=None, alias="Version")
 
@@ -339,7 +343,7 @@ class AutomateDeleteIpRestrictionsBatchResult(ConnectWiseModel):
     ip_restrictions_id: UUID | None = Field(
         default=None,
         alias="IpRestrictionsId",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     result_details: AutomateResponseResult | None = Field(
         default=None, alias="ResultDetails"
@@ -350,7 +354,7 @@ class AutomateIpRestrictionRule(ConnectWiseModel):
     ip_address_guid: UUID | None = Field(
         default=None,
         alias="IpAddressGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     name: str | None = Field(default=None, alias="Name")
     ip_address: str | None = Field(default=None, alias="IpAddress")
@@ -368,7 +372,7 @@ class AutomateAddIpRestrictionsBatchResult(ConnectWiseModel):
     ip_address_guid: UUID | None = Field(
         default=None,
         alias="IpAddressGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     name: str | None = Field(default=None, alias="Name")
     ip_address: str | None = Field(default=None, alias="IpAddress")
@@ -1796,7 +1800,7 @@ class AutomateBinaryExtensionPermission(ConnectWiseModel):
     extension_guid: UUID | None = Field(
         default=None,
         alias="ExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_name: str | None = Field(default=None, alias="ExtensionName")
     permission_id: int | None = Field(default=None, alias="PermissionId")
@@ -1931,7 +1935,9 @@ class AutomateDaysScheduleSettings(ConnectWiseModel):
 class AutomatePatchingPolicyScript(ConnectWiseModel):
     run_script: bool | None = Field(default=None, alias="RunScript")
     script_guid: UUID | None = Field(
-        default=None, alias="ScriptGuid", example="00000000-0000-0000-0000-000000000000"
+        default=None,
+        alias="ScriptGuid",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     script_name: str | None = Field(default=None, alias="ScriptName")
     cancel_action_on_script_failure: bool | None = Field(
@@ -3197,7 +3203,7 @@ class AutomateThirdPartyPatchVersion(ConnectWiseModel):
     lt_product_key: UUID | None = Field(
         default=None,
         alias="LTProductKey",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     versions: list[str] | None = Field(default=None, alias="Versions")
 
@@ -3210,7 +3216,7 @@ class AutomateUserBinaryExtensionPermission(ConnectWiseModel):
     extension_guid: UUID | None = Field(
         default=None,
         alias="ExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_name: str | None = Field(default=None, alias="ExtensionName")
     permission_id: int | None = Field(default=None, alias="PermissionId")
@@ -3585,7 +3591,7 @@ class AutomateExtensionSolution(ConnectWiseModel):
     solution_guid: UUID | None = Field(
         default=None,
         alias="SolutionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     solution_name: str | None = Field(default=None, alias="SolutionName")
     is_installed: bool | None = Field(default=None, alias="IsInstalled")
@@ -3633,7 +3639,7 @@ class AutomateString(AutomateComputerServiceItem):
 
 class AutomateGuid(ConnectWiseModel):
     id: UUID | None = Field(
-        default=None, alias="Id", example="00000000-0000-0000-0000-000000000000"
+        default=None, alias="Id", examples=["00000000-0000-0000-0000-000000000000"]
     )
     name: str | None = Field(default=None, alias="Name")
 
@@ -3914,7 +3920,7 @@ class AutomateBinaryExtension(ConnectWiseModel):
     extension_guid: UUID | None = Field(
         default=None,
         alias="ExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_id: int | None = Field(default=None, alias="ExtensionId")
     version: str | None = Field(default=None, alias="Version")
@@ -4991,7 +4997,9 @@ class AutomateCreateScriptFromCommandsRequest(ConnectWiseModel):
 
 class AutomateWebExtensionTile(ConnectWiseModel):
     tile_guid: UUID | None = Field(
-        default=None, alias="TileGuid", example="00000000-0000-0000-0000-000000000000"
+        default=None,
+        alias="TileGuid",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     normal_tile_source_url: str | None = Field(
         default=None, alias="NormalTileSourceUrl"
@@ -5013,7 +5021,7 @@ class AutomateWebExtensionTile(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
         default=None, alias="ExtensionClaimType"
@@ -5028,7 +5036,7 @@ class AutomateWebExtensionRedirect(ConnectWiseModel):
     redirect_guid: UUID | None = Field(
         default=None,
         alias="RedirectGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     source_url: str | None = Field(default=None, alias="SourceUrl")
     web_extension_control_id: int | None = Field(
@@ -5040,7 +5048,7 @@ class AutomateWebExtensionRedirect(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
         default=None, alias="ExtensionClaimType"
@@ -5055,7 +5063,7 @@ class AutomateWebExtensionInlineFrame(ConnectWiseModel):
     inline_frame_guid: UUID | None = Field(
         default=None,
         alias="InlineFrameGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     source_url: str | None = Field(default=None, alias="SourceUrl")
     web_extension_control_id: int | None = Field(
@@ -5067,7 +5075,7 @@ class AutomateWebExtensionInlineFrame(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
         default=None, alias="ExtensionClaimType"
@@ -5750,7 +5758,7 @@ class AutomateWebExtensionClickButton(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
         default=None, alias="ExtensionClaimType"
@@ -5777,7 +5785,7 @@ class AutomateWebExtensionMenuButton(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     extension_claim_type: AutomateExtensionClaimType | None = Field(
         default=None, alias="ExtensionClaimType"
@@ -5799,7 +5807,7 @@ class AutomateWebExtension(ConnectWiseModel):
     web_extension_guid: UUID | None = Field(
         default=None,
         alias="WebExtensionGuid",
-        example="00000000-0000-0000-0000-000000000000",
+        examples=["00000000-0000-0000-0000-000000000000"],
     )
     web_extension_name: str | None = Field(default=None, alias="WebExtensionName")
     author: str | None = Field(default=None, alias="Author")

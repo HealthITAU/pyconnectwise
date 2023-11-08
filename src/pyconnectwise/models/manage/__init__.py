@@ -10553,7 +10553,7 @@ class DocumentInfo(ConnectWiseModel):
         default=None, alias="documentType"
     )
     guid: UUID | None = Field(
-        default=None, example="00000000-0000-0000-0000-000000000000"
+        default=None, examples="00000000-0000-0000-0000-000000000000"
     )
     info: dict[str, str] | None = Field(default=None, alias="_info")
 

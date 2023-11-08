@@ -1,5 +1,5 @@
-import json
 import argparse
+import json
 
 
 def normalize_schema_name(schema_name):  # noqa: ANN001, ANN201

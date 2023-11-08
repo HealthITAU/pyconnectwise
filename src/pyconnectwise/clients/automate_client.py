@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
@@ -65,7 +65,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         self.automate_url: str = automate_url
         self.username: str = username
         self.password: str = password
-        self.token_expiry_time: datetime = datetime.utcnow()
+        self.token_expiry_time: datetime = datetime.now(tz=UTC)
 
         if config:
             self.config = config
@@ -126,7 +126,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         return token
 
     def _refresh_access_token_if_necessary(self):  # noqa: ANN202
-        if datetime.utcnow() > self.token_expiry_time:
+        if datetime.now(tz=UTC) > self.token_expiry_time:
             self.access_token = self._get_access_token()
 
     def _get_headers(self) -> dict[str, str]:

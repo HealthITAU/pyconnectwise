@@ -141,7 +141,7 @@ def _generate_manage(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            True,
+            is_manage=True,
         )
 
     for endpoint in top_level_endpoints:
@@ -155,7 +155,7 @@ def _generate_manage(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            True,
+            is_manage=True,
         )
         client_top_level_endpoints.append(endpoint_class)
 
@@ -182,7 +182,7 @@ def _generate_automate(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            False,
+            is_manage=False,
         )
 
     for endpoint in top_level_endpoints:
@@ -197,7 +197,7 @@ def _generate_automate(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            False,
+            is_manage=False,
         )
         client_top_level_endpoints.append(endpoint_class)
 

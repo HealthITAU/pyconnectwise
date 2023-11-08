@@ -67,18 +67,29 @@ select = [
     "ASYNC",
     "B",
     "C",
+    "C90",
+    "DTZ",
     "E",
     "F",
+    "FBT",
     "FIX",
     "FLY",
+    "FURB",
+    "I",
+    "INP",
     "N8",
     "PERF",
+    "PT",
     "PTH",
     "RET",
     "RUF",
+    "S",
     "SIM",
+    "T10",
     "TCH",
+    "TID",
     "TRY",
+    "UP",
 ]
 # ANN101,ANN102 annotating self,cls is silly
 # E501 is replaced by flake8-bugbear B950
@@ -99,4 +110,5 @@ combine-as-imports = true
 "src/pyconnectwise/endpoints/**" = ["A003"]
 "src/pyconnectwise/models/**" = ["A003"]
 # Documenting return types on pytest tests is pointless
-"tests/**" = ["ANN201"]
+# S101 - Using assert in tests is fine
+"tests/**" = ["ANN201", "S101"]

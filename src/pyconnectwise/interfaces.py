@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Generic, TypeVar
+
+from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import (
-    ConnectWiseManageRequestParams,
-    ConnectWiseAutomateRequestParams,
     JSON,
+    ConnectWiseAutomateRequestParams,
+    ConnectWiseManageRequestParams,
     PatchRequestData,
 )
-from typing import TypeVar, TYPE_CHECKING, Generic
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 
 if TYPE_CHECKING:
     from pydantic import BaseModel

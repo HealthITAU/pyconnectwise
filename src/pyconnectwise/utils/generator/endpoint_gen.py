@@ -1,15 +1,16 @@
 # endpoint_gen.py in src/pyconnectwise/utils/generator
 import os
+
 from pyconnectwise.utils.fs import save_py_file
-from pyconnectwise.utils.generator.templates import (
-    endpoint_template,
-)
 from pyconnectwise.utils.generator.path_formatting import (
     format_endpoint_path,
     get_endpoint_class_name_from_path,
     normalize_path_parameters,
 )
-from pyconnectwise.utils.naming import to_snake_case, ensure_not_reserved
+from pyconnectwise.utils.generator.templates import (
+    endpoint_template,
+)
+from pyconnectwise.utils.naming import ensure_not_reserved, to_snake_case
 
 
 def generate_endpoint(  # noqa: ANN201, C901
@@ -18,6 +19,7 @@ def generate_endpoint(  # noqa: ANN201, C901
     path: str,
     path_info: dict,
     relationships: dict,
+    *,
     is_manage: bool,
 ):
     formatted_path = format_endpoint_path(path)

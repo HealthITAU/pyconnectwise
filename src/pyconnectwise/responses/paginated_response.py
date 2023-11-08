@@ -1,12 +1,16 @@
 from __future__ import annotations
-from pyconnectwise.utils.helpers import parse_link_headers
+
 from typing import TYPE_CHECKING, Generic, TypeVar
+
+from pyconnectwise.utils.helpers import parse_link_headers
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from pyconnectwise.types import RequestParams
-    from requests import Response
+
     from pydantic import BaseModel
+    from requests import Response
+
+    from pyconnectwise.types import RequestParams
 
 
 TModel = TypeVar("TModel", bound="BaseModel")

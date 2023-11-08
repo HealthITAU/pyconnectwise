@@ -1,9 +1,10 @@
-from pyconnectwise.utils.generator.templates import (
-    manage_client_template,
-    automate_client_template,
-)
-from pyconnectwise.utils.fs import save_py_file
 import os
+
+from pyconnectwise.utils.fs import save_py_file
+from pyconnectwise.utils.generator.templates import (
+    automate_client_template,
+    manage_client_template,
+)
 
 
 def generate_manage_client(client_output_path, endpoints):  # noqa: ANN001, ANN201

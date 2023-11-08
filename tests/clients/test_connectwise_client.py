@@ -54,7 +54,7 @@ def test_one_timeout_500(requests_mock: RequestMocker):
 
 
 @pytest.mark.parametrize(
-    "response_text, response_reason, expected_error, should_retry",
+    ("response_text", "response_reason", "expected_error", "should_retry"),
     [
         # Timeout errors should be retried, and then bubble up if they persist.
         (
@@ -87,6 +87,7 @@ def test_one_timeout_500(requests_mock: RequestMocker):
     ],
 )
 def test_timeout_500(
+    *,
     response_text: str,
     response_reason: str,
     expected_error: type[Exception],

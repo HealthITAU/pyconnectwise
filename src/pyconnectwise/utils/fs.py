@@ -1,6 +1,6 @@
 import black
-from black import NothingChanged
 import isort
+from black import NothingChanged
 
 
 def save_py_file(filepath: str, content: str):  # noqa: ANN201

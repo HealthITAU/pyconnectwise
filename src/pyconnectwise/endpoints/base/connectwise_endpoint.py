@@ -1,16 +1,17 @@
 from __future__ import annotations
-from typing import TypeVar, TYPE_CHECKING, Any
 
+from typing import TYPE_CHECKING, Any, TypeVar
 
 if TYPE_CHECKING:
+    from pydantic import BaseModel
+    from requests import Response
+
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
     from pyconnectwise.types import (
         RequestData,
         RequestMethod,
         RequestParams,
     )
-    from requests import Response
-    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
-    from pydantic import BaseModel
 
 TChildEndpoint = TypeVar("TChildEndpoint", bound="ConnectWiseEndpoint")
 TModel = TypeVar("TModel", bound="BaseModel")
