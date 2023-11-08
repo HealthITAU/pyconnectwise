@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+import contextlib
+import json
+import warnings
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, cast
 
@@ -14,6 +17,7 @@ from pyconnectwise.exceptions import (
     MalformedRequestException,
     MethodNotAllowedException,
     NotFoundException,
+    ObjectExistsError,
     PermissionsFailedException,
     ServerError,
 )
@@ -81,6 +85,25 @@ class ConnectWiseClient(ABC):
                 params=cast(dict[str, Any], params or {}),
             )
         if not response.ok:
+            with contextlib.suppress(json.JSONDecodeError):
+                details: dict = response.json()
+                if (  # noqa: SIM102 (Expecting to handle other codes in the future)
+                    response.status_code == 400
+                ):
+                    if details.get("code") == "InvalidObject":
+                        errors = details.get("errors", [])
+                        if len(errors) > 1:
+                            warnings.warn(
+                                "Found multiple errors - we may be masking some important error details.  Please submit a Github issue with response.status_code and response.content so we can improve this error handling.",
+                                stacklevel=1,
+                            )
+                        for error in errors:
+                            if error.get("code") == "ObjectExists":
+                                error.pop("code")  # Don't need code in message
+                                raise ObjectExistsError(
+                                    response, extra_message=json.dumps(error, indent=4)
+                                )
+
             if response.status_code == 400:
                 raise MalformedRequestException(response)
             if response.status_code == 401:

@@ -5,7 +5,7 @@ from typing_extensions import override
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
-from pyconnectwise.exceptions import ServerError
+from pyconnectwise.exceptions import ObjectExistsError, ServerError
 
 
 class FakeConnectWiseClient(ConnectWiseClient):
@@ -119,3 +119,45 @@ def test_timeout_500(
         assert len(requests_mock.request_history) == 1 + max_retries
     else:
         assert len(requests_mock.request_history) == 1
+
+
+@pytest.mark.parametrize(
+    (
+        "response_code",
+        "response_content",
+        "expected_error",
+    ),
+    [
+        (
+            # Sometimes the ConnectWise API returns this type of timeout
+            400,
+            b'{\r\n  "code": "InvalidObject",\r\n  "message": "callbackEntry object is invalid",\r\n  "errors": [\r\n    {\r\n      "code": "ObjectExists",\r\n      "message": "A matching callback entry already exists",\r\n      "resource": "callbackEntry",\r\n      "field": "objectId"\r\n    }\r\n  ]\r\n}',
+            ObjectExistsError,
+        ),
+    ],
+)
+def test_exceptions(
+    *,
+    response_code: int,
+    response_content: bytes,
+    expected_error: type[Exception],
+    requests_mock: RequestMocker,
+):
+    test_url = "https://staging.connectwisedev.com/v2022_2/apis/3.0/system/callbacks"
+
+    # Retrying once should be sufficient for testing purposes
+    max_retries = 1
+
+    # setup requests_mock to intercept the http requests
+    requests_mock.get(
+        test_url,
+        content=response_content,
+        status_code=response_code,
+    )
+
+    client = FakeConnectWiseClient(max_retries=max_retries)
+    with pytest.raises(expected_error):
+        client._make_request(
+            "GET",
+            test_url,
+        )

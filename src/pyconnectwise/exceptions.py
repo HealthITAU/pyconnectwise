@@ -11,8 +11,9 @@ class ConnectWiseException(Exception):  # noqa: N818
         str
     ] = ""  # Ex: for 404 "Check the URL you are using is correct"
 
-    def __init__(self, req_response: Response) -> None:
+    def __init__(self, req_response: Response, *, extra_message: str = "") -> None:
         self.response = req_response
+        self.extra_message = extra_message
         super().__init__(self.message())
 
     def _get_sanitized_url(self) -> str:
@@ -40,8 +41,8 @@ class ConnectWiseException(Exception):  # noqa: N818
     def message(self) -> str:
         return (
             f"A HTTP {self.response.status_code} ({self._code_explanation}) error has occurred while requesting"
-            f" {self._get_sanitized_url()}.\n{self.response.reason}\n{self._error_suggestion}"
-        )
+            f" {self._get_sanitized_url()}.\n{self.response.reason}\n{self._error_suggestion}\n{self.extra_message}"
+        ).strip()  # Remove extra whitespace (Ex: if extra_message == "")
 
 
 class MalformedRequestException(ConnectWiseException):
@@ -85,3 +86,8 @@ class ConflictException(ConnectWiseException):
 
 class ServerError(ConnectWiseException):
     _code_explanation = "Internal Server Error"
+
+
+class ObjectExistsError(ConnectWiseException):
+    _code_explanation = "Object Exists"
+    _error_suggestion = "This resource already exists."
