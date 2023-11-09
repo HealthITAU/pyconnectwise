@@ -13,18 +13,12 @@ from pyconnectwise.types import (
 )
 
 
-class ScriptsEndpoint(
-    ConnectWiseEndpoint, IPostable[AutomateScript, ConnectWiseAutomateRequestParams]
-):
+class ScriptsEndpoint(ConnectWiseEndpoint, IPostable[AutomateScript, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Scripts", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Scripts", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, AutomateScript)
 
-        self.scriptfolders = self._register_child_endpoint(
-            ScriptsScriptfoldersEndpoint(client, parent_endpoint=self)
-        )
+        self.scriptfolders = self._register_child_endpoint(ScriptsScriptfoldersEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ScriptsIdEndpoint:  # noqa: A002
         """

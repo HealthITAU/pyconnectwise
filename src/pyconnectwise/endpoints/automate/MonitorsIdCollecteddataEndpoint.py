@@ -15,9 +15,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class MonitorsIdCollecteddataEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Collecteddata", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Collecteddata", parent_endpoint=parent_endpoint)
 
         self.monthlyaverages = self._register_child_endpoint(
             MonitorsIdCollecteddataMonthlyaveragesEndpoint(client, parent_endpoint=self)

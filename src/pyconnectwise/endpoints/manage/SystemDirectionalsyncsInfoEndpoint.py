@@ -20,9 +20,7 @@ class SystemDirectionalsyncsInfoEndpoint(
     IPaginateable[DirectionalSyncInfo, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[DirectionalSyncInfo])
         IPaginateable.__init__(self, DirectionalSyncInfo)
 

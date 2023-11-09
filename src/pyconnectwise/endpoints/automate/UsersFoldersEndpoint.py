@@ -12,13 +12,9 @@ from pyconnectwise.types import (
 )
 
 
-class UsersFoldersEndpoint(
-    ConnectWiseEndpoint, IPostable[AutomateUserFolder, ConnectWiseAutomateRequestParams]
-):
+class UsersFoldersEndpoint(ConnectWiseEndpoint, IPostable[AutomateUserFolder, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Folders", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Folders", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, AutomateUserFolder)
 
     def id(self, id: int) -> UsersFoldersIdEndpoint:  # noqa: A002

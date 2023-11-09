@@ -20,9 +20,7 @@ class ScriptfoldersIdEndpoint(
     IPaginateable[LabTechScriptFolder, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, LabTechScriptFolder)
         IPatchable.__init__(self, LabTechScriptFolder)
         IPaginateable.__init__(self, LabTechScriptFolder)

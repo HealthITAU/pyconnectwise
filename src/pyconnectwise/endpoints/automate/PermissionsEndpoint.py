@@ -9,13 +9,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class PermissionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Permissions", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Permissions", parent_endpoint=parent_endpoint)
 
-        self.clients = self._register_child_endpoint(
-            PermissionsClientsEndpoint(client, parent_endpoint=self)
-        )
-        self.users = self._register_child_endpoint(
-            PermissionsUsersEndpoint(client, parent_endpoint=self)
-        )
+        self.clients = self._register_child_endpoint(PermissionsClientsEndpoint(client, parent_endpoint=self))
+        self.users = self._register_child_endpoint(PermissionsUsersEndpoint(client, parent_endpoint=self))

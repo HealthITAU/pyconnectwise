@@ -120,9 +120,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         )
         auth_resp_json = auth_response.json()
         token = auth_resp_json["AccessToken"]
-        self.token_expiry_time = datetime.fromisoformat(
-            auth_resp_json["ExpirationDate"]
-        )
+        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
         return token
 
     def _refresh_access_token_if_necessary(self):  # noqa: ANN202

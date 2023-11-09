@@ -25,9 +25,7 @@ class ProcurementDirectionalsyncsEndpoint(
     IPaginateable[DirectionalSync, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "directionalSyncs", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "directionalSyncs", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[DirectionalSync])
         IPostable.__init__(self, DirectionalSync)
         IPaginateable.__init__(self, DirectionalSync)

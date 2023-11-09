@@ -29,24 +29,14 @@ class ClientsIdEndpoint(
     IPaginateable[LabTechClient, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, LabTechClient)
         IPaginateable.__init__(self, LabTechClient)
 
-        self.permissions = self._register_child_endpoint(
-            ClientsIdPermissionsEndpoint(client, parent_endpoint=self)
-        )
-        self.licenses = self._register_child_endpoint(
-            ClientsIdLicensesEndpoint(client, parent_endpoint=self)
-        )
-        self.documents = self._register_child_endpoint(
-            ClientsIdDocumentsEndpoint(client, parent_endpoint=self)
-        )
-        self.productkeys = self._register_child_endpoint(
-            ClientsIdProductkeysEndpoint(client, parent_endpoint=self)
-        )
+        self.permissions = self._register_child_endpoint(ClientsIdPermissionsEndpoint(client, parent_endpoint=self))
+        self.licenses = self._register_child_endpoint(ClientsIdLicensesEndpoint(client, parent_endpoint=self))
+        self.documents = self._register_child_endpoint(ClientsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.productkeys = self._register_child_endpoint(ClientsIdProductkeysEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self,
@@ -92,6 +82,4 @@ class ClientsIdEndpoint(
         Returns:
             LabTechClient: The parsed response data.
         """
-        return self._parse_one(
-            LabTechClient, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(LabTechClient, super()._make_request("GET", data=data, params=params).json())

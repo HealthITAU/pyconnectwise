@@ -36,11 +36,7 @@ class ConnectWiseAutomateRequestParams(TypedDict):
 
 
 GenericRequestParams: TypeAlias = dict[str, Literals]
-RequestParams: TypeAlias = (
-    ConnectWiseManageRequestParams
-    | ConnectWiseAutomateRequestParams
-    | GenericRequestParams
-)
+RequestParams: TypeAlias = ConnectWiseManageRequestParams | ConnectWiseAutomateRequestParams | GenericRequestParams
 PatchRequestData: TypeAlias = list[Patch]
 RequestData: TypeAlias = JSON | PatchRequestData
 RequestMethod: TypeAlias = Literal["GET", "POST", "PUT", "PATCH", "DELETE"]

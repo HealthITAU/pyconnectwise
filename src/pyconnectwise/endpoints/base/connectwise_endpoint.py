@@ -77,9 +77,7 @@ class ConnectWiseEndpoint:
         self._id = None
         self._child_endpoints: list[ConnectWiseEndpoint] = []
 
-    def _register_child_endpoint(
-        self, child_endpoint: TChildEndpoint
-    ) -> TChildEndpoint:
+    def _register_child_endpoint(self, child_endpoint: TChildEndpoint) -> TChildEndpoint:
         """
         Register a child endpoint to the current endpoint.
 
@@ -152,16 +150,12 @@ class ConnectWiseEndpoint:
             else:  # noqa: RET505
                 return self._url_join(parent_url, other_endpoint._get_replaced_url())
         else:
-            return self._url_join(
-                self.client._get_url(), other_endpoint._get_replaced_url()
-            )
+            return self._url_join(self.client._get_url(), other_endpoint._get_replaced_url())
 
     def _get_endpoint_url(self) -> str:
         return self._build_url(self)
 
-    def _parse_many(
-        self, model_type: type[TModel], data: list[dict[str, Any]]
-    ) -> list[TModel]:
+    def _parse_many(self, model_type: type[TModel], data: list[dict[str, Any]]) -> list[TModel]:
         return [model_type.model_validate(d) for d in data]
 
     def _parse_one(self, model_type: type[TModel], data: dict[str, Any]) -> TModel:

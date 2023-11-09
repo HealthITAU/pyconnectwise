@@ -14,9 +14,7 @@ class ScriptfoldersHierarchyEndpoint(
     IGettable[list[LabTechScriptFolder], ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Hierarchy", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Hierarchy", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechScriptFolder])
 
     def get(

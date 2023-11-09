@@ -25,22 +25,16 @@ class ProjectProjecttemplatesIdProjecttemplateticketsEndpoint(
     IPaginateable[ProjectTemplateTicket, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "projectTemplateTickets", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "projectTemplateTickets", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ProjectTemplateTicket])
         IPostable.__init__(self, ProjectTemplateTicket)
         IPaginateable.__init__(self, ProjectTemplateTicket)
 
         self.count = self._register_child_endpoint(
-            ProjectProjecttemplatesIdProjecttemplateticketsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProjectProjecttemplatesIdProjecttemplateticketsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint:
+    def id(self, id: int) -> ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint object to move down the chain.
 
@@ -49,9 +43,7 @@ class ProjectProjecttemplatesIdProjecttemplateticketsEndpoint(
         Returns:
             ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint: The initialized ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint object.
         """
-        child = ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProjectProjecttemplatesIdProjecttemplateticketsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 

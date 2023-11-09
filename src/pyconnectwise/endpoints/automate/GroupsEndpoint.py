@@ -20,9 +20,7 @@ class GroupsEndpoint(
     IPaginateable[LabTechGroup, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Groups", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Groups", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechGroup])
         IPostable.__init__(self, LabTechGroup)
         IPaginateable.__init__(self, LabTechGroup)
@@ -84,9 +82,7 @@ class GroupsEndpoint(
         Returns:
             list[LabTechGroup]: The parsed response data.
         """
-        return self._parse_many(
-            LabTechGroup, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LabTechGroup, super()._make_request("GET", data=data, params=params).json())
 
     def post(
         self,
@@ -102,6 +98,4 @@ class GroupsEndpoint(
         Returns:
             LabTechGroup: The parsed response data.
         """
-        return self._parse_one(
-            LabTechGroup, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(LabTechGroup, super()._make_request("POST", data=data, params=params).json())

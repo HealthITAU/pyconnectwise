@@ -17,9 +17,7 @@ class SystemServerinformationEndpoint(
     IPaginateable[AutomateServerInformation, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Serverinformation", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Serverinformation", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AutomateServerInformation])
         IPaginateable.__init__(self, AutomateServerInformation)
 

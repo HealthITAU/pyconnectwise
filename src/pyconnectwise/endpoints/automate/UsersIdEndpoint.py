@@ -35,28 +35,16 @@ class UsersIdEndpoint(
     IPaginateable[AutomateUser, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, AutomateUser)
         IPatchable.__init__(self, AutomateUser)
         IPaginateable.__init__(self, AutomateUser)
 
-        self.useraccess = self._register_child_endpoint(
-            UsersIdUseraccessEndpoint(client, parent_endpoint=self)
-        )
-        self.settings = self._register_child_endpoint(
-            UsersIdSettingsEndpoint(client, parent_endpoint=self)
-        )
-        self.favorites = self._register_child_endpoint(
-            UsersIdFavoritesEndpoint(client, parent_endpoint=self)
-        )
-        self.authlink = self._register_child_endpoint(
-            UsersIdAuthlinkEndpoint(client, parent_endpoint=self)
-        )
-        self.changepassword = self._register_child_endpoint(
-            UsersIdChangepasswordEndpoint(client, parent_endpoint=self)
-        )
+        self.useraccess = self._register_child_endpoint(UsersIdUseraccessEndpoint(client, parent_endpoint=self))
+        self.settings = self._register_child_endpoint(UsersIdSettingsEndpoint(client, parent_endpoint=self))
+        self.favorites = self._register_child_endpoint(UsersIdFavoritesEndpoint(client, parent_endpoint=self))
+        self.authlink = self._register_child_endpoint(UsersIdAuthlinkEndpoint(client, parent_endpoint=self))
+        self.changepassword = self._register_child_endpoint(UsersIdChangepasswordEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self,
@@ -102,9 +90,7 @@ class UsersIdEndpoint(
         Returns:
             AutomateUser: The parsed response data.
         """
-        return self._parse_one(
-            AutomateUser, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(AutomateUser, super()._make_request("GET", data=data, params=params).json())
 
     def delete(
         self,

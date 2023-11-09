@@ -23,15 +23,11 @@ class CompanyM365contactEndpoint(
     IPaginateable[M365Contact, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "m365contact", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "m365contact", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[M365Contact])
         IPaginateable.__init__(self, M365Contact)
 
-        self.count = self._register_child_endpoint(
-            CompanyM365contactCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyM365contactCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> CompanyM365contactIdEndpoint:  # noqa: A002
         """
@@ -90,6 +86,4 @@ class CompanyM365contactEndpoint(
         Returns:
             list[M365Contact]: The parsed response data.
         """
-        return self._parse_many(
-            M365Contact, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(M365Contact, super()._make_request("GET", data=data, params=params).json())

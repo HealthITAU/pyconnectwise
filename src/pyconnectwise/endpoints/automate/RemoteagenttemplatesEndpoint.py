@@ -19,9 +19,7 @@ class RemoteagenttemplatesEndpoint(
     IPaginateable[LabTechRemoteAgentTemplate, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Remoteagenttemplates", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Remoteagenttemplates", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechRemoteAgentTemplate])
         IPostable.__init__(self, LabTechRemoteAgentTemplate)
         IPaginateable.__init__(self, LabTechRemoteAgentTemplate)

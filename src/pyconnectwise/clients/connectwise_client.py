@@ -87,9 +87,7 @@ class ConnectWiseClient(ABC):
         if not response.ok:
             with contextlib.suppress(json.JSONDecodeError):
                 details: dict = response.json()
-                if (  # noqa: SIM102 (Expecting to handle other codes in the future)
-                    response.status_code == 400
-                ):
+                if response.status_code == 400:  # noqa: SIM102 (Expecting to handle other codes in the future)
                     if details.get("code") == "InvalidObject":
                         errors = details.get("errors", [])
                         if len(errors) > 1:
@@ -100,9 +98,7 @@ class ConnectWiseClient(ABC):
                         for error in errors:
                             if error.get("code") == "ObjectExists":
                                 error.pop("code")  # Don't need code in message
-                                raise ObjectExistsError(
-                                    response, extra_message=json.dumps(error, indent=4)
-                                )
+                                raise ObjectExistsError(response, extra_message=json.dumps(error, indent=4))
 
             if response.status_code == 400:
                 raise MalformedRequestException(response)
@@ -124,9 +120,7 @@ class ConnectWiseClient(ABC):
                 if "timeout" in (response.text + response.reason).lower():
                     if retry_count < self.config.max_retries:
                         retry_count += 1
-                        return self._make_request(
-                            method, url, data, params, headers, retry_count
-                        )
+                        return self._make_request(method, url, data, params, headers, retry_count)
                     raise Timeout(response=response)
                 raise ServerError(response)
 
