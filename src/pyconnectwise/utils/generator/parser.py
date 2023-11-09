@@ -1,6 +1,7 @@
 import glob
 import json
 from collections import defaultdict
+from pathlib import Path
 
 from .client_gen import generate_automate_client, generate_manage_client
 from .endpoint_gen import generate_endpoint, normalize_path_parameters
@@ -52,37 +53,8 @@ def merge_automate_specs(folder_path):  # noqa: ANN001, ANN201
     return merged_spec
 
 
-def load_schema(filename):  # noqa: ANN001, ANN201
-    with open(filename) as f:  # noqa: PTH123
-        return json.load(f)
-
-
-def generate_manage_code(  # noqa: ANN201
-    schema_path: str,
-    endpoint_output_path: str,
-    model_output_path: str,
-    client_output_path: str,
-):
-    schema = load_schema(schema_path)
-    _generate_manage(
-        endpoint_output_path, model_output_path, client_output_path, schema
-    )
-    pass
-
-
-def generate_automate_code(  # noqa: ANN201
-    schema_folder_path: str,
-    endpoint_output_path: str,
-    model_output_path: str,
-    client_output_path: str,
-):
-    schema = merge_automate_specs(schema_folder_path)
-    # schema = load_schema(schema_path)
-    #
-    _generate_automate(
-        endpoint_output_path, model_output_path, client_output_path, schema
-    )
-    pass
+def load_schema(filename: str):  # noqa: ANN201
+    return json.loads(Path(filename).read_bytes())
 
 
 def _pre_process_schema(schema: dict) -> list[str]:
@@ -121,12 +93,12 @@ def _parse_relationships(
     return dict(relationships), dict(top_level_endpoints)
 
 
-def _generate_manage(  # noqa: ANN202
+def generate_manage(
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
     schema: dict,
-):
+) -> None:
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []
@@ -162,12 +134,12 @@ def _generate_manage(  # noqa: ANN202
     generate_manage_client(client_output_path, client_top_level_endpoints)
 
 
-def _generate_automate(  # noqa: ANN202
+def generate_automate(
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
     schema: dict,
-):
+) -> None:
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []

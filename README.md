@@ -38,6 +38,11 @@ Roadmap:
 
 How-to:
 =============
+- [pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python](#pyconnectwise---an-api-library-for-connectwise-manage-and-connectwise-automate-written-in-python)
+- [Features:](#features)
+- [Known Issues:](#known-issues)
+- [Roadmap:](#roadmap)
+- [How-to:](#how-to)
 - [Install](#install)
 - [Initializing the API Clients](#initializing-the-api-clients)
     - [ConnectWise Manage](#connectwise-manage)
@@ -60,6 +65,7 @@ How-to:
     - [Quick dependencies install on apt-based systems (using pipx to manage python tools)](#quick-dependencies-install-on-apt-based-systems-using-pipx-to-manage-python-tools)
     - [Setting up your development environment](#setting-up-your-development-environment)
   - [Testing](#testing)
+  - [Running code generation](#running-code-generation)
 - [Supporting the project](#supporting-the-project)
 
 # Install
@@ -252,6 +258,11 @@ pre-commit install
 ## Testing
 ```bash
 poetry run pytest
+```
+
+## Running code generation
+```bash
+poetry run python -m pyconnectwise.utils.generator <path to schema file>
 ```
 
 # Supporting the project
