@@ -1,0 +1,105 @@
+from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+from typing import Any
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, ConnectWiseAutomateRequestParams, PatchRequestData
+from pyconnectwise.interfaces import (
+    IPaginateable,
+    IGettable,
+    IPostable,
+    IPatchable,
+    IPuttable,
+    IDeleteable
+)
+{%- if additional_imports is defined %}
+{%- for additional_import in additional_imports %}
+{{ additional_import }}
+{%- endfor %}
+{%- endif %}
+
+class {{ endpoint_class }}(ConnectWiseEndpoint{% for interface in interfaces %}, {{ interface.class }}[{% if interface.return_type is not none %}{{interface.return_type}},{%endif%}{% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endfor %}{% if pagination_model_class is not none %}, IPaginateable[{{pagination_model_class}}, {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %}]{% endif %}):
+    def __init__(self, client, parent_endpoint=None):
+        ConnectWiseEndpoint.__init__(self, client, "{{ endpoint_path }}", parent_endpoint=parent_endpoint)
+        {%- for interface in interfaces %}
+        {{interface.class}}.__init__(self, {{interface.return_type}})
+        {%- endfor %}
+        {%- if pagination_model_class is not none %}
+        IPaginateable.__init__(self, {{pagination_model_class}})
+        {%- endif %}
+        {% if child_endpoints is defined %}
+        {%- for child_endpoint in child_endpoints %}
+        self.{{ child_endpoint.field_name }} = self._register_child_endpoint(
+            {{ child_endpoint.class_name }}(client, parent_endpoint=self)
+        )
+        {%- endfor %}
+        {%- endif %}
+
+    {% if has_id_child %}
+    def id(self, id: int) -> {{ id_child_endpoint_class }}:
+        """
+        Sets the ID for this endpoint and returns an initialized {{ id_child_endpoint_class }} object to move down the chain.
+
+        Parameters:
+            id (int): The ID to set.
+        Returns:
+            {{ id_child_endpoint_class }}: The initialized {{ id_child_endpoint_class }} object.
+        """
+        child = {{ id_child_endpoint_class }}(self.client, parent_endpoint=self)
+        child._id = id
+        return child
+    {% endif %}
+
+    {%- if pagination_model_class is not none %}
+    def paginated(self, page: int, page_size: int, params: {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %} | None = None) -> PaginatedResponse[{{ pagination_model_class }}]:
+        """
+        Performs a GET request against the {{ raw_path }} endpoint and returns an initialized PaginatedResponse object.
+
+        Parameters:
+            page (int): The page number to request.
+            page_size (int): The number of results to return per page.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            PaginatedResponse[{{ pagination_model_class }}]: The initialized PaginatedResponse object.
+        """
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {
+                'page': page,
+                'pageSize': page_size
+            }
+        return PaginatedResponse(
+            super()._make_request(
+                "GET",
+                params=params
+            ),
+            {{ pagination_model_class }},
+            self,
+            page,
+            page_size,
+            params
+        )
+    {% endif %}
+
+    {%- for operation in operations %}
+    def {{ operation.name }}(self, data: {% if operation.name == "patch" %}PatchRequestData{% else %}JSON | None = None{% endif %}, params: {% if is_manage %}ConnectWiseManageRequestParams{% else %}ConnectWiseAutomateRequestParams{% endif %} | None = None) -> {{ 'None' if operation.void else operation.return_type }}:
+        """
+        Performs a {{ operation.name.upper() }} request against the {{ raw_path }} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        {%- if not operation.void %}
+        Returns:
+            {{ operation.return_type }}: The parsed response data.
+        {%- endif %}
+        """
+
+        {%- if operation.returns_single %}
+        return self._parse_one({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
+        {% elif operation.void %}
+        super()._make_request("{{ operation.name.upper() }}", data=data, params=params)
+        {% else %}
+        return self._parse_many({{operation.return_class}}, super()._make_request("{{ operation.name.upper() }}", data=data, params=params).json())
+        {% endif %}
+    {%- endfor %}
