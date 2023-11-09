@@ -16,6 +16,11 @@ from pyconnectwise.endpoints.manage.SystemEndpoint import SystemEndpoint
 from pyconnectwise.endpoints.manage.TimeEndpoint import TimeEndpoint
 
 
+class ManageCodebaseError(Exception):
+    def __init__(self) -> None:
+        super().__init__("Could not retrieve codebase from API.")
+
+
 class ConnectWiseManageAPIClient(ConnectWiseClient):
     """
     ConnectWise Manage API client. Handles the connection to the ConnectWise Manage API
@@ -64,9 +69,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
 
             if codebase_request is None:
                 # we need to except here
-                raise Exception(  # noqa: TRY002, TRY003
-                    "Could not retrieve codebase from API."
-                )
+                raise ManageCodebaseError()
             self.codebase: str = codebase_request
 
         # Initializing endpoints
@@ -92,9 +95,7 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
         """
         return f"https://{self.manage_url}/{self.codebase.strip('/')}/apis/3.0"
 
-    def _try_get_codebase_from_api(
-        self, manage_url: str, company_name: str, headers: dict[str, str]
-    ) -> str:
+    def _try_get_codebase_from_api(self, manage_url: str, company_name: str, headers: dict[str, str]) -> str:
         """
         Tries to retrieve the codebase from the API using the provided company url, company name and headers.
 
