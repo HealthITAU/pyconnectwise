@@ -36,9 +36,7 @@ class Condition(Generic[T]):
             if m:
                 caller_lines = m.group(1)
 
-            field = to_camel_case(
-                "/".join(caller_lines.replace("(", "").replace(")", "").split(".")[1:])
-            )
+            field = to_camel_case("/".join(caller_lines.replace("(", "").replace(")", "").split(".")[1:]))
 
         finally:
             del frame
@@ -62,7 +60,8 @@ class Condition(Generic[T]):
         return self
 
     def less_than_or_equals(
-        self: Condition[T], value: Any  # noqa: ANN401
+        self: Condition[T],
+        value: Any,  # noqa: ANN401
     ) -> Condition[T]:
         self._condition_string += " <= "
         self.__add_typed_value_to_string(value, type(value))
@@ -74,7 +73,8 @@ class Condition(Generic[T]):
         return self
 
     def greater_than_or_equals(
-        self: Condition[T], value: Any  # noqa: ANN401
+        self: Condition[T],
+        value: Any,  # noqa: ANN401
     ) -> Condition[T]:
         self._condition_string += " >= "
         self.__add_typed_value_to_string(value, type(value))
@@ -101,7 +101,9 @@ class Condition(Generic[T]):
         return self
 
     def __add_typed_value_to_string(  # noqa: ANN202
-        self: Condition[T], value: Any, type: type  # noqa: ANN401, A002
+        self: Condition[T],
+        value: Any,  # noqa: ANN401
+        type: type,  # noqa: A002
     ):
         if type is str:
             self._condition_string += f'"{value}"'
@@ -114,9 +116,7 @@ class Condition(Generic[T]):
         else:
             self._condition_string += f'"{value}"'
 
-    def and_(
-        self: Condition[T], selector: Callable[[type[T]], Any] | None = None
-    ) -> Condition[T]:
+    def and_(self: Condition[T], selector: Callable[[type[T]], Any] | None = None) -> Condition[T]:
         self._condition_string += " AND "
 
         if selector is not None:
@@ -129,9 +129,7 @@ class Condition(Generic[T]):
                 if m:
                     caller_lines = m.group(1)
 
-                field = "/".join(
-                    caller_lines.replace("(", "").replace(")", "").split(".")[1:]
-                )
+                field = "/".join(caller_lines.replace("(", "").replace(")", "").split(".")[1:])
 
             finally:
                 del frame
@@ -139,9 +137,7 @@ class Condition(Generic[T]):
             self._condition_string += field
         return self
 
-    def or_(
-        self: Condition[T], selector: Callable[[type[T]], Any] | None = None
-    ) -> Condition[T]:
+    def or_(self: Condition[T], selector: Callable[[type[T]], Any] | None = None) -> Condition[T]:
         self._condition_string += " OR "
 
         if selector is not None:
@@ -154,9 +150,7 @@ class Condition(Generic[T]):
                 if m:
                     caller_lines = m.group(1)
 
-                field = "/".join(
-                    caller_lines.replace("(", "").replace(")", "").split(".")[1:]
-                )
+                field = "/".join(caller_lines.replace("(", "").replace(")", "").split(".")[1:])
 
             finally:
                 del frame
@@ -164,9 +158,7 @@ class Condition(Generic[T]):
             self._condition_string += field
         return self
 
-    def wrap(
-        self: Condition[T], condition: Callable[[Condition[T]], Condition[T]]
-    ) -> Condition[T]:
+    def wrap(self: Condition[T], condition: Callable[[Condition[T]], Condition[T]]) -> Condition[T]:
         self._condition_string += f"({condition(Condition[T]())})"
         return self
 

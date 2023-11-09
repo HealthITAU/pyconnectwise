@@ -262,7 +262,7 @@ poetry run pytest
 
 ## Running code generation
 ```bash
-poetry run python -m pyconnectwise.utils.generator <path to schema file>
+poetry run python -m pyconnectwise_generator <path to schema file>
 ```
 
 # Supporting the project

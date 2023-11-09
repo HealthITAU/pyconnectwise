@@ -1,3 +1,10 @@
+[tool.black]
+line-length = 120
+skip-string-normalization = false
+
+[tool.isort]
+line_length = 120
+
 [tool.poetry]
 name = "pyconnectwise"
 version = "0.5.1"
@@ -41,11 +48,39 @@ typing-extensions = "^4.8.0"
 [tool.poetry.group.dev.dependencies]
 astunparse = "^1.6"
 black = "^23.7"
+datamodel-code-generator = "^0.23.0"
 isort = "^5.12"
 pytest = "^7.1"
 pytest-timeout = "^2.1"
 requests-mock = "^1.11"
 typer = "^0.9.0"
+
+[tool.datamodel-codegen]
+# These options are ordered/grouped to match documentation:
+output-model-type = "pydantic_v2.BaseModel"
+
+# Typing customization
+base-class = "pyconnectwise.models.base.connectwise_model.ConnectWiseModel"
+enum-field-as-literal = "all"
+field-constraints = true
+set-default-enum-member = true
+use-annotated = true
+use-standard-collections = true
+use-union-operator = true
+
+#Field customization
+capitalise-enum-members = true
+remove-special-field-name-prefix = true
+snake-case-field = true
+use-default = true
+use-field-description = true
+
+# Model customization
+disable-timestamp = true
+collapse-rool-models = true
+reuse-model = true
+target-python-version = "3.10"
+use-title-as-name = true
 
 [build-system]
 requires = ["poetry-core"]
@@ -99,8 +134,7 @@ ignore = ["ANN101", "ANN102", "E402", "E501", "E722"]
 
 src = ["src", "tests"]
 
-# Match black default
-line-length = 88
+line-length = 120
 
 [tool.ruff.isort]
 combine-as-imports = true

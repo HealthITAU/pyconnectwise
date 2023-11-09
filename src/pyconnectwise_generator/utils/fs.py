@@ -3,7 +3,7 @@ import isort
 from black import NothingChanged
 
 
-def save_py_file(filepath: str, content: str):  # noqa: ANN201
+def save_py_file(filepath: str, content: str) -> None:
     """
     Save Python file
 
@@ -23,11 +23,16 @@ def save_py_file(filepath: str, content: str):  # noqa: ANN201
     if ".py" not in filepath:
         filepath += ".py"
     with open(filepath, "w") as f:  # noqa: PTH123
+        # First write the unformatted content so we have something to debug
+        # against if formatters fail
+        f.write(content)
         try:
-            formatted_content = black.format_file_contents(
-                content, fast=False, mode=black.FileMode(line_length=120)
-            )
+            formatted_content = black.format_file_contents(content, fast=False, mode=black.FileMode(line_length=120))
         except NothingChanged:
             formatted_content = content
         formatted_content = isort.code(formatted_content, line_length=120)
+
+        # Reset the file handle, and write the formatted content
+        f.seek(0)
+        f.truncate()
         f.write(formatted_content)
