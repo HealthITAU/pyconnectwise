@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint import (
     CompanyContactsIdCommunicationsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsCountEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsIdCommunicationsIdEndpoint import (
     CompanyContactsIdCommunicationsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import ContactCommunication
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyContactsIdCommunicationsEndpoint(
@@ -24,10 +22,8 @@ class CompanyContactsIdCommunicationsEndpoint(
     IPostable[ContactCommunication, ConnectWiseManageRequestParams],
     IPaginateable[ContactCommunication, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "communications", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "communications", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ContactCommunication])
         IPostable.__init__(self, ContactCommunication)
         IPaginateable.__init__(self, ContactCommunication)
@@ -36,26 +32,21 @@ class CompanyContactsIdCommunicationsEndpoint(
             CompanyContactsIdCommunicationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyContactsIdCommunicationsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyContactsIdCommunicationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsIdCommunicationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyContactsIdCommunicationsIdEndpoint: The initialized CompanyContactsIdCommunicationsIdEndpoint object.
         """
-        child = CompanyContactsIdCommunicationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = CompanyContactsIdCommunicationsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ContactCommunication]:
         """
         Performs a GET request against the /company/contacts/{id}/communications endpoint and returns an initialized PaginatedResponse object.
@@ -73,18 +64,11 @@ class CompanyContactsIdCommunicationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ContactCommunication,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ContactCommunication, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ContactCommunication]:
         """
         Performs a GET request against the /company/contacts/{id}/communications endpoint.
@@ -95,15 +79,10 @@ class CompanyContactsIdCommunicationsEndpoint(
         Returns:
             list[ContactCommunication]: The parsed response data.
         """
-        return self._parse_many(
-            ContactCommunication,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ContactCommunication, super()._make_request("GET", data=data, params=params).json())
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ContactCommunication:
         """
         Performs a POST request against the /company/contacts/{id}/communications endpoint.
@@ -114,7 +93,4 @@ class CompanyContactsIdCommunicationsEndpoint(
         Returns:
             ContactCommunication: The parsed response data.
         """
-        return self._parse_one(
-            ContactCommunication,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ContactCommunication, super()._make_request("POST", data=data, params=params).json())

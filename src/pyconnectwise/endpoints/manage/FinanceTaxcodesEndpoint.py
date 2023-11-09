@@ -1,24 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceTaxcodesCountEndpoint import (
-    FinanceTaxcodesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceTaxcodesIdEndpoint import (
-    FinanceTaxcodesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceTaxcodesInfoEndpoint import (
-    FinanceTaxcodesInfoEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.FinanceTaxcodesCountEndpoint import FinanceTaxcodesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesIdEndpoint import FinanceTaxcodesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceTaxcodesInfoEndpoint import FinanceTaxcodesInfoEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import TaxCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceTaxcodesEndpoint(
@@ -27,39 +19,30 @@ class FinanceTaxcodesEndpoint(
     IPostable[TaxCode, ConnectWiseManageRequestParams],
     IPaginateable[TaxCode, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "taxCodes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "taxCodes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[TaxCode])
         IPostable.__init__(self, TaxCode)
         IPaginateable.__init__(self, TaxCode)
 
-        self.count = self._register_child_endpoint(
-            FinanceTaxcodesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceTaxcodesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceTaxcodesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(FinanceTaxcodesInfoEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> FinanceTaxcodesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceTaxcodesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceTaxcodesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceTaxcodesIdEndpoint: The initialized FinanceTaxcodesIdEndpoint object.
         """
         child = FinanceTaxcodesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[TaxCode]:
         """
         Performs a GET request against the /finance/taxCodes endpoint and returns an initialized PaginatedResponse object.
@@ -76,20 +59,9 @@ class FinanceTaxcodesEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            TaxCode,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), TaxCode, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[TaxCode]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[TaxCode]:
         """
         Performs a GET request against the /finance/taxCodes endpoint.
 
@@ -99,15 +71,9 @@ class FinanceTaxcodesEndpoint(
         Returns:
             list[TaxCode]: The parsed response data.
         """
-        return self._parse_many(
-            TaxCode, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(TaxCode, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> TaxCode:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> TaxCode:
         """
         Performs a POST request against the /finance/taxCodes endpoint.
 
@@ -117,6 +83,4 @@ class FinanceTaxcodesEndpoint(
         Returns:
             TaxCode: The parsed response data.
         """
-        return self._parse_one(
-            TaxCode, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(TaxCode, super()._make_request("POST", data=data, params=params).json())

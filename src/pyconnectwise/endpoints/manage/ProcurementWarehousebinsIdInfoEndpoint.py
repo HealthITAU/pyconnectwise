@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import WarehouseBinInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementWarehousebinsIdInfoEndpoint(
@@ -16,18 +15,13 @@ class ProcurementWarehousebinsIdInfoEndpoint(
     IGettable[WarehouseBinInfo, ConnectWiseManageRequestParams],
     IPaginateable[WarehouseBinInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, WarehouseBinInfo)
         IPaginateable.__init__(self, WarehouseBinInfo)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[WarehouseBinInfo]:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -45,19 +39,10 @@ class ProcurementWarehousebinsIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            WarehouseBinInfo,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), WarehouseBinInfo, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> WarehouseBinInfo:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> WarehouseBinInfo:
         """
         Performs a GET request against the /procurement/warehouseBins/{id}/info endpoint.
 
@@ -67,7 +52,4 @@ class ProcurementWarehousebinsIdInfoEndpoint(
         Returns:
             WarehouseBinInfo: The parsed response data.
         """
-        return self._parse_one(
-            WarehouseBinInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(WarehouseBinInfo, super()._make_request("GET", data=data, params=params).json())

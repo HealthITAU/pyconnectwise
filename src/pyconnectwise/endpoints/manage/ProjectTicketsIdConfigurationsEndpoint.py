@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsCountEndpoint import (
     ProjectTicketsIdConfigurationsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsCountEndpoint 
 from pyconnectwise.endpoints.manage.ProjectTicketsIdConfigurationsIdEndpoint import (
     ProjectTicketsIdConfigurationsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import ConfigurationReference
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProjectTicketsIdConfigurationsEndpoint(
@@ -24,10 +22,8 @@ class ProjectTicketsIdConfigurationsEndpoint(
     IPostable[ConfigurationReference, ConnectWiseManageRequestParams],
     IPaginateable[ConfigurationReference, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "configurations", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "configurations", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ConfigurationReference])
         IPostable.__init__(self, ConfigurationReference)
         IPaginateable.__init__(self, ConfigurationReference)
@@ -36,26 +32,21 @@ class ProjectTicketsIdConfigurationsEndpoint(
             ProjectTicketsIdConfigurationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProjectTicketsIdConfigurationsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> ProjectTicketsIdConfigurationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProjectTicketsIdConfigurationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProjectTicketsIdConfigurationsIdEndpoint: The initialized ProjectTicketsIdConfigurationsIdEndpoint object.
         """
-        child = ProjectTicketsIdConfigurationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = ProjectTicketsIdConfigurationsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ConfigurationReference]:
         """
         Performs a GET request against the /project/tickets/{id}/configurations endpoint and returns an initialized PaginatedResponse object.
@@ -73,18 +64,11 @@ class ProjectTicketsIdConfigurationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ConfigurationReference,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ConfigurationReference, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ConfigurationReference]:
         """
         Performs a GET request against the /project/tickets/{id}/configurations endpoint.
@@ -95,15 +79,10 @@ class ProjectTicketsIdConfigurationsEndpoint(
         Returns:
             list[ConfigurationReference]: The parsed response data.
         """
-        return self._parse_many(
-            ConfigurationReference,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ConfigurationReference, super()._make_request("GET", data=data, params=params).json())
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ConfigurationReference:
         """
         Performs a POST request against the /project/tickets/{id}/configurations endpoint.
@@ -114,7 +93,4 @@ class ProjectTicketsIdConfigurationsEndpoint(
         Returns:
             ConfigurationReference: The parsed response data.
         """
-        return self._parse_one(
-            ConfigurationReference,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ConfigurationReference, super()._make_request("POST", data=data, params=params).json())

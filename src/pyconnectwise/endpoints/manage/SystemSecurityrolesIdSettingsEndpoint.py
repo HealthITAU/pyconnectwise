@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsCountEndpoint import (
     SystemSecurityrolesIdSettingsCountEndpoint,
@@ -5,16 +7,13 @@ from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsCountEndpoint i
 from pyconnectwise.endpoints.manage.SystemSecurityrolesIdSettingsIdEndpoint import (
     SystemSecurityrolesIdSettingsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import SecurityRoleSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemSecurityrolesIdSettingsEndpoint(
@@ -22,10 +21,8 @@ class SystemSecurityrolesIdSettingsEndpoint(
     IGettable[list[SecurityRoleSetting], ConnectWiseManageRequestParams],
     IPaginateable[SecurityRoleSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "settings", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "settings", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[SecurityRoleSetting])
         IPaginateable.__init__(self, SecurityRoleSetting)
 
@@ -33,26 +30,21 @@ class SystemSecurityrolesIdSettingsEndpoint(
             SystemSecurityrolesIdSettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemSecurityrolesIdSettingsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemSecurityrolesIdSettingsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemSecurityrolesIdSettingsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemSecurityrolesIdSettingsIdEndpoint: The initialized SystemSecurityrolesIdSettingsIdEndpoint object.
         """
-        child = SystemSecurityrolesIdSettingsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = SystemSecurityrolesIdSettingsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SecurityRoleSetting]:
         """
         Performs a GET request against the /system/securityRoles/{id}/settings endpoint and returns an initialized PaginatedResponse object.
@@ -70,18 +62,11 @@ class SystemSecurityrolesIdSettingsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            SecurityRoleSetting,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), SecurityRoleSetting, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[SecurityRoleSetting]:
         """
         Performs a GET request against the /system/securityRoles/{id}/settings endpoint.
@@ -92,7 +77,4 @@ class SystemSecurityrolesIdSettingsEndpoint(
         Returns:
             list[SecurityRoleSetting]: The parsed response data.
         """
-        return self._parse_many(
-            SecurityRoleSetting,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(SecurityRoleSetting, super()._make_request("GET", data=data, params=params).json())

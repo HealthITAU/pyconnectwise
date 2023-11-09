@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdNotesCountEndpoint import (
-    SalesOpportunitiesIdNotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesOpportunitiesIdNotesIdEndpoint import (
-    SalesOpportunitiesIdNotesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdNotesCountEndpoint import SalesOpportunitiesIdNotesCountEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesIdNotesIdEndpoint import SalesOpportunitiesIdNotesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import OpportunityNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SalesOpportunitiesIdNotesEndpoint(
@@ -24,36 +18,29 @@ class SalesOpportunitiesIdNotesEndpoint(
     IPostable[OpportunityNote, ConnectWiseManageRequestParams],
     IPaginateable[OpportunityNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[OpportunityNote])
         IPostable.__init__(self, OpportunityNote)
         IPaginateable.__init__(self, OpportunityNote)
 
-        self.count = self._register_child_endpoint(
-            SalesOpportunitiesIdNotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SalesOpportunitiesIdNotesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SalesOpportunitiesIdNotesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SalesOpportunitiesIdNotesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SalesOpportunitiesIdNotesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SalesOpportunitiesIdNotesIdEndpoint: The initialized SalesOpportunitiesIdNotesIdEndpoint object.
         """
         child = SalesOpportunitiesIdNotesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[OpportunityNote]:
         """
         Performs a GET request against the /sales/opportunities/{id}/notes endpoint and returns an initialized PaginatedResponse object.
@@ -71,18 +58,11 @@ class SalesOpportunitiesIdNotesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            OpportunityNote,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), OpportunityNote, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[OpportunityNote]:
         """
         Performs a GET request against the /sales/opportunities/{id}/notes endpoint.
@@ -93,16 +73,9 @@ class SalesOpportunitiesIdNotesEndpoint(
         Returns:
             list[OpportunityNote]: The parsed response data.
         """
-        return self._parse_many(
-            OpportunityNote,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(OpportunityNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> OpportunityNote:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> OpportunityNote:
         """
         Performs a POST request against the /sales/opportunities/{id}/notes endpoint.
 
@@ -112,7 +85,4 @@ class SalesOpportunitiesIdNotesEndpoint(
         Returns:
             OpportunityNote: The parsed response data.
         """
-        return self._parse_one(
-            OpportunityNote,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(OpportunityNote, super()._make_request("POST", data=data, params=params).json())

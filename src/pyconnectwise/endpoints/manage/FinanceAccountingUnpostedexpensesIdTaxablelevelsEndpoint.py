@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablelevelsCountEndpoint import (
     FinanceAccountingUnpostedexpensesIdTaxablelevelsCountEndpoint,
@@ -5,16 +7,13 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablele
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint import (
     FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import UnpostedExpenseTaxableLevel
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(
@@ -22,41 +21,30 @@ class FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(
     IGettable[list[UnpostedExpenseTaxableLevel], ConnectWiseManageRequestParams],
     IPaginateable[UnpostedExpenseTaxableLevel, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "taxableLevels", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "taxableLevels", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[UnpostedExpenseTaxableLevel])
         IPaginateable.__init__(self, UnpostedExpenseTaxableLevel)
 
         self.count = self._register_child_endpoint(
-            FinanceAccountingUnpostedexpensesIdTaxablelevelsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            FinanceAccountingUnpostedexpensesIdTaxablelevelsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint:
+    def id(self, _id: int) -> FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint: The initialized FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = FinanceAccountingUnpostedexpensesIdTaxablelevelsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[UnpostedExpenseTaxableLevel]:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses/{id}/taxableLevels endpoint and returns an initialized PaginatedResponse object.
@@ -74,18 +62,11 @@ class FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            UnpostedExpenseTaxableLevel,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), UnpostedExpenseTaxableLevel, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[UnpostedExpenseTaxableLevel]:
         """
         Performs a GET request against the /finance/accounting/unpostedexpenses/{id}/taxableLevels endpoint.
@@ -97,6 +78,5 @@ class FinanceAccountingUnpostedexpensesIdTaxablelevelsEndpoint(
             list[UnpostedExpenseTaxableLevel]: The parsed response data.
         """
         return self._parse_many(
-            UnpostedExpenseTaxableLevel,
-            super()._make_request("GET", data=data, params=params).json(),
+            UnpostedExpenseTaxableLevel, super()._make_request("GET", data=data, params=params).json()
         )

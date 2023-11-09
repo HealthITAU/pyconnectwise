@@ -1,17 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint import (
     ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import ConfigurationTypeQuestionValueInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(
@@ -19,24 +18,17 @@ class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(
     IGettable[list[ConfigurationTypeQuestionValueInfo], ConnectWiseManageRequestParams],
     IPaginateable[ConfigurationTypeQuestionValueInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ConfigurationTypeQuestionValueInfo])
         IPaginateable.__init__(self, ConfigurationTypeQuestionValueInfo)
 
         self.count = self._register_child_endpoint(
-            ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ConfigurationsTypesIdQuestionsIdValuesInfoCountEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ConfigurationTypeQuestionValueInfo]:
         """
         Performs a GET request against the /configurations/types/{id}/questions/{id}/values/info endpoint and returns an initialized PaginatedResponse object.
@@ -63,9 +55,7 @@ class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ConfigurationTypeQuestionValueInfo]:
         """
         Performs a GET request against the /configurations/types/{id}/questions/{id}/values/info endpoint.
@@ -77,6 +67,5 @@ class ConfigurationsTypesIdQuestionsIdValuesInfoEndpoint(
             list[ConfigurationTypeQuestionValueInfo]: The parsed response data.
         """
         return self._parse_many(
-            ConfigurationTypeQuestionValueInfo,
-            super()._make_request("GET", data=data, params=params).json(),
+            ConfigurationTypeQuestionValueInfo, super()._make_request("GET", data=data, params=params).json()
         )

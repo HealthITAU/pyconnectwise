@@ -1,23 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTemplatesCountEndpoint import (
-    ServiceTemplatesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTemplatesIdEndpoint import (
-    ServiceTemplatesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.ServiceTemplatesInfoEndpoint import (
-    ServiceTemplatesInfoEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.ServiceTemplatesCountEndpoint import ServiceTemplatesCountEndpoint
+from pyconnectwise.endpoints.manage.ServiceTemplatesIdEndpoint import ServiceTemplatesIdEndpoint
+from pyconnectwise.endpoints.manage.ServiceTemplatesInfoEndpoint import ServiceTemplatesInfoEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import ServiceTemplate
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ServiceTemplatesEndpoint(
@@ -25,38 +18,29 @@ class ServiceTemplatesEndpoint(
     IGettable[list[ServiceTemplate], ConnectWiseManageRequestParams],
     IPaginateable[ServiceTemplate, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "templates", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "templates", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ServiceTemplate])
         IPaginateable.__init__(self, ServiceTemplate)
 
-        self.count = self._register_child_endpoint(
-            ServiceTemplatesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ServiceTemplatesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServiceTemplatesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ServiceTemplatesInfoEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> ServiceTemplatesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> ServiceTemplatesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ServiceTemplatesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ServiceTemplatesIdEndpoint: The initialized ServiceTemplatesIdEndpoint object.
         """
         child = ServiceTemplatesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ServiceTemplate]:
         """
         Performs a GET request against the /service/templates endpoint and returns an initialized PaginatedResponse object.
@@ -74,18 +58,11 @@ class ServiceTemplatesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ServiceTemplate,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ServiceTemplate, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ServiceTemplate]:
         """
         Performs a GET request against the /service/templates endpoint.
@@ -96,7 +73,4 @@ class ServiceTemplatesEndpoint(
         Returns:
             list[ServiceTemplate]: The parsed response data.
         """
-        return self._parse_many(
-            ServiceTemplate,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ServiceTemplate, super()._make_request("GET", data=data, params=params).json())

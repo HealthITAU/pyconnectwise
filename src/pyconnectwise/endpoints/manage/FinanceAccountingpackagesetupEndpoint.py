@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint import (
     FinanceAccountingpackagesetupCountEndpoint,
@@ -5,16 +7,13 @@ from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupCountEndpoint i
 from pyconnectwise.endpoints.manage.FinanceAccountingpackagesetupIdEndpoint import (
     FinanceAccountingpackagesetupIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import AccountingPackageSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAccountingpackagesetupEndpoint(
@@ -22,10 +21,8 @@ class FinanceAccountingpackagesetupEndpoint(
     IGettable[list[AccountingPackageSetup], ConnectWiseManageRequestParams],
     IPaginateable[AccountingPackageSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "accountingPackageSetup", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "accountingPackageSetup", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AccountingPackageSetup])
         IPaginateable.__init__(self, AccountingPackageSetup)
 
@@ -33,26 +30,21 @@ class FinanceAccountingpackagesetupEndpoint(
             FinanceAccountingpackagesetupCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAccountingpackagesetupIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceAccountingpackagesetupIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingpackagesetupIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceAccountingpackagesetupIdEndpoint: The initialized FinanceAccountingpackagesetupIdEndpoint object.
         """
-        child = FinanceAccountingpackagesetupIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = FinanceAccountingpackagesetupIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup endpoint and returns an initialized PaginatedResponse object.
@@ -70,18 +62,11 @@ class FinanceAccountingpackagesetupEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AccountingPackageSetup,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AccountingPackageSetup, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[AccountingPackageSetup]:
         """
         Performs a GET request against the /finance/accountingPackageSetup endpoint.
@@ -92,7 +77,4 @@ class FinanceAccountingpackagesetupEndpoint(
         Returns:
             list[AccountingPackageSetup]: The parsed response data.
         """
-        return self._parse_many(
-            AccountingPackageSetup,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AccountingPackageSetup, super()._make_request("GET", data=data, params=params).json())

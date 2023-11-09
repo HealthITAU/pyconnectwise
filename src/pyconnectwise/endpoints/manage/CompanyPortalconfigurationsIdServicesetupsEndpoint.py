@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsCountEndpoint import (
     CompanyPortalconfigurationsIdServicesetupsCountEndpoint,
@@ -5,16 +7,13 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsCo
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdServicesetupsIdEndpoint import (
     CompanyPortalconfigurationsIdServicesetupsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import PortalConfigurationServiceSetup
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyPortalconfigurationsIdServicesetupsEndpoint(
@@ -22,41 +21,30 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(
     IGettable[list[PortalConfigurationServiceSetup], ConnectWiseManageRequestParams],
     IPaginateable[PortalConfigurationServiceSetup, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "serviceSetups", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "serviceSetups", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[PortalConfigurationServiceSetup])
         IPaginateable.__init__(self, PortalConfigurationServiceSetup)
 
         self.count = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdServicesetupsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyPortalconfigurationsIdServicesetupsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> CompanyPortalconfigurationsIdServicesetupsIdEndpoint:
+    def id(self, _id: int) -> CompanyPortalconfigurationsIdServicesetupsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdServicesetupsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyPortalconfigurationsIdServicesetupsIdEndpoint: The initialized CompanyPortalconfigurationsIdServicesetupsIdEndpoint object.
         """
-        child = CompanyPortalconfigurationsIdServicesetupsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = CompanyPortalconfigurationsIdServicesetupsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalConfigurationServiceSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/serviceSetups endpoint and returns an initialized PaginatedResponse object.
@@ -74,18 +62,11 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            PortalConfigurationServiceSetup,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), PortalConfigurationServiceSetup, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[PortalConfigurationServiceSetup]:
         """
         Performs a GET request against the /company/portalConfigurations/{id}/serviceSetups endpoint.
@@ -97,6 +78,5 @@ class CompanyPortalconfigurationsIdServicesetupsEndpoint(
             list[PortalConfigurationServiceSetup]: The parsed response data.
         """
         return self._parse_many(
-            PortalConfigurationServiceSetup,
-            super()._make_request("GET", data=data, params=params).json(),
+            PortalConfigurationServiceSetup, super()._make_request("GET", data=data, params=params).json()
         )

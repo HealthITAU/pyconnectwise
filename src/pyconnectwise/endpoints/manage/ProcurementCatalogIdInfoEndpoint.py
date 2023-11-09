@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import CatalogItemInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementCatalogIdInfoEndpoint(
@@ -16,18 +15,13 @@ class ProcurementCatalogIdInfoEndpoint(
     IGettable[CatalogItemInfo, ConnectWiseManageRequestParams],
     IPaginateable[CatalogItemInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, CatalogItemInfo)
         IPaginateable.__init__(self, CatalogItemInfo)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CatalogItemInfo]:
         """
         Performs a GET request against the /procurement/catalog/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -45,19 +39,10 @@ class ProcurementCatalogIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CatalogItemInfo,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), CatalogItemInfo, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> CatalogItemInfo:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CatalogItemInfo:
         """
         Performs a GET request against the /procurement/catalog/{id}/info endpoint.
 
@@ -67,7 +52,4 @@ class ProcurementCatalogIdInfoEndpoint(
         Returns:
             CatalogItemInfo: The parsed response data.
         """
-        return self._parse_one(
-            CatalogItemInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(CatalogItemInfo, super()._make_request("GET", data=data, params=params).json())

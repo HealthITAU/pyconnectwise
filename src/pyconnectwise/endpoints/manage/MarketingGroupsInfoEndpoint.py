@@ -1,17 +1,14 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.MarketingGroupsInfoCountEndpoint import (
-    MarketingGroupsInfoCountEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.MarketingGroupsInfoCountEndpoint import MarketingGroupsInfoCountEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import GroupInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class MarketingGroupsInfoEndpoint(
@@ -19,22 +16,15 @@ class MarketingGroupsInfoEndpoint(
     IGettable[list[GroupInfo], ConnectWiseManageRequestParams],
     IPaginateable[GroupInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[GroupInfo])
         IPaginateable.__init__(self, GroupInfo)
 
-        self.count = self._register_child_endpoint(
-            MarketingGroupsInfoCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(MarketingGroupsInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[GroupInfo]:
         """
         Performs a GET request against the /marketing/groups/info endpoint and returns an initialized PaginatedResponse object.
@@ -51,20 +41,9 @@ class MarketingGroupsInfoEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            GroupInfo,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), GroupInfo, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[GroupInfo]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[GroupInfo]:
         """
         Performs a GET request against the /marketing/groups/info endpoint.
 
@@ -74,6 +53,4 @@ class MarketingGroupsInfoEndpoint(
         Returns:
             list[GroupInfo]: The parsed response data.
         """
-        return self._parse_many(
-            GroupInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(GroupInfo, super()._make_request("GET", data=data, params=params).json())

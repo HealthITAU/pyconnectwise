@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsCountEndpoint import (
     SystemWorkflowsIdEventsIdActionsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsCountEndpoin
 from pyconnectwise.endpoints.manage.SystemWorkflowsIdEventsIdActionsIdEndpoint import (
     SystemWorkflowsIdEventsIdActionsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import WorkflowAction
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemWorkflowsIdEventsIdActionsEndpoint(
@@ -24,10 +22,8 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(
     IPostable[WorkflowAction, ConnectWiseManageRequestParams],
     IPaginateable[WorkflowAction, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "actions", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "actions", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[WorkflowAction])
         IPostable.__init__(self, WorkflowAction)
         IPaginateable.__init__(self, WorkflowAction)
@@ -36,26 +32,21 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(
             SystemWorkflowsIdEventsIdActionsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemWorkflowsIdEventsIdActionsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemWorkflowsIdEventsIdActionsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemWorkflowsIdEventsIdActionsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemWorkflowsIdEventsIdActionsIdEndpoint: The initialized SystemWorkflowsIdEventsIdActionsIdEndpoint object.
         """
-        child = SystemWorkflowsIdEventsIdActionsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = SystemWorkflowsIdEventsIdActionsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[WorkflowAction]:
         """
         Performs a GET request against the /system/workflows/{id}/events/{id}/actions endpoint and returns an initialized PaginatedResponse object.
@@ -73,18 +64,11 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            WorkflowAction,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), WorkflowAction, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[WorkflowAction]:
         """
         Performs a GET request against the /system/workflows/{id}/events/{id}/actions endpoint.
@@ -95,16 +79,9 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(
         Returns:
             list[WorkflowAction]: The parsed response data.
         """
-        return self._parse_many(
-            WorkflowAction,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(WorkflowAction, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> WorkflowAction:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> WorkflowAction:
         """
         Performs a POST request against the /system/workflows/{id}/events/{id}/actions endpoint.
 
@@ -114,7 +91,4 @@ class SystemWorkflowsIdEventsIdActionsEndpoint(
         Returns:
             WorkflowAction: The parsed response data.
         """
-        return self._parse_one(
-            WorkflowAction,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(WorkflowAction, super()._make_request("POST", data=data, params=params).json())

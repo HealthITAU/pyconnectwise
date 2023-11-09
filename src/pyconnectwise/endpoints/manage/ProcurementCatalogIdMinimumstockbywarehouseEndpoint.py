@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint import (
     ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseC
 from pyconnectwise.endpoints.manage.ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint import (
     ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import MinimumStockByWarehouse
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
@@ -24,42 +22,31 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
     IPostable[MinimumStockByWarehouse, ConnectWiseManageRequestParams],
     IPaginateable[MinimumStockByWarehouse, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "minimumStockByWarehouse", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[MinimumStockByWarehouse])
         IPostable.__init__(self, MinimumStockByWarehouse)
         IPaginateable.__init__(self, MinimumStockByWarehouse)
 
         self.count = self._register_child_endpoint(
-            ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementCatalogIdMinimumstockbywarehouseCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint:
+    def id(self, _id: int) -> ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint: The initialized ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint object.
         """
-        child = ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = ProcurementCatalogIdMinimumstockbywarehouseIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MinimumStockByWarehouse]:
         """
         Performs a GET request against the /procurement/catalog/{id}/minimumStockByWarehouse endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +64,11 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            MinimumStockByWarehouse,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), MinimumStockByWarehouse, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[MinimumStockByWarehouse]:
         """
         Performs a GET request against the /procurement/catalog/{id}/minimumStockByWarehouse endpoint.
@@ -99,15 +79,10 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
         Returns:
             list[MinimumStockByWarehouse]: The parsed response data.
         """
-        return self._parse_many(
-            MinimumStockByWarehouse,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(MinimumStockByWarehouse, super()._make_request("GET", data=data, params=params).json())
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> MinimumStockByWarehouse:
         """
         Performs a POST request against the /procurement/catalog/{id}/minimumStockByWarehouse endpoint.
@@ -118,7 +93,4 @@ class ProcurementCatalogIdMinimumstockbywarehouseEndpoint(
         Returns:
             MinimumStockByWarehouse: The parsed response data.
         """
-        return self._parse_one(
-            MinimumStockByWarehouse,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(MinimumStockByWarehouse, super()._make_request("POST", data=data, params=params).json())

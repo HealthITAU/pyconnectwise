@@ -1,24 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import (
-    CompanyCompanypickeritemsClearEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import (
-    CompanyCompanypickeritemsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import (
-    CompanyCompanypickeritemsIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsClearEndpoint import CompanyCompanypickeritemsClearEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsCountEndpoint import CompanyCompanypickeritemsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompanypickeritemsIdEndpoint import CompanyCompanypickeritemsIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import CompanyPickerItem
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyCompanypickeritemsEndpoint(
@@ -27,39 +19,30 @@ class CompanyCompanypickeritemsEndpoint(
     IPostable[CompanyPickerItem, ConnectWiseManageRequestParams],
     IPaginateable[CompanyPickerItem, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "companyPickerItems", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "companyPickerItems", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[CompanyPickerItem])
         IPostable.__init__(self, CompanyPickerItem)
         IPaginateable.__init__(self, CompanyPickerItem)
 
-        self.count = self._register_child_endpoint(
-            CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.clear = self._register_child_endpoint(
-            CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
+        self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> CompanyCompanypickeritemsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyCompanypickeritemsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompanypickeritemsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyCompanypickeritemsIdEndpoint: The initialized CompanyCompanypickeritemsIdEndpoint object.
         """
         child = CompanyCompanypickeritemsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CompanyPickerItem]:
         """
         Performs a GET request against the /company/companyPickerItems endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +60,11 @@ class CompanyCompanypickeritemsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CompanyPickerItem,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), CompanyPickerItem, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[CompanyPickerItem]:
         """
         Performs a GET request against the /company/companyPickerItems endpoint.
@@ -99,16 +75,9 @@ class CompanyCompanypickeritemsEndpoint(
         Returns:
             list[CompanyPickerItem]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyPickerItem,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CompanyPickerItem, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> CompanyPickerItem:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CompanyPickerItem:
         """
         Performs a POST request against the /company/companyPickerItems endpoint.
 
@@ -118,7 +87,4 @@ class CompanyCompanypickeritemsEndpoint(
         Returns:
             CompanyPickerItem: The parsed response data.
         """
-        return self._parse_one(
-            CompanyPickerItem,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyPickerItem, super()._make_request("POST", data=data, params=params).json())

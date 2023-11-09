@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoint import (
     CompanyContactsIdTypeassociationsCountEndpoint,
@@ -5,72 +7,46 @@ from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsCountEndpoi
 from pyconnectwise.endpoints.manage.CompanyContactsIdTypeassociationsIdEndpoint import (
     CompanyContactsIdTypeassociationsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
-from pyconnectwise.models.manage import (
-    ContactContactTypeAssociationContactTypeAssociation,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
+from pyconnectwise.models.manage import ContactContactTypeAssociationContactTypeAssociation
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyContactsIdTypeassociationsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[
-        list[ContactContactTypeAssociationContactTypeAssociation],
-        ConnectWiseManageRequestParams,
-    ],
-    IPostable[
-        ContactContactTypeAssociationContactTypeAssociation,
-        ConnectWiseManageRequestParams,
-    ],
-    IPaginateable[
-        ContactContactTypeAssociationContactTypeAssociation,
-        ConnectWiseManageRequestParams,
-    ],
+    IGettable[list[ContactContactTypeAssociationContactTypeAssociation], ConnectWiseManageRequestParams],
+    IPostable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
+    IPaginateable[ContactContactTypeAssociationContactTypeAssociation, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "typeAssociations", parent_endpoint=parent_endpoint
-        )
-        IGettable.__init__(
-            self, list[ContactContactTypeAssociationContactTypeAssociation]
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "typeAssociations", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[ContactContactTypeAssociationContactTypeAssociation])
         IPostable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
-        IPaginateable.__init__(
-            self, ContactContactTypeAssociationContactTypeAssociation
-        )
+        IPaginateable.__init__(self, ContactContactTypeAssociationContactTypeAssociation)
 
         self.count = self._register_child_endpoint(
             CompanyContactsIdTypeassociationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyContactsIdTypeassociationsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyContactsIdTypeassociationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyContactsIdTypeassociationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyContactsIdTypeassociationsIdEndpoint: The initialized CompanyContactsIdTypeassociationsIdEndpoint object.
         """
-        child = CompanyContactsIdTypeassociationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = CompanyContactsIdTypeassociationsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint and returns an initialized PaginatedResponse object.
@@ -97,9 +73,7 @@ class CompanyContactsIdTypeassociationsEndpoint(
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ContactContactTypeAssociationContactTypeAssociation]:
         """
         Performs a GET request against the /company/contacts/{id}/typeAssociations endpoint.
@@ -116,9 +90,7 @@ class CompanyContactsIdTypeassociationsEndpoint(
         )
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ContactContactTypeAssociationContactTypeAssociation:
         """
         Performs a POST request against the /company/contacts/{id}/typeAssociations endpoint.

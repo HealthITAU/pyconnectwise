@@ -1,53 +1,36 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceBillingtermsIdInfoEndpoint import (
-    FinanceBillingtermsIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceBillingtermsIdUsagesEndpoint import (
-    FinanceBillingtermsIdUsagesEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPuttable,
-)
+from pyconnectwise.endpoints.manage.FinanceBillingtermsIdInfoEndpoint import FinanceBillingtermsIdInfoEndpoint
+from pyconnectwise.endpoints.manage.FinanceBillingtermsIdUsagesEndpoint import FinanceBillingtermsIdUsagesEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPatchable, IPuttable
 from pyconnectwise.models.manage import BillingTerm
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, PatchRequestData
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceBillingtermsIdEndpoint(
     ConnectWiseEndpoint,
     IGettable[BillingTerm, ConnectWiseManageRequestParams],
-    IPuttable[BillingTerm, ConnectWiseManageRequestParams],
     IPatchable[BillingTerm, ConnectWiseManageRequestParams],
+    IPuttable[BillingTerm, ConnectWiseManageRequestParams],
     IPaginateable[BillingTerm, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, BillingTerm)
-        IPuttable.__init__(self, BillingTerm)
         IPatchable.__init__(self, BillingTerm)
+        IPuttable.__init__(self, BillingTerm)
         IPaginateable.__init__(self, BillingTerm)
 
-        self.usages = self._register_child_endpoint(
-            FinanceBillingtermsIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceBillingtermsIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(FinanceBillingtermsIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(FinanceBillingtermsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[BillingTerm]:
         """
         Performs a GET request against the /finance/billingTerms/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -65,37 +48,10 @@ class FinanceBillingtermsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            BillingTerm,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), BillingTerm, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> BillingTerm:
-        """
-        Performs a GET request against the /finance/billingTerms/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            BillingTerm: The parsed response data.
-        """
-        return self._parse_one(
-            BillingTerm, super()._make_request("GET", data=data, params=params).json()
-        )
-
-    def delete(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /finance/billingTerms/{id} endpoint.
 
@@ -105,13 +61,9 @@ class FinanceBillingtermsIdEndpoint(
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> BillingTerm:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BillingTerm:
         """
-        Performs a PUT request against the /finance/billingTerms/{id} endpoint.
+        Performs a GET request against the /finance/billingTerms/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -119,15 +71,9 @@ class FinanceBillingtermsIdEndpoint(
         Returns:
             BillingTerm: The parsed response data.
         """
-        return self._parse_one(
-            BillingTerm, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(BillingTerm, super()._make_request("GET", data=data, params=params).json())
 
-    def patch(
-        self,
-        data: PatchRequestData,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> BillingTerm:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> BillingTerm:
         """
         Performs a PATCH request against the /finance/billingTerms/{id} endpoint.
 
@@ -137,6 +83,16 @@ class FinanceBillingtermsIdEndpoint(
         Returns:
             BillingTerm: The parsed response data.
         """
-        return self._parse_one(
-            BillingTerm, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(BillingTerm, super()._make_request("PATCH", data=data, params=params).json())
+
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> BillingTerm:
+        """
+        Performs a PUT request against the /finance/billingTerms/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            BillingTerm: The parsed response data.
+        """
+        return self._parse_one(BillingTerm, super()._make_request("PUT", data=data, params=params).json())
