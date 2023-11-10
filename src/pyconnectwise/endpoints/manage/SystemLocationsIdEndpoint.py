@@ -30,10 +30,10 @@ class SystemLocationsIdEndpoint(
         self.departments = self._register_child_endpoint(
             SystemLocationsIdDepartmentsEndpoint(client, parent_endpoint=self)
         )
+        self.usages = self._register_child_endpoint(SystemLocationsIdUsagesEndpoint(client, parent_endpoint=self))
         self.work_roles = self._register_child_endpoint(
             SystemLocationsIdWorkrolesEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(SystemLocationsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

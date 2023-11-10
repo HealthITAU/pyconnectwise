@@ -26,10 +26,10 @@ class FinanceBillingsetupsIdEndpoint(
         IPuttable.__init__(self, BillingSetup)
         IPaginateable.__init__(self, BillingSetup)
 
+        self.info = self._register_child_endpoint(FinanceBillingsetupsIdInfoEndpoint(client, parent_endpoint=self))
         self.routings = self._register_child_endpoint(
             FinanceBillingsetupsIdRoutingsEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(FinanceBillingsetupsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

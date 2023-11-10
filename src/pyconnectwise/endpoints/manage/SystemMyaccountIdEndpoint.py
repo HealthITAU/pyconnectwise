@@ -26,10 +26,10 @@ class SystemMyaccountIdEndpoint(
         IPuttable.__init__(self, MyAccount)
         IPaginateable.__init__(self, MyAccount)
 
-        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMyaccountIdDelegationsEndpoint(client, parent_endpoint=self)
         )
+        self.skills = self._register_child_endpoint(SystemMyaccountIdSkillsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

@@ -30,11 +30,11 @@ class SystemSsoconfigurationsIdEndpoint(
         IPuttable.__init__(self, SsoConfiguration)
         IPaginateable.__init__(self, SsoConfiguration)
 
-        self.submitmembers = self._register_child_endpoint(
-            SystemSsoconfigurationsIdSubmitmembersEndpoint(client, parent_endpoint=self)
-        )
         self.registertoken = self._register_child_endpoint(
             SystemSsoconfigurationsIdRegistertokenEndpoint(client, parent_endpoint=self)
+        )
+        self.submitmembers = self._register_child_endpoint(
+            SystemSsoconfigurationsIdSubmitmembersEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

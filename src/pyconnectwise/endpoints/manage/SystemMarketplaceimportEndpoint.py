@@ -14,9 +14,9 @@ class SystemMarketplaceimportEndpoint(ConnectWiseEndpoint):
     def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
         ConnectWiseEndpoint.__init__(self, client, "marketplaceimport", parent_endpoint=parent_endpoint)
 
-        self.import_ = self._register_child_endpoint(
-            SystemMarketplaceimportImportEndpoint(client, parent_endpoint=self)
-        )
         self.getdefinition = self._register_child_endpoint(
             SystemMarketplaceimportGetdefinitionEndpoint(client, parent_endpoint=self)
+        )
+        self.import_ = self._register_child_endpoint(
+            SystemMarketplaceimportImportEndpoint(client, parent_endpoint=self)
         )

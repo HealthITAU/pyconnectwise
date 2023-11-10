@@ -28,12 +28,12 @@ class ProjectProjectsIdEndpoint(
         IPuttable.__init__(self, Project)
         IPaginateable.__init__(self, Project)
 
+        self.contacts = self._register_child_endpoint(ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self))
+        self.phases = self._register_child_endpoint(ProjectProjectsIdPhasesEndpoint(client, parent_endpoint=self))
         self.team_members = self._register_child_endpoint(
             ProjectProjectsIdTeammembersEndpoint(client, parent_endpoint=self)
         )
-        self.phases = self._register_child_endpoint(ProjectProjectsIdPhasesEndpoint(client, parent_endpoint=self))
-        self.contacts = self._register_child_endpoint(ProjectProjectsIdContactsEndpoint(client, parent_endpoint=self))
-        self.notes = self._register_child_endpoint(ProjectProjectsIdNotesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

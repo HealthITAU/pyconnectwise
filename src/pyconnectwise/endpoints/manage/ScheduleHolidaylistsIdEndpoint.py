@@ -12,7 +12,7 @@ class ScheduleHolidaylistsIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
         ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(ScheduleHolidaylistsIdInfoEndpoint(client, parent_endpoint=self))
         self.holidays = self._register_child_endpoint(
             ScheduleHolidaylistsIdHolidaysEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ScheduleHolidaylistsIdInfoEndpoint(client, parent_endpoint=self))

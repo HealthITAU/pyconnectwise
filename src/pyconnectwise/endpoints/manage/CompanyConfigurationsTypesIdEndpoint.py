@@ -33,11 +33,11 @@ class CompanyConfigurationsTypesIdEndpoint(
         IPuttable.__init__(self, ConfigurationType)
         IPaginateable.__init__(self, ConfigurationType)
 
-        self.questions = self._register_child_endpoint(
-            CompanyConfigurationsTypesIdQuestionsEndpoint(client, parent_endpoint=self)
-        )
         self.info = self._register_child_endpoint(
             CompanyConfigurationsTypesIdInfoEndpoint(client, parent_endpoint=self)
+        )
+        self.questions = self._register_child_endpoint(
+            CompanyConfigurationsTypesIdQuestionsEndpoint(client, parent_endpoint=self)
         )
         self.usages = self._register_child_endpoint(
             CompanyConfigurationsTypesIdUsagesEndpoint(client, parent_endpoint=self)

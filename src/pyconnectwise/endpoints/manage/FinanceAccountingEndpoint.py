@@ -23,11 +23,11 @@ class FinanceAccountingEndpoint(ConnectWiseEndpoint):
 
         self.batches = self._register_child_endpoint(FinanceAccountingBatchesEndpoint(client, parent_endpoint=self))
         self.export = self._register_child_endpoint(FinanceAccountingExportEndpoint(client, parent_endpoint=self))
-        self.unpostedinvoices = self._register_child_endpoint(
-            FinanceAccountingUnpostedinvoicesEndpoint(client, parent_endpoint=self)
-        )
         self.unpostedexpenses = self._register_child_endpoint(
             FinanceAccountingUnpostedexpensesEndpoint(client, parent_endpoint=self)
+        )
+        self.unpostedinvoices = self._register_child_endpoint(
+            FinanceAccountingUnpostedinvoicesEndpoint(client, parent_endpoint=self)
         )
         self.unpostedprocurement = self._register_child_endpoint(
             FinanceAccountingUnpostedprocurementEndpoint(client, parent_endpoint=self)

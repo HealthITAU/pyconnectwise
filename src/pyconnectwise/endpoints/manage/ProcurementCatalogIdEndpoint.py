@@ -34,17 +34,17 @@ class ProcurementCatalogIdEndpoint(
         IPuttable.__init__(self, CatalogItem)
         IPaginateable.__init__(self, CatalogItem)
 
-        self.pricing = self._register_child_endpoint(ProcurementCatalogIdPricingEndpoint(client, parent_endpoint=self))
         self.components = self._register_child_endpoint(
             ProcurementCatalogIdComponentsEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ProcurementCatalogIdInfoEndpoint(client, parent_endpoint=self))
         self.inventory = self._register_child_endpoint(
             ProcurementCatalogIdInventoryEndpoint(client, parent_endpoint=self)
         )
         self.minimum_stock_by_warehouse = self._register_child_endpoint(
             ProcurementCatalogIdMinimumstockbywarehouseEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProcurementCatalogIdInfoEndpoint(client, parent_endpoint=self))
+        self.pricing = self._register_child_endpoint(ProcurementCatalogIdPricingEndpoint(client, parent_endpoint=self))
         self.quantity_on_hand = self._register_child_endpoint(
             ProcurementCatalogIdQuantityonhandEndpoint(client, parent_endpoint=self)
         )

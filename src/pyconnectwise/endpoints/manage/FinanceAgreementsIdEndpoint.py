@@ -41,30 +41,30 @@ class FinanceAgreementsIdEndpoint(
         IPuttable.__init__(self, Agreement)
         IPaginateable.__init__(self, Agreement)
 
-        self.board_defaults = self._register_child_endpoint(
-            FinanceAgreementsIdBoarddefaultsEndpoint(client, parent_endpoint=self)
-        )
-        self.configurations = self._register_child_endpoint(
-            FinanceAgreementsIdConfigurationsEndpoint(client, parent_endpoint=self)
-        )
-        self.work_type_exclusions = self._register_child_endpoint(
-            FinanceAgreementsIdWorktypeexclusionsEndpoint(client, parent_endpoint=self)
-        )
-        self.work_role_exclusions = self._register_child_endpoint(
-            FinanceAgreementsIdWorkroleexclusionsEndpoint(client, parent_endpoint=self)
-        )
-        self.sites = self._register_child_endpoint(FinanceAgreementsIdSitesEndpoint(client, parent_endpoint=self))
         self.additions = self._register_child_endpoint(
             FinanceAgreementsIdAdditionsEndpoint(client, parent_endpoint=self)
         )
         self.adjustments = self._register_child_endpoint(
             FinanceAgreementsIdAdjustmentsEndpoint(client, parent_endpoint=self)
         )
-        self.worktypes = self._register_child_endpoint(
-            FinanceAgreementsIdWorktypesEndpoint(client, parent_endpoint=self)
+        self.board_defaults = self._register_child_endpoint(
+            FinanceAgreementsIdBoarddefaultsEndpoint(client, parent_endpoint=self)
+        )
+        self.configurations = self._register_child_endpoint(
+            FinanceAgreementsIdConfigurationsEndpoint(client, parent_endpoint=self)
+        )
+        self.sites = self._register_child_endpoint(FinanceAgreementsIdSitesEndpoint(client, parent_endpoint=self))
+        self.work_role_exclusions = self._register_child_endpoint(
+            FinanceAgreementsIdWorkroleexclusionsEndpoint(client, parent_endpoint=self)
+        )
+        self.work_type_exclusions = self._register_child_endpoint(
+            FinanceAgreementsIdWorktypeexclusionsEndpoint(client, parent_endpoint=self)
         )
         self.workroles = self._register_child_endpoint(
             FinanceAgreementsIdWorkrolesEndpoint(client, parent_endpoint=self)
+        )
+        self.worktypes = self._register_child_endpoint(
+            FinanceAgreementsIdWorktypesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

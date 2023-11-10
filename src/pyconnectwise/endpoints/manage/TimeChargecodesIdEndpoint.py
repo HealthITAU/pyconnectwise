@@ -27,11 +27,11 @@ class TimeChargecodesIdEndpoint(
         IPuttable.__init__(self, ChargeCode)
         IPaginateable.__init__(self, ChargeCode)
 
-        self.usages = self._register_child_endpoint(TimeChargecodesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(TimeChargecodesIdInfoEndpoint(client, parent_endpoint=self))
         self.expense_types = self._register_child_endpoint(
             TimeChargecodesIdExpensetypesEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(TimeChargecodesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(TimeChargecodesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

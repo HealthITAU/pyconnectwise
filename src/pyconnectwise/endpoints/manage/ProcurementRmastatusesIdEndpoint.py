@@ -32,18 +32,18 @@ class ProcurementRmastatusesIdEndpoint(
         IPuttable.__init__(self, RmaStatus)
         IPaginateable.__init__(self, RmaStatus)
 
+        self.email_templates = self._register_child_endpoint(
+            ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
+        )
         self.emailtemplates = self._register_child_endpoint(
             ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(ProcurementRmastatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.notifications = self._register_child_endpoint(
             ProcurementRmastatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProcurementRmastatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(
             ProcurementRmastatusesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.email_templates = self._register_child_endpoint(
-            ProcurementRmastatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

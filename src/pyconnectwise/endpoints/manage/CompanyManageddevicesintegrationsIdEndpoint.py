@@ -39,20 +39,20 @@ class CompanyManageddevicesintegrationsIdEndpoint(
         IPuttable.__init__(self, ManagedDevicesIntegration)
         IPaginateable.__init__(self, ManagedDevicesIntegration)
 
+        self.cross_references = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
+        )
+        self.info = self._register_child_endpoint(
+            CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
+        )
         self.logins = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdLoginsEndpoint(client, parent_endpoint=self)
         )
         self.notifications = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdInfoEndpoint(client, parent_endpoint=self)
-        )
         self.usages = self._register_child_endpoint(
             CompanyManageddevicesintegrationsIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.cross_references = self._register_child_endpoint(
-            CompanyManageddevicesintegrationsIdCrossreferencesEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

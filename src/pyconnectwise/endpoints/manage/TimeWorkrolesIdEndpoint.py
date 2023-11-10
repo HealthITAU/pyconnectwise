@@ -27,8 +27,8 @@ class TimeWorkrolesIdEndpoint(
         IPuttable.__init__(self, WorkRole)
         IPaginateable.__init__(self, WorkRole)
 
-        self.locations = self._register_child_endpoint(TimeWorkrolesIdLocationsEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(TimeWorkrolesIdInfoEndpoint(client, parent_endpoint=self))
+        self.locations = self._register_child_endpoint(TimeWorkrolesIdLocationsEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(TimeWorkrolesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(

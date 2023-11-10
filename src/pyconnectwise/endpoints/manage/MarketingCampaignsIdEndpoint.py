@@ -38,15 +38,15 @@ class MarketingCampaignsIdEndpoint(
         IPuttable.__init__(self, Campaign)
         IPaginateable.__init__(self, Campaign)
 
-        self.forms_submitted = self._register_child_endpoint(
-            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
+        self.activities = self._register_child_endpoint(
+            MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
         self.audits = self._register_child_endpoint(MarketingCampaignsIdAuditsEndpoint(client, parent_endpoint=self))
         self.emails_opened = self._register_child_endpoint(
             MarketingCampaignsIdEmailsopenedEndpoint(client, parent_endpoint=self)
         )
-        self.activities = self._register_child_endpoint(
-            MarketingCampaignsIdActivitiesEndpoint(client, parent_endpoint=self)
+        self.forms_submitted = self._register_child_endpoint(
+            MarketingCampaignsIdFormssubmittedEndpoint(client, parent_endpoint=self)
         )
         self.links_clicked = self._register_child_endpoint(
             MarketingCampaignsIdLinksclickedEndpoint(client, parent_endpoint=self)

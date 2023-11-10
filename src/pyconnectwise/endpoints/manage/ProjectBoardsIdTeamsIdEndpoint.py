@@ -26,10 +26,10 @@ class ProjectBoardsIdTeamsIdEndpoint(
         IPuttable.__init__(self, ProjectBoardTeam)
         IPaginateable.__init__(self, ProjectBoardTeam)
 
+        self.info = self._register_child_endpoint(ProjectBoardsIdTeamsIdInfoEndpoint(client, parent_endpoint=self))
         self.members = self._register_child_endpoint(
             ProjectBoardsIdTeamsIdMembersEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProjectBoardsIdTeamsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

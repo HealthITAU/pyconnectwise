@@ -28,8 +28,8 @@ class ServiceSurveysIdEndpoint(
         IPuttable.__init__(self, ServiceSurvey)
         IPaginateable.__init__(self, ServiceSurvey)
 
-        self.questions = self._register_child_endpoint(ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
         self.copy = self._register_child_endpoint(ServiceSurveysIdCopyEndpoint(client, parent_endpoint=self))
+        self.questions = self._register_child_endpoint(ServiceSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
         self.results = self._register_child_endpoint(ServiceSurveysIdResultsEndpoint(client, parent_endpoint=self))
         self.usages = self._register_child_endpoint(ServiceSurveysIdUsagesEndpoint(client, parent_endpoint=self))
 

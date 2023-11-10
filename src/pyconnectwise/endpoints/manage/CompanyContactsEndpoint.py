@@ -32,20 +32,20 @@ class CompanyContactsEndpoint(
         IPostable.__init__(self, Contact)
         IPaginateable.__init__(self, Contact)
 
-        self.request_password = self._register_child_endpoint(
-            CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
         self.default = self._register_child_endpoint(CompanyContactsDefaultEndpoint(client, parent_endpoint=self))
+        self.departments = self._register_child_endpoint(
+            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
+        )
         self.relationships = self._register_child_endpoint(
             CompanyContactsRelationshipsEndpoint(client, parent_endpoint=self)
         )
+        self.request_password = self._register_child_endpoint(
+            CompanyContactsRequestpasswordEndpoint(client, parent_endpoint=self)
+        )
         self.types = self._register_child_endpoint(CompanyContactsTypesEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(CompanyContactsCountEndpoint(client, parent_endpoint=self))
         self.validate_portal_credentials = self._register_child_endpoint(
             CompanyContactsValidateportalcredentialsEndpoint(client, parent_endpoint=self)
-        )
-        self.departments = self._register_child_endpoint(
-            CompanyContactsDepartmentsEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, _id: int) -> CompanyContactsIdEndpoint:

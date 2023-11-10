@@ -25,8 +25,8 @@ class FinanceAgreementsEndpoint(
         IPostable.__init__(self, Agreement)
         IPaginateable.__init__(self, Agreement)
 
-        self.types = self._register_child_endpoint(FinanceAgreementsTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(FinanceAgreementsCountEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(FinanceAgreementsTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> FinanceAgreementsIdEndpoint:
         """

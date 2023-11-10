@@ -32,10 +32,10 @@ class SalesOrdersStatusesIdEndpoint(
         IPuttable.__init__(self, OrderStatus)
         IPaginateable.__init__(self, OrderStatus)
 
-        self.info = self._register_child_endpoint(SalesOrdersStatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.emailtemplates = self._register_child_endpoint(
             SalesOrdersStatusesIdEmailtemplatesEndpoint(client, parent_endpoint=self)
         )
+        self.info = self._register_child_endpoint(SalesOrdersStatusesIdInfoEndpoint(client, parent_endpoint=self))
         self.notifications = self._register_child_endpoint(
             SalesOrdersStatusesIdNotificationsEndpoint(client, parent_endpoint=self)
         )

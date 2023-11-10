@@ -25,8 +25,8 @@ class CompanyCompanypickeritemsEndpoint(
         IPostable.__init__(self, CompanyPickerItem)
         IPaginateable.__init__(self, CompanyPickerItem)
 
-        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
         self.clear = self._register_child_endpoint(CompanyCompanypickeritemsClearEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyCompanypickeritemsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> CompanyCompanypickeritemsIdEndpoint:
         """

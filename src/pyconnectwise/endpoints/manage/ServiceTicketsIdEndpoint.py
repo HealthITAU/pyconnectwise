@@ -39,29 +39,29 @@ class ServiceTicketsIdEndpoint(
         IPuttable.__init__(self, Ticket)
         IPaginateable.__init__(self, Ticket)
 
-        self.tasks = self._register_child_endpoint(ServiceTicketsIdTasksEndpoint(client, parent_endpoint=self))
-        self.configurations = self._register_child_endpoint(
-            ServiceTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
-        )
-        self.timeentries = self._register_child_endpoint(
-            ServiceTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
-        )
-        self.scheduleentries = self._register_child_endpoint(
-            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
-        )
-        self.attach_children = self._register_child_endpoint(
-            ServiceTicketsIdAttachchildrenEndpoint(client, parent_endpoint=self)
-        )
         self.activities = self._register_child_endpoint(
             ServiceTicketsIdActivitiesEndpoint(client, parent_endpoint=self)
         )
-        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
         self.all_notes = self._register_child_endpoint(ServiceTicketsIdAllnotesEndpoint(client, parent_endpoint=self))
+        self.attach_children = self._register_child_endpoint(
+            ServiceTicketsIdAttachchildrenEndpoint(client, parent_endpoint=self)
+        )
+        self.configurations = self._register_child_endpoint(
+            ServiceTicketsIdConfigurationsEndpoint(client, parent_endpoint=self)
+        )
+        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
+        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(ServiceTicketsIdInfoEndpoint(client, parent_endpoint=self))
+        self.merge = self._register_child_endpoint(ServiceTicketsIdMergeEndpoint(client, parent_endpoint=self))
         self.notes = self._register_child_endpoint(ServiceTicketsIdNotesEndpoint(client, parent_endpoint=self))
         self.products = self._register_child_endpoint(ServiceTicketsIdProductsEndpoint(client, parent_endpoint=self))
-        self.convert = self._register_child_endpoint(ServiceTicketsIdConvertEndpoint(client, parent_endpoint=self))
-        self.info = self._register_child_endpoint(ServiceTicketsIdInfoEndpoint(client, parent_endpoint=self))
-        self.documents = self._register_child_endpoint(ServiceTicketsIdDocumentsEndpoint(client, parent_endpoint=self))
+        self.scheduleentries = self._register_child_endpoint(
+            ServiceTicketsIdScheduleentriesEndpoint(client, parent_endpoint=self)
+        )
+        self.tasks = self._register_child_endpoint(ServiceTicketsIdTasksEndpoint(client, parent_endpoint=self))
+        self.timeentries = self._register_child_endpoint(
+            ServiceTicketsIdTimeentriesEndpoint(client, parent_endpoint=self)
+        )
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

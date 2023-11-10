@@ -28,12 +28,12 @@ class SystemWorkflowsEndpoint(
         IPostable.__init__(self, Workflow)
         IPaginateable.__init__(self, Workflow)
 
-        self.userdefinedfields = self._register_child_endpoint(
-            SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
-        )
         self.count = self._register_child_endpoint(SystemWorkflowsCountEndpoint(client, parent_endpoint=self))
         self.table_types = self._register_child_endpoint(
             SystemWorkflowsTabletypesEndpoint(client, parent_endpoint=self)
+        )
+        self.userdefinedfields = self._register_child_endpoint(
+            SystemWorkflowsUserdefinedfieldsEndpoint(client, parent_endpoint=self)
         )
 
     def id(self, _id: int) -> SystemWorkflowsIdEndpoint:

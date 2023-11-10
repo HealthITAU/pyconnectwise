@@ -39,27 +39,27 @@ class ServiceBoardsIdEndpoint(
         IPuttable.__init__(self, Board)
         IPaginateable.__init__(self, Board)
 
-        self.statuses = self._register_child_endpoint(ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self))
-        self.items = self._register_child_endpoint(ServiceBoardsIdItemsEndpoint(client, parent_endpoint=self))
         self.auto_assign_resources = self._register_child_endpoint(
             ServiceBoardsIdAutoassignresourcesEndpoint(client, parent_endpoint=self)
-        )
-        self.excluded_members = self._register_child_endpoint(
-            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
         )
         self.auto_templates = self._register_child_endpoint(
             ServiceBoardsIdAutotemplatesEndpoint(client, parent_endpoint=self)
         )
-        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self))
-        self.teams = self._register_child_endpoint(ServiceBoardsIdTeamsEndpoint(client, parent_endpoint=self))
+        self.excluded_members = self._register_child_endpoint(
+            ServiceBoardsIdExcludedmembersEndpoint(client, parent_endpoint=self)
+        )
+        self.items = self._register_child_endpoint(ServiceBoardsIdItemsEndpoint(client, parent_endpoint=self))
         self.notifications = self._register_child_endpoint(
             ServiceBoardsIdNotificationsEndpoint(client, parent_endpoint=self)
         )
-        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(ServiceBoardsIdStatusesEndpoint(client, parent_endpoint=self))
+        self.subtypes = self._register_child_endpoint(ServiceBoardsIdSubtypesEndpoint(client, parent_endpoint=self))
+        self.teams = self._register_child_endpoint(ServiceBoardsIdTeamsEndpoint(client, parent_endpoint=self))
         self.type_sub_type_item_associations = self._register_child_endpoint(
             ServiceBoardsIdTypesubtypeitemassociationsEndpoint(client, parent_endpoint=self)
         )
+        self.types = self._register_child_endpoint(ServiceBoardsIdTypesEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(ServiceBoardsIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

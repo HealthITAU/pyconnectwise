@@ -32,12 +32,12 @@ class SystemWorkflowsIdEndpoint(
         self.attachments = self._register_child_endpoint(
             SystemWorkflowsIdAttachmentsEndpoint(client, parent_endpoint=self)
         )
+        self.copy = self._register_child_endpoint(SystemWorkflowsIdCopyEndpoint(client, parent_endpoint=self))
+        self.events = self._register_child_endpoint(SystemWorkflowsIdEventsEndpoint(client, parent_endpoint=self))
         self.notify_types = self._register_child_endpoint(
             SystemWorkflowsIdNotifytypesEndpoint(client, parent_endpoint=self)
         )
         self.triggers = self._register_child_endpoint(SystemWorkflowsIdTriggersEndpoint(client, parent_endpoint=self))
-        self.copy = self._register_child_endpoint(SystemWorkflowsIdCopyEndpoint(client, parent_endpoint=self))
-        self.events = self._register_child_endpoint(SystemWorkflowsIdEventsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

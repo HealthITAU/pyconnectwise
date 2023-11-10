@@ -27,10 +27,10 @@ class MarketingCampaignsEndpoint(
         IPostable.__init__(self, Campaign)
         IPaginateable.__init__(self, Campaign)
 
-        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
-        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(MarketingCampaignsCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(MarketingCampaignsStatusesEndpoint(client, parent_endpoint=self))
+        self.sub_types = self._register_child_endpoint(MarketingCampaignsSubtypesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(MarketingCampaignsTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> MarketingCampaignsIdEndpoint:
         """

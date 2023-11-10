@@ -25,10 +25,10 @@ class FinanceGlaccountsEndpoint(
         IPostable.__init__(self, GLAccount)
         IPaginateable.__init__(self, GLAccount)
 
+        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
         self.mapped_types = self._register_child_endpoint(
             FinanceGlaccountsMappedtypesEndpoint(client, parent_endpoint=self)
         )
-        self.count = self._register_child_endpoint(FinanceGlaccountsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> FinanceGlaccountsIdEndpoint:
         """

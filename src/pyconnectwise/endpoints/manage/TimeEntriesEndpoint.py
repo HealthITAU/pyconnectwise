@@ -25,8 +25,8 @@ class TimeEntriesEndpoint(
         IPostable.__init__(self, TimeEntry)
         IPaginateable.__init__(self, TimeEntry)
 
-        self.defaults = self._register_child_endpoint(TimeEntriesDefaultsEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(TimeEntriesCountEndpoint(client, parent_endpoint=self))
+        self.defaults = self._register_child_endpoint(TimeEntriesDefaultsEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> TimeEntriesIdEndpoint:
         """

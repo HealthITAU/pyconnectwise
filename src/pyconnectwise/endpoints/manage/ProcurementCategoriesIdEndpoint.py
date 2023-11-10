@@ -28,10 +28,10 @@ class ProcurementCategoriesIdEndpoint(
         IPuttable.__init__(self, Category)
         IPaginateable.__init__(self, Category)
 
+        self.info = self._register_child_endpoint(ProcurementCategoriesIdInfoEndpoint(client, parent_endpoint=self))
         self.subcategories = self._register_child_endpoint(
             ProcurementCategoriesIdSubcategoriesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProcurementCategoriesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

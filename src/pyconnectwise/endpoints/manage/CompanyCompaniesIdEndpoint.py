@@ -47,29 +47,29 @@ class CompanyCompaniesIdEndpoint(
         IPuttable.__init__(self, Company)
         IPaginateable.__init__(self, Company)
 
-        self.management_summary_reports = self._register_child_endpoint(
-            CompanyCompaniesIdManagementsummaryreportsEndpoint(client, parent_endpoint=self)
-        )
-        self.tracks = self._register_child_endpoint(CompanyCompaniesIdTracksEndpoint(client, parent_endpoint=self))
-        self.teams = self._register_child_endpoint(CompanyCompaniesIdTeamsEndpoint(client, parent_endpoint=self))
-        self.merge = self._register_child_endpoint(CompanyCompaniesIdMergeEndpoint(client, parent_endpoint=self))
-        self.management_report_setup = self._register_child_endpoint(
-            CompanyCompaniesIdManagementreportsetupEndpoint(client, parent_endpoint=self)
-        )
-        self.notes = self._register_child_endpoint(CompanyCompaniesIdNotesEndpoint(client, parent_endpoint=self))
-        self.surveys = self._register_child_endpoint(CompanyCompaniesIdSurveysEndpoint(client, parent_endpoint=self))
-        self.type_associations = self._register_child_endpoint(
-            CompanyCompaniesIdTypeassociationsEndpoint(client, parent_endpoint=self)
-        )
-        self.management_report_notifications = self._register_child_endpoint(
-            CompanyCompaniesIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(CompanyCompaniesIdUsagesEndpoint(client, parent_endpoint=self))
-        self.sites = self._register_child_endpoint(CompanyCompaniesIdSitesEndpoint(client, parent_endpoint=self))
-        self.groups = self._register_child_endpoint(CompanyCompaniesIdGroupsEndpoint(client, parent_endpoint=self))
         self.custom_status_notes = self._register_child_endpoint(
             CompanyCompaniesIdCustomstatusnotesEndpoint(client, parent_endpoint=self)
         )
+        self.groups = self._register_child_endpoint(CompanyCompaniesIdGroupsEndpoint(client, parent_endpoint=self))
+        self.management_report_notifications = self._register_child_endpoint(
+            CompanyCompaniesIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
+        )
+        self.management_report_setup = self._register_child_endpoint(
+            CompanyCompaniesIdManagementreportsetupEndpoint(client, parent_endpoint=self)
+        )
+        self.management_summary_reports = self._register_child_endpoint(
+            CompanyCompaniesIdManagementsummaryreportsEndpoint(client, parent_endpoint=self)
+        )
+        self.merge = self._register_child_endpoint(CompanyCompaniesIdMergeEndpoint(client, parent_endpoint=self))
+        self.notes = self._register_child_endpoint(CompanyCompaniesIdNotesEndpoint(client, parent_endpoint=self))
+        self.sites = self._register_child_endpoint(CompanyCompaniesIdSitesEndpoint(client, parent_endpoint=self))
+        self.surveys = self._register_child_endpoint(CompanyCompaniesIdSurveysEndpoint(client, parent_endpoint=self))
+        self.teams = self._register_child_endpoint(CompanyCompaniesIdTeamsEndpoint(client, parent_endpoint=self))
+        self.tracks = self._register_child_endpoint(CompanyCompaniesIdTracksEndpoint(client, parent_endpoint=self))
+        self.type_associations = self._register_child_endpoint(
+            CompanyCompaniesIdTypeassociationsEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(CompanyCompaniesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

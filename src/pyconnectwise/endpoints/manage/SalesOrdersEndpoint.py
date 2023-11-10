@@ -25,8 +25,8 @@ class SalesOrdersEndpoint(
         IPostable.__init__(self, Order)
         IPaginateable.__init__(self, Order)
 
-        self.statuses = self._register_child_endpoint(SalesOrdersStatusesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(SalesOrdersCountEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(SalesOrdersStatusesEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> SalesOrdersIdEndpoint:
         """

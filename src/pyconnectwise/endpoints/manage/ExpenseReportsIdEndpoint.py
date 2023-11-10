@@ -23,8 +23,8 @@ class ExpenseReportsIdEndpoint(
         IGettable.__init__(self, ExpenseReport)
         IPaginateable.__init__(self, ExpenseReport)
 
-        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(ExpenseReportsIdAuditsEndpoint(client, parent_endpoint=self))
+        self.reverse = self._register_child_endpoint(ExpenseReportsIdReverseEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(ExpenseReportsIdSubmitEndpoint(client, parent_endpoint=self))
 
     def paginated(

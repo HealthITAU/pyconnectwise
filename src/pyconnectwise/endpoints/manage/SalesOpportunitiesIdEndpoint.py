@@ -40,26 +40,26 @@ class SalesOpportunitiesIdEndpoint(
         IPuttable.__init__(self, Opportunity)
         IPaginateable.__init__(self, Opportunity)
 
-        self.forecast = self._register_child_endpoint(
-            SalesOpportunitiesIdForecastEndpoint(client, parent_endpoint=self)
-        )
-        self.convert_to_sales_order = self._register_child_endpoint(
-            SalesOpportunitiesIdConverttosalesorderEndpoint(client, parent_endpoint=self)
+        self.contacts = self._register_child_endpoint(
+            SalesOpportunitiesIdContactsEndpoint(client, parent_endpoint=self)
         )
         self.convert_to_agreement = self._register_child_endpoint(
             SalesOpportunitiesIdConverttoagreementEndpoint(client, parent_endpoint=self)
         )
-        self.team = self._register_child_endpoint(SalesOpportunitiesIdTeamEndpoint(client, parent_endpoint=self))
         self.convert_to_project = self._register_child_endpoint(
             SalesOpportunitiesIdConverttoprojectEndpoint(client, parent_endpoint=self)
+        )
+        self.convert_to_sales_order = self._register_child_endpoint(
+            SalesOpportunitiesIdConverttosalesorderEndpoint(client, parent_endpoint=self)
         )
         self.convert_to_service_ticket = self._register_child_endpoint(
             SalesOpportunitiesIdConverttoserviceticketEndpoint(client, parent_endpoint=self)
         )
-        self.notes = self._register_child_endpoint(SalesOpportunitiesIdNotesEndpoint(client, parent_endpoint=self))
-        self.contacts = self._register_child_endpoint(
-            SalesOpportunitiesIdContactsEndpoint(client, parent_endpoint=self)
+        self.forecast = self._register_child_endpoint(
+            SalesOpportunitiesIdForecastEndpoint(client, parent_endpoint=self)
         )
+        self.notes = self._register_child_endpoint(SalesOpportunitiesIdNotesEndpoint(client, parent_endpoint=self))
+        self.team = self._register_child_endpoint(SalesOpportunitiesIdTeamEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

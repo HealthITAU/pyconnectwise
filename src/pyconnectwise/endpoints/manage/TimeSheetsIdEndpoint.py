@@ -25,11 +25,11 @@ class TimeSheetsIdEndpoint(
         IGettable.__init__(self, TimeSheet)
         IPaginateable.__init__(self, TimeSheet)
 
+        self.approve = self._register_child_endpoint(TimeSheetsIdApproveEndpoint(client, parent_endpoint=self))
         self.audits = self._register_child_endpoint(TimeSheetsIdAuditsEndpoint(client, parent_endpoint=self))
         self.reject = self._register_child_endpoint(TimeSheetsIdRejectEndpoint(client, parent_endpoint=self))
         self.reverse = self._register_child_endpoint(TimeSheetsIdReverseEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(TimeSheetsIdSubmitEndpoint(client, parent_endpoint=self))
-        self.approve = self._register_child_endpoint(TimeSheetsIdApproveEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

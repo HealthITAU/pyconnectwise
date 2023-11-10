@@ -30,11 +30,11 @@ class SystemOffice365EmailsetupsIdEndpoint(
         IPuttable.__init__(self, Office365EmailSetup)
         IPaginateable.__init__(self, Office365EmailSetup)
 
-        self.test_connection = self._register_child_endpoint(
-            SystemOffice365EmailsetupsIdTestconnectionEndpoint(client, parent_endpoint=self)
-        )
         self.authorize = self._register_child_endpoint(
             SystemOffice365EmailsetupsIdAuthorizeEndpoint(client, parent_endpoint=self)
+        )
+        self.test_connection = self._register_child_endpoint(
+            SystemOffice365EmailsetupsIdTestconnectionEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

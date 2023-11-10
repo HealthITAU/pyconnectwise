@@ -42,17 +42,17 @@ class CompanyPortalconfigurationsIdEndpoint(
         self.invoice_setups = self._register_child_endpoint(
             CompanyPortalconfigurationsIdInvoicesetupsEndpoint(client, parent_endpoint=self)
         )
-        self.service_setups = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdServicesetupsEndpoint(client, parent_endpoint=self)
-        )
-        self.project_setups = self._register_child_endpoint(
-            CompanyPortalconfigurationsIdProjectsetupsEndpoint(client, parent_endpoint=self)
-        )
         self.opportunity_setups = self._register_child_endpoint(
             CompanyPortalconfigurationsIdOpportunitysetupsEndpoint(client, parent_endpoint=self)
         )
         self.password_email_setups = self._register_child_endpoint(
             CompanyPortalconfigurationsIdPasswordemailsetupsEndpoint(client, parent_endpoint=self)
+        )
+        self.project_setups = self._register_child_endpoint(
+            CompanyPortalconfigurationsIdProjectsetupsEndpoint(client, parent_endpoint=self)
+        )
+        self.service_setups = self._register_child_endpoint(
+            CompanyPortalconfigurationsIdServicesetupsEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

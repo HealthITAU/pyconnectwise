@@ -48,38 +48,38 @@ class SystemMembersIdEndpoint(
         IPuttable.__init__(self, Member)
         IPaginateable.__init__(self, Member)
 
+        self.accruals = self._register_child_endpoint(SystemMembersIdAccrualsEndpoint(client, parent_endpoint=self))
         self.certifications = self._register_child_endpoint(
             SystemMembersIdCertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.personas = self._register_child_endpoint(SystemMembersIdPersonasEndpoint(client, parent_endpoint=self))
+        self.deactivate = self._register_child_endpoint(SystemMembersIdDeactivateEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMembersIdDelegationsEndpoint(client, parent_endpoint=self)
         )
-        self.managed_device_accounts = self._register_child_endpoint(
-            SystemMembersIdManageddeviceaccountsEndpoint(client, parent_endpoint=self)
-        )
-        self.tokens = self._register_child_endpoint(SystemMembersIdTokensEndpoint(client, parent_endpoint=self))
         self.image = self._register_child_endpoint(SystemMembersIdImageEndpoint(client, parent_endpoint=self))
         self.link_sso_user = self._register_child_endpoint(
             SystemMembersIdLinkssouserEndpoint(client, parent_endpoint=self)
         )
-        self.unused_time_sheets = self._register_child_endpoint(
-            SystemMembersIdUnusedtimesheetsEndpoint(client, parent_endpoint=self)
-        )
-        self.notification_settings = self._register_child_endpoint(
-            SystemMembersIdNotificationsettingsEndpoint(client, parent_endpoint=self)
+        self.managed_device_accounts = self._register_child_endpoint(
+            SystemMembersIdManageddeviceaccountsEndpoint(client, parent_endpoint=self)
         )
         self.mycertifications = self._register_child_endpoint(
             SystemMembersIdMycertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.deactivate = self._register_child_endpoint(SystemMembersIdDeactivateEndpoint(client, parent_endpoint=self))
+        self.notification_settings = self._register_child_endpoint(
+            SystemMembersIdNotificationsettingsEndpoint(client, parent_endpoint=self)
+        )
+        self.personas = self._register_child_endpoint(SystemMembersIdPersonasEndpoint(client, parent_endpoint=self))
+        self.skills = self._register_child_endpoint(SystemMembersIdSkillsEndpoint(client, parent_endpoint=self))
         self.submit = self._register_child_endpoint(SystemMembersIdSubmitEndpoint(client, parent_endpoint=self))
+        self.tokens = self._register_child_endpoint(SystemMembersIdTokensEndpoint(client, parent_endpoint=self))
         self.unlink_sso_user = self._register_child_endpoint(
             SystemMembersIdUnlinkssouserEndpoint(client, parent_endpoint=self)
         )
+        self.unused_time_sheets = self._register_child_endpoint(
+            SystemMembersIdUnusedtimesheetsEndpoint(client, parent_endpoint=self)
+        )
         self.usages = self._register_child_endpoint(SystemMembersIdUsagesEndpoint(client, parent_endpoint=self))
-        self.skills = self._register_child_endpoint(SystemMembersIdSkillsEndpoint(client, parent_endpoint=self))
-        self.accruals = self._register_child_endpoint(SystemMembersIdAccrualsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

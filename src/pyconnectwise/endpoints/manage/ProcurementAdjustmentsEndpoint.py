@@ -25,8 +25,8 @@ class ProcurementAdjustmentsEndpoint(
         IPostable.__init__(self, ProcurementAdjustment)
         IPaginateable.__init__(self, ProcurementAdjustment)
 
-        self.types = self._register_child_endpoint(ProcurementAdjustmentsTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(ProcurementAdjustmentsCountEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(ProcurementAdjustmentsTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> ProcurementAdjustmentsIdEndpoint:
         """

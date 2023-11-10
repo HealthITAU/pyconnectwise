@@ -28,11 +28,11 @@ class CompanyCompaniesEndpoint(
         IPostable.__init__(self, Company)
         IPaginateable.__init__(self, Company)
 
-        self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
-        self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
-        self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(CompanyCompaniesCountEndpoint(client, parent_endpoint=self))
+        self.default = self._register_child_endpoint(CompanyCompaniesDefaultEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(CompanyCompaniesInfoEndpoint(client, parent_endpoint=self))
+        self.statuses = self._register_child_endpoint(CompanyCompaniesStatusesEndpoint(client, parent_endpoint=self))
+        self.types = self._register_child_endpoint(CompanyCompaniesTypesEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> CompanyCompaniesIdEndpoint:
         """

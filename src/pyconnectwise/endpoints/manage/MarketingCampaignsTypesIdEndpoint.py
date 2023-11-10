@@ -28,10 +28,10 @@ class MarketingCampaignsTypesIdEndpoint(
         IPuttable.__init__(self, CampaignType)
         IPaginateable.__init__(self, CampaignType)
 
+        self.info = self._register_child_endpoint(MarketingCampaignsTypesIdInfoEndpoint(client, parent_endpoint=self))
         self.sub_types = self._register_child_endpoint(
             MarketingCampaignsTypesIdSubtypesEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(MarketingCampaignsTypesIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

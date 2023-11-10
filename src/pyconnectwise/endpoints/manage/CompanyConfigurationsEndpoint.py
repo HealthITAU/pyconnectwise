@@ -28,11 +28,11 @@ class CompanyConfigurationsEndpoint(
         IPaginateable.__init__(self, CompanyConfiguration)
 
         self.bulk = self._register_child_endpoint(CompanyConfigurationsBulkEndpoint(client, parent_endpoint=self))
+        self.count = self._register_child_endpoint(CompanyConfigurationsCountEndpoint(client, parent_endpoint=self))
         self.statuses = self._register_child_endpoint(
             CompanyConfigurationsStatusesEndpoint(client, parent_endpoint=self)
         )
         self.types = self._register_child_endpoint(CompanyConfigurationsTypesEndpoint(client, parent_endpoint=self))
-        self.count = self._register_child_endpoint(CompanyConfigurationsCountEndpoint(client, parent_endpoint=self))
 
     def id(self, _id: int) -> CompanyConfigurationsIdEndpoint:
         """

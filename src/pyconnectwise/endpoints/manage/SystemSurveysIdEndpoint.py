@@ -27,9 +27,9 @@ class SystemSurveysIdEndpoint(
         IPuttable.__init__(self, Survey)
         IPaginateable.__init__(self, Survey)
 
-        self.questions = self._register_child_endpoint(SystemSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
         self.copy = self._register_child_endpoint(SystemSurveysIdCopyEndpoint(client, parent_endpoint=self))
         self.info = self._register_child_endpoint(SystemSurveysIdInfoEndpoint(client, parent_endpoint=self))
+        self.questions = self._register_child_endpoint(SystemSurveysIdQuestionsEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None

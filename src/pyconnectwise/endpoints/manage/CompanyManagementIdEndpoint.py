@@ -32,13 +32,13 @@ class CompanyManagementIdEndpoint(
         IPuttable.__init__(self, Management)
         IPaginateable.__init__(self, Management)
 
+        self.execute_managed_it_sync = self._register_child_endpoint(
+            CompanyManagementIdExecutemanageditsyncEndpoint(client, parent_endpoint=self)
+        )
         self.log = self._register_child_endpoint(CompanyManagementIdLogEndpoint(client, parent_endpoint=self))
         self.logs = self._register_child_endpoint(CompanyManagementIdLogsEndpoint(client, parent_endpoint=self))
         self.management_report_notifications = self._register_child_endpoint(
             CompanyManagementIdManagementreportnotificationsEndpoint(client, parent_endpoint=self)
-        )
-        self.execute_managed_it_sync = self._register_child_endpoint(
-            CompanyManagementIdExecutemanageditsyncEndpoint(client, parent_endpoint=self)
         )
 
     def paginated(

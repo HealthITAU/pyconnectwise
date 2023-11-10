@@ -28,10 +28,10 @@ class ProcurementWarehousebinsIdEndpoint(
         IPuttable.__init__(self, WarehouseBin)
         IPaginateable.__init__(self, WarehouseBin)
 
+        self.info = self._register_child_endpoint(ProcurementWarehousebinsIdInfoEndpoint(client, parent_endpoint=self))
         self.inventory_on_hand = self._register_child_endpoint(
             ProcurementWarehousebinsIdInventoryonhandEndpoint(client, parent_endpoint=self)
         )
-        self.info = self._register_child_endpoint(ProcurementWarehousebinsIdInfoEndpoint(client, parent_endpoint=self))
 
     def paginated(
         self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
