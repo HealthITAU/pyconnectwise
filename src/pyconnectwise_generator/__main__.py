@@ -20,15 +20,19 @@ app = typer.Typer()
 def generate_manage_code(
     schema_path: str,
     *,
+    gen_models: bool = True,
+    gen_endpoints: bool = True,
     endpoint_output_path: str = "src/pyconnectwise/endpoints/manage",
     model_output_path: str = "src/pyconnectwise/models/manage",
     client_output_path: str = "src/pyconnectwise/clients",
 ) -> None:
     schema = load_schema(schema_path)
     schema = normalize_json_schema(schema)
-    logging.info("Generating models")
-    generate_models(schema, Path(model_output_path) / "__init__.py")
-    generate_manage(endpoint_output_path, model_output_path, client_output_path, schema)
+    if gen_models:
+        logging.info("Generating models")
+        generate_models(schema, Path(model_output_path) / "__init__.py")
+    if gen_endpoints:
+        generate_manage(endpoint_output_path, model_output_path, client_output_path, schema)
 
     print("After generating run `ruff src/pyconnectwise/models/manage --fix --unsafe-fixes`")
 
@@ -37,6 +41,8 @@ def generate_manage_code(
 def generate_automate_code(  # noqa: ANN201
     schema_folder_path: str,
     *,
+    gen_models: bool = True,
+    gen_endpoints: bool = True,
     endpoint_output_path: str = "src/pyconnectwise/endpoints/automate",
     model_output_path: str = "src/pyconnectwise/models/automate",
     client_output_path: str = "src/pyconnectwise/clients",
@@ -45,9 +51,10 @@ def generate_automate_code(  # noqa: ANN201
     # schema = load_schema(schema_path)
 
     # Does this need normalize_json_schema too??
-    generate_models(schema, Path(model_output_path) / "__init__.py")
-    generate_automate(endpoint_output_path, model_output_path, client_output_path, schema)
-    pass
+    if gen_models:
+        generate_models(schema, Path(model_output_path) / "__init__.py")
+    if gen_endpoints:
+        generate_automate(endpoint_output_path, model_output_path, client_output_path, schema)
 
     print("After generating run `ruff src/pyconnectwise/models/automate --fix --unsafe-fixes`")
 
