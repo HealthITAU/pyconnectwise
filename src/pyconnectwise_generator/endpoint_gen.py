@@ -79,6 +79,9 @@ def generate_endpoint(  # noqa: ANN201, C901
                 f"from pyconnectwise.endpoints.{endpoint_import_directory}.{endpoint_class_name.replace('Endpoint', child_endpoint_class_name)} import {endpoint_class_name.replace('Endpoint', child_endpoint_class_name)}"
             )
 
+    # sort child_endpoint_definitions by field_name so they always appear in the same order in the generated file
+    child_endpoint_definitions.sort(key=lambda x: x["field_name"])
+
     imported_models = []
     op_definitions = []
     interfaces = []
