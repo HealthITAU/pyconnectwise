@@ -1,19 +1,22 @@
 import base64
+import typing
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
-from pyconnectwise.endpoints.manage.CompanyEndpoint import CompanyEndpoint
-from pyconnectwise.endpoints.manage.ConfigurationsEndpoint import ConfigurationsEndpoint
-from pyconnectwise.endpoints.manage.ExpenseEndpoint import ExpenseEndpoint
-from pyconnectwise.endpoints.manage.FinanceEndpoint import FinanceEndpoint
-from pyconnectwise.endpoints.manage.MarketingEndpoint import MarketingEndpoint
-from pyconnectwise.endpoints.manage.ProcurementEndpoint import ProcurementEndpoint
-from pyconnectwise.endpoints.manage.ProjectEndpoint import ProjectEndpoint
-from pyconnectwise.endpoints.manage.SalesEndpoint import SalesEndpoint
-from pyconnectwise.endpoints.manage.ScheduleEndpoint import ScheduleEndpoint
-from pyconnectwise.endpoints.manage.ServiceEndpoint import ServiceEndpoint
-from pyconnectwise.endpoints.manage.SystemEndpoint import SystemEndpoint
-from pyconnectwise.endpoints.manage.TimeEndpoint import TimeEndpoint
+
+if typing.TYPE_CHECKING:
+    from pyconnectwise.endpoints.manage.CompanyEndpoint import CompanyEndpoint
+    from pyconnectwise.endpoints.manage.ConfigurationsEndpoint import ConfigurationsEndpoint
+    from pyconnectwise.endpoints.manage.ExpenseEndpoint import ExpenseEndpoint
+    from pyconnectwise.endpoints.manage.FinanceEndpoint import FinanceEndpoint
+    from pyconnectwise.endpoints.manage.MarketingEndpoint import MarketingEndpoint
+    from pyconnectwise.endpoints.manage.ProcurementEndpoint import ProcurementEndpoint
+    from pyconnectwise.endpoints.manage.ProjectEndpoint import ProjectEndpoint
+    from pyconnectwise.endpoints.manage.SalesEndpoint import SalesEndpoint
+    from pyconnectwise.endpoints.manage.ScheduleEndpoint import ScheduleEndpoint
+    from pyconnectwise.endpoints.manage.ServiceEndpoint import ServiceEndpoint
+    from pyconnectwise.endpoints.manage.SystemEndpoint import SystemEndpoint
+    from pyconnectwise.endpoints.manage.TimeEndpoint import TimeEndpoint
 
 
 class ManageCodebaseError(Exception):
@@ -72,19 +75,78 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
                 raise ManageCodebaseError()
             self.codebase: str = codebase_request
 
-        # Initializing endpoints
-        self.company = CompanyEndpoint(self)
-        self.configurations = ConfigurationsEndpoint(self)
-        self.expense = ExpenseEndpoint(self)
-        self.finance = FinanceEndpoint(self)
-        self.marketing = MarketingEndpoint(self)
-        self.procurement = ProcurementEndpoint(self)
-        self.project = ProjectEndpoint(self)
-        self.sales = SalesEndpoint(self)
-        self.schedule = ScheduleEndpoint(self)
-        self.service = ServiceEndpoint(self)
-        self.system = SystemEndpoint(self)
-        self.time = TimeEndpoint(self)
+    # Initializing endpoints
+    @property
+    def company(self) -> "CompanyEndpoint":
+        from pyconnectwise.endpoints.manage.CompanyEndpoint import CompanyEndpoint
+
+        return CompanyEndpoint(self)
+
+    @property
+    def configurations(self) -> "ConfigurationsEndpoint":
+        from pyconnectwise.endpoints.manage.ConfigurationsEndpoint import ConfigurationsEndpoint
+
+        return ConfigurationsEndpoint(self)
+
+    @property
+    def expense(self) -> "ExpenseEndpoint":
+        from pyconnectwise.endpoints.manage.ExpenseEndpoint import ExpenseEndpoint
+
+        return ExpenseEndpoint(self)
+
+    @property
+    def finance(self) -> "FinanceEndpoint":
+        from pyconnectwise.endpoints.manage.FinanceEndpoint import FinanceEndpoint
+
+        return FinanceEndpoint(self)
+
+    @property
+    def marketing(self) -> "MarketingEndpoint":
+        from pyconnectwise.endpoints.manage.MarketingEndpoint import MarketingEndpoint
+
+        return MarketingEndpoint(self)
+
+    @property
+    def procurement(self) -> "ProcurementEndpoint":
+        from pyconnectwise.endpoints.manage.ProcurementEndpoint import ProcurementEndpoint
+
+        return ProcurementEndpoint(self)
+
+    @property
+    def project(self) -> "ProjectEndpoint":
+        from pyconnectwise.endpoints.manage.ProjectEndpoint import ProjectEndpoint
+
+        return ProjectEndpoint(self)
+
+    @property
+    def sales(self) -> "SalesEndpoint":
+        from pyconnectwise.endpoints.manage.SalesEndpoint import SalesEndpoint
+
+        return SalesEndpoint(self)
+
+    @property
+    def schedule(self) -> "ScheduleEndpoint":
+        from pyconnectwise.endpoints.manage.ScheduleEndpoint import ScheduleEndpoint
+
+        return ScheduleEndpoint(self)
+
+    @property
+    def service(self) -> "ServiceEndpoint":
+        from pyconnectwise.endpoints.manage.ServiceEndpoint import ServiceEndpoint
+
+        return ServiceEndpoint(self)
+
+    @property
+    def system(self) -> "SystemEndpoint":
+        from pyconnectwise.endpoints.manage.SystemEndpoint import SystemEndpoint
+
+        return SystemEndpoint(self)
+
+    @property
+    def time(self) -> "TimeEndpoint":
+        from pyconnectwise.endpoints.manage.TimeEndpoint import TimeEndpoint
+
+        return TimeEndpoint(self)
 
     def _get_url(self) -> str:
         """

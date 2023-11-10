@@ -1,12 +1,16 @@
-import base64
+from datetime import UTC, datetime
+import typing
+
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
-from datetime import datetime
-{%- if imports is defined %}
-{%- for import in imports %}
-{{ import }}
-{%- endfor %}
-{%- endif %}
+
+if typing.TYPE_CHECKING:
+    {%- if imports is defined %}
+    {%- for import in imports %}
+    {{ import }}
+    {%- endfor %}
+    {%- endif %}
+
 
 class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     """
@@ -44,10 +48,15 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         # Grab first access token
         self.access_token: str = self._get_access_token()
 
-        # Initializing endpoints
-        {%- for endpoint in endpoints %}
-        self.{{ endpoint.field_name }} = {{ endpoint.class_name }}(self)
-        {%- endfor %}
+    # Initializing endpoints
+    {%- for endpoint in endpoints %}
+    @property
+    def {{ endpoint.field_name }}(self) -> "{{ endpoint.class_name }}":
+        from pyconnectwise.endpoints.manage.{{ endpoint.class_name }} import {{ endpoint.class_name }}
+
+        return {{ endpoint.class_name }}(self)
+
+    {%- endfor %}
 
     def _get_url(self) -> str:
         """

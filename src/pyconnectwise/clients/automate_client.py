@@ -1,39 +1,42 @@
+import typing
 from datetime import UTC, datetime
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
-from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
-from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
-from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
-from pyconnectwise.endpoints.automate.ContactsEndpoint import ContactsEndpoint
-from pyconnectwise.endpoints.automate.DataviewfoldersEndpoint import (
-    DataviewfoldersEndpoint,
-)
-from pyconnectwise.endpoints.automate.DataviewsEndpoint import DataviewsEndpoint
-from pyconnectwise.endpoints.automate.DrivesEndpoint import DrivesEndpoint
-from pyconnectwise.endpoints.automate.ExternalsystemcredentialsEndpoint import (
-    ExternalsystemcredentialsEndpoint,
-)
-from pyconnectwise.endpoints.automate.GroupsEndpoint import GroupsEndpoint
-from pyconnectwise.endpoints.automate.LocationsEndpoint import LocationsEndpoint
-from pyconnectwise.endpoints.automate.LookupsEndpoint import LookupsEndpoint
-from pyconnectwise.endpoints.automate.MonitorsEndpoint import MonitorsEndpoint
-from pyconnectwise.endpoints.automate.NetworkdevicesEndpoint import (
-    NetworkdevicesEndpoint,
-)
-from pyconnectwise.endpoints.automate.PatchactionsEndpoint import PatchactionsEndpoint
-from pyconnectwise.endpoints.automate.PermissionsEndpoint import PermissionsEndpoint
-from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import (
-    ProbeconfigurationEndpoint,
-)
-from pyconnectwise.endpoints.automate.ScriptfoldersEndpoint import ScriptfoldersEndpoint
-from pyconnectwise.endpoints.automate.ScriptingEndpoint import ScriptingEndpoint
-from pyconnectwise.endpoints.automate.ScriptsEndpoint import ScriptsEndpoint
-from pyconnectwise.endpoints.automate.ServicesEndpoint import ServicesEndpoint
-from pyconnectwise.endpoints.automate.StatisticsEndpoint import StatisticsEndpoint
-from pyconnectwise.endpoints.automate.SystemEndpoint import SystemEndpoint
-from pyconnectwise.endpoints.automate.UserclassesEndpoint import UserclassesEndpoint
-from pyconnectwise.endpoints.automate.UsersEndpoint import UsersEndpoint
+
+if typing.TYPE_CHECKING:
+    from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
+    from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
+    from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
+    from pyconnectwise.endpoints.automate.ContactsEndpoint import ContactsEndpoint
+    from pyconnectwise.endpoints.automate.DataviewfoldersEndpoint import (
+        DataviewfoldersEndpoint,
+    )
+    from pyconnectwise.endpoints.automate.DataviewsEndpoint import DataviewsEndpoint
+    from pyconnectwise.endpoints.automate.DrivesEndpoint import DrivesEndpoint
+    from pyconnectwise.endpoints.automate.ExternalsystemcredentialsEndpoint import (
+        ExternalsystemcredentialsEndpoint,
+    )
+    from pyconnectwise.endpoints.automate.GroupsEndpoint import GroupsEndpoint
+    from pyconnectwise.endpoints.automate.LocationsEndpoint import LocationsEndpoint
+    from pyconnectwise.endpoints.automate.LookupsEndpoint import LookupsEndpoint
+    from pyconnectwise.endpoints.automate.MonitorsEndpoint import MonitorsEndpoint
+    from pyconnectwise.endpoints.automate.NetworkdevicesEndpoint import (
+        NetworkdevicesEndpoint,
+    )
+    from pyconnectwise.endpoints.automate.PatchactionsEndpoint import PatchactionsEndpoint
+    from pyconnectwise.endpoints.automate.PermissionsEndpoint import PermissionsEndpoint
+    from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import (
+        ProbeconfigurationEndpoint,
+    )
+    from pyconnectwise.endpoints.automate.ScriptfoldersEndpoint import ScriptfoldersEndpoint
+    from pyconnectwise.endpoints.automate.ScriptingEndpoint import ScriptingEndpoint
+    from pyconnectwise.endpoints.automate.ScriptsEndpoint import ScriptsEndpoint
+    from pyconnectwise.endpoints.automate.ServicesEndpoint import ServicesEndpoint
+    from pyconnectwise.endpoints.automate.StatisticsEndpoint import StatisticsEndpoint
+    from pyconnectwise.endpoints.automate.SystemEndpoint import SystemEndpoint
+    from pyconnectwise.endpoints.automate.UserclassesEndpoint import UserclassesEndpoint
+    from pyconnectwise.endpoints.automate.UsersEndpoint import UsersEndpoint
 
 
 class ConnectWiseAutomateAPIClient(ConnectWiseClient):
@@ -73,31 +76,150 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         # Grab first access token
         self.access_token: str = self._get_access_token()
 
-        # Initializing endpoints
-        self.commands = CommandsEndpoint(self)
-        self.clients = ClientsEndpoint(self)
-        self.computers = ComputersEndpoint(self)
-        self.services = ServicesEndpoint(self)
-        self.contacts = ContactsEndpoint(self)
-        self.dataviewfolders = DataviewfoldersEndpoint(self)
-        self.dataviews = DataviewsEndpoint(self)
-        self.groups = GroupsEndpoint(self)
-        self.monitors = MonitorsEndpoint(self)
-        self.networkdevices = NetworkdevicesEndpoint(self)
-        self.patchactions = PatchactionsEndpoint(self)
-        self.locations = LocationsEndpoint(self)
-        self.lookups = LookupsEndpoint(self)
-        self.probeconfiguration = ProbeconfigurationEndpoint(self)
-        self.scriptfolders = ScriptfoldersEndpoint(self)
-        self.scripting = ScriptingEndpoint(self)
-        self.scripts = ScriptsEndpoint(self)
-        self.drives = DrivesEndpoint(self)
-        self.statistics = StatisticsEndpoint(self)
-        self.system = SystemEndpoint(self)
-        self.externalsystemcredentials = ExternalsystemcredentialsEndpoint(self)
-        self.permissions = PermissionsEndpoint(self)
-        self.userclasses = UserclassesEndpoint(self)
-        self.users = UsersEndpoint(self)
+    # Initializing endpoints
+    @property
+    def commands(self) -> "CommandsEndpoint":
+        from pyconnectwise.endpoints.automate import CommandsEndpoint
+
+        return CommandsEndpoint(self)
+
+    @property
+    def clients(self) -> "ClientsEndpoint":
+        from pyconnectwise.endpoints.automate import ClientsEndpoint
+
+        return ClientsEndpoint(self)
+
+    @property
+    def computers(self) -> "ComputersEndpoint":
+        from pyconnectwise.endpoints.automate import ComputersEndpoint
+
+        return ComputersEndpoint(self)
+
+    @property
+    def services(self) -> "ServicesEndpoint":
+        from pyconnectwise.endpoints.automate import ServicesEndpoint
+
+        return ServicesEndpoint(self)
+
+    @property
+    def contacts(self) -> "ContactsEndpoint":
+        from pyconnectwise.endpoints.automate import ContactsEndpoint
+
+        return ContactsEndpoint(self)
+
+    @property
+    def dataviewfolders(self) -> "DataviewfoldersEndpoint":
+        from pyconnectwise.endpoints.automate import DataviewfoldersEndpoint
+
+        return DataviewfoldersEndpoint(self)
+
+    @property
+    def dataviews(self) -> "DataviewsEndpoint":
+        from pyconnectwise.endpoints.automate import DataviewsEndpoint
+
+        return DataviewsEndpoint(self)
+
+    @property
+    def groups(self) -> "GroupsEndpoint":
+        from pyconnectwise.endpoints.automate import GroupsEndpoint
+
+        return GroupsEndpoint(self)
+
+    @property
+    def monitors(self) -> "MonitorsEndpoint":
+        from pyconnectwise.endpoints.automate import MonitorsEndpoint
+
+        return MonitorsEndpoint(self)
+
+    @property
+    def networkdevices(self) -> "NetworkdevicesEndpoint":
+        from pyconnectwise.endpoints.automate import NetworkdevicesEndpoint
+
+        return NetworkdevicesEndpoint(self)
+
+    @property
+    def patchactions(self) -> "PatchactionsEndpoint":
+        from pyconnectwise.endpoints.automate import PatchactionsEndpoint
+
+        return PatchactionsEndpoint(self)
+
+    @property
+    def locations(self) -> "LocationsEndpoint":
+        from pyconnectwise.endpoints.automate import LocationsEndpoint
+
+        return LocationsEndpoint(self)
+
+    @property
+    def lookups(self) -> "LookupsEndpoint":
+        from pyconnectwise.endpoints.automate import LookupsEndpoint
+
+        return LookupsEndpoint(self)
+
+    @property
+    def probeconfiguration(self) -> "ProbeconfigurationEndpoint":
+        from pyconnectwise.endpoints.automate import ProbeconfigurationEndpoint
+
+        return ProbeconfigurationEndpoint(self)
+
+    @property
+    def scriptfolders(self) -> "ScriptfoldersEndpoint":
+        from pyconnectwise.endpoints.automate import ScriptfoldersEndpoint
+
+        return ScriptfoldersEndpoint(self)
+
+    @property
+    def scripting(self) -> "ScriptingEndpoint":
+        from pyconnectwise.endpoints.automate import ScriptingEndpoint
+
+        return ScriptingEndpoint(self)
+
+    @property
+    def scripts(self) -> "ScriptsEndpoint":
+        from pyconnectwise.endpoints.automate import ScriptsEndpoint
+
+        return ScriptsEndpoint(self)
+
+    @property
+    def drives(self) -> "DrivesEndpoint":
+        from pyconnectwise.endpoints.automate import DrivesEndpoint
+
+        return DrivesEndpoint(self)
+
+    @property
+    def statistics(self) -> "StatisticsEndpoint":
+        from pyconnectwise.endpoints.automate import StatisticsEndpoint
+
+        return StatisticsEndpoint(self)
+
+    @property
+    def system(self) -> "SystemEndpoint":
+        from pyconnectwise.endpoints.automate import SystemEndpoint
+
+        return SystemEndpoint(self)
+
+    @property
+    def externalsystemcredentials(self) -> "ExternalsystemcredentialsEndpoint":
+        from pyconnectwise.endpoints.automate import ExternalsystemcredentialsEndpoint
+
+        return ExternalsystemcredentialsEndpoint(self)
+
+    @property
+    def permissions(self) -> "PermissionsEndpoint":
+        from pyconnectwise.endpoints.automate import PermissionsEndpoint
+
+        return PermissionsEndpoint(self)
+
+    @property
+    def userclasses(self) -> "UserclassesEndpoint":
+        from pyconnectwise.endpoints.automate import UserclassesEndpoint
+
+        return UserclassesEndpoint(self)
+
+    @property
+    def users(self) -> "UsersEndpoint":
+        from pyconnectwise.endpoints.automate import UsersEndpoint
+
+        return UsersEndpoint(self)
 
     def _get_url(self) -> str:
         """
