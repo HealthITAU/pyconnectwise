@@ -6,9 +6,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class ProbeconfigurationEnableprobeEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Enableprobe", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Enableprobe", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> ProbeconfigurationEnableprobeIdEndpoint:  # noqa: A002
         """
@@ -19,8 +17,6 @@ class ProbeconfigurationEnableprobeEndpoint(ConnectWiseEndpoint):
         Returns:
             ProbeconfigurationEnableprobeIdEndpoint: The initialized ProbeconfigurationEnableprobeIdEndpoint object.
         """
-        child = ProbeconfigurationEnableprobeIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ProbeconfigurationEnableprobeIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child

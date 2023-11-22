@@ -1,17 +1,15 @@
 import glob
 import json
 from collections import defaultdict
+from pathlib import Path
 
-from .client_gen import generate_automate_client, generate_manage_client
+from .client_gen import create_null_client, generate_automate_client, generate_manage_client
 from .endpoint_gen import generate_endpoint, normalize_path_parameters
 
 
 def capitalize_path(path):  # noqa: ANN001, ANN201
     segments = path.split("/")
-    segments = [
-        "{" + segment[1:] if segment.startswith("{") else segment.title()
-        for segment in segments
-    ]
+    segments = ["{" + segment[1:] if segment.startswith("{") else segment.title() for segment in segments]
     return "/".join(segments)
 
 
@@ -37,12 +35,8 @@ def merge_automate_specs(folder_path):  # noqa: ANN001, ANN201
             # Merge components
             if "components" in spec:
                 if "requestBodies" in spec["components"]:
-                    for req_body, req_body_content in spec["components"][
-                        "requestBodies"
-                    ].items():
-                        merged_spec["components"]["requestBodies"][
-                            req_body
-                        ] = req_body_content
+                    for req_body, req_body_content in spec["components"]["requestBodies"].items():
+                        merged_spec["components"]["requestBodies"][req_body] = req_body_content
 
                 if "schemas" in spec["components"]:
                     for schema, schema_content in spec["components"]["schemas"].items():
@@ -52,37 +46,8 @@ def merge_automate_specs(folder_path):  # noqa: ANN001, ANN201
     return merged_spec
 
 
-def load_schema(filename):  # noqa: ANN001, ANN201
-    with open(filename) as f:  # noqa: PTH123
-        return json.load(f)
-
-
-def generate_manage_code(  # noqa: ANN201
-    schema_path: str,
-    endpoint_output_path: str,
-    model_output_path: str,
-    client_output_path: str,
-):
-    schema = load_schema(schema_path)
-    _generate_manage(
-        endpoint_output_path, model_output_path, client_output_path, schema
-    )
-    pass
-
-
-def generate_automate_code(  # noqa: ANN201
-    schema_folder_path: str,
-    endpoint_output_path: str,
-    model_output_path: str,
-    client_output_path: str,
-):
-    schema = merge_automate_specs(schema_folder_path)
-    # schema = load_schema(schema_path)
-    #
-    _generate_automate(
-        endpoint_output_path, model_output_path, client_output_path, schema
-    )
-    pass
+def load_schema(filename: str):  # noqa: ANN201
+    return json.loads(Path(filename).read_bytes())
 
 
 def _pre_process_schema(schema: dict) -> list[str]:
@@ -121,18 +86,34 @@ def _parse_relationships(
     return dict(relationships), dict(top_level_endpoints)
 
 
-def _generate_manage(  # noqa: ANN202
+# Malformed endpoints found in 2022.1 and 2022.2 schemas that generate invalid
+# code.
+#
+# If these actually work in the API, then someone should probably fix this part
+# of the generation...
+MALFORMED_MANAGE_ENDPOINTS = {
+    "/system/members/{memberIdentifier:regex(^(types. |(",
+    "/system/info/members/{memberIdentifier:regex(^(types. |(",
+}
+
+
+def generate_manage(
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
     schema: dict,
-):
+) -> None:
+    create_null_client(client_output_path, "manage")
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []
     for endpoint in relationships:
         path = f"{endpoint}"
         path_info = {}
+
+        if path in MALFORMED_MANAGE_ENDPOINTS:
+            continue
+
         if schema["paths"].get(path) is not None:
             path_info = dict(schema["paths"][path].items())
         generate_endpoint(
@@ -141,7 +122,7 @@ def _generate_manage(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            True,
+            is_manage=True,
         )
 
     for endpoint in top_level_endpoints:
@@ -155,19 +136,20 @@ def _generate_manage(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            True,
+            is_manage=True,
         )
         client_top_level_endpoints.append(endpoint_class)
 
     generate_manage_client(client_output_path, client_top_level_endpoints)
 
 
-def _generate_automate(  # noqa: ANN202
+def generate_automate(
     endpoint_output_path: str,
     model_output_path: str,
     client_output_path: str,
     schema: dict,
-):
+) -> None:
+    create_null_client(client_output_path, "automate")
     schema = _pre_process_schema(schema)
     relationships, top_level_endpoints = _parse_relationships(schema["paths"])
     client_top_level_endpoints = []
@@ -182,7 +164,7 @@ def _generate_automate(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            False,
+            is_manage=False,
         )
 
     for endpoint in top_level_endpoints:
@@ -197,7 +179,7 @@ def _generate_automate(  # noqa: ANN202
             path,
             path_info,
             relationships,
-            False,
+            is_manage=False,
         )
         client_top_level_endpoints.append(endpoint_class)
 

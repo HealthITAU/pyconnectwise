@@ -1,24 +1,84 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMenuentriesIdEndpoint import (
-    SystemMenuentriesIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMenuentriesCountEndpoint import SystemMenuentriesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMenuentriesIdEndpoint import SystemMenuentriesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
+from pyconnectwise.models.manage import MenuEntry
+from pyconnectwise.responses.paginated_response import PaginatedResponse
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
-class SystemMenuentriesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "menuEntries", parent_endpoint=parent_endpoint
-        )
+class SystemMenuentriesEndpoint(
+    ConnectWiseEndpoint,
+    IGettable[list[MenuEntry], ConnectWiseManageRequestParams],
+    IPostable[MenuEntry, ConnectWiseManageRequestParams],
+    IPaginateable[MenuEntry, ConnectWiseManageRequestParams],
+):
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "menuentries", parent_endpoint=parent_endpoint)
+        IGettable.__init__(self, list[MenuEntry])
+        IPostable.__init__(self, MenuEntry)
+        IPaginateable.__init__(self, MenuEntry)
 
-    def id(self, id: int) -> SystemMenuentriesIdEndpoint:  # noqa: A002
+        self.count = self._register_child_endpoint(SystemMenuentriesCountEndpoint(client, parent_endpoint=self))
+
+    def id(self, _id: int) -> SystemMenuentriesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMenuentriesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemMenuentriesIdEndpoint: The initialized SystemMenuentriesIdEndpoint object.
         """
         child = SystemMenuentriesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
+
+    def paginated(
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+    ) -> PaginatedResponse[MenuEntry]:
+        """
+        Performs a GET request against the /system/menuentries endpoint and returns an initialized PaginatedResponse object.
+
+        Parameters:
+            page (int): The page number to request.
+            page_size (int): The number of results to return per page.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            PaginatedResponse[MenuEntry]: The initialized PaginatedResponse object.
+        """
+        if params:
+            params["page"] = page
+            params["pageSize"] = page_size
+        else:
+            params = {"page": page, "pageSize": page_size}
+        return PaginatedResponse(super()._make_request("GET", params=params), MenuEntry, self, page, page_size, params)
+
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[MenuEntry]:
+        """
+        Performs a GET request against the /system/menuentries endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            list[MenuEntry]: The parsed response data.
+        """
+        return self._parse_many(MenuEntry, super()._make_request("GET", data=data, params=params).json())
+
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> MenuEntry:
+        """
+        Performs a POST request against the /system/menuentries endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            MenuEntry: The parsed response data.
+        """
+        return self._parse_one(MenuEntry, super()._make_request("POST", data=data, params=params).json())

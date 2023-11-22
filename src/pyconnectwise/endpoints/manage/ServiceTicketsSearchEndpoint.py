@@ -1,28 +1,20 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPostable,
-)
+from pyconnectwise.interfaces import IPostable
 from pyconnectwise.models.manage import Ticket
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
-class ServiceTicketsSearchEndpoint(
-    ConnectWiseEndpoint, IPostable[list[Ticket], ConnectWiseManageRequestParams]
-):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "search", parent_endpoint=parent_endpoint
-        )
+class ServiceTicketsSearchEndpoint(ConnectWiseEndpoint, IPostable[list[Ticket], ConnectWiseManageRequestParams]):
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "search", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, list[Ticket])
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[Ticket]:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Ticket]:
         """
         Performs a POST request against the /service/tickets/search endpoint.
 
@@ -32,6 +24,4 @@ class ServiceTicketsSearchEndpoint(
         Returns:
             list[Ticket]: The parsed response data.
         """
-        return self._parse_many(
-            Ticket, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_many(Ticket, super()._make_request("POST", data=data, params=params).json())

@@ -13,9 +13,7 @@ class SystemM365contactsyncNotifyerrorEndpoint(
     ConnectWiseEndpoint, IPostable[SuccessResponse, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notifyerror", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "notifyerror", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, SuccessResponse)
 
     def post(

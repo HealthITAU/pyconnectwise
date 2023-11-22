@@ -1,40 +1,31 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPuttable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPatchable, IPuttable
 from pyconnectwise.models.manage import AgreementTypeBoardDefault
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, PatchRequestData
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAgreementtypesIdBoarddefaultsIdEndpoint(
     ConnectWiseEndpoint,
     IGettable[AgreementTypeBoardDefault, ConnectWiseManageRequestParams],
-    IPuttable[AgreementTypeBoardDefault, ConnectWiseManageRequestParams],
     IPatchable[AgreementTypeBoardDefault, ConnectWiseManageRequestParams],
+    IPuttable[AgreementTypeBoardDefault, ConnectWiseManageRequestParams],
     IPaginateable[AgreementTypeBoardDefault, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, AgreementTypeBoardDefault)
-        IPuttable.__init__(self, AgreementTypeBoardDefault)
         IPatchable.__init__(self, AgreementTypeBoardDefault)
+        IPuttable.__init__(self, AgreementTypeBoardDefault)
         IPaginateable.__init__(self, AgreementTypeBoardDefault)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AgreementTypeBoardDefault]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -52,18 +43,21 @@ class FinanceAgreementtypesIdBoarddefaultsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AgreementTypeBoardDefault,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AgreementTypeBoardDefault, self, page, page_size, params
         )
 
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+        """
+        Performs a DELETE request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        """
+        super()._make_request("DELETE", data=data, params=params)
+
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> AgreementTypeBoardDefault:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
@@ -74,48 +68,10 @@ class FinanceAgreementtypesIdBoarddefaultsIdEndpoint(
         Returns:
             AgreementTypeBoardDefault: The parsed response data.
         """
-        return self._parse_one(
-            AgreementTypeBoardDefault,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
-
-    def delete(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> None:
-        """
-        Performs a DELETE request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        """
-        super()._make_request("DELETE", data=data, params=params)
-
-    def put(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> AgreementTypeBoardDefault:
-        """
-        Performs a PUT request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            AgreementTypeBoardDefault: The parsed response data.
-        """
-        return self._parse_one(
-            AgreementTypeBoardDefault,
-            super()._make_request("PUT", data=data, params=params).json(),
-        )
+        return self._parse_one(AgreementTypeBoardDefault, super()._make_request("GET", data=data, params=params).json())
 
     def patch(
-        self,
-        data: PatchRequestData,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> AgreementTypeBoardDefault:
         """
         Performs a PATCH request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
@@ -127,6 +83,19 @@ class FinanceAgreementtypesIdBoarddefaultsIdEndpoint(
             AgreementTypeBoardDefault: The parsed response data.
         """
         return self._parse_one(
-            AgreementTypeBoardDefault,
-            super()._make_request("PATCH", data=data, params=params).json(),
+            AgreementTypeBoardDefault, super()._make_request("PATCH", data=data, params=params).json()
         )
+
+    def put(
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
+    ) -> AgreementTypeBoardDefault:
+        """
+        Performs a PUT request against the /finance/agreementTypes/{id}/boardDefaults/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            AgreementTypeBoardDefault: The parsed response data.
+        """
+        return self._parse_one(AgreementTypeBoardDefault, super()._make_request("PUT", data=data, params=params).json())

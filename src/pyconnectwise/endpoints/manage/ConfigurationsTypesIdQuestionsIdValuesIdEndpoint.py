@@ -1,17 +1,18 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ConfigurationsTypesIdQuestionsIdValuesIdInfoEndpoint import (
     ConfigurationsTypesIdQuestionsIdValuesIdInfoEndpoint,
 )
 
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+
 
 class ConfigurationsTypesIdQuestionsIdValuesIdEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
 
         self.info = self._register_child_endpoint(
-            ConfigurationsTypesIdQuestionsIdValuesIdInfoEndpoint(
-                client, parent_endpoint=self
-            )
+            ConfigurationsTypesIdQuestionsIdValuesIdInfoEndpoint(client, parent_endpoint=self)
         )

@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint import (
     ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint,
@@ -6,32 +8,27 @@ from pyconnectwise.endpoints.manage.ProcurementPurchaseorderstatusesIdEmailtempl
     ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint,
 )
 
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+
 
 class ProcurementPurchaseorderstatusesIdEmailtemplatesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "emailtemplates", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "emailtemplates", parent_endpoint=parent_endpoint)
 
         self.count = self._register_child_endpoint(
-            ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementPurchaseorderstatusesIdEmailtemplatesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
+    def id(self, _id: int) -> ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint: The initialized ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint object.
         """
-        child = ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = ProcurementPurchaseorderstatusesIdEmailtemplatesIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child

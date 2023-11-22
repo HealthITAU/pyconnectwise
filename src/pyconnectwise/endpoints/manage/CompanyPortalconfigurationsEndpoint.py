@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsCopyEndpoint import (
     CompanyPortalconfigurationsCopyEndpoint,
@@ -5,23 +7,17 @@ from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsCopyEndpoint impo
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsCountEndpoint import (
     CompanyPortalconfigurationsCountEndpoint,
 )
-from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdEndpoint import (
-    CompanyPortalconfigurationsIdEndpoint,
-)
+from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsIdEndpoint import CompanyPortalconfigurationsIdEndpoint
 from pyconnectwise.endpoints.manage.CompanyPortalconfigurationsInvoicesetupEndpoint import (
     CompanyPortalconfigurationsInvoicesetupEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import PortalConfiguration
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyPortalconfigurationsEndpoint(
@@ -30,44 +26,35 @@ class CompanyPortalconfigurationsEndpoint(
     IPostable[PortalConfiguration, ConnectWiseManageRequestParams],
     IPaginateable[PortalConfiguration, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "portalConfigurations", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "portalConfigurations", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[PortalConfiguration])
         IPostable.__init__(self, PortalConfiguration)
         IPaginateable.__init__(self, PortalConfiguration)
 
-        self.copy = self._register_child_endpoint(
-            CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self)
-        )
+        self.copy = self._register_child_endpoint(CompanyPortalconfigurationsCopyEndpoint(client, parent_endpoint=self))
         self.count = self._register_child_endpoint(
             CompanyPortalconfigurationsCountEndpoint(client, parent_endpoint=self)
         )
         self.invoice_setup = self._register_child_endpoint(
-            CompanyPortalconfigurationsInvoicesetupEndpoint(
-                client, parent_endpoint=self
-            )
+            CompanyPortalconfigurationsInvoicesetupEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> CompanyPortalconfigurationsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyPortalconfigurationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyPortalconfigurationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyPortalconfigurationsIdEndpoint: The initialized CompanyPortalconfigurationsIdEndpoint object.
         """
         child = CompanyPortalconfigurationsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalConfiguration]:
         """
         Performs a GET request against the /company/portalConfigurations endpoint and returns an initialized PaginatedResponse object.
@@ -85,18 +72,11 @@ class CompanyPortalconfigurationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            PortalConfiguration,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), PortalConfiguration, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[PortalConfiguration]:
         """
         Performs a GET request against the /company/portalConfigurations endpoint.
@@ -107,15 +87,10 @@ class CompanyPortalconfigurationsEndpoint(
         Returns:
             list[PortalConfiguration]: The parsed response data.
         """
-        return self._parse_many(
-            PortalConfiguration,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(PortalConfiguration, super()._make_request("GET", data=data, params=params).json())
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> PortalConfiguration:
         """
         Performs a POST request against the /company/portalConfigurations endpoint.
@@ -126,7 +101,4 @@ class CompanyPortalconfigurationsEndpoint(
         Returns:
             PortalConfiguration: The parsed response data.
         """
-        return self._parse_one(
-            PortalConfiguration,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(PortalConfiguration, super()._make_request("POST", data=data, params=params).json())

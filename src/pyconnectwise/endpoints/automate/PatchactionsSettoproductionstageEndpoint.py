@@ -7,9 +7,7 @@ from pyconnectwise.types import (
 
 class PatchactionsSettoproductionstageEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Settoproductionstage", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Settoproductionstage", parent_endpoint=parent_endpoint)
 
     def post(
         self,

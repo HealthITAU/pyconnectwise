@@ -12,17 +12,11 @@ from pyconnectwise.types import (
 
 class UserclassesIdWebextensionsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[
-        list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams
-    ],
-    IPuttable[
-        list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams
-    ],
+    IGettable[list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams],
+    IPuttable[list[AutomateUserClassWebExtensionViewModel], ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Webextensions", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Webextensions", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AutomateUserClassWebExtensionViewModel])
         IPuttable.__init__(self, list[AutomateUserClassWebExtensionViewModel])
 

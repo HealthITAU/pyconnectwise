@@ -9,13 +9,9 @@ from pyconnectwise.types import (
 )
 
 
-class UsersIdUseraccessEndpoint(
-    ConnectWiseEndpoint, IGettable[AutomateUserAccess, ConnectWiseAutomateRequestParams]
-):
+class UsersIdUseraccessEndpoint(ConnectWiseEndpoint, IGettable[AutomateUserAccess, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Useraccess", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Useraccess", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, AutomateUserAccess)
 
     def get(

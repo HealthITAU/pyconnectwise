@@ -25,16 +25,12 @@ class ProjectIdBillingratesEndpoint(
     IPaginateable[ProjectBillingRate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "billingRates", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "billingRates", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ProjectBillingRate])
         IPostable.__init__(self, ProjectBillingRate)
         IPaginateable.__init__(self, ProjectBillingRate)
 
-        self.count = self._register_child_endpoint(
-            ProjectIdBillingratesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProjectIdBillingratesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProjectIdBillingratesIdEndpoint:  # noqa: A002
         """

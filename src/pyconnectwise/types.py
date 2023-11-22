@@ -1,5 +1,6 @@
 from typing import Literal, TypeAlias
-from typing_extensions import TypedDict, NotRequired
+
+from typing_extensions import NotRequired, TypedDict
 
 Literals: TypeAlias = str | int | float | bool
 JSON: TypeAlias = dict[str, "JSON"] | list["JSON"] | Literals | None
@@ -35,11 +36,7 @@ class ConnectWiseAutomateRequestParams(TypedDict):
 
 
 GenericRequestParams: TypeAlias = dict[str, Literals]
-RequestParams: TypeAlias = (
-    ConnectWiseManageRequestParams
-    | ConnectWiseAutomateRequestParams
-    | GenericRequestParams
-)
+RequestParams: TypeAlias = ConnectWiseManageRequestParams | ConnectWiseAutomateRequestParams | GenericRequestParams
 PatchRequestData: TypeAlias = list[Patch]
 RequestData: TypeAlias = JSON | PatchRequestData
 RequestMethod: TypeAlias = Literal["GET", "POST", "PUT", "PATCH", "DELETE"]

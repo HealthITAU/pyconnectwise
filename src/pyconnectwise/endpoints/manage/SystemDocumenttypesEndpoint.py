@@ -9,13 +9,9 @@ from pyconnectwise.endpoints.manage.SystemDocumenttypesInfoEndpoint import (
 
 class SystemDocumenttypesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "documentTypes", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "documentTypes", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemDocumenttypesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemDocumenttypesInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemDocumenttypesIdEndpoint:  # noqa: A002
         """

@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import SLAInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ServiceSlasIdInfoEndpoint(
@@ -16,18 +15,13 @@ class ServiceSlasIdInfoEndpoint(
     IGettable[SLAInfo, ConnectWiseManageRequestParams],
     IPaginateable[SLAInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, SLAInfo)
         IPaginateable.__init__(self, SLAInfo)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[SLAInfo]:
         """
         Performs a GET request against the /service/slas/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -44,20 +38,9 @@ class ServiceSlasIdInfoEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            SLAInfo,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), SLAInfo, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> SLAInfo:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> SLAInfo:
         """
         Performs a GET request against the /service/slas/{id}/info endpoint.
 
@@ -67,6 +50,4 @@ class ServiceSlasIdInfoEndpoint(
         Returns:
             SLAInfo: The parsed response data.
         """
-        return self._parse_one(
-            SLAInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(SLAInfo, super()._make_request("GET", data=data, params=params).json())

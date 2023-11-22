@@ -1,20 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SchedulePortalcalendarsCountEndpoint import (
-    SchedulePortalcalendarsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SchedulePortalcalendarsIdEndpoint import (
-    SchedulePortalcalendarsIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.SchedulePortalcalendarsCountEndpoint import SchedulePortalcalendarsCountEndpoint
+from pyconnectwise.endpoints.manage.SchedulePortalcalendarsIdEndpoint import SchedulePortalcalendarsIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import PortalCalendar
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SchedulePortalcalendarsEndpoint(
@@ -22,35 +17,28 @@ class SchedulePortalcalendarsEndpoint(
     IGettable[list[PortalCalendar], ConnectWiseManageRequestParams],
     IPaginateable[PortalCalendar, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "portalcalendars", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "portalcalendars", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[PortalCalendar])
         IPaginateable.__init__(self, PortalCalendar)
 
-        self.count = self._register_child_endpoint(
-            SchedulePortalcalendarsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SchedulePortalcalendarsCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SchedulePortalcalendarsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SchedulePortalcalendarsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SchedulePortalcalendarsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SchedulePortalcalendarsIdEndpoint: The initialized SchedulePortalcalendarsIdEndpoint object.
         """
         child = SchedulePortalcalendarsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[PortalCalendar]:
         """
         Performs a GET request against the /schedule/portalcalendars endpoint and returns an initialized PaginatedResponse object.
@@ -68,18 +56,11 @@ class SchedulePortalcalendarsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            PortalCalendar,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), PortalCalendar, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[PortalCalendar]:
         """
         Performs a GET request against the /schedule/portalcalendars endpoint.
@@ -90,7 +71,4 @@ class SchedulePortalcalendarsEndpoint(
         Returns:
             list[PortalCalendar]: The parsed response data.
         """
-        return self._parse_many(
-            PortalCalendar,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(PortalCalendar, super()._make_request("GET", data=data, params=params).json())

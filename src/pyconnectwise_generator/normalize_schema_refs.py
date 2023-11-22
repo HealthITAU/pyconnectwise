@@ -1,5 +1,7 @@
-import json
 import argparse
+import json
+from pathlib import Path
+from typing import Any
 
 
 def normalize_schema_name(schema_name):  # noqa: ANN001, ANN201
@@ -19,9 +21,7 @@ def update_schema_references(data, name_mapping):  # noqa: ANN001, ANN201
                 ref_schema_name = value.split("/")[-1]
                 # Update the reference if the schema name is in name_mapping
                 if ref_schema_name in name_mapping:
-                    data[key] = value.replace(
-                        ref_schema_name, name_mapping[ref_schema_name]
-                    )
+                    data[key] = value.replace(ref_schema_name, name_mapping[ref_schema_name])
             else:
                 update_schema_references(value, name_mapping)
     elif isinstance(data, list):
@@ -29,18 +29,7 @@ def update_schema_references(data, name_mapping):  # noqa: ANN001, ANN201
             update_schema_references(item, name_mapping)
 
 
-def main():  # noqa: ANN201
-    # Parsing command-line arguments
-    parser = argparse.ArgumentParser(description="Normalize OpenAPI JSON schema names.")
-    parser.add_argument(
-        "--input", type=str, required=True, help="Path to the OpenAPI JSON file."
-    )
-    args = parser.parse_args()
-
-    # Loading the JSON file
-    with open(args.input) as file:  # noqa: PTH123
-        data = json.load(file)
-
+def normalize_json_schema(data: dict[str, Any]) -> dict[str, Any]:
     # Normalizing schema names and storing the old-new name mapping
     name_mapping = {}
     schemas = data.get("components", {}).get("schemas", {})
@@ -51,10 +40,25 @@ def main():  # noqa: ANN201
 
     # Updating all path references
     update_schema_references(data, name_mapping)
+    return data
+
+
+def main():  # noqa: ANN201
+    # Parsing command-line arguments
+    parser = argparse.ArgumentParser(description="Normalize OpenAPI JSON schema names.")
+    parser.add_argument("--input", type=str, required=True, help="Path to the OpenAPI JSON file.")
+    args = parser.parse_args()
+
+    infile = Path(args.input).resolve(strict=True)
+    outfile = infile.with_suffix(".normalized.json")
+
+    # Loading the JSON file
+    data = json.loads(infile.read_bytes())
+
+    data = normalize_json_schema(data)
 
     # Writing the updated JSON back to the file
-    with open(args.input, "w") as file:  # noqa: PTH123
-        json.dump(data, file, indent=4)
+    outfile.write_text(json.dumps(data, indent=4))
 
 
 if __name__ == "__main__":

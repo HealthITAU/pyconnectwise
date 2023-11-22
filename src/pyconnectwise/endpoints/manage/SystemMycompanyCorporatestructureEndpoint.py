@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureCountEndpoint import (
     SystemMycompanyCorporatestructureCountEndpoint,
@@ -8,16 +10,13 @@ from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureIdEndpoint 
 from pyconnectwise.endpoints.manage.SystemMycompanyCorporatestructureInfoEndpoint import (
     SystemMycompanyCorporatestructureInfoEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import CorporateStructure
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemMycompanyCorporatestructureEndpoint(
@@ -25,10 +24,8 @@ class SystemMycompanyCorporatestructureEndpoint(
     IGettable[list[CorporateStructure], ConnectWiseManageRequestParams],
     IPaginateable[CorporateStructure, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "corporateStructure", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "corporateStructure", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[CorporateStructure])
         IPaginateable.__init__(self, CorporateStructure)
 
@@ -39,26 +36,21 @@ class SystemMycompanyCorporatestructureEndpoint(
             SystemMycompanyCorporatestructureInfoEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemMycompanyCorporatestructureIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemMycompanyCorporatestructureIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMycompanyCorporatestructureIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemMycompanyCorporatestructureIdEndpoint: The initialized SystemMycompanyCorporatestructureIdEndpoint object.
         """
-        child = SystemMycompanyCorporatestructureIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = SystemMycompanyCorporatestructureIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint and returns an initialized PaginatedResponse object.
@@ -76,18 +68,11 @@ class SystemMycompanyCorporatestructureEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CorporateStructure,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), CorporateStructure, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[CorporateStructure]:
         """
         Performs a GET request against the /system/myCompany/corporateStructure endpoint.
@@ -98,7 +83,4 @@ class SystemMycompanyCorporatestructureEndpoint(
         Returns:
             list[CorporateStructure]: The parsed response data.
         """
-        return self._parse_many(
-            CorporateStructure,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(CorporateStructure, super()._make_request("GET", data=data, params=params).json())

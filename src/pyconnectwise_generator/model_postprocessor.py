@@ -1,8 +1,10 @@
-import os
 import ast
-from ast import parse
-from astunparse import unparse
+import os
 import re
+from ast import parse
+from pathlib import Path
+
+from astunparse import unparse
 
 
 def move_imports_to_bottom(filename):  # noqa: ANN001, ANN201
@@ -14,8 +16,7 @@ def move_imports_to_bottom(filename):  # noqa: ANN001, ANN201
         "__future__",
         "pyconnectwise.models.base.connectwise_model",
     ]
-    with open(filename) as file:  # noqa: PTH123
-        source_code = file.read()
+    source_code = Path(filename).read_text()
 
     module = parse(source_code)
     body = module.body
@@ -23,7 +24,7 @@ def move_imports_to_bottom(filename):  # noqa: ANN001, ANN201
     # Check each statement in the body of the module
     for i, statement in reversed(list(enumerate(body))):
         # If the statement is an import
-        if isinstance(statement, (ast.Import, ast.ImportFrom)):  # noqa: SIM102
+        if isinstance(statement, ast.Import | ast.ImportFrom):  # noqa: SIM102
             # If the imported module is not in the list of exceptions
             if not any(ex in unparse(statement) for ex in exceptions):
                 # Remove the import statement from its current position and append it to the end of the body

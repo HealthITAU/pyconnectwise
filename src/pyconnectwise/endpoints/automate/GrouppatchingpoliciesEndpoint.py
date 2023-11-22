@@ -17,9 +17,7 @@ class GrouppatchingpoliciesEndpoint(
     IPaginateable[AutomateGroupPatchingPolicy, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Grouppatchingpolicies", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Grouppatchingpolicies", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AutomateGroupPatchingPolicy])
         IPaginateable.__init__(self, AutomateGroupPatchingPolicy)
 

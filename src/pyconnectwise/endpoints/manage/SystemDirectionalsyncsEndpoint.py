@@ -9,13 +9,9 @@ from pyconnectwise.endpoints.manage.SystemDirectionalsyncsInfoEndpoint import (
 
 class SystemDirectionalsyncsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "directionalSyncs", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "directionalSyncs", parent_endpoint=parent_endpoint)
 
-        self.info = self._register_child_endpoint(
-            SystemDirectionalsyncsInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(SystemDirectionalsyncsInfoEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> SystemDirectionalsyncsIdEndpoint:  # noqa: A002
         """

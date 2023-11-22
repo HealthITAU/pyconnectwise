@@ -9,9 +9,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class ScriptingEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Scripting", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Scripting", parent_endpoint=parent_endpoint)
 
         self.runningscripts = self._register_child_endpoint(
             ScriptingRunningscriptsEndpoint(client, parent_endpoint=self)

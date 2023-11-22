@@ -17,9 +17,7 @@ class CompanyContactTypesIdUsagesListEndpoint(
     IPaginateable[Usage, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "list", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "list", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[Usage])
         IPaginateable.__init__(self, Usage)
 
@@ -67,6 +65,4 @@ class CompanyContactTypesIdUsagesListEndpoint(
         Returns:
             list[Usage]: The parsed response data.
         """
-        return self._parse_many(
-            Usage, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Usage, super()._make_request("GET", data=data, params=params).json())

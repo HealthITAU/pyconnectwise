@@ -28,18 +28,14 @@ class ProjectProjecttemplatesIdEndpoint(
     IPaginateable[ProjectTemplate, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, ProjectTemplate)
         IPuttable.__init__(self, ProjectTemplate)
         IPatchable.__init__(self, ProjectTemplate)
         IPaginateable.__init__(self, ProjectTemplate)
 
         self.project_template_tickets = self._register_child_endpoint(
-            ProjectProjecttemplatesIdProjecttemplateticketsEndpoint(
-                client, parent_endpoint=self
-            )
+            ProjectProjecttemplatesIdProjecttemplateticketsEndpoint(client, parent_endpoint=self)
         )
         self.workplan = self._register_child_endpoint(
             ProjectProjecttemplatesIdWorkplanEndpoint(client, parent_endpoint=self)

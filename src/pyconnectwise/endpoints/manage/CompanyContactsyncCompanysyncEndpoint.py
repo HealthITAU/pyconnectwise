@@ -6,9 +6,7 @@ from pyconnectwise.endpoints.manage.CompanyContactsyncCompanysyncIdEndpoint impo
 
 class CompanyContactsyncCompanysyncEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "companysync", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "companysync", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> CompanyContactsyncCompanysyncIdEndpoint:  # noqa: A002
         """
@@ -19,8 +17,6 @@ class CompanyContactsyncCompanysyncEndpoint(ConnectWiseEndpoint):
         Returns:
             CompanyContactsyncCompanysyncIdEndpoint: The initialized CompanyContactsyncCompanysyncIdEndpoint object.
         """
-        child = CompanyContactsyncCompanysyncIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = CompanyContactsyncCompanysyncIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child

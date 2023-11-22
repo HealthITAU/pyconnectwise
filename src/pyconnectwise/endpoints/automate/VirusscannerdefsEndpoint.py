@@ -19,9 +19,7 @@ class VirusscannerdefsEndpoint(
     IPaginateable[LabTechVirusScannerDef, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Virusscannerdefs", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Virusscannerdefs", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechVirusScannerDef])
         IPostable.__init__(self, LabTechVirusScannerDef)
         IPaginateable.__init__(self, LabTechVirusScannerDef)

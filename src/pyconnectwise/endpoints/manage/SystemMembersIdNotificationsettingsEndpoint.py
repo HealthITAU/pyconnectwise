@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsCountEndpoint import (
     SystemMembersIdNotificationsettingsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsCountEndp
 from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsIdEndpoint import (
     SystemMembersIdNotificationsettingsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import MemberNotificationSetting
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemMembersIdNotificationsettingsEndpoint(
@@ -24,42 +22,31 @@ class SystemMembersIdNotificationsettingsEndpoint(
     IPostable[MemberNotificationSetting, ConnectWiseManageRequestParams],
     IPaginateable[MemberNotificationSetting, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notificationSettings", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "notificationSettings", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[MemberNotificationSetting])
         IPostable.__init__(self, MemberNotificationSetting)
         IPaginateable.__init__(self, MemberNotificationSetting)
 
         self.count = self._register_child_endpoint(
-            SystemMembersIdNotificationsettingsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            SystemMembersIdNotificationsettingsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> SystemMembersIdNotificationsettingsIdEndpoint:
+    def id(self, _id: int) -> SystemMembersIdNotificationsettingsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdNotificationsettingsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemMembersIdNotificationsettingsIdEndpoint: The initialized SystemMembersIdNotificationsettingsIdEndpoint object.
         """
-        child = SystemMembersIdNotificationsettingsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = SystemMembersIdNotificationsettingsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MemberNotificationSetting]:
         """
         Performs a GET request against the /system/members/{id}/notificationSettings endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +64,11 @@ class SystemMembersIdNotificationsettingsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            MemberNotificationSetting,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), MemberNotificationSetting, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[MemberNotificationSetting]:
         """
         Performs a GET request against the /system/members/{id}/notificationSettings endpoint.
@@ -100,14 +80,11 @@ class SystemMembersIdNotificationsettingsEndpoint(
             list[MemberNotificationSetting]: The parsed response data.
         """
         return self._parse_many(
-            MemberNotificationSetting,
-            super()._make_request("GET", data=data, params=params).json(),
+            MemberNotificationSetting, super()._make_request("GET", data=data, params=params).json()
         )
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> MemberNotificationSetting:
         """
         Performs a POST request against the /system/members/{id}/notificationSettings endpoint.
@@ -119,6 +96,5 @@ class SystemMembersIdNotificationsettingsEndpoint(
             MemberNotificationSetting: The parsed response data.
         """
         return self._parse_one(
-            MemberNotificationSetting,
-            super()._make_request("POST", data=data, params=params).json(),
+            MemberNotificationSetting, super()._make_request("POST", data=data, params=params).json()
         )

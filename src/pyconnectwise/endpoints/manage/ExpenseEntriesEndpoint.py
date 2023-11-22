@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ExpenseEntriesCountEndpoint import (
-    ExpenseEntriesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ExpenseEntriesIdEndpoint import (
-    ExpenseEntriesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.ExpenseEntriesCountEndpoint import ExpenseEntriesCountEndpoint
+from pyconnectwise.endpoints.manage.ExpenseEntriesIdEndpoint import ExpenseEntriesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import ExpenseEntry
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ExpenseEntriesEndpoint(
@@ -24,36 +18,29 @@ class ExpenseEntriesEndpoint(
     IPostable[ExpenseEntry, ConnectWiseManageRequestParams],
     IPaginateable[ExpenseEntry, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "entries", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "entries", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ExpenseEntry])
         IPostable.__init__(self, ExpenseEntry)
         IPaginateable.__init__(self, ExpenseEntry)
 
-        self.count = self._register_child_endpoint(
-            ExpenseEntriesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ExpenseEntriesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> ExpenseEntriesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> ExpenseEntriesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ExpenseEntriesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ExpenseEntriesIdEndpoint: The initialized ExpenseEntriesIdEndpoint object.
         """
         child = ExpenseEntriesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ExpenseEntry]:
         """
         Performs a GET request against the /expense/entries endpoint and returns an initialized PaginatedResponse object.
@@ -71,19 +58,10 @@ class ExpenseEntriesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ExpenseEntry,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ExpenseEntry, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[ExpenseEntry]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ExpenseEntry]:
         """
         Performs a GET request against the /expense/entries endpoint.
 
@@ -93,15 +71,9 @@ class ExpenseEntriesEndpoint(
         Returns:
             list[ExpenseEntry]: The parsed response data.
         """
-        return self._parse_many(
-            ExpenseEntry, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ExpenseEntry, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ExpenseEntry:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ExpenseEntry:
         """
         Performs a POST request against the /expense/entries endpoint.
 
@@ -111,6 +83,4 @@ class ExpenseEntriesEndpoint(
         Returns:
             ExpenseEntry: The parsed response data.
         """
-        return self._parse_one(
-            ExpenseEntry, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ExpenseEntry, super()._make_request("POST", data=data, params=params).json())

@@ -1,20 +1,17 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesCountEndpoint import (
     SystemLocationsIdWorkrolesCountEndpoint,
 )
-from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesIdEndpoint import (
-    SystemLocationsIdWorkrolesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.SystemLocationsIdWorkrolesIdEndpoint import SystemLocationsIdWorkrolesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import LocationWorkRole
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemLocationsIdWorkrolesEndpoint(
@@ -22,10 +19,8 @@ class SystemLocationsIdWorkrolesEndpoint(
     IGettable[list[LocationWorkRole], ConnectWiseManageRequestParams],
     IPaginateable[LocationWorkRole, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "workRoles", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "workRoles", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LocationWorkRole])
         IPaginateable.__init__(self, LocationWorkRole)
 
@@ -33,24 +28,21 @@ class SystemLocationsIdWorkrolesEndpoint(
             SystemLocationsIdWorkrolesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemLocationsIdWorkrolesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemLocationsIdWorkrolesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemLocationsIdWorkrolesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemLocationsIdWorkrolesIdEndpoint: The initialized SystemLocationsIdWorkrolesIdEndpoint object.
         """
         child = SystemLocationsIdWorkrolesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LocationWorkRole]:
         """
         Performs a GET request against the /system/locations/{id}/workRoles endpoint and returns an initialized PaginatedResponse object.
@@ -68,18 +60,11 @@ class SystemLocationsIdWorkrolesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            LocationWorkRole,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), LocationWorkRole, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[LocationWorkRole]:
         """
         Performs a GET request against the /system/locations/{id}/workRoles endpoint.
@@ -90,7 +75,4 @@ class SystemLocationsIdWorkrolesEndpoint(
         Returns:
             list[LocationWorkRole]: The parsed response data.
         """
-        return self._parse_many(
-            LocationWorkRole,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(LocationWorkRole, super()._make_request("GET", data=data, params=params).json())

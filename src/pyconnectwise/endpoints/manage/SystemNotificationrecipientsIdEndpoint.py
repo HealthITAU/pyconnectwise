@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import NotificationRecipient
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemNotificationrecipientsIdEndpoint(
@@ -16,18 +15,13 @@ class SystemNotificationrecipientsIdEndpoint(
     IGettable[NotificationRecipient, ConnectWiseManageRequestParams],
     IPaginateable[NotificationRecipient, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, NotificationRecipient)
         IPaginateable.__init__(self, NotificationRecipient)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[NotificationRecipient]:
         """
         Performs a GET request against the /system/notificationRecipients/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -45,18 +39,11 @@ class SystemNotificationrecipientsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            NotificationRecipient,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), NotificationRecipient, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> NotificationRecipient:
         """
         Performs a GET request against the /system/notificationRecipients/{id} endpoint.
@@ -67,7 +54,4 @@ class SystemNotificationrecipientsIdEndpoint(
         Returns:
             NotificationRecipient: The parsed response data.
         """
-        return self._parse_one(
-            NotificationRecipient,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(NotificationRecipient, super()._make_request("GET", data=data, params=params).json())

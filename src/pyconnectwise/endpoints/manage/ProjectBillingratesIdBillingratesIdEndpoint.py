@@ -13,9 +13,7 @@ class ProjectBillingratesIdBillingratesIdEndpoint(
     ConnectWiseEndpoint, IPatchable[ProjectBillingRate, ConnectWiseManageRequestParams]
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IPatchable.__init__(self, ProjectBillingRate)
 
     def patch(

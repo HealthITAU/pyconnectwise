@@ -9,17 +9,11 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class ComputersIdAlertsuspensionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Alertsuspensions", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Alertsuspensions", parent_endpoint=parent_endpoint)
 
         self.templatediversion = self._register_child_endpoint(
-            ComputersIdAlertsuspensionsTemplatediversionEndpoint(
-                client, parent_endpoint=self
-            )
+            ComputersIdAlertsuspensionsTemplatediversionEndpoint(client, parent_endpoint=self)
         )
         self.maintenancewindow = self._register_child_endpoint(
-            ComputersIdAlertsuspensionsMaintenancewindowEndpoint(
-                client, parent_endpoint=self
-            )
+            ComputersIdAlertsuspensionsMaintenancewindowEndpoint(client, parent_endpoint=self)
         )

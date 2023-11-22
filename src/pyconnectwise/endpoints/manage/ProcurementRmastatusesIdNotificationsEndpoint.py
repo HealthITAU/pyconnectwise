@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsCountEndpoint import (
     ProcurementRmastatusesIdNotificationsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsCountEn
 from pyconnectwise.endpoints.manage.ProcurementRmastatusesIdNotificationsIdEndpoint import (
     ProcurementRmastatusesIdNotificationsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import RmaStatusNotification
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementRmastatusesIdNotificationsEndpoint(
@@ -24,42 +22,31 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
     IPostable[RmaStatusNotification, ConnectWiseManageRequestParams],
     IPaginateable[RmaStatusNotification, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notifications", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "notifications", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[RmaStatusNotification])
         IPostable.__init__(self, RmaStatusNotification)
         IPaginateable.__init__(self, RmaStatusNotification)
 
         self.count = self._register_child_endpoint(
-            ProcurementRmastatusesIdNotificationsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ProcurementRmastatusesIdNotificationsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> ProcurementRmastatusesIdNotificationsIdEndpoint:
+    def id(self, _id: int) -> ProcurementRmastatusesIdNotificationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementRmastatusesIdNotificationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProcurementRmastatusesIdNotificationsIdEndpoint: The initialized ProcurementRmastatusesIdNotificationsIdEndpoint object.
         """
-        child = ProcurementRmastatusesIdNotificationsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = ProcurementRmastatusesIdNotificationsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[RmaStatusNotification]:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/notifications endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +64,11 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            RmaStatusNotification,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), RmaStatusNotification, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[RmaStatusNotification]:
         """
         Performs a GET request against the /procurement/rmaStatuses/{id}/notifications endpoint.
@@ -99,15 +79,10 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
         Returns:
             list[RmaStatusNotification]: The parsed response data.
         """
-        return self._parse_many(
-            RmaStatusNotification,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(RmaStatusNotification, super()._make_request("GET", data=data, params=params).json())
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> RmaStatusNotification:
         """
         Performs a POST request against the /procurement/rmaStatuses/{id}/notifications endpoint.
@@ -118,7 +93,4 @@ class ProcurementRmastatusesIdNotificationsEndpoint(
         Returns:
             RmaStatusNotification: The parsed response data.
         """
-        return self._parse_one(
-            RmaStatusNotification,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(RmaStatusNotification, super()._make_request("POST", data=data, params=params).json())

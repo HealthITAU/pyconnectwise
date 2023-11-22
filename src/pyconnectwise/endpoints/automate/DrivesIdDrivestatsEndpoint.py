@@ -15,19 +15,9 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class DrivesIdDrivestatsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Drivestats", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Drivestats", parent_endpoint=parent_endpoint)
 
-        self.yearly = self._register_child_endpoint(
-            DrivesIdDrivestatsYearlyEndpoint(client, parent_endpoint=self)
-        )
-        self.weekly = self._register_child_endpoint(
-            DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self)
-        )
-        self.monthly = self._register_child_endpoint(
-            DrivesIdDrivestatsMonthlyEndpoint(client, parent_endpoint=self)
-        )
-        self.daily = self._register_child_endpoint(
-            DrivesIdDrivestatsDailyEndpoint(client, parent_endpoint=self)
-        )
+        self.yearly = self._register_child_endpoint(DrivesIdDrivestatsYearlyEndpoint(client, parent_endpoint=self))
+        self.weekly = self._register_child_endpoint(DrivesIdDrivestatsWeeklyEndpoint(client, parent_endpoint=self))
+        self.monthly = self._register_child_endpoint(DrivesIdDrivestatsMonthlyEndpoint(client, parent_endpoint=self))
+        self.daily = self._register_child_endpoint(DrivesIdDrivestatsDailyEndpoint(client, parent_endpoint=self))

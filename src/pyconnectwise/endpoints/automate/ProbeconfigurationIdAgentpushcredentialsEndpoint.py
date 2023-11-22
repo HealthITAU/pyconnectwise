@@ -14,20 +14,12 @@ from pyconnectwise.types import (
 
 class ProbeconfigurationIdAgentpushcredentialsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[
-        list[LabTechProbeConfigurationCredentials], ConnectWiseAutomateRequestParams
-    ],
-    IPuttable[
-        list[LabTechProbeConfigurationCredentials], ConnectWiseAutomateRequestParams
-    ],
-    IPaginateable[
-        LabTechProbeConfigurationCredentials, ConnectWiseAutomateRequestParams
-    ],
+    IGettable[list[LabTechProbeConfigurationCredentials], ConnectWiseAutomateRequestParams],
+    IPuttable[list[LabTechProbeConfigurationCredentials], ConnectWiseAutomateRequestParams],
+    IPaginateable[LabTechProbeConfigurationCredentials, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Agentpushcredentials", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Agentpushcredentials", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechProbeConfigurationCredentials])
         IPuttable.__init__(self, list[LabTechProbeConfigurationCredentials])
         IPaginateable.__init__(self, LabTechProbeConfigurationCredentials)

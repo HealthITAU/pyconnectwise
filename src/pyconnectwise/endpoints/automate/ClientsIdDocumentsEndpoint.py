@@ -17,9 +17,7 @@ class ClientsIdDocumentsEndpoint(
     IPaginateable[LabTechDocument, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Documents", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Documents", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechDocument])
         IPaginateable.__init__(self, LabTechDocument)
 

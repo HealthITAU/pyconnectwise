@@ -14,9 +14,7 @@ class UsersIdFavoritesEndpoint(
     IPostable[LabTechUserFavorite, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Favorites", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Favorites", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, LabTechUserFavorite)
 
     def post(

@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjectsIdNotesCountEndpoint import (
-    ProjectProjectsIdNotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProjectProjectsIdNotesIdEndpoint import (
-    ProjectProjectsIdNotesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.ProjectProjectsIdNotesCountEndpoint import ProjectProjectsIdNotesCountEndpoint
+from pyconnectwise.endpoints.manage.ProjectProjectsIdNotesIdEndpoint import ProjectProjectsIdNotesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import ProjectNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProjectProjectsIdNotesEndpoint(
@@ -24,36 +18,29 @@ class ProjectProjectsIdNotesEndpoint(
     IPostable[ProjectNote, ConnectWiseManageRequestParams],
     IPaginateable[ProjectNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ProjectNote])
         IPostable.__init__(self, ProjectNote)
         IPaginateable.__init__(self, ProjectNote)
 
-        self.count = self._register_child_endpoint(
-            ProjectProjectsIdNotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProjectProjectsIdNotesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> ProjectProjectsIdNotesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> ProjectProjectsIdNotesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProjectProjectsIdNotesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProjectProjectsIdNotesIdEndpoint: The initialized ProjectProjectsIdNotesIdEndpoint object.
         """
         child = ProjectProjectsIdNotesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProjectNote]:
         """
         Performs a GET request against the /project/projects/{id}/notes endpoint and returns an initialized PaginatedResponse object.
@@ -71,19 +58,10 @@ class ProjectProjectsIdNotesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ProjectNote,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ProjectNote, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[ProjectNote]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ProjectNote]:
         """
         Performs a GET request against the /project/projects/{id}/notes endpoint.
 
@@ -93,15 +71,9 @@ class ProjectProjectsIdNotesEndpoint(
         Returns:
             list[ProjectNote]: The parsed response data.
         """
-        return self._parse_many(
-            ProjectNote, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(ProjectNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ProjectNote:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectNote:
         """
         Performs a POST request against the /project/projects/{id}/notes endpoint.
 
@@ -111,6 +83,4 @@ class ProjectProjectsIdNotesEndpoint(
         Returns:
             ProjectNote: The parsed response data.
         """
-        return self._parse_one(
-            ProjectNote, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(ProjectNote, super()._make_request("POST", data=data, params=params).json())

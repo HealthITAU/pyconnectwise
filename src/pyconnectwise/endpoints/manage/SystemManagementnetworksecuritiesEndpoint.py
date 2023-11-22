@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesCountEndpoint import (
     SystemManagementnetworksecuritiesCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesCountEndpoi
 from pyconnectwise.endpoints.manage.SystemManagementnetworksecuritiesIdEndpoint import (
     SystemManagementnetworksecuritiesIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import ManagementNetworkSecurity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemManagementnetworksecuritiesEndpoint(
@@ -24,10 +22,8 @@ class SystemManagementnetworksecuritiesEndpoint(
     IPostable[ManagementNetworkSecurity, ConnectWiseManageRequestParams],
     IPaginateable[ManagementNetworkSecurity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "managementNetworkSecurities", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "managementNetworkSecurities", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ManagementNetworkSecurity])
         IPostable.__init__(self, ManagementNetworkSecurity)
         IPaginateable.__init__(self, ManagementNetworkSecurity)
@@ -36,26 +32,21 @@ class SystemManagementnetworksecuritiesEndpoint(
             SystemManagementnetworksecuritiesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> SystemManagementnetworksecuritiesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemManagementnetworksecuritiesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemManagementnetworksecuritiesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemManagementnetworksecuritiesIdEndpoint: The initialized SystemManagementnetworksecuritiesIdEndpoint object.
         """
-        child = SystemManagementnetworksecuritiesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = SystemManagementnetworksecuritiesIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ManagementNetworkSecurity]:
         """
         Performs a GET request against the /system/managementNetworkSecurities endpoint and returns an initialized PaginatedResponse object.
@@ -73,18 +64,11 @@ class SystemManagementnetworksecuritiesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ManagementNetworkSecurity,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ManagementNetworkSecurity, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ManagementNetworkSecurity]:
         """
         Performs a GET request against the /system/managementNetworkSecurities endpoint.
@@ -96,14 +80,11 @@ class SystemManagementnetworksecuritiesEndpoint(
             list[ManagementNetworkSecurity]: The parsed response data.
         """
         return self._parse_many(
-            ManagementNetworkSecurity,
-            super()._make_request("GET", data=data, params=params).json(),
+            ManagementNetworkSecurity, super()._make_request("GET", data=data, params=params).json()
         )
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ManagementNetworkSecurity:
         """
         Performs a POST request against the /system/managementNetworkSecurities endpoint.
@@ -115,6 +96,5 @@ class SystemManagementnetworksecuritiesEndpoint(
             ManagementNetworkSecurity: The parsed response data.
         """
         return self._parse_one(
-            ManagementNetworkSecurity,
-            super()._make_request("POST", data=data, params=params).json(),
+            ManagementNetworkSecurity, super()._make_request("POST", data=data, params=params).json()
         )

@@ -21,9 +21,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class PatchactionsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Patchactions", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Patchactions", parent_endpoint=parent_endpoint)
 
         self.settoteststage = self._register_child_endpoint(
             PatchactionsSettoteststageEndpoint(client, parent_endpoint=self)

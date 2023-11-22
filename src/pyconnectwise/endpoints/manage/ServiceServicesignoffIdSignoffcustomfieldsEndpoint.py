@@ -25,22 +25,16 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(
     IPaginateable[ServiceSignoffCustomField, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "signoffcustomfields", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "signoffcustomfields", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ServiceSignoffCustomField])
         IPostable.__init__(self, ServiceSignoffCustomField)
         IPaginateable.__init__(self, ServiceSignoffCustomField)
 
         self.count = self._register_child_endpoint(
-            ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint(
-                client, parent_endpoint=self
-            )
+            ServiceServicesignoffIdSignoffcustomfieldsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(
-        self, id: int  # noqa: A002
-    ) -> ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint:
+    def id(self, id: int) -> ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint:  # noqa: A002
         """
         Sets the ID for this endpoint and returns an initialized ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint object to move down the chain.
 
@@ -49,9 +43,7 @@ class ServiceServicesignoffIdSignoffcustomfieldsEndpoint(
         Returns:
             ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint: The initialized ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint object.
         """
-        child = ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
+        child = ServiceServicesignoffIdSignoffcustomfieldsIdEndpoint(self.client, parent_endpoint=self)
         child._id = id
         return child
 

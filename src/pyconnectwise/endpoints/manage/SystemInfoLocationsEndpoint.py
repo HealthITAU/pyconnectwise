@@ -1,20 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemInfoLocationsCountEndpoint import (
-    SystemInfoLocationsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemInfoLocationsIdEndpoint import (
-    SystemInfoLocationsIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.SystemInfoLocationsCountEndpoint import SystemInfoLocationsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemInfoLocationsIdEndpoint import SystemInfoLocationsIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import LocationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemInfoLocationsEndpoint(
@@ -22,35 +17,28 @@ class SystemInfoLocationsEndpoint(
     IGettable[list[LocationInfo], ConnectWiseManageRequestParams],
     IPaginateable[LocationInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "locations", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "locations", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LocationInfo])
         IPaginateable.__init__(self, LocationInfo)
 
-        self.count = self._register_child_endpoint(
-            SystemInfoLocationsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemInfoLocationsCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SystemInfoLocationsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemInfoLocationsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemInfoLocationsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemInfoLocationsIdEndpoint: The initialized SystemInfoLocationsIdEndpoint object.
         """
         child = SystemInfoLocationsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint and returns an initialized PaginatedResponse object.
@@ -68,19 +56,10 @@ class SystemInfoLocationsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            LocationInfo,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), LocationInfo, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[LocationInfo]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[LocationInfo]:
         """
         Performs a GET request against the /system/info/locations endpoint.
 
@@ -90,6 +69,4 @@ class SystemInfoLocationsEndpoint(
         Returns:
             list[LocationInfo]: The parsed response data.
         """
-        return self._parse_many(
-            LocationInfo, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LocationInfo, super()._make_request("GET", data=data, params=params).json())

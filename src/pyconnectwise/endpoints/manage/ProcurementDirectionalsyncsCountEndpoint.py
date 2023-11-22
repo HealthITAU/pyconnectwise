@@ -17,9 +17,7 @@ class ProcurementDirectionalsyncsCountEndpoint(
     IPaginateable[Count, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "count", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "count", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, Count)
         IPaginateable.__init__(self, Count)
 
@@ -67,6 +65,4 @@ class ProcurementDirectionalsyncsCountEndpoint(
         Returns:
             Count: The parsed response data.
         """
-        return self._parse_one(
-            Count, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Count, super()._make_request("GET", data=data, params=params).json())
