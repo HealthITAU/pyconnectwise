@@ -33,24 +33,14 @@ class ComputersEndpoint(
     IPaginateable[LabTechComputer, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Computers", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Computers", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechComputer])
         IPaginateable.__init__(self, LabTechComputer)
 
-        self.memoryslots = self._register_child_endpoint(
-            ComputersMemoryslotsEndpoint(client, parent_endpoint=self)
-        )
-        self.software = self._register_child_endpoint(
-            ComputersSoftwareEndpoint(client, parent_endpoint=self)
-        )
-        self.drives = self._register_child_endpoint(
-            ComputersDrivesEndpoint(client, parent_endpoint=self)
-        )
-        self.chassis = self._register_child_endpoint(
-            ComputersChassisEndpoint(client, parent_endpoint=self)
-        )
+        self.memoryslots = self._register_child_endpoint(ComputersMemoryslotsEndpoint(client, parent_endpoint=self))
+        self.software = self._register_child_endpoint(ComputersSoftwareEndpoint(client, parent_endpoint=self))
+        self.drives = self._register_child_endpoint(ComputersDrivesEndpoint(client, parent_endpoint=self))
+        self.chassis = self._register_child_endpoint(ComputersChassisEndpoint(client, parent_endpoint=self))
         self.maintenancemodes = self._register_child_endpoint(
             ComputersMaintenancemodesEndpoint(client, parent_endpoint=self)
         )

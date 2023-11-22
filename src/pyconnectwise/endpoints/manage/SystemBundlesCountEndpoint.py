@@ -1,28 +1,23 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPostable,
-)
+from pyconnectwise.interfaces import IPostable
 from pyconnectwise.models.manage import BundleResultsCollection
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemBundlesCountEndpoint(
-    ConnectWiseEndpoint,
-    IPostable[BundleResultsCollection, ConnectWiseManageRequestParams],
+    ConnectWiseEndpoint, IPostable[BundleResultsCollection, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "count", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "count", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, BundleResultsCollection)
 
     def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> BundleResultsCollection:
         """
         Performs a POST request against the /system/bundles/count endpoint.
@@ -33,7 +28,4 @@ class SystemBundlesCountEndpoint(
         Returns:
             BundleResultsCollection: The parsed response data.
         """
-        return self._parse_one(
-            BundleResultsCollection,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(BundleResultsCollection, super()._make_request("POST", data=data, params=params).json())

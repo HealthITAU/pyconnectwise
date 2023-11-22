@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdNotesCountEndpoint import (
-    CompanyCompaniesIdNotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyCompaniesIdNotesIdEndpoint import (
-    CompanyCompaniesIdNotesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdNotesCountEndpoint import CompanyCompaniesIdNotesCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyCompaniesIdNotesIdEndpoint import CompanyCompaniesIdNotesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import CompanyNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyCompaniesIdNotesEndpoint(
@@ -24,36 +18,29 @@ class CompanyCompaniesIdNotesEndpoint(
     IPostable[CompanyNote, ConnectWiseManageRequestParams],
     IPaginateable[CompanyNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "notes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "notes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[CompanyNote])
         IPostable.__init__(self, CompanyNote)
         IPaginateable.__init__(self, CompanyNote)
 
-        self.count = self._register_child_endpoint(
-            CompanyCompaniesIdNotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyCompaniesIdNotesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> CompanyCompaniesIdNotesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyCompaniesIdNotesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyCompaniesIdNotesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyCompaniesIdNotesIdEndpoint: The initialized CompanyCompaniesIdNotesIdEndpoint object.
         """
         child = CompanyCompaniesIdNotesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CompanyNote]:
         """
         Performs a GET request against the /company/companies/{id}/notes endpoint and returns an initialized PaginatedResponse object.
@@ -71,19 +58,10 @@ class CompanyCompaniesIdNotesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CompanyNote,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), CompanyNote, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[CompanyNote]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[CompanyNote]:
         """
         Performs a GET request against the /company/companies/{id}/notes endpoint.
 
@@ -93,15 +71,9 @@ class CompanyCompaniesIdNotesEndpoint(
         Returns:
             list[CompanyNote]: The parsed response data.
         """
-        return self._parse_many(
-            CompanyNote, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(CompanyNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> CompanyNote:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> CompanyNote:
         """
         Performs a POST request against the /company/companies/{id}/notes endpoint.
 
@@ -111,6 +83,4 @@ class CompanyCompaniesIdNotesEndpoint(
         Returns:
             CompanyNote: The parsed response data.
         """
-        return self._parse_one(
-            CompanyNote, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(CompanyNote, super()._make_request("POST", data=data, params=params).json())

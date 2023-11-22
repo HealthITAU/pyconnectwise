@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesCountEndpoint import (
     FinanceAccountingUnpostedinvoicesCountEndpoint,
@@ -5,16 +7,13 @@ from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesCountEndpoi
 from pyconnectwise.endpoints.manage.FinanceAccountingUnpostedinvoicesIdEndpoint import (
     FinanceAccountingUnpostedinvoicesIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import UnpostedInvoice
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAccountingUnpostedinvoicesEndpoint(
@@ -22,10 +21,8 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
     IGettable[list[UnpostedInvoice], ConnectWiseManageRequestParams],
     IPaginateable[UnpostedInvoice, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "unpostedinvoices", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "unpostedinvoices", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[UnpostedInvoice])
         IPaginateable.__init__(self, UnpostedInvoice)
 
@@ -33,26 +30,21 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
             FinanceAccountingUnpostedinvoicesCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> FinanceAccountingUnpostedinvoicesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceAccountingUnpostedinvoicesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingUnpostedinvoicesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceAccountingUnpostedinvoicesIdEndpoint: The initialized FinanceAccountingUnpostedinvoicesIdEndpoint object.
         """
-        child = FinanceAccountingUnpostedinvoicesIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = FinanceAccountingUnpostedinvoicesIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[UnpostedInvoice]:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices endpoint and returns an initialized PaginatedResponse object.
@@ -70,18 +62,11 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            UnpostedInvoice,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), UnpostedInvoice, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[UnpostedInvoice]:
         """
         Performs a GET request against the /finance/accounting/unpostedinvoices endpoint.
@@ -92,7 +77,4 @@ class FinanceAccountingUnpostedinvoicesEndpoint(
         Returns:
             list[UnpostedInvoice]: The parsed response data.
         """
-        return self._parse_many(
-            UnpostedInvoice,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(UnpostedInvoice, super()._make_request("GET", data=data, params=params).json())

@@ -9,13 +9,9 @@ from pyconnectwise.endpoints.manage.ProjectProjecttemplatesIdEndpoint import (
 
 class ProjectProjecttemplatesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "projectTemplates", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "projectTemplates", parent_endpoint=parent_endpoint)
 
-        self.count = self._register_child_endpoint(
-            ProjectProjecttemplatesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ProjectProjecttemplatesCountEndpoint(client, parent_endpoint=self))
 
     def id(self, id: int) -> ProjectProjecttemplatesIdEndpoint:  # noqa: A002
         """

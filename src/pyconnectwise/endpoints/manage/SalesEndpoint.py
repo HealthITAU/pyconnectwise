@@ -1,63 +1,34 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SalesActivitiesEndpoint import (
-    SalesActivitiesEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesCommissionsEndpoint import (
-    SalesCommissionsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SalesOpportunitiesEndpoint import (
-    SalesOpportunitiesEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesActivitiesEndpoint import SalesActivitiesEndpoint
+from pyconnectwise.endpoints.manage.SalesCommissionsEndpoint import SalesCommissionsEndpoint
+from pyconnectwise.endpoints.manage.SalesOpportunitiesEndpoint import SalesOpportunitiesEndpoint
 from pyconnectwise.endpoints.manage.SalesOrdersEndpoint import SalesOrdersEndpoint
-from pyconnectwise.endpoints.manage.SalesProbabilitiesEndpoint import (
-    SalesProbabilitiesEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesProbabilitiesEndpoint import SalesProbabilitiesEndpoint
 from pyconnectwise.endpoints.manage.SalesQuotasEndpoint import SalesQuotasEndpoint
 from pyconnectwise.endpoints.manage.SalesRolesEndpoint import SalesRolesEndpoint
-from pyconnectwise.endpoints.manage.SalesSalesteamsEndpoint import (
-    SalesSalesteamsEndpoint,
-)
+from pyconnectwise.endpoints.manage.SalesSalesteamsEndpoint import SalesSalesteamsEndpoint
 from pyconnectwise.endpoints.manage.SalesScheduleEndpoint import SalesScheduleEndpoint
 from pyconnectwise.endpoints.manage.SalesServiceEndpoint import SalesServiceEndpoint
 from pyconnectwise.endpoints.manage.SalesStagesEndpoint import SalesStagesEndpoint
 
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
+
 
 class SalesEndpoint(ConnectWiseEndpoint):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "sales", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "sales", parent_endpoint=parent_endpoint)
 
-        self.sales_teams = self._register_child_endpoint(
-            SalesSalesteamsEndpoint(client, parent_endpoint=self)
-        )
-        self.roles = self._register_child_endpoint(
-            SalesRolesEndpoint(client, parent_endpoint=self)
-        )
-        self.service = self._register_child_endpoint(
-            SalesServiceEndpoint(client, parent_endpoint=self)
-        )
-        self.quotas = self._register_child_endpoint(
-            SalesQuotasEndpoint(client, parent_endpoint=self)
-        )
-        self.opportunities = self._register_child_endpoint(
-            SalesOpportunitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.orders = self._register_child_endpoint(
-            SalesOrdersEndpoint(client, parent_endpoint=self)
-        )
-        self.probabilities = self._register_child_endpoint(
-            SalesProbabilitiesEndpoint(client, parent_endpoint=self)
-        )
-        self.commissions = self._register_child_endpoint(
-            SalesCommissionsEndpoint(client, parent_endpoint=self)
-        )
-        self.schedule = self._register_child_endpoint(
-            SalesScheduleEndpoint(client, parent_endpoint=self)
-        )
-        self.stages = self._register_child_endpoint(
-            SalesStagesEndpoint(client, parent_endpoint=self)
-        )
-        self.activities = self._register_child_endpoint(
-            SalesActivitiesEndpoint(client, parent_endpoint=self)
-        )
+        self.activities = self._register_child_endpoint(SalesActivitiesEndpoint(client, parent_endpoint=self))
+        self.commissions = self._register_child_endpoint(SalesCommissionsEndpoint(client, parent_endpoint=self))
+        self.opportunities = self._register_child_endpoint(SalesOpportunitiesEndpoint(client, parent_endpoint=self))
+        self.orders = self._register_child_endpoint(SalesOrdersEndpoint(client, parent_endpoint=self))
+        self.probabilities = self._register_child_endpoint(SalesProbabilitiesEndpoint(client, parent_endpoint=self))
+        self.quotas = self._register_child_endpoint(SalesQuotasEndpoint(client, parent_endpoint=self))
+        self.roles = self._register_child_endpoint(SalesRolesEndpoint(client, parent_endpoint=self))
+        self.sales_teams = self._register_child_endpoint(SalesSalesteamsEndpoint(client, parent_endpoint=self))
+        self.schedule = self._register_child_endpoint(SalesScheduleEndpoint(client, parent_endpoint=self))
+        self.service = self._register_child_endpoint(SalesServiceEndpoint(client, parent_endpoint=self))
+        self.stages = self._register_child_endpoint(SalesStagesEndpoint(client, parent_endpoint=self))

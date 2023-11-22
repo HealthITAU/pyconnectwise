@@ -1,12 +1,16 @@
 from __future__ import annotations
-from pyconnectwise.utils.helpers import parse_link_headers
+
 from typing import TYPE_CHECKING, Generic, TypeVar
+
+from pyconnectwise.utils.helpers import parse_link_headers
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
-    from pyconnectwise.types import RequestParams
-    from requests import Response
+
     from pydantic import BaseModel
+    from requests import Response
+
+    from pyconnectwise.types import RequestParams
 
 
 TModel = TypeVar("TModel", bound="BaseModel")
@@ -79,12 +83,8 @@ class PaginatedResponse(Generic[TModel]):
         self.params = params
         if self.parsed_link_headers is not None:
             # ConnectWise Manage API gives us handy headers to parse for Pagination
-            self.has_next_page: bool = self.parsed_link_headers.get(
-                "has_next_page", False
-            )
-            self.has_prev_page: bool = self.parsed_link_headers.get(
-                "has_prev_page", False
-            )
+            self.has_next_page: bool = self.parsed_link_headers.get("has_next_page", False)
+            self.has_prev_page: bool = self.parsed_link_headers.get("has_prev_page", False)
             self.first_page: int = self.parsed_link_headers.get("first_page", None)
             self.prev_page: int = self.parsed_link_headers.get("prev_page", None)
             self.next_page: int = self.parsed_link_headers.get("next_page", None)
@@ -98,9 +98,7 @@ class PaginatedResponse(Generic[TModel]):
             self.prev_page = page - 1 if page > 1 else 1
             self.next_page = page + 1
             self.last_page = 999999
-        self.data: list[TModel] = [
-            response_model.model_validate(d) for d in response.json()
-        ]
+        self.data: list[TModel] = [response_model.model_validate(d) for d in response.json()]
         self.has_data = self.data and len(self.data) > 0
         self.index = 0
 
@@ -116,9 +114,7 @@ class PaginatedResponse(Generic[TModel]):
             self.has_data = False
             return self
 
-        next_response = self.endpoint.paginated(
-            self.next_page, self.page_size, self.params
-        )
+        next_response = self.endpoint.paginated(self.next_page, self.page_size, self.params)
         self._initialize(
             next_response.response,
             next_response.response_model,
@@ -141,9 +137,7 @@ class PaginatedResponse(Generic[TModel]):
             self.has_data = False
             return self
 
-        prev_response = self.endpoint.paginated(
-            self.prev_page, self.page_size, self.params
-        )
+        prev_response = self.endpoint.paginated(self.prev_page, self.page_size, self.params)
         self._initialize(
             prev_response.response,
             prev_response.response_model,

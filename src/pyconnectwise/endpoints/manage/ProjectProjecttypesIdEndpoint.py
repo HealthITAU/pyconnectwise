@@ -1,53 +1,36 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ProjectProjecttypesIdInfoEndpoint import (
-    ProjectProjecttypesIdInfoEndpoint,
-)
-from pyconnectwise.endpoints.manage.ProjectProjecttypesIdUsagesEndpoint import (
-    ProjectProjecttypesIdUsagesEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPuttable,
-)
+from pyconnectwise.endpoints.manage.ProjectProjecttypesIdInfoEndpoint import ProjectProjecttypesIdInfoEndpoint
+from pyconnectwise.endpoints.manage.ProjectProjecttypesIdUsagesEndpoint import ProjectProjecttypesIdUsagesEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPatchable, IPuttable
 from pyconnectwise.models.manage import ProjectType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, PatchRequestData
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProjectProjecttypesIdEndpoint(
     ConnectWiseEndpoint,
     IGettable[ProjectType, ConnectWiseManageRequestParams],
-    IPuttable[ProjectType, ConnectWiseManageRequestParams],
     IPatchable[ProjectType, ConnectWiseManageRequestParams],
+    IPuttable[ProjectType, ConnectWiseManageRequestParams],
     IPaginateable[ProjectType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, ProjectType)
-        IPuttable.__init__(self, ProjectType)
         IPatchable.__init__(self, ProjectType)
+        IPuttable.__init__(self, ProjectType)
         IPaginateable.__init__(self, ProjectType)
 
-        self.usages = self._register_child_endpoint(
-            ProjectProjecttypesIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            ProjectProjecttypesIdInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.info = self._register_child_endpoint(ProjectProjecttypesIdInfoEndpoint(client, parent_endpoint=self))
+        self.usages = self._register_child_endpoint(ProjectProjecttypesIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ProjectType]:
         """
         Performs a GET request against the /project/projectTypes/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -65,37 +48,10 @@ class ProjectProjecttypesIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ProjectType,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ProjectType, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ProjectType:
-        """
-        Performs a GET request against the /project/projectTypes/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            ProjectType: The parsed response data.
-        """
-        return self._parse_one(
-            ProjectType, super()._make_request("GET", data=data, params=params).json()
-        )
-
-    def delete(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> None:
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
         """
         Performs a DELETE request against the /project/projectTypes/{id} endpoint.
 
@@ -105,13 +61,9 @@ class ProjectProjecttypesIdEndpoint(
         """
         super()._make_request("DELETE", data=data, params=params)
 
-    def put(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ProjectType:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
         """
-        Performs a PUT request against the /project/projectTypes/{id} endpoint.
+        Performs a GET request against the /project/projectTypes/{id} endpoint.
 
         Parameters:
             data (dict[str, Any]): The data to send in the request body.
@@ -119,15 +71,9 @@ class ProjectProjecttypesIdEndpoint(
         Returns:
             ProjectType: The parsed response data.
         """
-        return self._parse_one(
-            ProjectType, super()._make_request("PUT", data=data, params=params).json()
-        )
+        return self._parse_one(ProjectType, super()._make_request("GET", data=data, params=params).json())
 
-    def patch(
-        self,
-        data: PatchRequestData,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ProjectType:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
         """
         Performs a PATCH request against the /project/projectTypes/{id} endpoint.
 
@@ -137,6 +83,16 @@ class ProjectProjecttypesIdEndpoint(
         Returns:
             ProjectType: The parsed response data.
         """
-        return self._parse_one(
-            ProjectType, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(ProjectType, super()._make_request("PATCH", data=data, params=params).json())
+
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProjectType:
+        """
+        Performs a PUT request against the /project/projectTypes/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            ProjectType: The parsed response data.
+        """
+        return self._parse_one(ProjectType, super()._make_request("PUT", data=data, params=params).json())

@@ -17,9 +17,7 @@ class ComputersIdSystemslotsEndpoint(
     IPaginateable[LabTechComputerSystemSlot, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Systemslots", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Systemslots", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechComputerSystemSlot])
         IPaginateable.__init__(self, LabTechComputerSystemSlot)
 

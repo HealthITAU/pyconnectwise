@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsCountEndpoint import (
     ProcurementAdjustmentsIdDetailsCountEndpoint,
@@ -5,17 +7,13 @@ from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsCountEndpoint
 from pyconnectwise.endpoints.manage.ProcurementAdjustmentsIdDetailsIdEndpoint import (
     ProcurementAdjustmentsIdDetailsIdEndpoint,
 )
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import AdjustmentDetail
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementAdjustmentsIdDetailsEndpoint(
@@ -24,10 +22,8 @@ class ProcurementAdjustmentsIdDetailsEndpoint(
     IPostable[AdjustmentDetail, ConnectWiseManageRequestParams],
     IPaginateable[AdjustmentDetail, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "details", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "details", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AdjustmentDetail])
         IPostable.__init__(self, AdjustmentDetail)
         IPaginateable.__init__(self, AdjustmentDetail)
@@ -36,26 +32,21 @@ class ProcurementAdjustmentsIdDetailsEndpoint(
             ProcurementAdjustmentsIdDetailsCountEndpoint(client, parent_endpoint=self)
         )
 
-    def id(self, id: int) -> ProcurementAdjustmentsIdDetailsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> ProcurementAdjustmentsIdDetailsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized ProcurementAdjustmentsIdDetailsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             ProcurementAdjustmentsIdDetailsIdEndpoint: The initialized ProcurementAdjustmentsIdDetailsIdEndpoint object.
         """
-        child = ProcurementAdjustmentsIdDetailsIdEndpoint(
-            self.client, parent_endpoint=self
-        )
-        child._id = id
+        child = ProcurementAdjustmentsIdDetailsIdEndpoint(self.client, parent_endpoint=self)
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AdjustmentDetail]:
         """
         Performs a GET request against the /procurement/adjustments/{id}/details endpoint and returns an initialized PaginatedResponse object.
@@ -73,18 +64,11 @@ class ProcurementAdjustmentsIdDetailsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AdjustmentDetail,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AdjustmentDetail, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[AdjustmentDetail]:
         """
         Performs a GET request against the /procurement/adjustments/{id}/details endpoint.
@@ -95,16 +79,9 @@ class ProcurementAdjustmentsIdDetailsEndpoint(
         Returns:
             list[AdjustmentDetail]: The parsed response data.
         """
-        return self._parse_many(
-            AdjustmentDetail,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AdjustmentDetail, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> AdjustmentDetail:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> AdjustmentDetail:
         """
         Performs a POST request against the /procurement/adjustments/{id}/details endpoint.
 
@@ -114,7 +91,4 @@ class ProcurementAdjustmentsIdDetailsEndpoint(
         Returns:
             AdjustmentDetail: The parsed response data.
         """
-        return self._parse_one(
-            AdjustmentDetail,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AdjustmentDetail, super()._make_request("POST", data=data, params=params).json())

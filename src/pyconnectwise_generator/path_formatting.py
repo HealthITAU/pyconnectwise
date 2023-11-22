@@ -1,4 +1,5 @@
 import re
+
 from pyconnectwise.utils.naming import to_title_case_preserve_case
 
 
@@ -71,7 +72,5 @@ def get_endpoint_class_name_from_path(endpoint_path: str) -> str:
         str: Formatted class name.
     """
     words = endpoint_path.split("/")
-    title_cased_words = map(
-        to_title_case_preserve_case, [word.lower() for word in words]
-    )
+    title_cased_words = map(to_title_case_preserve_case, [word.lower() for word in words])
     return "".join(title_cased_words) + "Endpoint"

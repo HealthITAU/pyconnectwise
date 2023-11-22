@@ -6,9 +6,7 @@ from pyconnectwise.endpoints.manage.ProjectBillingratesIdEndpoint import (
 
 class ProjectBillingratesEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "billingRates", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "billingRates", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> ProjectBillingratesIdEndpoint:  # noqa: A002
         """

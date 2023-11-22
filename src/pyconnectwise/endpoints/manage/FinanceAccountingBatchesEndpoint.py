@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesCountEndpoint import (
-    FinanceAccountingBatchesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEndpoint import (
-    FinanceAccountingBatchesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesCountEndpoint import FinanceAccountingBatchesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAccountingBatchesIdEndpoint import FinanceAccountingBatchesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import AccountingBatch, GLExport
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAccountingBatchesEndpoint(
@@ -24,36 +18,29 @@ class FinanceAccountingBatchesEndpoint(
     IPostable[GLExport, ConnectWiseManageRequestParams],
     IPaginateable[AccountingBatch, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "batches", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "batches", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AccountingBatch])
         IPostable.__init__(self, GLExport)
         IPaginateable.__init__(self, AccountingBatch)
 
-        self.count = self._register_child_endpoint(
-            FinanceAccountingBatchesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceAccountingBatchesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> FinanceAccountingBatchesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceAccountingBatchesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAccountingBatchesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceAccountingBatchesIdEndpoint: The initialized FinanceAccountingBatchesIdEndpoint object.
         """
         child = FinanceAccountingBatchesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AccountingBatch]:
         """
         Performs a GET request against the /finance/accounting/batches endpoint and returns an initialized PaginatedResponse object.
@@ -71,18 +58,11 @@ class FinanceAccountingBatchesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AccountingBatch,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AccountingBatch, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[AccountingBatch]:
         """
         Performs a GET request against the /finance/accounting/batches endpoint.
@@ -93,16 +73,9 @@ class FinanceAccountingBatchesEndpoint(
         Returns:
             list[AccountingBatch]: The parsed response data.
         """
-        return self._parse_many(
-            AccountingBatch,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(AccountingBatch, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> GLExport:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> GLExport:
         """
         Performs a POST request against the /finance/accounting/batches endpoint.
 
@@ -112,6 +85,4 @@ class FinanceAccountingBatchesEndpoint(
         Returns:
             GLExport: The parsed response data.
         """
-        return self._parse_one(
-            GLExport, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(GLExport, super()._make_request("POST", data=data, params=params).json())

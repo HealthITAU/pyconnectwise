@@ -1,28 +1,23 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPatchable,
-)
+from pyconnectwise.interfaces import IPatchable
 from pyconnectwise.models.manage import CompanyConfiguration
-from pyconnectwise.types import (
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
+from pyconnectwise.types import ConnectWiseManageRequestParams, PatchRequestData
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyConfigurationsIdChangetypeEndpoint(
-    ConnectWiseEndpoint,
-    IPatchable[CompanyConfiguration, ConnectWiseManageRequestParams],
+    ConnectWiseEndpoint, IPatchable[CompanyConfiguration, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "changeType", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "changeType", parent_endpoint=parent_endpoint)
         IPatchable.__init__(self, CompanyConfiguration)
 
     def patch(
-        self,
-        data: PatchRequestData,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None
     ) -> CompanyConfiguration:
         """
         Performs a PATCH request against the /company/configurations/{id}/changeType endpoint.
@@ -33,7 +28,4 @@ class CompanyConfigurationsIdChangetypeEndpoint(
         Returns:
             CompanyConfiguration: The parsed response data.
         """
-        return self._parse_one(
-            CompanyConfiguration,
-            super()._make_request("PATCH", data=data, params=params).json(),
-        )
+        return self._parse_one(CompanyConfiguration, super()._make_request("PATCH", data=data, params=params).json())

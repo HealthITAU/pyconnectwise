@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import AgreementTypeWorkRoleExclusion
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(
@@ -16,18 +15,13 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(
     IGettable[AgreementTypeWorkRoleExclusion, ConnectWiseManageRequestParams],
     IPaginateable[AgreementTypeWorkRoleExclusion, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, AgreementTypeWorkRoleExclusion)
         IPaginateable.__init__(self, AgreementTypeWorkRoleExclusion)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AgreementTypeWorkRoleExclusion]:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -45,18 +39,21 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AgreementTypeWorkRoleExclusion,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AgreementTypeWorkRoleExclusion, self, page, page_size, params
         )
 
+    def delete(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> None:
+        """
+        Performs a DELETE request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        """
+        super()._make_request("DELETE", data=data, params=params)
+
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> AgreementTypeWorkRoleExclusion:
         """
         Performs a GET request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint.
@@ -68,20 +65,5 @@ class FinanceAgreementtypesIdWorkroleexclusionsIdEndpoint(
             AgreementTypeWorkRoleExclusion: The parsed response data.
         """
         return self._parse_one(
-            AgreementTypeWorkRoleExclusion,
-            super()._make_request("GET", data=data, params=params).json(),
+            AgreementTypeWorkRoleExclusion, super()._make_request("GET", data=data, params=params).json()
         )
-
-    def delete(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> None:
-        """
-        Performs a DELETE request against the /finance/agreementTypes/{id}/workRoleExclusions/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        """
-        super()._make_request("DELETE", data=data, params=params)

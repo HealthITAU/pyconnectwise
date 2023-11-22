@@ -1,17 +1,14 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMysecurityCustomizeitemsEndpoint import (
-    SystemMysecurityCustomizeitemsEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.SystemMysecurityCustomizeitemsEndpoint import SystemMysecurityCustomizeitemsEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import MySecurity
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemMysecurityEndpoint(
@@ -19,10 +16,8 @@ class SystemMysecurityEndpoint(
     IGettable[list[MySecurity], ConnectWiseManageRequestParams],
     IPaginateable[MySecurity, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "mySecurity", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "mySecurity", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[MySecurity])
         IPaginateable.__init__(self, MySecurity)
 
@@ -31,10 +26,7 @@ class SystemMysecurityEndpoint(
         )
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MySecurity]:
         """
         Performs a GET request against the /system/mySecurity endpoint and returns an initialized PaginatedResponse object.
@@ -51,20 +43,9 @@ class SystemMysecurityEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            MySecurity,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), MySecurity, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[MySecurity]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[MySecurity]:
         """
         Performs a GET request against the /system/mySecurity endpoint.
 
@@ -74,6 +55,4 @@ class SystemMysecurityEndpoint(
         Returns:
             list[MySecurity]: The parsed response data.
         """
-        return self._parse_many(
-            MySecurity, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(MySecurity, super()._make_request("GET", data=data, params=params).json())

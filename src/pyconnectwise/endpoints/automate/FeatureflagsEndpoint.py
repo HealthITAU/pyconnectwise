@@ -9,13 +9,9 @@ from pyconnectwise.types import (
 )
 
 
-class FeatureflagsEndpoint(
-    ConnectWiseEndpoint, IPostable[LabTechFeatureFlag, ConnectWiseAutomateRequestParams]
-):
+class FeatureflagsEndpoint(ConnectWiseEndpoint, IPostable[LabTechFeatureFlag, ConnectWiseAutomateRequestParams]):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Featureflags", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Featureflags", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, LabTechFeatureFlag)
 
     def post(

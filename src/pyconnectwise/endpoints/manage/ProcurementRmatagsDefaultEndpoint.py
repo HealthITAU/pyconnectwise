@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import RmaTag
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementRmatagsDefaultEndpoint(
@@ -16,18 +15,13 @@ class ProcurementRmatagsDefaultEndpoint(
     IGettable[RmaTag, ConnectWiseManageRequestParams],
     IPaginateable[RmaTag, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "default", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "default", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, RmaTag)
         IPaginateable.__init__(self, RmaTag)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[RmaTag]:
         """
         Performs a GET request against the /procurement/rmaTags/default endpoint and returns an initialized PaginatedResponse object.
@@ -44,20 +38,9 @@ class ProcurementRmatagsDefaultEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            RmaTag,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), RmaTag, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> RmaTag:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> RmaTag:
         """
         Performs a GET request against the /procurement/rmaTags/default endpoint.
 
@@ -67,6 +50,4 @@ class ProcurementRmatagsDefaultEndpoint(
         Returns:
             RmaTag: The parsed response data.
         """
-        return self._parse_one(
-            RmaTag, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(RmaTag, super()._make_request("GET", data=data, params=params).json())

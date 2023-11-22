@@ -1,14 +1,13 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import ServiceTicketLinkInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ServiceTicketlinksIdInfoEndpoint(
@@ -16,18 +15,13 @@ class ServiceTicketlinksIdInfoEndpoint(
     IGettable[ServiceTicketLinkInfo, ConnectWiseManageRequestParams],
     IPaginateable[ServiceTicketLinkInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, ServiceTicketLinkInfo)
         IPaginateable.__init__(self, ServiceTicketLinkInfo)
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ServiceTicketLinkInfo]:
         """
         Performs a GET request against the /service/ticketLinks/{id}/info endpoint and returns an initialized PaginatedResponse object.
@@ -45,18 +39,11 @@ class ServiceTicketlinksIdInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ServiceTicketLinkInfo,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ServiceTicketLinkInfo, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> ServiceTicketLinkInfo:
         """
         Performs a GET request against the /service/ticketLinks/{id}/info endpoint.
@@ -67,7 +54,4 @@ class ServiceTicketlinksIdInfoEndpoint(
         Returns:
             ServiceTicketLinkInfo: The parsed response data.
         """
-        return self._parse_one(
-            ServiceTicketLinkInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_one(ServiceTicketLinkInfo, super()._make_request("GET", data=data, params=params).json())

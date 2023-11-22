@@ -4,9 +4,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class MonitorsEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Monitors", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Monitors", parent_endpoint=parent_endpoint)
 
     def id(self, id: int) -> MonitorsIdEndpoint:  # noqa: A002
         """

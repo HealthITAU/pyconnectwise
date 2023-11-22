@@ -1,24 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyAddressformatsCountEndpoint import (
-    CompanyAddressformatsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyAddressformatsIdEndpoint import (
-    CompanyAddressformatsIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyAddressformatsInfoEndpoint import (
-    CompanyAddressformatsInfoEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.CompanyAddressformatsCountEndpoint import CompanyAddressformatsCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsIdEndpoint import CompanyAddressformatsIdEndpoint
+from pyconnectwise.endpoints.manage.CompanyAddressformatsInfoEndpoint import CompanyAddressformatsInfoEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import AddressFormat
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyAddressformatsEndpoint(
@@ -27,39 +19,30 @@ class CompanyAddressformatsEndpoint(
     IPostable[AddressFormat, ConnectWiseManageRequestParams],
     IPaginateable[AddressFormat, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "addressFormats", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "addressFormats", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AddressFormat])
         IPostable.__init__(self, AddressFormat)
         IPaginateable.__init__(self, AddressFormat)
 
-        self.count = self._register_child_endpoint(
-            CompanyAddressformatsCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            CompanyAddressformatsInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyAddressformatsCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(CompanyAddressformatsInfoEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> CompanyAddressformatsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyAddressformatsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyAddressformatsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyAddressformatsIdEndpoint: The initialized CompanyAddressformatsIdEndpoint object.
         """
         child = CompanyAddressformatsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AddressFormat]:
         """
         Performs a GET request against the /company/addressFormats endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +60,11 @@ class CompanyAddressformatsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AddressFormat,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AddressFormat, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[AddressFormat]:
         """
         Performs a GET request against the /company/addressFormats endpoint.
@@ -99,15 +75,9 @@ class CompanyAddressformatsEndpoint(
         Returns:
             list[AddressFormat]: The parsed response data.
         """
-        return self._parse_many(
-            AddressFormat, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(AddressFormat, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> AddressFormat:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> AddressFormat:
         """
         Performs a POST request against the /company/addressFormats endpoint.
 
@@ -117,7 +87,4 @@ class CompanyAddressformatsEndpoint(
         Returns:
             AddressFormat: The parsed response data.
         """
-        return self._parse_one(
-            AddressFormat,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AddressFormat, super()._make_request("POST", data=data, params=params).json())

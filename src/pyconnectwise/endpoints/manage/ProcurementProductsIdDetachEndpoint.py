@@ -1,28 +1,22 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPostable,
-)
+from pyconnectwise.interfaces import IPostable
 from pyconnectwise.models.manage import ProductDetach
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ProcurementProductsIdDetachEndpoint(
     ConnectWiseEndpoint, IPostable[ProductDetach, ConnectWiseManageRequestParams]
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "detach", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "detach", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, ProductDetach)
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> ProductDetach:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ProductDetach:
         """
         Performs a POST request against the /procurement/products/{id}/detach endpoint.
 
@@ -32,7 +26,4 @@ class ProcurementProductsIdDetachEndpoint(
         Returns:
             ProductDetach: The parsed response data.
         """
-        return self._parse_one(
-            ProductDetach,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(ProductDetach, super()._make_request("POST", data=data, params=params).json())

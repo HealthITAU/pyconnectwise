@@ -17,9 +17,7 @@ class LinksEndpoint(
     IPaginateable[LabTechLink, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Links", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Links", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechLink])
         IPaginateable.__init__(self, LabTechLink)
 
@@ -67,6 +65,4 @@ class LinksEndpoint(
         Returns:
             list[LabTechLink]: The parsed response data.
         """
-        return self._parse_many(
-            LabTechLink, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LabTechLink, super()._make_request("GET", data=data, params=params).json())

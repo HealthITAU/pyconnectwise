@@ -1,20 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import (
-    CompanyManagementCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import (
-    CompanyManagementIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.CompanyManagementCountEndpoint import CompanyManagementCountEndpoint
+from pyconnectwise.endpoints.manage.CompanyManagementIdEndpoint import CompanyManagementIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import Management
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class CompanyManagementEndpoint(
@@ -22,35 +17,28 @@ class CompanyManagementEndpoint(
     IGettable[list[Management], ConnectWiseManageRequestParams],
     IPaginateable[Management, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "management", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "management", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[Management])
         IPaginateable.__init__(self, Management)
 
-        self.count = self._register_child_endpoint(
-            CompanyManagementCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(CompanyManagementCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> CompanyManagementIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> CompanyManagementIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized CompanyManagementIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             CompanyManagementIdEndpoint: The initialized CompanyManagementIdEndpoint object.
         """
         child = CompanyManagementIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[Management]:
         """
         Performs a GET request against the /company/management endpoint and returns an initialized PaginatedResponse object.
@@ -67,20 +55,9 @@ class CompanyManagementEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Management,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Management, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[Management]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Management]:
         """
         Performs a GET request against the /company/management endpoint.
 
@@ -90,6 +67,4 @@ class CompanyManagementEndpoint(
         Returns:
             list[Management]: The parsed response data.
         """
-        return self._parse_many(
-            Management, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Management, super()._make_request("GET", data=data, params=params).json())

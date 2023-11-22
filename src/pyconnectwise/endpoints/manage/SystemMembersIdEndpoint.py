@@ -1,22 +1,12 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdAccrualsEndpoint import (
-    SystemMembersIdAccrualsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsEndpoint import (
-    SystemMembersIdCertificationsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdDeactivateEndpoint import (
-    SystemMembersIdDeactivateEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsEndpoint import (
-    SystemMembersIdDelegationsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdImageEndpoint import (
-    SystemMembersIdImageEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdLinkssouserEndpoint import (
-    SystemMembersIdLinkssouserEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMembersIdAccrualsEndpoint import SystemMembersIdAccrualsEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdCertificationsEndpoint import SystemMembersIdCertificationsEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdDeactivateEndpoint import SystemMembersIdDeactivateEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdDelegationsEndpoint import SystemMembersIdDelegationsEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdImageEndpoint import SystemMembersIdImageEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdLinkssouserEndpoint import SystemMembersIdLinkssouserEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersIdManageddeviceaccountsEndpoint import (
     SystemMembersIdManageddeviceaccountsEndpoint,
 )
@@ -26,112 +16,73 @@ from pyconnectwise.endpoints.manage.SystemMembersIdMycertificationsEndpoint impo
 from pyconnectwise.endpoints.manage.SystemMembersIdNotificationsettingsEndpoint import (
     SystemMembersIdNotificationsettingsEndpoint,
 )
-from pyconnectwise.endpoints.manage.SystemMembersIdPersonasEndpoint import (
-    SystemMembersIdPersonasEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdSkillsEndpoint import (
-    SystemMembersIdSkillsEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdSubmitEndpoint import (
-    SystemMembersIdSubmitEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdTokensEndpoint import (
-    SystemMembersIdTokensEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdUnlinkssouserEndpoint import (
-    SystemMembersIdUnlinkssouserEndpoint,
-)
+from pyconnectwise.endpoints.manage.SystemMembersIdPersonasEndpoint import SystemMembersIdPersonasEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdSkillsEndpoint import SystemMembersIdSkillsEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdSubmitEndpoint import SystemMembersIdSubmitEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdTokensEndpoint import SystemMembersIdTokensEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdUnlinkssouserEndpoint import SystemMembersIdUnlinkssouserEndpoint
 from pyconnectwise.endpoints.manage.SystemMembersIdUnusedtimesheetsEndpoint import (
     SystemMembersIdUnusedtimesheetsEndpoint,
 )
-from pyconnectwise.endpoints.manage.SystemMembersIdUsagesEndpoint import (
-    SystemMembersIdUsagesEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPatchable,
-    IPuttable,
-)
+from pyconnectwise.endpoints.manage.SystemMembersIdUsagesEndpoint import SystemMembersIdUsagesEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPatchable, IPuttable
 from pyconnectwise.models.manage import Member
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-    PatchRequestData,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams, PatchRequestData
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemMembersIdEndpoint(
     ConnectWiseEndpoint,
     IGettable[Member, ConnectWiseManageRequestParams],
-    IPuttable[Member, ConnectWiseManageRequestParams],
     IPatchable[Member, ConnectWiseManageRequestParams],
+    IPuttable[Member, ConnectWiseManageRequestParams],
     IPaginateable[Member, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, Member)
-        IPuttable.__init__(self, Member)
         IPatchable.__init__(self, Member)
+        IPuttable.__init__(self, Member)
         IPaginateable.__init__(self, Member)
 
-        self.skills = self._register_child_endpoint(
-            SystemMembersIdSkillsEndpoint(client, parent_endpoint=self)
-        )
-        self.unlink_sso_user = self._register_child_endpoint(
-            SystemMembersIdUnlinkssouserEndpoint(client, parent_endpoint=self)
-        )
-        self.deactivate = self._register_child_endpoint(
-            SystemMembersIdDeactivateEndpoint(client, parent_endpoint=self)
-        )
-        self.submit = self._register_child_endpoint(
-            SystemMembersIdSubmitEndpoint(client, parent_endpoint=self)
-        )
+        self.accruals = self._register_child_endpoint(SystemMembersIdAccrualsEndpoint(client, parent_endpoint=self))
         self.certifications = self._register_child_endpoint(
             SystemMembersIdCertificationsEndpoint(client, parent_endpoint=self)
         )
-        self.notification_settings = self._register_child_endpoint(
-            SystemMembersIdNotificationsettingsEndpoint(client, parent_endpoint=self)
-        )
-        self.personas = self._register_child_endpoint(
-            SystemMembersIdPersonasEndpoint(client, parent_endpoint=self)
-        )
-        self.image = self._register_child_endpoint(
-            SystemMembersIdImageEndpoint(client, parent_endpoint=self)
-        )
-        self.link_sso_user = self._register_child_endpoint(
-            SystemMembersIdLinkssouserEndpoint(client, parent_endpoint=self)
-        )
-        self.usages = self._register_child_endpoint(
-            SystemMembersIdUsagesEndpoint(client, parent_endpoint=self)
-        )
-        self.unused_time_sheets = self._register_child_endpoint(
-            SystemMembersIdUnusedtimesheetsEndpoint(client, parent_endpoint=self)
-        )
-        self.tokens = self._register_child_endpoint(
-            SystemMembersIdTokensEndpoint(client, parent_endpoint=self)
-        )
+        self.deactivate = self._register_child_endpoint(SystemMembersIdDeactivateEndpoint(client, parent_endpoint=self))
         self.delegations = self._register_child_endpoint(
             SystemMembersIdDelegationsEndpoint(client, parent_endpoint=self)
         )
-        self.accruals = self._register_child_endpoint(
-            SystemMembersIdAccrualsEndpoint(client, parent_endpoint=self)
-        )
-        self.mycertifications = self._register_child_endpoint(
-            SystemMembersIdMycertificationsEndpoint(client, parent_endpoint=self)
+        self.image = self._register_child_endpoint(SystemMembersIdImageEndpoint(client, parent_endpoint=self))
+        self.link_sso_user = self._register_child_endpoint(
+            SystemMembersIdLinkssouserEndpoint(client, parent_endpoint=self)
         )
         self.managed_device_accounts = self._register_child_endpoint(
             SystemMembersIdManageddeviceaccountsEndpoint(client, parent_endpoint=self)
         )
+        self.mycertifications = self._register_child_endpoint(
+            SystemMembersIdMycertificationsEndpoint(client, parent_endpoint=self)
+        )
+        self.notification_settings = self._register_child_endpoint(
+            SystemMembersIdNotificationsettingsEndpoint(client, parent_endpoint=self)
+        )
+        self.personas = self._register_child_endpoint(SystemMembersIdPersonasEndpoint(client, parent_endpoint=self))
+        self.skills = self._register_child_endpoint(SystemMembersIdSkillsEndpoint(client, parent_endpoint=self))
+        self.submit = self._register_child_endpoint(SystemMembersIdSubmitEndpoint(client, parent_endpoint=self))
+        self.tokens = self._register_child_endpoint(SystemMembersIdTokensEndpoint(client, parent_endpoint=self))
+        self.unlink_sso_user = self._register_child_endpoint(
+            SystemMembersIdUnlinkssouserEndpoint(client, parent_endpoint=self)
+        )
+        self.unused_time_sheets = self._register_child_endpoint(
+            SystemMembersIdUnusedtimesheetsEndpoint(client, parent_endpoint=self)
+        )
+        self.usages = self._register_child_endpoint(SystemMembersIdUsagesEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[Member]:
         """
         Performs a GET request against the /system/members/{id} endpoint and returns an initialized PaginatedResponse object.
@@ -148,20 +99,9 @@ class SystemMembersIdEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Member,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Member, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Member:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Member:
         """
         Performs a GET request against the /system/members/{id} endpoint.
 
@@ -171,33 +111,9 @@ class SystemMembersIdEndpoint(
         Returns:
             Member: The parsed response data.
         """
-        return self._parse_one(
-            Member, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_one(Member, super()._make_request("GET", data=data, params=params).json())
 
-    def put(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Member:
-        """
-        Performs a PUT request against the /system/members/{id} endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            Member: The parsed response data.
-        """
-        return self._parse_one(
-            Member, super()._make_request("PUT", data=data, params=params).json()
-        )
-
-    def patch(
-        self,
-        data: PatchRequestData,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Member:
+    def patch(self, data: PatchRequestData, params: ConnectWiseManageRequestParams | None = None) -> Member:
         """
         Performs a PATCH request against the /system/members/{id} endpoint.
 
@@ -207,6 +123,16 @@ class SystemMembersIdEndpoint(
         Returns:
             Member: The parsed response data.
         """
-        return self._parse_one(
-            Member, super()._make_request("PATCH", data=data, params=params).json()
-        )
+        return self._parse_one(Member, super()._make_request("PATCH", data=data, params=params).json())
+
+    def put(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Member:
+        """
+        Performs a PUT request against the /system/members/{id} endpoint.
+
+        Parameters:
+            data (dict[str, Any]): The data to send in the request body.
+            params (dict[str, int | str]): The parameters to send in the request query string.
+        Returns:
+            Member: The parsed response data.
+        """
+        return self._parse_one(Member, super()._make_request("PUT", data=data, params=params).json())

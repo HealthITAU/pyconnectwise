@@ -1,24 +1,16 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceAgreementsTypesCountEndpoint import (
-    FinanceAgreementsTypesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementsTypesIdEndpoint import (
-    FinanceAgreementsTypesIdEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceAgreementsTypesInfoEndpoint import (
-    FinanceAgreementsTypesInfoEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.FinanceAgreementsTypesCountEndpoint import FinanceAgreementsTypesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsTypesIdEndpoint import FinanceAgreementsTypesIdEndpoint
+from pyconnectwise.endpoints.manage.FinanceAgreementsTypesInfoEndpoint import FinanceAgreementsTypesInfoEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import AgreementType
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceAgreementsTypesEndpoint(
@@ -27,39 +19,30 @@ class FinanceAgreementsTypesEndpoint(
     IPostable[AgreementType, ConnectWiseManageRequestParams],
     IPaginateable[AgreementType, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "types", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "types", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AgreementType])
         IPostable.__init__(self, AgreementType)
         IPaginateable.__init__(self, AgreementType)
 
-        self.count = self._register_child_endpoint(
-            FinanceAgreementsTypesCountEndpoint(client, parent_endpoint=self)
-        )
-        self.info = self._register_child_endpoint(
-            FinanceAgreementsTypesInfoEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceAgreementsTypesCountEndpoint(client, parent_endpoint=self))
+        self.info = self._register_child_endpoint(FinanceAgreementsTypesInfoEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> FinanceAgreementsTypesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceAgreementsTypesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceAgreementsTypesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceAgreementsTypesIdEndpoint: The initialized FinanceAgreementsTypesIdEndpoint object.
         """
         child = FinanceAgreementsTypesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[AgreementType]:
         """
         Performs a GET request against the /finance/agreements/types endpoint and returns an initialized PaginatedResponse object.
@@ -77,18 +60,11 @@ class FinanceAgreementsTypesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            AgreementType,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), AgreementType, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[AgreementType]:
         """
         Performs a GET request against the /finance/agreements/types endpoint.
@@ -99,15 +75,9 @@ class FinanceAgreementsTypesEndpoint(
         Returns:
             list[AgreementType]: The parsed response data.
         """
-        return self._parse_many(
-            AgreementType, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(AgreementType, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> AgreementType:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> AgreementType:
         """
         Performs a POST request against the /finance/agreements/types endpoint.
 
@@ -117,7 +87,4 @@ class FinanceAgreementsTypesEndpoint(
         Returns:
             AgreementType: The parsed response data.
         """
-        return self._parse_one(
-            AgreementType,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(AgreementType, super()._make_request("POST", data=data, params=params).json())

@@ -9,9 +9,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class ProbeconfigurationEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Probeconfiguration", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Probeconfiguration", parent_endpoint=parent_endpoint)
 
         self.enableprobe = self._register_child_endpoint(
             ProbeconfigurationEnableprobeEndpoint(client, parent_endpoint=self)

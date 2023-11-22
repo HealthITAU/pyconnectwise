@@ -20,9 +20,7 @@ class ClientsEndpoint(
     IPaginateable[LabTechClient, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Clients", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Clients", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[LabTechClient])
         IPostable.__init__(self, LabTechClient)
         IPaginateable.__init__(self, LabTechClient)
@@ -84,9 +82,7 @@ class ClientsEndpoint(
         Returns:
             list[LabTechClient]: The parsed response data.
         """
-        return self._parse_many(
-            LabTechClient, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(LabTechClient, super()._make_request("GET", data=data, params=params).json())
 
     def post(
         self,

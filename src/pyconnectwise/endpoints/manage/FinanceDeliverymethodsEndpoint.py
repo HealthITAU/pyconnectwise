@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceDeliverymethodsCountEndpoint import (
-    FinanceDeliverymethodsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceDeliverymethodsIdEndpoint import (
-    FinanceDeliverymethodsIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.FinanceDeliverymethodsCountEndpoint import FinanceDeliverymethodsCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceDeliverymethodsIdEndpoint import FinanceDeliverymethodsIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import DeliveryMethod
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceDeliverymethodsEndpoint(
@@ -24,36 +18,29 @@ class FinanceDeliverymethodsEndpoint(
     IPostable[DeliveryMethod, ConnectWiseManageRequestParams],
     IPaginateable[DeliveryMethod, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "deliveryMethods", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "deliveryMethods", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[DeliveryMethod])
         IPostable.__init__(self, DeliveryMethod)
         IPaginateable.__init__(self, DeliveryMethod)
 
-        self.count = self._register_child_endpoint(
-            FinanceDeliverymethodsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceDeliverymethodsCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> FinanceDeliverymethodsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceDeliverymethodsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceDeliverymethodsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceDeliverymethodsIdEndpoint: The initialized FinanceDeliverymethodsIdEndpoint object.
         """
         child = FinanceDeliverymethodsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[DeliveryMethod]:
         """
         Performs a GET request against the /finance/deliveryMethods endpoint and returns an initialized PaginatedResponse object.
@@ -71,18 +58,11 @@ class FinanceDeliverymethodsEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            DeliveryMethod,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), DeliveryMethod, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[DeliveryMethod]:
         """
         Performs a GET request against the /finance/deliveryMethods endpoint.
@@ -93,16 +73,9 @@ class FinanceDeliverymethodsEndpoint(
         Returns:
             list[DeliveryMethod]: The parsed response data.
         """
-        return self._parse_many(
-            DeliveryMethod,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(DeliveryMethod, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> DeliveryMethod:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> DeliveryMethod:
         """
         Performs a POST request against the /finance/deliveryMethods endpoint.
 
@@ -112,7 +85,4 @@ class FinanceDeliverymethodsEndpoint(
         Returns:
             DeliveryMethod: The parsed response data.
         """
-        return self._parse_one(
-            DeliveryMethod,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_one(DeliveryMethod, super()._make_request("POST", data=data, params=params).json())

@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemStandardnotesCountEndpoint import (
-    SystemStandardnotesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemStandardnotesIdEndpoint import (
-    SystemStandardnotesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.SystemStandardnotesCountEndpoint import SystemStandardnotesCountEndpoint
+from pyconnectwise.endpoints.manage.SystemStandardnotesIdEndpoint import SystemStandardnotesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import StandardNote
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemStandardnotesEndpoint(
@@ -24,36 +18,29 @@ class SystemStandardnotesEndpoint(
     IPostable[StandardNote, ConnectWiseManageRequestParams],
     IPaginateable[StandardNote, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "standardNotes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "standardNotes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[StandardNote])
         IPostable.__init__(self, StandardNote)
         IPaginateable.__init__(self, StandardNote)
 
-        self.count = self._register_child_endpoint(
-            SystemStandardnotesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemStandardnotesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SystemStandardnotesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemStandardnotesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemStandardnotesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemStandardnotesIdEndpoint: The initialized SystemStandardnotesIdEndpoint object.
         """
         child = SystemStandardnotesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[StandardNote]:
         """
         Performs a GET request against the /system/standardNotes endpoint and returns an initialized PaginatedResponse object.
@@ -71,19 +58,10 @@ class SystemStandardnotesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            StandardNote,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), StandardNote, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[StandardNote]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[StandardNote]:
         """
         Performs a GET request against the /system/standardNotes endpoint.
 
@@ -93,15 +71,9 @@ class SystemStandardnotesEndpoint(
         Returns:
             list[StandardNote]: The parsed response data.
         """
-        return self._parse_many(
-            StandardNote, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(StandardNote, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> StandardNote:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> StandardNote:
         """
         Performs a POST request against the /system/standardNotes endpoint.
 
@@ -111,6 +83,4 @@ class SystemStandardnotesEndpoint(
         Returns:
             StandardNote: The parsed response data.
         """
-        return self._parse_one(
-            StandardNote, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(StandardNote, super()._make_request("POST", data=data, params=params).json())

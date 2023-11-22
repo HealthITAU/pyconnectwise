@@ -1,9 +1,12 @@
 from __future__ import annotations
-from pydantic import BaseModel, ConfigDict
-from pyconnectwise.utils.naming import to_camel_case
-from typing import get_origin, get_args, Union
-from types import UnionType
+
 import inspect
+from types import UnionType
+from typing import Union, get_args, get_origin
+
+from pydantic import BaseModel, ConfigDict
+
+from pyconnectwise.utils.naming import to_camel_case
 
 
 class ConnectWiseModel(BaseModel):
@@ -22,9 +25,7 @@ class ConnectWiseModel(BaseModel):
             for arg in get_args(v.annotation):
                 if inspect.isclass(arg) and issubclass(arg, ConnectWiseModel):
                     was_model = True
-                    field_names.extend(
-                        [f"{v.alias}/{sub}" for sub in arg._get_field_names()]
-                    )
+                    field_names.extend([f"{v.alias}/{sub}" for sub in arg._get_field_names()])
 
             if not was_model:
                 field_names.append(v.alias)
@@ -37,10 +38,7 @@ class ConnectWiseModel(BaseModel):
         for v in cls.__fields__.values():
             was_model = False
             field_type = "None"
-            if (
-                get_origin(v.annotation) is UnionType
-                or get_origin(v.annotation) is Union
-            ):
+            if get_origin(v.annotation) is UnionType or get_origin(v.annotation) is Union:
                 for arg in get_args(v.annotation):
                     if inspect.isclass(arg) and issubclass(arg, ConnectWiseModel):
                         was_model = True
@@ -49,9 +47,7 @@ class ConnectWiseModel(BaseModel):
                     elif arg is not None and arg.__name__ != "NoneType":
                         field_type = arg.__name__
             else:
-                if inspect.isclass(v.annotation) and issubclass(
-                    v.annotation, ConnectWiseModel
-                ):
+                if inspect.isclass(v.annotation) and issubclass(v.annotation, ConnectWiseModel):
                     was_model = True
                     for sk, sv in v.annotation._get_field_names_and_types().items():
                         field_names_and_types[f"{v.alias}/{sk}"] = sv

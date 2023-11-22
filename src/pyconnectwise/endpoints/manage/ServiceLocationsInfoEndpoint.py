@@ -1,17 +1,14 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceLocationsInfoCountEndpoint import (
-    ServiceLocationsInfoCountEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.ServiceLocationsInfoCountEndpoint import ServiceLocationsInfoCountEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import ServiceLocationInfo
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class ServiceLocationsInfoEndpoint(
@@ -19,22 +16,15 @@ class ServiceLocationsInfoEndpoint(
     IGettable[list[ServiceLocationInfo], ConnectWiseManageRequestParams],
     IPaginateable[ServiceLocationInfo, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "info", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "info", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[ServiceLocationInfo])
         IPaginateable.__init__(self, ServiceLocationInfo)
 
-        self.count = self._register_child_endpoint(
-            ServiceLocationsInfoCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(ServiceLocationsInfoCountEndpoint(client, parent_endpoint=self))
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[ServiceLocationInfo]:
         """
         Performs a GET request against the /service/locations/info endpoint and returns an initialized PaginatedResponse object.
@@ -52,18 +42,11 @@ class ServiceLocationsInfoEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            ServiceLocationInfo,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), ServiceLocationInfo, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[ServiceLocationInfo]:
         """
         Performs a GET request against the /service/locations/info endpoint.
@@ -74,7 +57,4 @@ class ServiceLocationsInfoEndpoint(
         Returns:
             list[ServiceLocationInfo]: The parsed response data.
         """
-        return self._parse_many(
-            ServiceLocationInfo,
-            super()._make_request("GET", data=data, params=params).json(),
-        )
+        return self._parse_many(ServiceLocationInfo, super()._make_request("GET", data=data, params=params).json())

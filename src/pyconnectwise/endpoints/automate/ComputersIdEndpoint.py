@@ -104,93 +104,61 @@ class ComputersIdEndpoint(
     IPaginateable[LabTechComputer, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, LabTechComputer)
         IPaginateable.__init__(self, LabTechComputer)
 
-        self.printers = self._register_child_endpoint(
-            ComputersIdPrintersEndpoint(client, parent_endpoint=self)
-        )
+        self.printers = self._register_child_endpoint(ComputersIdPrintersEndpoint(client, parent_endpoint=self))
         self.commandhistory = self._register_child_endpoint(
             ComputersIdCommandhistoryEndpoint(client, parent_endpoint=self)
         )
-        self.alerts = self._register_child_endpoint(
-            ComputersIdAlertsEndpoint(client, parent_endpoint=self)
-        )
+        self.alerts = self._register_child_endpoint(ComputersIdAlertsEndpoint(client, parent_endpoint=self))
         self.operatingsystem = self._register_child_endpoint(
             ComputersIdOperatingsystemEndpoint(client, parent_endpoint=self)
         )
         self.alertsuspensions = self._register_child_endpoint(
             ComputersIdAlertsuspensionsEndpoint(client, parent_endpoint=self)
         )
-        self.drives = self._register_child_endpoint(
-            ComputersIdDrivesEndpoint(client, parent_endpoint=self)
-        )
+        self.drives = self._register_child_endpoint(ComputersIdDrivesEndpoint(client, parent_endpoint=self))
         self.effectivepatchingpolicy = self._register_child_endpoint(
             ComputersIdEffectivepatchingpolicyEndpoint(client, parent_endpoint=self)
         )
         self.scheduledtasks = self._register_child_endpoint(
             ComputersIdScheduledtasksEndpoint(client, parent_endpoint=self)
         )
-        self.patchjobs = self._register_child_endpoint(
-            ComputersIdPatchjobsEndpoint(client, parent_endpoint=self)
-        )
-        self.drivers = self._register_child_endpoint(
-            ComputersIdDriversEndpoint(client, parent_endpoint=self)
-        )
-        self.monitors = self._register_child_endpoint(
-            ComputersIdMonitorsEndpoint(client, parent_endpoint=self)
-        )
+        self.patchjobs = self._register_child_endpoint(ComputersIdPatchjobsEndpoint(client, parent_endpoint=self))
+        self.drivers = self._register_child_endpoint(ComputersIdDriversEndpoint(client, parent_endpoint=self))
+        self.monitors = self._register_child_endpoint(ComputersIdMonitorsEndpoint(client, parent_endpoint=self))
         self.scheduledscripts = self._register_child_endpoint(
             ComputersIdScheduledscriptsEndpoint(client, parent_endpoint=self)
         )
-        self.bios = self._register_child_endpoint(
-            ComputersIdBiosEndpoint(client, parent_endpoint=self)
-        )
+        self.bios = self._register_child_endpoint(ComputersIdBiosEndpoint(client, parent_endpoint=self))
         self.runningscripts = self._register_child_endpoint(
             ComputersIdRunningscriptsEndpoint(client, parent_endpoint=self)
         )
         self.commandexecute = self._register_child_endpoint(
             ComputersIdCommandexecuteEndpoint(client, parent_endpoint=self)
         )
-        self.ups = self._register_child_endpoint(
-            ComputersIdUpsEndpoint(client, parent_endpoint=self)
-        )
-        self.sensors = self._register_child_endpoint(
-            ComputersIdSensorsEndpoint(client, parent_endpoint=self)
-        )
-        self.services = self._register_child_endpoint(
-            ComputersIdServicesEndpoint(client, parent_endpoint=self)
-        )
-        self.systemslots = self._register_child_endpoint(
-            ComputersIdSystemslotsEndpoint(client, parent_endpoint=self)
-        )
+        self.ups = self._register_child_endpoint(ComputersIdUpsEndpoint(client, parent_endpoint=self))
+        self.sensors = self._register_child_endpoint(ComputersIdSensorsEndpoint(client, parent_endpoint=self))
+        self.services = self._register_child_endpoint(ComputersIdServicesEndpoint(client, parent_endpoint=self))
+        self.systemslots = self._register_child_endpoint(ComputersIdSystemslotsEndpoint(client, parent_endpoint=self))
         self.patchingstats = self._register_child_endpoint(
             ComputersIdPatchingstatsEndpoint(client, parent_endpoint=self)
         )
-        self.software = self._register_child_endpoint(
-            ComputersIdSoftwareEndpoint(client, parent_endpoint=self)
-        )
-        self.videocards = self._register_child_endpoint(
-            ComputersIdVideocardsEndpoint(client, parent_endpoint=self)
-        )
+        self.software = self._register_child_endpoint(ComputersIdSoftwareEndpoint(client, parent_endpoint=self))
+        self.videocards = self._register_child_endpoint(ComputersIdVideocardsEndpoint(client, parent_endpoint=self))
         self.microsoftupdates = self._register_child_endpoint(
             ComputersIdMicrosoftupdatesEndpoint(client, parent_endpoint=self)
         )
         self.scripthistory = self._register_child_endpoint(
             ComputersIdScripthistoryEndpoint(client, parent_endpoint=self)
         )
-        self.devices = self._register_child_endpoint(
-            ComputersIdDevicesEndpoint(client, parent_endpoint=self)
-        )
+        self.devices = self._register_child_endpoint(ComputersIdDevicesEndpoint(client, parent_endpoint=self))
         self.computerpatchingpolicies = self._register_child_endpoint(
             ComputersIdComputerpatchingpoliciesEndpoint(client, parent_endpoint=self)
         )
-        self.processors = self._register_child_endpoint(
-            ComputersIdProcessorsEndpoint(client, parent_endpoint=self)
-        )
+        self.processors = self._register_child_endpoint(ComputersIdProcessorsEndpoint(client, parent_endpoint=self))
         self.thirdpartypatches = self._register_child_endpoint(
             ComputersIdThirdpartypatchesEndpoint(client, parent_endpoint=self)
         )

@@ -1,59 +1,44 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemMembersIdPersonasCountEndpoint import (
-    SystemMembersIdPersonasCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemMembersIdPersonasIdEndpoint import (
-    SystemMembersIdPersonasIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.SystemMembersIdPersonasCountEndpoint import SystemMembersIdPersonasCountEndpoint
+from pyconnectwise.endpoints.manage.SystemMembersIdPersonasIdEndpoint import SystemMembersIdPersonasIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import MemberPersona
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemMembersIdPersonasEndpoint(
     ConnectWiseEndpoint,
     IGettable[list[MemberPersona], ConnectWiseManageRequestParams],
-    IPostable[MemberPersona, ConnectWiseManageRequestParams],
     IPaginateable[MemberPersona, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "personas", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "personas", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[MemberPersona])
-        IPostable.__init__(self, MemberPersona)
         IPaginateable.__init__(self, MemberPersona)
 
-        self.count = self._register_child_endpoint(
-            SystemMembersIdPersonasCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemMembersIdPersonasCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SystemMembersIdPersonasIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemMembersIdPersonasIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemMembersIdPersonasIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemMembersIdPersonasIdEndpoint: The initialized SystemMembersIdPersonasIdEndpoint object.
         """
         child = SystemMembersIdPersonasIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[MemberPersona]:
         """
         Performs a GET request against the /system/members/{id}/personas endpoint and returns an initialized PaginatedResponse object.
@@ -71,18 +56,11 @@ class SystemMembersIdPersonasEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            MemberPersona,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), MemberPersona, self, page, page_size, params
         )
 
     def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None
     ) -> list[MemberPersona]:
         """
         Performs a GET request against the /system/members/{id}/personas endpoint.
@@ -93,25 +71,4 @@ class SystemMembersIdPersonasEndpoint(
         Returns:
             list[MemberPersona]: The parsed response data.
         """
-        return self._parse_many(
-            MemberPersona, super()._make_request("GET", data=data, params=params).json()
-        )
-
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> MemberPersona:
-        """
-        Performs a POST request against the /system/members/{id}/personas endpoint.
-
-        Parameters:
-            data (dict[str, Any]): The data to send in the request body.
-            params (dict[str, int | str]): The parameters to send in the request query string.
-        Returns:
-            MemberPersona: The parsed response data.
-        """
-        return self._parse_one(
-            MemberPersona,
-            super()._make_request("POST", data=data, params=params).json(),
-        )
+        return self._parse_many(MemberPersona, super()._make_request("GET", data=data, params=params).json())

@@ -6,9 +6,7 @@ from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoin
 
 class SystemEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "System", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "System", parent_endpoint=parent_endpoint)
 
         self.serverinformation = self._register_child_endpoint(
             SystemServerinformationEndpoint(client, parent_endpoint=self)

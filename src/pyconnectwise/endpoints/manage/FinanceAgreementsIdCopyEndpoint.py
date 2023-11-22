@@ -9,13 +9,9 @@ from pyconnectwise.types import (
 )
 
 
-class FinanceAgreementsIdCopyEndpoint(
-    ConnectWiseEndpoint, IPostable[Agreement, ConnectWiseManageRequestParams]
-):
+class FinanceAgreementsIdCopyEndpoint(ConnectWiseEndpoint, IPostable[Agreement, ConnectWiseManageRequestParams]):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "copy", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "copy", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, Agreement)
 
     def post(
@@ -32,6 +28,4 @@ class FinanceAgreementsIdCopyEndpoint(
         Returns:
             Agreement: The parsed response data.
         """
-        return self._parse_one(
-            Agreement, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Agreement, super()._make_request("POST", data=data, params=params).json())

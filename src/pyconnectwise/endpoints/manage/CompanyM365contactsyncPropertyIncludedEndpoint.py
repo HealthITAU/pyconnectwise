@@ -17,9 +17,7 @@ class CompanyM365contactsyncPropertyIncludedEndpoint(
     IPaginateable[M365ContactSyncProperty, ConnectWiseManageRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "included", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "included", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[M365ContactSyncProperty])
         IPaginateable.__init__(self, M365ContactSyncProperty)
 

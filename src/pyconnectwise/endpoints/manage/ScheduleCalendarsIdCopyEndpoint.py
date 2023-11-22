@@ -1,28 +1,20 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPostable,
-)
+from pyconnectwise.interfaces import IPostable
 from pyconnectwise.models.manage import Calendar
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
-class ScheduleCalendarsIdCopyEndpoint(
-    ConnectWiseEndpoint, IPostable[Calendar, ConnectWiseManageRequestParams]
-):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "copy", parent_endpoint=parent_endpoint
-        )
+class ScheduleCalendarsIdCopyEndpoint(ConnectWiseEndpoint, IPostable[Calendar, ConnectWiseManageRequestParams]):
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "copy", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, Calendar)
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Calendar:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Calendar:
         """
         Performs a POST request against the /schedule/calendars/{id}/copy endpoint.
 
@@ -32,6 +24,4 @@ class ScheduleCalendarsIdCopyEndpoint(
         Returns:
             Calendar: The parsed response data.
         """
-        return self._parse_one(
-            Calendar, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Calendar, super()._make_request("POST", data=data, params=params).json())

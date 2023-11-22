@@ -14,14 +14,10 @@ from pyconnectwise.types import (
 class ComputersIdEffectivepatchingpolicyEndpoint(
     ConnectWiseEndpoint,
     IGettable[LabTechComputerEffectivePatchingPolicy, ConnectWiseAutomateRequestParams],
-    IPaginateable[
-        LabTechComputerEffectivePatchingPolicy, ConnectWiseAutomateRequestParams
-    ],
+    IPaginateable[LabTechComputerEffectivePatchingPolicy, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "Effectivepatchingpolicy", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "Effectivepatchingpolicy", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, LabTechComputerEffectivePatchingPolicy)
         IPaginateable.__init__(self, LabTechComputerEffectivePatchingPolicy)
 

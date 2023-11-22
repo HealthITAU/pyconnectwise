@@ -6,10 +6,6 @@ from pyconnectwise.endpoints.manage.ProjectIdBillingratesEndpoint import (
 
 class ProjectIdEndpoint(ConnectWiseEndpoint):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "{id}", parent_endpoint=parent_endpoint
-        )
+        ConnectWiseEndpoint.__init__(self, client, "{id}", parent_endpoint=parent_endpoint)
 
-        self.billing_rates = self._register_child_endpoint(
-            ProjectIdBillingratesEndpoint(client, parent_endpoint=self)
-        )
+        self.billing_rates = self._register_child_endpoint(ProjectIdBillingratesEndpoint(client, parent_endpoint=self))

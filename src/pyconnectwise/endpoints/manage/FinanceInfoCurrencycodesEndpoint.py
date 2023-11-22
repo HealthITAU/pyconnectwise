@@ -1,20 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesCountEndpoint import (
-    FinanceInfoCurrencycodesCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesIdEndpoint import (
-    FinanceInfoCurrencycodesIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-)
+from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesCountEndpoint import FinanceInfoCurrencycodesCountEndpoint
+from pyconnectwise.endpoints.manage.FinanceInfoCurrencycodesIdEndpoint import FinanceInfoCurrencycodesIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable
 from pyconnectwise.models.manage import CurrencyCode
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class FinanceInfoCurrencycodesEndpoint(
@@ -22,35 +17,28 @@ class FinanceInfoCurrencycodesEndpoint(
     IGettable[list[CurrencyCode], ConnectWiseManageRequestParams],
     IPaginateable[CurrencyCode, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "currencyCodes", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "currencyCodes", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[CurrencyCode])
         IPaginateable.__init__(self, CurrencyCode)
 
-        self.count = self._register_child_endpoint(
-            FinanceInfoCurrencycodesCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(FinanceInfoCurrencycodesCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> FinanceInfoCurrencycodesIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> FinanceInfoCurrencycodesIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized FinanceInfoCurrencycodesIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             FinanceInfoCurrencycodesIdEndpoint: The initialized FinanceInfoCurrencycodesIdEndpoint object.
         """
         child = FinanceInfoCurrencycodesIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[CurrencyCode]:
         """
         Performs a GET request against the /finance/info/currencyCodes endpoint and returns an initialized PaginatedResponse object.
@@ -68,19 +56,10 @@ class FinanceInfoCurrencycodesEndpoint(
         else:
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            CurrencyCode,
-            self,
-            page,
-            page_size,
-            params,
+            super()._make_request("GET", params=params), CurrencyCode, self, page, page_size, params
         )
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[CurrencyCode]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[CurrencyCode]:
         """
         Performs a GET request against the /finance/info/currencyCodes endpoint.
 
@@ -90,6 +69,4 @@ class FinanceInfoCurrencycodesEndpoint(
         Returns:
             list[CurrencyCode]: The parsed response data.
         """
-        return self._parse_many(
-            CurrencyCode, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(CurrencyCode, super()._make_request("GET", data=data, params=params).json())

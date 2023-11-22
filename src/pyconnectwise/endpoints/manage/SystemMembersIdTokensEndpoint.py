@@ -1,28 +1,20 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import (
-    IPostable,
-)
+from pyconnectwise.interfaces import IPostable
 from pyconnectwise.models.manage import Token
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
-class SystemMembersIdTokensEndpoint(
-    ConnectWiseEndpoint, IPostable[Token, ConnectWiseManageRequestParams]
-):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "tokens", parent_endpoint=parent_endpoint
-        )
+class SystemMembersIdTokensEndpoint(ConnectWiseEndpoint, IPostable[Token, ConnectWiseManageRequestParams]):
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "tokens", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, Token)
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Token:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Token:
         """
         Performs a POST request against the /system/members/{id}/tokens endpoint.
 
@@ -32,6 +24,4 @@ class SystemMembersIdTokensEndpoint(
         Returns:
             Token: The parsed response data.
         """
-        return self._parse_one(
-            Token, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Token, super()._make_request("POST", data=data, params=params).json())

@@ -13,9 +13,7 @@ from pyconnectwise.types import (
 
 class LookupsStatusscannetworkportoptionsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[
-        list[LabTechStatusScanNetworkPortOption], ConnectWiseAutomateRequestParams
-    ],
+    IGettable[list[LabTechStatusScanNetworkPortOption], ConnectWiseAutomateRequestParams],
     IPaginateable[LabTechStatusScanNetworkPortOption, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001

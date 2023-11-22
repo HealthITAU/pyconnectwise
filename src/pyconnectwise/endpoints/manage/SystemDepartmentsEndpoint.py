@@ -1,21 +1,15 @@
+from typing import TYPE_CHECKING
+
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.SystemDepartmentsCountEndpoint import (
-    SystemDepartmentsCountEndpoint,
-)
-from pyconnectwise.endpoints.manage.SystemDepartmentsIdEndpoint import (
-    SystemDepartmentsIdEndpoint,
-)
-from pyconnectwise.interfaces import (
-    IGettable,
-    IPaginateable,
-    IPostable,
-)
+from pyconnectwise.endpoints.manage.SystemDepartmentsCountEndpoint import SystemDepartmentsCountEndpoint
+from pyconnectwise.endpoints.manage.SystemDepartmentsIdEndpoint import SystemDepartmentsIdEndpoint
+from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.manage import Department
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import (
-    JSON,
-    ConnectWiseManageRequestParams,
-)
+from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+
+if TYPE_CHECKING:
+    from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
 class SystemDepartmentsEndpoint(
@@ -24,36 +18,29 @@ class SystemDepartmentsEndpoint(
     IPostable[Department, ConnectWiseManageRequestParams],
     IPaginateable[Department, ConnectWiseManageRequestParams],
 ):
-    def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
-        ConnectWiseEndpoint.__init__(
-            self, client, "departments", parent_endpoint=parent_endpoint
-        )
+    def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
+        ConnectWiseEndpoint.__init__(self, client, "departments", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[Department])
         IPostable.__init__(self, Department)
         IPaginateable.__init__(self, Department)
 
-        self.count = self._register_child_endpoint(
-            SystemDepartmentsCountEndpoint(client, parent_endpoint=self)
-        )
+        self.count = self._register_child_endpoint(SystemDepartmentsCountEndpoint(client, parent_endpoint=self))
 
-    def id(self, id: int) -> SystemDepartmentsIdEndpoint:  # noqa: A002
+    def id(self, _id: int) -> SystemDepartmentsIdEndpoint:
         """
         Sets the ID for this endpoint and returns an initialized SystemDepartmentsIdEndpoint object to move down the chain.
 
         Parameters:
-            id (int): The ID to set.
+            _id (int): The ID to set.
         Returns:
             SystemDepartmentsIdEndpoint: The initialized SystemDepartmentsIdEndpoint object.
         """
         child = SystemDepartmentsIdEndpoint(self.client, parent_endpoint=self)
-        child._id = id
+        child._id = _id
         return child
 
     def paginated(
-        self,
-        page: int,
-        page_size: int,
-        params: ConnectWiseManageRequestParams | None = None,
+        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
     ) -> PaginatedResponse[Department]:
         """
         Performs a GET request against the /system/departments endpoint and returns an initialized PaginatedResponse object.
@@ -70,20 +57,9 @@ class SystemDepartmentsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(
-            super()._make_request("GET", params=params),
-            Department,
-            self,
-            page,
-            page_size,
-            params,
-        )
+        return PaginatedResponse(super()._make_request("GET", params=params), Department, self, page, page_size, params)
 
-    def get(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> list[Department]:
+    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[Department]:
         """
         Performs a GET request against the /system/departments endpoint.
 
@@ -93,15 +69,9 @@ class SystemDepartmentsEndpoint(
         Returns:
             list[Department]: The parsed response data.
         """
-        return self._parse_many(
-            Department, super()._make_request("GET", data=data, params=params).json()
-        )
+        return self._parse_many(Department, super()._make_request("GET", data=data, params=params).json())
 
-    def post(
-        self,
-        data: JSON | None = None,
-        params: ConnectWiseManageRequestParams | None = None,
-    ) -> Department:
+    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> Department:
         """
         Performs a POST request against the /system/departments endpoint.
 
@@ -111,6 +81,4 @@ class SystemDepartmentsEndpoint(
         Returns:
             Department: The parsed response data.
         """
-        return self._parse_one(
-            Department, super()._make_request("POST", data=data, params=params).json()
-        )
+        return self._parse_one(Department, super()._make_request("POST", data=data, params=params).json())

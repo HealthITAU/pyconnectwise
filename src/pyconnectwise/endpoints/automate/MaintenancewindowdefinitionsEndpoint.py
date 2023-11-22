@@ -13,12 +13,8 @@ from pyconnectwise.types import (
 
 class MaintenancewindowdefinitionsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[
-        list[AutomateMaintenanceWindowDefinition], ConnectWiseAutomateRequestParams
-    ],
-    IPaginateable[
-        AutomateMaintenanceWindowDefinition, ConnectWiseAutomateRequestParams
-    ],
+    IGettable[list[AutomateMaintenanceWindowDefinition], ConnectWiseAutomateRequestParams],
+    IPaginateable[AutomateMaintenanceWindowDefinition, ConnectWiseAutomateRequestParams],
 ):
     def __init__(self, client, parent_endpoint=None) -> None:  # noqa: ANN001
         ConnectWiseEndpoint.__init__(

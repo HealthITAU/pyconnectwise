@@ -1,6 +1,7 @@
-from datetime import datetime
 import re
+from datetime import datetime
 from typing import Any
+
 from requests.structures import CaseInsensitiveDict
 
 
