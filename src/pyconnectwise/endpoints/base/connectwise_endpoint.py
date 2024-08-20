@@ -115,7 +115,7 @@ class ConnectWiseEndpoint:
         data: RequestData | None = None,
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
-        stream: bool = False
+        stream: bool = False,
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.

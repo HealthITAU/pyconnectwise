@@ -1,5 +1,6 @@
-from requests import Response
 from typing import TYPE_CHECKING
+
+from requests import Response
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 
