@@ -3,15 +3,13 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Annotated, Any, Literal
+from datetime import date, datetime  # noqa: TCH003
+from typing import Annotated, Any, Literal
+from uuid import UUID  # noqa: TCH003
+
+from pydantic import Field  # noqa: TCH002
 
 from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
-
-if TYPE_CHECKING:
-    from datetime import date, datetime
-    from uuid import UUID
-
-    from pydantic import Field
 
 
 class AccountingBatch(ConnectWiseModel):
@@ -1104,7 +1102,7 @@ class CustomFieldValue(ConnectWiseModel):
         "Text",
         "Password",
     ] | None = None
-    value: dict[str, Any] | None = None
+    value: str | bool | int | None = None
 
 
 class CustomReport(ConnectWiseModel):
