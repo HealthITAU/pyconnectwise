@@ -7,7 +7,7 @@ line_length = 120
 
 [tool.poetry]
 name = "pyconnectwise"
-version = "0.6.0"
+version = "0.6.0.1"
 authors = ["Health IT <dev@healthit.com.au>"]
 description = "A full-featured Python client for the ConnectWise APIs"
 homepage = "https://github.com/HealthITAU/pyconnectwise"
