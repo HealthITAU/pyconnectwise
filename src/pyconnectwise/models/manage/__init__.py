@@ -9890,7 +9890,7 @@ class Member(ConnectWiseModel):
         Literal["RemainOnInvoicingScreen", "ShowRecentInvoices"], Field(alias="invoicingDisplayOptions")
     ]
     last_login: Annotated[str | None, Field(alias="lastLogin")] = None
-    last_name: Annotated[str, Field(alias="lastName")]
+    last_name: Annotated[str | None, Field(alias="lastName")] = None
     """
      Max length: 30;
     """
