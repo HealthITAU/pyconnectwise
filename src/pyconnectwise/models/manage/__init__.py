@@ -770,7 +770,7 @@ class CompanyTypeReference(ActivityReference):
 
 
 class ConfigurationQuestion(ConnectWiseModel):
-    answer: dict[str, Any] | None = None
+    answer: str | None = None
     answer_id: Annotated[int | None, Field(alias="answerId")] = None
     field_type: Annotated[
         Literal[
