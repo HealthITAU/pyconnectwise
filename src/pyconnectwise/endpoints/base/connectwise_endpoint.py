@@ -115,6 +115,7 @@ class ConnectWiseEndpoint:
         data: RequestData | None = None,
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
+        stream: bool = False,
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -137,7 +138,7 @@ class ConnectWiseEndpoint:
         if endpoint:
             url = self._url_join(url, endpoint)
 
-        return self.client._make_request(method, url, data, params, headers)
+        return self.client._make_request(method, url, data, params, headers, stream)
 
     def _build_url(self, other_endpoint: ConnectWiseEndpoint) -> str:
         if other_endpoint._parent_endpoint is not None:

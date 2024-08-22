@@ -45,6 +45,7 @@ class ConnectWiseClient(ABC):
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
         retry_count: int = 0,
+        stream: bool = False,
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -76,6 +77,7 @@ class ConnectWiseClient(ABC):
                 headers=headers,
                 json=data,
                 params=cast(dict[str, Any], params or {}),
+                stream=stream,
             )
         else:
             response = requests.request(
@@ -83,6 +85,7 @@ class ConnectWiseClient(ABC):
                 url,
                 headers=headers,
                 params=cast(dict[str, Any], params or {}),
+                stream=stream,
             )
         if not response.ok:
             with contextlib.suppress(json.JSONDecodeError):
