@@ -1,5 +1,5 @@
 import typing
-from datetime import timezone, datetime
+from datetime import datetime, timezone
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
