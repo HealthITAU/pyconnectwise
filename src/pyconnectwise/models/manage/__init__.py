@@ -9857,7 +9857,7 @@ class Member(ConnectWiseModel):
         Literal["OpenRecords", "ClosedRecords", "AllRecords"] | None, Field(alias="globalSearchDefaultTicketFilter")
     ] = None
     hide_member_in_dispatch_portal_flag: Annotated[bool | None, Field(alias="hideMemberInDispatchPortalFlag")] = None
-    hire_date: Annotated[datetime, Field(alias="hireDate")]
+    hire_date: Annotated[datetime | None, Field(alias="hireDate")] = None
     home_email: Annotated[str | None, Field(alias="homeEmail")] = None
     """
      Max length: 250;
@@ -9890,7 +9890,7 @@ class Member(ConnectWiseModel):
         Literal["RemainOnInvoicingScreen", "ShowRecentInvoices"], Field(alias="invoicingDisplayOptions")
     ]
     last_login: Annotated[str | None, Field(alias="lastLogin")] = None
-    last_name: Annotated[str, Field(alias="lastName")]
+    last_name: Annotated[str | None, Field(alias="lastName")] = None
     """
      Max length: 30;
     """
