@@ -2,8 +2,6 @@
 
 # pyConnectWise - An API library for ConnectWise Manage and ConnectWise Automate, written in Python
 
-[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/HealthITAU/pyconnectwise/main.svg)](https://results.pre-commit.ci/latest/github/HealthITAU/pyconnectwise/main)
-
 pyConnectWise is a full-featured, type annotated API client written in Python for the ConnectWise APIs based off their OpenAPI schemas.
 
 This library has been developed with the intention of making the ConnectWise APIs simple and accessible to non-coders while allowing experienced coders to utilize all features the API has to offer without the boilerplate.

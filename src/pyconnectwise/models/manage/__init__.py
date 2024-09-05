@@ -3,15 +3,13 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Annotated, Any, Literal
+from datetime import date, datetime  # noqa: TCH003
+from typing import Annotated, Any, Literal
+from uuid import UUID  # noqa: TCH003
+
+from pydantic import Field  # noqa: TCH002
 
 from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
-
-if TYPE_CHECKING:
-    from datetime import date, datetime
-    from uuid import UUID
-
-    from pydantic import Field
 
 
 class AccountingBatch(ConnectWiseModel):
@@ -770,7 +768,7 @@ class CompanyTypeReference(ActivityReference):
 
 
 class ConfigurationQuestion(ConnectWiseModel):
-    answer: dict[str, Any] | None = None
+    answer: str | bool | int | None = None
     answer_id: Annotated[int | None, Field(alias="answerId")] = None
     field_type: Annotated[
         Literal[
@@ -1104,7 +1102,7 @@ class CustomFieldValue(ConnectWiseModel):
         "Text",
         "Password",
     ] | None = None
-    value: dict[str, Any] | None = None
+    value: str | bool | int | None = None
 
 
 class CustomReport(ConnectWiseModel):
@@ -9819,8 +9817,8 @@ class Member(ConnectWiseModel):
     calendar_sync_integration_flag: Annotated[bool | None, Field(alias="calendarSyncIntegrationFlag")] = None
     client_id: Annotated[str | None, Field(alias="clientId")] = None
     company_activity_tab_format: Annotated[
-        Literal["SummaryList", "DetailList"], Field(alias="companyActivityTabFormat")
-    ]
+        Literal["SummaryList", "DetailList"] | None, Field(alias="companyActivityTabFormat")
+    ] = None
     copy_column_layouts_and_filters: Annotated[bool | None, Field(alias="copyColumnLayoutsAndFilters")] = None
     copy_pod_layouts: Annotated[bool | None, Field(alias="copyPodLayouts")] = None
     copy_shared_default_views: Annotated[bool | None, Field(alias="copySharedDefaultViews")] = None
@@ -9885,7 +9883,7 @@ class Member(ConnectWiseModel):
     invoice_screen_default_tab_format: Annotated[
         Literal["ShowInvoicingTab", "ShowAgreementInvoicingTab"], Field(alias="invoiceScreenDefaultTabFormat")
     ]
-    invoice_time_tab_format: Annotated[Literal["SummaryList", "DetailList"], Field(alias="invoiceTimeTabFormat")]
+    invoice_time_tab_format: Annotated[Literal["SummaryList", "DetailList"] | None, Field(alias="invoiceTimeTabFormat")] = None
     invoicing_display_options: Annotated[
         Literal["RemainOnInvoicingScreen", "ShowRecentInvoices"], Field(alias="invoicingDisplayOptions")
     ]

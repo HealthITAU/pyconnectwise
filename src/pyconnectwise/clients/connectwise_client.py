@@ -45,6 +45,7 @@ class ConnectWiseClient(ABC):
         params: RequestParams | None = None,
         headers: dict[str, str] | None = None,
         retry_count: int = 0,
+        stream: bool = False,  # noqa: FBT001, FBT002
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -70,19 +71,21 @@ class ConnectWiseClient(ABC):
         # I don't like having to cast the params to a dict, but it's the only way I can get mypy to stop complaining about the type.
         # TypedDicts aren't compatible with the dict type and this is the best way I can think of to handle this.
         if data:
-            response = requests.request(
+            response = requests.request(  # noqa: S113
                 method,
                 url,
                 headers=headers,
                 json=data,
                 params=cast(dict[str, Any], params or {}),
+                stream=stream,
             )
         else:
-            response = requests.request(
+            response = requests.request(  # noqa: S113
                 method,
                 url,
                 headers=headers,
                 params=cast(dict[str, Any], params or {}),
+                stream=stream,
             )
         if not response.ok:
             with contextlib.suppress(json.JSONDecodeError):
