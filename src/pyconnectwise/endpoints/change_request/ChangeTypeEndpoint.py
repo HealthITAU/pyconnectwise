@@ -1,10 +1,8 @@
 from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketsIdEndpoint import ServiceTicketsIdEndpoint
 from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.change_request import ChangeRequestMsg, ChangeTypeData
-from pyconnectwise.responses.paginated_response import PaginatedResponse
 from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
 
 if TYPE_CHECKING:

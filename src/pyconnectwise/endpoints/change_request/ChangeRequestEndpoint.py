@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.endpoints.manage.ServiceTicketsIdEndpoint import ServiceTicketsIdEndpoint
+from pyconnectwise.endpoints.change_request.ChangeRequestIdEndpoint import ChangeRequestIdEndpoint
 from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.change_request import ChangeRequestMsg
 from pyconnectwise.responses.paginated_response import PaginatedResponse
@@ -23,19 +23,16 @@ class ChangeRequestEndpoint(
         IPostable.__init__(self, ChangeRequestMsg)
         IPaginateable.__init__(self, ChangeRequestMsg)
 
-        # TODO - Figure out if there are other endpoints!
-        # TODO - Handle the fact that the TLD is different!
-
-    def id(self, _id: int) -> ChangeRequestMsg:
+    def id(self, _id: int) -> ChangeRequestIdEndpoint:
         """
-        Sets the ID for this endpoint and returns an initialized ServiceTicketsIdEndpoint object to move down the chain.
+        Sets the ID for this endpoint and returns an initialized ChangeRequestIdEndpoint object to move down the chain.
 
         Parameters:
             _id (int): The ID to set.
         Returns:
-            ServiceTicketsIdEndpoint: The initialized ServiceTicketsIdEndpoint object.
+            ChangeRequestIdEndpoint: The initialized ChangeRequestIdEndpoint object.
         """
-        child = ServiceTicketsIdEndpoint(self.client, parent_endpoint=self)
+        child = ChangeRequestIdEndpoint(self.client, parent_endpoint=self)
         child._id = _id
         return child
 

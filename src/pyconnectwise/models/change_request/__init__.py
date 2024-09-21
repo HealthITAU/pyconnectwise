@@ -90,7 +90,7 @@ class ChangeRequestMembers(ConnectWiseModel):
     mailsentkey: Annotated[int | None, Field(alias="mailsentkey")] = None
     notes: Annotated[str | None, Field(alias="notes")] = None
     approvedcreatedtime: Annotated[int | None, Field(alias="approvedcreatedtime")] = None
-    approval: Annotated[bool | None, Field(alias="approval")] = None
+    approval: Annotated[str | None, Field(alias="approval")] = None
 
 
 class ChangeRequestNotifications(ConnectWiseModel):
@@ -130,7 +130,7 @@ class ChangeRequestConnectwiseServicePriorities(ConnectWiseModel):
 
 
 class ChangeRequestMsg(ConnectWiseModel):
-    _id: Annotated[str | None, Field(alias="_id")] = None
+    id: Annotated[str | None, Field(alias="_id")] = None
     bundled_tickets: Annotated[list[ChangeRequestBundledtickets] | None, Field(alias="bundledTickets")] = None
     project_tickets_arr: Annotated[list | None, Field(alias="projectTicketsArr")] = None
     affected_c_i: Annotated[list[ChangeRequestAffectedci] | None, Field(alias="affectedCI")] = None
