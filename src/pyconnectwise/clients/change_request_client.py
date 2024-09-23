@@ -8,6 +8,7 @@ from pyconnectwise.config import Config
 from pyconnectwise.endpoints.change_request import GetStatsEndpoint
 from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
 from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
+from pyconnectwise.endpoints.change_request.SettingsEndpoint import SettingsEndpoint
 from pyconnectwise.endpoints.change_request.TemplateEndpoint import TemplateEndpoint
 from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
 from pyconnectwise.models.change_request import LoginMsg, LoginObject

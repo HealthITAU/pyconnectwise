@@ -404,3 +404,22 @@ class TemplateMsg(ConnectWiseModel):
 class TemplateObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[TemplateMsg | None, Field(alias="msg")] = None
+
+
+class SetSettingsOptions(ConnectWiseModel):
+    hide_closed_cr: Annotated[bool | None, Field(alias="hideClosedCr")] = None
+    latest_per_format: Annotated[int | None, Field(alias="latestPerFormat")] = None
+
+
+class SetSettingsMsg(ConnectWiseModel):
+    id: Annotated[str | None, Field(alias="_id")] = None
+    options: Annotated[SetSettingsOptions | None, Field(alias="options")] = None
+    name: Annotated[str | None, Field(alias="name")] = None
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+    created: Annotated[int | None, Field(alias="created")] = None
+    updated: Annotated[int | None, Field(alias="updated")] = None
+
+
+class SetSettingsObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[SetSettingsMsg | None, Field(alias="msg")] = None
