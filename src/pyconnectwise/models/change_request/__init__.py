@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Annotated
 
 from pydantic import Field
@@ -90,7 +91,7 @@ class ChangeRequestMembers(ConnectWiseModel):
     mailsentkey: Annotated[int | None, Field(alias="mailsentkey")] = None
     notes: Annotated[str | None, Field(alias="notes")] = None
     approvedcreatedtime: Annotated[int | None, Field(alias="approvedcreatedtime")] = None
-    approval: Annotated[str | None, Field(alias="approval")] = None
+    approval: Annotated[str | bool | None, Field(alias="approval")] = None
 
 
 class ChangeRequestNotifications(ConnectWiseModel):
@@ -148,11 +149,12 @@ class ChangeRequestMsg(ConnectWiseModel):
     notifications: Annotated[list[ChangeRequestNotifications] | None, Field(alias="notifications")] = None
     approval_status: Annotated[str | None, Field(alias="approvalStatus")] = None
     number: Annotated[str | None, Field(alias="number")] = None
-    requested_by_date: Annotated[int | None, Field(alias="requestedByDate")] = None
-    planned_start_date: Annotated[int | None, Field(alias="plannedStartDate")] = None
-    planned_end_date: Annotated[int | None, Field(alias="plannedEndDate")] = None
-    work_start: Annotated[int | None, Field(alias="workStart")] = None
-    work_end: Annotated[int | None, Field(alias="workEnd")] = None
+    # TODO - Handle unix timestamps to datetime!
+    requested_by_date: Annotated[int | datetime | None, Field(alias="requestedByDate")] = None
+    planned_start_date: Annotated[int | datetime | None, Field(alias="plannedStartDate")] = None
+    planned_end_date: Annotated[int | datetime | None, Field(alias="plannedEndDate")] = None
+    work_start: Annotated[int | datetime | None, Field(alias="workStart")] = None
+    work_end: Annotated[int | datetime | None, Field(alias="workEnd")] = None
     enable_schedule: Annotated[bool | None, Field(alias="enableSchedule")] = None
     approval_emails: Annotated[list | None, Field(alias="approvalEmails")] = None
     tmp_affected_c_i: Annotated[str | None, Field(alias="tmpAffectedCI")] = None
@@ -183,7 +185,7 @@ class ChangeRequestMsg(ConnectWiseModel):
     work_start_time_added: Annotated[bool | None, Field(alias="workStartTimeAdded")] = None
     planned_end_time_added: Annotated[bool | None, Field(alias="plannedEndTimeAdded")] = None
     work_end_time_added: Annotated[bool | None, Field(alias="workEndTimeAdded")] = None
-    is_approved: Annotated[bool | None, Field(alias="isApproved")] = None
+    is_approved: Annotated[bool | str | None, Field(alias="isApproved")] = None
     risk_token: Annotated[str | None, Field(alias="risk_token")] = None
     aging_notifications: Annotated[ChangeRequestAgingnotifications | None, Field(alias="agingNotifications")] = None
     created: Annotated[int | None, Field(alias="created")] = None
@@ -211,6 +213,17 @@ class ChangeRequestMsg(ConnectWiseModel):
 class ChangeRequestObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[ChangeRequestMsg | None, Field(alias="msg")] = None
+
+
+class ChangeRequestGetMsg(ConnectWiseModel):
+    total: Annotated[int | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[ChangeRequestMsg] | None, Field(alias="data")] = None
+
+
+class ChangeRequestGetObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[ChangeRequestGetMsg | None, Field(alias="msg")] = None
 
 
 class ChangeTypeForm(ConnectWiseModel):

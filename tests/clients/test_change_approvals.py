@@ -43,6 +43,8 @@ def test_get_change_approval():
     client.auth_login()
     change_approval = client.change_request.id(change_request_id).get()
     assert change_approval.id == change_request_id
+    change_approvals = client.change_request.get(params=ConnectWiseChangeApprovalRequestParams(orderBy=[{"updated": -1}]))
+    assert len(change_approvals) > 0
 
 
 def test_get_user():

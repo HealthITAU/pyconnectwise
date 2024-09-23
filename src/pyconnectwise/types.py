@@ -25,6 +25,7 @@ class ConnectWiseManageRequestParams(TypedDict):
 
 class ConnectWiseChangeApprovalRequestParams(TypedDict):
     perColConditions: NotRequired[dict[str, str]]
+    orderBy: NotRequired[list[dict[str, str]]]
 
 
 class ConnectWiseAutomateRequestParams(TypedDict):
