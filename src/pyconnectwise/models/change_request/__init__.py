@@ -423,3 +423,26 @@ class SetSettingsMsg(ConnectWiseModel):
 class SetSettingsObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[SetSettingsMsg | None, Field(alias="msg")] = None
+
+
+class ContactsData(ConnectWiseModel):
+    contact_rec_id: Annotated[str | None, Field(alias="Contact_RecID")] = None
+    company_rec_id: Annotated[str | None, Field(alias="Company_RecID")] = None
+    company_id: Annotated[str | None, Field(alias="Company_ID")] = None
+    first_name: Annotated[str | None, Field(alias="First_Name")] = None
+    last_name: Annotated[str | None, Field(alias="Last_Name")] = None
+    default_flag: Annotated[str | None, Field(alias="Default_Flag")] = None
+    default_phone: Annotated[str | None, Field(alias="Default_Phone")] = None
+    default_email: Annotated[str | None, Field(alias="Default_Email")] = None
+    country: Annotated[str | None, Field(alias="Country")] = None
+
+
+class ContactsMsg(ConnectWiseModel):
+    total: Annotated[int | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[ContactsData] | None, Field(alias="data")] = None
+
+
+class ContactsObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[ContactsMsg | None, Field(alias="msg")] = None

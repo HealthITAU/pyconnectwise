@@ -5,6 +5,7 @@ from typing import Any
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
+from pyconnectwise.endpoints.automate.ContactsEndpoint import ContactsEndpoint
 from pyconnectwise.endpoints.change_request import GetStatsEndpoint
 from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
 from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
@@ -90,8 +91,10 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         return TemplateEndpoint(self)
 
     @property
-    def contacts(self):
-        raise NotImplementedError("Contacts endpoint not implemented yet.")
+    def contacts(self) -> "ContactsEndpoint":
+        from pyconnectwise.endpoints.change_request.ContactsEndpoint import ContactsEndpoint
+
+        return ContactsEndpoint(self)
 
     @property
     def acl_roles(self) -> "AclsRolesEndpoint":

@@ -108,6 +108,15 @@ def test_get_stats():
     assert len(final_stats) > 0
 
 
+def test_get_contacts():
+    client = change_approval_client_init()
+    client.auth_login()
+    # TODO - Figure out what 120-timeDuration means
+    final_stats = client.contacts.get(params=ConnectWiseChangeApprovalRequestParams(condition="Company_RecID==2"))
+    assert final_stats is not None
+    assert len(final_stats) > 0
+
+
 def test_set_default_settings():
     client = change_approval_client_init()
     client.auth_login()

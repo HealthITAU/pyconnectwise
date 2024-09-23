@@ -28,6 +28,7 @@ class ConnectWiseChangeApprovalRequestParams(TypedDict):
     skip: NotRequired[int]
     limit: NotRequired[int]
     orderBy: NotRequired[list[dict[str, str]]]
+    condition: NotRequired[str]
 
 
 class ConnectWiseAutomateRequestParams(TypedDict):
