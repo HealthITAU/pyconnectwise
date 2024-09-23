@@ -111,8 +111,16 @@ def test_get_stats():
 def test_get_contacts():
     client = change_approval_client_init()
     client.auth_login()
-    # TODO - Figure out what 120-timeDuration means
     final_stats = client.contacts.get(params=ConnectWiseChangeApprovalRequestParams(condition="Company_RecID==2"))
+    assert final_stats is not None
+    assert len(final_stats) > 0
+
+
+def test_get_configuration():
+    client = change_approval_client_init()
+    client.auth_login()
+    # Yes, the field name is slightly different :facepalm:
+    final_stats = client.configuration.get(params=ConnectWiseChangeApprovalRequestParams(condition="CompanyRecID==2"))
     assert final_stats is not None
     assert len(final_stats) > 0
 

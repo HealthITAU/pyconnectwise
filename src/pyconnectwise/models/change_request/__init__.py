@@ -446,3 +446,33 @@ class ContactsMsg(ConnectWiseModel):
 class ContactsObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[ContactsMsg | None, Field(alias="msg")] = None
+
+
+class ConfigurationData(ConnectWiseModel):
+    id: Annotated[str | None, Field(alias="Id")] = None
+    configuration_type_id: Annotated[str | None, Field(alias="ConfigurationTypeId")] = None
+    configuration_type: Annotated[str | None, Field(alias="ConfigurationType")] = None
+    status: Annotated[str | None, Field(alias="Status")] = None
+    configuration_name: Annotated[str | None, Field(alias="ConfigurationName")] = None
+    installed_by: Annotated[str | None, Field(alias="InstalledBy")] = None
+    warranty_expiration: Annotated[str | None, Field(alias="WarrantyExpiration")] = None
+    universal_formatted_warranty_expiration: Annotated[str | None, Field(alias="Universal_Formatted_Warranty_Expiration")] = None
+    serial_number: Annotated[str | None, Field(alias="SerialNumber")] = None
+    model_number: Annotated[str | None, Field(alias="ModelNumber")] = None
+    tag_number: Annotated[str | None, Field(alias="TagNumber")] = None
+    contact_name: Annotated[str | None, Field(alias="ContactName")] = None
+    date_purchased: Annotated[str | None, Field(alias="Date_Purchased")] = None
+    vendor: Annotated[str | None, Field(alias="Vendor")] = None
+    date_installed: Annotated[str | None, Field(alias="Date_Installed")] = None
+    vendor_notes: Annotated[str | None, Field(alias="Vendor_Notes")] = None
+
+
+class ConfigurationMsg(ConnectWiseModel):
+    total: Annotated[str | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[ConfigurationData] | None, Field(alias="data")] = None
+
+
+class ConfigurationObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[ConfigurationMsg | None, Field(alias="msg")] = None
