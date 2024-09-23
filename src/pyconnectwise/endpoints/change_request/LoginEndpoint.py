@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IGettable, IPostable
-from pyconnectwise.models.change_request import ChangeRequestMsg, ChangeRequestObject, LoginObject, LoginMsg
+from pyconnectwise.interfaces import IPostable
+from pyconnectwise.models.change_request import LoginMsg, LoginObject
 from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:

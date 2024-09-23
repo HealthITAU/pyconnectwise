@@ -28,7 +28,9 @@ class UsersEndpoint(
         child._id = _id
         return child
 
-    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[UserIdMsg]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[UserIdMsg]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 

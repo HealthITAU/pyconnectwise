@@ -197,9 +197,15 @@ class ChangeRequestMsg(ConnectWiseModel):
     reject_encoded: Annotated[str | None, Field(alias="rejectEncoded")] = None
     requestedby_date: Annotated[str | None, Field(alias="requestedbyDate")] = None
     work_starting_date: Annotated[str | None, Field(alias="workStartingDate")] = None
-    connectwise_service_types: Annotated[list[ChangeRequestConnectwiseServiceTypes] | None, Field(alias="connectwise_service_types")] = None
-    connectwise_service_subtypes: Annotated[list[ChangeRequestConnectwiseServiceSubtypes] | None, Field(alias="connectwise_service_subtypes")] = None
-    connectwise_service_priorities: Annotated[list[ChangeRequestConnectwiseServicePriorities] | None, Field(alias="connectwise_service_priorities")] = None
+    connectwise_service_types: Annotated[
+        list[ChangeRequestConnectwiseServiceTypes] | None, Field(alias="connectwise_service_types")
+    ] = None
+    connectwise_service_subtypes: Annotated[
+        list[ChangeRequestConnectwiseServiceSubtypes] | None, Field(alias="connectwise_service_subtypes")
+    ] = None
+    connectwise_service_priorities: Annotated[
+        list[ChangeRequestConnectwiseServicePriorities] | None, Field(alias="connectwise_service_priorities")
+    ] = None
 
 
 class ChangeRequestObject(ConnectWiseModel):

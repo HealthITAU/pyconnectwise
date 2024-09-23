@@ -22,7 +22,9 @@ class ChangeTypeEndpoint(
         # TODO - Figure out if there are other endpoints!
         # TODO - Handle the fact that the TLD is different!
 
-    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[ChangeTypeData]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[ChangeTypeData]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 

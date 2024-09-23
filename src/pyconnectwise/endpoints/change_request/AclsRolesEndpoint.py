@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.interfaces import IGettable
-from pyconnectwise.models.change_request import AclRolesMsg, AclRolesObject, AclRolesData
+from pyconnectwise.models.change_request import AclRolesData, AclRolesObject
 from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
@@ -17,7 +17,9 @@ class AclsRolesEndpoint(
         ConnectWiseEndpoint.__init__(self, client, "acls_roles", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[AclRolesData])
 
-    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[AclRolesData]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[AclRolesData]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 

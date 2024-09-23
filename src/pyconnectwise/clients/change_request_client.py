@@ -1,4 +1,3 @@
-import base64
 import typing
 from datetime import datetime, timedelta
 
@@ -86,6 +85,7 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
     @property
     def acl_roles(self) -> "AclsRolesEndpoint":
         from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
+
         return AclsRolesEndpoint(self)
 
     @property
@@ -117,16 +117,19 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
     @property
     def users(self) -> "UsersEndpoint":
         from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
+
         return UsersEndpoint(self)
 
     @property
     def login(self) -> "LoginEndpoint":
         from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
+
         return LoginEndpoint(self)
 
     @property
     def settings(self) -> "SettingsEndpoint":
         from pyconnectwise.endpoints.change_request.SettingsEndpoint import SettingsEndpoint
+
         return SettingsEndpoint(self)
 
     def auth_login(self) -> None:

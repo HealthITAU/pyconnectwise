@@ -79,7 +79,7 @@ class ConnectWiseClient(ABC):
         # I don't like having to cast the params to a dict, but it's the only way I can get mypy to stop complaining about the type.
         # TypedDicts aren't compatible with the dict type and this is the best way I can think of to handle this.
         if data:
-            response = requests.request(  # noqa: S113
+            response = requests.request(
                 method,
                 url,
                 headers=headers,
@@ -89,7 +89,7 @@ class ConnectWiseClient(ABC):
                 cookies=cookies,
             )
         else:
-            response = requests.request(  # noqa: S113
+            response = requests.request(
                 method,
                 url,
                 headers=headers,

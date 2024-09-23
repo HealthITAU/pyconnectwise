@@ -54,9 +54,13 @@ class ChangeRequestsEndpoint(
             params["pageSize"] = page_size
         else:
             params = {"page": page, "pageSize": page_size}
-        return PaginatedResponse(super()._make_request("GET", params=params), ChangeRequestMsg, self, page, page_size, params)
+        return PaginatedResponse(
+            super()._make_request("GET", params=params), ChangeRequestMsg, self, page, page_size, params
+        )
 
-    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[ChangeRequestMsg]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[ChangeRequestMsg]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 
@@ -68,7 +72,9 @@ class ChangeRequestsEndpoint(
         """
         return self._parse_many(ChangeRequestMsg, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> ChangeRequestMsg:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> ChangeRequestMsg:
         """
         Performs a POST request against the /api/change_requests endpoint.
 
