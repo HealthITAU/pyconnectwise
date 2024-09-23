@@ -38,7 +38,7 @@ def test_get_change_approval():
     # Testing with real data. :D
     change_request_id = "66ed7a101336c1045d07502f"
     client = change_approval_client_init()
-    client.login()
+    client.auth_login()
     change_approval = client.change_request.id(change_request_id).get()
     assert change_approval.id == change_request_id
 
@@ -47,12 +47,24 @@ def test_get_user():
     # Testing with real data. :D
     test_id = "642bfee39d2d780477bdc662"
     client = change_approval_client_init()
-    client.login()
+    client.auth_login()
     user_info = client.users.id(test_id).get()
     assert user_info.id == test_id
 
 
+def test_get_acl_roles():
+    client = change_approval_client_init()
+    client.auth_login()
+    obj_data = client.acl_roles.get()
+    assert obj_data is not None
+    assert len(obj_data) > 0
+
+    obj_filter_data = client.acl_roles.get(params={"Member_RecID": client.login_msg.rec_id})
+    assert obj_filter_data is not None
+    assert len(obj_filter_data) > 0
+
+
 def test_login():
     client = change_approval_client_init()
-    client.login()
+    client.auth_login()
     assert True

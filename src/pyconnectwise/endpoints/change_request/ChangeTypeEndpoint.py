@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
+from pyconnectwise.interfaces import IGettable
 from pyconnectwise.models.change_request import ChangeRequestMsg, ChangeTypeData
-from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
     from pyconnectwise.clients.connectwise_client import ConnectWiseClient
@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 class ChangeTypeEndpoint(
     ConnectWiseEndpoint,
-    IGettable[list[ChangeRequestMsg], ConnectWiseManageRequestParams],
+    IGettable[list[ChangeRequestMsg], ConnectWiseChangeApprovalRequestParams],
 ):
     def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
         ConnectWiseEndpoint.__init__(self, client, "change_type", parent_endpoint=parent_endpoint)
@@ -22,7 +22,7 @@ class ChangeTypeEndpoint(
         # TODO - Figure out if there are other endpoints!
         # TODO - Handle the fact that the TLD is different!
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ChangeTypeData]:
+    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[ChangeTypeData]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 

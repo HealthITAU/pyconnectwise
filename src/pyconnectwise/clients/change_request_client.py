@@ -4,7 +4,10 @@ from datetime import datetime, timedelta
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
+from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
+from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
 from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
+from pyconnectwise.models.change_request import LoginMsg, LoginObject
 
 if typing.TYPE_CHECKING:
     from pyconnectwise.endpoints.change_request.ChangeRequestsEndpoint import ChangeRequestsEndpoint
@@ -47,6 +50,7 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
             private_key (str): Your ConnectWise Manage API Private key.
             config (Config, optional): Optional additional configuration for API interactions
         """
+        self.login_msg: LoginMsg | None = None
         self.login_partner_id: str = login_partner_id
         self.login_role: str = login_role
         self.login_password: str = login_password
@@ -80,6 +84,11 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         raise NotImplementedError("Contacts endpoint not implemented yet.")
 
     @property
+    def acl_roles(self) -> "AclsRolesEndpoint":
+        from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
+        return AclsRolesEndpoint(self)
+
+    @property
     def configurations(self):
         raise NotImplementedError("Configurations endpoint not implemented yet.")
 
@@ -110,21 +119,29 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
         return UsersEndpoint(self)
 
-    def login(self) -> None:
+    @property
+    def login(self) -> "LoginEndpoint":
+        from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
+        return LoginEndpoint(self)
+
+    def auth_login(self) -> None:
         """
         Logs in to the ConnectWise Change Approval API and retrieves the new cookie
         """
         url = f"https://{self.manage_url}/api/login"
-        result = self._make_request("POST", url, data={
+        login_data = {
             "userName": self.login_username,
             "password": self.login_password,
             "role": self.login_role,
             "partnerId": self.login_partner_id,
             "cwversion": "2024.1",  # TODO - Parameterize?
             "context": "web",
-        })
+        }
+        result = self._make_request("POST", url, data=login_data)
         result.raise_for_status()
         self.__change_approval_cookie = result.cookies["changeapproval"]
+        login_obj = LoginObject.model_validate(result.json())
+        self.login_msg = login_obj.msg
         # TODO - We get back expires=None, so log in every 6 hours?
         self.__change_approval_cookie_expiration = datetime.now() + timedelta(hours=6)
 

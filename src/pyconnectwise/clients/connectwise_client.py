@@ -116,11 +116,6 @@ class ConnectWiseClient(ABC):
             if response.status_code == 400:
                 raise MalformedRequestException(response)
             if response.status_code == 401:
-                # TODO - Figure out a better way to retry on 401 if an authorization cookie is provided
-                if retry_count < self.config.max_retries and "changeapproval" in cookies:
-                    cookies["changeapproval"] = response.cookies["changeapproval"]
-                    retry_count += 1
-                    return self._make_request(method, url, data, params, headers, retry_count, cookies=cookies)
                 raise AuthenticationFailedException(response)
             if response.status_code == 403:
                 raise PermissionsFailedException(response)

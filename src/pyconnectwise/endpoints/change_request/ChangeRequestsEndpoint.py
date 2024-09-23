@@ -5,7 +5,7 @@ from pyconnectwise.endpoints.change_request.ChangeRequestIdEndpoint import Chang
 from pyconnectwise.interfaces import IGettable, IPaginateable, IPostable
 from pyconnectwise.models.change_request import ChangeRequestMsg
 from pyconnectwise.responses.paginated_response import PaginatedResponse
-from pyconnectwise.types import JSON, ConnectWiseManageRequestParams
+from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
     from pyconnectwise.clients.connectwise_client import ConnectWiseClient
@@ -13,9 +13,9 @@ if TYPE_CHECKING:
 
 class ChangeRequestsEndpoint(
     ConnectWiseEndpoint,
-    IGettable[list[ChangeRequestMsg], ConnectWiseManageRequestParams],
-    IPostable[ChangeRequestMsg, ConnectWiseManageRequestParams],
-    IPaginateable[ChangeRequestMsg, ConnectWiseManageRequestParams],
+    IGettable[list[ChangeRequestMsg], ConnectWiseChangeApprovalRequestParams],
+    IPostable[ChangeRequestMsg, ConnectWiseChangeApprovalRequestParams],
+    IPaginateable[ChangeRequestMsg, ConnectWiseChangeApprovalRequestParams],
 ):
     def __init__(self, client: "ConnectWiseClient", parent_endpoint: ConnectWiseEndpoint = None) -> None:
         ConnectWiseEndpoint.__init__(self, client, "change_request", parent_endpoint=parent_endpoint)
@@ -37,7 +37,7 @@ class ChangeRequestsEndpoint(
         return child
 
     def paginated(
-        self, page: int, page_size: int, params: ConnectWiseManageRequestParams | None = None
+        self, page: int, page_size: int, params: ConnectWiseChangeApprovalRequestParams | None = None
     ) -> PaginatedResponse[ChangeRequestMsg]:
         """
         Performs a GET request against the /api/change_requests endpoint and returns an initialized PaginatedResponse object.
@@ -56,7 +56,7 @@ class ChangeRequestsEndpoint(
             params = {"page": page, "pageSize": page_size}
         return PaginatedResponse(super()._make_request("GET", params=params), ChangeRequestMsg, self, page, page_size, params)
 
-    def get(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> list[ChangeRequestMsg]:
+    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[ChangeRequestMsg]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 
@@ -68,7 +68,7 @@ class ChangeRequestsEndpoint(
         """
         return self._parse_many(ChangeRequestMsg, super()._make_request("GET", data=data, params=params).json())
 
-    def post(self, data: JSON | None = None, params: ConnectWiseManageRequestParams | None = None) -> ChangeRequestMsg:
+    def post(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> ChangeRequestMsg:
         """
         Performs a POST request against the /api/change_requests endpoint.
 

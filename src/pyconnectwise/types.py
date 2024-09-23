@@ -23,6 +23,11 @@ class ConnectWiseManageRequestParams(TypedDict):
     columns: NotRequired[str]
 
 
+class ConnectWiseChangeApprovalRequestParams(TypedDict):
+    # TODO - Clarify what these are?
+    perColConditions: NotRequired[dict[str, str]]
+
+
 class ConnectWiseAutomateRequestParams(TypedDict):
     condition: NotRequired[str]
     customFieldConditions: NotRequired[str]

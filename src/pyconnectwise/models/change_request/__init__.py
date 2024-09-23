@@ -267,3 +267,60 @@ class UserIdMsg(ConnectWiseModel):
 class UserIdObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[UserIdMsg | None, Field(alias="msg")] = None
+
+
+class AclRolesAcl(ConnectWiseModel):
+    administration: Annotated[bool | None, Field(alias="administration")] = None
+    billingprofile: Annotated[bool | None, Field(alias="billingprofile")] = None
+    jobs: Annotated[bool | None, Field(alias="jobs")] = None
+    companies: Annotated[bool | None, Field(alias="companies")] = None
+
+
+class AclRolesData(ConnectWiseModel):
+    _id: Annotated[str | None, Field(alias="_id")] = None
+    first_name: Annotated[str | None, Field(alias="First_Name")] = None
+    last_name: Annotated[str | None, Field(alias="Last_Name")] = None
+    member_id: Annotated[str | None, Field(alias="Member_ID")] = None
+    member_rec_id: Annotated[str | None, Field(alias="Member_RecID")] = None
+    acl_group: Annotated[str | None, Field(alias="aclGroup")] = None
+    acl: Annotated[AclRolesAcl | None, Field(alias="acl")] = None
+    billing_unit_rec_id: Annotated[str | None, Field(alias="Billing_Unit_RecID")] = None
+    created: Annotated[int | None, Field(alias="created")] = None
+    updated: Annotated[int | None, Field(alias="updated")] = None
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+
+
+class AclRolesMsg(ConnectWiseModel):
+    total: Annotated[int | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[AclRolesData] | None, Field(alias="data")] = None
+
+
+class AclRolesObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[AclRolesMsg | None, Field(alias="msg")] = None
+
+
+class LoginMsg(ConnectWiseModel):
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+    first_name: Annotated[str | None, Field(alias="firstName")] = None
+    last_name: Annotated[str | None, Field(alias="lastName")] = None
+    company_name: Annotated[str | None, Field(alias="companyName")] = None
+    user_name: Annotated[str | None, Field(alias="userName")] = None
+    concurrent_count: Annotated[int | None, Field(alias="concurrentCount")] = None
+    role: Annotated[str | None, Field(alias="role")] = None
+    isloggedin: Annotated[bool | None, Field(alias="isloggedin")] = None
+    integrator_id: Annotated[str | None, Field(alias="integratorId")] = None
+    domain: Annotated[str | None, Field(alias="domain")] = None
+    integrator_company: Annotated[str | None, Field(alias="integratorCompany")] = None
+    wizard_complete: Annotated[bool | None, Field(alias="wizardComplete")] = None
+    direct_ticket_url: Annotated[bool | None, Field(alias="directTicketUrl")] = None
+    rec_id: Annotated[str | None, Field(alias="RecId")] = None
+    is_agree: Annotated[bool | None, Field(alias="isAgree")] = None
+    version_code: Annotated[str | None, Field(alias="versionCode")] = None
+    is_instance_login: Annotated[bool | None, Field(alias="isInstanceLogin")] = None
+
+
+class LoginObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[LoginMsg | None, Field(alias="msg")] = None
