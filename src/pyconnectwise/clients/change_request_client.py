@@ -207,6 +207,4 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
 
     def _get_query(self, x) -> dict[str, Any]:
         # Because ChangeApproval API is weird
-        return {
-            "query": json.dumps(x)
-        }
+        return {"query": json.dumps(x)}

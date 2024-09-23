@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.interfaces import IGettable
-from pyconnectwise.models.change_request import ChangeRequestMsg, UserIdMsg, UserIdObject, TemplateObject, TemplateData
+from pyconnectwise.models.change_request import TemplateData, TemplateObject
 from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
@@ -17,7 +17,9 @@ class TemplateEndpoint(
         ConnectWiseEndpoint.__init__(self, client, "template", parent_endpoint=parent_endpoint)
         IGettable.__init__(self, list[TemplateData])
 
-    def get(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[TemplateData]:
+    def get(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[TemplateData]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 
