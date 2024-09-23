@@ -18,7 +18,9 @@ class GetStatsEndpoint(
         ConnectWiseEndpoint.__init__(self, client, "change_request/dummy/getStats", parent_endpoint=parent_endpoint)
         IPostable.__init__(self, list[StatsMsg])
 
-    def post(self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None) -> list[StatsMsg]:
+    def post(
+        self, data: JSON | None = None, params: ConnectWiseChangeApprovalRequestParams | None = None
+    ) -> list[StatsMsg]:
         """
         Performs a GET request against the /api/change_requests endpoint.
 
