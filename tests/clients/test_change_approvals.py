@@ -43,6 +43,15 @@ def test_get_change_approval():
     assert change_approval.id == change_request_id
 
 
+def test_get_user():
+    # Testing with real data. :D
+    test_id = "642bfee39d2d780477bdc662"
+    client = change_approval_client_init()
+    client.login()
+    user_info = client.users.id(test_id).get()
+    assert user_info.id == test_id
+
+
 def test_login():
     client = change_approval_client_init()
     client.login()

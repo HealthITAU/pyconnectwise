@@ -245,3 +245,25 @@ class ChangeTypeMsg(ConnectWiseModel):
 class ChangeTypeObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[ChangeTypeMsg | None, Field(alias="msg")] = None
+
+
+class UserIdMsg(ConnectWiseModel):
+    id: Annotated[str | None, Field(alias="_id")] = None
+    user_name: Annotated[str | None, Field(alias="userName")] = None
+    company: Annotated[str | None, Field(alias="company")] = None
+    domain: Annotated[str | None, Field(alias="domain")] = None
+    role: Annotated[str | None, Field(alias="role")] = None
+    password: Annotated[str | None, Field(alias="password")] = None
+    status: Annotated[str | None, Field(alias="status")] = None
+    wizard_complete: Annotated[bool | None, Field(alias="wizardComplete")] = None
+    direct_ticket_url: Annotated[bool | None, Field(alias="directTicketUrl")] = None
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+    api_key: Annotated[str | None, Field(alias="apiKey")] = None
+    created: Annotated[int | None, Field(alias="created")] = None
+    updated: Annotated[int | None, Field(alias="updated")] = None
+    is_agree: Annotated[bool | None, Field(alias="isAgree")] = None
+
+
+class UserIdObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[UserIdMsg | None, Field(alias="msg")] = None

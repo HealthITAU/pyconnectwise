@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 
 
-class ChangeRequestEndpoint(
+class ChangeRequestsEndpoint(
     ConnectWiseEndpoint,
     IGettable[list[ChangeRequestMsg], ConnectWiseManageRequestParams],
     IPostable[ChangeRequestMsg, ConnectWiseManageRequestParams],

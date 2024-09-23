@@ -4,9 +4,10 @@ from datetime import datetime, timedelta
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
+from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
 
 if typing.TYPE_CHECKING:
-    from pyconnectwise.endpoints.change_request.ChangeRequestEndpoint import ChangeRequestEndpoint
+    from pyconnectwise.endpoints.change_request.ChangeRequestsEndpoint import ChangeRequestsEndpoint
     from pyconnectwise.endpoints.change_request.ChangeTypeEndpoint import ChangeTypeEndpoint
 
 
@@ -63,10 +64,10 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
 
     # Initializing endpoints
     @property
-    def change_request(self) -> "ChangeRequestEndpoint":
-        from pyconnectwise.endpoints.change_request.ChangeRequestEndpoint import ChangeRequestEndpoint
+    def change_request(self) -> "ChangeRequestsEndpoint":
+        from pyconnectwise.endpoints.change_request.ChangeRequestsEndpoint import ChangeRequestsEndpoint
 
-        return ChangeRequestEndpoint(self)
+        return ChangeRequestsEndpoint(self)
 
     @property
     def change_type(self) -> "ChangeTypeEndpoint":
@@ -103,6 +104,11 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
     def audit_log(self):
         # Yes, this has a different route than the plural version
         raise NotImplementedError("audit log singular endpoint not implemented yet.")
+
+    @property
+    def users(self) -> "UsersEndpoint":
+        from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
+        return UsersEndpoint(self)
 
     def login(self) -> None:
         """
