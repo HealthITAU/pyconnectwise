@@ -43,4 +43,3 @@ class SettingsEndpoint(
             SettingsData: The parsed response data.
         """
         return DefaultSettingsEndpoint(self.client, parent_endpoint=self)
-

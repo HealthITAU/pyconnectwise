@@ -43,9 +43,13 @@ def test_get_change_approval():
     client.auth_login()
     change_approval = client.change_request.id(change_request_id).get()
     assert change_approval.id == change_request_id
-    change_approvals = client.change_request.get(params=ConnectWiseChangeApprovalRequestParams(orderBy=[{"updated": -1}]))
+    change_approvals = client.change_request.get(
+        params=ConnectWiseChangeApprovalRequestParams(orderBy=[{"updated": -1}])
+    )
     assert len(change_approvals) > 20
-    change_approvals = client.change_request.get(params=ConnectWiseChangeApprovalRequestParams(skip=0, limit=20, orderBy=[{"updated": -1}]))
+    change_approvals = client.change_request.get(
+        params=ConnectWiseChangeApprovalRequestParams(skip=0, limit=20, orderBy=[{"updated": -1}])
+    )
     assert len(change_approvals) == 20
 
 
@@ -108,23 +112,31 @@ def test_set_default_settings():
     client = change_approval_client_init()
     client.auth_login()
     # TODO - Make this data object cleaner?
-    final_stats = client.settings.default_settings.set_settings.post(data={"params": {
-            "options": {
-            "hideClosedCr": True,
-            "latestPerFormat": 196,
+    final_stats = client.settings.default_settings.set_settings.post(
+        data={
+            "params": {
+                "options": {
+                    "hideClosedCr": True,
+                    "latestPerFormat": 196,
+                }
             }
-    }})
+        }
+    )
     assert final_stats is not None
     assert final_stats.name == "DefaultSettings"
     assert final_stats.options.hide_closed_cr is True
     assert final_stats.options.latest_per_format == 196
     # Reset the settings
-    final_stats = client.settings.default_settings.set_settings.post(data={"params": {
-        "options": {
-            "hideClosedCr": False,
-            "latestPerFormat": 195,
+    final_stats = client.settings.default_settings.set_settings.post(
+        data={
+            "params": {
+                "options": {
+                    "hideClosedCr": False,
+                    "latestPerFormat": 195,
+                }
+            }
         }
-    }})
+    )
     assert final_stats is not None
     assert final_stats.name == "DefaultSettings"
     assert final_stats.options.hide_closed_cr is False

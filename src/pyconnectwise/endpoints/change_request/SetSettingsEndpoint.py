@@ -1,8 +1,8 @@
 from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
-from pyconnectwise.interfaces import IGettable, IPostable
-from pyconnectwise.models.change_request import SettingsData, SettingsObject, SetSettingsMsg, SetSettingsObject
+from pyconnectwise.interfaces import IPostable
+from pyconnectwise.models.change_request import SetSettingsMsg, SetSettingsObject
 from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
@@ -30,4 +30,3 @@ class SetSettingsEndpoint(
         """
         obj = self._parse_one(SetSettingsObject, super()._make_request("POST", data=data, params=params).json())
         return obj.msg
-

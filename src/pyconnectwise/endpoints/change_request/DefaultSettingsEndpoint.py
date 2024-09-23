@@ -2,9 +2,6 @@ from typing import TYPE_CHECKING
 
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.change_request.SetSettingsEndpoint import SetSettingsEndpoint
-from pyconnectwise.interfaces import IGettable, IPostable
-from pyconnectwise.models.change_request import SettingsData, SettingsObject, SetSettingsMsg
-from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
     from pyconnectwise.clients.connectwise_client import ConnectWiseClient
@@ -19,4 +16,3 @@ class DefaultSettingsEndpoint(
     @property
     def set_settings(self) -> SetSettingsEndpoint:
         return SetSettingsEndpoint(self.client, parent_endpoint=self)
-

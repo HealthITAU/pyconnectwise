@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 from pyconnectwise.endpoints.base.connectwise_endpoint import ConnectWiseEndpoint
 from pyconnectwise.endpoints.change_request.ChangeRequestIdEndpoint import ChangeRequestIdEndpoint
 from pyconnectwise.interfaces import IGettable, IPostable
-from pyconnectwise.models.change_request import ChangeRequestMsg, ChangeRequestGetObject
+from pyconnectwise.models.change_request import ChangeRequestGetObject, ChangeRequestMsg
 from pyconnectwise.types import JSON, ConnectWiseChangeApprovalRequestParams
 
 if TYPE_CHECKING:
