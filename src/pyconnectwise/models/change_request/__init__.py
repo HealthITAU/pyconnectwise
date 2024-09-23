@@ -321,6 +321,31 @@ class LoginMsg(ConnectWiseModel):
     is_instance_login: Annotated[bool | None, Field(alias="isInstanceLogin")] = None
 
 
+class SettingsOptions(ConnectWiseModel):
+    hide_closed_cr: Annotated[bool | None, Field(alias="hideClosedCr")] = None
+    latest_per_format: Annotated[int | None, Field(alias="latestPerFormat")] = None
+
+
 class LoginObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[LoginMsg | None, Field(alias="msg")] = None
+
+
+class SettingsData(ConnectWiseModel):
+    _id: Annotated[str | None, Field(alias="_id")] = None
+    options: Annotated[SettingsOptions | None, Field(alias="options")] = None
+    name: Annotated[str | None, Field(alias="name")] = None
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+    created: Annotated[int | None, Field(alias="created")] = None
+    updated: Annotated[int | None, Field(alias="updated")] = None
+
+
+class SettingsMsg(ConnectWiseModel):
+    total: Annotated[int | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[SettingsData] | None, Field(alias="data")] = None
+
+
+class SettingsObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[SettingsMsg | None, Field(alias="msg")] = None

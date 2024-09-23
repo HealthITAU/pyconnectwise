@@ -5,6 +5,9 @@ from dotenv import load_dotenv
 
 from pyconnectwise.clients.change_request_client import ConnectWiseChangeApprovalClient
 import pathlib
+
+from pyconnectwise.types import ConnectWiseChangeApprovalRequestParams
+
 current_path = pathlib.Path(__file__).parent.resolve()
 # In current directory, load the .env file
 assert load_dotenv(os.path.join(current_path,".env"))
@@ -59,7 +62,15 @@ def test_get_acl_roles():
     assert obj_data is not None
     assert len(obj_data) > 0
 
-    obj_filter_data = client.acl_roles.get(params={"Member_RecID": client.login_msg.rec_id})
+    obj_filter_data = client.acl_roles.get(params=ConnectWiseChangeApprovalRequestParams(perColConditions={"Member_RecID": client.login_msg.rec_id}))
+    assert obj_filter_data is not None
+    assert len(obj_filter_data) > 0
+
+
+def test_get_settings():
+    client = change_approval_client_init()
+    client.auth_login()
+    obj_filter_data = client.settings.get(params=ConnectWiseChangeApprovalRequestParams(perColConditions={"name": "DefaultSettings"}))
     assert obj_filter_data is not None
     assert len(obj_filter_data) > 0
 

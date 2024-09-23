@@ -124,6 +124,11 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
         return LoginEndpoint(self)
 
+    @property
+    def settings(self) -> "SettingsEndpoint":
+        from pyconnectwise.endpoints.change_request.SettingsEndpoint import SettingsEndpoint
+        return SettingsEndpoint(self)
+
     def auth_login(self) -> None:
         """
         Logs in to the ConnectWise Change Approval API and retrieves the new cookie
