@@ -1,5 +1,6 @@
 import base64
 import typing
+from datetime import datetime, timedelta
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
@@ -27,8 +28,10 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         client_id: str,
         member_hash: str,
         member_id: str,
-        token: str,
-        change_approval_cookie: str,
+        login_username: str,
+        login_password: str,
+        login_role: str,
+        login_partner_id: str,
         config: Config | None = None,
     ) -> None:
         """
@@ -43,13 +46,17 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
             private_key (str): Your ConnectWise Manage API Private key.
             config (Config, optional): Optional additional configuration for API interactions
         """
+        self.login_partner_id: str = login_partner_id
+        self.login_role: str = login_role
+        self.login_password: str = login_password
+        self.login_username: str = login_username
         self.client_id: str = client_id
         self.company_name: str = company_name
         self.manage_url: str = manage_url
         self.member_hash: str = member_hash
         self.member_id: str = member_id
-        self.token: str = token
-        self.change_approval_cookie: str = change_approval_cookie
+        self.__change_approval_cookie: str = ""
+        self.__change_approval_cookie_expiration: datetime | None = None
 
         if config:
             self.config = config
@@ -97,6 +104,23 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         # Yes, this has a different route than the plural version
         raise NotImplementedError("audit log singular endpoint not implemented yet.")
 
+    def login(self) -> None:
+        """
+        Logs in to the ConnectWise Change Approval API and retrieves the new cookie
+        """
+        url = f"https://{self.manage_url}/api/login"
+        result = self._make_request("POST", url, data={
+            "userName": self.login_username,
+            "password": self.login_password,
+            "role": self.login_role,
+            "partnerId": self.login_partner_id,
+            "cwversion": "2024.1",  # TODO - Parameterize?
+            "context": "web",
+        })
+        result.raise_for_status()
+        self.__change_approval_cookie = result.cookies["changeapproval"]
+        # TODO - We get back expires=None, so log in every 6 hours?
+        self.__change_approval_cookie_expiration = datetime.now() + timedelta(hours=6)
 
     def _get_cookies(self) -> dict[str, str]:
         """
@@ -105,12 +129,12 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         Returns:
             dict[str, str]: Dictionary of cookies.
         """
+
         return {
             "companyName": self.company_name,
             "MemberID": self.member_id,
             "MemberHash": self.member_hash,
-            "Token": self.token,
-            "changeapproval": self.change_approval_cookie,
+            "changeapproval": self.__change_approval_cookie,
         }
 
     def _get_url(self) -> str:
