@@ -41,6 +41,11 @@ class ConnectWiseClient(ABC):
     def _get_url(self) -> str:
         pass
 
+    @abstractmethod
+    def _get_query(self, x) -> dict[str, Any]:
+        # TODO - This feels like an inversion of control for the client to be asking the endpoint for the query
+        return x
+
     def _make_request(  # noqa: C901
         self,
         method: RequestMethod,
@@ -75,6 +80,7 @@ class ConnectWiseClient(ABC):
 
         if not cookies:
             cookies = self._get_cookies()
+        params = self._get_query(params) if params else None
 
         # I don't like having to cast the params to a dict, but it's the only way I can get mypy to stop complaining about the type.
         # TypedDicts aren't compatible with the dict type and this is the best way I can think of to handle this.

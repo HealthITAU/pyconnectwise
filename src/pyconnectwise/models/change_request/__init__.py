@@ -365,3 +365,29 @@ class StatsMsg(ConnectWiseModel):
 class StatsObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[list[StatsMsg] | None, Field(alias="msg")] = None
+
+
+class TemplateData(ConnectWiseModel):
+    _id: Annotated[str | None, Field(alias="_id")] = None
+    template_html: Annotated[str | None, Field(alias="template_html")] = None
+    img_url: Annotated[str | None, Field(alias="imgUrl")] = None
+    name: Annotated[str | None, Field(alias="name")] = None
+    subject: Annotated[str | None, Field(alias="subject")] = None
+    first_name: Annotated[str | None, Field(alias="firstName")] = None
+    last_name: Annotated[str | None, Field(alias="lastName")] = None
+    email_address: Annotated[str | None, Field(alias="emailAddress")] = None
+    category: Annotated[str | None, Field(alias="category")] = None
+    created: Annotated[int | None, Field(alias="created")] = None
+    updated: Annotated[int | None, Field(alias="updated")] = None
+    partner_id: Annotated[str | None, Field(alias="partnerId")] = None
+
+
+class TemplateMsg(ConnectWiseModel):
+    total: Annotated[int | None, Field(alias="total")] = None
+    current: Annotated[int | None, Field(alias="current")] = None
+    data: Annotated[list[TemplateData] | None, Field(alias="data")] = None
+
+
+class TemplateObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[TemplateMsg | None, Field(alias="msg")] = None

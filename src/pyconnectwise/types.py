@@ -24,7 +24,6 @@ class ConnectWiseManageRequestParams(TypedDict):
 
 
 class ConnectWiseChangeApprovalRequestParams(TypedDict):
-    # TODO - Clarify what these are?
     perColConditions: NotRequired[dict[str, str]]
 
 

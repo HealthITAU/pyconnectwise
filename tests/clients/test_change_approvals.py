@@ -71,8 +71,21 @@ def test_get_acl_roles():
 def test_get_settings():
     client = change_approval_client_init()
     client.auth_login()
+    obj_filter_data = client.settings.get()
+    assert obj_filter_data is not None
+    assert len(obj_filter_data) > 0
     obj_filter_data = client.settings.get(
         params=ConnectWiseChangeApprovalRequestParams(perColConditions={"name": "DefaultSettings"})
+    )
+    assert obj_filter_data is not None
+    assert len(obj_filter_data) > 0
+
+
+def test_get_templates():
+    client = change_approval_client_init()
+    client.auth_login()
+    obj_filter_data = client.template.get(
+        params=ConnectWiseChangeApprovalRequestParams(perColConditions={"category": "My Templates"})
     )
     assert obj_filter_data is not None
     assert len(obj_filter_data) > 0

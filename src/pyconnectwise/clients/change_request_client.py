@@ -1,11 +1,14 @@
+import json
 import typing
 from datetime import datetime, timedelta
+from typing import Any
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
 from pyconnectwise.endpoints.change_request import GetStatsEndpoint
 from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
 from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
+from pyconnectwise.endpoints.change_request.TemplateEndpoint import TemplateEndpoint
 from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
 from pyconnectwise.models.change_request import LoginMsg, LoginObject
 
@@ -78,6 +81,12 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         from pyconnectwise.endpoints.change_request.ChangeTypeEndpoint import ChangeTypeEndpoint
 
         return ChangeTypeEndpoint(self)
+
+    @property
+    def template(self) -> "TemplateEndpoint":
+        from pyconnectwise.endpoints.change_request.TemplateEndpoint import TemplateEndpoint
+
+        return TemplateEndpoint(self)
 
     @property
     def contacts(self):
@@ -194,4 +203,10 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         return {
             "Content-Type": "application/json",
             "clientId": self.client_id,
+        }
+
+    def _get_query(self, x) -> dict[str, Any]:
+        # Because ChangeApproval API is weird
+        return {
+            "query": json.dumps(x)
         }
