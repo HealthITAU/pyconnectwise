@@ -78,6 +78,15 @@ def test_get_settings():
     assert len(obj_filter_data) > 0
 
 
+def test_get_stats():
+    client = change_approval_client_init()
+    client.auth_login()
+    # TODO - Figure out what 120-timeDuration means
+    final_stats = client.get_stats.post(data={"timeDuration": 120})
+    assert final_stats is not None
+    assert len(final_stats) > 0
+
+
 def test_login():
     client = change_approval_client_init()
     client.auth_login()

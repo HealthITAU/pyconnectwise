@@ -355,3 +355,13 @@ class SettingsMsg(ConnectWiseModel):
 class SettingsObject(ConnectWiseModel):
     status: Annotated[str | None, Field(alias="status")] = None
     msg: Annotated[SettingsMsg | None, Field(alias="msg")] = None
+
+
+class StatsMsg(ConnectWiseModel):
+    count: Annotated[int | None, Field(alias="count")] = None
+    approval_status: Annotated[str | None, Field(alias="approvalStatus")] = None
+
+
+class StatsObject(ConnectWiseModel):
+    status: Annotated[str | None, Field(alias="status")] = None
+    msg: Annotated[list[StatsMsg] | None, Field(alias="msg")] = None

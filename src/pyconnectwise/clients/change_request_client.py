@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from pyconnectwise.clients.connectwise_client import ConnectWiseClient
 from pyconnectwise.config import Config
+from pyconnectwise.endpoints.change_request import GetStatsEndpoint
 from pyconnectwise.endpoints.change_request.AclsRolesEndpoint import AclsRolesEndpoint
 from pyconnectwise.endpoints.change_request.LoginEndpoint import LoginEndpoint
 from pyconnectwise.endpoints.change_request.UsersEndpoint import UsersEndpoint
@@ -131,6 +132,12 @@ class ConnectWiseChangeApprovalClient(ConnectWiseClient):
         from pyconnectwise.endpoints.change_request.SettingsEndpoint import SettingsEndpoint
 
         return SettingsEndpoint(self)
+
+    @property
+    def get_stats(self) -> "GetStatsEndpoint":
+        from pyconnectwise.endpoints.change_request.GetStatsEndpoint import GetStatsEndpoint
+
+        return GetStatsEndpoint(self)
 
     def auth_login(self) -> None:
         """
