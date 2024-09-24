@@ -456,7 +456,9 @@ class ConfigurationData(ConnectWiseModel):
     configuration_name: Annotated[str | None, Field(alias="ConfigurationName")] = None
     installed_by: Annotated[str | None, Field(alias="InstalledBy")] = None
     warranty_expiration: Annotated[str | None, Field(alias="WarrantyExpiration")] = None
-    universal_formatted_warranty_expiration: Annotated[str | None, Field(alias="Universal_Formatted_Warranty_Expiration")] = None
+    universal_formatted_warranty_expiration: Annotated[
+        str | None, Field(alias="Universal_Formatted_Warranty_Expiration")
+    ] = None
     serial_number: Annotated[str | None, Field(alias="SerialNumber")] = None
     model_number: Annotated[str | None, Field(alias="ModelNumber")] = None
     tag_number: Annotated[str | None, Field(alias="TagNumber")] = None
