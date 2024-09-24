@@ -34,8 +34,17 @@ class ConnectWiseClient(ABC):
         pass
 
     @abstractmethod
+    def _get_cookies(self) -> dict[str, str]:
+        return {}
+
+    @abstractmethod
     def _get_url(self) -> str:
         pass
+
+    @abstractmethod
+    def _get_query(self, x) -> dict[str, Any]:
+        # TODO - This feels like an inversion of control for the client to be asking the endpoint for the query
+        return x
 
     def _make_request(  # noqa: C901
         self,
@@ -46,6 +55,7 @@ class ConnectWiseClient(ABC):
         headers: dict[str, str] | None = None,
         retry_count: int = 0,
         stream: bool = False,  # noqa: FBT001, FBT002
+        cookies: dict[str, str] | None = None,
     ) -> Response:
         """
         Make an API request using the specified method, endpoint, data, and parameters.
@@ -68,24 +78,30 @@ class ConnectWiseClient(ABC):
         if not headers:
             headers = self._get_headers()
 
+        if not cookies:
+            cookies = self._get_cookies()
+        params = self._get_query(params) if params else None
+
         # I don't like having to cast the params to a dict, but it's the only way I can get mypy to stop complaining about the type.
         # TypedDicts aren't compatible with the dict type and this is the best way I can think of to handle this.
         if data:
-            response = requests.request(  # noqa: S113
+            response = requests.request(
                 method,
                 url,
                 headers=headers,
                 json=data,
                 params=cast(dict[str, Any], params or {}),
                 stream=stream,
+                cookies=cookies,
             )
         else:
-            response = requests.request(  # noqa: S113
+            response = requests.request(
                 method,
                 url,
                 headers=headers,
                 params=cast(dict[str, Any], params or {}),
                 stream=stream,
+                cookies=cookies,
             )
         if not response.ok:
             with contextlib.suppress(json.JSONDecodeError):
