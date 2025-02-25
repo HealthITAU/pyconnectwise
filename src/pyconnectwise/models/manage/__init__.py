@@ -9883,7 +9883,9 @@ class Member(ConnectWiseModel):
     invoice_screen_default_tab_format: Annotated[
         Literal["ShowInvoicingTab", "ShowAgreementInvoicingTab"], Field(alias="invoiceScreenDefaultTabFormat")
     ]
-    invoice_time_tab_format: Annotated[Literal["SummaryList", "DetailList"] | None, Field(alias="invoiceTimeTabFormat")] = None
+    invoice_time_tab_format: Annotated[
+        Literal["SummaryList", "DetailList"] | None, Field(alias="invoiceTimeTabFormat")
+    ] = None
     invoicing_display_options: Annotated[
         Literal["RemainOnInvoicingScreen", "ShowRecentInvoices"], Field(alias="invoicingDisplayOptions")
     ]

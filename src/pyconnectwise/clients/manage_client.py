@@ -74,6 +74,8 @@ class ConnectWiseManageAPIClient(ConnectWiseClient):
                 # we need to except here
                 raise ManageCodebaseError()
             self.codebase: str = codebase_request
+        else:
+            self.codebase: str = codebase
 
     # Initializing endpoints
     @property
