@@ -3,11 +3,11 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime  # noqa: TCH003
+from datetime import date, datetime  # noqa: TC003
 from typing import Annotated, Any, Literal
-from uuid import UUID  # noqa: TCH003
+from uuid import UUID  # noqa: TC003
 
-from pydantic import Field  # noqa: TCH002
+from pydantic import Field
 
 from pyconnectwise.models.base.connectwise_model import ConnectWiseModel
 
@@ -247,26 +247,29 @@ class AuditTrailEntry(ConnectWiseModel):
 class AuditTrailEntryGetRequest(ConnectWiseModel):
     device_identifier: Annotated[str | None, Field(alias="deviceIdentifier")] = None
     id: int | None = None
-    type: Literal[
-        "None",
-        "Ticket",
-        "Contact",
-        "Company",
-        "Opportunity",
-        "Time",
-        "Activity",
-        "ProductCatalog",
-        "ProjectTicket",
-        "Purchasing",
-        "Configuration",
-        "Schedule",
-        "Agreement",
-        "AgreementAddition",
-        "Project",
-        "Invoice",
-        "PurchaseOrder",
-        "Expense",
-    ] | None = None
+    type: (
+        Literal[
+            "None",
+            "Ticket",
+            "Contact",
+            "Company",
+            "Opportunity",
+            "Time",
+            "Activity",
+            "ProductCatalog",
+            "ProjectTicket",
+            "Purchasing",
+            "Configuration",
+            "Schedule",
+            "Agreement",
+            "AgreementAddition",
+            "Project",
+            "Invoice",
+            "PurchaseOrder",
+            "Expense",
+        ]
+        | None
+    ) = None
 
 
 class AuthAnvil(ConnectWiseModel):
@@ -1089,19 +1092,22 @@ class CustomFieldValue(ConnectWiseModel):
     entry_method: Annotated[Literal["Date", "EntryField", "List", "Option"] | None, Field(alias="entryMethod")] = None
     id: int | None = None
     number_of_decimals: Annotated[int | None, Field(alias="numberOfDecimals")] = None
-    type: Literal[
-        "TextArea",
-        "Button",
-        "Currency",
-        "Date",
-        "Hyperlink",
-        "IPAddress",
-        "Checkbox",
-        "Number",
-        "Percent",
-        "Text",
-        "Password",
-    ] | None = None
+    type: (
+        Literal[
+            "TextArea",
+            "Button",
+            "Currency",
+            "Date",
+            "Hyperlink",
+            "IPAddress",
+            "Checkbox",
+            "Number",
+            "Percent",
+            "Text",
+            "Password",
+        ]
+        | None
+    ) = None
     value: str | bool | int | None = None
 
 
@@ -2016,14 +2022,14 @@ class InvoiceTemplate(ConnectWiseModel):
     expense_detail_agreement_ext_amount_visible_flag: Annotated[
         bool | None, Field(alias="expenseDetailAgreementExtAmountVisibleFlag")
     ] = None
-    expense_detail_agreement_visible_flag: Annotated[
-        bool | None, Field(alias="expenseDetailAgreementVisibleFlag")
-    ] = None
+    expense_detail_agreement_visible_flag: Annotated[bool | None, Field(alias="expenseDetailAgreementVisibleFlag")] = (
+        None
+    )
     expense_detail_billable_visible_flag: Annotated[bool | None, Field(alias="expenseDetailBillableVisibleFlag")] = None
     expense_detail_contacts_visible_flag: Annotated[bool | None, Field(alias="expenseDetailContactsVisibleFlag")] = None
-    expense_detail_ext_amount_visible_flag: Annotated[
-        bool | None, Field(alias="expenseDetailExtAmountVisibleFlag")
-    ] = None
+    expense_detail_ext_amount_visible_flag: Annotated[bool | None, Field(alias="expenseDetailExtAmountVisibleFlag")] = (
+        None
+    )
     expense_detail_members_visible_flag: Annotated[bool | None, Field(alias="expenseDetailMembersVisibleFlag")] = None
     expense_detail_nonbillable_caption: Annotated[str | None, Field(alias="expenseDetailNonbillableCaption")] = None
     """
@@ -2031,23 +2037,23 @@ class InvoiceTemplate(ConnectWiseModel):
     """
     expense_detail_notes_visible_flag: Annotated[bool | None, Field(alias="expenseDetailNotesVisibleFlag")] = None
     expense_detail_pm_phase_visible_flag: Annotated[bool | None, Field(alias="expenseDetailPmPhaseVisibleFlag")] = None
-    expense_detail_pm_summary_visible_flag: Annotated[
-        bool | None, Field(alias="expenseDetailPmSummaryVisibleFlag")
-    ] = None
-    expense_detail_primary_sort_direction: Annotated[
-        str | None, Field(alias="expenseDetailPrimarySortDirection")
-    ] = None
+    expense_detail_pm_summary_visible_flag: Annotated[bool | None, Field(alias="expenseDetailPmSummaryVisibleFlag")] = (
+        None
+    )
+    expense_detail_primary_sort_direction: Annotated[str | None, Field(alias="expenseDetailPrimarySortDirection")] = (
+        None
+    )
     expense_detail_primary_sort_field: Annotated[str | None, Field(alias="expenseDetailPrimarySortField")] = None
     expense_detail_secondary_sort_direction: Annotated[
         str | None, Field(alias="expenseDetailSecondarySortDirection")
     ] = None
     expense_detail_secondary_sort_field: Annotated[str | None, Field(alias="expenseDetailSecondarySortField")] = None
-    expense_detail_sr_address_visible_flag: Annotated[
-        bool | None, Field(alias="expenseDetailSrAddressVisibleFlag")
-    ] = None
-    expense_detail_sr_contact_visible_flag: Annotated[
-        bool | None, Field(alias="expenseDetailSrContactVisibleFlag")
-    ] = None
+    expense_detail_sr_address_visible_flag: Annotated[bool | None, Field(alias="expenseDetailSrAddressVisibleFlag")] = (
+        None
+    )
+    expense_detail_sr_contact_visible_flag: Annotated[bool | None, Field(alias="expenseDetailSrContactVisibleFlag")] = (
+        None
+    )
     expense_detail_sr_ticket_summary_visible_flag: Annotated[
         bool | None, Field(alias="expenseDetailSrTicketSummaryVisibleFlag")
     ] = None
@@ -2193,9 +2199,9 @@ class InvoiceTemplate(ConnectWiseModel):
      Max length: 50;
     """
     project_header_amount_visible_flag: Annotated[bool | None, Field(alias="projectHeaderAmountVisibleFlag")] = None
-    project_header_billing_method_caption: Annotated[
-        str | None, Field(alias="projectHeaderBillingMethodCaption")
-    ] = None
+    project_header_billing_method_caption: Annotated[str | None, Field(alias="projectHeaderBillingMethodCaption")] = (
+        None
+    )
     """
      Max length: 50;
     """
@@ -2245,9 +2251,9 @@ class InvoiceTemplate(ConnectWiseModel):
      Max length: 50;
     """
     service_header_amount_visible_flag: Annotated[bool | None, Field(alias="serviceHeaderAmountVisibleFlag")] = None
-    service_header_billing_method_caption: Annotated[
-        str | None, Field(alias="serviceHeaderBillingMethodCaption")
-    ] = None
+    service_header_billing_method_caption: Annotated[str | None, Field(alias="serviceHeaderBillingMethodCaption")] = (
+        None
+    )
     """
      Max length: 50;
     """
@@ -2283,9 +2289,9 @@ class InvoiceTemplate(ConnectWiseModel):
     service_header_detail_description_visible_flag: Annotated[
         bool | None, Field(alias="serviceHeaderDetailDescriptionVisibleFlag")
     ] = None
-    service_header_open_tasks_visible_flag: Annotated[
-        bool | None, Field(alias="serviceHeaderOpenTasksVisibleFlag")
-    ] = None
+    service_header_open_tasks_visible_flag: Annotated[bool | None, Field(alias="serviceHeaderOpenTasksVisibleFlag")] = (
+        None
+    )
     service_header_resolution_caption: Annotated[str | None, Field(alias="serviceHeaderResolutionCaption")] = None
     """
      Max length: 50;
@@ -2393,9 +2399,9 @@ class InvoiceTemplate(ConnectWiseModel):
         bool | None, Field(alias="timeDetailStartEndTimeVisibleFlag")
     ] = None
     time_detail_subtotal_visible_flag: Annotated[bool | None, Field(alias="timeDetailSubtotalVisibleFlag")] = None
-    time_detail_ticket_number_visible_flag: Annotated[
-        bool | None, Field(alias="timeDetailTicketNumberVisibleFlag")
-    ] = None
+    time_detail_ticket_number_visible_flag: Annotated[bool | None, Field(alias="timeDetailTicketNumberVisibleFlag")] = (
+        None
+    )
     time_detail_visible_flag: Annotated[bool | None, Field(alias="timeDetailVisibleFlag")] = None
 
 
@@ -2594,9 +2600,9 @@ class ManagedDevicesIntegrationReference(ActivityReference):
 
 class ManagedInformation(ConnectWiseModel):
     child_configurations_matching_on: Annotated[str | None, Field(alias="childConfigurationsMatchingOn")] = None
-    inactivate_configurations_matching_on: Annotated[
-        str | None, Field(alias="inactivateConfigurationsMatchingOn")
-    ] = None
+    inactivate_configurations_matching_on: Annotated[str | None, Field(alias="inactivateConfigurationsMatchingOn")] = (
+        None
+    )
     inactive_configuration_status_id: Annotated[int | None, Field(alias="inactiveConfigurationStatusId")] = None
     level: str | None = None
     managed_identifier: Annotated[str | None, Field(alias="managedIdentifier")] = None
@@ -2612,15 +2618,15 @@ class Management(ConnectWiseModel):
     deleted_configuration_status: Annotated[
         ConfigurationStatusReference | None, Field(alias="deletedConfigurationStatus")
     ] = None
-    executive_summary_report_schedule_day: Annotated[
-        int | None, Field(alias="executiveSummaryReportScheduleDay")
-    ] = None
+    executive_summary_report_schedule_day: Annotated[int | None, Field(alias="executiveSummaryReportScheduleDay")] = (
+        None
+    )
     """
     This is only required when scheduleExecutiveSummaryReportFlag = true
     """
-    executive_summary_report_schedule_hour: Annotated[
-        int | None, Field(alias="executiveSummaryReportScheduleHour")
-    ] = None
+    executive_summary_report_schedule_hour: Annotated[int | None, Field(alias="executiveSummaryReportScheduleHour")] = (
+        None
+    )
     """
     This is only required when scheduleExecutiveSummaryReportFlag = true. Input should be in 24 hour format, ie 2pm is 14
     """
@@ -3426,18 +3432,21 @@ class PortalConfiguration(ConnectWiseModel):
     """
     An existing Portal Configuration id is required when copying a Portal Configuration.
     """
-    language: Literal[
-        "English",
-        "Spanish",
-        "French",
-        "British",
-        "Australian",
-        "BrazilianPortuguese",
-        "CanadianFrench",
-        "German",
-        "NewZealand",
-        "Dutch",
-    ] | None = None
+    language: (
+        Literal[
+            "English",
+            "Spanish",
+            "French",
+            "British",
+            "Australian",
+            "BrazilianPortuguese",
+            "CanadianFrench",
+            "German",
+            "NewZealand",
+            "Dutch",
+        ]
+        | None
+    ) = None
     location_ids: Annotated[list[int] | None, Field(alias="locationIds")] = None
     login_background_color: Annotated[str | None, Field(alias="loginBackgroundColor")] = None
     """
@@ -3530,9 +3539,9 @@ class PortalConfigurationOpportunitySetup(ConnectWiseModel):
     restrict_view_by_opportunity_status_flag: Annotated[
         bool | None, Field(alias="restrictViewByOpportunityStatusFlag")
     ] = None
-    restrict_view_by_opportunity_type_flag: Annotated[
-        bool | None, Field(alias="restrictViewByOpportunityTypeFlag")
-    ] = None
+    restrict_view_by_opportunity_type_flag: Annotated[bool | None, Field(alias="restrictViewByOpportunityTypeFlag")] = (
+        None
+    )
 
 
 class PortalConfigurationPasswordEmailSetup(ConnectWiseModel):
@@ -3543,9 +3552,9 @@ class PortalConfigurationPasswordEmailSetup(ConnectWiseModel):
     """
     Required when invalidPasswordEmailUseCustomEmailFlag is true
     """
-    invalid_password_email_from_first_name: Annotated[
-        str | None, Field(alias="invalidPasswordEmailFromFirstName")
-    ] = None
+    invalid_password_email_from_first_name: Annotated[str | None, Field(alias="invalidPasswordEmailFromFirstName")] = (
+        None
+    )
     invalid_password_email_from_last_name: Annotated[str | None, Field(alias="invalidPasswordEmailFromLastName")] = None
     invalid_password_email_subject: Annotated[str | None, Field(alias="invalidPasswordEmailSubject")] = None
     invalid_password_email_use_custom_email_flag: Annotated[
@@ -5238,126 +5247,132 @@ class TimeEntryAudit(ConnectWiseModel):
     message: str | None = None
     new_value: Annotated[str | None, Field(alias="newValue")] = None
     old_value: Annotated[str | None, Field(alias="oldValue")] = None
-    source: Literal[
-        "None",
-        "Member",
-        "API",
-        "Workflow",
-        "Portal",
-        "Mobile",
-        "Network",
-        "EmailConnector",
-        "MassMaintenance",
-        "Application",
-        "SystemAPI",
-        "Conversion",
-    ] | None = None
-    type: Literal[
-        "Activity",
-        "CloseDate",
-        "Company",
-        "Contact",
-        "Conversion",
-        "Document",
-        "Forecast",
-        "Note",
-        "Notes",
-        "Opportunity",
-        "Products",
-        "Stage",
-        "Status",
-        "Surveys",
-        "Team",
-        "Tracks",
-        "Configuration",
-        "ConfigurationQuestions",
-        "DeviceBackupDetails",
-        "Tickets",
-        "Subject",
-        "ActivityOverview",
-        "Schedule",
-        "Resources",
-        "ExpenseEntry",
-        "Member",
-        "Date",
-        "Classification",
-        "Amount",
-        "ExpenseType",
-        "WorkType",
-        "WorkRole",
-        "Mileage",
-        "Billing",
-        "ExpenseHeader",
-        "Project",
-        "TimeEntry",
-        "TicketStatus",
-        "DateTime",
-        "DeductHours",
-        "ActualHours",
-        "Invoice",
-        "CompanyFinance",
-        "Billable",
-        "SalesOrder",
-        "Shipping",
-        "Profile",
-        "Group",
-        "GroupContact",
-        "GroupCompany",
-        "Options",
-        "Site",
-        "Agreement",
-        "Addition",
-        "Adjustment",
-        "API",
-        "ProjectFinance",
-        "CompanyProfile",
-        "CompanyTeam",
-        "CompanyMgmt",
-        "InvoiceTotal",
-        "BillingInformation",
-        "ShippingInformation",
-        "BillingStatus",
-        "Location",
-        "Department",
-        "Territory",
-        "Payment",
-        "Credit",
-        "SubcontractorInformation",
-        "InvoicingParameters",
-        "ApplicationParameters",
-        "Finance",
-        "Invoicing",
-        "Email",
-        "Batching",
-        "KnowledgeBase",
-        "KbArticle",
-        "KnowledgeBaseApproval",
-        "KnowledgeBaseTicket",
-        "ManageNetwork",
-        "Tasks",
-        "CustomField",
-        "ScreenConnect",
-        "SLA",
-        "Ticket",
-        "Workflow",
-        "Record",
-        "CombinedTickets",
-        "Template",
-        "PurchaseOrder",
-        "Meeting",
-        "RmaOverview",
-        "ReturnedBy",
-        "PurchasedFromVendor",
-        "WarrantyVendor",
-        "RepairVendor",
-        "AdditionalDetails",
-        "TicketTemplate",
-        "AutoGeneration",
-        "TimeInternalNote",
-        "TimeDiscussion",
-        "TimeInternal",
-        "TimeResolution",
-    ] | None = None
+    source: (
+        Literal[
+            "None",
+            "Member",
+            "API",
+            "Workflow",
+            "Portal",
+            "Mobile",
+            "Network",
+            "EmailConnector",
+            "MassMaintenance",
+            "Application",
+            "SystemAPI",
+            "Conversion",
+        ]
+        | None
+    ) = None
+    type: (
+        Literal[
+            "Activity",
+            "CloseDate",
+            "Company",
+            "Contact",
+            "Conversion",
+            "Document",
+            "Forecast",
+            "Note",
+            "Notes",
+            "Opportunity",
+            "Products",
+            "Stage",
+            "Status",
+            "Surveys",
+            "Team",
+            "Tracks",
+            "Configuration",
+            "ConfigurationQuestions",
+            "DeviceBackupDetails",
+            "Tickets",
+            "Subject",
+            "ActivityOverview",
+            "Schedule",
+            "Resources",
+            "ExpenseEntry",
+            "Member",
+            "Date",
+            "Classification",
+            "Amount",
+            "ExpenseType",
+            "WorkType",
+            "WorkRole",
+            "Mileage",
+            "Billing",
+            "ExpenseHeader",
+            "Project",
+            "TimeEntry",
+            "TicketStatus",
+            "DateTime",
+            "DeductHours",
+            "ActualHours",
+            "Invoice",
+            "CompanyFinance",
+            "Billable",
+            "SalesOrder",
+            "Shipping",
+            "Profile",
+            "Group",
+            "GroupContact",
+            "GroupCompany",
+            "Options",
+            "Site",
+            "Agreement",
+            "Addition",
+            "Adjustment",
+            "API",
+            "ProjectFinance",
+            "CompanyProfile",
+            "CompanyTeam",
+            "CompanyMgmt",
+            "InvoiceTotal",
+            "BillingInformation",
+            "ShippingInformation",
+            "BillingStatus",
+            "Location",
+            "Department",
+            "Territory",
+            "Payment",
+            "Credit",
+            "SubcontractorInformation",
+            "InvoicingParameters",
+            "ApplicationParameters",
+            "Finance",
+            "Invoicing",
+            "Email",
+            "Batching",
+            "KnowledgeBase",
+            "KbArticle",
+            "KnowledgeBaseApproval",
+            "KnowledgeBaseTicket",
+            "ManageNetwork",
+            "Tasks",
+            "CustomField",
+            "ScreenConnect",
+            "SLA",
+            "Ticket",
+            "Workflow",
+            "Record",
+            "CombinedTickets",
+            "Template",
+            "PurchaseOrder",
+            "Meeting",
+            "RmaOverview",
+            "ReturnedBy",
+            "PurchasedFromVendor",
+            "WarrantyVendor",
+            "RepairVendor",
+            "AdditionalDetails",
+            "TicketTemplate",
+            "AutoGeneration",
+            "TimeInternalNote",
+            "TimeDiscussion",
+            "TimeInternal",
+            "TimeResolution",
+        ]
+        | None
+    ) = None
     value: str | None = None
 
 
@@ -5435,20 +5450,23 @@ class TimeSheet(ConnectWiseModel):
     id: int | None = None
     member: MemberReference | None = None
     period: int | None = None
-    status: Literal[
-        "Open",
-        "Rejected",
-        "PendingApproval",
-        "ErrorsCorrected",
-        "PendingProjectApproval",
-        "ApprovedByTierOne",
-        "RejectBySecondTier",
-        "ApprovedByTierTwo",
-        "ReadyToBill",
-        "Billed",
-        "WrittenOff",
-        "BilledAgreement",
-    ] | None = None
+    status: (
+        Literal[
+            "Open",
+            "Rejected",
+            "PendingApproval",
+            "ErrorsCorrected",
+            "PendingProjectApproval",
+            "ApprovedByTierOne",
+            "RejectBySecondTier",
+            "ApprovedByTierTwo",
+            "ReadyToBill",
+            "Billed",
+            "WrittenOff",
+            "BilledAgreement",
+        ]
+        | None
+    ) = None
     year: int | None = None
 
 
@@ -6074,9 +6092,9 @@ class WorkflowAttachment(ActivityReference):
 class WorkflowEvent(ConnectWiseModel):
     info: Annotated[dict[str, str] | None, Field(alias="_info")] = None
     event_condition: Annotated[str, Field(alias="eventCondition")]
-    execution_time: Annotated[
-        Literal["Once", "MultipleTimes", "Continuously"] | None, Field(alias="executionTime")
-    ] = None
+    execution_time: Annotated[Literal["Once", "MultipleTimes", "Continuously"] | None, Field(alias="executionTime")] = (
+        None
+    )
     """
     Defaults to Once when not specified
     """
@@ -6315,9 +6333,9 @@ class Agreement(ConnectWiseModel):
      Required On Updates;
     """
     bill_start_date: Annotated[datetime | None, Field(alias="billStartDate")] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     """
      Required On Updates;
     """
@@ -6713,9 +6731,9 @@ class BillingSetup(ConnectWiseModel):
      Max length: 50;
     """
     agreement_invoice: Annotated[InvoiceTemplateReference | None, Field(alias="agreementInvoice")] = None
-    allow_restricted_dept_on_routing_flag: Annotated[
-        bool | None, Field(alias="allowRestrictedDeptOnRoutingFlag")
-    ] = None
+    allow_restricted_dept_on_routing_flag: Annotated[bool | None, Field(alias="allowRestrictedDeptOnRoutingFlag")] = (
+        None
+    )
     bill_product_after_ship_flag: Annotated[bool | None, Field(alias="billProductAfterShipFlag")] = None
     bill_project_complete_flag: Annotated[bool | None, Field(alias="billProjectCompleteFlag")] = None
     bill_project_unapproved_flag: Annotated[bool | None, Field(alias="billProjectUnapprovedFlag")] = None
@@ -6850,9 +6868,9 @@ class Board(ConnectWiseModel):
     ] = None
     bill_ticket_separately_flag: Annotated[bool | None, Field(alias="billTicketSeparatelyFlag")] = None
     bill_tickets_after_closed_flag: Annotated[bool | None, Field(alias="billTicketsAfterClosedFlag")] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     bill_unapproved_time_expense_flag: Annotated[bool | None, Field(alias="billUnapprovedTimeExpenseFlag")] = None
     board_icon: Annotated[DocumentReference | None, Field(alias="boardIcon")] = None
     closed_loop_all_flag: Annotated[bool | None, Field(alias="closedLoopAllFlag")] = None
@@ -6897,9 +6915,9 @@ class Board(ConnectWiseModel):
     This field can only be set when emailConnectorNeverReopenByDaysFlag and emailConnectorAllowReopenClosed are both true
                 This field is required when emailConnectorNeverReopenByDaysFlag is true
     """
-    email_connector_reopen_resources_flag: Annotated[
-        bool | None, Field(alias="emailConnectorReopenResourcesFlag")
-    ] = None
+    email_connector_reopen_resources_flag: Annotated[bool | None, Field(alias="emailConnectorReopenResourcesFlag")] = (
+        None
+    )
     """
     This field can only be set when emailConnectorAllowReopenClosed is true
     """
@@ -6971,12 +6989,12 @@ class BoardAutoTemplate(ConnectWiseModel):
     budget_hours_setting: Annotated[
         Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="budgetHoursSetting")
     ] = None
-    discussion_setting: Annotated[
-        Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="discussionSetting")
-    ] = None
-    documents_setting: Annotated[
-        Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="documentsSetting")
-    ] = None
+    discussion_setting: Annotated[Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="discussionSetting")] = (
+        None
+    )
+    documents_setting: Annotated[Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="documentsSetting")] = (
+        None
+    )
     finance_information_setting: Annotated[
         Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="financeInformationSetting")
     ] = None
@@ -6985,12 +7003,12 @@ class BoardAutoTemplate(ConnectWiseModel):
         Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="internalAnalysisSetting")
     ] = None
     item: ServiceItemReference | None = None
-    resolution_setting: Annotated[
-        Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="resolutionSetting")
-    ] = None
-    resources_setting: Annotated[
-        Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="resourcesSetting")
-    ] = None
+    resolution_setting: Annotated[Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="resolutionSetting")] = (
+        None
+    )
+    resources_setting: Annotated[Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="resourcesSetting")] = (
+        None
+    )
     send_notes_as_email_setting: Annotated[
         Literal["Append", "Overwrite", "Ignore"] | None, Field(alias="sendNotesAsEmailSetting")
     ] = None
@@ -7365,9 +7383,9 @@ class Certification(ConnectWiseModel):
 class ChargeCode(ConnectWiseModel):
     info: Annotated[dict[str, str] | None, Field(alias="_info")] = None
     allow_all_expense_type_flag: Annotated[bool | None, Field(alias="allowAllExpenseTypeFlag")] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     company: CompanyReference | None = None
     department: SystemDepartmentReference | None = None
     expense_entry_flag: Annotated[bool | None, Field(alias="expenseEntryFlag")] = None
@@ -8764,20 +8782,23 @@ class ExpenseReport(ConnectWiseModel):
     id: int | None = None
     member: MemberReference | None = None
     period: int | None = None
-    status: Literal[
-        "Open",
-        "Rejected",
-        "PendingApproval",
-        "ErrorsCorrected",
-        "PendingProjectApproval",
-        "ApprovedByTierOne",
-        "RejectBySecondTier",
-        "ApprovedByTierTwo",
-        "ReadyToBill",
-        "Billed",
-        "WrittenOff",
-        "BilledAgreement",
-    ] | None = None
+    status: (
+        Literal[
+            "Open",
+            "Rejected",
+            "PendingApproval",
+            "ErrorsCorrected",
+            "PendingProjectApproval",
+            "ApprovedByTierOne",
+            "RejectBySecondTier",
+            "ApprovedByTierTwo",
+            "ReadyToBill",
+            "Billed",
+            "WrittenOff",
+            "BilledAgreement",
+        ]
+        | None
+    ) = None
     total: float | None = None
     year: int | None = None
 
@@ -9808,9 +9829,9 @@ class Member(ConnectWiseModel):
     authentication_service_type: Annotated[
         Literal["AuthAnvil", "GoogleAuthenticator", "Email"] | None, Field(alias="authenticationServiceType")
     ] = None
-    auto_popup_quick_notes_with_stopwatch: Annotated[
-        bool | None, Field(alias="autoPopupQuickNotesWithStopwatch")
-    ] = None
+    auto_popup_quick_notes_with_stopwatch: Annotated[bool | None, Field(alias="autoPopupQuickNotesWithStopwatch")] = (
+        None
+    )
     auto_start_stopwatch: Annotated[bool | None, Field(alias="autoStartStopwatch")] = None
     billable_forecast: Annotated[float | None, Field(alias="billableForecast")] = None
     calendar: CalendarReference | None = None
@@ -9877,9 +9898,9 @@ class Member(ConnectWiseModel):
     """
     inactive_date: Annotated[datetime | None, Field(alias="inactiveDate")] = None
     inactive_flag: Annotated[bool | None, Field(alias="inactiveFlag")] = None
-    include_in_utilization_reporting_flag: Annotated[
-        bool | None, Field(alias="includeInUtilizationReportingFlag")
-    ] = None
+    include_in_utilization_reporting_flag: Annotated[bool | None, Field(alias="includeInUtilizationReportingFlag")] = (
+        None
+    )
     invoice_screen_default_tab_format: Annotated[
         Literal["ShowInvoicingTab", "ShowAgreementInvoicingTab"], Field(alias="invoiceScreenDefaultTabFormat")
     ]
@@ -9941,9 +9962,9 @@ class Member(ConnectWiseModel):
     """
     ConditionallyRequired. API Member will get random password generated Max length: 60;
     """
-    phone_integration_type: Annotated[
-        Literal["TAPI", "SKYPE", "NONE"] | None, Field(alias="phoneIntegrationType")
-    ] = None
+    phone_integration_type: Annotated[Literal["TAPI", "SKYPE", "NONE"] | None, Field(alias="phoneIntegrationType")] = (
+        None
+    )
     phone_source: Annotated[str | None, Field(alias="phoneSource")] = None
     photo: DocumentReference | None = None
     primary_email: Annotated[str | None, Field(alias="primaryEmail")] = None
@@ -9951,9 +9972,9 @@ class Member(ConnectWiseModel):
      Max length: 250;
     """
     project_default_board: Annotated[ProjectBoardReference | None, Field(alias="projectDefaultBoard")] = None
-    project_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")
-    ] = None
+    project_default_department: Annotated[SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")] = (
+        None
+    )
     project_default_location: Annotated[SystemLocationReference | None, Field(alias="projectDefaultLocation")] = None
     report_card: Annotated[ReportCardReference | None, Field(alias="reportCard")] = None
     reports_to: Annotated[MemberReference | None, Field(alias="reportsTo")] = None
@@ -9962,9 +9983,9 @@ class Member(ConnectWiseModel):
         bool | None, Field(alias="requireStartAndEndTimeOnTimeEntryFlag")
     ] = None
     require_time_sheet_entry_flag: Annotated[bool | None, Field(alias="requireTimeSheetEntryFlag")] = None
-    restrict_default_sales_territory_flag: Annotated[
-        bool | None, Field(alias="restrictDefaultSalesTerritoryFlag")
-    ] = None
+    restrict_default_sales_territory_flag: Annotated[bool | None, Field(alias="restrictDefaultSalesTerritoryFlag")] = (
+        None
+    )
     restrict_default_warehouse_bin_flag: Annotated[bool | None, Field(alias="restrictDefaultWarehouseBinFlag")] = None
     restrict_default_warehouse_flag: Annotated[bool | None, Field(alias="restrictDefaultWarehouseFlag")] = None
     restrict_department_flag: Annotated[bool | None, Field(alias="restrictDepartmentFlag")] = None
@@ -9992,9 +10013,9 @@ class Member(ConnectWiseModel):
     security_role: Annotated[SecurityRoleReference | None, Field(alias="securityRole")] = None
     service_board_team_ids: Annotated[list[int] | None, Field(alias="serviceBoardTeamIds")] = None
     service_default_board: Annotated[BoardReference | None, Field(alias="serviceDefaultBoard")] = None
-    service_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")
-    ] = None
+    service_default_department: Annotated[SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")] = (
+        None
+    )
     service_default_location: Annotated[SystemLocationReference | None, Field(alias="serviceDefaultLocation")] = None
     service_location: Annotated[ServiceLocationReference | None, Field(alias="serviceLocation")] = None
     signature: str | None = None
@@ -10005,9 +10026,9 @@ class Member(ConnectWiseModel):
     time_reminder_email_flag: Annotated[bool | None, Field(alias="timeReminderEmailFlag")] = None
     time_sheet_start_date: Annotated[datetime | None, Field(alias="timeSheetStartDate")] = None
     time_zone: Annotated[TimeZoneSetupReference | None, Field(alias="timeZone")] = None
-    timebased_one_time_password_activated: Annotated[
-        bool | None, Field(alias="timebasedOneTimePasswordActivated")
-    ] = None
+    timebased_one_time_password_activated: Annotated[bool | None, Field(alias="timebasedOneTimePasswordActivated")] = (
+        None
+    )
     title: str | None = None
     """
      Max length: 50;
@@ -10223,9 +10244,9 @@ class MyAccount(ConnectWiseModel):
     authentication_service_type: Annotated[
         Literal["AuthAnvil", "GoogleAuthenticator", "Email"] | None, Field(alias="authenticationServiceType")
     ] = None
-    auto_popup_quick_notes_with_stopwatch: Annotated[
-        bool | None, Field(alias="autoPopupQuickNotesWithStopwatch")
-    ] = None
+    auto_popup_quick_notes_with_stopwatch: Annotated[bool | None, Field(alias="autoPopupQuickNotesWithStopwatch")] = (
+        None
+    )
     auto_start_stopwatch: Annotated[bool | None, Field(alias="autoStartStopwatch")] = None
     billable_forecast: Annotated[float | None, Field(alias="billableForecast")] = None
     calendar: CalendarReference | None = None
@@ -10287,9 +10308,9 @@ class MyAccount(ConnectWiseModel):
     """
     inactive_date: Annotated[datetime | None, Field(alias="inactiveDate")] = None
     inactive_flag: Annotated[bool | None, Field(alias="inactiveFlag")] = None
-    include_in_utilization_reporting_flag: Annotated[
-        bool | None, Field(alias="includeInUtilizationReportingFlag")
-    ] = None
+    include_in_utilization_reporting_flag: Annotated[bool | None, Field(alias="includeInUtilizationReportingFlag")] = (
+        None
+    )
     invoice_screen_default_tab_format: Annotated[
         Literal["ShowInvoicingTab", "ShowAgreementInvoicingTab"], Field(alias="invoiceScreenDefaultTabFormat")
     ]
@@ -10344,9 +10365,9 @@ class MyAccount(ConnectWiseModel):
     """
     ConditionallyRequired. API Member will get random password generated Max length: 60;
     """
-    phone_integration_type: Annotated[
-        Literal["TAPI", "SKYPE", "NONE"] | None, Field(alias="phoneIntegrationType")
-    ] = None
+    phone_integration_type: Annotated[Literal["TAPI", "SKYPE", "NONE"] | None, Field(alias="phoneIntegrationType")] = (
+        None
+    )
     phone_source: Annotated[str | None, Field(alias="phoneSource")] = None
     photo: DocumentReference | None = None
     primary_email: Annotated[str | None, Field(alias="primaryEmail")] = None
@@ -10354,9 +10375,9 @@ class MyAccount(ConnectWiseModel):
      Max length: 250;
     """
     project_default_board: Annotated[ProjectBoardReference | None, Field(alias="projectDefaultBoard")] = None
-    project_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")
-    ] = None
+    project_default_department: Annotated[SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")] = (
+        None
+    )
     project_default_location: Annotated[SystemLocationReference | None, Field(alias="projectDefaultLocation")] = None
     report_card: Annotated[ReportCardReference | None, Field(alias="reportCard")] = None
     reports_to: Annotated[MemberReference | None, Field(alias="reportsTo")] = None
@@ -10373,9 +10394,9 @@ class MyAccount(ConnectWiseModel):
     schedule_default_location: Annotated[SystemLocationReference | None, Field(alias="scheduleDefaultLocation")] = None
     service_board_team_ids: Annotated[list[int] | None, Field(alias="serviceBoardTeamIds")] = None
     service_default_board: Annotated[BoardReference | None, Field(alias="serviceDefaultBoard")] = None
-    service_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")
-    ] = None
+    service_default_department: Annotated[SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")] = (
+        None
+    )
     service_default_location: Annotated[SystemLocationReference | None, Field(alias="serviceDefaultLocation")] = None
     service_location: Annotated[ServiceLocationReference | None, Field(alias="serviceLocation")] = None
     signature: str | None = None
@@ -10384,9 +10405,9 @@ class MyAccount(ConnectWiseModel):
     time_reminder_email_flag: Annotated[bool | None, Field(alias="timeReminderEmailFlag")] = None
     time_sheet_start_date: Annotated[datetime | None, Field(alias="timeSheetStartDate")] = None
     time_zone: Annotated[TimeZoneSetupReference | None, Field(alias="timeZone")] = None
-    timebased_one_time_password_activated: Annotated[
-        bool | None, Field(alias="timebasedOneTimePasswordActivated")
-    ] = None
+    timebased_one_time_password_activated: Annotated[bool | None, Field(alias="timebasedOneTimePasswordActivated")] = (
+        None
+    )
     title: str | None = None
     """
      Max length: 50;
@@ -10451,9 +10472,9 @@ class MyMember(ConnectWiseModel):
     identifier: str | None = None
     inactive_date: Annotated[datetime | None, Field(alias="inactiveDate")] = None
     inactive_flag: Annotated[bool | None, Field(alias="inactiveFlag")] = None
-    include_in_utilization_reporting_flag: Annotated[
-        bool | None, Field(alias="includeInUtilizationReportingFlag")
-    ] = None
+    include_in_utilization_reporting_flag: Annotated[bool | None, Field(alias="includeInUtilizationReportingFlag")] = (
+        None
+    )
     invoice_screen_default_tab_format: Annotated[
         Literal["ShowInvoicingTab", "ShowAgreementInvoicingTab"] | None, Field(alias="invoiceScreenDefaultTabFormat")
     ] = None
@@ -10487,9 +10508,9 @@ class MyMember(ConnectWiseModel):
     """
     photo: DocumentReference | None = None
     project_default_board: Annotated[ProjectBoardReference | None, Field(alias="projectDefaultBoard")] = None
-    project_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")
-    ] = None
+    project_default_department: Annotated[SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")] = (
+        None
+    )
     project_default_location: Annotated[SystemLocationReference | None, Field(alias="projectDefaultLocation")] = None
     report_card: Annotated[ReportCardReference | None, Field(alias="reportCard")] = None
     reports_to: Annotated[MemberReference | None, Field(alias="reportsTo")] = None
@@ -10498,9 +10519,9 @@ class MyMember(ConnectWiseModel):
         bool | None, Field(alias="requireStartAndEndTimeOnTimeEntryFlag")
     ] = None
     require_time_sheet_entry_flag: Annotated[bool | None, Field(alias="requireTimeSheetEntryFlag")] = None
-    restrict_default_sales_territory_flag: Annotated[
-        bool | None, Field(alias="restrictDefaultSalesTerritoryFlag")
-    ] = None
+    restrict_default_sales_territory_flag: Annotated[bool | None, Field(alias="restrictDefaultSalesTerritoryFlag")] = (
+        None
+    )
     restrict_default_warehouse_bin_flag: Annotated[bool | None, Field(alias="restrictDefaultWarehouseBinFlag")] = None
     restrict_default_warehouse_flag: Annotated[bool | None, Field(alias="restrictDefaultWarehouseFlag")] = None
     restrict_department_flag: Annotated[bool | None, Field(alias="restrictDepartmentFlag")] = None
@@ -10528,9 +10549,9 @@ class MyMember(ConnectWiseModel):
     security_role: Annotated[SecurityRoleReference | None, Field(alias="securityRole")] = None
     service_board_team_ids: Annotated[list[int] | None, Field(alias="serviceBoardTeamIds")] = None
     service_default_board: Annotated[BoardReference | None, Field(alias="serviceDefaultBoard")] = None
-    service_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")
-    ] = None
+    service_default_department: Annotated[SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")] = (
+        None
+    )
     service_default_location: Annotated[SystemLocationReference | None, Field(alias="serviceDefaultLocation")] = None
     service_location: Annotated[ServiceLocationReference | None, Field(alias="serviceLocation")] = None
     sso_client_id: Annotated[str | None, Field(alias="ssoClientId")] = None
@@ -10540,9 +10561,9 @@ class MyMember(ConnectWiseModel):
     time_reminder_email_flag: Annotated[bool | None, Field(alias="timeReminderEmailFlag")] = None
     time_sheet_start_date: Annotated[datetime | None, Field(alias="timeSheetStartDate")] = None
     time_zone: Annotated[TimeZoneSetupReference | None, Field(alias="timeZone")] = None
-    timebased_one_time_password_activated: Annotated[
-        bool | None, Field(alias="timebasedOneTimePasswordActivated")
-    ] = None
+    timebased_one_time_password_activated: Annotated[bool | None, Field(alias="timebasedOneTimePasswordActivated")] = (
+        None
+    )
     title: str | None = None
     toast_notification_flag: Annotated[bool | None, Field(alias="toastNotificationFlag")] = None
     type: MemberTypeReference | None = None
@@ -10578,9 +10599,9 @@ class MyMemberInfo(ConnectWiseModel):
     middle_initial: Annotated[str | None, Field(alias="middleInitial")] = None
     photo: DocumentReference | None = None
     project_default_board: Annotated[ProjectBoardReference | None, Field(alias="projectDefaultBoard")] = None
-    project_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")
-    ] = None
+    project_default_department: Annotated[SystemDepartmentReference | None, Field(alias="projectDefaultDepartment")] = (
+        None
+    )
     project_default_location: Annotated[SystemLocationReference | None, Field(alias="projectDefaultLocation")] = None
     require_expense_entry_flag: Annotated[bool | None, Field(alias="requireExpenseEntryFlag")] = None
     require_start_and_end_time_on_time_entry_flag: Annotated[
@@ -10608,9 +10629,9 @@ class MyMemberInfo(ConnectWiseModel):
     ] = None
     schedule_default_location: Annotated[SystemLocationReference | None, Field(alias="scheduleDefaultLocation")] = None
     service_default_board: Annotated[BoardReference | None, Field(alias="serviceDefaultBoard")] = None
-    service_default_department: Annotated[
-        SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")
-    ] = None
+    service_default_department: Annotated[SystemDepartmentReference | None, Field(alias="serviceDefaultDepartment")] = (
+        None
+    )
     service_default_location: Annotated[SystemLocationReference | None, Field(alias="serviceDefaultLocation")] = None
     service_location: Annotated[ServiceLocationReference | None, Field(alias="serviceLocation")] = None
     sso_client_id: Annotated[str | None, Field(alias="ssoClientId")] = None
@@ -11169,9 +11190,9 @@ class Project(ConnectWiseModel):
      Required On Updates;
     """
     bill_project_after_closed_flag: Annotated[bool | None, Field(alias="billProjectAfterClosedFlag")] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     """
      Required On Updates;
     """
@@ -11297,9 +11318,9 @@ class ProjectPhase(ConnectWiseModel):
     This phase can only be billed after the project has been closed
     """
     bill_separately_flag: Annotated[bool | None, Field(alias="billSeparatelyFlag")] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     """
      Required On Updates;
     """
@@ -11413,9 +11434,9 @@ class ProjectTicket(ConnectWiseModel):
     bill_products: Annotated[
         Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billProducts")
     ] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     board: BoardReference | None = None
     budget_hours: Annotated[float | None, Field(alias="budgetHours")] = None
     city: str | None = None
@@ -12263,9 +12284,9 @@ class ServiceTemplate(ConnectWiseModel):
     attach_schedule_to_new_service_flag: Annotated[bool | None, Field(alias="attachScheduleToNewServiceFlag")] = None
     bill_complete_flag: Annotated[bool | None, Field(alias="billComplete_Flag")] = None
     bill_service_separately_flag: Annotated[bool | None, Field(alias="billServiceSeparatelyFlag")] = None
-    bill_unapproved_time_and_expenses_flag: Annotated[
-        bool | None, Field(alias="billUnapprovedTimeAndExpensesFlag")
-    ] = None
+    bill_unapproved_time_and_expenses_flag: Annotated[bool | None, Field(alias="billUnapprovedTimeAndExpensesFlag")] = (
+        None
+    )
     billing_amount: Annotated[float | None, Field(alias="billingAmount")] = None
     billing_method: Annotated[
         Literal["ActualRates", "FixedFee", "NotToExceed", "OverrideRate"] | None, Field(alias="billingMethod")
@@ -12449,9 +12470,9 @@ class Ticket(ConnectWiseModel):
     bill_products: Annotated[
         Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billProducts")
     ] = None
-    bill_time: Annotated[
-        Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")
-    ] = None
+    bill_time: Annotated[Literal["Billable", "DoNotBill", "NoCharge", "NoDefault"] | None, Field(alias="billTime")] = (
+        None
+    )
     billing_amount: Annotated[float | None, Field(alias="billingAmount")] = None
     billing_method: Annotated[
         Literal["ActualRates", "FixedFee", "NotToExceed", "OverrideRate"] | None, Field(alias="billingMethod")
@@ -12717,20 +12738,23 @@ class TimeEntry(ConnectWiseModel):
     overage_rate: Annotated[float | None, Field(alias="overageRate")] = None
     phase: ProjectPhaseReference | None = None
     project: ProjectReference | None = None
-    status: Literal[
-        "Open",
-        "Rejected",
-        "PendingApproval",
-        "ErrorsCorrected",
-        "PendingProjectApproval",
-        "ApprovedByTierOne",
-        "RejectBySecondTier",
-        "ApprovedByTierTwo",
-        "ReadyToBill",
-        "Billed",
-        "WrittenOff",
-        "BilledAgreement",
-    ] | None = None
+    status: (
+        Literal[
+            "Open",
+            "Rejected",
+            "PendingApproval",
+            "ErrorsCorrected",
+            "PendingProjectApproval",
+            "ApprovedByTierOne",
+            "RejectBySecondTier",
+            "ApprovedByTierTwo",
+            "ReadyToBill",
+            "Billed",
+            "WrittenOff",
+            "BilledAgreement",
+        ]
+        | None
+    ) = None
     ticket: TicketReference | None = None
     time_end: Annotated[datetime | None, Field(alias="timeEnd")] = None
     time_sheet: Annotated[TimeSheetReference | None, Field(alias="timeSheet")] = None
@@ -12983,9 +13007,9 @@ class Workflow(ConnectWiseModel):
     """
     Batches can not be turned on until after the workflow is created and it has atleast one event associated with it
     """
-    batch_frequency_unit: Annotated[
-        Literal["Minutes", "Hours", "Days"] | None, Field(alias="batchFrequencyUnit")
-    ] = None
+    batch_frequency_unit: Annotated[Literal["Minutes", "Hours", "Days"] | None, Field(alias="batchFrequencyUnit")] = (
+        None
+    )
     """
     If not specified, defaults to Minutes. Months is not supported as month length varies
     """
@@ -13064,20 +13088,23 @@ class ExpenseEntry(ConnectWiseModel):
     payment_method: Annotated[PaymentMethodReference | None, Field(alias="paymentMethod")] = None
     phase: ProjectPhaseReference | None = None
     project: ProjectReference | None = None
-    status: Literal[
-        "Open",
-        "Rejected",
-        "PendingApproval",
-        "ErrorsCorrected",
-        "PendingProjectApproval",
-        "ApprovedByTierOne",
-        "RejectBySecondTier",
-        "ApprovedByTierTwo",
-        "ReadyToBill",
-        "Billed",
-        "WrittenOff",
-        "BilledAgreement",
-    ] | None = None
+    status: (
+        Literal[
+            "Open",
+            "Rejected",
+            "PendingApproval",
+            "ErrorsCorrected",
+            "PendingProjectApproval",
+            "ApprovedByTierOne",
+            "RejectBySecondTier",
+            "ApprovedByTierTwo",
+            "ReadyToBill",
+            "Billed",
+            "WrittenOff",
+            "BilledAgreement",
+        ]
+        | None
+    ) = None
     taxes: list[ExpenseTax] | None = None
     ticket: TicketReference | None = None
     type: ExpenseTypeReference | None = None
@@ -13111,9 +13138,9 @@ class Forecast(ConnectWiseModel):
 class GLExportAdjustmentTransaction(ConnectWiseModel):
     account_number: Annotated[str | None, Field(alias="accountNumber")] = None
     adjustment_description: Annotated[str | None, Field(alias="adjustmentDescription")] = None
-    adjustment_detail: Annotated[
-        list[GLExportAdjustmentTransactionDetail] | None, Field(alias="adjustmentDetail")
-    ] = None
+    adjustment_detail: Annotated[list[GLExportAdjustmentTransactionDetail] | None, Field(alias="adjustmentDetail")] = (
+        None
+    )
     document_date: Annotated[datetime | None, Field(alias="documentDate")] = None
     document_type: Annotated[str | None, Field(alias="documentType")] = None
     gl_class: Annotated[str | None, Field(alias="glClass")] = None
@@ -13295,9 +13322,9 @@ class MemberDeactivation(ConnectWiseModel):
     my_company_controller: Annotated[
         MemberDeactivationMyCompanyControllerRole | None, Field(alias="myCompanyController")
     ] = None
-    my_company_dispatch: Annotated[
-        MemberDeactivationMyCompanyDispatchRole | None, Field(alias="myCompanyDispatch")
-    ] = None
+    my_company_dispatch: Annotated[MemberDeactivationMyCompanyDispatchRole | None, Field(alias="myCompanyDispatch")] = (
+        None
+    )
     my_company_duty_manager_role: Annotated[
         MemberDeactivationMyCompanyDutyManagerRole | None, Field(alias="myCompanyDutyManagerRole")
     ] = None
@@ -13335,8 +13362,8 @@ class GLExport(ConnectWiseModel):
     expenses: list[GLExportExpense] | None = None
     export_settings: Annotated[GLExportSettings | None, Field(alias="exportSettings")] = None
     inventory_transfers: Annotated[list[GLExportInventoryTransfer] | None, Field(alias="inventoryTransfers")] = None
-    purchase_transactions: Annotated[
-        list[GLExportPurchaseTransaction] | None, Field(alias="purchaseTransactions")
-    ] = None
+    purchase_transactions: Annotated[list[GLExportPurchaseTransaction] | None, Field(alias="purchaseTransactions")] = (
+        None
+    )
     transactions: list[GLExportTransaction] | None = None
     vendors: list[GLExportVendor] | None = None
