@@ -148,7 +148,7 @@ class PaginatedResponse(Generic[TModel]):
         )
         return self
 
-    def all(self) -> Iterable[TModel]:  # noqa: A003
+    def all(self) -> Iterable[TModel]:
         """
         Iterate through all items in the paginated response, across all pages.
 

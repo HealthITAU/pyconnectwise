@@ -76,7 +76,7 @@ class ConnectWiseClient(ABC):
                 url,
                 headers=headers,
                 json=data,
-                params=cast(dict[str, Any], params or {}),
+                params=cast("dict[str, Any]", params or {}),
                 stream=stream,
             )
         else:
@@ -84,7 +84,7 @@ class ConnectWiseClient(ABC):
                 method,
                 url,
                 headers=headers,
-                params=cast(dict[str, Any], params or {}),
+                params=cast("dict[str, Any]", params or {}),
                 stream=stream,
             )
         if not response.ok:
