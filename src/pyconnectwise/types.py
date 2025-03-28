@@ -23,6 +23,14 @@ class ConnectWiseManageRequestParams(TypedDict):
     columns: NotRequired[str]
 
 
+class ConnectWiseChangeApprovalRequestParams(TypedDict):
+    perColConditions: NotRequired[dict[str, str]]
+    skip: NotRequired[int]
+    limit: NotRequired[int]
+    orderBy: NotRequired[list[dict[str, str]]]
+    condition: NotRequired[str]
+
+
 class ConnectWiseAutomateRequestParams(TypedDict):
     condition: NotRequired[str]
     customFieldConditions: NotRequired[str]
@@ -36,7 +44,12 @@ class ConnectWiseAutomateRequestParams(TypedDict):
 
 
 GenericRequestParams: TypeAlias = dict[str, Literals]
-RequestParams: TypeAlias = ConnectWiseManageRequestParams | ConnectWiseAutomateRequestParams | GenericRequestParams
+RequestParams: TypeAlias = (
+    ConnectWiseManageRequestParams
+    | ConnectWiseChangeApprovalRequestParams
+    | ConnectWiseAutomateRequestParams
+    | GenericRequestParams
+)
 PatchRequestData: TypeAlias = list[Patch]
 RequestData: TypeAlias = JSON | PatchRequestData
 RequestMethod: TypeAlias = Literal["GET", "POST", "PUT", "PATCH", "DELETE"]
