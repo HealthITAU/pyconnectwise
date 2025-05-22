@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import contextlib
 import json
+import threading
 import warnings
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, cast
@@ -115,6 +116,20 @@ class ConnectWiseClient(ABC):
                 raise MethodNotAllowedException(response)
             if response.status_code == 409:
                 raise ConflictException(response)
+            if response.status_code == 429:
+                # Rate limit exceeded
+                if "Retry-After" in response.headers:
+                    retry_after = int(response.headers["Retry-After"])
+                    warnings.warn(
+                        f"Rate limit exceeded. Retrying after {retry_after} seconds.",
+                        stacklevel=1,
+                    )
+                    # Delay the request for the specified time
+                    threading.Event.wait(retry_after)
+                    if retry_count < self.config.max_retries:
+                        retry_count += 1
+                        return self._make_request(method, url, data, params, headers, retry_count)
+                raise MalformedRequestException(response)
             if response.status_code == 500:
                 # if timeout is mentioned anywhere in the response then we'll retry.
                 # Ideally we'd return immediately on any non-timeout errors (since

@@ -76,6 +76,11 @@ class ConflictException(ConnectWiseException):
     _error_suggestion = "This resource is possibly in use or conflicts with another record."
 
 
+class TooManyRequestsException(ConnectWiseException):
+    _code_explanation = "Too Many Requests"
+    _error_suggestion = "You have exceeded the rate limit for this resource. Please wait and try again later."
+
+
 class ServerError(ConnectWiseException):
     _code_explanation = "Internal Server Error"
 
