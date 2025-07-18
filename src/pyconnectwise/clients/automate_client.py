@@ -29,6 +29,7 @@ if typing.TYPE_CHECKING:
     from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import (
         ProbeconfigurationEndpoint,
     )
+    from pyconnectwise.endpoints.automate.RetiredassetsEndpoint import RetiredassetsEndpoint
     from pyconnectwise.endpoints.automate.ScriptfoldersEndpoint import ScriptfoldersEndpoint
     from pyconnectwise.endpoints.automate.ScriptingEndpoint import ScriptingEndpoint
     from pyconnectwise.endpoints.automate.ScriptsEndpoint import ScriptsEndpoint
@@ -79,145 +80,151 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
     # Initializing endpoints
     @property
     def commands(self) -> "CommandsEndpoint":
-        from pyconnectwise.endpoints.automate import CommandsEndpoint
+        from pyconnectwise.endpoints.automate.CommandsEndpoint import CommandsEndpoint
 
         return CommandsEndpoint(self)
 
     @property
     def clients(self) -> "ClientsEndpoint":
-        from pyconnectwise.endpoints.automate import ClientsEndpoint
+        from pyconnectwise.endpoints.automate.ClientsEndpoint import ClientsEndpoint
 
         return ClientsEndpoint(self)
 
     @property
     def computers(self) -> "ComputersEndpoint":
-        from pyconnectwise.endpoints.automate import ComputersEndpoint
+        from pyconnectwise.endpoints.automate.ComputersEndpoint import ComputersEndpoint
 
         return ComputersEndpoint(self)
 
     @property
     def services(self) -> "ServicesEndpoint":
-        from pyconnectwise.endpoints.automate import ServicesEndpoint
+        from pyconnectwise.endpoints.automate.ServicesEndpoint import ServicesEndpoint
 
         return ServicesEndpoint(self)
 
     @property
     def contacts(self) -> "ContactsEndpoint":
-        from pyconnectwise.endpoints.automate import ContactsEndpoint
+        from pyconnectwise.endpoints.automate.ContactsEndpoint import ContactsEndpoint
 
         return ContactsEndpoint(self)
 
     @property
     def dataviewfolders(self) -> "DataviewfoldersEndpoint":
-        from pyconnectwise.endpoints.automate import DataviewfoldersEndpoint
+        from pyconnectwise.endpoints.automate.DataviewfoldersEndpoint import DataviewfoldersEndpoint
 
         return DataviewfoldersEndpoint(self)
 
     @property
     def dataviews(self) -> "DataviewsEndpoint":
-        from pyconnectwise.endpoints.automate import DataviewsEndpoint
+        from pyconnectwise.endpoints.automate.DataviewsEndpoint import DataviewsEndpoint
 
         return DataviewsEndpoint(self)
 
     @property
     def groups(self) -> "GroupsEndpoint":
-        from pyconnectwise.endpoints.automate import GroupsEndpoint
+        from pyconnectwise.endpoints.automate.GroupsEndpoint import GroupsEndpoint
 
         return GroupsEndpoint(self)
 
     @property
     def monitors(self) -> "MonitorsEndpoint":
-        from pyconnectwise.endpoints.automate import MonitorsEndpoint
+        from pyconnectwise.endpoints.automate.MonitorsEndpoint import MonitorsEndpoint
 
         return MonitorsEndpoint(self)
 
     @property
     def networkdevices(self) -> "NetworkdevicesEndpoint":
-        from pyconnectwise.endpoints.automate import NetworkdevicesEndpoint
+        from pyconnectwise.endpoints.automate.NetworkdevicesEndpoint import NetworkdevicesEndpoint
 
         return NetworkdevicesEndpoint(self)
 
     @property
     def patchactions(self) -> "PatchactionsEndpoint":
-        from pyconnectwise.endpoints.automate import PatchactionsEndpoint
+        from pyconnectwise.endpoints.automate.PatchactionsEndpoint import PatchactionsEndpoint
 
         return PatchactionsEndpoint(self)
 
     @property
+    def retiredassets(self) -> "RetiredassetsEndpoint":
+        from pyconnectwise.endpoints.automate.RetiredassetsEndpoint import RetiredassetsEndpoint
+
+        return RetiredassetsEndpoint(self)
+
+    @property
     def locations(self) -> "LocationsEndpoint":
-        from pyconnectwise.endpoints.automate import LocationsEndpoint
+        from pyconnectwise.endpoints.automate.LocationsEndpoint import LocationsEndpoint
 
         return LocationsEndpoint(self)
 
     @property
     def lookups(self) -> "LookupsEndpoint":
-        from pyconnectwise.endpoints.automate import LookupsEndpoint
+        from pyconnectwise.endpoints.automate.LookupsEndpoint import LookupsEndpoint
 
         return LookupsEndpoint(self)
 
     @property
     def probeconfiguration(self) -> "ProbeconfigurationEndpoint":
-        from pyconnectwise.endpoints.automate import ProbeconfigurationEndpoint
+        from pyconnectwise.endpoints.automate.ProbeconfigurationEndpoint import ProbeconfigurationEndpoint
 
         return ProbeconfigurationEndpoint(self)
 
     @property
     def scriptfolders(self) -> "ScriptfoldersEndpoint":
-        from pyconnectwise.endpoints.automate import ScriptfoldersEndpoint
+        from pyconnectwise.endpoints.automate.ScriptfoldersEndpoint import ScriptfoldersEndpoint
 
         return ScriptfoldersEndpoint(self)
 
     @property
     def scripting(self) -> "ScriptingEndpoint":
-        from pyconnectwise.endpoints.automate import ScriptingEndpoint
+        from pyconnectwise.endpoints.automate.ScriptingEndpoint import ScriptingEndpoint
 
         return ScriptingEndpoint(self)
 
     @property
     def scripts(self) -> "ScriptsEndpoint":
-        from pyconnectwise.endpoints.automate import ScriptsEndpoint
+        from pyconnectwise.endpoints.automate.ScriptsEndpoint import ScriptsEndpoint
 
         return ScriptsEndpoint(self)
 
     @property
     def drives(self) -> "DrivesEndpoint":
-        from pyconnectwise.endpoints.automate import DrivesEndpoint
+        from pyconnectwise.endpoints.automate.DrivesEndpoint import DrivesEndpoint
 
         return DrivesEndpoint(self)
 
     @property
     def statistics(self) -> "StatisticsEndpoint":
-        from pyconnectwise.endpoints.automate import StatisticsEndpoint
+        from pyconnectwise.endpoints.automate.StatisticsEndpoint import StatisticsEndpoint
 
         return StatisticsEndpoint(self)
 
     @property
     def system(self) -> "SystemEndpoint":
-        from pyconnectwise.endpoints.automate import SystemEndpoint
+        from pyconnectwise.endpoints.automate.SystemEndpoint import SystemEndpoint
 
         return SystemEndpoint(self)
 
     @property
     def externalsystemcredentials(self) -> "ExternalsystemcredentialsEndpoint":
-        from pyconnectwise.endpoints.automate import ExternalsystemcredentialsEndpoint
+        from pyconnectwise.endpoints.automate.ExternalsystemcredentialsEndpoint import ExternalsystemcredentialsEndpoint
 
         return ExternalsystemcredentialsEndpoint(self)
 
     @property
     def permissions(self) -> "PermissionsEndpoint":
-        from pyconnectwise.endpoints.automate import PermissionsEndpoint
+        from pyconnectwise.endpoints.automate.PermissionsEndpoint import PermissionsEndpoint
 
         return PermissionsEndpoint(self)
 
     @property
     def userclasses(self) -> "UserclassesEndpoint":
-        from pyconnectwise.endpoints.automate import UserclassesEndpoint
+        from pyconnectwise.endpoints.automate.UserclassesEndpoint import UserclassesEndpoint
 
         return UserclassesEndpoint(self)
 
     @property
     def users(self) -> "UsersEndpoint":
-        from pyconnectwise.endpoints.automate import UsersEndpoint
+        from pyconnectwise.endpoints.automate.UsersEndpoint import UsersEndpoint
 
         return UsersEndpoint(self)
 
@@ -242,7 +249,7 @@ class ConnectWiseAutomateAPIClient(ConnectWiseClient):
         )
         auth_resp_json = auth_response.json()
         token = auth_resp_json["AccessToken"]
-        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"])
+        self.token_expiry_time = datetime.fromisoformat(auth_resp_json["ExpirationDate"]).astimezone(tz=timezone.utc)
         return token
 
     def _refresh_access_token_if_necessary(self):  # noqa: ANN202
