@@ -15,6 +15,7 @@ Usage:
     python smoke_test_manage.py
 """
 import os
+
 from pyconnectwise import ConnectWiseManageAPIClient
 
 # Read environment variables
@@ -29,7 +30,7 @@ CW_PRIVATE = os.environ["CW_PRIVATE_KEY"]
 # The client expects just the hostname, not the full URL
 manage_url = CW_HOST.replace("https://", "").replace("http://", "").strip("/")
 
-print(f"Connecting to ConnectWise Manage API...")
+print("Connecting to ConnectWise Manage API...")
 print(f"  Company: {CW_COMPANY}")
 print(f"  Host: {manage_url}")
 print(f"  Codebase: {CW_CODEBASE}")

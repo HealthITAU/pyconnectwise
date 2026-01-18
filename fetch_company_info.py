@@ -9,8 +9,9 @@ Usage:
     python fetch_company_info.py
 """
 import os
-import requests
 from urllib.parse import urlparse
+
+import requests
 
 CW_COMPANY = os.environ.get("CW_COMPANY", "")
 CW_HOST = os.environ.get("CW_HOST", "https://na.myconnectwise.net")
