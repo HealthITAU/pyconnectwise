@@ -3,9 +3,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime  # noqa: TCH003
+from datetime import datetime  # noqa: TC003
 from typing import Any, Literal
-from uuid import UUID  # noqa: TCH003
+from uuid import UUID  # noqa: TC003
 
 from pydantic import Field
 
@@ -216,36 +216,39 @@ class AutomateBinaryExtensionBatchRequest(ConnectWiseModel):
 
 class AutomateWebClientAccessBatchRequest(ConnectWiseModel):
     request_type: Literal["Invite", "Reset"] | None = Field(default=None, alias="RequestType")
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
@@ -272,36 +275,39 @@ class AutomateGeneratePasswordResetTokenBatchRequest(ConnectWiseModel):
 
 class AutomateExecuteResendInventoryCommandBatchRequest(ConnectWiseModel):
     inventory_types: list[int] | None = Field(default=None, alias="InventoryTypes")
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
@@ -348,36 +354,39 @@ class AutomateAddIpRestrictionsBatchResult(ConnectWiseModel):
 
 
 class AutomateMaintenanceModeQueueBatchRequest(ConnectWiseModel):
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
     start_date: datetime | None = Field(default=None, alias="StartDate")
     duration_in_minutes: int | None = Field(default=None, alias="DurationInMinutes")
@@ -386,36 +395,39 @@ class AutomateMaintenanceModeQueueBatchRequest(ConnectWiseModel):
 
 
 class AutomateSetMasterModeBatchRequest(ConnectWiseModel):
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
     master_mode_type: str | None = Field(default=None, alias="MasterModeType")
 
@@ -531,136 +543,148 @@ class AutomateSendToBatchResult(ConnectWiseModel):
 
 
 class AutomateSendToCommandBatchRequest(ConnectWiseModel):
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
-    target_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="TargetType")
+    target_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="TargetType")
     target_id: int | None = Field(default=None, alias="TargetId")
 
 
 class AutomateExecuteComputersBatchRequest(ConnectWiseModel):
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
 class AutomateExecuteRebootCommandBatchRequest(ConnectWiseModel):
     reboot_type: int | None = Field(default=None, alias="RebootType")
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
@@ -806,16 +830,19 @@ class LabTechContactWebPermissions(ConnectWiseModel):
 
 
 class LabTechSchedule(ConnectWiseModel):
-    day_id: Literal[
-        "Everyday",
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-    ] | None = Field(default=None, alias="DayId")
+    day_id: (
+        Literal[
+            "Everyday",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+        ]
+        | None
+    ) = Field(default=None, alias="DayId")
     day_name: str | None = Field(default=None, alias="DayName")
     repeat_every_hour: int | None = Field(default=None, alias="RepeatEveryHour")
     date: datetime | None = Field(default=None, alias="Date")
@@ -1619,36 +1646,39 @@ class LabTechGroupContact(ConnectWiseModel):
 
 class AutomateRemoveEntitiesFromGroupRequest(ConnectWiseModel):
     group_id: int | None = Field(default=None, alias="GroupId")
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
@@ -1804,9 +1834,9 @@ class LabTechNetworkMapNode(ConnectWiseModel):
     device_mac_address: str | None = Field(default=None, alias="DeviceMacAddress")
     ip_address: str | None = Field(default=None, alias="IpAddress")
     status: str | None = Field(default=None, alias="Status")
-    device_classification: Literal[
-        "Unknown", "Computer", "NetworkDevice", "InternetConnection", "BlackBox"
-    ] | None = Field(default=None, alias="DeviceClassification")
+    device_classification: Literal["Unknown", "Computer", "NetworkDevice", "InternetConnection", "BlackBox"] | None = (
+        Field(default=None, alias="DeviceClassification")
+    )
 
 
 class LabTechNetworkMapNodeDetails(ConnectWiseModel):
@@ -2593,24 +2623,27 @@ class AutomateAdvancedSearchDataLookup(AutomateComputerServiceItem):
 
 class AutomateFilterCriteria(ConnectWiseModel):
     left_operand: str | None = Field(default=None, alias="LeftOperand")
-    operator: Literal[
-        "IsTrue",
-        "IsFalse",
-        "Equals",
-        "GreaterThan",
-        "GreaterThanEqual",
-        "LessThan",
-        "LessThanEqual",
-        "TextLike",
-        "NotEqual",
-        "NotTextLike",
-        "Contains",
-        "NotContains",
-        "IsAssigned",
-        "IsNotAssigned",
-        "HasRole",
-        "NotHasRole",
-    ] | None = Field(default=None, alias="Operator")
+    operator: (
+        Literal[
+            "IsTrue",
+            "IsFalse",
+            "Equals",
+            "GreaterThan",
+            "GreaterThanEqual",
+            "LessThan",
+            "LessThanEqual",
+            "TextLike",
+            "NotEqual",
+            "NotTextLike",
+            "Contains",
+            "NotContains",
+            "IsAssigned",
+            "IsNotAssigned",
+            "HasRole",
+            "NotHasRole",
+        ]
+        | None
+    ) = Field(default=None, alias="Operator")
     right_operand: dict[str, Any] | None = Field(default=None, alias="RightOperand")
 
 
@@ -3298,36 +3331,39 @@ class AutomateExecuteToggleServiceUserCommandBatchRequest(ConnectWiseModel):
     local_account_credentials: AutomateToggleServiceUserLocalAccountCredentials | None = Field(
         default=None, alias="LocalAccountCredentials"
     )
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
 
 
@@ -3380,12 +3416,15 @@ class LabTechSearch(ConnectWiseModel):
     name: str | None = Field(default=None, alias="Name")
     search_folder: LabTechSearchFolder | None = Field(default=None, alias="SearchFolder")
     is_read_only: bool | None = Field(default=None, alias="IsReadOnly")
-    search_type: Literal[
-        "AdvancedComputers",
-        "AdvancedNetDevices",
-        "AdvancedContacts",
-        "AdvancedMobileDevices",
-    ] | None = Field(default=None, alias="SearchType")
+    search_type: (
+        Literal[
+            "AdvancedComputers",
+            "AdvancedNetDevices",
+            "AdvancedContacts",
+            "AdvancedMobileDevices",
+        ]
+        | None
+    ) = Field(default=None, alias="SearchType")
 
 
 class LabTechUserClass(ConnectWiseModel):
@@ -3978,16 +4017,19 @@ class AutomateSearchAttributes(ConnectWiseModel):
     key: str | None = Field(default=None, alias="Key")
     text: str | None = Field(default=None, alias="Text")
     description: str | None = Field(default=None, alias="Description")
-    data_type: Literal[
-        "TypeBoolean",
-        "TypeNumber",
-        "TypeText",
-        "TypeVersion",
-        "TypeDate",
-        "TypeAssigned",
-        "TypeEquality",
-        "TypeRole",
-    ] | None = Field(default=None, alias="DataType")
+    data_type: (
+        Literal[
+            "TypeBoolean",
+            "TypeNumber",
+            "TypeText",
+            "TypeVersion",
+            "TypeDate",
+            "TypeAssigned",
+            "TypeEquality",
+            "TypeRole",
+        ]
+        | None
+    ) = Field(default=None, alias="DataType")
     data_look_up_type: Literal["None", "Static", "Dynamic"] | None = Field(default=None, alias="DataLookUpType")
     data_lookup: list[AutomateSearchValueLookUp] | None = Field(default=None, alias="DataLookup")
     collection_node: str | None = Field(default=None, alias="CollectionNode")
@@ -4234,20 +4276,26 @@ class LabTechRemoteAgentTemplate(ConnectWiseModel):
     name: str | None = Field(default=None, alias="Name")
     template_guid: str | None = Field(default=None, alias="TemplateGUID")
     server_address: str | None = Field(default=None, alias="ServerAddress")
-    event_log_inventory_mode: Literal[
-        "InventoryOnlyUsesSchedule",
-        "ImmediatelySendErrors",
-        "ImmediatelySendErrorsAndWarnings",
-        "ImmediatelySendAllButSecurity",
-        "ImmediatelySendAll",
-    ] | None = Field(default=None, alias="EventLogInventoryMode")
-    windows_update: Literal[
-        "DoNothing",
-        "EnableWindowsUpdateDefaults",
-        "SetToDownloadOnly",
-        "DisableWindowsUpdate",
-        "LabtechModeLabtechModeUIAccessDisabled",
-    ] | None = Field(default=None, alias="WindowsUpdate")
+    event_log_inventory_mode: (
+        Literal[
+            "InventoryOnlyUsesSchedule",
+            "ImmediatelySendErrors",
+            "ImmediatelySendErrorsAndWarnings",
+            "ImmediatelySendAllButSecurity",
+            "ImmediatelySendAll",
+        ]
+        | None
+    ) = Field(default=None, alias="EventLogInventoryMode")
+    windows_update: (
+        Literal[
+            "DoNothing",
+            "EnableWindowsUpdateDefaults",
+            "SetToDownloadOnly",
+            "DisableWindowsUpdate",
+            "LabtechModeLabtechModeUIAccessDisabled",
+        ]
+        | None
+    ) = Field(default=None, alias="WindowsUpdate")
     ssl_accept_expired_certificates: bool | None = Field(default=None, alias="SSLAcceptExpiredCertificates")
     ssl_access_untrusted_certificate_authorities: bool | None = Field(
         default=None, alias="SSLAccessUntrustedCertificateAuthorities"
@@ -4763,36 +4811,39 @@ class AutomateWebExtensionAreaControls(ConnectWiseModel):
 
 
 class AutomateScheduleScriptBatchRequest(ConnectWiseModel):
-    entity_type: Literal[
-        "System",
-        "Computer",
-        "Site",
-        "Company",
-        "Probe",
-        "NetworkDevice",
-        "Ticket",
-        "Group",
-        "MobileDevice",
-        "Vendor",
-        "VendorProduct",
-        "Possibility",
-        "Opportunity",
-        "Contact",
-        "User",
-        "Script",
-        "Plugin",
-        "Service",
-        "ServiceBundle",
-        "Search",
-        "SearchFolder",
-        "Dataview",
-        "DataviewFolder",
-        "UserFolder",
-        "UserClass",
-        "ScriptFolder",
-        "RemoteMonitorTemplate",
-        "ExtraField",
-    ] | None = Field(default=None, alias="EntityType")
+    entity_type: (
+        Literal[
+            "System",
+            "Computer",
+            "Site",
+            "Company",
+            "Probe",
+            "NetworkDevice",
+            "Ticket",
+            "Group",
+            "MobileDevice",
+            "Vendor",
+            "VendorProduct",
+            "Possibility",
+            "Opportunity",
+            "Contact",
+            "User",
+            "Script",
+            "Plugin",
+            "Service",
+            "ServiceBundle",
+            "Search",
+            "SearchFolder",
+            "Dataview",
+            "DataviewFolder",
+            "UserFolder",
+            "UserClass",
+            "ScriptFolder",
+            "RemoteMonitorTemplate",
+            "ExtraField",
+        ]
+        | None
+    ) = Field(default=None, alias="EntityType")
     entity_ids: list[int] | None = Field(default=None, alias="EntityIds")
     script_id: int | None = Field(default=None, alias="ScriptId")
     script_guid: str | None = Field(default=None, alias="ScriptGuid")
